@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive", "Gu.Reactive\Gu.Reactive.csproj", "{2230088E-F6DC-4C79-9983-D9654274D689}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Tests", "Gu.Reactive.Tests\Gu.Reactive.Tests.csproj", "{F0E0A5A6-1FE8-4996-8A37-F00F690613F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Demo", "Gu.Reactive.Demo\Gu.Reactive.Demo.csproj", "{E82B1D44-E08C-4D56-8F7A-D203315E6F46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Gu.Reactive", "NuGet.Gu.Reactive\NuGet.Gu.Reactive.csproj", "{0451BAEF-DF2E-4B98-8644-94EE9415E389}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfshub.sandvik.com:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Gu.Reactive\\Gu.Reactive.csproj
+		SccProjectName1 = Gu.Reactive
+		SccLocalPath1 = Gu.Reactive
+		SccProjectUniqueName2 = Gu.Reactive.Tests\\Gu.Reactive.Tests.csproj
+		SccProjectName2 = Gu.Reactive.Tests
+		SccLocalPath2 = Gu.Reactive.Tests
+		SccProjectUniqueName3 = Gu.Reactive.Demo\\Gu.Reactive.Demo.csproj
+		SccProjectName3 = Gu.Reactive.Demo
+		SccLocalPath3 = Gu.Reactive.Demo
+		SccProjectUniqueName4 = NuGet.Gu.Reactive\\NuGet.Gu.Reactive.csproj
+		SccProjectName4 = NuGet.Gu.Reactive
+		SccLocalPath4 = NuGet.Gu.Reactive
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2230088E-F6DC-4C79-9983-D9654274D689}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2230088E-F6DC-4C79-9983-D9654274D689}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2230088E-F6DC-4C79-9983-D9654274D689}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2230088E-F6DC-4C79-9983-D9654274D689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0E0A5A6-1FE8-4996-8A37-F00F690613F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0E0A5A6-1FE8-4996-8A37-F00F690613F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0E0A5A6-1FE8-4996-8A37-F00F690613F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0E0A5A6-1FE8-4996-8A37-F00F690613F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E82B1D44-E08C-4D56-8F7A-D203315E6F46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E82B1D44-E08C-4D56-8F7A-D203315E6F46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E82B1D44-E08C-4D56-8F7A-D203315E6F46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E82B1D44-E08C-4D56-8F7A-D203315E6F46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
