@@ -10,7 +10,7 @@
 
         public ViewModel()
         {
-            Condition = new Condition(this.ToObservable(x => x.IsOk), () => IsOk){Name = "Condition"};
+            Condition = new Condition(this.ToObservable(x => x.IsOk), () => IsOk) { Name = "Condition" };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
