@@ -17,7 +17,7 @@
         </Grid.RowDefinitions>
         <ToggleButton Grid.Row="0"
                       Content="Criteria"
-                      IsChecked="{Binding IsOk}" />
+                      IsChecked="{Binding IsOk1}" />
         <GroupBox Grid.Row="1" Header="Condition">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -35,13 +35,13 @@
                         <Ellipse.Style>
                             <Style TargetType="{x:Type Ellipse}">
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Condition.IsSatisfied}" Value="True">
+                                    <DataTrigger Binding="{Binding Condition1.IsSatisfied}" Value="True">
                                         <Setter Property="Fill" Value="Green" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding Condition.IsSatisfied}" Value="False">
+                                    <DataTrigger Binding="{Binding Condition1.IsSatisfied}" Value="False">
                                         <Setter Property="Fill" Value="Red" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding Condition.IsSatisfied}" Value="{x:Null}">
+                                    <DataTrigger Binding="{Binding Condition1.IsSatisfied}" Value="{x:Null}">
                                         <Setter Property="Fill" Value="Gray" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -50,9 +50,9 @@
                     </Ellipse>
                     <TextBlock Grid.Column="1"
                                VerticalAlignment="Top"
-                               Text="{Binding Condition.Name}" />
+                               Text="{Binding Condition1.Name}" />
                 </Grid>
-                <ListBox Grid.Column="1" ItemsSource="{Binding Condition.History}" />
+                <ListBox Grid.Column="1" ItemsSource="{Binding Condition1.History}" />
             </Grid>
 
         </GroupBox>

@@ -6,33 +6,58 @@
 
     public class ViewModel : INotifyPropertyChanged
     {
-        private bool _isOk;
+        private bool isOk1;
+
+        private bool isOk2;
 
         public ViewModel()
         {
-            Condition = new Condition(this.ToObservable(x => x.IsOk), () => IsOk) { Name = "Condition" };
+            this.Condition1 = new Condition(this.ToObservable(x => x.IsOk1), () => this.IsOk1) { Name = "Condition1" };
+            this.Condition2 = new Condition(this.ToObservable(x => x.IsOk2), () => this.IsOk1) { Name = "Condition2" };
+            DependingCondition = new AndCondition(Condition1, Condition2){Name = "Depending"};
+            NegatedCondition1 = Condition1.Negate();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool IsOk
+        public bool IsOk1
         {
             get
             {
-                return this._isOk;
+                return this.isOk1;
             }
             set
             {
-                if (value.Equals(this._isOk))
+                if (value.Equals(this.isOk1))
                 {
                     return;
                 }
-                this._isOk = value;
+                this.isOk1 = value;
                 this.OnPropertyChanged();
             }
         }
 
-        public Condition Condition { get; private set; }
+        public bool IsOk2
+        {
+            get
+            {
+                return this.isOk2;
+            }
+            set
+            {
+                if (value.Equals(this.isOk2))
+                {
+                    return;
+                }
+                this.isOk2 = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public Condition Condition1 { get; private set; }
+        public Condition Condition2 { get; private set; }
+        public Condition DependingCondition { get; private set; }
+        public ICondition NegatedCondition1 { get; private set; }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
