@@ -11,5 +11,10 @@ namespace Gu.Reactive
             if (prerequisites == null || !prerequisites.Any())
                 throw new ArgumentException();
         }
+
+        public override ICondition Negate()
+        {
+            return new NegatedCondition(this);
+        }
     }
 }

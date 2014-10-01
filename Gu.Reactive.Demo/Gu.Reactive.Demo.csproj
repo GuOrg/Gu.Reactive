@@ -81,6 +81,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DisabledInfoAdorner.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="MainWindow.xaml">
@@ -128,6 +129,10 @@
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj">
       <Project>{2230088e-f6dc-4c79-9983-d9654274d689}</Project>
       <Name>Gu.Reactive</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj">
+      <Project>{4c0610ee-96a2-4e34-bce1-17b06a64556b}</Project>
+      <Name>Gu.Wpf.Reactive</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

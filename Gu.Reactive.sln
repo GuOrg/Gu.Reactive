@@ -17,9 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{244782
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive", "Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj", "{4C0610EE-96A2-4E34-BCE1-17B06A64556B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive.Tests", "Gu.Wpf.Reactive.Tests\Gu.Wpf.Reactive.Tests.csproj", "{F94EA890-7658-47C9-A033-8967F626360A}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://tfshub.sandvik.com:8080/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -32,6 +36,12 @@ Global
 		SccProjectUniqueName3 = Gu.Reactive.Demo\\Gu.Reactive.Demo.csproj
 		SccProjectName3 = Gu.Reactive.Demo
 		SccLocalPath3 = Gu.Reactive.Demo
+		SccProjectUniqueName4 = Gu.Wpf.Reactive\\Gu.Wpf.Reactive.csproj
+		SccProjectName4 = Gu.Wpf.Reactive
+		SccLocalPath4 = Gu.Wpf.Reactive
+		SccProjectUniqueName5 = Gu.Wpf.Reactive.Tests\\Gu.Wpf.Reactive.Tests.csproj
+		SccProjectName5 = Gu.Wpf.Reactive.Tests
+		SccLocalPath5 = Gu.Wpf.Reactive.Tests
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CreateNugetPackage|Any CPU = CreateNugetPackage|Any CPU
@@ -57,6 +67,18 @@ Global
 		{E82B1D44-E08C-4D56-8F7A-D203315E6F46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E82B1D44-E08C-4D56-8F7A-D203315E6F46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E82B1D44-E08C-4D56-8F7A-D203315E6F46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C0610EE-96A2-4E34-BCE1-17B06A64556B}.CreateNugetPackage|Any CPU.ActiveCfg = CreateNugetPackage|Any CPU
+		{4C0610EE-96A2-4E34-BCE1-17B06A64556B}.CreateNugetPackage|Any CPU.Build.0 = CreateNugetPackage|Any CPU
+		{4C0610EE-96A2-4E34-BCE1-17B06A64556B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C0610EE-96A2-4E34-BCE1-17B06A64556B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C0610EE-96A2-4E34-BCE1-17B06A64556B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C0610EE-96A2-4E34-BCE1-17B06A64556B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F94EA890-7658-47C9-A033-8967F626360A}.CreateNugetPackage|Any CPU.ActiveCfg = Release|Any CPU
+		{F94EA890-7658-47C9-A033-8967F626360A}.CreateNugetPackage|Any CPU.Build.0 = Release|Any CPU
+		{F94EA890-7658-47C9-A033-8967F626360A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F94EA890-7658-47C9-A033-8967F626360A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F94EA890-7658-47C9-A033-8967F626360A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F94EA890-7658-47C9-A033-8967F626360A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

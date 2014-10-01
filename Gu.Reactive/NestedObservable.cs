@@ -9,7 +9,7 @@
     using System.Reactive.Subjects;
     using System.Reflection;
 
-    public class NestedObservable<TClass, TProp> : ObservableBase<EventPattern<PropertyChangedEventArgs>>, IDisposable
+    internal class NestedObservable<TClass, TProp> : ObservableBase<EventPattern<PropertyChangedEventArgs>>, IDisposable
         where TClass : INotifyPropertyChanged
     {
         private readonly WeakReference _value;
@@ -21,14 +21,22 @@
             foreach (var pathItem in path)
             {
                 var item = new PathItem(pathItem.Expression.Type.GetProperty(pathItem.Member.Name));
-                this._path.Add(item);
+                _path.Add(item);
             }
 
-            this._path.First().Source = source;
-            this._path.Last().IsLast = true;
-            AssertPathNotifies(this._path);
+            _path.First().Source = source;
+            _path.Last().IsLast = true;
+            AssertPathNotifies(_path);
             this.AddSubscriptions(0);
-            this._value = new WeakReference(this._path.Last().Value, false);
+            _value = new WeakReference(_path.Last().Value, false);
+        }
+
+        internal IEnumerable<PathItem> Path
+        {
+            get
+            {
+                return _path;
+            }
         }
 
         public void Dispose()
@@ -39,24 +47,28 @@
 
         protected override IDisposable SubscribeCore(IObserver<EventPattern<PropertyChangedEventArgs>> observer)
         {
-            return this._subject.Subscribe(observer);
+            return _subject.Subscribe(observer);
         }
-       
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (this._path.Any())
+                if (_path.Any())
                 {
-                    foreach (var pathItem in this._path)
+                    foreach (var pathItem in _path)
                     {
                         pathItem.Dispose();
                     }
-                    this._path.Clear();
+                    _path.Clear();
                 }
             }
         }
 
+        /// <summary>
+        /// All steps in the path must implement INotifyPropertyChanged, this throws if this condition is not met.
+        /// </summary>
+        /// <param name="path"></param>
         private static void AssertPathNotifies(IEnumerable<PathItem> path)
         {
             var notNotifyings = path.Where(x => !x.PropertyInfo.DeclaringType.GetInterfaces()
@@ -71,13 +83,13 @@
 
         private void AddSubscriptions(int toIndex)
         {
-            if (toIndex > 0 && toIndex < this._path.Count)
+            if (toIndex > 0 && toIndex < _path.Count)
             {
-                this._path[toIndex].Source = this._path[toIndex - 1].Value;
+                _path[toIndex].Source = _path[toIndex - 1].Value;
             }
-            for (int j = toIndex; j < this._path.Count; j++)
+            for (int j = toIndex; j < _path.Count; j++)
             {
-                var pathItem = this._path[j];
+                var pathItem = _path[j];
                 var o = pathItem.Source;
 
                 if (o == null)
@@ -88,15 +100,16 @@
                                          .Subscribe(this.OnPathItemChanged);
                 if (!pathItem.IsLast)
                 {
-                    this._path[j + 1].Source = pathItem.Value;
+                    _path[j + 1].Source = pathItem.Value;
                 }
             }
         }
+
         private void RemoveSubscriptions(int fromIndex)
         {
-            for (int j = fromIndex; j < this._path.Count; j++)
+            for (int j = fromIndex; j < _path.Count; j++)
             {
-                var pathItem = this._path[j];
+                var pathItem = _path[j];
                 if (pathItem.Subscription == null)
                 {
                     break;
@@ -106,25 +119,27 @@
                 pathItem.Source = null;
             }
         }
+
         private void OnPathItemChanged(EventPattern<PropertyChangedEventArgs> eventPattern)
         {
             var i = this.IndexOf((INotifyPropertyChanged)eventPattern.Sender);
             this.RemoveSubscriptions(i + 1);
             this.AddSubscriptions(i + 1);
 
-            var value = this._path.Last().Value;
-            if (!(value == null && this._value.Target == null))
+            var value = _path.Last().Value;
+            if (!(value == null && _value.Target == null))
             {
-                this._value.Target = value;
-                var pattern = new EventPattern<PropertyChangedEventArgs>(this._path.Last().Source, new PropertyChangedEventArgs(this._path.Last().PropertyInfo.Name));
-                this._subject.OnNext(pattern);
+                _value.Target = value;
+                var pattern = new EventPattern<PropertyChangedEventArgs>(_path.Last().Source, new PropertyChangedEventArgs(_path.Last().PropertyInfo.Name));
+                _subject.OnNext(pattern);
             }
         }
+
         private int IndexOf(INotifyPropertyChanged sender)
         {
-            for (int i = 0; i < this._path.Count; i++)
+            for (int i = 0; i < _path.Count; i++)
             {
-                var pathItem = this._path[i];
+                var pathItem = _path[i];
                 if (ReferenceEquals(pathItem.Source, sender))
                 {
                     return i;
@@ -132,6 +147,7 @@
             }
             throw new ArgumentOutOfRangeException();
         }
+
         internal class PathItem : IDisposable
         {
             public PathItem(PropertyInfo propertyInfo)

@@ -9,20 +9,40 @@
     {
         private bool _value;
         private Level _next;
+
+        private string _name;
+
         public event PropertyChangedEventHandler PropertyChanged;
         public bool Value
         {
             get
             {
-                return this._value;
+                return _value;
             }
             set
             {
-                if (value.Equals(this._value))
+                if (value.Equals(_value))
                 {
                     return;
                 }
-                this._value = value;
+                _value = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (value == _name)
+                {
+                    return;
+                }
+                _name = value;
                 this.OnPropertyChanged();
             }
         }
@@ -31,15 +51,15 @@
         {
             get
             {
-                return this._next;
+                return _next;
             }
             set
             {
-                if (Equals(value, this._next))
+                if (Equals(value, _next))
                 {
                     return;
                 }
-                this._next = value;
+                _next = value;
                 this.OnPropertyChanged();
             }
         }

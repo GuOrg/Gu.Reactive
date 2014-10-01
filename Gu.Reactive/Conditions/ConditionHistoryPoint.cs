@@ -2,6 +2,9 @@
 {
     using System;
 
+    /// <summary>
+    /// Conditions keeps a log of the last changed states
+    /// </summary>
     public class ConditionHistoryPoint
     {
         /// <summary>
@@ -12,6 +15,7 @@
             : this(DateTime.UtcNow, state)
         {
         }
+
         public ConditionHistoryPoint(DateTime timeStamp, bool? state)
         {
             TimeStamp = timeStamp;

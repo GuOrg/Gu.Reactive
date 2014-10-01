@@ -5,14 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-using System.Runtime.Remoting.Activation;
-using System.Resources;
-
-[assembly: AssemblyTitle("Gu.Reactive")]
-[assembly: AssemblyDescription("A bunch of reactive stuff")]
+[assembly: AssemblyTitle("Gu.Wpf.Reactive.Tests")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Gu.Reactive")]
+[assembly: AssemblyProduct("Gu.Wpf.Reactive.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -23,7 +20,7 @@ using System.Resources;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("71402720-0a1a-4422-8e08-96684ba3a71f")]
+[assembly: Guid("c0802acb-e235-4d9c-9088-3ba8f2e32d6d")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -35,7 +32,5 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.0.0")]
-[assembly: AssemblyFileVersion("1.1.0.0")]
-[assembly:InternalsVisibleTo("Gu.Reactive.Tests", AllInternalsVisible= true) ]
-[assembly: NeutralResourcesLanguageAttribute("en")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
