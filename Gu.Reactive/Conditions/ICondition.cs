@@ -9,7 +9,7 @@
         bool? IsSatisfied { get; }
         string Name { get; }
         IEnumerable<ICondition> Prerequisites { get; }
-        FixedSizedQueue<ConditionHistoryPoint> History { get; }
+        IEnumerable<ConditionHistoryPoint> History { get; }
         ICondition Negate();
     }
 }

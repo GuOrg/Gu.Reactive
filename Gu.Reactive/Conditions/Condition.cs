@@ -22,32 +22,35 @@
         {
             this.Name = this.GetType().Name;
         }
+        
         protected Condition(IObservable<object> observable, Func<bool?> criteria, ConditionCollection prerequisites = null)
             : this(prerequisites)
         {
-            this._criteria = criteria;
+            _criteria = criteria;
             this.Name = this.GetType().Name;
-            this._subscriptions.Add(observable.Subscribe(
+            _subscriptions.Add(observable.Subscribe(
                 x =>
                 {
                     this.UpdateIsSatisfied();
                 }));
             this.UpdateIsSatisfied();
         }
+
         protected Condition(ConditionCollection prerequisites)
         {
             this.Name = this.GetType().Name;
             if (prerequisites != null && prerequisites.Any())
             {
-                this._prerequisites = prerequisites;
-                var subscription = this._prerequisites.ToObservable(x => x.IsSatisfied, false)
+                _prerequisites = prerequisites;
+                var subscription = _prerequisites.ToObservable(x => x.IsSatisfied, false)
                                                  .Subscribe(x => this.UpdateIsSatisfied());
-                this._subscriptions.Add(subscription);
+                _subscriptions.Add(subscription);
                 this.UpdateIsSatisfied();
             }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+       
         public bool? IsSatisfied
         {
             get
@@ -56,74 +59,84 @@
             }
             private set // This is only to raise inpc, value is always calculated
             {
-                if (this._isSatisfied == value)
+                if (_isSatisfied == value)
+                {
                     return;
-                this._isSatisfied = value;
-                this.History.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this._isSatisfied));
+                }
+                _isSatisfied = value;
+                _history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, _isSatisfied));
                 this.OnPropertyChanged();
             }
         }
+        
         public string Name
         {
             get
             {
-                return this._name;
+                return _name;
             }
             set
             {
-                if (value == this._name)
+                if (value == _name)
                 {
                     return;
                 }
-                this._name = value;
+                _name = value;
                 this.OnPropertyChanged();
             }
         }
-        public FixedSizedQueue<ConditionHistoryPoint> History
+       
+        public IEnumerable<ConditionHistoryPoint> History
         {
             get
             {
-                return this._history;
+                return _history;
             }
         }
+        
         public IEnumerable<ICondition> Prerequisites
         {
             get
             {
-                return this._prerequisites;
+                return _prerequisites;
             }
         }
-        public ICondition Negate()
+        
+        public virtual ICondition Negate()
         {
             return new NegatedCondition(this);
         }
+        
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
+        
         public override string ToString()
         {
             return string.Format("Name: {0}, IsSatisfied: {1}", this.GetType().Name, this.IsSatisfied == null ? "null" : this.IsSatisfied.ToString());
         }
+        
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (this._subscriptions.Any())
+                if (_subscriptions.Any())
                 {
-                    foreach (var subscription in this._subscriptions)
+                    foreach (var subscription in _subscriptions)
                     {
                         subscription.Dispose();
                     }
-                    this._subscriptions.Clear();
+                    _subscriptions.Clear();
                 }
-                if (this._prerequisites.Any())
+                if (_prerequisites.Any())
                 {
-                    this._prerequisites.Dispose();
+                    _prerequisites.Dispose();
                 }
             }
         }
+        
         protected void UpdateIsSatisfied()
         {
             this.IsSatisfied = this.InternalIsSatisfied();
@@ -141,17 +154,21 @@
       
         private bool? InternalIsSatisfied()
         {
-            if (this._criteria != null)
+            if (_criteria != null)
             {
-                var criteria = this._criteria();
-                var conditions = new[] { criteria, this._prerequisites.IsSatisfied };
-                if (conditions.All(x => x == true))
+                var isSatisfied = _criteria();
+                if (!_prerequisites.Any())
+                {
+                    return isSatisfied;
+                }
+                var satisfactions = new[] { isSatisfied, _prerequisites.IsSatisfied };
+                if (satisfactions.All(x => x == true))
                     return true;
-                if (conditions.Any(x => x == false))
+                if (satisfactions.Any(x => x == false))
                     return false;
                 return null;
             }
-            return this._prerequisites.IsSatisfied;
+            return _prerequisites.IsSatisfied;
         }
     }
 }

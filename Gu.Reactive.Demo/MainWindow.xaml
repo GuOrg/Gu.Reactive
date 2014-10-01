@@ -4,57 +4,60 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:demo="clr-namespace:Gu.Reactive.Demo"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive"
+        xmlns:reactiveUi="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
         Title="MainWindow"
         Width="525"
         Height="350"
-        d:DataContext="{d:DesignInstance demo:ViewModel}"
+        d:DataContext="{d:DesignInstance demo:ViewModel,
+                                         IsDesignTimeCreatable=True}"
         mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="281*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ToggleButton Grid.Row="0"
-                      Content="Criteria"
-                      IsChecked="{Binding IsOk1}" />
-        <GroupBox Grid.Row="1" Header="Condition">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="150" />
-                    </Grid.ColumnDefinitions>
-                    <Ellipse Width="16"
-                             Height="16"
-                             VerticalAlignment="Top">
-                        <Ellipse.Style>
-                            <Style TargetType="{x:Type Ellipse}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Condition1.IsSatisfied}" Value="True">
-                                        <Setter Property="Fill" Value="Green" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Condition1.IsSatisfied}" Value="False">
-                                        <Setter Property="Fill" Value="Red" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Condition1.IsSatisfied}" Value="{x:Null}">
-                                        <Setter Property="Fill" Value="Gray" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Ellipse.Style>
-                    </Ellipse>
-                    <TextBlock Grid.Column="1"
-                               VerticalAlignment="Top"
-                               Text="{Binding Condition1.Name}" />
-                </Grid>
-                <ListBox Grid.Column="1" ItemsSource="{Binding Condition1.History}" />
-            </Grid>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <ToggleButton Grid.Column="0"
+                          Margin="7"
+                          Content="Criteria 1"
+                          IsChecked="{Binding IsOk1}" />
+            <ToggleButton Grid.Column="1"
+                          Margin="7"
+                          Content="Criteria 2"
+                          IsChecked="{Binding IsOk2}" />
+        </Grid>
+        <!--  <reactiveUi:ConditionControl Grid.Row="1" Condition="{Binding Condition1}" />  -->
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Conditions}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type reactive:ICondition}">
+                    <reactiveUi:ConditionControl Condition="{Binding}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button x:Name="StartButton"
+                    Width="100"
+                    Height="100"
+                    Margin="10"
+                    Command="{Binding StartCommand}"
+                    Content="Start"
+                    Loaded="StartButton_OnLoaded" />
 
-        </GroupBox>
+            <AdornerDecorator>
+                <Button Width="100"
+                        Height="100"
+                        Margin="10"
+                        Command="{Binding StartCommand}"
+                        Content="Start"
+                        Loaded="StartButton_OnLoaded" />
+            </AdornerDecorator>
+        </StackPanel>
     </Grid>
 </Window>

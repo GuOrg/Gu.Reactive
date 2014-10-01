@@ -7,6 +7,9 @@
 
     using NUnit.Framework;
 
+    /// <summary>
+    /// Dunno if it is nice to test internals like this, was used for development.
+    /// </summary>
     public class NestedObservableTests
     {
         [Test]

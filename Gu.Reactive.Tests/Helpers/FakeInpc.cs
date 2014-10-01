@@ -7,25 +7,25 @@
 
     public class FakeInpc : INotifyPropertyChanged
     {
-        private bool _prop1;
+        private bool? _prop1;
         private bool _prop2;
         private Level _next;
         private string _name;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public bool Prop1
+        public bool? Prop1
         {
             get
             {
-                return this._prop1;
+                return _prop1;
             }
             set
             {
-                if (value.Equals(this._prop1))
+                if (value.Equals(_prop1))
                 {
                     return;
                 }
-                this._prop1 = value;
+                _prop1 = value;
                 this.OnPropertyChanged();
             }
         }
@@ -33,15 +33,15 @@
         {
             get
             {
-                return this._prop2;
+                return _prop2;
             }
             set
             {
-                if (value.Equals(this._prop2))
+                if (value.Equals(_prop2))
                 {
                     return;
                 }
-                this._prop2 = value;
+                _prop2 = value;
                 this.OnPropertyChanged();
             }
         }
@@ -49,15 +49,15 @@
         {
             get
             {
-                return this._name;
+                return _name;
             }
             set
             {
-                if (value == this._name)
+                if (value == _name)
                 {
                     return;
                 }
-                this._name = value;
+                _name = value;
                 this.OnPropertyChanged();
             }
         }
@@ -65,15 +65,15 @@
         {
             get
             {
-                return this._next;
+                return _next;
             }
             set
             {
-                if (Equals(value, this._next))
+                if (Equals(value, _next))
                 {
                     return;
                 }
-                this._next = value;
+                _next = value;
                 this.OnPropertyChanged();
             }
         }

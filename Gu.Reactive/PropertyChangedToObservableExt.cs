@@ -2,35 +2,59 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Linq;
 
     public static class PropertyChangedToObservableExt
     {
+        /// <summary>
+        /// COnvenience wrapper for listening to property changes
+        /// </summary>
+        /// <typeparam name="TNotifier"></typeparam>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="property"></param>
+        /// <param name="signalInitial">Default true means that the current value is signaled on Subscribe()</param>
+        /// <returns></returns>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ToObservable<TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
-            bool sampleCurrent = true)
+            bool signalInitial = true)
             where TNotifier : INotifyPropertyChanged
         {
             var me = (MemberExpression)property.Body;
             var pe = me.Expression as ParameterExpression;
             if (pe == null)
             {
-                return new NestedObservable<TNotifier, TProperty>(source, property);
+                var wr = new WeakReference(source);
+                var observable = new NestedObservable<TNotifier, TProperty>(source, property);
+                if (signalInitial)
+                {
+                    return Observable.Defer(
+                        () =>
+                            {
+                                var current = new EventPattern<PropertyChangedEventArgs>(
+                                    wr.Target, new PropertyChangedEventArgs(observable.Path.Last().PropertyInfo.Name));
+                                return Observable.Return(current)
+                                                 .Concat(observable);
+                            });
+                }
+
+                return observable;
             }
             string name = me.Member.Name;
-            return source.ToObservable(name, sampleCurrent);
+            return source.ToObservable(name, signalInitial);
         }
 
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ToObservable(
-            this INotifyPropertyChanged source, string name, bool sampleCurrent = true)
+            this INotifyPropertyChanged source, string name, bool signalInitial = true)
         {
             var wr = new WeakReference(source);
             var observable = source.ToObservable()
                                    .Where(e => string.IsNullOrEmpty(e.EventArgs.PropertyName) || e.EventArgs.PropertyName == name);
-            if (sampleCurrent)
+            if (signalInitial)
             {
                 return Observable.Defer(
                     () =>

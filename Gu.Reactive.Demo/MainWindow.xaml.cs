@@ -2,6 +2,8 @@
 
 namespace Gu.Reactive.Demo
 {
+    using System.Windows.Documents;
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -11,6 +13,12 @@ namespace Gu.Reactive.Demo
         {
             InitializeComponent();
             DataContext = new ViewModel();
+        }
+
+        private void StartButton_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            var myAdornerLayer = AdornerLayer.GetAdornerLayer(StartButton);
+            myAdornerLayer.Add(new DisabledInfoAdorner(StartButton));
         }
     }
 }
