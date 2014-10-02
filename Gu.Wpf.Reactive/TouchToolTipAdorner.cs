@@ -39,10 +39,10 @@
 
         private readonly ContentPresenter _popUpContentPresenter;
 
-        static TouchToolTipAdorner()
-        {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(TouchToolTipAdorner), new FrameworkPropertyMetadata(typeof(TouchToolTipAdorner)));
-        }
+        //static TouchToolTipAdorner()
+        //{
+        //    DefaultStyleKeyProperty.OverrideMetadata(typeof(TouchToolTipAdorner), new FrameworkPropertyMetadata(typeof(TouchToolTipAdorner)));
+        //}
 
         // Be sure to call the base class constructor. 
         public TouchToolTipAdorner(FrameworkElement button)

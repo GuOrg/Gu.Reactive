@@ -33,9 +33,10 @@
         <Setter Property="StaysOpen" Value="True" />
     </Style>
 
-    <Style TargetType="{x:Type local:TouchToolTipAdorner}">
+    <Style x:Key="CondtionCommandStyle" TargetType="{x:Type local:TouchToolTipAdorner}">
         <Setter Property="AdornerContent" Value="{StaticResource DefaultAdornerContent}" />
         <Setter Property="PopUpStyle" Value="{StaticResource DefaultPopupStyle}" />
+        <!--<Setter Property="PopUpContent" Value="{StaticResource ConditionTemplate}" />-->
         <Setter Property="PopUpContentTemplate" Value="{StaticResource ConditionTemplate}" />
     </Style>
 </ResourceDictionary>
