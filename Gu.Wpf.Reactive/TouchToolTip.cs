@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;

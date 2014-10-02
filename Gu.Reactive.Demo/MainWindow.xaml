@@ -80,12 +80,16 @@
                     Command="{Binding StartCommand}"
                     CommandParameter="">
                 <reactiveUi:TouchToolTip.TouchToolTipStyle>
-                    <Style BasedOn="{StaticResource {x:Type reactiveUi:TouchToolTipAdorner}}" TargetType="reactiveUi:TouchToolTipAdorner">
+                    <Style 
+                           TargetType="{x:Type reactiveUi:TouchToolTipAdorner}">
                         <Setter Property="PopUpContent" Value="{Binding}" />
                         <Setter Property="PopUpContentTemplate">
                             <Setter.Value>
                                 <DataTemplate DataType="{x:Type demo:ViewModel}">
-                                    <TextBlock Text="{Binding NegatedCondition1.Name}" />
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Condition1.Name}" />
+                                        <TextBlock Text="{Binding Condition2.Name}" />
+                                    </StackPanel>
                                 </DataTemplate>
                             </Setter.Value>
                         </Setter>
