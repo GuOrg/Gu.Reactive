@@ -34,6 +34,7 @@
     <Style x:Key="DefaultPopupStyle" TargetType="{x:Type Popup}">
         <Setter Property="Placement" Value="Bottom" />
         <Setter Property="StaysOpen" Value="True" />
+        <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TouchToolTipAdorner}}" />
     </Style>
 

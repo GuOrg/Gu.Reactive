@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
@@ -41,7 +42,7 @@
             typeof(DataTemplate),
             typeof(TouchToolTipAdorner),
             new PropertyMetadata(default(DataTemplate), OnPopUpContentTemplateChanged));
-     
+
         private readonly Button _adornerButton;
         private readonly Popup _popup;
         private readonly ContentPresenter _popUpContentPresenter;
@@ -75,7 +76,7 @@
                 PlacementTarget = this,
                 DataContext = element,
                 Style = PopUpStyle,
-                Child = this._popUpContentPresenter
+                Child = _popUpContentPresenter
             };
             AddVisualChild(this._adornerButton);
             AddLogicalChild(this._adornerButton);
@@ -177,6 +178,10 @@
 
         private static void OnPopUpStyleChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
+            if (DesignerProperties.GetIsInDesignMode(o))
+            {
+                return;
+            }
             var adorner = (TouchToolTipAdorner)o;
             adorner._popup.SetValue(StyleProperty, e.NewValue);
         }
