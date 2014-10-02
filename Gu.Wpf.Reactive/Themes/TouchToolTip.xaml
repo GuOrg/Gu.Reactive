@@ -22,21 +22,22 @@
         </Border>
     </Grid>
 
-    <DataTemplate x:Key="ConditionTemplate" DataType="{x:Type Button}">
-        <Border Background="White" Visibility="{Binding Visibility, RelativeSource={RelativeSource AncestorType=local:TouchToolTipAdorner}}">
-            <local:ConditionControl Condition="{Binding Command.Condition}" />
+    <DataTemplate x:Key="ConditionTemplate" DataType="{x:Type local:ConditionRelayCommand}">
+        <Border Background="White">
+            <local:ConditionControl Condition="{Binding Condition}" />
         </Border>
     </DataTemplate>
 
     <Style x:Key="DefaultPopupStyle" TargetType="{x:Type Popup}">
         <Setter Property="Placement" Value="Bottom" />
         <Setter Property="StaysOpen" Value="True" />
+        <Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TouchToolTipAdorner}}" />
     </Style>
 
-    <Style x:Key="CondtionCommandStyle" TargetType="{x:Type local:TouchToolTipAdorner}">
+    <Style x:Key="CondtionToolTipStyle" TargetType="{x:Type local:TouchToolTipAdorner}">
         <Setter Property="AdornerContent" Value="{StaticResource DefaultAdornerContent}" />
         <Setter Property="PopUpStyle" Value="{StaticResource DefaultPopupStyle}" />
-        <!--<Setter Property="PopUpContent" Value="{StaticResource ConditionTemplate}" />-->
+        <Setter Property="PopUpContent" Value="{Binding AdornedElement.Command, RelativeSource={RelativeSource Self}}" />
         <Setter Property="PopUpContentTemplate" Value="{StaticResource ConditionTemplate}" />
     </Style>
 </ResourceDictionary>

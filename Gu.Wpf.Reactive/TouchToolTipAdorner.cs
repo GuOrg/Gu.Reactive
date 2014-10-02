@@ -10,8 +10,13 @@
 
     public class TouchToolTipAdorner : Adorner
     {
-        private readonly Button _adornerButton;
-        private readonly Popup _popup;
+        private static readonly DependencyPropertyKey AdornedElementPropertyKey = DependencyProperty.RegisterReadOnly(
+            "AdornedElement",
+            typeof(FrameworkElement),
+            typeof(TouchToolTipAdorner),
+            new PropertyMetadata((FrameworkElement)null));
+
+        public static readonly DependencyProperty AdornedElementProperty = AdornedElementPropertyKey.DependencyProperty;
 
         public static readonly DependencyProperty AdornerContentProperty = DependencyProperty.Register(
             "AdornerContent",
@@ -36,7 +41,9 @@
             typeof(DataTemplate),
             typeof(TouchToolTipAdorner),
             new PropertyMetadata(default(DataTemplate), OnPopUpContentTemplateChanged));
-
+     
+        private readonly Button _adornerButton;
+        private readonly Popup _popup;
         private readonly ContentPresenter _popUpContentPresenter;
 
         //static TouchToolTipAdorner()
@@ -45,9 +52,10 @@
         //}
 
         // Be sure to call the base class constructor. 
-        public TouchToolTipAdorner(FrameworkElement button)
-            : base(button)
+        public TouchToolTipAdorner(FrameworkElement element)
+            : base(element)
         {
+            AdornedElement = element;
             var presenter = new FrameworkElementFactory(typeof(ContentPresenter));
             _adornerButton = new Button
                           {
@@ -59,13 +67,13 @@
                           };
             this._popUpContentPresenter = new ContentPresenter
                                         {
-                                            Content = AdornedElement,
+                                            Content = PopUpContent,
                                             ContentTemplate = PopUpContentTemplate
                                         };
             _popup = new Popup
             {
                 PlacementTarget = this,
-                DataContext = button,
+                DataContext = element,
                 Style = PopUpStyle,
                 Child = this._popUpContentPresenter
             };
@@ -73,16 +81,15 @@
             AddLogicalChild(this._adornerButton);
 
             this.SetupSubscriptions();
-            AdornedElement.IsEnabledChanged += this.AdornedElementChanged;
-            AdornedElement.IsVisibleChanged += this.AdornedElementChanged;
+            base.AdornedElement.IsEnabledChanged += this.AdornedElementStateChanged;
+            base.AdornedElement.IsVisibleChanged += this.AdornedElementStateChanged;
 
         }
 
-        private void AdornedElementChanged(object sender, DependencyPropertyChangedEventArgs e)
+        public new FrameworkElement AdornedElement
         {
-            this.Visibility = AdornedElement.IsVisible && AdornedElement.IsEnabled
-                                  ? Visibility.Hidden
-                                  : Visibility.Visible;
+            get { return (FrameworkElement)GetValue(AdornedElementProperty); }
+            private set { SetValue(AdornedElementPropertyKey, value); }
         }
 
         public object AdornerContent
@@ -153,7 +160,7 @@
         protected override Size MeasureOverride(Size constraint)
         {
             _adornerButton.Measure(constraint);
-            var frameworkElement = ((FrameworkElement)AdornedElement);
+            var frameworkElement = ((FrameworkElement)base.AdornedElement);
             return new Size(frameworkElement.ActualWidth, frameworkElement.ActualHeight);
         }
 
@@ -197,7 +204,7 @@
                 Debug.WriteLine("_adornerButton.Click");
                 this._popup.IsOpen = !this._popup.IsOpen;
             };
-            this.AdornedElement.LostFocus += (sender, args) =>
+            base.AdornedElement.LostFocus += (sender, args) =>
             {
                 Debug.WriteLine("_button.LostFocus");
                 if (this._popup.IsOpen)
@@ -221,6 +228,13 @@
                     this._popup.IsOpen = false;
                 }
             };
+        }
+
+        private void AdornedElementStateChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            this.Visibility = base.AdornedElement.IsVisible && base.AdornedElement.IsEnabled
+                                  ? Visibility.Hidden
+                                  : Visibility.Visible;
         }
     }
 }
