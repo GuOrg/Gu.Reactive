@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:demo="clr-namespace:Gu.Reactive.Demo"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive"
         xmlns:reactiveUi="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
@@ -42,25 +43,76 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="Height" Value="100" />
+                    <Setter Property="Width" Value="100" />
+                    <Setter Property="Margin" Value="5,10,5,10" />
+                    <!--
+                        <Setter Property="reactiveUi:DisabledInfoBehavior.Adorner">
+                        <Setter.Value>
+                        <Grid>
+                        <Border Width="20"
+                        Height="20"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Background="CornflowerBlue"
+                        CornerRadius="10">
+                        <TextBlock HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="White"
+                        Text="i" />
+                        </Border>
+                        </Grid>
+                        </Setter.Value>
+                        </Setter>
+                    -->
+
+                    <!--
+                        <Setter Property="i:Interaction.Behaviors">
+                        <Setter.Value>
+                        <reactiveUi:DisabledInfoBehavior />
+                        </Setter.Value>
+                        </Setter>
+                    -->
+
+
+
+                </Style>
+            </StackPanel.Resources>
             <Button x:Name="OtherButton"
-                    Width="100"
-                    Height="100"
-                    Margin="10"
                     Command="{Binding OtherCommand}"
                     CommandParameter="{Binding Content,
                                                RelativeSource={RelativeSource Self}}"
-                    Content="Other"
-                    Loaded="StartButton_OnLoaded" />
+                    Content="Other" />
 
             <AdornerDecorator>
-                <Button Width="100"
-                        Height="100"
-                        Margin="10"
-                        Command="{Binding StartCommand}"
+                <Button Command="{Binding StartCommand}"
                         CommandParameter="{Binding Content,
                                                    RelativeSource={RelativeSource Self}}"
-                        Content="Start"
-                        Loaded="StartButton_OnLoaded" />
+                        Content="Start">
+                    <i:Interaction.Behaviors>
+                        <reactiveUi:DisabledInfoBehavior>
+                            <!--
+                                <reactiveUi:DisabledInfoBehavior.Adorner>
+                                <Grid Background="Transparent">
+                                <Border Width="20"
+                                Height="20"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="CornflowerBlue"
+                                CornerRadius="10">
+                                <TextBlock HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="White"
+                                Text="i" />
+                                </Border>
+                                </Grid>
+                                </reactiveUi:DisabledInfoBehavior.Adorner>
+                            -->
+                        </reactiveUi:DisabledInfoBehavior>
+                    </i:Interaction.Behaviors>
+                </Button>
             </AdornerDecorator>
         </StackPanel>
     </Grid>

@@ -20,7 +20,8 @@ namespace Gu.Reactive.Demo
         private void StartButton_OnLoaded(object sender, RoutedEventArgs e)
         {
             var myAdornerLayer = AdornerLayer.GetAdornerLayer((ButtonBase)sender);
-            myAdornerLayer.Add(new ConditionInfoAdorner((ButtonBase)sender));
+            var conditionInfoAdorner = new ConditionInfoAdorner((ButtonBase)sender);
+            myAdornerLayer.Add(conditionInfoAdorner);
         }
     }
 }
