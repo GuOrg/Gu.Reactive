@@ -1,24 +1,40 @@
 ﻿namespace Gu.Wpf.Reactive
 {
-    using System;
-    using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Documents;
-
+    /// <summary>
+    /// Helper class with attached properties for the TouchToolTipAdorner
+    /// Enables using it in syles
+    /// </summary>
     public class TouchToolTip : DependencyObject
     {
-        private static readonly ConditionalWeakTable<UIElement, TouchToolTip> _cache = new ConditionalWeakTable<UIElement, TouchToolTip>();
-
+        private static readonly ConditionalWeakTable<UIElement, TouchToolTip> Cache = new ConditionalWeakTable<UIElement, TouchToolTip>();
         private TouchToolTipAdorner _adorner;
         private readonly FrameworkElement _element;
 
-        public static readonly DependencyProperty TouchToolTipStyleProperty = DependencyProperty.RegisterAttached(
-            "TouchToolTipStyle",
+        /// <summary>
+        /// Set the style to enable the TouchTooltipAdorner, sample:
+        /// <Button Width="100">
+        ///     <reactiveUi:TouchToolTip.Style>
+        ///        <Style TargetType="{x:Type reactiveUi:TouchToolTipAdorner}">
+        ///           ...
+        /// or:
+        /// <ResourceDictionary> 
+        ///   <ResourceDictionary.MergedDictionaries>
+        ///     <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/TouchToolTip.xaml" />
+        ///   </ResourceDictionary.MergedDictionaries>
+        ///  <Style TargetType="{x:Type Button}">
+        ///    <Setter Property="reactiveUi:TouchToolTip.Style" Value="{StaticResource CondtionToolTipStyle}" />
+        ///    ...
+        ///  </Style>
+        /// </ResourceDictionary>
+        /// </summary>
+        public static readonly DependencyProperty StyleProperty = DependencyProperty.RegisterAttached(
+            "Style",
             typeof(Style),
             typeof(TouchToolTip),
-            new PropertyMetadata(default(Style), OnTouchToolTipStyleChanged));
+            new PropertyMetadata(default(Style), OnStyleChanged));
 
         public TouchToolTip(FrameworkElement element)
         {
@@ -26,24 +42,24 @@
             this.Initialize();
         }
 
-        public static void SetTouchToolTipStyle(FrameworkElement element, Style value)
+        public static void SetStyle(FrameworkElement element, Style value)
         {
-            element.SetValue(TouchToolTipStyleProperty, value);
+            element.SetValue(StyleProperty, value);
         }
 
-        public static Style GetTouchToolTipStyle(FrameworkElement element)
+        public static Style GetStyle(FrameworkElement element)
         {
-            return (Style)element.GetValue(TouchToolTipStyleProperty);
+            return (Style)element.GetValue(StyleProperty);
         }
 
-        private static void OnTouchToolTipStyleChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        private static void OnStyleChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var element = (FrameworkElement)o;
             TouchToolTip behavior;
-            if (!_cache.TryGetValue(element, out behavior))
+            if (!Cache.TryGetValue(element, out behavior))
             {
                 behavior = new TouchToolTip(element);
-                _cache.Add(element, behavior);
+                Cache.Add(element, behavior);
                 if (behavior._adorner != null)
                 {
                     behavior._adorner.SetValue(FrameworkElement.StyleProperty, e.NewValue);
@@ -73,7 +89,7 @@
         {
             var myAdornerLayer = AdornerLayer.GetAdornerLayer(_element);
             this._adorner = new TouchToolTipAdorner(_element);
-            _adorner.SetValue(FrameworkElement.StyleProperty, _element.GetValue(TouchToolTipStyleProperty));
+            _adorner.SetValue(FrameworkElement.StyleProperty, _element.GetValue(StyleProperty));
             myAdornerLayer.Add(this._adorner);
         }
     }
