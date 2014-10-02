@@ -9,6 +9,9 @@
 
     using Gu.Reactive.Annotations;
 
+    /// <summary>
+    /// Base class for collections
+    /// </summary>
     public abstract class ConditionCollection : IEnumerable<ICondition>, INotifyPropertyChanged, IDisposable
     {
         private readonly List<ICondition> _innerConditions = new List<ICondition>();
