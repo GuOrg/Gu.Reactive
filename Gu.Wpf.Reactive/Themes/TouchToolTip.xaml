@@ -3,11 +3,14 @@
                     xmlns:local="clr-namespace:Gu.Wpf.Reactive">
 
     <Grid x:Key="DefaultAdornerContent"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
           Background="Transparent"
           SnapsToDevicePixels="True"
           Visibility="{Binding Visibility,
                                RelativeSource={RelativeSource AncestorType=local:TouchToolTipAdorner}}"
           x:Shared="False">
+
         <Border Width="20"
                 Height="20"
                 Margin="5"
@@ -39,5 +42,11 @@
         <Setter Property="PopUpStyle" Value="{StaticResource DefaultPopupStyle}" />
         <Setter Property="PopUpContent" Value="{Binding AdornedElement.Command, RelativeSource={RelativeSource Self}}" />
         <Setter Property="PopUpContentTemplate" Value="{StaticResource ConditionTemplate}" />
+    </Style>
+
+    <Style TargetType="{x:Type local:TouchToolTipAdorner}">
+        <Setter Property="AdornerContent" Value="{StaticResource DefaultAdornerContent}" />
+        <Setter Property="PopUpStyle" Value="{StaticResource DefaultPopupStyle}" />
+        <!--  <Setter Property="PopUpContent" Value="{Binding AdornedElement.DataContext, RelativeSource={RelativeSource Self}}" />  -->
     </Style>
 </ResourceDictionary>

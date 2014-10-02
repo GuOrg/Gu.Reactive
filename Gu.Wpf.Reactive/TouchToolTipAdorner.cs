@@ -46,10 +46,10 @@
         private readonly Popup _popup;
         private readonly ContentPresenter _popUpContentPresenter;
 
-        //static TouchToolTipAdorner()
-        //{
-        //    DefaultStyleKeyProperty.OverrideMetadata(typeof(TouchToolTipAdorner), new FrameworkPropertyMetadata(typeof(TouchToolTipAdorner)));
-        //}
+        static TouchToolTipAdorner()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(TouchToolTipAdorner), new FrameworkPropertyMetadata(typeof(TouchToolTipAdorner)));
+        }
 
         // Be sure to call the base class constructor. 
         public TouchToolTipAdorner(FrameworkElement element)
@@ -160,8 +160,7 @@
         protected override Size MeasureOverride(Size constraint)
         {
             _adornerButton.Measure(constraint);
-            var frameworkElement = ((FrameworkElement)base.AdornedElement);
-            return new Size(frameworkElement.ActualWidth, frameworkElement.ActualHeight);
+            return new Size(AdornedElement.ActualWidth, AdornedElement.ActualHeight);
         }
 
         protected override Size ArrangeOverride(Size finalSize)

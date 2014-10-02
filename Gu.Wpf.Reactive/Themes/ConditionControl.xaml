@@ -96,7 +96,13 @@
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
                               ItemTemplate="{StaticResource ConditionHierarchicalDataTemplate}"
-                              ItemsSource="{TemplateBinding RootCondition}" />
+                              ItemsSource="{TemplateBinding RootCondition}">
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="TreeViewItem">
+                                <Setter Property="IsExpanded" Value="True" />
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
