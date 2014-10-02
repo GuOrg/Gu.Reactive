@@ -48,6 +48,6 @@
     <Style TargetType="{x:Type local:TouchToolTipAdorner}">
         <Setter Property="AdornerContent" Value="{StaticResource DefaultAdornerContent}" />
         <Setter Property="PopUpStyle" Value="{StaticResource DefaultPopupStyle}" />
-        <!--  <Setter Property="PopUpContent" Value="{Binding AdornedElement.DataContext, RelativeSource={RelativeSource Self}}" />  -->
+        <Setter Property="PopUpContent" Value="{Binding AdornedElement.DataContext, RelativeSource={RelativeSource Self}}" />
     </Style>
 </ResourceDictionary>
