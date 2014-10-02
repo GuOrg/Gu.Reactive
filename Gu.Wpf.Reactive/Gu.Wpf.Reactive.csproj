@@ -88,7 +88,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\DisabledInfoAdorner.xaml">
+    <Page Include="Themes\TouchToolTip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -100,7 +100,7 @@
     <Compile Include="ConditionButton.cs" />
     <Compile Include="ConditionRelayCommand.cs" />
     <Compile Include="TouchToolTipAdorner.cs" />
-    <Compile Include="TouchToolTipBehavior.cs" />
+    <Compile Include="TouchToolTip.cs" />
     <Compile Include="ManualRelayCommand.cs" />
     <Compile Include="ConditionControl.cs">
       <SubType>Code</SubType>
