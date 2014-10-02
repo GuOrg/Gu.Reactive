@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive"
-                    xmlns:local="clr-namespace:Gu.Wpf.Reactive">
+                    xmlns:local="clr-namespace:Gu.Wpf.Reactive"
+                    xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive">
     <DataTemplate x:Key="ConditionHistoryTemplate" DataType="{x:Type reactive:ICondition}">
         <DataGrid AutoGenerateColumns="True"
                   CanUserAddRows="False"
