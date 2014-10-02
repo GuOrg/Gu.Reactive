@@ -11,7 +11,7 @@ using System.Resources;
 [assembly: AssemblyTitle("Gu.Reactive")]
 [assembly: AssemblyDescription("A bunch of reactive stuff")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Johan Larsson")]
 [assembly: AssemblyProduct("Gu.Reactive")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
