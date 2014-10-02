@@ -48,72 +48,21 @@
                     <Setter Property="Height" Value="100" />
                     <Setter Property="Width" Value="100" />
                     <Setter Property="Margin" Value="5,10,5,10" />
-                    <!--
-                        <Setter Property="reactiveUi:DisabledInfoBehavior.Adorner">
-                        <Setter.Value>
-                        <Grid>
-                        <Border Width="20"
-                        Height="20"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Background="CornflowerBlue"
-                        CornerRadius="10">
-                        <TextBlock HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Foreground="White"
-                        Text="i" />
-                        </Border>
-                        </Grid>
-                        </Setter.Value>
-                        </Setter>
-                    -->
-
-                    <!--
-                        <Setter Property="i:Interaction.Behaviors">
-                        <Setter.Value>
-                        <reactiveUi:DisabledInfoBehavior />
-                        </Setter.Value>
-                        </Setter>
-                    -->
-
-
-
+                    <Setter Property="reactiveUi:DisabledInfoBehavior.ShowInfoWhenDisabled" Value="True" />
                 </Style>
             </StackPanel.Resources>
+
             <Button x:Name="OtherButton"
                     Command="{Binding OtherCommand}"
                     CommandParameter="{Binding Content,
                                                RelativeSource={RelativeSource Self}}"
                     Content="Other" />
 
-            <AdornerDecorator>
-                <Button Command="{Binding StartCommand}"
-                        CommandParameter="{Binding Content,
-                                                   RelativeSource={RelativeSource Self}}"
-                        Content="Start">
-                    <i:Interaction.Behaviors>
-                        <reactiveUi:DisabledInfoBehavior>
-                            <!--
-                                <reactiveUi:DisabledInfoBehavior.Adorner>
-                                <Grid Background="Transparent">
-                                <Border Width="20"
-                                Height="20"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Background="CornflowerBlue"
-                                CornerRadius="10">
-                                <TextBlock HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="White"
-                                Text="i" />
-                                </Border>
-                                </Grid>
-                                </reactiveUi:DisabledInfoBehavior.Adorner>
-                            -->
-                        </reactiveUi:DisabledInfoBehavior>
-                    </i:Interaction.Behaviors>
-                </Button>
-            </AdornerDecorator>
+            <Button Command="{Binding StartCommand}"
+                    CommandParameter="{Binding Content,
+                                               RelativeSource={RelativeSource Self}}"
+                    Content="Start" />
+
         </StackPanel>
     </Grid>
 </Window>

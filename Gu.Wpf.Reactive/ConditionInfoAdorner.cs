@@ -69,8 +69,10 @@
                     BorderThickness = new Thickness(1),
                     CornerRadius = new CornerRadius(2),
                     Background = Brushes.White,
+                    Focusable = false,
                     Child = new ConditionControl
                     {
+                        Focusable = false,
                         Condition = ((ConditionRelayCommand)_button.Command).Condition,
                     }
                 },
@@ -99,7 +101,7 @@
             _popup.LostFocus += (sender, args) =>
             {
                 Debug.WriteLine("_popup.LostFocus");
-                if (_popup.IsOpen && !(_adornerButton.IsKeyboardFocusWithin))
+                if (_popup.IsOpen && !(_adornerButton.IsKeyboardFocusWithin || _popup.IsKeyboardFocusWithin))
                 {
                     _popup.IsOpen = false;
                 }

@@ -1,5 +1,7 @@
 ﻿namespace Gu.Wpf.Reactive
 {
+    using System;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
@@ -9,6 +11,12 @@
 
     public class DisabledInfoBehavior : Behavior<Button>
     {
+        public static readonly DependencyProperty ShowInfoWhenDisabledProperty = DependencyProperty.RegisterAttached(
+            "ShowInfoWhenDisabled",
+            typeof(bool),
+            typeof(DisabledInfoBehavior),
+            new PropertyMetadata(false, OnShowInfoWhenDisabledChanged));
+
         public static readonly DependencyProperty AdornerProperty = DependencyProperty.Register(
             "Adorner",
             typeof(FrameworkElement),
@@ -20,6 +28,8 @@
             typeof(FrameworkElement),
             typeof(DisabledInfoBehavior),
             new PropertyMetadata(default(FrameworkElement)));
+
+        private ConditionInfoAdorner _adorner;
 
         public FrameworkElement Adorner
         {
@@ -45,15 +55,38 @@
             }
         }
 
+        public static void SetShowInfoWhenDisabled(Button element, bool value)
+        {
+            element.SetValue(ShowInfoWhenDisabledProperty, value);
+        }
+
+        public static bool GetShowInfoWhenDisabled(Button element)
+        {
+            return (bool)element.GetValue(ShowInfoWhenDisabledProperty);
+        }
+
         protected override void OnAttached()
         {
-            if (AssociatedObject.IsLoaded)
+            if ((bool)AssociatedObject.GetValue(ShowInfoWhenDisabledProperty))
             {
-                this.AddAdorner();
+                if (AssociatedObject.IsLoaded)
+                {
+                    this.AddAdorner();
+                }
+                else
+                {
+                    AssociatedObject.Loaded += (sender, args) => this.AddAdorner();
+                }
             }
-            else
+        }
+
+        private static void OnShowInfoWhenDisabledChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            var button = (Button)o;
+            var behaviors = Interaction.GetBehaviors(button);
+            if (!behaviors.Any(b => b is DisabledInfoBehavior))
             {
-                AssociatedObject.Loaded += (sender, args) => this.AddAdorner();
+                 behaviors.Add(new DisabledInfoBehavior());
             }
         }
 
@@ -61,12 +94,12 @@
         {
             var myAdornerLayer = AdornerLayer.GetAdornerLayer(AssociatedObject);
             //var adorner = new ConditionInfoAdorner(AssociatedObject) { AdornerContent = this.Adorner };
-            var adorner = new ConditionInfoAdorner(AssociatedObject);
+            this._adorner = new ConditionInfoAdorner(this.AssociatedObject);
             if (Adorner != null)
             {
-                adorner.AdornerContent = Adorner;
+                this._adorner.AdornerContent = Adorner;
             }
-            myAdornerLayer.Add(adorner);
+            myAdornerLayer.Add(this._adorner);
         }
     }
 }
