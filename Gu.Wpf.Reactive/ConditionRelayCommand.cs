@@ -24,9 +24,11 @@
             bool raiseCanExecuteOnDispatcher = true)
             : base(action, o => condition.IsSatisfied == true, raiseCanExecuteOnDispatcher)
         {
+            Condition = condition;
             _subscription = condition.ToObservable(x => x.IsSatisfied)
                                      .Subscribe(x => this.RaiseCanExecuteChanged());
         }
+        public ICondition Condition { get; private set; }
 
         public void Dispose()
         {

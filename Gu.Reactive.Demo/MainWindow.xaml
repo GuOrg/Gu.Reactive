@@ -42,12 +42,14 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button x:Name="StartButton"
+            <Button x:Name="OtherButton"
                     Width="100"
                     Height="100"
                     Margin="10"
-                    Command="{Binding StartCommand}"
-                    Content="Start"
+                    Command="{Binding OtherCommand}"
+                    CommandParameter="{Binding Content,
+                                               RelativeSource={RelativeSource Self}}"
+                    Content="Other"
                     Loaded="StartButton_OnLoaded" />
 
             <AdornerDecorator>
@@ -55,6 +57,8 @@
                         Height="100"
                         Margin="10"
                         Command="{Binding StartCommand}"
+                        CommandParameter="{Binding Content,
+                                                   RelativeSource={RelativeSource Self}}"
                         Content="Start"
                         Loaded="StartButton_OnLoaded" />
             </AdornerDecorator>
