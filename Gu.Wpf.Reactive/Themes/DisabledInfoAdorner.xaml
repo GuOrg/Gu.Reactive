@@ -1,0 +1,40 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Gu.Wpf.Reactive">
+
+    <Grid x:Key="DefaultAdornerContent"
+          Background="Transparent"
+          SnapsToDevicePixels="True"
+          Visibility="{Binding Visibility,
+                               RelativeSource={RelativeSource AncestorType=local:TouchToolTipAdorner}}"
+          x:Shared="False">
+        <Border Width="20"
+                Height="20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="CornflowerBlue"
+                CornerRadius="10">
+            <TextBlock HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="White"
+                       Text="i" />
+        </Border>
+    </Grid>
+
+    <DataTemplate x:Key="ConditionTemplate" DataType="{x:Type Button}">
+        <Border Background="White" Visibility="{Binding Visibility, RelativeSource={RelativeSource AncestorType=local:TouchToolTipAdorner}}">
+            <local:ConditionControl Condition="{Binding Command.Condition}" />
+        </Border>
+    </DataTemplate>
+
+    <Style x:Key="DefaultPopupStyle" TargetType="{x:Type Popup}">
+        <Setter Property="Placement" Value="Bottom" />
+        <Setter Property="StaysOpen" Value="True" />
+    </Style>
+
+    <Style TargetType="{x:Type local:TouchToolTipAdorner}">
+        <Setter Property="AdornerContent" Value="{StaticResource DefaultAdornerContent}" />
+        <Setter Property="PopUpStyle" Value="{StaticResource DefaultPopupStyle}" />
+        <Setter Property="PopUpContentTemplate" Value="{StaticResource ConditionTemplate}" />
+    </Style>
+</ResourceDictionary>

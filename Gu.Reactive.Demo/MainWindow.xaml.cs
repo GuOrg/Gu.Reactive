@@ -20,7 +20,7 @@ namespace Gu.Reactive.Demo
         private void OnAdornerButtonLoaded(object sender, RoutedEventArgs e)
         {
             var myAdornerLayer = AdornerLayer.GetAdornerLayer((ButtonBase)sender);
-            var conditionInfoAdorner = new ConditionInfoAdorner((ButtonBase)sender);
+            var conditionInfoAdorner = new TouchToolTipAdorner((ButtonBase)sender);
             myAdornerLayer.Add(conditionInfoAdorner);
         }
     }

@@ -27,21 +27,23 @@
             </Grid.ColumnDefinitions>
             <ToggleButton Grid.Column="0"
                           Margin="7"
-                          Content="Criteria 1"
-                          IsChecked="{Binding IsOk1}" />
+                          Content="Door"
+                          IsChecked="{Binding IsDoorClosed}" />
             <ToggleButton Grid.Column="1"
                           Margin="7"
-                          Content="Criteria 2"
-                          IsChecked="{Binding IsOk2}" />
+                          Content="Motor"
+                          IsChecked="{Binding IsMotorRunning}" />
         </Grid>
-        <!--  <reactiveUi:ConditionControl Grid.Row="1" Condition="{Binding Condition1}" />  -->
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Conditions}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type reactive:ICondition}">
-                    <reactiveUi:ConditionControl Condition="{Binding}" />
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <Expander Grid.Row="1" Header="Conditions">
+            <ItemsControl ItemsSource="{Binding Conditions}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type reactive:ICondition}">
+                        <reactiveUi:ConditionControl Condition="{Binding}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Expander>
+
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <StackPanel.Resources>
                 <Style TargetType="{x:Type Button}">
