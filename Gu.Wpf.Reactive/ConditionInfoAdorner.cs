@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
@@ -9,7 +10,6 @@
 
     public class ConditionInfoAdorner : Adorner, IWeakEventListener
     {
-        private readonly SolidColorBrush _transparentBrush = new SolidColorBrush(Colors.AliceBlue);
         private readonly ButtonBase _button;
         private readonly Button _adornerButton;
         private readonly Popup _popup;
@@ -27,16 +27,37 @@
                           {
                               Width = 100,
                               Height = 100,
-                              Background = this._transparentBrush,
-                              FocusVisualStyle = null
+                              Background = Brushes.Transparent,
+                              HorizontalContentAlignment = HorizontalAlignment.Right,
+                              VerticalContentAlignment = VerticalAlignment.Top,
+                              FocusVisualStyle = null,
+                              SnapsToDevicePixels = true,
+                              Content = new Border
+                                          {
+                                              Width = 20,
+                                              Height = 20,
+                                              CornerRadius = new CornerRadius(10),
+                                              Background = Brushes.CornflowerBlue,
+                                              HorizontalAlignment = HorizontalAlignment.Right,
+                                              VerticalAlignment = VerticalAlignment.Top,
+                                              Focusable = true,
+                                              Child = new TextBlock
+                                              {
+                                                  Text = "i",
+                                                  Foreground = Brushes.White,
+                                                  HorizontalAlignment = HorizontalAlignment.Center,
+                                                  VerticalAlignment = VerticalAlignment.Center
+                                              }
+                                          }
                           };
-            _adornerButton.Click += AdornerButtonOnClick;
+
             AddVisualChild(this._adornerButton);
             AddLogicalChild(this._adornerButton);
             _button = button;
             _popup = new Popup
             {
                 PlacementTarget = _button,
+                Placement = PlacementMode.Bottom,
                 DataContext = _button.DataContext,
                 Child = new Border
                 {
@@ -48,8 +69,14 @@
                     }
                 },
             };
+            _adornerButton.Click += (sender, args) =>
+                {
+                    Debug.WriteLine("_adornerButton.Click");
+                    _popup.IsOpen = !_popup.IsOpen;
+                };
             _button.LostFocus += (sender, args) =>
             {
+                Debug.WriteLine("_button.LostFocus");
                 if (_popup.IsOpen)
                 {
                     _popup.IsOpen = false;
@@ -57,6 +84,7 @@
             };
             _adornerButton.LostFocus += (sender, args) =>
             {
+                Debug.WriteLine("_adornerButton.LostFocus");
                 if (_popup.IsOpen && !_popup.IsKeyboardFocusWithin)
                 {
                     _popup.IsOpen = false;
@@ -64,7 +92,8 @@
             };
             _popup.LostFocus += (sender, args) =>
             {
-                if (_popup.IsOpen)
+                Debug.WriteLine("_popup.LostFocus");
+                if (_popup.IsOpen && !(_adornerButton.IsKeyboardFocusWithin))
                 {
                     _popup.IsOpen = false;
                 }
@@ -119,11 +148,6 @@
         {
             _adornerButton.Arrange(new Rect(new Point(0, 0), finalSize));
             return finalSize;
-        }
-
-        private void AdornerButtonOnClick(object sender, RoutedEventArgs routedEventArgs)
-        {
-            _popup.IsOpen = !_popup.IsOpen;
         }
     }
 }
