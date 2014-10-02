@@ -62,11 +62,13 @@
                 <ContentPresenter Grid.Column="0"
                                   HorizontalAlignment="Center"
                                   VerticalAlignment="Center"
-                                  Content="{Binding}" />
+                                  Content="{Binding}"
+                                  Focusable="False" />
                 <TextBlock x:Name="TextBlock"
                            Grid.Column="1"
                            Margin="5,0,0,0"
                            VerticalAlignment="Center"
+                           Focusable="False"
                            Text="{Binding Name}" />
             </Grid>
             <Border.ToolTip>
@@ -101,32 +103,24 @@
         </Setter>
     </Style>
 
+    <Grid x:Key="AdornerContent"
+          Background="Transparent"
+          SnapsToDevicePixels="True"
+          x:Shared="False">
+        <Border Width="20"
+                Height="20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="CornflowerBlue"
+                CornerRadius="10">
+            <TextBlock HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="White"
+                       Text="i" />
+        </Border>
+    </Grid>
+
     <Style TargetType="{x:Type local:ConditionInfoAdorner}">
-        <Setter Property="AdornerContent">
-            <Setter.Value>
-                <Grid Background="Transparent" SnapsToDevicePixels="True">
-                    <Border Width="20"
-                            Height="20"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Background="CornflowerBlue"
-                            CornerRadius="10">
-                        <TextBlock HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Foreground="White"
-                                   Text="i" />
-                    </Border>
-                </Grid>
-            </Setter.Value>
-        </Setter>
-        <!--
-            <Setter Property="Template">
-            <Setter.Value>
-            <ControlTemplate TargetType="{x:Type local:ConditionInfoAdorner}">
-            
-            </ControlTemplate>
-            </Setter.Value>
-            </Setter>
-        -->
+        <Setter Property="AdornerContent" Value="{StaticResource AdornerContent}" />
     </Style>
 </ResourceDictionary>

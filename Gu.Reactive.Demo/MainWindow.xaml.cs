@@ -17,7 +17,7 @@ namespace Gu.Reactive.Demo
             DataContext = new ViewModel();
         }
 
-        private void StartButton_OnLoaded(object sender, RoutedEventArgs e)
+        private void OnAdornerButtonLoaded(object sender, RoutedEventArgs e)
         {
             var myAdornerLayer = AdornerLayer.GetAdornerLayer((ButtonBase)sender);
             var conditionInfoAdorner = new ConditionInfoAdorner((ButtonBase)sender);
