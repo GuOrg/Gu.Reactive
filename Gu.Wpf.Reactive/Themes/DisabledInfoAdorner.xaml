@@ -10,6 +10,7 @@
           x:Shared="False">
         <Border Width="20"
                 Height="20"
+                Margin="5"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
                 Background="CornflowerBlue"

@@ -50,7 +50,7 @@
                     <Setter Property="Height" Value="100" />
                     <Setter Property="Width" Value="100" />
                     <Setter Property="Margin" Value="5,10,5,10" />
-                    <Setter Property="reactiveUi:DisabledInfoBehavior.ShowInfoWhenDisabled" Value="True" />
+                    <Setter Property="reactiveUi:TouchToolTipBehavior.ShowInfoWhenDisabled" Value="True" />
                 </Style>
             </StackPanel.Resources>
 

@@ -100,7 +100,7 @@
     <Compile Include="ConditionButton.cs" />
     <Compile Include="ConditionRelayCommand.cs" />
     <Compile Include="TouchToolTipAdorner.cs" />
-    <Compile Include="DisabledInfoBehavior.cs" />
+    <Compile Include="TouchToolTipBehavior.cs" />
     <Compile Include="ManualRelayCommand.cs" />
     <Compile Include="ConditionControl.cs">
       <SubType>Code</SubType>

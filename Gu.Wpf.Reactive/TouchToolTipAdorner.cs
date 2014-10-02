@@ -8,9 +8,8 @@
     using System.Windows.Documents;
     using System.Windows.Media;
 
-    public class TouchToolTipAdorner : Adorner, IWeakEventListener
+    public class TouchToolTipAdorner : Adorner
     {
-        private readonly ButtonBase _button;
         private readonly Button _adornerButton;
         private readonly Popup _popup;
 
@@ -33,9 +32,9 @@
             new PropertyMetadata(default(object), OnPopUpContentChanged));
 
         public static readonly DependencyProperty PopUpContentTemplateProperty = DependencyProperty.Register(
-            "PopUpContentTemplate", 
-            typeof(DataTemplate), 
-            typeof(TouchToolTipAdorner), 
+            "PopUpContentTemplate",
+            typeof(DataTemplate),
+            typeof(TouchToolTipAdorner),
             new PropertyMetadata(default(DataTemplate), OnPopUpContentTemplateChanged));
 
         private readonly ContentPresenter _popUpContentPresenter;
@@ -46,7 +45,7 @@
         }
 
         // Be sure to call the base class constructor. 
-        public TouchToolTipAdorner(ButtonBase button)
+        public TouchToolTipAdorner(FrameworkElement button)
             : base(button)
         {
             var presenter = new FrameworkElementFactory(typeof(ContentPresenter));
@@ -60,7 +59,7 @@
                           };
             this._popUpContentPresenter = new ContentPresenter
                                         {
-                                            Content = AdornedElement, 
+                                            Content = AdornedElement,
                                             ContentTemplate = PopUpContentTemplate
                                         };
             _popup = new Popup
@@ -72,10 +71,18 @@
             };
             AddVisualChild(this._adornerButton);
             AddLogicalChild(this._adornerButton);
-            _button = button;
 
             this.SetupSubscriptions();
-            Gu.Wpf.Reactive.CanExecuteChangedEventManager.AddListener(_button.Command, this);
+            AdornedElement.IsEnabledChanged += this.AdornedElementChanged;
+            AdornedElement.IsVisibleChanged += this.AdornedElementChanged;
+
+        }
+
+        private void AdornedElementChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            this.Visibility = AdornedElement.IsVisible && AdornedElement.IsEnabled
+                                  ? Visibility.Hidden
+                                  : Visibility.Visible;
         }
 
         public object AdornerContent
@@ -126,26 +133,6 @@
             }
         }
 
-        public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
-        {
-            if (managerType != typeof(Gu.Wpf.Reactive.CanExecuteChangedEventManager))
-            {
-                return false;
-            }
-            var command = _button.Command;
-            if (command != null)
-            {
-                this.Visibility = command.CanExecute(_button.CommandParameter)
-                    ? Visibility.Hidden
-                    : Visibility.Visible;
-            }
-            else
-            {
-                this.Visibility = Visibility.Hidden;
-            }
-            return true;
-        }
-
         protected override int VisualChildrenCount
         {
             get
@@ -166,7 +153,8 @@
         protected override Size MeasureOverride(Size constraint)
         {
             _adornerButton.Measure(constraint);
-            return new Size(_button.ActualWidth, _button.ActualHeight);
+            var frameworkElement = ((FrameworkElement)AdornedElement);
+            return new Size(frameworkElement.ActualWidth, frameworkElement.ActualHeight);
         }
 
         protected override Size ArrangeOverride(Size finalSize)
@@ -209,7 +197,7 @@
                 Debug.WriteLine("_adornerButton.Click");
                 this._popup.IsOpen = !this._popup.IsOpen;
             };
-            this._button.LostFocus += (sender, args) =>
+            this.AdornedElement.LostFocus += (sender, args) =>
             {
                 Debug.WriteLine("_button.LostFocus");
                 if (this._popup.IsOpen)
