@@ -92,7 +92,7 @@
     <Compile Include="ConditionButton.cs" />
     <Compile Include="ConditionRelayCommand.cs" />
     <Compile Include="ConditionInfoAdorner.cs" />
-    <Compile Include="DisabledInfoBehaviour.cs" />
+    <Compile Include="DisabledInfoBehavior.cs" />
     <Compile Include="ManualRelayCommand.cs" />
     <Compile Include="ConditionControl.cs">
       <SubType>Code</SubType>

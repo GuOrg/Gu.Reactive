@@ -14,6 +14,24 @@
         private readonly Button _adornerButton;
         private readonly Popup _popup;
 
+        public static readonly DependencyProperty AdornerContentProperty = DependencyProperty.Register(
+            "AdornerContent",
+            typeof(object),
+            typeof(ConditionInfoAdorner),
+            new PropertyMetadata(null, PropertyChangedCallback));
+
+        public object AdornerContent
+        {
+            get
+            {
+                return (object)GetValue(AdornerContentProperty);
+            }
+            set
+            {
+                SetValue(AdornerContentProperty, value);
+            }
+        }
+
         static ConditionInfoAdorner()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ConditionInfoAdorner), new FrameworkPropertyMetadata(typeof(ConditionInfoAdorner)));
@@ -23,32 +41,19 @@
         public ConditionInfoAdorner(ButtonBase button)
             : base(button)
         {
+            var presenter = new FrameworkElementFactory(typeof(ContentPresenter));
             _adornerButton = new Button
                           {
-                              Width = 100,
-                              Height = 100,
                               Background = Brushes.Transparent,
                               HorizontalContentAlignment = HorizontalAlignment.Right,
                               VerticalContentAlignment = VerticalAlignment.Top,
                               FocusVisualStyle = null,
                               SnapsToDevicePixels = true,
-                              Content = new Border
-                                          {
-                                              Width = 20,
-                                              Height = 20,
-                                              CornerRadius = new CornerRadius(10),
-                                              Background = Brushes.CornflowerBlue,
-                                              HorizontalAlignment = HorizontalAlignment.Right,
-                                              VerticalAlignment = VerticalAlignment.Top,
-                                              Focusable = true,
-                                              Child = new TextBlock
-                                              {
-                                                  Text = "i",
-                                                  Foreground = Brushes.White,
-                                                  HorizontalAlignment = HorizontalAlignment.Center,
-                                                  VerticalAlignment = VerticalAlignment.Center
-                                              }
-                                          }
+                              Template = new ControlTemplate(typeof(Button))
+                                             {
+                                                 VisualTree = presenter
+                                             },
+                              Content = AdornerContent
                           };
 
             AddVisualChild(this._adornerButton);
@@ -62,7 +67,8 @@
                 Child = new Border
                 {
                     BorderThickness = new Thickness(1),
-                    Background = Brushes.LightYellow,
+                    CornerRadius = new CornerRadius(2),
+                    Background = Brushes.White,
                     Child = new ConditionControl
                     {
                         Condition = ((ConditionRelayCommand)_button.Command).Condition,
@@ -141,13 +147,19 @@
         protected override Size MeasureOverride(Size constraint)
         {
             _adornerButton.Measure(constraint);
-            return _adornerButton.DesiredSize;
+            return new Size(_button.ActualWidth, _button.ActualHeight);
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
             _adornerButton.Arrange(new Rect(new Point(0, 0), finalSize));
             return finalSize;
+        }
+
+        private static void PropertyChangedCallback(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            var adorner = (ConditionInfoAdorner)o;
+            adorner._adornerButton.SetValue(ContentControl.ContentProperty, e.NewValue);
         }
     }
 }

@@ -102,12 +102,31 @@
     </Style>
 
     <Style TargetType="{x:Type local:ConditionInfoAdorner}">
-        <!--<Setter Property="Template">
+        <Setter Property="AdornerContent">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:ConditionInfoAdorner}">
-
-                </ControlTemplate>
+                <Grid Background="Transparent" SnapsToDevicePixels="True">
+                    <Border Width="20"
+                            Height="20"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Background="CornflowerBlue"
+                            CornerRadius="10">
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="White"
+                                   Text="i" />
+                    </Border>
+                </Grid>
             </Setter.Value>
-        </Setter>-->
+        </Setter>
+        <!--
+            <Setter Property="Template">
+            <Setter.Value>
+            <ControlTemplate TargetType="{x:Type local:ConditionInfoAdorner}">
+            
+            </ControlTemplate>
+            </Setter.Value>
+            </Setter>
+        -->
     </Style>
 </ResourceDictionary>
