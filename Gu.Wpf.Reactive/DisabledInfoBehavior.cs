@@ -17,43 +17,7 @@
             typeof(DisabledInfoBehavior),
             new PropertyMetadata(false, OnShowInfoWhenDisabledChanged));
 
-        public static readonly DependencyProperty AdornerProperty = DependencyProperty.Register(
-            "Adorner",
-            typeof(FrameworkElement),
-            typeof(DisabledInfoBehavior),
-            new FrameworkPropertyMetadata(default(FrameworkElement), FrameworkPropertyMetadataOptions.AffectsMeasure | FrameworkPropertyMetadataOptions.AffectsArrange));
-
-        public static readonly DependencyProperty PopUpProperty = DependencyProperty.Register(
-            "PopUp",
-            typeof(FrameworkElement),
-            typeof(DisabledInfoBehavior),
-            new PropertyMetadata(default(FrameworkElement)));
-
-        private ConditionInfoAdorner _adorner;
-
-        public FrameworkElement Adorner
-        {
-            get
-            {
-                return (FrameworkElement)GetValue(AdornerProperty);
-            }
-            set
-            {
-                SetValue(AdornerProperty, value);
-            }
-        }
-
-        public FrameworkElement PopUp
-        {
-            get
-            {
-                return (FrameworkElement)GetValue(PopUpProperty);
-            }
-            set
-            {
-                SetValue(PopUpProperty, value);
-            }
-        }
+        private TouchToolTipAdorner _adorner;
 
         public static void SetShowInfoWhenDisabled(Button element, bool value)
         {
@@ -84,21 +48,23 @@
         {
             var button = (Button)o;
             var behaviors = Interaction.GetBehaviors(button);
-            if (!behaviors.Any(b => b is DisabledInfoBehavior))
+            var disabledInfoBehavior = (DisabledInfoBehavior)behaviors.FirstOrDefault(b => b is DisabledInfoBehavior);
+            if (disabledInfoBehavior == null)
             {
-                 behaviors.Add(new DisabledInfoBehavior());
+                disabledInfoBehavior = new DisabledInfoBehavior();
+                behaviors.Add(disabledInfoBehavior);
+            }
+            if (disabledInfoBehavior._adorner != null)
+            {
+                disabledInfoBehavior._adorner.Visibility = ((bool)e.NewValue) ? Visibility.Visible : Visibility.Hidden;
             }
         }
 
         private void AddAdorner()
         {
             var myAdornerLayer = AdornerLayer.GetAdornerLayer(AssociatedObject);
-            //var adorner = new ConditionInfoAdorner(AssociatedObject) { AdornerContent = this.Adorner };
-            this._adorner = new ConditionInfoAdorner(this.AssociatedObject);
-            if (Adorner != null)
-            {
-                this._adorner.AdornerContent = Adorner;
-            }
+            this._adorner = new TouchToolTipAdorner(this.AssociatedObject);
+            _adorner.Visibility = (bool)AssociatedObject.GetValue(ShowInfoWhenDisabledProperty) ? Visibility.Visible : Visibility.Hidden;
             myAdornerLayer.Add(this._adorner);
         }
     }
