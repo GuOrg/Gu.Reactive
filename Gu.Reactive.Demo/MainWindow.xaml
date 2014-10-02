@@ -43,37 +43,56 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Expander>
-
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <StackPanel.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/TouchToolTip.xaml" />
-                    </ResourceDictionary.MergedDictionaries>
 
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Height" Value="100" />
-                        <Setter Property="Width" Value="100" />
-                        <Setter Property="Margin" Value="5,10,5,10" />
-                        <Setter Property="reactiveUi:TouchToolTip.TouchToolTipStyle" Value="{StaticResource CondtionToolTipStyle}" />
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/TouchToolTip.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Height" Value="100" />
+                            <Setter Property="Width" Value="100" />
+                            <Setter Property="Margin" Value="5,10,5,10" />
+                            <Setter Property="reactiveUi:TouchToolTip.TouchToolTipStyle" Value="{StaticResource CondtionToolTipStyle}" />
+                        </Style>
+                    </ResourceDictionary>
+                </StackPanel.Resources>
+
+                <Button x:Name="OtherButton"
+                        Command="{Binding OtherCommand}"
+                        CommandParameter="{Binding Content,
+                                                   RelativeSource={RelativeSource Self}}"
+                        Content="Other" />
+
+                <Button Command="{Binding StartCommand}"
+                        CommandParameter="{Binding Content,
+                                                   RelativeSource={RelativeSource Self}}"
+                        Content="Start" />
+
+            </StackPanel>
+
+
+            <Button Width="100"
+                    Height="100"
+                    Command="{Binding StartCommand}"
+                    CommandParameter="">
+                <reactiveUi:TouchToolTip.TouchToolTipStyle>
+                    <Style BasedOn="{StaticResource {x:Type reactiveUi:TouchToolTipAdorner}}" TargetType="reactiveUi:TouchToolTipAdorner">
+                        <Setter Property="PopUpContent" Value="{Binding}" />
+                        <Setter Property="PopUpContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate DataType="{x:Type demo:ViewModel}">
+                                    <TextBlock Text="{Binding NegatedCondition1.Name}" />
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
-
-                </ResourceDictionary>
-
-
-            </StackPanel.Resources>
-
-            <Button x:Name="OtherButton"
-                    Command="{Binding OtherCommand}"
-                    CommandParameter="{Binding Content,
-                                               RelativeSource={RelativeSource Self}}"
-                    Content="Other" />
-
-            <Button Command="{Binding StartCommand}"
-                    CommandParameter="{Binding Content,
-                                               RelativeSource={RelativeSource Self}}"
-                    Content="Start" />
-
+                </reactiveUi:TouchToolTip.TouchToolTipStyle>
+            </Button>
         </StackPanel>
+
     </Grid>
 </Window>
