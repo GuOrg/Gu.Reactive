@@ -2,7 +2,9 @@
 
 namespace Gu.Reactive.Demo
 {
+    using System.Windows.Controls.Primitives;
     using System.Windows.Documents;
+    using Wpf.Reactive;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -17,8 +19,8 @@ namespace Gu.Reactive.Demo
 
         private void StartButton_OnLoaded(object sender, RoutedEventArgs e)
         {
-            var myAdornerLayer = AdornerLayer.GetAdornerLayer(StartButton);
-            myAdornerLayer.Add(new DisabledInfoAdorner(StartButton));
+            var myAdornerLayer = AdornerLayer.GetAdornerLayer((ButtonBase)sender);
+            myAdornerLayer.Add(new ConditionInfoAdorner((ButtonBase)sender));
         }
     }
 }
