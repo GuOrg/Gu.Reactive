@@ -20,6 +20,20 @@ namespace Gu.Reactive.Tests
             Assert.AreEqual(1, count);
         }
 
+
+        [TestCase("")]
+        [TestCase(null)]
+        public void ReactsOnStringEmptyOrNull(string prop)
+        {
+            int count = 0;
+            var fake = new FakeInpc();
+            var observable = fake.ToObservable(x => x.Prop1, false);
+            var disposable = observable.Subscribe(x => count++);
+            Assert.AreEqual(0, count);
+            fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
+            Assert.AreEqual(1, count);
+        }
+
         [Test]
         public void SignalsInitial()
         {

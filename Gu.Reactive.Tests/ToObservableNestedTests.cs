@@ -42,6 +42,21 @@ namespace Gu.Reactive.Tests
             Assert.AreEqual(4, count);
         }
 
+        [TestCase("")]
+        [TestCase(null)]
+        public void StringEmptyOrNull(string prop)
+        {
+            int count = 0;
+            var next = new Level();
+            var fake = new FakeInpc { Next = next };
+            var observable = fake.ToObservable(x => x.Next.Value, false);
+            var disposable = observable.Subscribe(x => count++);
+            fake.OnPropertyChanged(prop);
+            Assert.AreEqual(1, count);
+            next.OnPropertyChanged(prop);
+            Assert.AreEqual(2, count);
+        }
+
         [Test]
         public void ThreeLevelsExisting()
         {

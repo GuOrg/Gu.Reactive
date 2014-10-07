@@ -91,7 +91,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="CanExecuteChangedEventManager.cs" />
-    <Compile Include="ConditionButton.cs" />
     <Compile Include="ConditionRelayCommand.cs" />
     <Compile Include="TouchToolTipAdorner.cs" />
     <Compile Include="TouchToolTip.cs" />

@@ -38,38 +38,6 @@
         }
 
         [Test]
-        public void ToFilterObservableSubscribeTestStringEmptyOrNull()
-        {
-            int count = 0;
-            var fake = new FakeInpc();
-            var observable = fake.ToObservable(x => x.Prop1, false);
-            var disposable = observable.Subscribe(x => count++);
-            Assert.AreEqual(0, count);
-            fake.OnPropertyChanged("");
-            Assert.AreEqual(1, count);
-            fake.OnPropertyChanged(null);
-            Assert.AreEqual(2, count);
-        }
-
-        [Test]
-        public void ToFilterNestedObservableSubscribeTestStringEmptyOrNull()
-        {
-            int count = 0;
-            var next = new Level();
-            var fake = new FakeInpc { Next = next };
-            var observable = fake.ToObservable(x => x.Next.Value, false);
-            var disposable = observable.Subscribe(x => count++);
-            fake.OnPropertyChanged("");
-            Assert.AreEqual(1, count);
-            fake.OnPropertyChanged(null);
-            Assert.AreEqual(2, count);
-            next.OnPropertyChanged("");
-            Assert.AreEqual(3, count);
-            next.OnPropertyChanged(null);
-            Assert.AreEqual(4, count);
-        }
-
-        [Test]
         public void MemoryLeakDisposeTest()
         {
             var fake = new FakeInpc();
