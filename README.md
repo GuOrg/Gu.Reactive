@@ -1,5 +1,6 @@
 Gu.Reactive
 ===========
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/JohanLarsson/Gu.Reactive?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A collection of useful classes that uses System.Reactive
 
