@@ -1,7 +1,15 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Gu.Wpf.Reactive">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/ConditionControl.xaml" />
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/TouchToolTip.xaml" />
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/PopupButton.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <Style BasedOn="{StaticResource {x:Type ToolTip}}" TargetType="{x:Type local:TouchToolTip}">
+        <Setter Property="Placement" Value="Bottom" />
+        <Setter Property="StaysOpen" Value="True" />
+        <Setter Property="PlacementTarget" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PopupButton}}}" />
+    </Style>
 </ResourceDictionary>

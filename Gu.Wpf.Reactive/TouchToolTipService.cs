@@ -200,6 +200,8 @@
                 };
                 BindingOperations.SetBinding(touchToolTip, TouchToolTip.AdornedElementProperty, binding);
             }
+            var value =(bool) o.GetValue(TouchToolTipService.IsVisibleProperty);
+            ShowAdorner(o, value, true);
         }
     }
 }

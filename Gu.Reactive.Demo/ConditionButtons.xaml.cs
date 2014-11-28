@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Gu.Reactive.Demo
 {
     /// <summary>
-    /// Interaction logic for PopupButtonsDemo.xaml
+    /// Interaction logic for ConditionButtons.xaml
     /// </summary>
-    public partial class PopupButtonsDemo : UserControl
+    public partial class ConditionButtons : UserControl
     {
-        public PopupButtonsDemo()
+        public ConditionButtons()
         {
             InitializeComponent();
         }

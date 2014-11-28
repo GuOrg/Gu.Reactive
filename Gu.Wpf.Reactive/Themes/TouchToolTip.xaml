@@ -14,17 +14,15 @@
         </Border>
     </DataTemplate>
 
-    <Style x:Key="CondtionToolTipStyle" TargetType="{x:Type ButtonBase}">
-        <Setter Property="local:TouchToolTipService.OverlayTemplate" Value="{StaticResource DefaultOverlayTemplate}" />
+    <Style x:Key="ConditionInfoStyle" TargetType="{x:Type Button}">
         <Setter Property="local:TouchToolTipService.IsVisible" Value="False" />
         <Setter Property="local:TouchToolTipService.ToolTip">
             <Setter.Value>
-                <ToolTip DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}" Style="{StaticResource DefaultPopupStyle}">
-                    <ContentPresenter Content="{Binding ActualHeight, StringFormat='Sample binding: {0}'}" />
-                </ToolTip>
+                <local:TouchToolTip DataContext="{Binding RelativeSource={RelativeSource Self}}">
+                    <local:ConditionControl Command="{Binding AdornedElement.Command}" />
+                </local:TouchToolTip>
             </Setter.Value>
         </Setter>
-
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="local:TouchToolTipService.IsVisible" Value="True" />

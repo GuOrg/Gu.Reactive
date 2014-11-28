@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace Gu.Reactive.Demo
 {
     /// <summary>
-    /// Interaction logic for ExplicitlyStyledButton.xaml
+    /// Interaction logic for Conditions.xaml
     /// </summary>
-    public partial class ExplicitlyStyledButton : UserControl
+    public partial class Conditions : UserControl
     {
-        public ExplicitlyStyledButton()
+        public Conditions()
         {
             InitializeComponent();
         }

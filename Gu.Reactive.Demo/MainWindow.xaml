@@ -6,105 +6,63 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive"
         xmlns:wpf="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
-        Title="MainWindow" Width="525"
+        Title="MainWindow"
+        Width="525"
         Height="350"
         d:DataContext="{d:DesignInstance demo:ViewModel,
                                          IsDesignTimeCreatable=True}"
-        mc:Ignorable="d"
-        >
+        mc:Ignorable="d">
     <TabControl>
 
-        <TabItem Header="Conditions">
-            <AdornerDecorator>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="50" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <ToggleButton Grid.Column="0" Margin="7"
-                                      Content="Door"
-                                      IsChecked="{Binding IsDoorClosed}"
-                                      />
-                        <ToggleButton Grid.Column="1" Margin="7"
-                                      Content="Motor"
-                                      IsChecked="{Binding IsMotorRunning}"
-                                      />
-                    </Grid>
-
-                    <Expander Grid.Row="1" Header="Conditions">
-                        <ItemsControl ItemsSource="{Binding Conditions}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type reactive:ICondition}">
-                                    <wpf:ConditionControl Condition="{Binding}" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Expander>
-
-                    <StackPanel Grid.Row="2" Orientation="Horizontal">
-
-                        <StackPanel Orientation="Horizontal">
-
-                            <Button x:Name="OtherButton"
-                                    Command="{Binding OtherCommand}"
-                                    CommandParameter="{Binding Content,
-                                                               RelativeSource={RelativeSource Self}}"
-                                    Content="Other"
-                                    Style="{StaticResource ConditionInfoStyle}"
-                                    />
-
-                            <Button Command="{Binding StartCommand}"
-                                    CommandParameter="{Binding Content,
-                                                               RelativeSource={RelativeSource Self}}"
-                                    Content="Start"
-                                    Style="{StaticResource ConditionInfoStyle}"
-                                    />
-
-                        </StackPanel>
-                    </StackPanel>
-
-                </Grid>
-            </AdornerDecorator>
-
-        </TabItem>
         <!--
-            <TabItem Header="Overlay condition buttons">
+            <TabItem Header="Conditions">
             <AdornerDecorator>
-            <StackPanel Orientation="Horizontal">
-            <StackPanel Orientation="Horizontal">
-            <Button Command="{Binding OtherCommand}"
-            CommandParameter="{Binding Content,
-            RelativeSource={RelativeSource Self}}"
-            Content="Other" />
-            
-            <Button Command="{Binding StartCommand}"
-            CommandParameter="{Binding Content,
-            RelativeSource={RelativeSource Self}}"
-            Content="Start" />
-            
+            <Grid>
+            <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0">
+            <CheckBox Margin="7"
+            Content="Door"
+            IsChecked="{Binding IsDoorClosed}" />
+            <CheckBox Margin="7"
+            Content="Motor"
+            IsChecked="{Binding IsMotorRunning}" />
             </StackPanel>
-            </StackPanel>
-            </AdornerDecorator>
-            </TabItem>
             
-            <TabItem Header="PopupButton">
-            <AdornerDecorator>
-            <demo:PopupButtonsDemo />
+            <demo:Conditions Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" />
+            
+            <demo:ConditionButtons Grid.Row="1" Grid.Column="0" />
+            
+            </Grid>
             </AdornerDecorator>
+            
             </TabItem>
         -->
 
-        <TabItem Header="ToolTipAdorner">
-            <AdornerDecorator>
-                <demo:ExplicitlyStyledButton />
-            </AdornerDecorator>
-        </TabItem>
+        
+            <TabItem Header="Overlay condition buttons">
+            <demo:ConditionButtons />
+            </TabItem>
+        
+
+        
+            <TabItem Header="PopupButtons">
+            <demo:PopupButtons />
+            </TabItem>
+        
+
+        
+            <TabItem Header="AdornedButtons">
+            <demo:AdornedButtons />
+            </TabItem>
+        
     </TabControl>
 </Window>
