@@ -52,7 +52,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
@@ -66,10 +65,7 @@
       <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -78,7 +74,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Themes\Assets.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ConditionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\PopupButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -91,9 +95,15 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="CanExecuteChangedEventManager.cs" />
+    <Compile Include="CollectionView.cs" />
     <Compile Include="ConditionRelayCommand.cs" />
-    <Compile Include="TouchToolTipAdorner.cs" />
+    <Compile Include="ICollectionView.cs" />
+    <Compile Include="ListCollectionView.cs" />
+    <Compile Include="PopupButton.cs" />
+    <Compile Include="RelayCommand.cs" />
     <Compile Include="TouchToolTip.cs" />
+    <Compile Include="TouchToolTipAdorner.cs" />
+    <Compile Include="TouchToolTipService.cs" />
     <Compile Include="ManualRelayCommand.cs" />
     <Compile Include="ConditionControl.cs">
       <SubType>Code</SubType>

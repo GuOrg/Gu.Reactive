@@ -2,52 +2,34 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Gu.Wpf.Reactive">
 
-    <Grid x:Key="DefaultAdornerContent"
-          HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch"
-          Background="Transparent"
-          SnapsToDevicePixels="True"
-          Visibility="{Binding Visibility,
-                               RelativeSource={RelativeSource AncestorType=local:TouchToolTipAdorner}}"
-          x:Shared="False">
 
-        <Border Width="20"
-                Height="20"
-                Margin="5"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Top"
-                Background="CornflowerBlue"
-                CornerRadius="10">
-            <TextBlock HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Foreground="White"
-                       Text="i" />
-        </Border>
-    </Grid>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Assets.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
 
     <DataTemplate x:Key="ConditionTemplate" DataType="{x:Type local:ConditionRelayCommand}">
-        <Border Background="White">
+        <Border Background="Transparent">
             <local:ConditionControl Condition="{Binding Condition}" />
         </Border>
     </DataTemplate>
 
-    <Style x:Key="DefaultPopupStyle" TargetType="{x:Type Popup}">
-        <Setter Property="Placement" Value="Bottom" />
-        <Setter Property="StaysOpen" Value="True" />
-        <Setter Property="AllowsTransparency" Value="True" />
-        <Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TouchToolTipAdorner}}" />
+    <Style x:Key="CondtionToolTipStyle" TargetType="{x:Type ButtonBase}">
+        <Setter Property="local:TouchToolTipService.OverlayTemplate" Value="{StaticResource DefaultOverlayTemplate}" />
+        <Setter Property="local:TouchToolTipService.IsVisible" Value="False" />
+        <Setter Property="local:TouchToolTipService.ToolTip">
+            <Setter.Value>
+                <ToolTip DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}" Style="{StaticResource DefaultPopupStyle}">
+                    <ContentPresenter Content="{Binding ActualHeight, StringFormat='Sample binding: {0}'}" />
+                </ToolTip>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="local:TouchToolTipService.IsVisible" Value="True" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
-    <Style x:Key="CondtionToolTipStyle" TargetType="{x:Type local:TouchToolTipAdorner}">
-        <Setter Property="AdornerContent" Value="{StaticResource DefaultAdornerContent}" />
-        <Setter Property="PopUpStyle" Value="{StaticResource DefaultPopupStyle}" />
-        <Setter Property="PopUpContent" Value="{Binding AdornedElement.Command, RelativeSource={RelativeSource Self}}" />
-        <Setter Property="PopUpContentTemplate" Value="{StaticResource ConditionTemplate}" />
-    </Style>
-
-    <Style TargetType="{x:Type local:TouchToolTipAdorner}">
-        <Setter Property="AdornerContent" Value="{StaticResource DefaultAdornerContent}" />
-        <Setter Property="PopUpStyle" Value="{StaticResource DefaultPopupStyle}" />
-        <Setter Property="PopUpContent" Value="{Binding AdornedElement.DataContext, RelativeSource={RelativeSource Self}}" />
-    </Style>
 </ResourceDictionary>

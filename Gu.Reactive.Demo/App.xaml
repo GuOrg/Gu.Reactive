@@ -1,7 +1,41 @@
 ﻿<Application x:Class="Gu.Reactive.Demo.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive"
+             xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              StartupUri="MainWindow.xaml">
-    <Application.Resources />
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Height" Value="100" />
+                <Setter Property="Width" Value="100" />
+                <Setter Property="Margin" Value="5,10,5,10" />
+                <!--
+                    <Setter Property="reactive:TouchToolTipService.OverlayTemplate">
+                    <Setter.Value>
+                    <ControlTemplate>
+                    <Border BorderBrush="Teal" BorderThickness="2" />
+                    </ControlTemplate>
+                    </Setter.Value>
+                    </Setter>
+                -->
+                <Setter Property="reactive:TouchToolTipService.IsVisible" Value="False" />
+                <Setter Property="reactive:TouchToolTipService.ToolTip">
+                    <Setter.Value>
+                        <ToolTip DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+                            <reactive:ConditionControl Condition="{Binding Command.Condition}" />
+                        </ToolTip>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="reactive:TouchToolTipService.IsVisible" Value="True" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

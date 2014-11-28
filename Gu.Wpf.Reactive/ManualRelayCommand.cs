@@ -49,12 +49,13 @@
 
         public void RaiseCanExecuteChanged()
         {
-            EventHandler handler = this.InternalCanExecuteChanged;
+            var handler = this.InternalCanExecuteChanged;
             if (handler != null)
             {
-                if (_raiseCanExecuteOnDispatcher)
+                var application = Application.Current;
+                if (_raiseCanExecuteOnDispatcher && application != null && application.Dispatcher != null)
                 {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() => handler(this, new EventArgs())));
+                    application.Dispatcher.BeginInvoke(new Action(() => handler(this, new EventArgs())));
                 }
                 else
                 {

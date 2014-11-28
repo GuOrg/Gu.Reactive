@@ -3,100 +3,103 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:demo="clr-namespace:Gu.Reactive.Demo"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive"
-        xmlns:reactiveUi="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
+        xmlns:wpf="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
         Title="MainWindow"
         Width="525"
         Height="350"
         d:DataContext="{d:DesignInstance demo:ViewModel,
                                          IsDesignTimeCreatable=True}"
         mc:Ignorable="d">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <ToggleButton Grid.Column="0"
-                          Margin="7"
-                          Content="Door"
-                          IsChecked="{Binding IsDoorClosed}" />
-            <ToggleButton Grid.Column="1"
-                          Margin="7"
-                          Content="Motor"
-                          IsChecked="{Binding IsMotorRunning}" />
-        </Grid>
+    <TabControl>
 
-        <Expander Grid.Row="1" Header="Conditions">
-            <ItemsControl ItemsSource="{Binding Conditions}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type reactive:ICondition}">
-                        <reactiveUi:ConditionControl Condition="{Binding}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Expander>
+        <TabItem Header="1">
+            <AdornerDecorator>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <ToggleButton Grid.Column="0"
+                                      Margin="7"
+                                      Content="Door"
+                                      IsChecked="{Binding IsDoorClosed}" />
+                        <ToggleButton Grid.Column="1"
+                                      Margin="7"
+                                      Content="Motor"
+                                      IsChecked="{Binding IsMotorRunning}" />
+                    </Grid>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
-
-            <StackPanel Orientation="Horizontal">
-                <StackPanel.Resources>
-                    <ResourceDictionary>
-                        <ResourceDictionary.MergedDictionaries>
-                            <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/TouchToolTip.xaml" />
-                        </ResourceDictionary.MergedDictionaries>
-
-                        <Style TargetType="{x:Type Button}">
-                            <Setter Property="Height" Value="100" />
-                            <Setter Property="Width" Value="100" />
-                            <Setter Property="Margin" Value="5,10,5,10" />
-                            <Setter Property="reactiveUi:TouchToolTip.Style" Value="{StaticResource CondtionToolTipStyle}" />
-                        </Style>
-                    </ResourceDictionary>
-                </StackPanel.Resources>
-
-                <Button x:Name="OtherButton"
-                        Command="{Binding OtherCommand}"
-                        CommandParameter="{Binding Content,
-                                                   RelativeSource={RelativeSource Self}}"
-                        Content="Other" />
-
-                <Button Command="{Binding StartCommand}"
-                        CommandParameter="{Binding Content,
-                                                   RelativeSource={RelativeSource Self}}"
-                        Content="Start" />
-
-            </StackPanel>
-
-            <Button Width="100"
-                    Height="100"
-                    Command="{Binding StartCommand}"
-                    CommandParameter="">
-                <reactiveUi:TouchToolTip.Style>
-                    <Style TargetType="{x:Type reactiveUi:TouchToolTipAdorner}">
-                        <Setter Property="PopUpContent" Value="{Binding}" />
-                        <Setter Property="PopUpContentTemplate">
-                            <Setter.Value>
-                                <DataTemplate DataType="{x:Type demo:ViewModel}">
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Condition1.Name}" />
-                                        <TextBlock Text="{Binding Condition2.Name}" />
-                                    </StackPanel>
+                    <Expander Grid.Row="1" Header="Conditions">
+                        <ItemsControl ItemsSource="{Binding Conditions}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type reactive:ICondition}">
+                                    <wpf:ConditionControl Condition="{Binding}" />
                                 </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </reactiveUi:TouchToolTip.Style>
-            </Button>
-        </StackPanel>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Expander>
 
-    </Grid>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <Button x:Name="OtherButton"
+                                    Command="{Binding OtherCommand}"
+                                    CommandParameter="{Binding Content,
+                                                               RelativeSource={RelativeSource Self}}"
+                                    Content="Other" />
+
+                            <Button Command="{Binding StartCommand}"
+                                    CommandParameter="{Binding Content,
+                                                               RelativeSource={RelativeSource Self}}"
+                                    Content="Start" />
+
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+            </AdornerDecorator>
+
+        </TabItem>
+
+        <TabItem Header="2">
+            <AdornerDecorator>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Command="{Binding OtherCommand}"
+                                CommandParameter="{Binding Content,
+                                                           RelativeSource={RelativeSource Self}}"
+                                Content="Other" />
+
+                        <Button Command="{Binding StartCommand}"
+                                CommandParameter="{Binding Content,
+                                                           RelativeSource={RelativeSource Self}}"
+                                Content="Start" />
+
+                    </StackPanel>
+                </StackPanel>
+            </AdornerDecorator>
+        </TabItem>
+
+        <TabItem Header="PopupButton">
+            <AdornerDecorator>
+                <demo:PopupButtonsDemo />
+            </AdornerDecorator>
+        </TabItem>
+
+        <TabItem Header="ToolTipAdorner">
+            <AdornerDecorator>
+                <demo:ExplicitlyStyledButton />
+            </AdornerDecorator>
+        </TabItem>
+    </TabControl>
 </Window>

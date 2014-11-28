@@ -1,244 +1,112 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Controls.Primitives;
     using System.Windows.Documents;
     using System.Windows.Media;
 
-    public class TouchToolTipAdorner : Adorner
+    internal sealed class TouchToolTipAdorner : Adorner
     {
-        private static readonly DependencyPropertyKey AdornedElementPropertyKey = DependencyProperty.RegisterReadOnly(
-            "AdornedElement",
-            typeof(FrameworkElement),
-            typeof(TouchToolTipAdorner),
-            new PropertyMetadata((FrameworkElement)null));
-
-        public static readonly DependencyProperty AdornedElementProperty = AdornedElementPropertyKey.DependencyProperty;
-
-        public static readonly DependencyProperty AdornerContentProperty = DependencyProperty.Register(
-            "AdornerContent",
-            typeof(object),
-            typeof(TouchToolTipAdorner),
-            new PropertyMetadata(null, OnAdornerContentChanged));
-
-        public static readonly DependencyProperty PopUpStyleProperty = DependencyProperty.Register(
-            "PopUpStyle",
-            typeof(Style),
-            typeof(TouchToolTipAdorner),
-            new PropertyMetadata(default(Style), OnPopUpStyleChanged));
-
-        public static readonly DependencyProperty PopUpContentProperty = DependencyProperty.Register(
-            "PopUpContent",
-            typeof(object),
-            typeof(TouchToolTipAdorner),
-            new PropertyMetadata(default(object), OnPopUpContentChanged));
-
-        public static readonly DependencyProperty PopUpContentTemplateProperty = DependencyProperty.Register(
-            "PopUpContentTemplate",
-            typeof(DataTemplate),
-            typeof(TouchToolTipAdorner),
-            new PropertyMetadata(default(DataTemplate), OnPopUpContentTemplateChanged));
-
-        private readonly Button _adornerButton;
-        private readonly Popup _popup;
-        private readonly ContentPresenter _popUpContentPresenter;
+        private PopupButton _adornerButton;
 
         static TouchToolTipAdorner()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TouchToolTipAdorner), new FrameworkPropertyMetadata(typeof(TouchToolTipAdorner)));
         }
 
-        // Be sure to call the base class constructor. 
-        public TouchToolTipAdorner(FrameworkElement element)
-            : base(element)
+        /// <summary>
+        /// Be sure to call the base class constructor. 
+        /// </summary>
+        /// <param name="adornedElement"></param>
+        /// <param name="overlayTemplate">A style for a PopupButton</param>
+        public TouchToolTipAdorner(UIElement adornedElement, ToolTip toolTip, ControlTemplate overlayTemplate)
+            : base(adornedElement)
         {
-            AdornedElement = element;
-            var presenter = new FrameworkElementFactory(typeof(ContentPresenter));
-            _adornerButton = new Button
+            Debug.Assert(adornedElement != null, "adornedElement should not be null");
+            //Debug.Assert(overlayTemplate != null, "adornerTemplate should not be null");
+            _adornerButton = new PopupButton
                           {
-                              Template = new ControlTemplate(typeof(Button))
-                                             {
-                                                 VisualTree = presenter
-                                             },
-                              Content = AdornerContent
+                              IsTabStop = false,
                           };
-            this._popUpContentPresenter = new ContentPresenter
-                                        {
-                                            Content = PopUpContent,
-                                            ContentTemplate = PopUpContentTemplate
-                                        };
-            _popup = new Popup
+            if (overlayTemplate != null)
             {
-                PlacementTarget = this,
-                DataContext = element,
-                Style = PopUpStyle,
-                Child = _popUpContentPresenter
-            };
-            AddVisualChild(this._adornerButton);
-            AddLogicalChild(this._adornerButton);
+                _adornerButton.Template = overlayTemplate;
+            }
+            if (toolTip != null)
+            {
+                _adornerButton.TouchToolTip = toolTip;
 
-            this.SetupSubscriptions();
-            base.AdornedElement.IsEnabledChanged += this.AdornedElementStateChanged;
-            base.AdornedElement.IsVisibleChanged += this.AdornedElementStateChanged;
-
+                //toolTip.DataContext = adornedElement;
+                // Not sure we want ^, check bindings for DataContext and DataContext == null first 
+            }
+            else
+            {
+                _adornerButton.BorderBrush = Brushes.HotPink;
+                _adornerButton.BorderThickness = new Thickness(2);
+            }
+            AddVisualChild(_adornerButton);
         }
 
-        public new FrameworkElement AdornedElement
+        /// <summary>
+        /// The clear the single child of a TemplatedAdorner
+        /// </summary>
+        public void ClearChild()
         {
-            get { return (FrameworkElement)GetValue(AdornedElementProperty); }
-            private set { SetValue(AdornedElementPropertyKey, value); }
-        }
-
-        public object AdornerContent
-        {
-            get
-            {
-                return (object)GetValue(AdornerContentProperty);
-            }
-            set
-            {
-                SetValue(AdornerContentProperty, value);
-            }
-        }
-
-        public Style PopUpStyle
-        {
-            get
-            {
-                return (Style)GetValue(PopUpStyleProperty);
-            }
-            set
-            {
-                SetValue(PopUpStyleProperty, value);
-            }
-        }
-
-        public object PopUpContent
-        {
-            get
-            {
-                return (object)GetValue(PopUpContentProperty);
-            }
-            set
-            {
-                SetValue(PopUpContentProperty, value);
-            }
-        }
-
-        public DataTemplate PopUpContentTemplate
-        {
-            get
-            {
-                return (DataTemplate)GetValue(PopUpContentTemplateProperty);
-            }
-            set
-            {
-                SetValue(PopUpContentTemplateProperty, value);
-            }
+            RemoveVisualChild(_adornerButton);
+            _adornerButton = null;
         }
 
         protected override int VisualChildrenCount
         {
-            get
-            {
-                return 1;
-            }
+            get { return _adornerButton != null ? 1 : 0; }
         }
 
+        /// <summary>
+        ///   Derived class must implement to support Visual children. The method must return
+        ///    the child at the specified index. Index must be between 0 and GetVisualChildrenCount-1.
+        ///
+        ///    By default a Visual does not have any children.
+        ///
+        ///  Remark:
+        ///       During this virtual call it is not valid to modify the Visual tree.
+        /// </summary>
         protected override Visual GetVisualChild(int index)
         {
-            if (index == 0)
+            if (_adornerButton == null || index != 0)
             {
-                return _adornerButton;
+                throw new ArgumentOutOfRangeException("index", index, "nope: _child == null || index != 0");
             }
-            throw new ArgumentOutOfRangeException("index");
+
+            return _adornerButton;
         }
 
         protected override Size MeasureOverride(Size constraint)
         {
+            Debug.Assert(_adornerButton != null, "_child should not be null");
             _adornerButton.Measure(constraint);
-            return new Size(AdornedElement.ActualWidth, AdornedElement.ActualHeight);
-        }
-
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            _adornerButton.Arrange(new Rect(new Point(0, 0), finalSize));
-            return finalSize;
-        }
-
-        private static void OnAdornerContentChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            var adorner = (TouchToolTipAdorner)o;
-            adorner._adornerButton.SetValue(ContentControl.ContentProperty, e.NewValue);
-        }
-
-        private static void OnPopUpStyleChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            if (DesignerProperties.GetIsInDesignMode(o))
+            if (AdornedElement != null)
             {
-                return;
+                AdornedElement.InvalidateMeasure();
+                AdornedElement.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+                return AdornedElement.RenderSize;
             }
-            var adorner = (TouchToolTipAdorner)o;
-            adorner._popup.SetValue(StyleProperty, e.NewValue);
+            _adornerButton.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+            return (_adornerButton).DesiredSize;
         }
 
-        private static void OnPopUpContentChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        protected override Size ArrangeOverride(Size size)
         {
-            var adorner = (TouchToolTipAdorner)o;
-            adorner._popUpContentPresenter.SetValue(ContentControl.ContentProperty, e.NewValue);
-        }
+            Size finalSize;
 
-        private static void OnPopUpContentTemplateChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            var adorner = (TouchToolTipAdorner)o;
-            adorner._popUpContentPresenter.SetValue(ContentControl.ContentTemplateProperty, e.NewValue);
-        }
+            finalSize = base.ArrangeOverride(size);
 
-        /// <summary>
-        /// Attach to the events needed for handling open/close
-        /// </summary>
-        private void SetupSubscriptions()
-        {
-            this._adornerButton.Click += (sender, args) =>
+            if (_adornerButton != null)
             {
-                Debug.WriteLine("_adornerButton.Click");
-                this._popup.IsOpen = !this._popup.IsOpen;
-            };
-            base.AdornedElement.LostFocus += (sender, args) =>
-            {
-                Debug.WriteLine("_button.LostFocus");
-                if (this._popup.IsOpen)
-                {
-                    this._popup.IsOpen = false;
-                }
-            };
-            this._adornerButton.LostFocus += (sender, args) =>
-            {
-                Debug.WriteLine("_adornerButton.LostFocus");
-                if (this._popup.IsOpen && !this._popup.IsKeyboardFocusWithin)
-                {
-                    this._popup.IsOpen = false;
-                }
-            };
-            this._popup.LostFocus += (sender, args) =>
-            {
-                Debug.WriteLine("_popup.LostFocus");
-                if (this._popup.IsOpen && !(this._adornerButton.IsKeyboardFocusWithin || this._popup.IsKeyboardFocusWithin))
-                {
-                    this._popup.IsOpen = false;
-                }
-            };
-        }
-
-        private void AdornedElementStateChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            this.Visibility = base.AdornedElement.IsVisible && base.AdornedElement.IsEnabled
-                                  ? Visibility.Hidden
-                                  : Visibility.Visible;
+                _adornerButton.Arrange(new Rect(new Point(), finalSize));
+            }
+            return finalSize;
         }
     }
 }
