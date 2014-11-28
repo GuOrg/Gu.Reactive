@@ -75,7 +75,15 @@
                 Debug.WriteLine("toolTip == null");
                 return;
             }
-            if (toolTip.IsOpen && !(this.IsKeyboardFocusWithin || toolTip.IsKeyboardFocusWithin))
+            var close = toolTip.IsOpen && !(this.IsKeyboardFocusWithin || toolTip.IsKeyboardFocusWithin);
+            Debug.Print(
+                "toolTip.IsOpen: {0} && (this.IsKeyboardFocusWithin: {1} || toolTip.IsKeyboardFocusWithin: {2}): {3}",
+                toolTip.IsOpen,
+                this.IsKeyboardFocusWithin,
+                toolTip.IsKeyboardFocusWithin,
+                close);
+
+            if (close)
             {
                 toolTip.IsOpen = false;
                 Debug.WriteLine(toolTip.IsOpen);
