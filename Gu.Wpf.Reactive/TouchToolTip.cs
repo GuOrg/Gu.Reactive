@@ -9,11 +9,21 @@
     /// </summary>
     public class TouchToolTip : ToolTip
     {
+        /// <summary>
+        /// Exposong the adorned element for convenience
+        /// </summary>
         public static readonly DependencyProperty AdornedElementProperty = DependencyProperty.Register(
             "AdornedElement",
             typeof(FrameworkElement),
             typeof(TouchToolTip),
-            new PropertyMetadata(default(FrameworkElement), OnAdornedElementChanged));
+            new PropertyMetadata(
+                default(FrameworkElement),
+                OnAdornedElementChanged));
+
+        static TouchToolTip()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(TouchToolTip), new FrameworkPropertyMetadata(typeof(TouchToolTip)));
+        }
 
         public FrameworkElement AdornedElement
         {
@@ -34,7 +44,7 @@
             {
                 var binding = new Binding(DataContextProperty.Name)
                                   {
-                                      Mode = BindingMode.OneWay, 
+                                      Mode = BindingMode.OneWay,
                                       Source = frameworkElement
                                   };
                 BindingOperations.SetBinding(o, DataContextProperty, binding);

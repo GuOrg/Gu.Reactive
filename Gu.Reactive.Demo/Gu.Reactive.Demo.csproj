@@ -83,15 +83,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ExplicitlyStyledButton.xaml.cs">
-      <DependentUpon>ExplicitlyStyledButton.xaml</DependentUpon>
+    <Compile Include="AdornedButtons.xaml.cs">
+      <DependentUpon>AdornedButtons.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PopupButtonsDemo.xaml.cs">
-      <DependentUpon>PopupButtonsDemo.xaml</DependentUpon>
+    <Compile Include="ConditionButtons.xaml.cs">
+      <DependentUpon>ConditionButtons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Conditions.xaml.cs">
+      <DependentUpon>Conditions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopupButtons.xaml.cs">
+      <DependentUpon>PopupButtons.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel.cs" />
-    <Page Include="ExplicitlyStyledButton.xaml">
+    <Page Include="AdornedButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConditionButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Conditions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -107,7 +121,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PopupButtonsDemo.xaml">
+    <Page Include="PopupButtons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

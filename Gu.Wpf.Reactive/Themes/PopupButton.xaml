@@ -5,18 +5,12 @@
         <ResourceDictionary Source="Assets.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="DefaultPopupStyle" TargetType="{x:Type ToolTip}">
-        <Setter Property="Placement" Value="Bottom" />
-        <Setter Property="StaysOpen" Value="True" />
-        <Setter Property="Background" Value="Tomato" />
-        <Setter Property="PlacementTarget" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PopupButton}}}" />
-    </Style>
-
     <Style TargetType="{x:Type local:PopupButton}">
+        <Setter Property="Focusable" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="CornflowerBlue" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template" Value="{StaticResource DefaultOverlayTemplate}" />
     </Style>
 </ResourceDictionary>

@@ -8,33 +8,12 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
-            <Style x:Key="ConditionInfoStyle" TargetType="{x:Type Button}">
-                <Setter Property="Height" Value="100" />
+            <Style x:Key="LocalInfoButtonStyle"
+                   BasedOn="{StaticResource ConditionInfoStyle}"
+                   TargetType="{x:Type Button}">
                 <Setter Property="Width" Value="100" />
-                <Setter Property="Margin" Value="5,10,5,10" />
-                <!--
-                    <Setter Property="reactive:TouchToolTipService.OverlayTemplate">
-                    <Setter.Value>
-                    <ControlTemplate>
-                    <Border BorderBrush="Teal" BorderThickness="2" />
-                    </ControlTemplate>
-                    </Setter.Value>
-                    </Setter>
-                -->
-                <Setter Property="reactive:TouchToolTipService.IsVisible" Value="False" />
-                <Setter Property="reactive:TouchToolTipService.ToolTip">
-                    <Setter.Value>
-                        <reactive:TouchToolTip DataContext="{Binding RelativeSource={RelativeSource Self}}">
-                            <reactive:ConditionControl Condition="{Binding AdornedElement.Command.Condition}" />
-                        </reactive:TouchToolTip>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="reactive:TouchToolTipService.IsVisible" Value="True" />
-                    </Trigger>
-                </Style.Triggers>
+                <Setter Property="Height" Value="100" />
+                <Setter Property="Margin" Value="20" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

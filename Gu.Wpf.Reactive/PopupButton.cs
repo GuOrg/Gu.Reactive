@@ -11,7 +11,9 @@
             "TouchToolTip", 
             typeof(ToolTip), 
             typeof(PopupButton), 
-            new PropertyMetadata(default(ToolTip), OnTouchToolTipChanged));
+            new PropertyMetadata(
+                default(ToolTip),
+                OnTouchToolTipChanged));
 
         static PopupButton()
         {
@@ -60,8 +62,8 @@
                 Debug.WriteLine("toolTip == null");
                 return;
             }
-            //ToolTipService.SetPlacementTarget(toolTip, this);
             toolTip.IsOpen = !toolTip.IsOpen;
+            Debug.WriteLine(toolTip.IsOpen);
         }
 
         private void OnLostFocus(object sender, RoutedEventArgs routedEventArgs)
@@ -73,38 +75,11 @@
                 Debug.WriteLine("toolTip == null");
                 return;
             }
-            toolTip.IsOpen = false;
+            if (toolTip.IsOpen && !(this.IsKeyboardFocusWithin || toolTip.IsKeyboardFocusWithin))
+            {
+                toolTip.IsOpen = false;
+                Debug.WriteLine(toolTip.IsOpen);
+            }
         }
-
-        ///// <summary>
-        ///// Attach to the events needed for handling open/close
-        ///// </summary>
-        //private void SetupSubscriptions()
-        //{
-        //    this.IsVisibleChanged += (sender, args) =>
-        //    {
-        //        Debug.WriteLine("_button.LostFocus");
-        //        if (toolTip.IsOpen)
-        //        {
-        //            toolTip.IsOpen = false;
-        //        }
-        //    };
-        //    this.LostFocus += (sender, args) =>
-        //    {
-        //        Debug.WriteLine("_adornerButton.LostFocus");
-        //        if (toolTip.IsOpen && !toolTip.IsKeyboardFocusWithin)
-        //        {
-        //            toolTip.IsOpen = false;
-        //        }
-        //    };
-        //    toolTip.LostFocus += (sender, args) =>
-        //    {
-        //        Debug.WriteLine("_popup.LostFocus");
-        //        if (toolTip.IsOpen && !(this.IsKeyboardFocusWithin || toolTip.IsKeyboardFocusWithin))
-        //        {
-        //            toolTip.IsOpen = false;
-        //        }
-        //    };
-        //}
     }
 }
