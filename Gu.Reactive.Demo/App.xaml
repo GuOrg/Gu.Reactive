@@ -8,6 +8,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <!--  Must have x:Shared="False" or else the same instance of tooltip is used.  -->
             <Style x:Key="LocalInfoButtonStyle"
                    BasedOn="{StaticResource ConditionInfoStyle}"
                    TargetType="{x:Type Button}"

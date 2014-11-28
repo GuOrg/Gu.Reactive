@@ -4,8 +4,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:wpf="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive"
+             xmlns:wpf="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              d:DataContext="{d:DesignInstance demo:ViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -18,6 +18,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <wpf:ConditionControl Command="{Binding OtherCommand}" />
+        <wpf:ConditionControl ConditionFromCommand="{Binding OtherCommand}" />
     </StackPanel>
 </UserControl>
