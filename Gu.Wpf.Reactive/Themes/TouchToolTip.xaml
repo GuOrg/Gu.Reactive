@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Gu.Wpf.Reactive"
-                    >
+                    xmlns:local="clr-namespace:Gu.Wpf.Reactive">
 
 
     <ResourceDictionary.MergedDictionaries>
@@ -23,7 +22,7 @@
         </Border>
     </DataTemplate>
 
-    <Style x:Key="ConditionInfoStyle" TargetType="{x:Type Button}">
+    <Style x:Key="ConditionInfoStyle" TargetType="{x:Type Button}" x:Shared="False">
         <Setter Property="local:TouchToolTipService.IsVisible" Value="False" />
         <Setter Property="local:TouchToolTipService.ToolTip">
             <Setter.Value>
