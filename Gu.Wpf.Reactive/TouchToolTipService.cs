@@ -149,17 +149,13 @@
             return null;
         }
 
-        //private static void OnAdornerStyleChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        //{
-        //    if (GetHasError(d))
-        //    {
-        //        ShowValidationAdorner(d, false);
-        //        ShowValidationAdorner(d, true);
-        //    }
-        //}
         private static void OnIsVisibleChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
-            ShowAdorner(o, (bool)e.NewValue, true);
+            var toolTip = GetToolTip(o);
+            if (toolTip != null)
+            {
+                ShowAdorner(o, (bool)e.NewValue, true);
+            }
         }
 
         private static void OnAdornerTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
