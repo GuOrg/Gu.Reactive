@@ -99,7 +99,12 @@
                               ItemsSource="{TemplateBinding RootCondition}">
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="TreeViewItem">
-                                <Setter Property="IsExpanded" Value="True" />
+                                <Setter Property="IsExpanded" Value="False" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="False">
+                                        <Setter Property="IsExpanded" Value="True" />
+                                    </DataTrigger>
+                                </Style.Triggers>
                             </Style>
                         </TreeView.ItemContainerStyle>
                     </TreeView>

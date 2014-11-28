@@ -2,6 +2,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/ConditionControl.xaml" />
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/TouchToolTip.xaml" />
+        <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/PopupButton.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
 </ResourceDictionary>

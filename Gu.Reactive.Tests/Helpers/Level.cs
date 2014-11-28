@@ -9,10 +9,12 @@
     {
         private bool _value;
         private Level _next;
-
         private string _name;
 
+        private bool? _nullableValue;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         public bool Value
         {
             get
@@ -26,7 +28,24 @@
                     return;
                 }
                 _value = value;
-                this.OnPropertyChanged();
+                OnPropertyChanged();
+            }
+        }
+
+        public bool? NullableValue
+        {
+            get
+            {
+                return _nullableValue;
+            }
+            set
+            {
+                if (Equals(value, _nullableValue))
+                {
+                    return;
+                }
+                _nullableValue = value;
+                OnPropertyChanged();
             }
         }
 
@@ -43,7 +62,7 @@
                     return;
                 }
                 _name = value;
-                this.OnPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -60,14 +79,14 @@
                     return;
                 }
                 _next = value;
-                this.OnPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
         [NotifyPropertyChangedInvocator]
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = this.PropertyChanged;
+            var handler = PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));

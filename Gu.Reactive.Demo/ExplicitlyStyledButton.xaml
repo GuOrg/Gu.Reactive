@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="Gu.Reactive.Demo.ExplicitlyStyledButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <Grid>
+        <Button x:Name="Button"
+                Width="200"
+                IsEnabled="False"
+                reactive:TouchToolTipService.IsVisible="True">
+            <!--
+                <Button.(wpf:TouchToolTipService.OverlayTemplate)>
+                <ControlTemplate>
+                <Border BorderBrush="Teal" BorderThickness="2" Background="Transparent">
+                <TextBlock Text="Overlay"></TextBlock>
+                </Border>
+                </ControlTemplate>
+                </Button.(wpf:TouchToolTipService.OverlayTemplate)>
+            -->
+            <StackPanel>
+                <TextBlock Text="Explicit style (always visible)" />
+                <TextBlock Text="Tooltip bound to command condition" />
+            </StackPanel>
+
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="reactive:TouchToolTipService.IsVisible" Value="False" />
+                    <Setter Property="reactive:TouchToolTipService.ToolTip">
+                        <Setter.Value>
+                            <ToolTip DataContext="{Binding ElementName=Button}">
+                                <reactive:ConditionControl Condition="{Binding Command.Condition}" />
+                            </ToolTip>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Setter Property="reactive:TouchToolTipService.OverlayTemplate">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border BorderBrush="Teal" BorderThickness="2" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="reactive:TouchToolTipService.IsVisible" Value="True" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </Grid>
+</UserControl>
