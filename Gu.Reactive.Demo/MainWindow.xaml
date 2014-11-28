@@ -6,15 +6,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive"
         xmlns:wpf="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
-        Title="MainWindow"
-        Width="525"
+        Title="MainWindow" Width="525"
         Height="350"
         d:DataContext="{d:DesignInstance demo:ViewModel,
                                          IsDesignTimeCreatable=True}"
-        mc:Ignorable="d">
+        mc:Ignorable="d"
+        >
     <TabControl>
 
-        <TabItem Header="1">
+        <TabItem Header="Conditions">
             <AdornerDecorator>
                 <Grid>
                     <Grid.RowDefinitions>
@@ -28,14 +28,14 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <ToggleButton Grid.Column="0"
-                                      Margin="7"
+                        <ToggleButton Grid.Column="0" Margin="7"
                                       Content="Door"
-                                      IsChecked="{Binding IsDoorClosed}" />
-                        <ToggleButton Grid.Column="1"
-                                      Margin="7"
+                                      IsChecked="{Binding IsDoorClosed}"
+                                      />
+                        <ToggleButton Grid.Column="1" Margin="7"
                                       Content="Motor"
-                                      IsChecked="{Binding IsMotorRunning}" />
+                                      IsChecked="{Binding IsMotorRunning}"
+                                      />
                     </Grid>
 
                     <Expander Grid.Row="1" Header="Conditions">
@@ -56,12 +56,16 @@
                                     Command="{Binding OtherCommand}"
                                     CommandParameter="{Binding Content,
                                                                RelativeSource={RelativeSource Self}}"
-                                    Content="Other" />
+                                    Content="Other"
+                                    Style="{StaticResource ConditionInfoStyle}"
+                                    />
 
                             <Button Command="{Binding StartCommand}"
                                     CommandParameter="{Binding Content,
                                                                RelativeSource={RelativeSource Self}}"
-                                    Content="Start" />
+                                    Content="Start"
+                                    Style="{StaticResource ConditionInfoStyle}"
+                                    />
 
                         </StackPanel>
                     </StackPanel>
@@ -70,31 +74,32 @@
             </AdornerDecorator>
 
         </TabItem>
-
-        <TabItem Header="2">
+        <!--
+            <TabItem Header="Overlay condition buttons">
             <AdornerDecorator>
-                <StackPanel Orientation="Horizontal">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Command="{Binding OtherCommand}"
-                                CommandParameter="{Binding Content,
-                                                           RelativeSource={RelativeSource Self}}"
-                                Content="Other" />
-
-                        <Button Command="{Binding StartCommand}"
-                                CommandParameter="{Binding Content,
-                                                           RelativeSource={RelativeSource Self}}"
-                                Content="Start" />
-
-                    </StackPanel>
-                </StackPanel>
+            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding OtherCommand}"
+            CommandParameter="{Binding Content,
+            RelativeSource={RelativeSource Self}}"
+            Content="Other" />
+            
+            <Button Command="{Binding StartCommand}"
+            CommandParameter="{Binding Content,
+            RelativeSource={RelativeSource Self}}"
+            Content="Start" />
+            
+            </StackPanel>
+            </StackPanel>
             </AdornerDecorator>
-        </TabItem>
-
-        <TabItem Header="PopupButton">
+            </TabItem>
+            
+            <TabItem Header="PopupButton">
             <AdornerDecorator>
-                <demo:PopupButtonsDemo />
+            <demo:PopupButtonsDemo />
             </AdornerDecorator>
-        </TabItem>
+            </TabItem>
+        -->
 
         <TabItem Header="ToolTipAdorner">
             <AdornerDecorator>

@@ -2,16 +2,18 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
-             mc:Ignorable="d">
-    <Grid>
-        <Button x:Name="Button"
-                Width="200"
-                IsEnabled="False"
-                reactive:TouchToolTipService.IsVisible="True">
+             d:DataContext="{d:DesignInstance demo:ViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300"
+             mc:Ignorable="d"
+             >
+    <StackPanel>
+        <Button x:Name="Button" Width="200"
+                IsEnabled="False" reactive:TouchToolTipService.IsVisible="True"
+                Margin="20"
+                >
             <!--
                 <Button.(wpf:TouchToolTipService.OverlayTemplate)>
                 <ControlTemplate>
@@ -32,7 +34,10 @@
                     <Setter Property="reactive:TouchToolTipService.ToolTip">
                         <Setter.Value>
                             <ToolTip DataContext="{Binding ElementName=Button}">
-                                <reactive:ConditionControl Condition="{Binding Command.Condition}" />
+                                <StackPanel>
+                                    <TextBlock Text="{Binding ActualHeight, StringFormat='Height: {0}'}" />
+                                    <TextBlock Text="{Binding ActualWidth, StringFormat='Width: {0}'}" />
+                                </StackPanel>
                             </ToolTip>
                         </Setter.Value>
                     </Setter>
@@ -40,7 +45,9 @@
                     <Setter Property="reactive:TouchToolTipService.OverlayTemplate">
                         <Setter.Value>
                             <ControlTemplate>
-                                <Border BorderBrush="Teal" BorderThickness="2" />
+                                <Border Background="Transparent" BorderBrush="Teal"
+                                        BorderThickness="2"
+                                        />
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -53,5 +60,65 @@
                 </Style>
             </Button.Style>
         </Button>
-    </Grid>
+
+        <Button Width="200" IsEnabled="False"
+                reactive:TouchToolTipService.IsVisible="True"
+                Margin="20"
+                >
+            <StackPanel>
+                <TextBlock Text="Explicit style (always visible)" />
+                <TextBlock Text="TouchToolTip" />
+            </StackPanel>
+
+            <Button.Style>
+                <Style TargetType="{x:Type Button}">
+                    <Setter Property="reactive:TouchToolTipService.IsVisible" Value="False" />
+                    <Setter Property="reactive:TouchToolTipService.ToolTip">
+                        <Setter.Value>
+                            <reactive:TouchToolTip>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding ActualHeight, ElementName=Button, StringFormat='Height: {0} (ElementName)'}" />
+                                    <TextBlock Text="{Binding AdornedElement.ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type reactive:TouchToolTip}}, StringFormat='Width: {0}'}" />
+                                    <TextBlock Text="{Binding Condition1.Name, StringFormat='From vm: {0}'}" />
+                                </StackPanel>
+                            </reactive:TouchToolTip>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Setter Property="reactive:TouchToolTipService.OverlayTemplate">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Border Background="Transparent" BorderBrush="Teal"
+                                        BorderThickness="2"
+                                        />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="reactive:TouchToolTipService.IsVisible" Value="True" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+
+        <Button x:Name="StandardButton" Width="200" Margin="20" >
+            <StackPanel>
+                <TextBlock Text="Ordinary button" />
+                <TextBlock Text="Standard tooltip" />
+            </StackPanel>
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel>
+                        <TextBlock Text="{Binding ActualHeight, ElementName=Button, StringFormat='Height: {0} (ElementName)'}" />
+                        <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Button}}, StringFormat='Width: {0} (RelativeSource={RelativeSource AncestorType={x:Type Button}})'}" />
+                        <TextBlock Text="{Binding Condition1.Name, StringFormat='From vm: {0}'}" />
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
+    </StackPanel>
 </UserControl>

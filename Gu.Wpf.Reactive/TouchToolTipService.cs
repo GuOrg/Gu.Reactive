@@ -3,6 +3,7 @@
     using System;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Data;
     using System.Windows.Documents;
     using System.Windows.Threading;
 
@@ -181,8 +182,23 @@
             {
                 if (newTip.DataContext == null)
                 {
-                    newTip.DataContext = o.GetValue(FrameworkElement.DataContextProperty);
+                    var binding = new Binding(FrameworkElement.DataContextProperty.Name)
+                                      {
+                                          Source = o, 
+                                          Mode = BindingMode.OneWay
+                                      };
+                    BindingOperations.SetBinding(newTip, FrameworkElement.DataContextProperty, binding);
                 }
+            }
+            var touchToolTip = newTip as TouchToolTip;
+            if (touchToolTip != null)
+            {
+                var binding = new Binding()
+                {
+                    Source = o,
+                    Mode = BindingMode.OneWay
+                };
+                BindingOperations.SetBinding(touchToolTip, TouchToolTip.AdornedElementProperty, binding);
             }
         }
     }
