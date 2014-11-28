@@ -9,7 +9,7 @@
                 <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <Style TargetType="{x:Type Button}">
+            <Style x:Key="ConditionInfoStyle" TargetType="{x:Type Button}">
                 <Setter Property="Height" Value="100" />
                 <Setter Property="Width" Value="100" />
                 <Setter Property="Margin" Value="5,10,5,10" />
@@ -25,9 +25,9 @@
                 <Setter Property="reactive:TouchToolTipService.IsVisible" Value="False" />
                 <Setter Property="reactive:TouchToolTipService.ToolTip">
                     <Setter.Value>
-                        <ToolTip DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
-                            <reactive:ConditionControl Condition="{Binding Command.Condition}" />
-                        </ToolTip>
+                        <reactive:TouchToolTip DataContext="{Binding RelativeSource={RelativeSource Self}}">
+                            <reactive:ConditionControl Condition="{Binding AdornedElement.Command.Condition}" />
+                        </reactive:TouchToolTip>
                     </Setter.Value>
                 </Setter>
                 <Style.Triggers>
