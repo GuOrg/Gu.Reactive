@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Gu.Wpf.Reactive">
 
-
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/ConditionControl.xaml" />
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Assets.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
@@ -22,12 +22,15 @@
         </Border>
     </DataTemplate>
 
-    <Style x:Key="ConditionInfoStyle" TargetType="{x:Type Button}" x:Shared="False">
+    <!--  Must have x:Shared="False" or else the same instance of tooltip is used.  -->
+    <Style x:Key="ConditionInfoStyle"
+           TargetType="{x:Type Button}"
+           x:Shared="False">
         <Setter Property="local:TouchToolTipService.IsVisible" Value="False" />
         <Setter Property="local:TouchToolTipService.ToolTip">
             <Setter.Value>
                 <local:TouchToolTip>
-                    <local:ConditionControl Command="{Binding AdornedElement.Command, RelativeSource={RelativeSource AncestorType={x:Type local:TouchToolTip}}}" />
+                    <local:ConditionControl ConditionFromCommand="{Binding AdornedElement.Command, RelativeSource={RelativeSource AncestorType={x:Type local:TouchToolTip}}}" Style="{StaticResource ErrorOnlyStyle}"/>
                 </local:TouchToolTip>
             </Setter.Value>
         </Setter>

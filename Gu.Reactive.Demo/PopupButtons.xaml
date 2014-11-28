@@ -6,14 +6,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              d:DataContext="{d:DesignInstance demo:ViewModel}"
-             d:DesignHeight="300" d:DesignWidth="300"
-             mc:Ignorable="d"
-             >
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
     <UserControl.Resources>
         <Style x:Key="LocalPopupStyle"
                BasedOn="{StaticResource {x:Type reactive:PopupButton}}"
-               TargetType="{x:Type reactive:PopupButton}"
-               >
+               TargetType="{x:Type reactive:PopupButton}">
             <Setter Property="BorderBrush" Value="CornflowerBlue" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Width" Value="150" />
@@ -32,9 +31,9 @@
             <TextBlock Text="Clicking shows/hides the tooltip" />
             <TextBlock Text="Default style + border" />
         </StackPanel>
-        <reactive:PopupButton Grid.Row="1" Content="Standared content template and text"
-                              Style="{StaticResource LocalPopupStyle}"
-                              >
+        <reactive:PopupButton Grid.Row="1"
+                              Content="Standared content template and text"
+                              Style="{StaticResource LocalPopupStyle}">
             <reactive:PopupButton.TouchToolTip>
                 <ToolTip>
                     <TextBlock Text="Test" />
@@ -42,23 +41,14 @@
             </reactive:PopupButton.TouchToolTip>
         </reactive:PopupButton>
 
-        <reactive:PopupButton Grid.Row="2" Content="Viewmodel binding"
-                              Style="{StaticResource LocalPopupStyle}"
-                              >
+        <reactive:PopupButton Grid.Row="2"
+                              Content="Viewmodel binding"
+                              Style="{StaticResource LocalPopupStyle}">
             <reactive:PopupButton.TouchToolTip>
                 <ToolTip>
                     <TextBlock Text="{Binding Condition1.Name}" />
                 </ToolTip>
             </reactive:PopupButton.TouchToolTip>
         </reactive:PopupButton>
-
-
-        <Button Grid.Row="3" Height="50"
-                reactive:TouchToolTipService.IsVisible="True"
-                >
-            <reactive:TouchToolTipService.ToolTip>
-                <ToolTip />
-            </reactive:TouchToolTipService.ToolTip>
-        </Button>
     </Grid>
 </UserControl>

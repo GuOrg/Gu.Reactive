@@ -6,11 +6,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive"
         xmlns:wpf="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
-        Title="MainWindow" Width="525"
+        Title="MainWindow"
+        Width="525"
         Height="350"
         d:DataContext="{d:DesignInstance demo:ViewModel}"
-        mc:Ignorable="d"
-        >
+        mc:Ignorable="d">
     <TabControl>
         <TabItem Header="Conditions">
             <AdornerDecorator>
@@ -26,17 +26,17 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Row="0">
-                        <CheckBox Margin="7" Content="Door"
-                                  IsChecked="{Binding IsDoorClosed}"
-                                  />
-                        <CheckBox Margin="7" Content="Motor"
-                                  IsChecked="{Binding IsMotorRunning}"
-                                  />
+                        <CheckBox Margin="7"
+                                  Content="Door"
+                                  IsChecked="{Binding IsDoorClosed}" />
+                        <CheckBox Margin="7"
+                                  Content="Motor"
+                                  IsChecked="{Binding IsMotorRunning}" />
                     </StackPanel>
 
-                    <demo:Conditions Grid.Row="0" Grid.RowSpan="2"
-                                     Grid.Column="1"
-                                     />
+                    <demo:Conditions Grid.Row="0"
+                                     Grid.RowSpan="2"
+                                     Grid.Column="1" />
 
                     <demo:ConditionButtons Grid.Row="1" Grid.Column="0" />
 
