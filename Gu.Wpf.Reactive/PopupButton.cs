@@ -55,7 +55,6 @@
 
         private void OnClick(object sender, RoutedEventArgs routedEventArgs)
         {
-            Debug.WriteLine("OnClick");
             var toolTip = TouchToolTip;
             if (toolTip == null)
             {
@@ -63,7 +62,7 @@
                 return;
             }
             toolTip.IsOpen = !toolTip.IsOpen;
-            Debug.WriteLine(toolTip.IsOpen);
+            Debug.WriteLine("Clicked: {0}, IsOpen: {1}",((PopupButton) sender).Name, toolTip.IsOpen);
         }
 
         private void OnLostFocus(object sender, RoutedEventArgs routedEventArgs)
@@ -77,7 +76,8 @@
             }
             var close = toolTip.IsOpen && !(this.IsKeyboardFocusWithin || toolTip.IsKeyboardFocusWithin);
             Debug.Print(
-                "toolTip.IsOpen: {0} && (this.IsKeyboardFocusWithin: {1} || toolTip.IsKeyboardFocusWithin: {2}): {3}",
+                "{0}.LostFocus toolTip.IsOpen: {1} && (this.IsKeyboardFocusWithin: {2} || toolTip.IsKeyboardFocusWithin: {3}): {4}",
+                ((PopupButton) sender).Name,
                 toolTip.IsOpen,
                 this.IsKeyboardFocusWithin,
                 toolTip.IsKeyboardFocusWithin,

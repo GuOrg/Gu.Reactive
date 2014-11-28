@@ -45,6 +45,7 @@
         <Style x:Key="TouchToolTipStyle"
                BasedOn="{StaticResource BaseStyle}"
                TargetType="{x:Type Button}"
+               x:Shared="False"
                >
             <Setter Property="reactive:TouchToolTipService.IsVisible" Value="True" />
             <Setter Property="reactive:TouchToolTipService.ToolTip">
@@ -81,7 +82,14 @@
                     <TextBlock Text="Tooltip bound to command condition" />
                 </StackPanel>
             </Button>
-
+            <Button IsEnabled="False"
+                    Style="{StaticResource TouchToolTipStyle}"
+                    >
+                <StackPanel>
+                    <TextBlock Text="Explicit style, custom overlay (always visible)" />
+                    <TextBlock Text="Tooltip bound to command condition (copy)" />
+                </StackPanel>
+            </Button>
             <Button IsEnabled="False" Style="{StaticResource ToolTipStyle}">
                 <StackPanel>
                     <TextBlock Text="Explicit style (always visible)" />

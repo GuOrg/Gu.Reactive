@@ -11,6 +11,6 @@
     /// <typeparam name="T"></typeparam>
     public interface ICollectionView<T> : ICollectionView, IEnumerable<T>, IWeakEventListener
     {
-        Predicate<T> Filter { get; set; }
+        new Predicate<T> Filter { get; set; }
     }
 }
