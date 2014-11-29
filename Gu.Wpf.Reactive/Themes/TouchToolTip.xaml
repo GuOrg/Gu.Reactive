@@ -3,21 +3,13 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:local="clr-namespace:Gu.Wpf.Reactive"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips"
                     mc:Ignorable="d">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/ConditionControl.xaml" />
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Assets.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
-    <Style BasedOn="{StaticResource {x:Type ToolTip}}" TargetType="{x:Type local:TouchToolTip}">
-        <Setter Property="StaysOpen" Value="True" />
-        <!--  <Setter Property="IsHitTestVisible" Value="True" />  -->
-        <!--  <Setter Property="Focusable" Value="True" />  -->
-        <!--  <Setter Property="Placement" Value="Bottom" />  -->
-        <!--  <Setter Property="StaysOpen" Value="True" />  -->
-        <!--  <Setter Property="PlacementTarget" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:PopupButton}}}" />  -->
-    </Style>
 
     <Style BasedOn="{StaticResource {x:Type ToolTip}}" TargetType="{x:Type local:CommandToolTip}">
         <Setter Property="StaysOpen" Value="True" />
@@ -84,15 +76,15 @@
     <Style x:Key="ConditionInfoStyle"
            TargetType="{x:Type Button}"
            x:Shared="False">
-        <Setter Property="local:TouchToolTipService.IsVisible" Value="False" />
-        <Setter Property="local:TouchToolTipService.ToolTip">
+        <Setter Property="toolTips:TouchToolTipService.IsVisible" Value="False" />
+        <Setter Property="toolTips:TouchToolTipService.ToolTip">
             <Setter.Value>
-                <local:CommandToolTip/>
+                <local:CommandToolTip />
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="local:TouchToolTipService.IsVisible" Value="True" />
+                <Setter Property="toolTips:TouchToolTipService.IsVisible" Value="True" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -106,7 +98,7 @@
                 <local:CommandToolTip />
             </Setter.Value>
         </Setter>
-        <Setter Property="local:TouchToolTipService.ToolTip">
+        <Setter Property="toolTips:TouchToolTipService.ToolTip">
             <Setter.Value>
                 <local:CommandToolTip />
             </Setter.Value>

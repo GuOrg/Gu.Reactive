@@ -49,12 +49,5 @@
             <demo:ConditionButtons />
         </TabItem>
 
-        <TabItem Header="PopupButtons">
-            <demo:PopupButtons />
-        </TabItem>
-
-        <TabItem Header="AdornedElements">
-            <demo:AdornedElements />
-        </TabItem>
     </TabControl>
 </Window>
