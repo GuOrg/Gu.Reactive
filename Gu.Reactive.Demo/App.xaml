@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
+             xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -21,7 +22,7 @@
                         <reactive:CommandToolTip />
                     </Setter.Value>
                 </Setter>
-                <Setter Property="reactive:TouchToolTipService.ToolTip">
+                <Setter Property="toolTips:TouchToolTipService.ToolTip">
                     <Setter.Value>
                         <reactive:CommandToolTip />
                     </Setter.Value>

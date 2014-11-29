@@ -79,24 +79,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AdornedElements.xaml.cs">
-      <DependentUpon>AdornedElements.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ConditionButtons.xaml.cs">
       <DependentUpon>ConditionButtons.xaml</DependentUpon>
     </Compile>
     <Compile Include="Conditions.xaml.cs">
       <DependentUpon>Conditions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PopupButtons.xaml.cs">
-      <DependentUpon>PopupButtons.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel.cs" />
-    <Page Include="AdornedElements.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ConditionButtons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -117,10 +107,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PopupButtons.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -151,6 +137,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Gu.Wpf.ToolTips\Gu.Wpf.ToolTips\Gu.Wpf.ToolTips.csproj">
+      <Project>{A19FCCD3-AA2A-4736-BE35-FA1A8657D76F}</Project>
+      <Name>Gu.Wpf.ToolTips</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj">
       <Project>{2230088e-f6dc-4c79-9983-d9654274d689}</Project>
       <Name>Gu.Reactive</Name>
