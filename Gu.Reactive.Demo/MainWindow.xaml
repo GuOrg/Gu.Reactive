@@ -53,8 +53,8 @@
             <demo:PopupButtons />
         </TabItem>
 
-        <TabItem Header="AdornedButtons">
-            <demo:AdornedButtons />
+        <TabItem Header="AdornedElements">
+            <demo:AdornedElements />
         </TabItem>
     </TabControl>
 </Window>

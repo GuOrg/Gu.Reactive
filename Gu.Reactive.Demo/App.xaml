@@ -11,12 +11,21 @@
 
             <!--  Must have x:Shared="False" or else the same instance of tooltip is used.  -->
             <Style x:Key="LocalInfoButtonStyle"
-                   BasedOn="{StaticResource ConditionInfoStyle}"
                    TargetType="{x:Type Button}"
                    x:Shared="False">
                 <Setter Property="Width" Value="100" />
                 <Setter Property="Height" Value="100" />
                 <Setter Property="Margin" Value="20" />
+                <Setter Property="ToolTipService.ToolTip">
+                    <Setter.Value>
+                        <reactive:CommandToolTip />
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="reactive:TouchToolTipService.ToolTip">
+                    <Setter.Value>
+                        <reactive:CommandToolTip />
+                    </Setter.Value>
+                </Setter>
             </Style>
         </ResourceDictionary>
     </Application.Resources>

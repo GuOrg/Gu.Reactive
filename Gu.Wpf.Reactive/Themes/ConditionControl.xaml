@@ -125,8 +125,7 @@
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="{TemplateBinding BorderThickness}"
                                   ItemTemplate="{StaticResource ConditionItemTemplate}"
-                                  ItemsSource="{TemplateBinding NotSatisfiedOnly}">
-                    </ItemsControl>
+                                  ItemsSource="{TemplateBinding NotSatisfiedOnly}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

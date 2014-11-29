@@ -1,14 +1,17 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Input;
 
-    public class ManualRelayCommand : ICommand
+    public class ManualRelayCommand : IToolTipCommand
     {
         private readonly Action<object> _action;
         private readonly Predicate<object> _condition;
         private readonly bool _raiseCanExecuteOnDispatcher;
+        private string _toolTipText;
 
         /// <summary>
         /// 
@@ -33,6 +36,8 @@
         {
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public event EventHandler CanExecuteChanged
         {
             add
@@ -46,6 +51,20 @@
         }
 
         private event EventHandler InternalCanExecuteChanged;
+
+        public string ToolTipText
+        {
+            get { return _toolTipText; }
+            set
+            {
+                if (Equals(value, _toolTipText))
+                {
+                    return;
+                }
+                _toolTipText = value;
+                OnPropertyChanged();
+            }
+        }
 
         public void RaiseCanExecuteChanged()
         {
@@ -72,6 +91,16 @@
         public void Execute(object parameter)
         {
             _action(parameter);
+            RaiseCanExecuteChanged();
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         private class InternalCanExecuteChangedEventManager : WeakEventManager

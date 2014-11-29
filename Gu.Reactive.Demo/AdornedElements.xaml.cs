@@ -3,11 +3,11 @@
 namespace Gu.Reactive.Demo
 {
     /// <summary>
-    /// Interaction logic for AdornedButtons.xaml
+    /// Interaction logic for AdornedElements.xaml
     /// </summary>
-    public partial class AdornedButtons : UserControl
+    public partial class AdornedElements : UserControl
     {
-        public AdornedButtons()
+        public AdornedElements()
         {
             InitializeComponent();
         }

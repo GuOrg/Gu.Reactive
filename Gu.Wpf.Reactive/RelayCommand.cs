@@ -1,12 +1,15 @@
 namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
     using System.Windows.Input;
 
-    public class RelayCommand : ICommand
+    public class RelayCommand : IToolTipCommand
     {
         private readonly Action<object> _action;
         private readonly Predicate<object> _condition;
+        private string _toolTipText;
 
         public RelayCommand(Action<object> action, Predicate<object> condition)
         {
@@ -37,7 +40,9 @@ namespace Gu.Wpf.Reactive
             : this(o => action(), o => true)
         {
         }
-        
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         /// <summary>
         /// http://stackoverflow.com/a/2588145/1069200
         /// </summary>
@@ -53,6 +58,20 @@ namespace Gu.Wpf.Reactive
             }
         }
 
+        public string ToolTipText
+        {
+            get { return _toolTipText; }
+            set
+            {
+                if (Equals(value, _toolTipText))
+                {
+                    return;
+                }
+                _toolTipText = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool CanExecute(object parameter)
         {
             return _condition(parameter);
@@ -61,6 +80,15 @@ namespace Gu.Wpf.Reactive
         public void Execute(object parameter)
         {
             _action(parameter);
+        }
+    
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

@@ -2,27 +2,26 @@
 {
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Data;
 
     /// <summary>
-    /// Exposes AdornedElement and sets DataContext to the DataContext of the adorned element
+    /// Exposes AdornedElement and sets DataContext to the Command of the adorned element
     /// </summary>
-    public class TouchToolTip : ToolTip
+    public class CommandToolTip : ToolTip
     {
         /// <summary>
         /// Exposong the adorned element for convenience
         /// </summary>
-        public static readonly DependencyProperty AdornedElementProperty = DependencyProperty.Register(
-            "AdornedElement",
-            typeof(FrameworkElement),
-            typeof(TouchToolTip),
+        public static readonly DependencyProperty AdornedElementProperty = TouchToolTip.AdornedElementProperty.AddOwner(
+            typeof(CommandToolTip),
             new PropertyMetadata(
                 default(FrameworkElement),
                 OnAdornedElementChanged));
 
-        static TouchToolTip()
+        static CommandToolTip()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(TouchToolTip), new FrameworkPropertyMetadata(typeof(TouchToolTip)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(CommandToolTip), new FrameworkPropertyMetadata(typeof(CommandToolTip)));
         }
 
         public FrameworkElement AdornedElement
@@ -42,11 +41,11 @@
             var frameworkElement = e.NewValue as FrameworkElement;
             if (frameworkElement != null)
             {
-                var binding = new Binding(DataContextProperty.Name)
-                                  {
-                                      Mode = BindingMode.OneWay,
-                                      Source = frameworkElement
-                                  };
+                var binding = new Binding(ButtonBase.CommandProperty.Name)
+                {
+                    Mode = BindingMode.OneWay,
+                    Source = frameworkElement
+                };
                 BindingOperations.SetBinding(o, DataContextProperty, binding);
             }
         }

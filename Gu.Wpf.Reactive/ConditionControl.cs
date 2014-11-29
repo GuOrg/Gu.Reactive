@@ -15,15 +15,6 @@ namespace Gu.Wpf.Reactive
     /// </summary>
     public class ConditionControl : Control
     {
-        /// <summary>
-        /// The command to show info for
-        /// </summary>
-        public static readonly DependencyProperty ConditionFromCommandProperty = DependencyProperty.Register(
-            "ConditionFromCommand",
-            typeof(ICommand),
-            typeof(ConditionControl),
-            new PropertyMetadata(default(ICommand), OnCommandChanged));
-
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
             "Condition",
             typeof(ICondition),
@@ -68,13 +59,6 @@ namespace Gu.Wpf.Reactive
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ConditionControl), new FrameworkPropertyMetadata(typeof(ConditionControl)));
         }
-
-        public ICommand ConditionFromCommand
-        {
-            get { return (ICommand)GetValue(ConditionFromCommandProperty); }
-            set { SetValue(ConditionFromCommandProperty, value); }
-        }
-
 
         public ICondition Condition
         {
@@ -182,15 +166,6 @@ namespace Gu.Wpf.Reactive
             {
                 Filter = IsNotSatisfied
             };
-        }
-
-        private static void OnCommandChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            var command = e.NewValue as ConditionRelayCommand;
-            if (command != null)
-            {
-                ((ConditionControl)o).Condition = command.Condition;
-            }
         }
 
         private static List<ICondition> Flatten(ICondition condition, List<ICondition> list = null)
