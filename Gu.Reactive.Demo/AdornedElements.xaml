@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Gu.Reactive.Demo.AdornedButtons"
+﻿<UserControl x:Class="Gu.Reactive.Demo.AdornedElements"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,9 +6,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              d:DataContext="{d:DesignInstance demo:ViewModel}"
-             d:DesignHeight="300" d:DesignWidth="300"
-             mc:Ignorable="d"
-             >
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
     <UserControl.Resources>
         <Style x:Key="BaseStyle" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="200" />
@@ -17,14 +17,13 @@
 
         <Style x:Key="ToolTipStyle"
                BasedOn="{StaticResource BaseStyle}"
-               TargetType="{x:Type Button}"
-               >
+               TargetType="{x:Type Button}">
             <Setter Property="reactive:TouchToolTipService.IsVisible" Value="True" />
             <Setter Property="reactive:TouchToolTipService.ToolTip">
                 <Setter.Value>
                     <reactive:TouchToolTip>
                         <StackPanel>
-                            <ToggleButton Height="20" Content="Toggle"/>
+                            <ToggleButton Height="20" Content="Toggle" />
                             <TextBlock Text="{Binding ActualHeight, ElementName=Button, StringFormat='Height: {0} (ElementName)'}" />
                             <TextBlock Text="{Binding AdornedElement.ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type reactive:TouchToolTip}}, StringFormat='Width: {0}'}" />
                             <TextBlock Text="{Binding Condition1.Name, StringFormat='From vm: {0}'}" />
@@ -45,14 +44,13 @@
         <Style x:Key="TouchToolTipStyle"
                BasedOn="{StaticResource BaseStyle}"
                TargetType="{x:Type Button}"
-               x:Shared="False"
-               >
+               x:Shared="False">
             <Setter Property="reactive:TouchToolTipService.IsVisible" Value="True" />
             <Setter Property="reactive:TouchToolTipService.ToolTip">
                 <Setter.Value>
                     <ToolTip>
                         <StackPanel>
-                            <ToggleButton Height="20" Content="Toggle"/>
+                            <ToggleButton Height="20" Content="Toggle" />
                             <TextBlock Text="{Binding ActualHeight, ElementName=Button, StringFormat='Height: {0} (ElementName)'}" />
                             <TextBlock Text="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type Button}}, StringFormat='Width: {0} (RelativeSource={RelativeSource AncestorType={x:Type Button}})'}" />
                             <TextBlock Text="{Binding Condition1.Name, StringFormat='From vm: {0}'}" />
@@ -64,9 +62,9 @@
             <Setter Property="reactive:TouchToolTipService.OverlayTemplate">
                 <Setter.Value>
                     <ControlTemplate>
-                        <Border Background="Transparent" BorderBrush="Teal"
-                                BorderThickness="2"
-                                />
+                        <Border Background="Transparent"
+                                BorderBrush="Teal"
+                                BorderThickness="2" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -74,17 +72,15 @@
     </UserControl.Resources>
     <AdornerDecorator>
         <StackPanel>
-            <Button x:Name="Button" IsEnabled="False"
-                    Style="{StaticResource TouchToolTipStyle}"
-                    >
+            <Button x:Name="Button"
+                    IsEnabled="False"
+                    Style="{StaticResource TouchToolTipStyle}">
                 <StackPanel>
                     <TextBlock Text="Explicit style, custom overlay (always visible)" />
                     <TextBlock Text="Tooltip bound to command condition" />
                 </StackPanel>
             </Button>
-            <Button IsEnabled="False"
-                    Style="{StaticResource TouchToolTipStyle}"
-                    >
+            <Button IsEnabled="False" Style="{StaticResource TouchToolTipStyle}">
                 <StackPanel>
                     <TextBlock Text="Explicit style, custom overlay (always visible)" />
                     <TextBlock Text="Tooltip bound to command condition (copy)" />
@@ -112,6 +108,14 @@
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
+
+            <TextBlock Width="150"
+                       Padding="0,10,20,0"
+                       Text="Text with TouchTooltip">
+                <reactive:TouchToolTipService.ToolTip>
+                    <reactive:TouchToolTip>Tooltip text</reactive:TouchToolTip>
+                </reactive:TouchToolTipService.ToolTip>
+            </TextBlock>
         </StackPanel>
     </AdornerDecorator>
 </UserControl>

@@ -96,9 +96,12 @@
     </Page>
     <Compile Include="CanExecuteChangedEventManager.cs" />
     <Compile Include="CollectionView.cs" />
+    <Compile Include="CommandToolTip.cs" />
     <Compile Include="ConditionRelayCommand.cs" />
     <Compile Include="ICollectionView.cs" />
+    <Compile Include="IToolTipCommand.cs" />
     <Compile Include="ListCollectionView.cs" />
+    <Compile Include="NegatingConverter.cs" />
     <Compile Include="PopupButton.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="TouchToolTip.cs" />

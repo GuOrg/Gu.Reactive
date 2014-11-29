@@ -3,6 +3,7 @@
     using System;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Documents;
     using System.Windows.Threading;
@@ -180,7 +181,7 @@
                 {
                     var binding = new Binding(FrameworkElement.DataContextProperty.Name)
                                       {
-                                          Source = o, 
+                                          Source = o,
                                           Mode = BindingMode.OneWay
                                       };
                     BindingOperations.SetBinding(newTip, FrameworkElement.DataContextProperty, binding);
@@ -195,8 +196,37 @@
                     Mode = BindingMode.OneWay
                 };
                 BindingOperations.SetBinding(touchToolTip, TouchToolTip.AdornedElementProperty, binding);
+                if( o is TextBlock || o is Label)
+                {
+                    o.SetCurrentValue(TouchToolTipService.IsVisibleProperty, true);
+                }
             }
-            var value =(bool) o.GetValue(TouchToolTipService.IsVisibleProperty);
+            var commandToolTip = newTip as CommandToolTip;
+            if (commandToolTip != null)
+            {
+                var binding = new Binding()
+                {
+                    Source = o,
+                    Mode = BindingMode.OneWay
+                };
+                BindingOperations.SetBinding(commandToolTip, TouchToolTip.AdornedElementProperty, binding);
+                var buttonBase = o as ButtonBase;
+                if (buttonBase != null)
+                {
+                    var visibleBinding = new Binding(UIElement.IsEnabledProperty.Name)
+                    {
+                        Mode = BindingMode.OneWay,
+                        Source = o,
+                        Converter = new NegatingConverter()
+                    };
+                    BindingOperations.SetBinding(o, TouchToolTipService.IsVisibleProperty, visibleBinding);
+                }
+                else if( o is TextBlock || o is Label)
+                {
+                    o.SetCurrentValue(TouchToolTipService.IsVisibleProperty, true);
+                }
+            }
+            var value = (bool)o.GetValue(TouchToolTipService.IsVisibleProperty);
             ShowAdorner(o, value, true);
         }
     }

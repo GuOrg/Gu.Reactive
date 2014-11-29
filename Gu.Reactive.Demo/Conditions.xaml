@@ -18,6 +18,6 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <wpf:ConditionControl ConditionFromCommand="{Binding OtherCommand}" />
+        <wpf:ConditionControl Condition="{Binding OtherCommand.Condition}" />
     </StackPanel>
 </UserControl>
