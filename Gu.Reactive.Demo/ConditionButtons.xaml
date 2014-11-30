@@ -4,6 +4,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
+             xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips"
              d:DataContext="{d:DesignInstance demo:ViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -19,14 +21,31 @@
                     CommandParameter="{Binding Content,
                                                RelativeSource={RelativeSource Self}}"
                     Content="Other"
-                    Style="{StaticResource LocalInfoButtonStyle}" />
+                    Style="{StaticResource LocalInfoButtonStyle}">
+                <toolTips:TouchToolTipService.ToolTip>
+                    <reactive:CommandToolTip>
+                        <TextBlock Text="Tool tip text" />
+                    </reactive:CommandToolTip>
+                </toolTips:TouchToolTipService.ToolTip>
+            </Button>
 
             <Button Grid.Row="1"
                     Command="{Binding StartCommand}"
                     CommandParameter="{Binding Content,
                                                RelativeSource={RelativeSource Self}}"
                     Content="Start"
-                    Style="{StaticResource LocalInfoButtonStyle}" />
+                    Style="{StaticResource LocalInfoButtonStyle}">
+                <!--
+                    <ToolTipService.ToolTip>
+                    <ToolTip>Tool tip text</ToolTip>
+                    </ToolTipService.ToolTip>
+                -->
+                <toolTips:TouchToolTipService.ToolTip>
+                    <reactive:CommandToolTip>
+                        <TextBlock Text="Tool tip text" />
+                    </reactive:CommandToolTip>
+                </toolTips:TouchToolTipService.ToolTip>
+            </Button>
 
         </Grid>
     </AdornerDecorator>

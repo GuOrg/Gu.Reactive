@@ -7,27 +7,21 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Gu.Wpf.ToolTips;component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <reactive:CommandToolTip x:Key="CommandToolTip" x:Shared="False" />
+
             <!--  Must have x:Shared="False" or else the same instance of tooltip is used.  -->
-            <Style x:Key="LocalInfoButtonStyle"
-                   TargetType="{x:Type Button}"
-                   x:Shared="False">
+            <Style x:Key="LocalInfoButtonStyle" TargetType="{x:Type Button}">
+                <!--  x:Shared="False">  -->
                 <Setter Property="Width" Value="100" />
                 <Setter Property="Height" Value="100" />
                 <Setter Property="Margin" Value="20" />
-                <Setter Property="ToolTipService.ToolTip">
-                    <Setter.Value>
-                        <reactive:CommandToolTip />
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="toolTips:TouchToolTipService.ToolTip">
-                    <Setter.Value>
-                        <reactive:CommandToolTip />
-                    </Setter.Value>
-                </Setter>
+                <!--  <Setter Property="toolTips:TouchToolTipService.ToolTip" Value="{DynamicResource CommandToolTip}" />  -->
             </Style>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

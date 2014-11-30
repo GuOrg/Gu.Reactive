@@ -82,7 +82,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\TouchToolTip.xaml">
+    <Page Include="Themes\CommandToolTip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -131,7 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Gu.Wpf.ToolTips\Gu.Wpf.ToolTips\Gu.Wpf.ToolTips.csproj">
-      <Project>{a19fccd3-aa2a-4736-be35-fa1a8657d76f}</Project>
+      <Project>{A19FCCD3-AA2A-4736-BE35-FA1A8657D76F}</Project>
       <Name>Gu.Wpf.ToolTips</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj">
