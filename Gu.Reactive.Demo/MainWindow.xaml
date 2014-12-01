@@ -49,5 +49,8 @@
             <demo:ConditionButtons />
         </TabItem>
 
+        <TabItem Header="Async commands">
+            <demo:AsyncCommands />
+        </TabItem>
     </TabControl>
 </Window>

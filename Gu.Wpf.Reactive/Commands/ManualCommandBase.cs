@@ -5,41 +5,21 @@
     using System.Reactive.Concurrency;
     using System.Runtime.CompilerServices;
     using System.Windows;
+    using System.Windows.Input;
+
     using Gu.Reactive;
 
-    public class ManualRelayCommand : IToolTipCommand
+    public abstract class ManualCommandBase<T> : IToolTipCommand
     {
-        private readonly Action<object> _action;
-        private readonly Predicate<object> _condition;
-        private readonly bool _raiseCanExecuteOnDispatcher;
         private string _toolTipText;
+        private readonly bool _raiseCanExecuteOnDispatcher;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="condition"></param>
-        /// <param name="raiseCanExecuteOnDispatcher">Default true, use false in tests</param>
-        public ManualRelayCommand(Action<object> action, Predicate<object> condition, bool raiseCanExecuteOnDispatcher = true)
+        protected ManualCommandBase(bool raiseCanExecuteOnDispatcher = true)
         {
-            _action = action;
-            _condition = condition ?? (_ => true);
             _raiseCanExecuteOnDispatcher = raiseCanExecuteOnDispatcher;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="raiseCanExecuteOnDispatcher">Default true, use false in tests</param>
-        public ManualRelayCommand(Action<object> action, bool raiseCanExecuteOnDispatcher = true)
-            : this(action, _ => true, raiseCanExecuteOnDispatcher)
-        {
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public event EventHandler CanExecuteChanged
+        public virtual event EventHandler CanExecuteChanged
         {
             add
             {
@@ -50,6 +30,8 @@
                 InternalCanExecuteChangedEventManager.RemoveHandler(this, value);
             }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private event EventHandler InternalCanExecuteChanged;
 
@@ -67,6 +49,23 @@
             }
         }
 
+        protected abstract bool InternalCanExecute(T parameter);
+        
+        bool ICommand.CanExecute(object parameter)
+        {
+            return InternalCanExecute((T)parameter);
+        }
+
+        protected abstract void InternalExecute(T parameter);
+
+        void ICommand.Execute(object parameter)
+        {
+            InternalExecute((T)parameter);
+        }
+
+        /// <summary>
+        /// Raises the event on the Dispatcher if present. Safe to call from any thread.
+        /// </summary>
         public virtual void RaiseCanExecuteChanged()
         {
             var handler = this.InternalCanExecuteChanged;
@@ -82,17 +81,6 @@
                     handler(this, new EventArgs());
                 }
             }
-        }
-
-        public virtual bool CanExecute(object parameter)
-        {
-            return _condition(parameter);
-        }
-
-        public virtual void Execute(object parameter)
-        {
-            _action(parameter);
-            RaiseCanExecuteChanged();
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -111,11 +99,11 @@
             {
                 SetCurrentManager(typeof(InternalCanExecuteChangedEventManager), Manager);
             }
-            internal static void AddHandler(ManualRelayCommand source, EventHandler handler)
+            internal static void AddHandler(ManualCommandBase<T> source, EventHandler handler)
             {
                 Manager.ProtectedAddHandler(source, handler);
             }
-            internal static void RemoveHandler(ManualRelayCommand source, EventHandler handler)
+            internal static void RemoveHandler(ManualCommandBase<T> source, EventHandler handler)
             {
                 Manager.ProtectedRemoveHandler(source, handler);
             }
@@ -125,11 +113,11 @@
             ////}
             protected override void StartListening(object source)
             {
-                ((ManualRelayCommand)source).InternalCanExecuteChanged += this.DeliverEvent;
+                ((ManualCommandBase<T>)source).InternalCanExecuteChanged += this.DeliverEvent;
             }
             protected override void StopListening(object source)
             {
-                ((ManualRelayCommand)source).InternalCanExecuteChanged -= this.DeliverEvent;
+                ((ManualCommandBase<T>)source).InternalCanExecuteChanged -= this.DeliverEvent;
             }
         }
     }

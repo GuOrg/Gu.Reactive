@@ -9,11 +9,14 @@
     /// </summary>
     public class CanExecuteChangedEventManager : WeakEventManager
     {
+        private CanExecuteChangedEventManager()
+        {
+        }
         public static CanExecuteChangedEventManager CurrentManager
         {
             get
             {
-                Type managerType = typeof(CanExecuteChangedEventManager);
+                var managerType = typeof(CanExecuteChangedEventManager);
                 var currentManager = (CanExecuteChangedEventManager)WeakEventManager.GetCurrentManager(managerType);
                 if (currentManager == null)
                 {
@@ -22,14 +25,6 @@
                 }
                 return currentManager;
             }
-        }
-
-        static CanExecuteChangedEventManager()
-        {
-        }
-
-        private CanExecuteChangedEventManager()
-        {
         }
 
         /// <summary>
@@ -89,11 +84,6 @@
                 throw new ArgumentNullException("handler");
             CurrentManager.ProtectedRemoveHandler(source, handler);
         }
-
-        //protected override ListenerList NewListenerList()
-        //{
-        //    return new ListenerList();
-        //}
 
         /// <summary>
         /// Begins listening for the event on the provided source.
