@@ -66,6 +66,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
@@ -90,6 +92,7 @@
     <Compile Include="FakesAndHelpers\CommandListener.cs" />
     <Compile Include="Commands\ManualRelayCommandTests.cs" />
     <Compile Include="Commands\ObservingRelayCommandTests.cs" />
+    <Compile Include="FakesAndHelpers\DumpXaml.cs" />
     <Compile Include="NotifyTaskCompletionTests.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
