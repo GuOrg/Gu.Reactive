@@ -74,7 +74,7 @@
             {
                 if (_raiseCanExecuteOnDispatcher)
                 {
-                    var scheduler = Schedulers.CurrentOrImmediate;
+                    var scheduler = Schedulers.SynchronizationContextOrImmediate;
                     scheduler.Schedule(() => handler(this, new EventArgs()));
                 }
                 else

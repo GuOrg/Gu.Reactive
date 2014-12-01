@@ -50,7 +50,7 @@
             var handler = CollectionChanged;
             if (handler != null)
             {
-                var scheduler = Schedulers.CurrentOrImmediate;
+                var scheduler = Schedulers.SynchronizationContextOrImmediate;
                 scheduler.Schedule(() => handler(this, e));
             }
         }

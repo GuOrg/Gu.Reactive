@@ -35,7 +35,7 @@
             : base(collection)
         {
             var observable = updateTrigger.Merge();
-            observable.ObserveOnCurrentOrImmediate()
+            observable.ObserveOnSynchronizationContextOrImmediate()
                       .Subscribe(x => this.Refresh());
         }
 
