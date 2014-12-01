@@ -12,7 +12,7 @@
         /// Falls back to Scheduler.Immediate (for tests)
         /// </summary>
         /// <returns>The scheduler</returns>
-        public static IScheduler CurrentOrImmediate
+        public static IScheduler SynchronizationContextOrImmediate
         {
             get
             {
@@ -30,9 +30,9 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="observable"></param>
         /// <returns></returns>
-        public static IObservable<T> ObserveOnCurrentOrImmediate<T>(this IObservable<T> observable)
+        public static IObservable<T> ObserveOnSynchronizationContextOrImmediate<T>(this IObservable<T> observable)
         {
-            return observable.ObserveOn(CurrentOrImmediate);
+            return observable.ObserveOn(SynchronizationContextOrImmediate);
         }
     }
 }
