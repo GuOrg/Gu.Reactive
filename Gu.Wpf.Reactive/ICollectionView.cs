@@ -3,13 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Windows;
 
     /// <summary>
-    /// Typed ColelctionView
+    /// Typed CollectionView
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ICollectionView<T> : ICollectionView, IEnumerable<T>, IWeakEventListener
+    public interface ICollectionView<T> : ICollectionView, IEnumerable<T>
     {
         new Predicate<T> Filter { get; set; }
     }

@@ -50,16 +50,8 @@
             var handler = CollectionChanged;
             if (handler != null)
             {
-                if(SynchronizationContext.Current != null)
-                {
-                    var scheduler = new SynchronizationContextScheduler(SynchronizationContext.Current);
-                    scheduler.Schedule(() => handler(this, e));
-                    //System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() => handler(this, e)));
-                }
-                else
-                {
-                    handler(this, e);
-                }
+                var scheduler = Schedulers.CurrentOrImmediate;
+                scheduler.Schedule(() => handler(this, e));
             }
         }
     }

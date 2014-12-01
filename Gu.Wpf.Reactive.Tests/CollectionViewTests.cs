@@ -66,8 +66,10 @@
         public void NotifiesOnFilterChanged()
         {
             var dummy = new ObservableCollection<int>(new List<int> { 1, 2 });
-            var view = new CollectionView<int>(dummy);
-            view.Filter = x => x < 3;
+            var view = new CollectionView<int>(dummy)
+            {
+                Filter = x => x < 3
+            };
             var argses = new List<NotifyCollectionChangedEventArgs>();
             ((INotifyCollectionChanged)view).CollectionChanged += (sender, args) => argses.Add(args);
             dummy.Add(3);

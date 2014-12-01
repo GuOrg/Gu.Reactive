@@ -2,9 +2,10 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Reactive.Concurrency;
     using System.Runtime.CompilerServices;
     using System.Windows;
-    using System.Windows.Input;
+    using Gu.Reactive;
 
     public class ManualRelayCommand : IToolTipCommand
     {
@@ -71,10 +72,10 @@
             var handler = this.InternalCanExecuteChanged;
             if (handler != null)
             {
-                var application = Application.Current;
-                if (_raiseCanExecuteOnDispatcher && application != null && application.Dispatcher != null)
+                if (_raiseCanExecuteOnDispatcher)
                 {
-                    application.Dispatcher.BeginInvoke(new Action(() => handler(this, new EventArgs())));
+                    var scheduler = Schedulers.CurrentOrImmediate;
+                    scheduler.Schedule(() => handler(this, new EventArgs()));
                 }
                 else
                 {

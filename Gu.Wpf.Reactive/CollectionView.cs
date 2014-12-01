@@ -5,8 +5,11 @@
     using System.ComponentModel;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Reactive.Concurrency;
     using System.Reactive.Linq;
+    using System.Threading;
     using System.Windows.Data;
+    using Gu.Reactive;
 
     /// <summary>
     /// Typed CollectionView
@@ -32,22 +35,20 @@
             : base(collection)
         {
             var observable = updateTrigger.Merge();
-            observable.Subscribe(x => this.Refresh());
+            observable.ObserveOnCurrentOrImmediate()
+                      .Subscribe(x => this.Refresh());
         }
 
         /// <summary>
-        /// 
+        /// Creates a view for a property that is IEnumerable<typeparam name="T"></typeparam>
+        /// Typical usage Create(this, x => x.Items)
         /// </summary>
         /// <param name="source"></param>
         /// <param name="prop">The view is refreshed when propertychanged for this property is raised</param>
-        public static CollectionView<TItem> Create<TSource, TItem>(TSource source, Expression<Func<TSource, IEnumerable<TItem>>> prop) where TSource : INotifyPropertyChanged
+        public static CollectionView<TItem> Create<TSource, TItem>(TSource source, Expression<Func<TSource, IEnumerable<TItem>>> prop)
+            where TSource : INotifyPropertyChanged
         {
-            var view = new CollectionView<TItem>(
-                prop.Compile()
-                    .Invoke(source));
-
-            PropertyChangedEventManager.AddListener(source, view, ((MemberExpression)prop.Body).Member.Name);
-            return view;
+            return new CollectionView<TItem>(prop.Compile().Invoke(source), source.ToObservable(prop));
         }
 
         public new Predicate<T> Filter
@@ -62,15 +63,21 @@
             }
         }
 
+        Predicate<T> ICollectionView<T>.Filter
+        {
+            get
+            {
+                return o => base.Filter(o);
+            }
+            set
+            {
+                base.Filter = o => value((T)o);
+            }
+        }
+
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
             return this.Cast<T>().GetEnumerator();
-        }
-
-        public bool ReceiveWeakEvent(Type managerType, object sender, EventArgs e)
-        {
-            this.Refresh();
-            return true;
         }
     }
 }
