@@ -73,6 +73,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NameOf.cs" />
     <Compile Include="Conditions\AndCondition.cs" />
     <Compile Include="Conditions\AndConditionCollection.cs" />
     <Compile Include="Conditions\Condition.cs" />

@@ -52,6 +52,9 @@
     </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gu.Wpf.ToolTips">
+      <HintPath>..\packages\Gu.Wpf.ToolTips.0.1.0.0\lib\net45\Gu.Wpf.ToolTips.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -79,6 +82,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AsyncCommands.xaml.cs">
+      <DependentUpon>AsyncCommands.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AsyncViewModel.cs" />
     <Compile Include="ConditionButtons.xaml.cs">
       <DependentUpon>ConditionButtons.xaml</DependentUpon>
     </Compile>
@@ -87,6 +94,10 @@
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel.cs" />
+    <Page Include="AsyncCommands.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ConditionButtons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -139,10 +150,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Gu.Wpf.ToolTips\Gu.Wpf.ToolTips\Gu.Wpf.ToolTips.csproj">
-      <Project>{A19FCCD3-AA2A-4736-BE35-FA1A8657D76F}</Project>
-      <Name>Gu.Wpf.ToolTips</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj">
       <Project>{2230088e-f6dc-4c79-9983-d9654274d689}</Project>
       <Name>Gu.Reactive</Name>

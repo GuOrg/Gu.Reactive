@@ -41,14 +41,14 @@
                 NegatedCondition1
             };
 
-            StartCommand = new ConditionRelayCommand(
+            StartCommand = new ConditionRelayCommand<string>(
                 o => MessageBox.Show("Clicked " + o),
                 DependingCondition)
             {
                 ToolTipText = "Start the thing"
             };
 
-            OtherCommand = new ConditionRelayCommand(
+            OtherCommand = new ConditionRelayCommand<string>(
                 o => MessageBox.Show("Clicked " + o),
                 Condition1)
             {
@@ -100,9 +100,9 @@
 
         public ICondition NegatedCondition1 { get; private set; }
 
-        public ConditionRelayCommand StartCommand { get; private set; }
+        public ConditionRelayCommand<string> StartCommand { get; private set; }
 
-        public ConditionRelayCommand OtherCommand { get; private set; }
+        public ConditionRelayCommand<string> OtherCommand { get; private set; }
 
         public IEnumerable<ICondition> Conditions
         {

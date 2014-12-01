@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
@@ -11,7 +12,7 @@
     /// <summary>
     /// Exposes AdornedElement and sets DataContext to the CommandProxy of the adorned element
     /// </summary>
-    public class CommandToolTip : TouchToolTip, ITouchToolTip
+    public class CommandToolTip : TouchToolTip
     {
         private static readonly DependencyProperty CommandProxyProperty = DependencyProperty.Register(
             "CommandProxyProxy",
@@ -83,7 +84,8 @@
             var command = e.NewValue as ICommand;
             if (command == null)
             {
-                commandToolTip.ToolTipText = null;
+                BindingOperations.ClearBinding(commandToolTip, ToolTipTextProperty);
+                commandToolTip.ClearValue(ToolTipTextProperty);;
                 commandToolTip.Condition = null;
                 commandToolTip.CommandType = null;
                 return;
@@ -91,10 +93,18 @@
             var toolTipCommand = command as IToolTipCommand;
             if (toolTipCommand != null)
             {
-                commandToolTip.ToolTipText = toolTipCommand.ToolTipText;
+                var prop = PathExpressionVisitor.GetPath<IToolTipCommand, string>(x => x.ToolTipText)
+                                                .Last().Member.Name;
+                var binding = new Binding(prop)
+                                  {
+                                      Source = toolTipCommand, 
+                                      Mode = BindingMode.OneWay
+                                  };
+
+                BindingOperations.SetBinding(commandToolTip, ToolTipTextProperty, binding);
             }
 
-            var conditionCommand = command as ConditionRelayCommand;
+            var conditionCommand = command as IConditionRelayCommand;
             if (conditionCommand != null)
             {
                 commandToolTip.Condition = conditionCommand.Condition;

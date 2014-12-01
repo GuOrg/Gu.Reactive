@@ -51,6 +51,9 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gu.Wpf.ToolTips">
+      <HintPath>..\packages\Gu.Wpf.ToolTips.0.1.0.0\lib\net45\Gu.Wpf.ToolTips.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -90,24 +93,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AsyncCommand.cs" />
-    <Compile Include="CanExecuteChangedEventManager.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="Commands\AsyncCommand.cs" />
+    <Compile Include="Commands\AsyncResultCommand.cs" />
+    <Compile Include="Commands\AsyncCommandBase.cs" />
+    <Compile Include="Commands\AsyncParameterCommandBase.cs" />
+    <Compile Include="Commands\CanExecuteChangedEventManager.cs" />
+    <Compile Include="Commands\IAsyncCommand.cs" />
+    <Compile Include="Commands\IConditionRelayCommand.cs" />
+    <Compile Include="Commands\ManualCommandBase.cs" />
+    <Compile Include="Commands\VoidTypeStruct.cs" />
     <Compile Include="NotifyTaskCompletion.cs" />
     <Compile Include="CollectionView.cs" />
     <Compile Include="CommandToolTip.cs" />
-    <Compile Include="ConditionRelayCommand.cs" />
+    <Compile Include="Commands\ConditionRelayCommand.cs" />
     <Compile Include="ICollectionView.cs" />
-    <Compile Include="IToolTipCommand.cs" />
+    <Compile Include="Commands\IToolTipCommand.cs" />
     <Compile Include="ListCollectionView.cs" />
-    <Compile Include="RelayCommand.cs" />
-    <Compile Include="ManualRelayCommand.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\ManualRelayCommand.cs" />
     <Compile Include="ConditionControl.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ObservingRelayCommand.cs" />
+    <Compile Include="Commands\ObservingRelayCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -133,10 +142,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Gu.Wpf.ToolTips\Gu.Wpf.ToolTips\Gu.Wpf.ToolTips.csproj">
-      <Project>{A19FCCD3-AA2A-4736-BE35-FA1A8657D76F}</Project>
-      <Name>Gu.Wpf.ToolTips</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj">
       <Project>{2230088E-F6DC-4C79-9983-D9654274D689}</Project>
       <Name>Gu.Reactive</Name>
