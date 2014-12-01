@@ -1,5 +1,7 @@
 ﻿namespace Gu.Reactive.Demo
 {
+    using System.Reactive.Concurrency;
+    using System.Threading;
     using System.Windows;
     /// <summary>
     /// Interaction logic for MainWindow.xaml

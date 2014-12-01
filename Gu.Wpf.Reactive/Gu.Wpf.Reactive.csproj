@@ -91,6 +91,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="CanExecuteChangedEventManager.cs" />
+    <Compile Include="NotifyTaskCompletion.cs" />
     <Compile Include="CollectionView.cs" />
     <Compile Include="CommandToolTip.cs" />
     <Compile Include="ConditionRelayCommand.cs" />
