@@ -91,6 +91,7 @@
     <Compile Include="PropertyChangedEventArgs.cs" />
     <Compile Include="PropertyChangedToObservableExt.cs" />
     <Compile Include="PropertyChangedTrackingEventArgs.cs" />
+    <Compile Include="TaskExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

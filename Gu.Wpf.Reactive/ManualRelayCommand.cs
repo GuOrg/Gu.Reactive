@@ -67,7 +67,7 @@
             }
         }
 
-        public void RaiseCanExecuteChanged()
+        public virtual void RaiseCanExecuteChanged()
         {
             var handler = this.InternalCanExecuteChanged;
             if (handler != null)
@@ -84,12 +84,12 @@
             }
         }
 
-        public bool CanExecute(object parameter)
+        public virtual bool CanExecute(object parameter)
         {
             return _condition(parameter);
         }
 
-        public void Execute(object parameter)
+        public virtual void Execute(object parameter)
         {
             _action(parameter);
             RaiseCanExecuteChanged();

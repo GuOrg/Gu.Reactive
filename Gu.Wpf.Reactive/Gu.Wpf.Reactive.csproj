@@ -90,7 +90,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AsyncCommand.cs" />
     <Compile Include="CanExecuteChangedEventManager.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="NotifyTaskCompletion.cs" />
     <Compile Include="CollectionView.cs" />
     <Compile Include="CommandToolTip.cs" />
