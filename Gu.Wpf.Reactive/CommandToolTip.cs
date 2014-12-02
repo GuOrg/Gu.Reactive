@@ -7,7 +7,7 @@
     using System.Windows.Data;
     using System.Windows.Input;
     using Gu.Reactive;
-    using Gu.Wpf.ToolTips;
+    using ToolTips;
 
     /// <summary>
     /// Exposes AdornedElement and sets DataContext to the CommandProxy of the adorned element

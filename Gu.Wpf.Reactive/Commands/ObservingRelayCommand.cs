@@ -19,7 +19,7 @@
             : base(action, condition, raiseCanExecuteOnDispatcher)
         {
             _subscription = observable.Merge()
-                                      .Subscribe(x => this.RaiseCanExecuteChanged());
+                                      .Subscribe(x => RaiseCanExecuteChanged());
         }
 
         public ObservingRelayCommand(
@@ -61,7 +61,7 @@
             : base(action, condition, raiseCanExecuteOnDispatcher)
         {
             _subscription = observable.Merge()
-                                      .Subscribe(x => this.RaiseCanExecuteChanged());
+                                      .Subscribe(x => RaiseCanExecuteChanged());
         }
 
         public ObservingRelayCommand(

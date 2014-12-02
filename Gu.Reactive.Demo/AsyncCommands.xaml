@@ -5,35 +5,17 @@
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DataContext="{d:DesignInstance demo:AsyncViewModel}"
-             d:DesignHeight="300" d:DesignWidth="300"
-             mc:Ignorable="d"
-             >
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center" Text="Delay" />
             <TextBox MinWidth="50" Text="{Binding Delay}" />
         </StackPanel>
-        <Button Width="100" Height="50"
-                HorizontalAlignment="Left"
-                Command="{Binding AsyncCommand}"
-                Content="{Binding AsyncCommand.ToolTipText}"
-                />
-        <GroupBox Header="{Binding AsyncCommand.ToolTipText}">
-            <Grid DataContext="{Binding AsyncCommand.Execution}">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding }"></TextBlock>
-            </Grid>
-        </GroupBox>
+        <ContentPresenter Content="{Binding AsyncCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
+        <ContentPresenter Content="{Binding AsyncThrowCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
+        <ContentPresenter Content="{Binding AsyncResultCommand}" ContentTemplate="{StaticResource AsyncResultCommandTemplate}" />
+        <ContentPresenter Content="{Binding AsyncResultThrowCommand}" ContentTemplate="{StaticResource AsyncResultCommandTemplate}" />
     </StackPanel>
 </UserControl>

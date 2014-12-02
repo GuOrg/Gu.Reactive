@@ -36,7 +36,7 @@
         {
             var observable = updateTrigger.Merge();
             observable.ObserveOnSynchronizationContextOrImmediate()
-                      .Subscribe(x => this.Refresh());
+                      .Subscribe(x => Refresh());
         }
 
         /// <summary>

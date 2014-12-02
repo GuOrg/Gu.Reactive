@@ -61,7 +61,7 @@ namespace Gu.Wpf.Reactive
             }
         }
 
-        public Task ExecuteAsync()
+        public async Task ExecuteAsync()
         {
             Execution = _creator(_action());
             RaiseCanExecuteChanged();
