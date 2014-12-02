@@ -65,7 +65,7 @@ namespace Gu.Wpf.Reactive
         {
             Execution = _creator(_action());
             RaiseCanExecuteChanged();
-            return Execution.Task;
+            await Execution.Completed;
         }
 
         Task IAsyncCommand<object>.ExecuteAsync(object parameter)

@@ -52,5 +52,9 @@
         <TabItem Header="Async commands">
             <demo:AsyncCommands />
         </TabItem>
+
+        <TabItem Header="Commands">
+            <demo:Commands />
+        </TabItem>
     </TabControl>
 </Window>

@@ -61,11 +61,11 @@ namespace Gu.Wpf.Reactive
             }
         }
 
-        public Task ExecuteAsync(TParameter parameter)
+        public async Task ExecuteAsync(TParameter parameter)
         {
             Execution = _creator(_action(parameter));
             RaiseCanExecuteChanged();
-            return Execution.Task;
+            await Execution.Completed;
         }
 
         protected override bool InternalCanExecute(TParameter parameter)
