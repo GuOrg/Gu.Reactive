@@ -53,27 +53,6 @@
             Sets DataContext to the DataContext of the adorned element
             </summary>
         </member>
-        <member name="M:Gu.Wpf.ToolTips.TouchToolTip.System#Windows#Markup#INameScope#FindName(System.String)">
-            <summary>
-            Enables ElementName bindings
-            </summary>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Gu.Wpf.ToolTips.TouchToolTip.System#Windows#Markup#INameScope#RegisterName(System.String,System.Object)">
-            <summary>
-            Enables ElementName bindings
-            </summary>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Gu.Wpf.ToolTips.TouchToolTip.System#Windows#Markup#INameScope#UnregisterName(System.String)">
-            <summary>
-            Enables ElementName bindings
-            </summary>
-            <param name="name"></param>
-            <returns></returns>
-        </member>
         <member name="M:Gu.Wpf.ToolTips.TouchToolTipAdorner.#ctor(System.Windows.UIElement,System.Windows.Controls.ToolTip,System.Windows.Controls.ControlTemplate)">
             <summary>
             Be sure to call the base class constructor. 
