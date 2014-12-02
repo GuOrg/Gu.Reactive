@@ -22,6 +22,27 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive.Tests", "Gu.Wpf.Reactive.Tests\Gu.Wpf.Reactive.Tests.csproj", "{F94EA890-7658-47C9-A033-8967F626360A}"
 EndProject
 Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfshub.sandvik.com:8080/tfs/defaultcollection
+		SccProjectUniqueName0 = Gu.Reactive\\Gu.Reactive.csproj
+		SccProjectName0 = Gu.Reactive
+		SccLocalPath0 = Gu.Reactive
+		SccProjectUniqueName1 = Gu.Wpf.Reactive\\Gu.Wpf.Reactive.csproj
+		SccProjectName1 = Gu.Wpf.Reactive
+		SccLocalPath1 = Gu.Wpf.Reactive
+		SccProjectUniqueName2 = Gu.Reactive.Demo\\Gu.Reactive.Demo.csproj
+		SccProjectName2 = Gu.Reactive.Demo
+		SccLocalPath2 = Gu.Reactive.Demo
+		SccProjectUniqueName3 = Gu.Reactive.Tests\\Gu.Reactive.Tests.csproj
+		SccProjectName3 = Gu.Reactive.Tests
+		SccLocalPath3 = Gu.Reactive.Tests
+		SccProjectUniqueName4 = Gu.Wpf.Reactive.Tests\\Gu.Wpf.Reactive.Tests.csproj
+		SccProjectName4 = Gu.Wpf.Reactive.Tests
+		SccLocalPath4 = Gu.Wpf.Reactive.Tests
+		SccLocalPath5 = .
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CreateNugetPackage|Any CPU = CreateNugetPackage|Any CPU
 		Debug|Any CPU = Debug|Any CPU

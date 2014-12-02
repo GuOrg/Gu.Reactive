@@ -20,13 +20,6 @@
         }
 
         [Test]
-        public void ReminderTest()
-        {
-            Assert.Fail("Add to demo");
-        }
-
-
-        [Test]
         public void CanExecuteNoCondition()
         {
             Assert.IsTrue(_command.CanExecute());
