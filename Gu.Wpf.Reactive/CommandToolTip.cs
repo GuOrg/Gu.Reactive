@@ -15,16 +15,10 @@
     public class CommandToolTip : TouchToolTip
     {
         private static readonly DependencyProperty CommandProxyProperty = DependencyProperty.Register(
-            "CommandProxyProxy",
+            "CommandProxy",
             typeof(ICommand),
             typeof(CommandToolTip),
             new PropertyMetadata(default(ICommand), OnCommandChanged));
-
-        private ICommand CommandProxy
-        {
-            get { return (ICommand)GetValue(CommandProxyProperty); }
-            set { SetValue(CommandProxyProperty, value); }
-        }
 
         public static readonly DependencyProperty ToolTipTextProperty = DependencyProperty.Register(
             "ToolTipText",
@@ -55,16 +49,31 @@
             set { SetValue(ToolTipTextProperty, value); }
         }
 
+        /// <summary>
+        /// The condition if the command is a ConditionRelayCommand null otherwise
+        /// </summary>
         public ICondition Condition
         {
             get { return (ICondition)GetValue(ConditionProperty); }
             set { SetValue(ConditionProperty, value); }
         }
 
+        /// <summary>
+        /// The type of command
+        /// </summary>
         public Type CommandType
         {
             get { return (Type)GetValue(CommandTypeProperty); }
             set { SetValue(CommandTypeProperty, value); }
+        }
+
+        /// <summary>
+        /// This is used for binding the command
+        /// </summary>
+        private ICommand CommandProxy
+        {
+            get { return (ICommand)GetValue(CommandProxyProperty); }
+            set { SetValue(CommandProxyProperty, value); }
         }
 
         public override void OnToolTipChanged(UIElement adornedElement)
@@ -93,8 +102,7 @@
             var toolTipCommand = command as IToolTipCommand;
             if (toolTipCommand != null)
             {
-                var prop = PathExpressionVisitor.GetPath<IToolTipCommand, string>(x => x.ToolTipText)
-                                                .Last().Member.Name;
+                var prop = NameOf.Property<IToolTipCommand, string>(x => x.ToolTipText);
                 var binding = new Binding(prop)
                                   {
                                       Source = toolTipCommand, 

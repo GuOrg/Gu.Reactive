@@ -53,8 +53,10 @@
     /// <summary>
     /// A command that does not use the CommandParameter
     /// </summary>
-    public class ConditionRelayCommand : ObservingRelayCommand
+    public class ConditionRelayCommand : ObservingRelayCommand, IConditionRelayCommand
     {
+        private readonly ICondition _condition;
+
         /// <summary>
         /// 
         /// </summary>
@@ -68,6 +70,24 @@
                 raiseCanExecuteOnDispatcher,
                 condition.ToObservable(x => x.IsSatisfied))
         {
+            _condition = condition;
+        }
+
+        public ICondition Condition
+        {
+            get
+            {
+                return _condition;
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && Condition != null)
+            {
+                Condition.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
