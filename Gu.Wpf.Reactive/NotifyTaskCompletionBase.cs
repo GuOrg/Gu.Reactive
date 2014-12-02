@@ -10,13 +10,18 @@
         where T : Task
     {
         private readonly string _resultProp;
-
+        private readonly TaskCompletionSource<int> _completionSource = new TaskCompletionSource<int>(); 
         protected NotifyTaskCompletionBase(T task, string resultProp) // Not nice at all with string like this.
         {
+            Completed = _completionSource.Task;
             _resultProp = resultProp;
             if (!task.IsCompleted)
             {
                 var _ = WatchTaskAsync(task);
+            }
+            else
+            {
+                _completionSource.SetResult(1); // 1 is not important here
             }
             Task = task;
         }
@@ -24,6 +29,8 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         public T Task { get; private set; }
+
+        public Task Completed { get; private set; }
 
         public TaskStatus Status { get { return Task.Status; } }
 
@@ -75,6 +82,7 @@
             catch
             {
             }
+            _completionSource.SetResult(1); // 1 is not important here
             var handler = PropertyChanged;
             if (handler == null)
             {

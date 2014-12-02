@@ -13,30 +13,25 @@
 
         public AsyncViewModel()
         {
-            AsyncCommand = new AsyncCommand(VoidTaskMethod)
-                               {
-                                   ToolTipText = "AsyncCommand"
-                               };
+            AsyncCommand = new AsyncCommand(VoidTaskMethod) { ToolTipText = "AsyncCommand" };
 
-            AsyncResultCommand = new AsyncResultCommand<int>(ResultTaskMethod)
-            {
-                ToolTipText = "AsyncResultCommand"
-            };
+            AsyncParameterCommand = new AsyncCommand<string>(VoidTaskMethod) { ToolTipText = "AsyncParameterCommand" };
 
-            AsyncThrowCommand = new AsyncCommand(VoidTaskThrowMethod)
-                                    {
-                                        ToolTipText = "AsyncThrowCommand"
-                                    };
+            AsyncResultCommand = new AsyncResultCommand<int>(ResultTaskMethod) { ToolTipText = "AsyncResultCommand" };
+
+            AsyncThrowCommand = new AsyncCommand(VoidTaskThrowMethod) { ToolTipText = "AsyncThrowCommand" };
 
             AsyncResultThrowCommand = new AsyncResultCommand<int>(ResultTaskThrowMethod)
-            {
-                ToolTipText = "AsyncResultThrowCommand"
-            };
+                                          {
+                                              ToolTipText = "AsyncResultThrowCommand"
+                                          };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public AsyncCommand AsyncCommand { get; private set; }
+       
+        public AsyncCommand<string> AsyncParameterCommand { get; private set; }
         
         public AsyncResultCommand<int> AsyncResultCommand { get; private set; }
 
@@ -64,6 +59,11 @@
         public async Task VoidTaskMethod()
         {
             await Task.Delay(Delay);
+        }
+
+        private Task VoidTaskMethod(string arg)
+        {
+            return VoidTaskMethod();
         }
 
         public async Task VoidTaskThrowMethod()
