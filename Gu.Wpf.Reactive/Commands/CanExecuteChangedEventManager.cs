@@ -17,11 +17,11 @@
             get
             {
                 var managerType = typeof(CanExecuteChangedEventManager);
-                var currentManager = (CanExecuteChangedEventManager)WeakEventManager.GetCurrentManager(managerType);
+                var currentManager = (CanExecuteChangedEventManager)GetCurrentManager(managerType);
                 if (currentManager == null)
                 {
                     currentManager = new CanExecuteChangedEventManager();
-                    WeakEventManager.SetCurrentManager(managerType, (WeakEventManager)currentManager);
+                    SetCurrentManager(managerType, (WeakEventManager)currentManager);
                 }
                 return currentManager;
             }
@@ -91,7 +91,7 @@
         /// <param name="source">The object on which to start listening to.</param>
         protected override void StartListening(object source)
         {
-            ((ICommand)source).CanExecuteChanged += this.DeliverEvent;
+            ((ICommand)source).CanExecuteChanged += DeliverEvent;
         }
 
         /// <summary>
@@ -100,7 +100,7 @@
         /// <param name="source">The source object on which to stop listening to.</param>
         protected override void StopListening(object source)
         {
-            ((ICommand)source).CanExecuteChanged -= this.DeliverEvent;
+            ((ICommand)source).CanExecuteChanged -= DeliverEvent;
         }
     }
 }

@@ -13,22 +13,22 @@
 
         public AsyncViewModel()
         {
-            AsyncCommand = new AsyncCommand(() => VoidTaskMethod(() => { }))
+            AsyncCommand = new AsyncCommand(VoidTaskMethod)
                                {
                                    ToolTipText = "AsyncCommand"
                                };
 
-            AsyncResultCommand = new AsyncResultCommand<int>(() => ResultTaskMethod(() => 5))
+            AsyncResultCommand = new AsyncResultCommand<int>(ResultTaskMethod)
             {
                 ToolTipText = "AsyncResultCommand"
             };
 
-            AsyncThrowCommand = new AsyncCommand(() => VoidTaskMethod(() => { throw new Exception("message"); }))
+            AsyncThrowCommand = new AsyncCommand(VoidTaskThrowMethod)
                                     {
                                         ToolTipText = "AsyncThrowCommand"
                                     };
 
-            AsyncResultThrowCommand = new AsyncResultCommand<int>(() => ResultTaskMethod<int>(() => { throw new Exception("message"); }))
+            AsyncResultThrowCommand = new AsyncResultCommand<int>(ResultTaskThrowMethod)
             {
                 ToolTipText = "AsyncResultThrowCommand"
             };
@@ -61,16 +61,27 @@
             }
         }
 
-        public async Task VoidTaskMethod(Action action)
+        public async Task VoidTaskMethod()
         {
             await Task.Delay(Delay);
-            action();
         }
 
-        public async Task<T> ResultTaskMethod<T>(Func<T> action)
+        public async Task VoidTaskThrowMethod()
         {
             await Task.Delay(Delay);
-            return action();
+            throw new Exception("Something went wrong");
+        }
+
+        public async Task<int> ResultTaskMethod()
+        {
+            await Task.Delay(Delay);
+            return 5;
+        }
+
+        public async Task<int> ResultTaskThrowMethod()
+        {
+            await Task.Delay(Delay);
+            throw new Exception("Something went wrong");
         }
 
         [NotifyPropertyChangedInvocator]

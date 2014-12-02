@@ -68,7 +68,7 @@
         /// </summary>
         public virtual void RaiseCanExecuteChanged()
         {
-            var handler = this.InternalCanExecuteChanged;
+            var handler = InternalCanExecuteChanged;
             if (handler != null)
             {
                 if (_raiseCanExecuteOnDispatcher)
@@ -113,11 +113,11 @@
             ////}
             protected override void StartListening(object source)
             {
-                ((ManualCommandBase<T>)source).InternalCanExecuteChanged += this.DeliverEvent;
+                ((ManualCommandBase<T>)source).InternalCanExecuteChanged += DeliverEvent;
             }
             protected override void StopListening(object source)
             {
-                ((ManualCommandBase<T>)source).InternalCanExecuteChanged -= this.DeliverEvent;
+                ((ManualCommandBase<T>)source).InternalCanExecuteChanged -= DeliverEvent;
             }
         }
     }
