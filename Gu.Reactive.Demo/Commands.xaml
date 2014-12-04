@@ -22,6 +22,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <CheckBox Grid.Row="0"
@@ -30,10 +31,16 @@
                       IsChecked="{Binding CanExecute}" />
             <Button Grid.Row="0"
                     Grid.Column="1"
-                    Command="{Binding RaiseCanExecute}"
+                    Command="{Binding RaiseCanExecuteCommand}"
                     Content="RaiseCanExecute" />
+
             <Button Grid.Row="0"
                     Grid.Column="2"
+                    Command="{Binding RaiseCanExecuteOnOtherThread}"
+                    Content="RaiseCanExecuteOnOtherTrhread" />
+            
+            <Button Grid.Row="0"
+                    Grid.Column="3"
                     Command="{Binding DelayedToggleCanExecute}"
                     Content="DelayedToggleCanExecute" />
             <TextBlock Grid.Row="1"

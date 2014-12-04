@@ -19,16 +19,14 @@
                 action,
                 condition,
                 x => new NotifyTaskCompletion<TResult>(x),
-                disableMultipleRequests,
-                raiseCanExecuteOnDispatcher)
+                disableMultipleRequests)
         {
         }
 
         public AsyncResultCommand(
             Func<TParameter, Task<TResult>> action,
-            bool disableMultipleRequests = true,
-            bool raiseCanExecuteOnDispatcher = true)
-            : this(action, _ => true, disableMultipleRequests, raiseCanExecuteOnDispatcher)
+            bool disableMultipleRequests = true)
+            : this(action, _ => true, disableMultipleRequests)
         {
         }
     }
@@ -43,22 +41,19 @@
         public AsyncResultCommand(
             Func<Task<TResult>> action,
             Func<bool> condition,
-            bool disableMultipleRequests = true,
-            bool raiseCanExecuteOnDispatcher = true)
+            bool disableMultipleRequests = true)
             : base(
                 action,
                 condition,
                 x => new NotifyTaskCompletion<TResult>(x),
-                disableMultipleRequests,
-                raiseCanExecuteOnDispatcher)
+                disableMultipleRequests)
         {
         }
 
         public AsyncResultCommand(
             Func<Task<TResult>> action,
-            bool disableMultipleRequests = true,
-            bool raiseCanExecuteOnDispatcher = true)
-            : this(action, () => true, disableMultipleRequests, raiseCanExecuteOnDispatcher)
+            bool disableMultipleRequests = true)
+            : this(action, () => true, disableMultipleRequests)
         {
         }
     }

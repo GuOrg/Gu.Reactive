@@ -14,20 +14,11 @@
         public ObservingRelayCommand(
             Action<T> action,
             Func<T, bool> condition,
-            bool raiseCanExecuteOnDispatcher,
             params IObservable<object>[] observable)
-            : base(action, condition, raiseCanExecuteOnDispatcher)
+            : base(action, condition)
         {
             _subscription = observable.Merge()
                                       .Subscribe(x => RaiseCanExecuteChanged());
-        }
-
-        public ObservingRelayCommand(
-            Action<T> action,
-            Func<T, bool> condition,
-            params IObservable<object>[] observable)
-            : this(action, condition, true, observable)
-        {
         }
 
         public void Dispose()
@@ -56,20 +47,11 @@
         public ObservingRelayCommand(
             Action action,
             Func<bool> condition,
-            bool raiseCanExecuteOnDispatcher,
             params IObservable<object>[] observable)
-            : base(action, condition, raiseCanExecuteOnDispatcher)
+            : base(action, condition)
         {
             _subscription = observable.Merge()
                                       .Subscribe(x => RaiseCanExecuteChanged());
-        }
-
-        public ObservingRelayCommand(
-            Action action,
-            Func<bool> condition,
-            params IObservable<object>[] observable)
-            : this(action, condition, true, observable)
-        {
         }
 
         public void Dispose()

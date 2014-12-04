@@ -83,7 +83,6 @@
     <Compile Include="Conditions\NegatedCondition.cs" />
     <Compile Include="Conditions\OrCondition.cs" />
     <Compile Include="Conditions\OrConditionCollection.cs" />
-    <Compile Include="Schedulers.cs" />
     <Compile Include="FixedSizedQueue.cs" />
     <Compile Include="NestedObservable.cs" />
     <Compile Include="PathExpressionVisitor.cs" />

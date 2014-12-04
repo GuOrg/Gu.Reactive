@@ -1,8 +1,11 @@
-﻿namespace Gu.Reactive.Tests
+﻿namespace Gu.Wpf.Reactive.Tests
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.Linq;
+
+    using Gu.Wpf.Reactive;
+
     using NUnit.Framework;
 
     public class FixedSizedQueueTests
@@ -11,13 +14,13 @@
         private const NotifyCollectionChangedAction Add = NotifyCollectionChangedAction.Add;
         private const NotifyCollectionChangedAction Remove = NotifyCollectionChangedAction.Remove;
         private List<NotifyCollectionChangedEventArgs> _args;
-        private FixedSizedQueue<int> _queue;
+        private ObservableFixedSizeQueue<int> _queue;
 
         [SetUp]
         public void SetUp()
         {
             _args = new List<NotifyCollectionChangedEventArgs>();
-            _queue = new FixedSizedQueue<int>(Size);
+            _queue = new ObservableFixedSizeQueue<int>(Size);
             _queue.CollectionChanged += (_, e) => _args.Add(e);
         }
 

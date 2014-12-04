@@ -11,7 +11,7 @@
         [Test(Description = "This is the most relevant test, it checks that the weak event implementation is correct")]
         public void MemoryLeak()
         {
-            var command = new ManualRelayCommand<int>(x => { }, x => true, false);
+            var command = new ManualRelayCommand<int>(x => { }, x => true);
             var listener = new CommandListener();
             var wr = new WeakReference(listener);
             command.CanExecuteChanged += listener.React;
@@ -25,7 +25,7 @@
         public void RaiseCanExecuteChanged()
         {
             int count = 0;
-            var command = new ManualRelayCommand<int>(x => { }, x => true, false);
+            var command = new ManualRelayCommand<int>(x => { }, x => true);
             command.CanExecuteChanged += (sender, args) => count++;
             Assert.AreEqual(0, count);
             command.RaiseCanExecuteChanged();

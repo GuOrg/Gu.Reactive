@@ -13,22 +13,19 @@ namespace Gu.Wpf.Reactive
         public AsyncCommand(
             Func<Task> action,
             Func<bool> condition,
-            bool disableMultipleRequests = true,
-            bool raiseCanExecuteOnDispatcher = true)
+            bool disableMultipleRequests = true)
             : base(
                 action,
                 condition,
                 x => new NotifyTaskCompletion(x),
-                disableMultipleRequests,
-                raiseCanExecuteOnDispatcher)
+                disableMultipleRequests)
         {
         }
 
         public AsyncCommand(
             Func<Task> action,
-            bool disableMultipleRequests = true,
-            bool raiseCanExecuteOnDispatcher = true)
-            : this(action, () => true, disableMultipleRequests, raiseCanExecuteOnDispatcher)
+            bool disableMultipleRequests = true)
+            : this(action, () => true, disableMultipleRequests)
         {
         }
     }
@@ -43,22 +40,19 @@ namespace Gu.Wpf.Reactive
         public AsyncCommand(
             Func<T, Task> action,
             Func<T,bool> condition,
-            bool disableMultipleRequests = true,
-            bool raiseCanExecuteOnDispatcher = true)
+            bool disableMultipleRequests = true)
             : base(
                 action,
                 condition,
                 x => new NotifyTaskCompletion(x),
-                disableMultipleRequests,
-                raiseCanExecuteOnDispatcher)
+                disableMultipleRequests)
         {
         }
 
         public AsyncCommand(
             Func<T, Task> action,
-            bool disableMultipleRequests = true,
-            bool raiseCanExecuteOnDispatcher = true)
-            : this(action, _ => true, disableMultipleRequests, raiseCanExecuteOnDispatcher)
+            bool disableMultipleRequests = true)
+            : this(action, _ => true, disableMultipleRequests)
         {
         }
     }
