@@ -12,12 +12,6 @@
     public abstract class ManualCommandBase<T> : IToolTipCommand
     {
         private string _toolTipText;
-        private readonly bool _raiseCanExecuteOnDispatcher;
-
-        protected ManualCommandBase(bool raiseCanExecuteOnDispatcher = true)
-        {
-            _raiseCanExecuteOnDispatcher = raiseCanExecuteOnDispatcher;
-        }
 
         public virtual event EventHandler CanExecuteChanged
         {
@@ -71,15 +65,8 @@
             var handler = InternalCanExecuteChanged;
             if (handler != null)
             {
-                if (_raiseCanExecuteOnDispatcher)
-                {
-                    var scheduler = Schedulers.SynchronizationContextOrImmediate;
-                    scheduler.Schedule(() => handler(this, new EventArgs()));
-                }
-                else
-                {
-                    handler(this, new EventArgs());
-                }
+                var scheduler = Schedulers.DispatcherOrCurrentThread;
+                scheduler.Schedule(() => handler(this, new EventArgs()));
             }
         }
 

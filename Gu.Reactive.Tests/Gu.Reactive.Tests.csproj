@@ -83,7 +83,6 @@
     <Compile Include="Conditions\ConditionTests.cs" />
     <Compile Include="Conditions\NegatedConditionTests.cs" />
     <Compile Include="Conditions\OrConditionTests.cs" />
-    <Compile Include="FixedSizedQueueTests.cs" />
     <Compile Include="Helpers\FakeInpc.cs" />
     <Compile Include="Helpers\Level.cs" />
     <Compile Include="Helpers\NotifyPropertyChangedMockExt.cs" />

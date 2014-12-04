@@ -18,15 +18,12 @@
         /// </summary>
         /// <param name="action">o => CallSomeMethod()</param>
         /// <param name="condition"></param>
-        /// <param name="raiseCanExecuteOnDispatcher">default true, use false for tests</param>
         public ConditionRelayCommand(
             Action<T> action,
-            ICondition condition,
-            bool raiseCanExecuteOnDispatcher = true)
+            ICondition condition)
             : base(
                 action, 
                 _ => condition.IsSatisfied == true, 
-                raiseCanExecuteOnDispatcher,
                 condition.ToObservable(x => x.IsSatisfied))
         {
             _condition = condition;
@@ -62,12 +59,10 @@
         /// </summary>
         /// <param name="action">o => CallSomeMethod()</param>
         /// <param name="condition"></param>
-        /// <param name="raiseCanExecuteOnDispatcher">default true, use false for tests</param>
-        public ConditionRelayCommand(Action action, ICondition condition, bool raiseCanExecuteOnDispatcher = true)
+        public ConditionRelayCommand(Action action, ICondition condition)
             : base(
                 action,
                 () => condition.IsSatisfied == true,
-                raiseCanExecuteOnDispatcher,
                 condition.ToObservable(x => x.IsSatisfied))
         {
             _condition = condition;

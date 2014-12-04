@@ -25,7 +25,7 @@
             _fake = new FakeInpc { Prop1 = false };
             _observable = _fake.ToObservable(x => x.Prop1);
             _condition = new Condition(_observable, () => _fake.Prop1);
-            _command = new ConditionRelayCommand(() => { }, _condition, false);
+            _command = new ConditionRelayCommand(() => { }, _condition);
         }
         [Test]
         public void NotifiesOnConditionChanged()
@@ -48,7 +48,7 @@
         public void Execute()
         {
             var i = 0;
-            var command = new ConditionRelayCommand(() => i++, _condition, false);
+            var command = new ConditionRelayCommand(() => i++, _condition);
             command.Execute();
             Assert.AreEqual(1, i);
         }

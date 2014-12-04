@@ -45,7 +45,7 @@
         public void Execute()
         {
             var i = 0;
-            var command = new ConditionRelayCommand<int>(x => i=x, _condition, false);
+            var command = new ConditionRelayCommand<int>(x => i=x, _condition);
             command.Execute(1);
             Assert.AreEqual(1, i);
         }

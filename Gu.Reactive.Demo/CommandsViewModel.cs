@@ -29,23 +29,8 @@
             var condition = new Condition(this.ToObservable(x => x.CanExecute), () => CanExecute);
             ConditionRelayCommand = new ConditionRelayCommand(() => Executed = "ObservingRelayCommand", condition);
             ConditionRelayCommandWithParameter = new ConditionRelayCommand<string>(x => Executed = "ConditionRelayCommandWithParameter: " + x, condition);
-            RaiseCanExecute = new RelayCommand(
-                () =>
-                {
-                    ManualRelayCommandNoCondition.RaiseCanExecuteChanged();
-                    ManualRelayCommand.RaiseCanExecuteChanged();
-                    ManualRelayCommandWithParameter.RaiseCanExecuteChanged();
-
-                    RelayCommandNoCondition.RaiseCanExecuteChanged();
-                    RelayCommand.RaiseCanExecuteChanged();
-                    RelayCommandWithParamater.RaiseCanExecuteChanged();
-
-                    ObservingRelayCommand.RaiseCanExecuteChanged();
-                    ObservingRelayCommandWithParameter.RaiseCanExecuteChanged();
-
-                    ConditionRelayCommand.RaiseCanExecuteChanged();
-                    ConditionRelayCommandWithParameter.RaiseCanExecuteChanged();
-                });
+            RaiseCanExecuteCommand = new RelayCommand(RaiseCanExecute);
+            RaiseCanExecuteOnOtherThread = new RelayCommand(() => Task.Run(() => RaiseCanExecute()));
             DelayedToggleCanExecute = new RelayCommand(async () =>
                     {
                         await Task.Delay(500);
@@ -89,8 +74,9 @@
             }
         }
 
-        public RelayCommand RaiseCanExecute { get; private set; }
-        
+        public RelayCommand RaiseCanExecuteCommand { get; private set; }
+        public RelayCommand RaiseCanExecuteOnOtherThread { get; private set; }
+
         public RelayCommand DelayedToggleCanExecute { get; private set; }
 
         public ManualRelayCommand ManualRelayCommandNoCondition { get; private set; }
@@ -106,11 +92,11 @@
         public RelayCommand<string> RelayCommandWithParamater { get; private set; }
 
         public ObservingRelayCommand ObservingRelayCommand { get; private set; }
-       
+
         public ObservingRelayCommand<string> ObservingRelayCommandWithParameter { get; private set; }
 
         public ConditionRelayCommand ConditionRelayCommand { get; private set; }
-      
+
         public ConditionRelayCommand<string> ConditionRelayCommandWithParameter { get; private set; }
 
 
@@ -123,5 +109,23 @@
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        private void RaiseCanExecute()
+        {
+            ManualRelayCommandNoCondition.RaiseCanExecuteChanged();
+            ManualRelayCommand.RaiseCanExecuteChanged();
+            ManualRelayCommandWithParameter.RaiseCanExecuteChanged();
+
+            RelayCommandNoCondition.RaiseCanExecuteChanged();
+            RelayCommand.RaiseCanExecuteChanged();
+            RelayCommandWithParamater.RaiseCanExecuteChanged();
+
+            ObservingRelayCommand.RaiseCanExecuteChanged();
+            ObservingRelayCommandWithParameter.RaiseCanExecuteChanged();
+
+            ConditionRelayCommand.RaiseCanExecuteChanged();
+            ConditionRelayCommandWithParameter.RaiseCanExecuteChanged();
+        }
+
     }
 }

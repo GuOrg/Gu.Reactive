@@ -1,58 +1,32 @@
 ﻿namespace Gu.Reactive
 {
-    using System;
     using System.Collections;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.Reactive.Concurrency;
-    using System.Reactive.Linq;
-    using System.Threading;
-    using System.Windows;
 
-    public class FixedSizedQueue<T> : IEnumerable<T>, INotifyCollectionChanged
+    public class FixedSizedQueue<T> : IEnumerable<T>
     {
-        private readonly ConcurrentQueue<T> _innerQueue = new ConcurrentQueue<T>();
+        protected readonly ConcurrentQueue<T> InnerQueue = new ConcurrentQueue<T>();
         public FixedSizedQueue(int size)
         {
             Size = size;
         }
-
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-        public int Size { get; set; }
+        
+        public int Size { get; private set; }
+        
         public IEnumerator<T> GetEnumerator()
         {
-            return _innerQueue.GetEnumerator();
+            return InnerQueue.GetEnumerator();
         }
+        
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
-        public void Enqueue(T item)
+        
+        public virtual void Enqueue(T item)
         {
-            _innerQueue.Enqueue(item);
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, _innerQueue.Count - 1));
-            if (_innerQueue.Count > Size)
-            {
-                lock (this)
-                {
-                    T overflow;
-                    while (_innerQueue.Count > Size && _innerQueue.TryDequeue(out overflow))
-                    {
-                        OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, overflow, 0));
-                    }
-                }
-            }
-        }
-
-        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            var handler = CollectionChanged;
-            if (handler != null)
-            {
-                var scheduler = Schedulers.SynchronizationContextOrImmediate;
-                scheduler.Schedule(() => handler(this, e));
-            }
+            InnerQueue.Enqueue(item);
         }
     }
 }

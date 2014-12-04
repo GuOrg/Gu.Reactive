@@ -16,8 +16,7 @@
         /// <param name="action"></param>
         /// <param name="condition"></param>
         /// <param name="raiseCanExecuteOnDispatcher">Default true, use false in tests</param>
-        public ManualRelayCommand(Action<T> action, Func<T, bool> condition, bool raiseCanExecuteOnDispatcher = true)
-            : base(raiseCanExecuteOnDispatcher)
+        public ManualRelayCommand(Action<T> action, Func<T, bool> condition)
         {
             _action = action;
             _condition = condition ?? (_ => true);
@@ -28,8 +27,8 @@
         /// </summary>
         /// <param name="action"></param>
         /// <param name="raiseCanExecuteOnDispatcher">Default true, use false in tests</param>
-        public ManualRelayCommand(Action<T> action, bool raiseCanExecuteOnDispatcher = true)
-            : this(action, _ => true, raiseCanExecuteOnDispatcher)
+        public ManualRelayCommand(Action<T> action)
+            : this(action, _ => true)
         {
         }
 
@@ -69,8 +68,7 @@
         /// <param name="action"></param>
         /// <param name="condition"></param>
         /// <param name="raiseCanExecuteOnDispatcher">Default true, use false in tests</param>
-        public ManualRelayCommand(Action action, Func<bool> condition, bool raiseCanExecuteOnDispatcher = true)
-            : base(raiseCanExecuteOnDispatcher)
+        public ManualRelayCommand(Action action, Func<bool> condition)
         {
             _action = action;
             _condition = condition;
@@ -81,8 +79,8 @@
         /// </summary>
         /// <param name="action"></param>
         /// <param name="raiseCanExecuteOnDispatcher">Default true, use false in tests</param>
-        public ManualRelayCommand(Action action, bool raiseCanExecuteOnDispatcher = true)
-            : this(action, () => true, raiseCanExecuteOnDispatcher)
+        public ManualRelayCommand(Action action)
+            : this(action, () => true)
         {
         }
 

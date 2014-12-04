@@ -21,12 +21,10 @@ namespace Gu.Wpf.Reactive
             Func<TParameter, TTask> action,
             Func<TParameter,bool> condition,
             Func<TTask, NotifyTaskCompletionBase<TTask>> creator,
-            bool disableMultipleRequests = true,
-            bool raiseCanExecuteOnDispatcher = true)
+            bool disableMultipleRequests = true)
             : base(
                 _ => { throw new InvalidOperationException("Should not be called"); }, // Dummy action sent to base. Not super nice.
-                condition,
-                raiseCanExecuteOnDispatcher)
+                condition)
         {
             _action = action;
             _creator = creator;
@@ -36,14 +34,12 @@ namespace Gu.Wpf.Reactive
         protected AsyncParameterCommandBase(
             Func<TParameter, TTask> action,
             Func<TTask, NotifyTaskCompletionBase<TTask>> creator,
-            bool disableMultipleRequests = true,
-            bool raiseCanExecuteOnDispatcher = true)
+            bool disableMultipleRequests = true)
             : this(
                 action,
                 _ => true,
                 creator,
-                disableMultipleRequests,
-                raiseCanExecuteOnDispatcher)
+                disableMultipleRequests)
         {
         }
 
