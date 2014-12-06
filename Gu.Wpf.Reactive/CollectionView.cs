@@ -81,13 +81,14 @@
             return new CastEnumerator<T>(base.GetEnumerator());
         }
 
-        public class CastEnumerator<T> : IEnumerator<T>
+        public struct CastEnumerator<T> : IEnumerator<T>
         {
             private readonly IEnumerator _enumerator;
             public CastEnumerator(IEnumerator enumerator)
             {
                 _enumerator = enumerator;
             }
+           
             public void Dispose()
             {
                 // What goes here?
