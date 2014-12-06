@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
@@ -77,7 +78,40 @@
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            return this.Cast<T>().GetEnumerator();
+            return new CastEnumerator<T>(base.GetEnumerator());
+        }
+
+        public class CastEnumerator<T> : IEnumerator<T>
+        {
+            private readonly IEnumerator _enumerator;
+            public CastEnumerator(IEnumerator enumerator)
+            {
+                _enumerator = enumerator;
+            }
+            public void Dispose()
+            {
+                // What goes here?
+            }
+
+            public bool MoveNext()
+            {
+                return _enumerator.MoveNext();
+            }
+
+            public void Reset()
+            {
+                _enumerator.Reset();
+            }
+
+            public T Current
+            {
+                get { return (T)_enumerator.Current; }
+            }
+
+            object IEnumerator.Current
+            {
+                get { return _enumerator.Current; }
+            }
         }
     }
 }

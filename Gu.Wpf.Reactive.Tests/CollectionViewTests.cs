@@ -24,6 +24,14 @@
         }
 
         [Test]
+        public void ToArrayTest()
+        {
+            var ints = new List<int> { 1, 2, 3 };
+            var view = new CollectionView<int>(ints);
+            CollectionAssert.AreEqual(ints, view.ToArray());
+        }
+
+        [Test]
         public void UpdatesAndNotifiesOnObservable()
         {
             var subject = new Subject<object>();
