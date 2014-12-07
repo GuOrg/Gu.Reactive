@@ -12,9 +12,7 @@
         {
         }
 
-
         public event NotifyCollectionChangedEventHandler CollectionChanged;
-
 
         public override void Enqueue(T item)
         {

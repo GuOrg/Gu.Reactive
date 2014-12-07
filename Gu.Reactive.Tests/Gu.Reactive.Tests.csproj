@@ -98,16 +98,16 @@
     <Compile Include="ToTrackingObservableTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj">
-      <Project>{2230088e-f6dc-4c79-9983-d9654274d689}</Project>
-      <Name>Gu.Reactive</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj">
+      <Project>{2230088e-f6dc-4c79-9983-d9654274d689}</Project>
+      <Name>Gu.Reactive</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

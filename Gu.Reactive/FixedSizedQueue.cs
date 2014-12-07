@@ -1,9 +1,11 @@
 ﻿namespace Gu.Reactive
 {
+    using System;
     using System.Collections;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
 
+    [Serializable]
     public class FixedSizedQueue<T> : IEnumerable<T>
     {
         protected readonly ConcurrentQueue<T> InnerQueue = new ConcurrentQueue<T>();
