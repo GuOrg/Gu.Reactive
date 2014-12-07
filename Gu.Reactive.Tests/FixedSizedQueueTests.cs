@@ -1,8 +1,5 @@
 ﻿namespace Gu.Reactive.Tests
 {
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.Linq;
     using NUnit.Framework;
 
     public class FixedSizedQueueTests

@@ -78,6 +78,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FixedSizedQueueTests.cs" />
     <Compile Include="NameOfTests.cs" />
     <Compile Include="Conditions\AndConditionTests.cs" />
     <Compile Include="Conditions\ConditionTests.cs" />
