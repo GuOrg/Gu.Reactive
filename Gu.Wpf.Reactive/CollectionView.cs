@@ -55,8 +55,6 @@
             return new CollectionView<TItem>(prop.Compile().Invoke(source), source.ToObservable(prop));
         }
 
-
-
         public new Predicate<T> Filter
         {
             get

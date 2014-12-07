@@ -18,7 +18,7 @@
 
         public override void Enqueue(T item)
         {
-            base.Enqueue(item);
+            InnerQueue.Enqueue(item);
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, InnerQueue.Count - 1));
             if (InnerQueue.Count > Size)
             {

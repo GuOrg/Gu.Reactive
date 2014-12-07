@@ -27,6 +27,16 @@
         public virtual void Enqueue(T item)
         {
             InnerQueue.Enqueue(item);
+            if (InnerQueue.Count > Size)
+            {
+                lock (this)
+                {
+                    T overflow;
+                    while (InnerQueue.Count > Size && InnerQueue.TryDequeue(out overflow))
+                    {
+                    }
+                }
+            }
         }
     }
 }
