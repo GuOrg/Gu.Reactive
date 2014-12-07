@@ -8,7 +8,7 @@
     /// Typed CollectionView
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ICollectionView<T> : ICollectionView, IEnumerable<T>
+    public interface ICollectionView<T> : ICollectionView, IEnumerable<T>, IDisposable
     {
         new Predicate<T> Filter { get; set; }
     }

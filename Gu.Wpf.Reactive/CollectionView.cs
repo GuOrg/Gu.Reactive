@@ -18,6 +18,9 @@
     /// <typeparam name="T"></typeparam>
     public class CollectionView<T> : CollectionView, ICollectionView<T>
     {
+        private bool _disposed = false;
+        private readonly IDisposable _subscription;
+
         /// <summary>
         /// For manual Refresh()
         /// </summary>
@@ -36,8 +39,8 @@
             : base(collection)
         {
             var observable = updateTrigger.Merge();
-            observable.ObserveOnDispatcherOrCurrentThread()
-                      .Subscribe(x => Refresh());
+            _subscription = observable.ObserveOnDispatcherOrCurrentThread()
+                                      .Subscribe(x => Refresh());
         }
 
         /// <summary>
@@ -51,6 +54,8 @@
         {
             return new CollectionView<TItem>(prop.Compile().Invoke(source), source.ToObservable(prop));
         }
+
+
 
         public new Predicate<T> Filter
         {
@@ -113,6 +118,39 @@
             {
                 get { return _enumerator.Current; }
             }
+        }
+
+        /// <summary>
+        /// Dispose(true); //I am calling you from Dispose, it's safe
+        /// GC.SuppressFinalize(this); //Hey, GC: don't bother calling finalize later
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Protected implementation of Dispose pattern. 
+        /// </summary>
+        /// <param name="disposing">true: safe to free managed resources</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (_subscription != null)
+                {
+                    _subscription.Dispose();
+                }
+            }
+
+            // Free any unmanaged objects here. 
+            _disposed = true;
         }
     }
 }
