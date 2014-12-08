@@ -4,10 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Linq;
     using System.Runtime.CompilerServices;
-    using System.Text;
-    using System.Threading.Tasks;
     using System.Windows.Data;
 
     using Gu.Reactive.Demo.Annotations;
@@ -31,9 +28,10 @@
                     x =>
                     {
                         TypedCollectionView.Filter = Filter;
-                        //CollectionView.Filter = o => Filter((int)o);
-                        //ObservableDefaultView.Filter = o => Filter((int)o);
-                        //TypedObservableCollectionView.Filter = Filter;
+                        TypedCollectionViewAsInterface.Filter = o => Filter((int)o);
+                        CollectionView.Filter = o => Filter((int)o);
+                        ObservableDefaultView.Filter = o => Filter((int)o);
+                        TypedObservableCollectionView.Filter = Filter;
                     });
         }
         public event PropertyChangedEventHandler PropertyChanged;
