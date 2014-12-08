@@ -42,7 +42,6 @@
 
                 </Grid>
             </AdornerDecorator>
-
         </TabItem>
 
         <TabItem Header="Overlay condition buttons">
@@ -55,6 +54,10 @@
 
         <TabItem Header="Commands">
             <demo:Commands />
+        </TabItem>
+
+        <TabItem Header="CollectionView">
+            <demo:CollectionViewDemo />
         </TabItem>
     </TabControl>
 </Window>

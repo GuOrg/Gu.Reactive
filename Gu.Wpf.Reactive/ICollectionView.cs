@@ -10,6 +10,6 @@
     /// <typeparam name="T"></typeparam>
     public interface ICollectionView<T> : ICollectionView, IEnumerable<T>, IDisposable
     {
-        new Predicate<T> Filter { get; set; }
+        Predicate<T> Filter { get; set; }
     }
 }

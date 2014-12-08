@@ -154,7 +154,7 @@ namespace Gu.Wpf.Reactive
                 conditionControl.Prerequisites = null;
                 conditionControl.RootCondition = Enumerable.Empty<ICondition>();
                 conditionControl.FlatList = Enumerable.Empty<ICondition>();
-                conditionControl.NotSatisfiedOnly = new CollectionView<ICondition>(Enumerable.Empty<ICondition>());
+                conditionControl.NotSatisfiedOnly = CollectionView<ICondition>.Create(Enumerable.Empty<ICondition>());
                 return;
             }
             conditionControl.Prerequisites = condition.Prerequisites;
@@ -162,10 +162,8 @@ namespace Gu.Wpf.Reactive
             var flatList = Flatten(condition);
             conditionControl.FlatList = flatList;
             var updateTrigger = flatList.Select(x => x.ToObservable(y => y.IsSatisfied)).Merge();
-            conditionControl.NotSatisfiedOnly = new CollectionView<ICondition>(flatList, updateTrigger)
-            {
-                Filter = IsNotSatisfied
-            };
+            conditionControl.NotSatisfiedOnly = CollectionView<ICondition>.Create(flatList, updateTrigger);
+            conditionControl.NotSatisfiedOnly.Filter = IsNotSatisfied;
         }
 
         private static List<ICondition> Flatten(ICondition condition, List<ICondition> list = null)
