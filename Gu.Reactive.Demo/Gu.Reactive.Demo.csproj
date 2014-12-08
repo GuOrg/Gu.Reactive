@@ -95,6 +95,10 @@
       <DependentUpon>AsyncCommands.xaml</DependentUpon>
     </Compile>
     <Compile Include="AsyncViewModel.cs" />
+    <Compile Include="CollectionViewDemo.xaml.cs">
+      <DependentUpon>CollectionViewDemo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CollectionViewDemoViewModel.cs" />
     <Compile Include="CommandsViewModel.cs" />
     <Compile Include="Commands.xaml.cs">
       <DependentUpon>Commands.xaml</DependentUpon>
@@ -108,6 +112,10 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="AsyncCommands.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CollectionViewDemo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

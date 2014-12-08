@@ -5,16 +5,42 @@
     using System.Collections.Specialized;
     using System.Linq;
     using System.Reactive.Subjects;
+    using System.Windows.Controls;
+    using System.Windows.Data;
 
     using NUnit.Framework;
     [RequiresSTA]
     public class CollectionViewTests
     {
+        [Test, RequiresSTA]
+        public void BindItemsSource()
+        {
+            var listBox = new ListBox();
+            var ints = new List<int> { 1, 2, 3 };
+            var view = CollectionView<int>.Create(ints);
+            var binding = new Binding { Source = view, };
+            BindingOperations.SetBinding(listBox, ItemsControl.ItemsSourceProperty, binding);
+            CollectionAssert.AreEqual(ints, listBox.Items);
+
+            view.Filter = x => x % 2 == 0;
+            CollectionAssert.AreEqual(new[] { 2 }, view);
+            CollectionAssert.AreEqual(new[] { 2 }, listBox.Items);
+        }
+
+        [Test]
+        public void IsDefaultView()
+        {
+            var ints = new List<int> { 1, 2, 3 };
+            var view = CollectionView<int>.Create(ints);
+            var actual = CollectionViewSource.GetDefaultView(view);
+            Assert.AreSame(view, actual);
+        }
+
         [Test]
         public void Filter()
         {
             var ints = new List<int> { 1, 2, 3 };
-            var view = new CollectionView<int>(ints);
+            var view = CollectionView<int>.Create(ints);
             CollectionAssert.AreEqual(ints, view);
             var argses = new List<NotifyCollectionChangedEventArgs>();
             ((INotifyCollectionChanged)view).CollectionChanged += (sender, args) => argses.Add(args);
@@ -27,7 +53,7 @@
         public void ToArrayTest()
         {
             var ints = new List<int> { 1, 2, 3 };
-            var view = new CollectionView<int>(ints);
+            var view = CollectionView<int>.Create(ints);
             CollectionAssert.AreEqual(ints, view.ToArray());
         }
 
@@ -36,7 +62,7 @@
         {
             var subject = new Subject<object>();
             var ints = new List<int> { 1, 2, 3 };
-            var view = new CollectionView<int>(ints, subject);
+            var view = CollectionView<int>.Create(ints, subject);
             var argses = new List<NotifyCollectionChangedEventArgs>();
             ((INotifyCollectionChanged)view).CollectionChanged += (sender, args) => argses.Add(args);
             subject.OnNext(new object());
@@ -48,7 +74,7 @@
         public void UpdatesAndNotifiesOnObservableCollectionChanged()
         {
             var dummy = new ObservableCollection<int>(new List<int> { 1, 2 });
-            var view = new CollectionView<int>(dummy);
+            var view = CollectionView<int>.Create(dummy);
             var argses = new List<NotifyCollectionChangedEventArgs>();
             ((INotifyCollectionChanged)view).CollectionChanged += (sender, args) => argses.Add(args);
             dummy.Add(3);
@@ -61,7 +87,7 @@
         public void DoesNotUpdatesAndNotifiesOnObservableCollectionChangedWhenFiltered()
         {
             var dummy = new ObservableCollection<int>(new List<int> { 1, 2 });
-            var view = new CollectionView<int>(dummy);
+            var view = CollectionView<int>.Create(dummy);
             view.Filter = x => x < 3;
             var argses = new List<NotifyCollectionChangedEventArgs>();
             ((INotifyCollectionChanged)view).CollectionChanged += (sender, args) => argses.Add(args);
@@ -74,10 +100,8 @@
         public void NotifiesOnFilterChanged()
         {
             var dummy = new ObservableCollection<int>(new List<int> { 1, 2 });
-            var view = new CollectionView<int>(dummy)
-            {
-                Filter = x => x < 3
-            };
+            var view = CollectionView<int>.Create(dummy);
+            view.Filter = x => x < 3;
             var argses = new List<NotifyCollectionChangedEventArgs>();
             ((INotifyCollectionChanged)view).CollectionChanged += (sender, args) => argses.Add(args);
             dummy.Add(3);
