@@ -39,11 +39,31 @@
         /// </summary>
         /// <param name="collection"></param>
         /// <param name="updateTrigger"></param>
+        public static CollectionView<T> Create(IEnumerable<T> collection, Predicate<T> filter , params IObservable<object>[] updateTrigger)
+        {
+            CollectionView<T> collectionView = null;
+            Schedulers.DispatcherOrCurrentThread.Schedule(
+                () =>
+                {
+                    var source = new CollectionViewSource { Source = collection };
+                    var view = source.View;
+                    collectionView = new CollectionView<T>(source, view, updateTrigger);
+                    if (filter != null)
+                    {
+                        collectionView.Filter = filter;
+                    }
+                });
+            return collectionView;
+        }
+
+        /// <summary>
+        /// Calls Refresh when observable signals
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="updateTrigger"></param>
         public static CollectionView<T> Create(IEnumerable<T> collection, params IObservable<object>[] updateTrigger)
         {
-            var source = new CollectionViewSource { Source = collection };
-            var view = source.View;
-            return new CollectionView<T>(source, view, updateTrigger);
+            return Create(collection, null, updateTrigger);
         }
 
         /// <summary>
@@ -104,11 +124,7 @@
             }
             set
             {
-                Schedulers.DispatcherOrCurrentThread.Schedule(
-                    () =>
-                        {
-                            _view.Filter = value == null ? (Predicate<object>)null : (o => value((T)o));
-                        });
+                Schedulers.DispatcherOrCurrentThread.Schedule(() => _view.Filter = value == null ? (Predicate<object>)null : (o => value((T)o)));
             }
         }
 
@@ -132,11 +148,7 @@
             }
             set
             {
-                Schedulers.DispatcherOrCurrentThread.Schedule(
-                    () =>
-                        {
-                            _view.Filter = value;
-                        });
+                Schedulers.DispatcherOrCurrentThread.Schedule(() => _view.Filter = value);
             }
         }
 
@@ -244,7 +256,7 @@
 
         public void Refresh()
         {
-            _view.Refresh();
+            Schedulers.DispatcherOrCurrentThread.Schedule(() => _view.Refresh());
         }
 
         public SortDescriptionCollection SortDescriptions
