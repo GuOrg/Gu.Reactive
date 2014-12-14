@@ -3,10 +3,13 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq.Expressions;
+    using System.Net.Mime;
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
+    using System.Windows;
     using System.Windows.Data;
     using Gu.Reactive;
 
@@ -27,11 +30,19 @@
         /// <param name="collection"></param>
         private CollectionView(CollectionViewSource source, ICollectionView view, params IObservable<object>[] updateTrigger)
         {
+            if (view == null)
+            {
+                throw new ArgumentNullException("view");
+            }
             _view = view;
+            _view.CollectionChanged += (sender, args) => OnCollectionChanged(args);
+            _view.CurrentChanged += (sender, args) => OnCurrentChanged();
+            _view.CurrentChanging += (sender, args) => OnCurrentChanging(args);
             Source = source;
             var observable = updateTrigger.Merge();
             _subscription = observable.ObserveOnDispatcherOrCurrentThread()
                                       .Subscribe(x => _view.Refresh());
+
         }
 
         /// <summary>
@@ -42,17 +53,31 @@
         public static CollectionView<T> Create(IEnumerable<T> collection, Predicate<T> filter , params IObservable<object>[] updateTrigger)
         {
             CollectionView<T> collectionView = null;
-            Schedulers.DispatcherOrCurrentThread.Schedule(
-                () =>
+            var current = Application.Current;
+            if (current != null && current.Dispatcher != null)
+            {
+                current.Dispatcher.Invoke(
+                    () =>
+                        {
+                            var source = new CollectionViewSource { Source = collection };
+                            var view = source.View;
+                            collectionView = new CollectionView<T>(source, view, updateTrigger);
+                            if (filter != null)
+                            {
+                                collectionView.Filter = filter;
+                            }
+                        });
+            }
+            else
+            {
+                var source = new CollectionViewSource { Source = collection };
+                var view = source.View;
+                collectionView = new CollectionView<T>(source, view, updateTrigger);
+                if (filter != null)
                 {
-                    var source = new CollectionViewSource { Source = collection };
-                    var view = source.View;
-                    collectionView = new CollectionView<T>(source, view, updateTrigger);
-                    if (filter != null)
-                    {
-                        collectionView.Filter = filter;
-                    }
-                });
+                    collectionView.Filter = filter;
+                }
+            }
             return collectionView;
         }
 
@@ -80,41 +105,11 @@
         }
         public CollectionViewSource Source { get; private set; }
 
-        public event System.Collections.Specialized.NotifyCollectionChangedEventHandler CollectionChanged
-        {
-            add
-            {
-                _view.CollectionChanged += value;
-            }
-            remove
-            {
-                _view.CollectionChanged -= value;
-            }
-        }
+        public event System.Collections.Specialized.NotifyCollectionChangedEventHandler CollectionChanged;
 
-        public event EventHandler CurrentChanged
-        {
-            add
-            {
-                _view.CurrentChanged += value;
-            }
-            remove
-            {
-                _view.CurrentChanged -= value;
-            }
-        }
+        public event EventHandler CurrentChanged;
 
-        public event CurrentChangingEventHandler CurrentChanging
-        {
-            add
-            {
-                _view.CurrentChanging += value;
-            }
-            remove
-            {
-                _view.CurrentChanging -= value;
-            }
-        }
+        public event CurrentChangingEventHandler CurrentChanging;
 
         public Predicate<T> Filter
         {
@@ -274,7 +269,6 @@
             return _view.GetEnumerator();
         }
 
-
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
             return new CastEnumerator<T>(_view.GetEnumerator());
@@ -310,6 +304,33 @@
             }
             // Free any unmanaged objects here. 
             _disposed = true;
+        }
+
+        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            var handler = CollectionChanged;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        protected virtual void OnCurrentChanged()
+        {
+            var handler = CurrentChanged;
+            if (handler != null)
+            {
+                handler(this, EventArgs.Empty);
+            }
+        }
+
+        protected virtual void OnCurrentChanging(CurrentChangingEventArgs e)
+        {
+            var handler = CurrentChanging;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
     }
 }

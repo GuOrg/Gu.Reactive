@@ -5,8 +5,6 @@
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DataContext="{d:DesignInstance demo:CollectionViewDemoViewModel}"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -28,8 +26,12 @@
                 <ListBox ItemsSource="{Binding CollectionView}" />
             </GroupBox>
 
-            <GroupBox Header="TypedCollectionView">
-                <ListBox ItemsSource="{Binding TypedCollectionView}" />
+            <GroupBox Header="TypedCollectionView1">
+                <ListBox ItemsSource="{Binding TypedCollectionView1}" />
+            </GroupBox>
+
+            <GroupBox Header="TypedCollectionView2 (no filter)">
+                <ListBox ItemsSource="{Binding TypedCollectionView2}" />
             </GroupBox>
 
             <GroupBox Header="TypedCollectionViewAsInterface">
