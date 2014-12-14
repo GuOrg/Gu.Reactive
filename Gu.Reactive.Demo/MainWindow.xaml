@@ -59,5 +59,9 @@
         <TabItem Header="CollectionView">
             <demo:CollectionViewDemo />
         </TabItem>
+
+        <TabItem Header="NinjaBinding">
+            <demo:NinjaBindingDemo />
+        </TabItem>
     </TabControl>
 </Window>

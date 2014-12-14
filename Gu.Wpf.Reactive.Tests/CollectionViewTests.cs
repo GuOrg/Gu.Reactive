@@ -12,7 +12,20 @@
     [RequiresSTA]
     public class CollectionViewTests
     {
-        [Test, RequiresSTA]
+        [Test]
+        public void TwoViewsNotSame()
+        {
+            var ints = new List<int> { 1, 2, 3 };
+            var view1 = CollectionView<int>.Create(ints);
+            var view2 = CollectionView<int>.Create(ints);
+            Assert.AreNotSame(view1, view2);
+
+            var collectionView1 = CollectionViewSource.GetDefaultView(view1);
+            var collectionView2 = CollectionViewSource.GetDefaultView(view2);
+            Assert.AreNotSame(collectionView1, collectionView2);
+        }
+
+        [Test]
         public void BindItemsSource()
         {
             var listBox = new ListBox();

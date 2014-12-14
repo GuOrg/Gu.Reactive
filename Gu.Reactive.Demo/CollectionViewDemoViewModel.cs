@@ -18,7 +18,8 @@
         {
             Enumerable = new[] { 1, 2, 3, 4, 5 };
             CollectionView = new CollectionView(new[] { 1, 2, 3, 4, 5 });
-            TypedCollectionView = CollectionView<int>.Create(new[] { 1, 2, 3, 4, 5 });
+            TypedCollectionView1 = CollectionView<int>.Create(new[] { 1, 2, 3, 4, 5 });
+            TypedCollectionView2 = CollectionView<int>.Create(new[] { 1, 2, 3, 4, 5 });
             TypedCollectionViewAsInterface = CollectionView<int>.Create(new[] { 1, 2, 3, 4, 5 });
             ObservableCollection = new ObservableCollection<int>(new[] { 1, 2, 3, 4, 5 });
             ObservableDefaultView = CollectionViewSource.GetDefaultView(ObservableCollection);
@@ -27,7 +28,7 @@
                 .Subscribe(
                     x =>
                     {
-                        TypedCollectionView.Filter = Filter;
+                        TypedCollectionView1.Filter = Filter;
                         TypedCollectionViewAsInterface.Filter = o => Filter((int)o);
                         CollectionView.Filter = o => Filter((int)o);
                         ObservableDefaultView.Filter = o => Filter((int)o);
@@ -40,7 +41,9 @@
 
         public CollectionView CollectionView { get; private set; }
 
-        public CollectionView<int> TypedCollectionView { get; private set; }
+        public CollectionView<int> TypedCollectionView1 { get; private set; }
+        
+        public CollectionView<int> TypedCollectionView2 { get; private set; }
         
         public ICollectionView TypedCollectionViewAsInterface { get; private set; }
         
