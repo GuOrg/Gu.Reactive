@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Reactive.Concurrency;
     using System.Runtime.CompilerServices;
     using System.Windows.Data;
 
@@ -12,48 +13,48 @@
 
     public class CollectionViewDemoViewModel : INotifyPropertyChanged
     {
-        private Predicate<int> _filter;
+        private Func<int, bool> _filter;
 
         public CollectionViewDemoViewModel()
         {
             Enumerable = new[] { 1, 2, 3, 4, 5 };
-            CollectionView = new CollectionView(new[] { 1, 2, 3, 4, 5 });
-            TypedCollectionView1 = CollectionView<int>.Create(new[] { 1, 2, 3, 4, 5 });
-            TypedCollectionView2 = CollectionView<int>.Create(new[] { 1, 2, 3, 4, 5 });
-            TypedCollectionViewAsInterface = CollectionView<int>.Create(new[] { 1, 2, 3, 4, 5 });
+            FilteredView1 = new FilteredView<int>(Enumerable);
+            FilteredView2 = new FilteredView<int>(Enumerable);
+
             ObservableCollection = new ObservableCollection<int>(new[] { 1, 2, 3, 4, 5 });
             ObservableDefaultView = CollectionViewSource.GetDefaultView(ObservableCollection);
-            TypedObservableCollectionView = CollectionView<int>.Create(ObservableCollection);
+            ObservableFilteredView = new FilteredView<int>(ObservableCollection);
+            DeferredObservableFilteredView = new FilteredView<int>(ObservableCollection, TimeSpan.FromMilliseconds(10));
+
             this.ToObservable(x => x.Filter, false)
                 .Subscribe(
                     x =>
-                    {
-                        TypedCollectionView1.Filter = Filter;
-                        TypedCollectionViewAsInterface.Filter = o => Filter((int)o);
-                        CollectionView.Filter = o => Filter((int)o);
-                        ObservableDefaultView.Filter = o => Filter((int)o);
-                        TypedObservableCollectionView.Filter = Filter;
-                    });
+                        {
+                            FilteredView1.Filter = Filter;
+                            FilteredView2.Filter = Filter;
+                            Schedulers.DispatcherOrCurrentThread.Schedule(() => ObservableDefaultView.Filter = o => Filter((int)o));
+                            ObservableFilteredView.Filter = Filter;
+                            DeferredObservableFilteredView.Filter = Filter;
+                        });
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public IEnumerable<int> Enumerable { get; private set; }
 
-        public CollectionView CollectionView { get; private set; }
+        public FilteredView<int> FilteredView1 { get; private set; }
 
-        public CollectionView<int> TypedCollectionView1 { get; private set; }
-        
-        public CollectionView<int> TypedCollectionView2 { get; private set; }
-        
-        public ICollectionView TypedCollectionViewAsInterface { get; private set; }
-        
+        public FilteredView<int> FilteredView2 { get; private set; }
+
         public ObservableCollection<int> ObservableCollection { get; private set; }
 
         public ICollectionView ObservableDefaultView { get; private set; }
 
-        public CollectionView<int> TypedObservableCollectionView { get; private set; }
+        public FilteredView<int> ObservableFilteredView { get; private set; }
 
-        public Predicate<int> Filter
+        public FilteredView<int> DeferredObservableFilteredView { get; private set; }
+
+        public Func<int, bool> Filter
         {
             get
             {

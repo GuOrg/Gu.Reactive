@@ -109,6 +109,7 @@
     <Compile Include="Conditions.xaml.cs">
       <DependentUpon>Conditions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NamedFilter.cs" />
     <Compile Include="NinjaBindingDemo.xaml.cs">
       <DependentUpon>NinjaBindingDemo.xaml</DependentUpon>
     </Compile>

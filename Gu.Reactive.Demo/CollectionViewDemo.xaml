@@ -22,28 +22,28 @@
                 <ListBox ItemsSource="{Binding Enumerable}" />
             </GroupBox>
 
-            <GroupBox Header="CollectionView">
-                <ListBox ItemsSource="{Binding CollectionView}" />
+            <GroupBox Header="FilteredView1">
+                <ListBox ItemsSource="{Binding FilteredView1}" />
             </GroupBox>
 
-            <GroupBox Header="TypedCollectionView1">
-                <ListBox ItemsSource="{Binding TypedCollectionView1}" />
+            <GroupBox Header="FilteredView2">
+                <ListBox ItemsSource="{Binding FilteredView2}" />
             </GroupBox>
 
-            <GroupBox Header="TypedCollectionView2 (no filter)">
-                <ListBox ItemsSource="{Binding TypedCollectionView2}" />
-            </GroupBox>
-
-            <GroupBox Header="TypedCollectionViewAsInterface">
-                <ListBox ItemsSource="{Binding TypedCollectionViewAsInterface}" />
-            </GroupBox>
-
-            <GroupBox Header="ObservableCollection">
+            <GroupBox Header="ObservableCollection (no filter)">
                 <ListBox ItemsSource="{Binding ObservableCollection}" />
             </GroupBox>
 
             <GroupBox Header="ObservableDefaultView">
                 <ListBox ItemsSource="{Binding ObservableDefaultView}" />
+            </GroupBox>
+
+            <GroupBox Header="ObservableFilteredView">
+                <ListBox ItemsSource="{Binding ObservableFilteredView}" />
+            </GroupBox>
+
+            <GroupBox Header="DeferredObservableFilteredView">
+                <ListBox ItemsSource="{Binding DeferredObservableFilteredView}" />
             </GroupBox>
 
             <GroupBox Header="TypedObservableCollectionView">

@@ -33,7 +33,7 @@
         private void ToggleFilter(bool isChecked)
         {
             _viewModel.Filter = isChecked
-                ? (Predicate<int>)(x => x % 2 == 0)
+                ? (Func<int, bool>)(x => x % 2 == 0)
                 : (x => true);
         }
 
