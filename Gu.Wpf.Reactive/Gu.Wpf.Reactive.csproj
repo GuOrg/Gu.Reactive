@@ -90,6 +90,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FilteredView.cs" />
+    <Compile Include="DeferredView.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Page Include="Themes\Assets.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -106,7 +109,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="CastEnumerator.cs" />
     <Compile Include="NinjaBinding.cs" />
     <Compile Include="Schedulers.cs" />
     <Compile Include="Commands\AsyncCommand.cs" />
@@ -119,12 +121,9 @@
     <Compile Include="Commands\ManualCommandBase.cs" />
     <Compile Include="Commands\VoidTypeStruct.cs" />
     <Compile Include="NotifyTaskCompletion.cs" />
-    <Compile Include="CollectionView.cs" />
     <Compile Include="CommandToolTip.cs" />
     <Compile Include="Commands\ConditionRelayCommand.cs" />
-    <Compile Include="ICollectionView.cs" />
     <Compile Include="Commands\IToolTipCommand.cs" />
-    <Compile Include="ListCollectionView.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\ManualRelayCommand.cs" />
     <Compile Include="ConditionControl.cs">

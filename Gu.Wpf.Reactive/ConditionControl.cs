@@ -5,15 +5,17 @@ namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Reactive.Linq;
-    using System.Windows.Input;
+    using System.Windows.Data;
+
     using Gu.Reactive;
 
     /// <summary>
     /// A control for displaying conditions
     /// </summary>
-    public class ConditionControl : Control
+    public class ConditionControl : Control, IDisposable
     {
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
             "Condition",
@@ -41,9 +43,9 @@ namespace Gu.Wpf.Reactive
 
         private static readonly DependencyPropertyKey NotSatisfiedOnlyPropertyKey = DependencyProperty.RegisterReadOnly(
             "NotSatisfiedOnly",
-            typeof(ICollectionView<ICondition>),
+            typeof(FilteredView<ICondition>),
             typeof(ConditionControl),
-            new PropertyMetadata(default(ICollectionView<ICondition>)));
+            new PropertyMetadata(default(FilteredView<ICondition>)));
 
         public static readonly DependencyProperty NotSatisfiedOnlyProperty = NotSatisfiedOnlyPropertyKey.DependencyProperty;
 
@@ -54,6 +56,10 @@ namespace Gu.Wpf.Reactive
             new PropertyMetadata(default(DataTemplate)));
 
         public static readonly DependencyProperty FlatListProperty = FlatListPropertyKey.DependencyProperty;
+
+        private bool _disposed = false;
+
+        private FilteredView<ICondition> _filteredView;
 
         static ConditionControl()
         {
@@ -121,11 +127,11 @@ namespace Gu.Wpf.Reactive
         /// A filtered view with all conditions where .IsSatisfied != true 
         /// and not due top a prerequisite.
         /// </summary>
-        public ICollectionView<ICondition> NotSatisfiedOnly
+        public FilteredView<ICondition> NotSatisfiedOnly
         {
             get
             {
-                return (ICollectionView<ICondition>)GetValue(NotSatisfiedOnlyProperty);
+                return (FilteredView<ICondition>)GetValue(NotSatisfiedOnlyProperty);
             }
             protected set
             {
@@ -145,6 +151,40 @@ namespace Gu.Wpf.Reactive
             }
         }
 
+        /// <summary>
+        /// Dispose(true); //I am calling you from Dispose, it's safe
+        /// GC.SuppressFinalize(this); //Hey, GC: don't bother calling finalize later
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Protected implementation of Dispose pattern. 
+        /// </summary>
+        /// <param name="disposing">true: safe to free managed resources</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (_filteredView != null)
+                {
+                    _filteredView.Dispose();
+                }
+                // Free any other managed objects here. 
+            }
+
+            // Free any unmanaged objects here. 
+            _disposed = true;
+        }
+
         private static void OnConditionChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var conditionControl = (ConditionControl)o;
@@ -154,7 +194,8 @@ namespace Gu.Wpf.Reactive
                 conditionControl.Prerequisites = null;
                 conditionControl.RootCondition = Enumerable.Empty<ICondition>();
                 conditionControl.FlatList = Enumerable.Empty<ICondition>();
-                conditionControl.NotSatisfiedOnly = CollectionView<ICondition>.Create(Enumerable.Empty<ICondition>());
+
+                conditionControl.NotSatisfiedOnly = new FilteredView<ICondition>(Enumerable.Empty<ICondition>());
                 return;
             }
             conditionControl.Prerequisites = condition.Prerequisites;
@@ -162,8 +203,7 @@ namespace Gu.Wpf.Reactive
             var flatList = Flatten(condition);
             conditionControl.FlatList = flatList;
             var updateTrigger = flatList.Select(x => x.ToObservable(y => y.IsSatisfied)).Merge();
-            conditionControl.NotSatisfiedOnly = CollectionView<ICondition>.Create(flatList, updateTrigger);
-            conditionControl.NotSatisfiedOnly.Filter = IsNotSatisfied;
+            conditionControl.NotSatisfiedOnly = new FilteredView<ICondition>(flatList, TimeSpan.FromMilliseconds(10), updateTrigger);
         }
 
         private static List<ICondition> Flatten(ICondition condition, List<ICondition> list = null)

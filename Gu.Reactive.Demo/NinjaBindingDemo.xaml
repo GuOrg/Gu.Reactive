@@ -20,6 +20,9 @@
         <CheckBox x:Name="CheckBox" IsChecked="{Binding Visible}" />
         <DataGrid Grid.Row="1">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Not so ninja" Visibility="{Binding Visibility}" />
+                <DataGridTextColumn Header="Not so ninja ElementName" Visibility="{Binding IsChecked, ElementName=CheckBox, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
                 <DataGridTextColumn Header="Vanilla" Visibility="{reactive:NinjaBinding Binding={Binding Visibility}}" />
 
                 <DataGridTextColumn Header="Converter" Visibility="{reactive:NinjaBinding Binding={Binding Visible, Converter={StaticResource BooleanToVisibilityConverter}}}" />
