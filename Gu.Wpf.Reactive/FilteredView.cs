@@ -7,6 +7,7 @@
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq;
+    using System.Reactive;
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
     using System.Reactive.Subjects;
@@ -34,11 +35,13 @@
         /// For manual Refresh()
         /// </summary>
         /// <param name="collection">The collection to wrap</param>
+        /// <param name="filter"></param>
         /// <param name="deferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset</param>
         /// <param name="triggers">Triggers when to re evaluate the filter</param>
-        public FilteredView(IEnumerable<T> collection, TimeSpan deferTime, params IObservable<object>[] triggers)
+        public FilteredView(IEnumerable<T> collection, Func<T, bool> filter, TimeSpan deferTime, params IObservable<object>[] triggers)
         {
             _deferTime = deferTime;
+            _filter = filter;
             if (collection == null)
             {
                 throw new ArgumentNullException("collection");
@@ -54,13 +57,33 @@
             OnTriggersChanged();
         }
 
-        public FilteredView(ObservableCollection<T> collection, TimeSpan deferTime, params IObservable<object>[] triggers)
-            : this(new DeferredView<T>(collection, deferTime), deferTime, triggers)
+        public FilteredView(IEnumerable<T> collection)
+            : this(collection, null, TimeSpan.Zero)
+        {
+        }
+    
+        public FilteredView(IEnumerable<T> collection, TimeSpan deferTime, params IObservable<object>[] triggers)
+            : this(collection, null, deferTime, triggers)
         {
         }
 
-        public FilteredView(IEnumerable<T> collection)
-            : this(collection, TimeSpan.Zero)
+        public FilteredView(IEnumerable<T> collection, Func<T, bool> filter, params IObservable<object>[] triggers)
+            : this(collection, filter, TimeSpan.Zero, triggers)
+        {
+        }
+
+        public FilteredView(ObservableCollection<T> collection, Func<T, bool> filter, TimeSpan deferTime, params IObservable<object>[] triggers)
+            : this(new DeferredView<T>(collection, deferTime), filter, deferTime, triggers)
+        {
+        }
+
+        public FilteredView(ObservableCollection<T> collection, TimeSpan deferTime, params IObservable<object>[] triggers)
+            : this(new DeferredView<T>(collection, deferTime), null, deferTime, triggers)
+        {
+        }
+
+        public FilteredView(ObservableCollection<T> collection, params IObservable<object>[] triggers)
+            : this(new DeferredView<T>(collection, TimeSpan.Zero), null, TimeSpan.Zero, triggers)
         {
         }
 
@@ -110,6 +133,11 @@
                     return;
                 }
                 _deferTime = value;
+                var deferredView = _inner as DeferredView<T>;
+                if (deferredView != null)
+                {
+                    deferredView.DeferTime = _deferTime;
+                }
                 OnPropertyChanged();
                 OnTriggersChanged();
             }

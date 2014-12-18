@@ -19,23 +19,39 @@
     public class DeferredView<T> : ICollection<T>, IList, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable
     {
         private readonly ObservableCollection<T> _inner;
-        private readonly IDisposable _changeSubscription;
+        private IDisposable _changeSubscription;
         private bool _disposed = false;
+
+        private TimeSpan _deferTime;
 
         public DeferredView(ObservableCollection<T> inner, TimeSpan deferTime)
         {
             _inner = inner;
-            var colChanges = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
-                h => inner.CollectionChanged += h,
-                h => inner.CollectionChanged -= h);
-            _changeSubscription = colChanges.Buffer(colChanges.Throttle(deferTime))
-                                            .ObserveOnDispatcherOrCurrentThread()
-                                            .Subscribe(x => OnCollectionChanged(x.Select(ep => ep.EventArgs)));
+            _deferTime = deferTime;
+            UpdateSubscription(deferTime);
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public TimeSpan DeferTime
+        {
+            get
+            {
+                return _deferTime;
+            }
+            set
+            {
+                if (value == _deferTime)
+                {
+                    return;
+                }
+                _deferTime = value;
+                OnPropertyChanged();
+                UpdateSubscription(_deferTime);
+            }
+        }
 
         #region ICollection<T>
 
@@ -184,7 +200,10 @@
 
             if (disposing)
             {
-                _changeSubscription.Dispose();
+                if (_changeSubscription != null)
+                {
+                    _changeSubscription.Dispose();
+                }
                 // Free any other managed objects here. 
             }
 
@@ -235,6 +254,30 @@
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        private void UpdateSubscription(TimeSpan deferTime)
+        {
+            if (_changeSubscription != null)
+            {
+                _changeSubscription.Dispose();
+            }
+            var colChanges =
+                Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
+                    h => _inner.CollectionChanged += h,
+                    h => _inner.CollectionChanged -= h);
+
+            if (_deferTime > TimeSpan.Zero)
+            {
+                _changeSubscription = colChanges.Buffer(colChanges.Throttle(deferTime))
+                                                .ObserveOnDispatcherOrCurrentThread()
+                                                .Subscribe(x => OnCollectionChanged(x.Select(ep => ep.EventArgs)));
+            }
+            else
+            {
+                _changeSubscription = colChanges.ObserveOnDispatcherOrCurrentThread()
+                                                .Subscribe(x => OnCollectionChanged(x.EventArgs));
             }
         }
     }

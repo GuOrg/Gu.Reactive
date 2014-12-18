@@ -88,7 +88,7 @@
   <ItemGroup>
     <Compile Include="AssertCompletion.cs" />
     <Compile Include="DeferredCollectionTests.cs" />
-    <Compile Include="ReactiveViewSourceTests.cs" />
+    <Compile Include="FilteredViewTests.cs" />
     <Compile Include="Commands\AsyncCommandsTests.cs" />
     <Compile Include="Commands\AsyncParameterCommandTests.cs" />
     <Compile Include="Commands\AsyncParameterResultCommandTests.cs" />
