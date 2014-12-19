@@ -103,15 +103,14 @@
                 {
                     return;
                 }
+                _filter = value;
+                OnPropertyChanged();                
                 Schedulers.DispatcherOrCurrentThread.Schedule(
                     () =>
                     {
-                        _filter = value;
-                        OnPropertyChanged();
                         OnCollectionChanged(
                             new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
                     });
-
             }
         }
 
