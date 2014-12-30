@@ -1,4 +1,13 @@
-﻿namespace Gu.Reactive
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Condition.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   To be used standalone or derived from. Conditions really starts to sing when you subclass them and use an IoC container to build trees.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -7,62 +16,58 @@
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Annotations;
+
     /// <summary>
     /// To be used standalone or derived from. Conditions really starts to sing when you subclass them and use an IoC container to build trees.
     /// </summary>
     public class Condition : ICondition
     {
-        private readonly ConditionCollection _prerequisites = new AndConditionCollection(); // Default empty to avoid null checking
         private readonly Func<bool?> _criteria;
-        private readonly List<IDisposable> _subscriptions = new List<IDisposable>();
+        private readonly IDisposable _subscription;
         private readonly FixedSizedQueue<ConditionHistoryPoint> _history = new FixedSizedQueue<ConditionHistoryPoint>(100);
         private bool? _isSatisfied;
         private string _name;
+        private bool _disposed;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Condition"/> class.
+        /// </summary>
+        /// <param name="observable">
+        /// The observable that triggers notifications
+        /// </param>
+        /// <param name="criteria">
+        /// The criteria that is evaluated to give IsSatisfied.
+        /// </param>
+        public Condition(IObservable<object> observable, Func<bool?> criteria)
+        {
+            if (observable == null)
+            {
+                throw new ArgumentNullException("observable");
+            }
+            if (criteria == null)
+            {
+                throw new ArgumentNullException("criteria");
+            }
+            _criteria = criteria;
+            Name = GetType().Name;
+            _subscription = observable.Subscribe(x => UpdateIsSatisfied());
+            UpdateIsSatisfied();
+        }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="observable">Can be an event or async, anything that signals. 
-        /// This is used to trigger evaluation of IsSatisfied & Notification</param>
-        /// <param name="criteria">The criteria to be evaluated</param>
-        public Condition(IObservable<object> observable, Func<bool?> criteria)
-            : this(observable, criteria, new AndConditionCollection())
+        /// <param name="conditionCollection"></param>
+        protected Condition(ConditionCollection conditionCollection)
+            : this(conditionCollection.ToObservable(x => x.IsSatisfied, false), () => conditionCollection.IsSatisfied)
         {
-            this.Name = this.GetType().Name;
-        }
-        
-        [Obsolete("Not sure this needs to remain")]
-        protected Condition(IObservable<object> observable, Func<bool?> criteria, ConditionCollection prerequisites = null)
-            : this(prerequisites)
-        {
-            _criteria = criteria;
-            this.Name = this.GetType().Name;
-            _subscriptions.Add(observable.Subscribe(
-                x =>
-                {
-                    this.UpdateIsSatisfied();
-                }));
-            this.UpdateIsSatisfied();
         }
 
         /// <summary>
-        /// When composing conditions this takes a collection of subconditions.
+        /// The property changed event.
         /// </summary>
-        /// <param name="prerequisites"></param>
-        protected Condition(ConditionCollection prerequisites)
-        {
-            this.Name = this.GetType().Name;
-            if (prerequisites != null && prerequisites.Any())
-            {
-                _prerequisites = prerequisites;
-                var subscription = _prerequisites.ToObservable(x => x.IsSatisfied, false)
-                                                 .Subscribe(x => this.UpdateIsSatisfied());
-                _subscriptions.Add(subscription);
-                this.UpdateIsSatisfied();
-            }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
-       
+
         /// <summary>
         /// Evaluates the criteria and returns if it is satisfied. 
         /// Notifies via PropertyChanged when it changes.
@@ -71,22 +76,25 @@
         {
             get
             {
-                return this.InternalIsSatisfied(); // No caching
+                return InternalIsSatisfied(); // No caching
             }
-            private set // This is only to raise inpc, value is always calculated
+
+            private set
             {
+                // This is only to raise inpc, value is always calculated
                 if (_isSatisfied == value)
                 {
                     return;
                 }
+
                 _isSatisfied = value;
                 _history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, _isSatisfied));
-                this.OnPropertyChanged();
+                OnPropertyChanged();
             }
         }
-        
+
         /// <summary>
-        /// The name of the condition, mainly used for tostring & in UI
+        /// Gets or sets the name.
         /// </summary>
         public string Name
         {
@@ -94,19 +102,21 @@
             {
                 return _name;
             }
+
             set
             {
                 if (value == _name)
                 {
                     return;
                 }
+
                 _name = value;
-                this.OnPropertyChanged();
+                OnPropertyChanged();
             }
         }
-       
+
         /// <summary>
-        /// A log of the last n states and times
+        /// A log of the last 100 states and times
         /// </summary>
         public IEnumerable<ConditionHistoryPoint> History
         {
@@ -115,7 +125,7 @@
                 return _history;
             }
         }
-        
+
         /// <summary>
         /// The subconditions for this condition
         /// </summary>
@@ -123,83 +133,91 @@
         {
             get
             {
-                return _prerequisites;
+                return Enumerable.Empty<ICondition>();
             }
         }
-        
+
         /// <summary>
         /// Returns this condition negated, negating again returns the original
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// The <see cref="ICondition"/>.
+        /// </returns>
         public virtual ICondition Negate()
         {
             return new NegatedCondition(this);
         }
-        
+
+        /// <summary>
+        /// The dispose.
+        /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
-        
+
+        /// <summary>
+        /// The to string.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string ToString()
         {
-            return string.Format("Name: {0}, IsSatisfied: {1}", 
-                string.IsNullOrEmpty(Name) ? this.GetType().Name : Name, 
-                this.IsSatisfied == null ? "null" : this.IsSatisfied.ToString());
-        }
-        
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_subscriptions.Any())
-                {
-                    foreach (var subscription in _subscriptions)
-                    {
-                        subscription.Dispose();
-                    }
-                    _subscriptions.Clear();
-                }
-                if (_prerequisites.Any())
-                {
-                    _prerequisites.Dispose();
-                }
-            }
-        }
-        
-        protected void UpdateIsSatisfied()
-        {
-            this.IsSatisfied = this.InternalIsSatisfied();
+            return string.Format("Name: {0}, IsSatisfied: {1}",
+                string.IsNullOrEmpty(Name) ? GetType().Name : Name,
+                IsSatisfied == null ? "null" : IsSatisfied.ToString());
         }
 
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        /// <param name="disposing">
+        /// The disposing.
+        /// </param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && !_disposed)
+            {
+                _subscription.Dispose();
+            }
+            _disposed = true;
+        }
+
+        /// <summary>
+        /// The update is satisfied.
+        /// </summary>
+        protected void UpdateIsSatisfied()
+        {
+            IsSatisfied = InternalIsSatisfied();
+        }
+
+        /// <summary>
+        /// The on property changed.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The property name.
+        /// </param>
         [NotifyPropertyChangedInvocator]
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = this.PropertyChanged;
+            var handler = PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-      
+
+        /// <summary>
+        /// The internal is satisfied.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="bool?"/>.
+        /// </returns>
         private bool? InternalIsSatisfied()
         {
-            if (_criteria != null)
-            {
-                var isSatisfied = _criteria();
-                if (!_prerequisites.Any())
-                {
-                    return isSatisfied;
-                }
-                var satisfactions = new[] { isSatisfied, _prerequisites.IsSatisfied };
-                if (satisfactions.All(x => x == true))
-                    return true;
-                if (satisfactions.Any(x => x == false))
-                    return false;
-                return null;
-            }
-            return _prerequisites.IsSatisfied;
+            return _criteria();
         }
     }
 }

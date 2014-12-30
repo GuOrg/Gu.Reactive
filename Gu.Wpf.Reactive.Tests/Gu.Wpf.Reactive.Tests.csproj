@@ -41,6 +41,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gu.Reactive, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Gu.Reactive.1.2.3.0\lib\net45\Gu.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="Gu.Wpf.ToolTips, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Gu.Wpf.ToolTips.0.1.3.0\lib\net45\Gu.Wpf.ToolTips.dll</HintPath>
@@ -113,10 +117,6 @@
     <ProjectReference Include="..\Gu.Reactive.Tests\Gu.Reactive.Tests.csproj">
       <Project>{f0e0a5a6-1fe8-4996-8a37-f00f690613f4}</Project>
       <Name>Gu.Reactive.Tests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj">
-      <Project>{2230088E-F6DC-4C79-9983-D9654274D689}</Project>
-      <Name>Gu.Reactive</Name>
     </ProjectReference>
     <ProjectReference Include="..\Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj">
       <Project>{4C0610EE-96A2-4E34-BCE1-17B06A64556B}</Project>

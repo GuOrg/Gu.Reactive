@@ -1,24 +1,43 @@
-﻿namespace Gu.Reactive
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NegatedCondition.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The negated condition.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
 
+    /// <summary>
+    /// The negated condition.
+    /// </summary>
     public sealed class NegatedCondition : ICondition
     {
         private readonly FixedSizedQueue<ConditionHistoryPoint> _history = new FixedSizedQueue<ConditionHistoryPoint>(100);
-        private ICondition _condition;
-
-        private ICondition _innerNegated;
-        private IDisposable _subscription;
-
+        private readonly ICondition _condition;
+        private readonly ICondition _innerNegated;
+        private readonly IDisposable _subscription;
         private string _name;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NegatedCondition"/> class.
+        /// </summary>
+        /// <param name="condition">
+        /// The condition.
+        /// </param>
+        /// <param name="negated">
+        /// The negated.
+        /// </param>
         private NegatedCondition(ICondition condition, ICondition negated)
         {
             _condition = condition;
             _innerNegated = negated;
-            _subscription = condition.ToObservable(x => x.IsSatisfied)
+            _subscription = condition.ToObservable(x => x.IsSatisfied, false)
                                           .Subscribe(
                                               x =>
                                                   {
@@ -28,29 +47,29 @@
             Name = string.Format("Not_{0}", _condition.Name);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NegatedCondition"/> class.
+        /// </summary>
+        /// <param name="condition">
+        /// The condition.
+        /// </param>
         internal NegatedCondition(Condition condition)
             : this(
-            (ICondition)condition,
+            (ICondition)condition, 
             new Condition(
-                condition.ToObservable(x => x.IsSatisfied),
+                condition.ToObservable(x => x.IsSatisfied), 
                 () => condition.IsSatisfied == null ? (bool?)null : !condition.IsSatisfied.Value))
         {
         }
 
-        //internal NegatedCondition(OrCondition condition)
-        //    : this((ICondition)condition)
-        //{
-        //    throw new NotImplementedException("Create inner");
-        //}
-
-        //internal NegatedCondition(AndCondition condition)
-        //    : this((ICondition)condition)
-        //{
-        //    throw new NotImplementedException("Create inner");
-        //}
-
+        /// <summary>
+        /// The property changed.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Gets the is satisfied.
+        /// </summary>
         public bool? IsSatisfied
         {
             get
@@ -59,23 +78,31 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
         public string Name
         {
             get
             {
                 return _name;
             }
+
             set
             {
                 if (value == _name)
                 {
                     return;
                 }
+
                 _name = value;
-                this.OnPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
+        /// <summary>
+        /// Gets the prerequisites.
+        /// </summary>
         public IEnumerable<ICondition> Prerequisites
         {
             get
@@ -84,6 +111,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets the history.
+        /// </summary>
         public IEnumerable<ConditionHistoryPoint> History
         {
             get
@@ -92,37 +122,50 @@
             }
         }
 
+        /// <summary>
+        /// The negate.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ICondition"/>.
+        /// </returns>
         public ICondition Negate()
         {
             return _condition;
         }
 
+        /// <summary>
+        /// The dispose.
+        /// </summary>
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        /// <param name="disposing">
+        /// The disposing.
+        /// </param>
         private void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (_condition != null)
-                {
-                    _condition.Dispose();
-                    _condition = null;
-                }
-                if (_subscription != null)
-                {
-                    _subscription.Dispose();
-                    _subscription = null;
-                }
+                _innerNegated.Dispose();
+                _subscription.Dispose();
             }
         }
 
+        /// <summary>
+        /// The on property changed.
+        /// </summary>
+        /// <param name="propertyName">
+        /// The property name.
+        /// </param>
         private void OnPropertyChanged(string propertyName = null)
         {
-            var handler = this.PropertyChanged;
+            var handler = PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));

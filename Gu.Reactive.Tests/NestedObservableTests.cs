@@ -16,7 +16,7 @@
         public void ThrowsIfNotNotifyingTest()
         {
             var fake = new FakeInpc();
-            var exception = Assert.Throws<ArgumentException>(() => new NestedObservable<FakeInpc, int>(fake, x => x.Name.Length));
+            var exception = Assert.Throws<ArgumentException>(() => new PathObservable<FakeInpc, int>(fake, x => x.Name.Length));
             Console.WriteLine(exception.Message);
         }
 
@@ -25,7 +25,7 @@
         {
             var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc();
-            var observable = new NestedObservable<FakeInpc, bool>(fake, x => x.Next.Value);
+            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.Value);
             observable.Subscribe(args.Add);
             fake.Next = new Level();
             Assert.AreEqual(1, args.Count);
@@ -40,7 +40,7 @@
         {
             var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc { Next = new Level { Next = new Level() } };
-            var observable = new NestedObservable<FakeInpc, Level>(fake, x => x.Next.Next);
+            var observable = new PathObservable<FakeInpc, Level>(fake, x => x.Next.Next);
             observable.Subscribe(args.Add);
             fake.Next.Next = new Level();
             Assert.AreEqual(1, args.Count);
@@ -55,7 +55,7 @@
         {
             var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc();
-            var observable = new NestedObservable<FakeInpc, Level>(fake, x => x.Next.Next);
+            var observable = new PathObservable<FakeInpc, Level>(fake, x => x.Next.Next);
             observable.Subscribe(args.Add);
             fake.Next = new Level();
             Assert.AreEqual(0, args.Count);
@@ -72,7 +72,7 @@
         {
             var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc();
-            var observable = new NestedObservable<FakeInpc, bool>(fake, x => x.Next.Value);
+            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.Value);
             observable.Subscribe(args.Add);
             fake.Next = new Level
                         {
@@ -92,7 +92,7 @@
         {
             var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc();
-            var observable = new NestedObservable<FakeInpc, bool>(fake, x => x.Next.Next.Value);
+            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.Next.Value);
             observable.Subscribe(args.Add);
             fake.Next = new Level();
             Assert.AreEqual(0, args.Count);

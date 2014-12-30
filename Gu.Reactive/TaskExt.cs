@@ -1,19 +1,38 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TaskExt.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The task ext.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+
+
+using System;
 using System.Threading.Tasks;
 
 namespace Gu.Reactive
 {
     using System.Threading;
 
+    /// <summary>
+    /// The task ext.
+    /// </summary>
     public static class TaskExt
     {
         /// <summary>
         /// http://blogs.msdn.com/b/pfxteam/archive/2012/10/05/how-do-i-cancel-non-cancelable-async-operations.aspx
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="task"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <param name="task">
+        /// </param>
+        /// <param name="cancellationToken">
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public static async Task<T> WithCancellation<T>(this Task<T> task, CancellationToken cancellationToken)
         {
             var tcs = new TaskCompletionSource<bool>();
@@ -24,9 +43,22 @@ namespace Gu.Reactive
                     throw new OperationCanceledException(cancellationToken);
                 }
             }
+
             return await task;
         }
 
+        /// <summary>
+        /// The timeout after.
+        /// </summary>
+        /// <param name="task">
+        /// The task.
+        /// </param>
+        /// <param name="timeout">
+        /// The timeout.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public static Task TimeoutAfter(this Task task, TimeSpan timeout)
         {
             return TimeoutAfter(task, (int)timeout.TotalMilliseconds);
@@ -35,9 +67,13 @@ namespace Gu.Reactive
         /// <summary>
         /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
         /// </summary>
-        /// <param name="task"></param>
-        /// <param name="millisecondsTimeout"></param>
-        /// <returns></returns>
+        /// <param name="task">
+        /// </param>
+        /// <param name="millisecondsTimeout">
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public static Task TimeoutAfter(this Task task, int millisecondsTimeout)
         {
             // Short-circuit #1: infinite timeout or task already completed
@@ -81,15 +117,29 @@ namespace Gu.Reactive
 
                 // Marshal results to proxy
                 MarshalTaskResults(antecedent, tuple.Item2);
-            },
-            Tuple.Create(timer, tcs),
-            CancellationToken.None,
-            TaskContinuationOptions.ExecuteSynchronously,
+            }, 
+            Tuple.Create(timer, tcs), 
+            CancellationToken.None, 
+            TaskContinuationOptions.ExecuteSynchronously, 
             TaskScheduler.Default);
 
             return tcs.Task;
         }
 
+        /// <summary>
+        /// The timeout after.
+        /// </summary>
+        /// <param name="task">
+        /// The task.
+        /// </param>
+        /// <param name="timeout">
+        /// The timeout.
+        /// </param>
+        /// <typeparam name="T">
+        /// </typeparam>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, TimeSpan timeout)
         {
             return TimeoutAfter(task, (int)timeout.TotalMilliseconds);
@@ -98,9 +148,13 @@ namespace Gu.Reactive
         /// <summary>
         /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
         /// </summary>
-        /// <param name="task"></param>
-        /// <param name="millisecondsTimeout"></param>
-        /// <returns></returns>
+        /// <param name="task">
+        /// </param>
+        /// <param name="millisecondsTimeout">
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, int millisecondsTimeout)
         {
             // Short-circuit #1: infinite timeout or task already completed
@@ -144,16 +198,26 @@ namespace Gu.Reactive
 
                 // Marshal results to proxy
                 MarshalTaskResults(antecedent, tuple.Item2);
-            },
-            Tuple.Create(timer, tcs),
-            CancellationToken.None,
-            TaskContinuationOptions.ExecuteSynchronously,
+            }, 
+            Tuple.Create(timer, tcs), 
+            CancellationToken.None, 
+            TaskContinuationOptions.ExecuteSynchronously, 
             TaskScheduler.Default);
 
             return tcs.Task;
         }
 
-
+        /// <summary>
+        /// The marshal task results.
+        /// </summary>
+        /// <param name="source">
+        /// The source.
+        /// </param>
+        /// <param name="proxy">
+        /// The proxy.
+        /// </param>
+        /// <typeparam name="TResult">
+        /// </typeparam>
         internal static void MarshalTaskResults<TResult>(Task source, TaskCompletionSource<TResult> proxy)
         {
             switch (source.Status)
@@ -173,6 +237,9 @@ namespace Gu.Reactive
             }
         }
 
+        /// <summary>
+        /// The void type struct.
+        /// </summary>
         internal struct VoidTypeStruct { }
     }
 }
