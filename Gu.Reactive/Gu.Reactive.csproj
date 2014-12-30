@@ -84,7 +84,7 @@
     <Compile Include="Conditions\OrCondition.cs" />
     <Compile Include="Conditions\OrConditionCollection.cs" />
     <Compile Include="FixedSizedQueue.cs" />
-    <Compile Include="NestedObservable.cs" />
+    <Compile Include="PathObservable.cs" />
     <Compile Include="PathExpressionVisitor.cs" />
     <Compile Include="Properties\Annotations.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,3 +1,12 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AndCondition.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Creates an AndConditionCollection
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace Gu.Reactive
 {
     using System;
@@ -8,13 +17,25 @@ namespace Gu.Reactive
     /// </summary>
     public class AndCondition : Condition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AndCondition"/> class.
+        /// </summary>
+        /// <param name="prerequisites">
+        /// The prerequisites.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// </exception>
         public AndCondition(params ICondition[] prerequisites)
             : base(new AndConditionCollection(prerequisites))
         {
-            if (prerequisites == null || !prerequisites.Any())
-                throw new ArgumentException();
         }
 
+        /// <summary>
+        /// Neagtes the condition, does not mutate.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="ICondition"/>.
+        /// </returns>
         public override ICondition Negate()
         {
             return new NegatedCondition(this);

@@ -1,31 +1,52 @@
-﻿namespace Gu.Reactive
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AndConditionCollection.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   Used internally in AndCondition
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace Gu.Reactive
 {
+    using System.Collections.Generic;
     using System.Linq;
+
     /// <summary>
     /// Used internally in AndCondition
     /// </summary>
     internal class AndConditionCollection : ConditionCollection
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AndConditionCollection"/> class.
+        /// </summary>
+        /// <param name="conditions">
+        /// The conditions.
+        /// </param>
         public AndConditionCollection(params ICondition[] conditions)
-            : base(conditions)
+            : base(IsSatisfied, conditions)
         {
         }
 
-        protected override bool? InternalIsSatisfied()
+        /// <summary>
+        /// The internal is satisfied.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="bool?"/>.
+        /// </returns>
+        private static bool? IsSatisfied(IEnumerable<ICondition> conditions)
         {
-            if (!this.Any()) // Empty collection, throw here instead?
-            {
-                return null;
-            }
-            if (this.All(x => x.IsSatisfied == true))
+            if (conditions.All(x => x.IsSatisfied == true))
             {
                 return true;
             }
-            if (this.Any(x => x.IsSatisfied == false))
+
+            if (conditions.Any(x => x.IsSatisfied == false))
             {
                 return false;
             }
-            return null; // Mix of ands and nulls means not enough info.
+
+            return null; // Mix of trues and nulls means not enough info.
         }
     }
 }

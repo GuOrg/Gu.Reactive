@@ -1,0 +1,1469 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Gu.Reactive</name>
+    </assembly>
+    <members>
+        <member name="T:Gu.Reactive.NameOf">
+            <summary>
+            Class provides methods to obtain member names of data types.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.Property``1(System.Linq.Expressions.Expression{System.Func{``0}},System.Boolean)">
+            <summary>
+            Returns the name of a property provided as a property expression.
+            </summary>
+            <typeparam name="T">
+            Type of the property.
+            </typeparam>
+            <param name="propertyExpression">
+            Property expression on the the form () =&gt; Instance.Property.
+            </param>
+            <param name="allowNestedProperty">
+            Throw an exception if the provided path is a multi level path (e.g. a.b)
+            </param>
+            <returns>
+            Returns the simple name of the property.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.Property``2(System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Returns the name of a property provided as a property expression.
+            </summary>
+            <typeparam name="TProperty">
+            Type of the property.
+            </typeparam>
+            <typeparam name="TItem">
+            Type of the item
+            </typeparam>
+            <param name="propertyExpression">
+            Property expression on the the form () =&gt; Instance.Property.
+            </param>
+            <returns>
+            Returns the simple name of the property.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.Method(System.Linq.Expressions.Expression{System.Action})">
+            <summary>
+            The method.
+            </summary>
+            <param name="action">
+            The action.
+            </param>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.Method``1(System.Linq.Expressions.Expression{System.Action{``0}})">
+            <summary>
+            The method.
+            </summary>
+            <param name="action">
+            The action.
+            </param>
+            <typeparam name="T">
+            </typeparam>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.Method``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            The method.
+            </summary>
+            <param name="func">
+            The func.
+            </param>
+            <typeparam name="T">
+            </typeparam>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.Method``2(System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            The method.
+            </summary>
+            <param name="func">
+            The func.
+            </param>
+            <typeparam name="TClass">
+            </typeparam>
+            <typeparam name="TReturnValue">
+            </typeparam>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.Arguments``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            The arguments.
+            </summary>
+            <param name="func">
+            The func.
+            </param>
+            <typeparam name="T">
+            </typeparam>
+            <returns>
+            The <see cref="!:Argument[]"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.Arguments(System.Linq.Expressions.Expression{System.Action})">
+            <summary>
+            The arguments.
+            </summary>
+            <param name="action">
+            The action.
+            </param>
+            <returns>
+            The <see cref="!:Argument[]"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.Arguments(System.Linq.Expressions.MethodCallExpression)">
+            <summary>
+            The arguments.
+            </summary>
+            <param name="method">
+            The method.
+            </param>
+            <returns>
+            The <see cref="!:Argument[]"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.GetValue(System.Linq.Expressions.MemberExpression)">
+            <summary>
+            The get value.
+            </summary>
+            <param name="e">
+            The e.
+            </param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+            </exception>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.GetValue(System.Linq.Expressions.Expression)">
+            <summary>
+            The get value.
+            </summary>
+            <param name="e">
+            The e.
+            </param>
+            <returns>
+            The <see cref="T:System.Object"/>.
+            </returns>
+            <exception cref="T:System.NotImplementedException">
+            </exception>
+        </member>
+        <member name="T:Gu.Reactive.NameOf.Argument">
+            <summary>
+            The argument.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.NameOf.Argument.#ctor(System.String,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.NameOf.Argument"/> class.
+            </summary>
+            <param name="name">
+            The name.
+            </param>
+            <param name="value">
+            The value.
+            </param>
+        </member>
+        <member name="P:Gu.Reactive.NameOf.Argument.Name">
+            <summary>
+            Gets the name.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.NameOf.Argument.Value">
+            <summary>
+            Gets the value.
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.AndCondition">
+            <summary>
+            Creates an AndConditionCollection
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Condition">
+            <summary>
+            To be used standalone or derived from. Conditions really starts to sing when you subclass them and use an IoC container to build trees.
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.ICondition">
+            <summary>
+            The Condition interface.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.ICondition.Negate">
+            <summary>
+            The negate.
+            </summary>
+            <returns>
+            The <see cref="T:Gu.Reactive.ICondition"/>.
+            </returns>
+        </member>
+        <member name="P:Gu.Reactive.ICondition.IsSatisfied">
+            <summary>
+            Gets the is satisfied.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.ICondition.Name">
+            <summary>
+            Gets the name.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.ICondition.Prerequisites">
+            <summary>
+            Gets the prerequisites.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.ICondition.History">
+            <summary>
+            Gets the history.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.Condition.#ctor(System.IObservable{System.Object},System.Func{System.Nullable{System.Boolean}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.Condition"/> class.
+            </summary>
+            <param name="observable">
+            The observable that triggers notifications
+            </param>
+            <param name="criteria">
+            The criteria that is evaluated to give IsSatisfied.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.Condition.#ctor(Gu.Reactive.ConditionCollection)">
+            <summary>
+            
+            </summary>
+            <param name="conditionCollection"></param>
+        </member>
+        <member name="M:Gu.Reactive.Condition.Negate">
+            <summary>
+            Returns this condition negated, negating again returns the original
+            </summary>
+            <returns>
+            The <see cref="T:Gu.Reactive.ICondition"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.Condition.Dispose">
+            <summary>
+            The dispose.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.Condition.ToString">
+            <summary>
+            The to string.
+            </summary>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.Condition.Dispose(System.Boolean)">
+            <summary>
+            The dispose.
+            </summary>
+            <param name="disposing">
+            The disposing.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.Condition.UpdateIsSatisfied">
+            <summary>
+            The update is satisfied.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.Condition.OnPropertyChanged(System.String)">
+            <summary>
+            The on property changed.
+            </summary>
+            <param name="propertyName">
+            The property name.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.Condition.InternalIsSatisfied">
+            <summary>
+            The internal is satisfied.
+            </summary>
+            <returns>
+            The <see cref="!:bool?"/>.
+            </returns>
+        </member>
+        <member name="E:Gu.Reactive.Condition.PropertyChanged">
+            <summary>
+            The property changed event.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.Condition.IsSatisfied">
+            <summary>
+            Evaluates the criteria and returns if it is satisfied. 
+            Notifies via PropertyChanged when it changes.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.Condition.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.Condition.History">
+            <summary>
+            A log of the last 100 states and times
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.Condition.Prerequisites">
+            <summary>
+            The subconditions for this condition
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.AndCondition.#ctor(Gu.Reactive.ICondition[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.AndCondition"/> class.
+            </summary>
+            <param name="prerequisites">
+            The prerequisites.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            </exception>
+        </member>
+        <member name="M:Gu.Reactive.AndCondition.Negate">
+            <summary>
+            Neagtes the condition, does not mutate.
+            </summary>
+            <returns>
+            The <see cref="T:Gu.Reactive.ICondition"/>.
+            </returns>
+        </member>
+        <member name="T:Gu.Reactive.AndConditionCollection">
+            <summary>
+            Used internally in AndCondition
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.ConditionCollection">
+            <summary>
+            Base class for collections
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.ConditionCollection.#ctor(System.Func{System.Collections.Generic.IEnumerable{Gu.Reactive.ICondition},System.Nullable{System.Boolean}},Gu.Reactive.ICondition[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.ConditionCollection"/> class.
+            </summary>
+            <param name="isSatisfied">To avoid virtual call</param>
+            <param name="conditions">
+            The conditions.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            </exception>
+        </member>
+        <member name="M:Gu.Reactive.ConditionCollection.Dispose">
+            <summary>
+            The dispose.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.ConditionCollection.ToString">
+            <summary>
+            The to string.
+            </summary>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.ConditionCollection.GetEnumerator">
+            <summary>
+            The get enumerator.
+            </summary>
+            <returns>
+            The <see cref="T:System.Collections.IEnumerator"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.ConditionCollection.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            The get enumerator.
+            </summary>
+            <returns>
+            The <see cref="T:System.Collections.IEnumerator"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.ConditionCollection.Dispose(System.Boolean)">
+            <summary>
+            The dispose.
+            </summary>
+            <param name="disposing">
+            The disposing.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.ConditionCollection.OnPropertyChanged(System.String)">
+            <summary>
+            The on property changed.
+            </summary>
+            <param name="propertyName">
+            The property name.
+            </param>
+        </member>
+        <member name="E:Gu.Reactive.ConditionCollection.PropertyChanged">
+            <summary>
+            The property changed.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.ConditionCollection.IsSatisfied">
+            <summary>
+            Gets the is satisfied.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.AndConditionCollection.#ctor(Gu.Reactive.ICondition[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.AndConditionCollection"/> class.
+            </summary>
+            <param name="conditions">
+            The conditions.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.AndConditionCollection.IsSatisfied(System.Collections.Generic.IEnumerable{Gu.Reactive.ICondition})">
+            <summary>
+            The internal is satisfied.
+            </summary>
+            <returns>
+            The <see cref="!:bool?"/>.
+            </returns>
+        </member>
+        <member name="T:Gu.Reactive.ConditionHistoryPoint">
+            <summary>
+            Conditions keeps a log of the last changed states
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.ConditionHistoryPoint.#ctor(System.Nullable{System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.ConditionHistoryPoint"/> class. 
+            : this(DateTime.UtcNow, state)
+            </summary>
+            <param name="state">
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.ConditionHistoryPoint.#ctor(System.DateTime,System.Nullable{System.Boolean})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.ConditionHistoryPoint"/> class.
+            </summary>
+            <param name="timeStamp">
+            The time stamp.
+            </param>
+            <param name="state">
+            The state.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.ConditionHistoryPoint.ToString">
+            <summary>
+            The to string.
+            </summary>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="P:Gu.Reactive.ConditionHistoryPoint.TimeStamp">
+            <summary>
+            Gets the time stamp.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.ConditionHistoryPoint.State">
+            <summary>
+            Gets the state.
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.NegatedCondition">
+            <summary>
+            The negated condition.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.NegatedCondition.#ctor(Gu.Reactive.ICondition,Gu.Reactive.ICondition)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.NegatedCondition"/> class.
+            </summary>
+            <param name="condition">
+            The condition.
+            </param>
+            <param name="negated">
+            The negated.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.NegatedCondition.#ctor(Gu.Reactive.Condition)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.NegatedCondition"/> class.
+            </summary>
+            <param name="condition">
+            The condition.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.NegatedCondition.Negate">
+            <summary>
+            The negate.
+            </summary>
+            <returns>
+            The <see cref="T:Gu.Reactive.ICondition"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.NegatedCondition.Dispose">
+            <summary>
+            The dispose.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.NegatedCondition.Dispose(System.Boolean)">
+            <summary>
+            The dispose.
+            </summary>
+            <param name="disposing">
+            The disposing.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.NegatedCondition.OnPropertyChanged(System.String)">
+            <summary>
+            The on property changed.
+            </summary>
+            <param name="propertyName">
+            The property name.
+            </param>
+        </member>
+        <member name="E:Gu.Reactive.NegatedCondition.PropertyChanged">
+            <summary>
+            The property changed.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.NegatedCondition.IsSatisfied">
+            <summary>
+            Gets the is satisfied.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.NegatedCondition.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.NegatedCondition.Prerequisites">
+            <summary>
+            Gets the prerequisites.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.NegatedCondition.History">
+            <summary>
+            Gets the history.
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.OrCondition">
+            <summary>
+            The or condition.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.OrCondition.#ctor(Gu.Reactive.ICondition[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.OrCondition"/> class.
+            </summary>
+            <param name="prerequisites">
+            The prerequisites.
+            </param>
+            <exception cref="T:System.ArgumentException">
+            </exception>
+        </member>
+        <member name="M:Gu.Reactive.OrCondition.Negate">
+            <summary>
+            Neagtes the condition, does not mutate.
+            </summary>
+            <returns>
+            The <see cref="T:Gu.Reactive.ICondition"/>.
+            </returns>
+        </member>
+        <member name="T:Gu.Reactive.OrConditionCollection">
+            <summary>
+            The or condition collection.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.OrConditionCollection.#ctor(Gu.Reactive.ICondition[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.OrConditionCollection"/> class.
+            </summary>
+            <param name="conditions">
+            The conditions.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.OrConditionCollection.IsSatisfied(System.Collections.Generic.IEnumerable{Gu.Reactive.ICondition})">
+            <summary>
+            The internal is satisfied.
+            </summary>
+            <returns>
+            The <see cref="!:bool?"/>.
+            </returns>
+        </member>
+        <member name="T:Gu.Reactive.FixedSizedQueue`1">
+            <summary>
+            The fixed sized queue.
+            </summary>
+            <typeparam name="T">
+            </typeparam>
+        </member>
+        <member name="F:Gu.Reactive.FixedSizedQueue`1.InnerQueue">
+            <summary>
+            The inner queue.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.FixedSizedQueue`1.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.FixedSizedQueue`1"/> class.
+            </summary>
+            <param name="size">
+            The size.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.FixedSizedQueue`1.GetEnumerator">
+            <summary>
+            The get enumerator.
+            </summary>
+            <returns>
+            The <see cref="T:System.Collections.IEnumerator"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.FixedSizedQueue`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            The get enumerator.
+            </summary>
+            <returns>
+            The <see cref="T:System.Collections.IEnumerator"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.FixedSizedQueue`1.Enqueue(`0)">
+            <summary>
+            The enqueue.
+            </summary>
+            <param name="item">
+            The item.
+            </param>
+        </member>
+        <member name="P:Gu.Reactive.FixedSizedQueue`1.Size">
+            <summary>
+            Gets the size.
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.PathObservable`2">
+            <summary>
+            The nested observable.
+            </summary>
+            <typeparam name="TClass">
+            </typeparam>
+            <typeparam name="TProp">
+            </typeparam>
+        </member>
+        <member name="F:Gu.Reactive.PathObservable`2._value">
+            <summary>
+            The _value.
+            </summary>
+        </member>
+        <member name="F:Gu.Reactive.PathObservable`2._path">
+            <summary>
+            The _path.
+            </summary>
+        </member>
+        <member name="F:Gu.Reactive.PathObservable`2._subject">
+            <summary>
+            The _subject.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.#ctor(`0,System.Linq.Expressions.Expression{System.Func{`0,`1}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.PathObservable`2"/> class.
+            </summary>
+            <param name="source">
+            The source.
+            </param>
+            <param name="propertyExpression">
+            The property expression.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.Dispose">
+            <summary>
+            The dispose.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.SubscribeCore(System.IObserver{System.Reactive.EventPattern{System.ComponentModel.PropertyChangedEventArgs}})">
+            <summary>
+            The subscribe core.
+            </summary>
+            <param name="observer">
+            The observer.
+            </param>
+            <returns>
+            The <see cref="T:System.IDisposable"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.Dispose(System.Boolean)">
+            <summary>
+            The dispose.
+            </summary>
+            <param name="disposing">
+            The disposing.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.AssertPathNotifies(System.Collections.Generic.IEnumerable{Gu.Reactive.PathObservable{`0,`1}.PathItem})">
+            <summary>
+            All steps in the path must implement INotifyPropertyChanged, this throws if this condition is not met.
+            </summary>
+            <param name="path">
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.AddSubscriptions(System.Int32)">
+            <summary>
+            The add subscriptions.
+            </summary>
+            <param name="toIndex">
+            The to index.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.RemoveSubscriptions(System.Int32)">
+            <summary>
+            The remove subscriptions.
+            </summary>
+            <param name="fromIndex">
+            The from index.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.OnPathItemChanged(System.Reactive.EventPattern{System.ComponentModel.PropertyChangedEventArgs})">
+            <summary>
+            The on path item changed.
+            </summary>
+            <param name="eventPattern">
+            The event pattern.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.IndexOf(System.ComponentModel.INotifyPropertyChanged)">
+            <summary>
+            The index of.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <returns>
+            The <see cref="T:System.Int32"/>.
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            </exception>
+        </member>
+        <member name="P:Gu.Reactive.PathObservable`2.Path">
+            <summary>
+            Gets the path.
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.PathObservable`2.PathItem">
+            <summary>
+            The path item.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.PathItem.#ctor(System.Reflection.PropertyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.PathObservable`2.PathItem"/> class.
+            </summary>
+            <param name="propertyInfo">
+            The property info.
+            </param>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.PathItem.ToString">
+            <summary>
+            The to string.
+            </summary>
+            <returns>
+            The <see cref="T:System.String"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.PathItem.Dispose">
+            <summary>
+            The dispose.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.PathObservable`2.PathItem.Dispose(System.Boolean)">
+            <summary>
+            The dispose.
+            </summary>
+            <param name="disposing">
+            The disposing.
+            </param>
+        </member>
+        <member name="P:Gu.Reactive.PathObservable`2.PathItem.Source">
+            <summary>
+            Gets or sets the source.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.PathObservable`2.PathItem.PropertyInfo">
+            <summary>
+            Gets the property info.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.PathObservable`2.PathItem.Subscription">
+            <summary>
+            Gets or sets the subscription.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.PathObservable`2.PathItem.IsLast">
+            <summary>
+            Gets or sets a value indicating whether is last.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.PathObservable`2.PathItem.Value">
+            <summary>
+            Gets the value.
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.PathExpressionVisitor">
+            <summary>
+            The path expression visitor.
+            </summary>
+        </member>
+        <member name="F:Gu.Reactive.PathExpressionVisitor._path">
+            <summary>
+            The _path.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.PathExpressionVisitor.GetPath``2(System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            The get path.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <typeparam name="TSource">
+            </typeparam>
+            <typeparam name="TResult">
+            </typeparam>
+            <returns>
+            The <see cref="!:MemberExpression[]"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.PathExpressionVisitor.GetPath``1(System.Linq.Expressions.Expression{System.Func{``0}})">
+            <summary>
+            The get path.
+            </summary>
+            <param name="expression">
+            The expression.
+            </param>
+            <typeparam name="T">
+            </typeparam>
+            <returns>
+            The <see cref="!:MemberExpression[]"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.PathExpressionVisitor.VisitMember(System.Linq.Expressions.MemberExpression)">
+            <summary>
+            The visit member.
+            </summary>
+            <param name="node">
+            The node.
+            </param>
+            <returns>
+            The <see cref="T:System.Linq.Expressions.Expression"/>.
+            </returns>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.CanBeNullAttribute">
+            <summary>
+            Indicates that the value of the marked element could be <c>null</c> sometimes,
+            so the check for <c>null</c> is necessary before its usage
+            </summary>
+            <example><code>
+            [CanBeNull] public object Test() { return null; }
+            public void UseTest() {
+              var p = Test();
+              var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
+            }
+            </code></example>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.NotNullAttribute">
+            <summary>
+            Indicates that the value of the marked element could never be <c>null</c>
+            </summary>
+            <example><code>
+            [NotNull] public object Foo() {
+              return null; // Warning: Possible 'null' assignment
+            }
+            </code></example>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.StringFormatMethodAttribute">
+            <summary>
+            Indicates that the marked method builds string by format pattern and (optional) arguments.
+            Parameter, which contains format string, should be given in constructor. The format string
+            should be in <see cref="M:System.String.Format(System.IFormatProvider,System.String,System.Object[])"/>-like form
+            </summary>
+            <example><code>
+            [StringFormatMethod("message")]
+            public void ShowError(string message, params object[] args) { /* do something */ }
+            public void Foo() {
+              ShowError("Failed: {0}"); // Warning: Non-existing argument in format string
+            }
+            </code></example>
+        </member>
+        <member name="M:Gu.Reactive.Annotations.StringFormatMethodAttribute.#ctor(System.String)">
+            <param name="formatParameterName">
+            Specifies which parameter of an annotated method should be treated as format-string
+            </param>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.InvokerParameterNameAttribute">
+            <summary>
+            Indicates that the function argument should be string literal and match one
+            of the parameters of the caller function. For example, ReSharper annotates
+            the parameter of <see cref="T:System.ArgumentNullException"/>
+            </summary>
+            <example><code>
+            public void Foo(string param) {
+              if (param == null)
+                throw new ArgumentNullException("par"); // Warning: Cannot resolve symbol
+            }
+            </code></example>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.NotifyPropertyChangedInvocatorAttribute">
+             <summary>
+             Indicates that the method is contained in a type that implements
+             <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> interface
+             and this method is used to notify that some property value changed
+             </summary>
+             <remarks>
+             The method should be non-static and conform to one of the supported signatures:
+             <list>
+             <item><c>NotifyChanged(string)</c></item>
+             <item><c>NotifyChanged(params string[])</c></item>
+             <item><c>NotifyChanged{T}(Expression{Func{T}})</c></item>
+             <item><c>NotifyChanged{T,U}(Expression{Func{T,U}})</c></item>
+             <item><c>SetProperty{T}(ref T, T, string)</c></item>
+             </list>
+             </remarks>
+             <example><code>
+             public class Foo : INotifyPropertyChanged {
+               public event PropertyChangedEventHandler PropertyChanged;
+               [NotifyPropertyChangedInvocator]
+               protected virtual void NotifyChanged(string propertyName) { ... }
+            
+               private string _name;
+               public string Name {
+                 get { return _name; }
+                 set { _name = value; NotifyChanged("LastName"); /* Warning */ }
+               }
+             }
+             </code>
+             Examples of generated notifications:
+             <list>
+             <item><c>NotifyChanged("Property")</c></item>
+             <item><c>NotifyChanged(() =&gt; Property)</c></item>
+             <item><c>NotifyChanged((VM x) =&gt; x.Property)</c></item>
+             <item><c>SetProperty(ref myField, value, "Property")</c></item>
+             </list>
+             </example>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.ContractAnnotationAttribute">
+            <summary>
+            Describes dependency between method input and output
+            </summary>
+            <syntax>
+            <p>Function Definition Table syntax:</p>
+            <list>
+            <item>FDT      ::= FDTRow [;FDTRow]*</item>
+            <item>FDTRow   ::= Input =&gt; Output | Output &lt;= Input</item>
+            <item>Input    ::= ParameterName: Value [, Input]*</item>
+            <item>Output   ::= [ParameterName: Value]* {halt|stop|void|nothing|Value}</item>
+            <item>Value    ::= true | false | null | notnull | canbenull</item>
+            </list>
+            If method has single input parameter, it's name could be omitted.<br/>
+            Using <c>halt</c> (or <c>void</c>/<c>nothing</c>, which is the same)
+            for method output means that the methos doesn't return normally.<br/>
+            <c>canbenull</c> annotation is only applicable for output parameters.<br/>
+            You can use multiple <c>[ContractAnnotation]</c> for each FDT row,
+            or use single attribute with rows separated by semicolon.<br/>
+            </syntax>
+            <examples><list>
+            <item><code>
+            [ContractAnnotation("=> halt")]
+            public void TerminationMethod()
+            </code></item>
+            <item><code>
+            [ContractAnnotation("halt &lt;= condition: false")]
+            public void Assert(bool condition, string text) // regular assertion method
+            </code></item>
+            <item><code>
+            [ContractAnnotation("s:null => true")]
+            public bool IsNullOrEmpty(string s) // string.IsNullOrEmpty()
+            </code></item>
+            <item><code>
+            // A method that returns null if the parameter is null, and not null if the parameter is not null
+            [ContractAnnotation("null => null; notnull => notnull")]
+            public object Transform(object data) 
+            </code></item>
+            <item><code>
+            [ContractAnnotation("s:null=>false; =>true,result:notnull; =>false, result:null")]
+            public bool TryParse(string s, out Person result)
+            </code></item>
+            </list></examples>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.LocalizationRequiredAttribute">
+            <summary>
+            Indicates that marked element should be localized or not
+            </summary>
+            <example><code>
+            [LocalizationRequiredAttribute(true)]
+            public class Foo {
+              private string str = "my string"; // Warning: Localizable string
+            }
+            </code></example>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.CannotApplyEqualityOperatorAttribute">
+            <summary>
+            Indicates that the value of the marked type (or its derivatives)
+            cannot be compared using '==' or '!=' operators and <c>Equals()</c>
+            should be used instead. However, using '==' or '!=' for comparison
+            with <c>null</c> is always permitted.
+            </summary>
+            <example><code>
+            [CannotApplyEqualityOperator]
+            class NoEquality { }
+            class UsesNoEquality {
+              public void Test() {
+                var ca1 = new NoEquality();
+                var ca2 = new NoEquality();
+                if (ca1 != null) { // OK
+                  bool condition = ca1 == ca2; // Warning
+                }
+              }
+            }
+            </code></example>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.BaseTypeRequiredAttribute">
+            <summary>
+            When applied to a target attribute, specifies a requirement for any type marked
+            with the target attribute to implement or inherit specific type or types.
+            </summary>
+            <example><code>
+            [BaseTypeRequired(typeof(IComponent)] // Specify requirement
+            public class ComponentAttribute : Attribute { }
+            [Component] // ComponentAttribute requires implementing IComponent interface
+            public class MyComponent : IComponent { }
+            </code></example>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.UsedImplicitlyAttribute">
+            <summary>
+            Indicates that the marked symbol is used implicitly
+            (e.g. via reflection, in external library), so this symbol
+            will not be marked as unused (as well as by other usage inspections)
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.MeansImplicitUseAttribute">
+            <summary>
+            Should be used on attributes and causes ReSharper
+            to not mark symbols marked with such attributes as unused
+            (as well as by other usage inspections)
+            </summary>
+        </member>
+        <member name="F:Gu.Reactive.Annotations.ImplicitUseKindFlags.Access">
+            <summary>Only entity marked with attribute considered used</summary>
+        </member>
+        <member name="F:Gu.Reactive.Annotations.ImplicitUseKindFlags.Assign">
+            <summary>Indicates implicit assignment to a member</summary>
+        </member>
+        <member name="F:Gu.Reactive.Annotations.ImplicitUseKindFlags.InstantiatedWithFixedConstructorSignature">
+            <summary>
+            Indicates implicit instantiation of a type with fixed constructor signature.
+            That means any unused constructor parameters won't be reported as such.
+            </summary>
+        </member>
+        <member name="F:Gu.Reactive.Annotations.ImplicitUseKindFlags.InstantiatedNoFixedConstructorSignature">
+            <summary>Indicates implicit instantiation of a type</summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.ImplicitUseTargetFlags">
+            <summary>
+            Specify what is considered used implicitly
+            when marked with <see cref="T:Gu.Reactive.Annotations.MeansImplicitUseAttribute"/>
+            or <see cref="T:Gu.Reactive.Annotations.UsedImplicitlyAttribute"/>
+            </summary>
+        </member>
+        <member name="F:Gu.Reactive.Annotations.ImplicitUseTargetFlags.Members">
+            <summary>Members of entity marked with attribute are considered used</summary>
+        </member>
+        <member name="F:Gu.Reactive.Annotations.ImplicitUseTargetFlags.WithMembers">
+            <summary>Entity marked with attribute and all its members considered used</summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.PublicAPIAttribute">
+            <summary>
+            This attribute is intended to mark publicly available API
+            which should not be removed and so is treated as used
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.InstantHandleAttribute">
+            <summary>
+            Tells code analysis engine if the parameter is completely handled
+            when the invoked method is on stack. If the parameter is a delegate,
+            indicates that delegate is executed while the method is executed.
+            If the parameter is an enumerable, indicates that it is enumerated
+            while the method is executed
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.PureAttribute">
+            <summary>
+            Indicates that a method does not make any observable state changes.
+            The same as <c>System.Diagnostics.Contracts.PureAttribute</c>
+            </summary>
+            <example><code>
+            [Pure] private int Multiply(int x, int y) { return x * y; }
+            public void Foo() {
+              const int a = 2, b = 2;
+              Multiply(a, b); // Waring: Return value of pure method is not used
+            }
+            </code></example>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.PathReferenceAttribute">
+            <summary>
+            Indicates that a parameter is a path to a file or a folder
+            within a web project. Path can be relative or absolute,
+            starting from web root (~)
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcActionAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+            is an MVC action. If applied to a method, the MVC action name is calculated
+            implicitly from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcAreaAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC area.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String)</c>
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcControllerAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that
+            the parameter is an MVC controller. If applied to a method,
+            the MVC controller name is calculated implicitly from the context.
+            Use this attribute for custom wrappers similar to 
+            <c>System.Web.Mvc.Html.ChildActionExtensions.RenderAction(HtmlHelper, String, String)</c>
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcMasterAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC Master.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Controller.View(String, String)</c>
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcModelTypeAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC model type.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Controller.View(String, Object)</c>
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcPartialViewAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that
+            the parameter is an MVC partial view. If applied to a method,
+            the MVC partial view name is calculated implicitly from the context.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.RenderPartialExtensions.RenderPartial(HtmlHelper, String)</c>
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcSupressViewErrorAttribute">
+            <summary>
+            ASP.NET MVC attribute. Allows disabling all inspections
+            for MVC views within a class or a method.
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcDisplayTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC display template.
+            Use this attribute for custom wrappers similar to 
+            <c>System.Web.Mvc.Html.DisplayExtensions.DisplayForModel(HtmlHelper, String)</c>
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcEditorTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC editor template.
+            Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Html.EditorExtensions.EditorForModel(HtmlHelper, String)</c>
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcTemplateAttribute">
+            <summary>
+            ASP.NET MVC attribute. Indicates that a parameter is an MVC template.
+            Use this attribute for custom wrappers similar to
+            <c>System.ComponentModel.DataAnnotations.UIHintAttribute(System.String)</c>
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcViewAttribute">
+            <summary>
+            ASP.NET MVC attribute. If applied to a parameter, indicates that the parameter
+            is an MVC view. If applied to a method, the MVC view name is calculated implicitly
+            from the context. Use this attribute for custom wrappers similar to
+            <c>System.Web.Mvc.Controller.View(Object)</c>
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.AspMvcActionSelectorAttribute">
+            <summary>
+            ASP.NET MVC attribute. When applied to a parameter of an attribute,
+            indicates that this parameter is an MVC action name
+            </summary>
+            <example><code>
+            [ActionName("Foo")]
+            public ActionResult Login(string returnUrl) {
+              ViewBag.ReturnUrl = Url.Action("Foo"); // OK
+              return RedirectToAction("Bar"); // Error: Cannot resolve action
+            }
+            </code></example>
+        </member>
+        <member name="T:Gu.Reactive.Annotations.RazorSectionAttribute">
+            <summary>
+            Razor attribute. Indicates that a parameter or a method is a Razor section.
+            Use this attribute for custom wrappers similar to 
+            <c>System.Web.WebPages.WebPageBase.RenderSection(String)</c>
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.PropertyChangedEventArgs`2">
+            <summary>
+            The property changed event args.
+            </summary>
+            <typeparam name="TSource">
+            </typeparam>
+            <typeparam name="TProperty">
+            </typeparam>
+        </member>
+        <member name="M:Gu.Reactive.PropertyChangedEventArgs`2.#ctor(`0,`1,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.PropertyChangedEventArgs`2"/> class.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="currentValue">
+            The current value.
+            </param>
+            <param name="propertyName">
+            The property name.
+            </param>
+        </member>
+        <member name="P:Gu.Reactive.PropertyChangedEventArgs`2.Sender">
+            <summary>
+            Gets the sender.
+            </summary>
+        </member>
+        <member name="P:Gu.Reactive.PropertyChangedEventArgs`2.CurrentValue">
+            <summary>
+            Gets the current value.
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.PropertyChangedToObservableExt">
+            <summary>
+            The property changed to observable ext.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.PropertyChangedToObservableExt.ToObservable``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Boolean)">
+            <summary>
+            COnvenience wrapper for listening to property changes
+            </summary>
+            <typeparam name="TNotifier">
+            </typeparam>
+            <typeparam name="TProperty">
+            </typeparam>
+            <param name="source">
+            </param>
+            <param name="property">
+            </param>
+            <param name="signalInitial">
+            Default true means that the current value is signaled on Subscribe()
+            </param>
+            <returns>
+            The <see cref="!:IObservable"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.PropertyChangedToObservableExt.ToObservable(System.ComponentModel.INotifyPropertyChanged,System.String,System.Boolean)">
+            <summary>
+            The to observable.
+            </summary>
+            <param name="source">
+            The source.
+            </param>
+            <param name="name">
+            The name.
+            </param>
+            <param name="signalInitial">
+            The signal initial.
+            </param>
+            <returns>
+            The <see cref="!:IObservable"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.PropertyChangedToObservableExt.ToTrackingObservable``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},System.Boolean)">
+            <summary>
+            The to tracking observable.
+            </summary>
+            <param name="source">
+            The source.
+            </param>
+            <param name="property">
+            The property.
+            </param>
+            <param name="sampleCurrent">
+            The sample current.
+            </param>
+            <typeparam name="TNotifier">
+            </typeparam>
+            <typeparam name="TProperty">
+            </typeparam>
+            <returns>
+            The <see cref="!:IObservable"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.PropertyChangedToObservableExt.ToObservable(System.ComponentModel.INotifyPropertyChanged)">
+            <summary>
+            The to observable.
+            </summary>
+            <param name="source">
+            The source.
+            </param>
+            <returns>
+            The <see cref="!:IObservable"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.PropertyChangedToObservableExt.GetOrDefault``2(System.WeakReference,System.Func{``0,``1})">
+            <summary>
+            The get or default.
+            </summary>
+            <param name="wr">
+            The wr.
+            </param>
+            <param name="getter">
+            The getter.
+            </param>
+            <typeparam name="TSource">
+            </typeparam>
+            <typeparam name="T">
+            </typeparam>
+            <returns>
+            The <see cref="!:T"/>.
+            </returns>
+        </member>
+        <member name="T:Gu.Reactive.PropertyChangedTrackingEventArgs`2">
+            <summary>
+            The property changed tracking event args.
+            </summary>
+            <typeparam name="TSource">
+            </typeparam>
+            <typeparam name="TProperty">
+            </typeparam>
+        </member>
+        <member name="M:Gu.Reactive.PropertyChangedTrackingEventArgs`2.#ctor(`0,`1,`1,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Gu.Reactive.PropertyChangedTrackingEventArgs`2"/> class.
+            </summary>
+            <param name="sender">
+            The sender.
+            </param>
+            <param name="currentValue">
+            The current value.
+            </param>
+            <param name="previousValue">
+            The previous value.
+            </param>
+            <param name="propertyName">
+            The property name.
+            </param>
+        </member>
+        <member name="P:Gu.Reactive.PropertyChangedTrackingEventArgs`2.PreviousValue">
+            <summary>
+            Gets the previous value.
+            </summary>
+        </member>
+        <member name="T:Gu.Reactive.TaskExt">
+            <summary>
+            The task ext.
+            </summary>
+        </member>
+        <member name="M:Gu.Reactive.TaskExt.WithCancellation``1(System.Threading.Tasks.Task{``0},System.Threading.CancellationToken)">
+            <summary>
+            http://blogs.msdn.com/b/pfxteam/archive/2012/10/05/how-do-i-cancel-non-cancelable-async-operations.aspx
+            </summary>
+            <typeparam name="T">
+            </typeparam>
+            <param name="task">
+            </param>
+            <param name="cancellationToken">
+            </param>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.TaskExt.TimeoutAfter(System.Threading.Tasks.Task,System.TimeSpan)">
+            <summary>
+            The timeout after.
+            </summary>
+            <param name="task">
+            The task.
+            </param>
+            <param name="timeout">
+            The timeout.
+            </param>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.TaskExt.TimeoutAfter(System.Threading.Tasks.Task,System.Int32)">
+            <summary>
+            http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
+            </summary>
+            <param name="task">
+            </param>
+            <param name="millisecondsTimeout">
+            </param>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.TaskExt.TimeoutAfter``1(System.Threading.Tasks.Task{``0},System.TimeSpan)">
+            <summary>
+            The timeout after.
+            </summary>
+            <param name="task">
+            The task.
+            </param>
+            <param name="timeout">
+            The timeout.
+            </param>
+            <typeparam name="T">
+            </typeparam>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.TaskExt.TimeoutAfter``1(System.Threading.Tasks.Task{``0},System.Int32)">
+            <summary>
+            http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
+            </summary>
+            <param name="task">
+            </param>
+            <param name="millisecondsTimeout">
+            </param>
+            <returns>
+            The <see cref="T:System.Threading.Tasks.Task"/>.
+            </returns>
+        </member>
+        <member name="M:Gu.Reactive.TaskExt.MarshalTaskResults``1(System.Threading.Tasks.Task,System.Threading.Tasks.TaskCompletionSource{``0})">
+            <summary>
+            The marshal task results.
+            </summary>
+            <param name="source">
+            The source.
+            </param>
+            <param name="proxy">
+            The proxy.
+            </param>
+            <typeparam name="TResult">
+            </typeparam>
+        </member>
+        <member name="T:Gu.Reactive.TaskExt.VoidTypeStruct">
+            <summary>
+            The void type struct.
+            </summary>
+        </member>
+    </members>
+</doc>
