@@ -9,7 +9,7 @@
     using System.Threading.Tasks;
     using System.Windows;
 
-    using Gu.Reactive.Demo.Annotations;
+    using Annotations;
 
     public class NinjaBindingViewModel : INotifyPropertyChanged
     {
@@ -33,7 +33,7 @@
                 }
                 _visible = value;
                 OnPropertyChanged();
-                Visibility = _visible ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                Visibility = _visible ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
