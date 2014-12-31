@@ -8,8 +8,8 @@
     using System.Runtime.CompilerServices;
     using System.Windows.Data;
 
-    using Gu.Reactive.Demo.Annotations;
-    using Gu.Wpf.Reactive;
+    using Annotations;
+    using Wpf.Reactive;
 
     public class CollectionViewDemoViewModel : INotifyPropertyChanged
     {

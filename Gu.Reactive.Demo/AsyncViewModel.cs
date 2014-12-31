@@ -4,8 +4,8 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
-    using Gu.Reactive.Demo.Annotations;
-    using Gu.Wpf.Reactive;
+    using Annotations;
+    using Wpf.Reactive;
 
     public class AsyncViewModel : INotifyPropertyChanged
     {
