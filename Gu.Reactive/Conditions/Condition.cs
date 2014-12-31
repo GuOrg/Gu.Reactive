@@ -24,6 +24,7 @@ namespace Gu.Reactive
     {
         private readonly Func<bool?> _criteria;
         private readonly IDisposable _subscription;
+        private readonly IEnumerable<ICondition> _prerequisites;
         private readonly FixedSizedQueue<ConditionHistoryPoint> _history = new FixedSizedQueue<ConditionHistoryPoint>(100);
         private bool? _isSatisfied;
         private string _name;
@@ -49,6 +50,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException("criteria");
             }
             _criteria = criteria;
+            _prerequisites = Enumerable.Empty<ICondition>();
             Name = GetType().Name;
             _subscription = observable.Subscribe(x => UpdateIsSatisfied());
             UpdateIsSatisfied();
@@ -61,6 +63,7 @@ namespace Gu.Reactive
         protected Condition(ConditionCollection conditionCollection)
             : this(conditionCollection.ToObservable(x => x.IsSatisfied, false), () => conditionCollection.IsSatisfied)
         {
+            _prerequisites = conditionCollection;
         }
 
         /// <summary>
@@ -133,7 +136,7 @@ namespace Gu.Reactive
         {
             get
             {
-                return Enumerable.Empty<ICondition>();
+                return _prerequisites;
             }
         }
 
