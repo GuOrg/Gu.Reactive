@@ -87,7 +87,7 @@
     <Compile Include="Helpers\FakeInpc.cs" />
     <Compile Include="Helpers\Level.cs" />
     <Compile Include="Helpers\NotifyPropertyChangedMockExt.cs" />
-    <Compile Include="NestedObservableTests.cs" />
+    <Compile Include="PathObservableTests.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purrformance.cs" />
