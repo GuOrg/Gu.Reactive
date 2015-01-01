@@ -10,7 +10,7 @@
     /// <summary>
     /// Dunno if it is nice to test internals like this, was used for development.
     /// </summary>
-    public class NestedObservableTests
+    public class PathObservableTests
     {
         [Test]
         public void ThrowsIfNotNotifyingTest()
