@@ -41,6 +41,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Gu.Reactive, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Gu.Reactive.1.2.4.0\lib\net45\Gu.Reactive.dll</HintPath>
+    </Reference>
     <Reference Include="Gu.Wpf.ToolTips, Version=0.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Gu.Wpf.ToolTips.0.1.3.0\lib\net45\Gu.Wpf.ToolTips.dll</HintPath>
