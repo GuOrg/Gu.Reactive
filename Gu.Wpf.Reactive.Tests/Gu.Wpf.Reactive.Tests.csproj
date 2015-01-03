@@ -91,6 +91,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AssertCompletion.cs" />
+    <Compile Include="ObservableCollectionExtensionsTests.cs" />
     <Compile Include="DeferredCollectionTests.cs" />
     <Compile Include="FilteredViewTests.cs" />
     <Compile Include="Commands\AsyncCommandsTests.cs" />
