@@ -15,7 +15,7 @@
         {
             if (collection.Count == 0)
             {
-                collection.Add(item);
+                collection.Shedule(c=>c.Add(item);
             }
             else
             {
@@ -76,17 +76,17 @@
             collection.Shedule(collection.Clear);
         }
 
-        public static void Shedule<T>(this ObservableCollection<T> col, Action action)
+        private static void Shedule<T>(this ObservableCollection<T> col, Action action)
         {
             Schedulers.DispatcherOrCurrentThread.Schedule(action);
         }
 
-        public static DispatcherOperation AddAsync<T>(this ObservableCollection<T> collection, T newItem)
+        public static Task AddAsync<T>(this ObservableCollection<T> collection, T newItem)
         {
             return collection.InvokeAsync(() => collection.Add(newItem));
         }
 
-        public static DispatcherOperation AddRangeAsync<T>(
+        public static Task AddRangeAsync<T>(
             this ObservableCollection<T> collection,
             IEnumerable<T> newItems)
         {
@@ -100,27 +100,25 @@
                 });
         }
 
-        public static DispatcherOperation RemoveAsync<T>(this ObservableCollection<T> collection, T oldItem)
+        public static Task<bool> RemoveAsync<T>(this ObservableCollection<T> collection, T oldItem)
         {
-            return collection.InvokeAsync(() => collection.Remove(oldItem));
+            return (Task<bool>)collection.InvokeAsync(() => collection.Remove(oldItem));
         }
 
         public static Task ClearAsync<T>(this ObservableCollection<T> collection)
         {
-            return collection.InvokeAsync(c => c.Clear());
+            return collection.InvokeAsync(collection.Clear);
         }
 
-        public static async Task InvokeAsync<T>(this ObservableCollection<T> col, Action<ObservableCollection<T>> action)
+        private static Task InvokeAsync<T>(this ObservableCollection<T> col, Action action)
         {
             var application = Application.Current;
             if (application != null)
             {
-                await application.Dispatcher.InvokeAsync(() => action(col));
+                return application.Dispatcher.InvokeAsync(action).Task;
             }
-            else
-            {
-                action(col);
-            }
+            action();
+            return Task.FromResult(true); // Task.CompletedTask is internal
         }
     }
 }
