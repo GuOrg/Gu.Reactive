@@ -63,7 +63,7 @@
             {
                 return _canExecute;
             }
-            private set
+            set
             {
                 if (value.Equals(_canExecute))
                 {

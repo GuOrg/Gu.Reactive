@@ -4,18 +4,20 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Reactive.Concurrency;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows;
-    using System.Windows.Threading;
 
     public static class ObservableCollectionExtensions
     {
-        public static void InsertSorted<T>(this ObservableCollection<T> collection, T item, Comparison<T> comparison)
+        private struct VoidTypeStruct { }
+        private static readonly Task CompletedTask = Task.FromResult(new VoidTypeStruct()); // Task.CompletedTask is internal
+        private static readonly Task<bool> CompletedTrueTask = Task.FromResult(true);
+        private static readonly Task<bool> CompletedFalseTask = Task.FromResult(false);
+        public static void InvokeInsertSorted<T>(this ObservableCollection<T> collection, T item, Comparison<T> comparison)
         {
             if (collection.Count == 0)
             {
-                collection.Shedule(c=>c.Add(item);
+                Shedule(() => collection.Add(item));
             }
             else
             {
@@ -25,26 +27,26 @@
                     int result = comparison.Invoke(collection[i], item);
                     if (result >= 1)
                     {
-                        collection.Insert(i, item);
+                        Shedule(() => collection.Insert(i, item));
                         last = false;
                         break;
                     }
                 }
                 if (last)
                 {
-                    collection.Add(item);
+                    Shedule(() => collection.Add(item));
                 }
             }
         }
 
         public static void InvokeAdd<T>(this ObservableCollection<T> collection, T newItem)
         {
-            collection.Shedule(() => collection.Add(newItem));
+            Shedule(() => collection.Add(newItem));
         }
 
         public static void InvokeAddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> newItems)
         {
-            collection.Shedule(
+            Shedule(
                 () =>
                 {
                     foreach (var newItem in newItems)
@@ -56,12 +58,12 @@
 
         public static void InvokeRemove<T>(this ObservableCollection<T> collection, T oldItem)
         {
-            collection.Shedule(() => collection.Remove(oldItem));
+            Shedule(() => collection.Remove(oldItem));
         }
 
         public static void InvokeRemove<T>(this ObservableCollection<T> collection, IEnumerable<T> oldItems)
         {
-            collection.Shedule(
+            Shedule(
                 () =>
                 {
                     foreach (var oldItem in oldItems)
@@ -73,24 +75,24 @@
 
         public static void InvokeClear<T>(this ObservableCollection<T> collection)
         {
-            collection.Shedule(collection.Clear);
+            Shedule(collection.Clear);
         }
 
-        private static void Shedule<T>(this ObservableCollection<T> col, Action action)
+        private static void Shedule(Action action)
         {
             Schedulers.DispatcherOrCurrentThread.Schedule(action);
         }
 
         public static Task AddAsync<T>(this ObservableCollection<T> collection, T newItem)
         {
-            return collection.InvokeAsync(() => collection.Add(newItem));
+            return InvokeAsync(() => collection.Add(newItem));
         }
 
         public static Task AddRangeAsync<T>(
             this ObservableCollection<T> collection,
             IEnumerable<T> newItems)
         {
-            return collection.InvokeAsync(
+            return InvokeAsync(
                 () =>
                 {
                     foreach (var newItem in newItems)
@@ -102,15 +104,15 @@
 
         public static Task<bool> RemoveAsync<T>(this ObservableCollection<T> collection, T oldItem)
         {
-            return (Task<bool>)collection.InvokeAsync(() => collection.Remove(oldItem));
+            return InvokeAsyncResult(() => collection.Remove(oldItem));
         }
 
         public static Task ClearAsync<T>(this ObservableCollection<T> collection)
         {
-            return collection.InvokeAsync(collection.Clear);
+            return InvokeAsync(collection.Clear);
         }
 
-        private static Task InvokeAsync<T>(this ObservableCollection<T> col, Action action)
+        private static Task InvokeAsync(Action action)
         {
             var application = Application.Current;
             if (application != null)
@@ -118,7 +120,20 @@
                 return application.Dispatcher.InvokeAsync(action).Task;
             }
             action();
-            return Task.FromResult(true); // Task.CompletedTask is internal
+            return CompletedTask;
+        }
+
+        private static Task<bool> InvokeAsyncResult(Func<bool> action)
+        {
+            var application = Application.Current;
+            if (application != null)
+            {
+                return application.Dispatcher.InvokeAsync(action).Task;
+            }
+            var result = action();
+            return result ?
+                CompletedTrueTask :
+                CompletedFalseTask;
         }
     }
 }

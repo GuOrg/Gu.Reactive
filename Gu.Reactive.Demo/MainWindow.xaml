@@ -63,5 +63,9 @@
         <TabItem Header="NinjaBinding">
             <demo:NinjaBindingDemo />
         </TabItem>
+
+        <TabItem Header="Converters">
+            <demo:ConvertersDemoView />
+        </TabItem>
     </TabControl>
 </Window>

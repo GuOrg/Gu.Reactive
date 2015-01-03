@@ -91,8 +91,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\DefaultTypeConverter.cs" />
+    <Compile Include="Converters\ITypeConverter.cs" />
     <Compile Include="Converters\MarkupConverter.cs" />
     <Compile Include="Converters\MultiplyConverter.cs" />
+    <Compile Include="Converters\NullableBoolConverter.cs" />
+    <Compile Include="Converters\NullableDoubleConverter.cs" />
+    <Compile Include="Converters\NullableEnumConverter.cs" />
+    <Compile Include="DesignMode.cs" />
     <Compile Include="ObservableCollectionExtensions.cs" />
     <Compile Include="FilteredView.cs" />
     <Compile Include="DeferredView.cs" />
