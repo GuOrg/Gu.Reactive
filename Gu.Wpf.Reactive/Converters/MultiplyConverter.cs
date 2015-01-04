@@ -1,7 +1,6 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
-    using System.ComponentModel;
     using System.Globalization;
 
     public class MultiplyConverter : MarkupConverter<double?, double?>
@@ -10,6 +9,7 @@
         public MultiplyConverter()
             : base(NullableDoubleConverter.Default, NullableDoubleConverter.Default)
         {
+            Factor = 1;
         }
 
         public double Factor { get; set; }

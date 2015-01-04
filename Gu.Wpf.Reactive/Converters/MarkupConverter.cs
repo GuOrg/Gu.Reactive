@@ -3,10 +3,8 @@
     using System;
     using System.ComponentModel;
     using System.Globalization;
-    using System.Windows;
     using System.Windows.Data;
     using System.Windows.Markup;
-    using System.Windows.Media;
 
     /// <summary>
     /// Class implements a base for a typed value converter used as a markup extension. Override the Convert method in the inheriting class
@@ -17,7 +15,6 @@
     {
         private readonly ITypeConverter<TInput> _inputTypeConverter;
         private readonly ITypeConverter<TResult> _resultTypeConverter;
-        private ITypeDescriptorContext _typeDescriptorContext;
         protected MarkupConverter()
         {
             _inputTypeConverter = new DefaultTypeConverter<TInput>();
