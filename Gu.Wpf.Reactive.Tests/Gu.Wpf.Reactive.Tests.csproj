@@ -91,6 +91,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AssertCompletion.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverterTests.cs" />
+    <Compile Include="Converters\MultiplyConverterTests.cs" />
     <Compile Include="ObservableCollectionExtensionsTests.cs" />
     <Compile Include="DeferredCollectionTests.cs" />
     <Compile Include="FilteredViewTests.cs" />
