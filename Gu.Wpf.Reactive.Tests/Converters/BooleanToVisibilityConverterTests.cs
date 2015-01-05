@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.Reactive.Tests.Converters
 {
     using System;
+    using System.Globalization;
     using System.Windows;
     using System.Windows.Data;
     using NUnit.Framework;
@@ -52,6 +53,17 @@
             var convertBack = converter.ConvertBack(convert, null, null, null);
             var sysConvertBack = systemConverter.ConvertBack(sysConvert, null, null, null);
             Assert.AreEqual(convertBack, sysConvertBack);
+        }
+
+        [TestCase(Visibility.Collapsed, false)]
+        [TestCase("Collapsed", false)]
+        [TestCase(Visibility.Visible, true)]
+        [TestCase("Visible", true)]
+        public void ConvertBack(object o, bool expected)
+        {
+            var converter = (IValueConverter)new BooleanToVisibilityConverter();
+            var convertBack = converter.ConvertBack(o, null, null, null);
+            Assert.AreEqual(expected, convertBack);
         }
     }
 }

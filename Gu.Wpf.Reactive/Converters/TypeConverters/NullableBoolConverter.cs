@@ -62,5 +62,10 @@ namespace Gu.Wpf.Reactive
             }
             throw new ArgumentException("value");
         }
+
+        object ITypeConverter.ConvertTo(object value, CultureInfo culture)
+        {
+            return ConvertTo(value, culture);
+        }
     }
 }

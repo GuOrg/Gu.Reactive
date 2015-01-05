@@ -19,10 +19,10 @@
 
         [TestCase("2.4", "en")]
         [TestCase("2,4", "sv")]
-        public void ConvertBack(string s, string culture)
+        public void ConvertBack(object o, string culture)
         {
             var converter = (IValueConverter)new MultiplyConverter { Factor = 2 };
-           var convertBack = converter.ConvertBack(s, null, null, new CultureInfo(culture));
+           var convertBack = converter.ConvertBack(o, null, null, new CultureInfo(culture));
             Assert.AreEqual(1.2, convertBack);
         }
 

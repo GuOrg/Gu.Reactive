@@ -1,7 +1,6 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
-    using System.ComponentModel;
     using System.Globalization;
     using System.Windows.Data;
     using System.Windows.Markup;
@@ -17,15 +16,15 @@
         private readonly ITypeConverter<TResult> _resultTypeConverter;
         protected MarkupConverter()
         {
-            _inputTypeConverter = new DefaultTypeConverter<TInput>();
-            _resultTypeConverter = new DefaultTypeConverter<TResult>();
+            _inputTypeConverter = TypeConverterFactory.Create<TInput>();
+            _resultTypeConverter = TypeConverterFactory.Create<TResult>();
         }
 
-        protected MarkupConverter(ITypeConverter<TInput> inputTypeConverter, ITypeConverter<TResult> resultTypeConverter)
-        {
-            _inputTypeConverter = inputTypeConverter;
-            _resultTypeConverter = resultTypeConverter;
-        }
+        //protected MarkupConverter(ITypeConverter<TInput> inputTypeConverter, ITypeConverter<TResult> resultTypeConverter)
+        //{
+        //    _inputTypeConverter = inputTypeConverter;
+        //    _resultTypeConverter = resultTypeConverter;
+        //}
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

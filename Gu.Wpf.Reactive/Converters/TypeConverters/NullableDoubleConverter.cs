@@ -9,10 +9,16 @@
         internal static readonly NullableDoubleConverter Default = new NullableDoubleConverter();
 
         private static readonly Type[] ValidTypes =
-        {
-            typeof (double),
-            typeof (int),
-        };
+            {
+                typeof(double),
+                typeof(float),
+                typeof(Int16),
+                typeof(Int32),
+                typeof(Int64),
+                typeof(UInt16),
+                typeof(UInt32),
+                typeof(UInt64),
+            };
 
         public bool IsValid(object value)
         {
@@ -63,6 +69,11 @@
                 return double.Parse(s, NumberStyles.Float, culture);
             }
             throw new ArgumentException("value");
+        }
+
+        object ITypeConverter.ConvertTo(object value, CultureInfo culture)
+        {
+            return ConvertTo(value, culture);
         }
     }
 }

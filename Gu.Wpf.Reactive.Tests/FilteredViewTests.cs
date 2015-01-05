@@ -28,7 +28,7 @@
             {
                 subject.OnNext(null);
             }
-            await Task.Delay(2 * deferTime.Milliseconds);
+            await Task.Delay(5 * deferTime.Milliseconds);
             Assert.AreEqual(NotifyCollectionChangedAction.Reset, changes.Single().Action);
         }
 
