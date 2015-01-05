@@ -7,7 +7,7 @@
     {
         //private object _factor;
         public MultiplyConverter()
-            : base(NullableDoubleConverter.Default, NullableDoubleConverter.Default)
+            : base()
         {
             Factor = 1;
         }
