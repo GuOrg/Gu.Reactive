@@ -79,5 +79,12 @@ namespace Gu.Reactive.Tests.Conditions
         {
             Assert.Throws<ArgumentException>(() => new AndCondition());
         }
+
+        [Test]
+        public void Prerequisites()
+        {
+            var collection = new AndCondition(_mock1.Object, _mock2.Object, _mock3.Object);
+            CollectionAssert.AreEqual(new[] { _mock1.Object, _mock2.Object, _mock3.Object }, collection.Prerequisites);
+        }
     }
 }

@@ -13,8 +13,12 @@
         private static readonly Task CompletedTask = Task.FromResult(new VoidTypeStruct()); // Task.CompletedTask is internal
         private static readonly Task<bool> CompletedTrueTask = Task.FromResult(true);
         private static readonly Task<bool> CompletedFalseTask = Task.FromResult(false);
-        public static void InvokeInsertSorted<T>(this ObservableCollection<T> collection, T item, Comparison<T> comparison)
+        public static void InvokeInsertSorted<T>(this ObservableCollection<T> collection, T item, Comparison<T> comparison= null)
         {
+            if (comparison == null)
+            {
+                comparison = Comparer<T>.Default.Compare;
+            }
             if (collection.Count == 0)
             {
                 Shedule(() => collection.Add(item));
