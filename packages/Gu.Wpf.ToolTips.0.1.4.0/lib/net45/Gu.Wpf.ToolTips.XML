@@ -94,6 +94,16 @@
                 Control when the adorner should be visible
             </summary>
         </member>
+        <member name="F:Gu.Wpf.ToolTips.TouchToolTipService.ToolTipProperty">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Gu.Wpf.ToolTips.TouchToolTipService.UseTouchToolTipAsMouseOverToolTipProperty">
+            <summary>
+            Gets or sets if the touch tooltip should also be used as mouseover tooltip
+            </summary>
+        </member>
         <member name="F:Gu.Wpf.ToolTips.TouchToolTipService.DefaultVisibleProxyProperty">
             <summary>
             Dummy property to get notificatins on when Visibility should toggle if Visibility is set to null
