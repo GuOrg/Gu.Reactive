@@ -26,7 +26,7 @@
             ObservableFilteredView = new FilteredView<int>(ObservableCollection);
             DeferredObservableFilteredView = new FilteredView<int>(ObservableCollection, TimeSpan.FromMilliseconds(10));
 
-            this.ToObservable(x => x.Filter, false)
+            this.ObservePropertyChanged(x => x.Filter, false)
                 .Subscribe(
                     x =>
                         {

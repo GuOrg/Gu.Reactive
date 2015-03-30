@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NameOf.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   Class provides methods to obtain member names of data types.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Linq;
@@ -36,14 +27,19 @@ namespace Gu.Reactive
         /// </returns>
         public static string Property<T>(Expression<Func<T>> propertyExpression, bool allowNestedProperty = false)
         {
-            var path = PathExpressionVisitor.GetPath(propertyExpression);
+            var path = PropertyPathVisitor.GetPath(propertyExpression);
 
             if (path.Length > 1 && !allowNestedProperty)
             {
-                throw new Exception("Trying to get the name of a nested property: " + string.Join(".", path.Select(x => x.Member.Name)));
+                throw new ArgumentException("Trying to get the name of a nested property: " + string.Join(".", path.Select(x => x.Name)));
             }
 
-            return path.Last().Member.Name;
+            var memberInfo = path.Last();
+            if (!(memberInfo is PropertyInfo))
+            {
+                throw new ArgumentException("The expression is for a method", "propertyExpression");
+            }
+            return memberInfo.Name;
         }
 
         /// <summary>
@@ -61,17 +57,41 @@ namespace Gu.Reactive
         /// <returns>
         /// Returns the simple name of the property.
         /// </returns>
-        public static string Property<TItem, TProperty>(Expression<Func<TItem, TProperty>> propertyExpression)
+        public static string Property<TItem>(Expression<Func<TItem, object>> propertyExpression)
         {
-            var path = PathExpressionVisitor.GetPath(propertyExpression);
-            return path.Last().Member.Name;
-
-            // TODO : Check disabled, needs to be fixed or removed
-            /*if (path.Length == 1)
+            var path = PropertyPathVisitor.GetPath(propertyExpression);
+            var memberInfo = path.Last();
+            if (!(memberInfo is PropertyInfo))
             {
-                return path.Single().Member.Name;
+                throw new ArgumentException("The expression is for a method", "propertyExpression");
             }
-            throw new Exception("Trying to get the name of a nested property: " + string.Join(".", path.Select(x => x.Member.Name)));*/
+            return memberInfo.Name;
+        }
+
+        /// <summary>
+        /// Returns the name of a property provided as a property expression.
+        /// </summary>
+        /// <typeparam name="TProperty">
+        /// Type of the property.
+        /// </typeparam>
+        /// <typeparam name="TItem">
+        /// Type of the item
+        /// </typeparam>
+        /// <param name="propertyExpression">
+        /// Property expression on the the form () =&gt; Instance.Property.
+        /// </param>
+        /// <returns>
+        /// Returns the simple name of the property.
+        /// </returns>
+        public static string Property<TItem, TValue>(Expression<Func<TItem, TValue>> propertyExpression)
+        {
+            var path = PropertyPathVisitor.GetPath(propertyExpression);
+            var memberInfo = path.Last();
+            if (!(memberInfo is PropertyInfo))
+            {
+                throw new ArgumentException("The expression is for a method", "propertyExpression");
+            }
+            return memberInfo.Name;
         }
 
         /// <summary>

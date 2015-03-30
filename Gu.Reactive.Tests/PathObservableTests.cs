@@ -25,11 +25,11 @@
         {
             var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc();
-            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.Value);
+            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.IsTrue);
             observable.Subscribe(args.Add);
             fake.Next = new Level();
             Assert.AreEqual(1, args.Count);
-            fake.Next.Value = !fake.Next.Value;
+            fake.Next.IsTrue = !fake.Next.IsTrue;
             Assert.AreEqual(2, args.Count);
             fake.Next = null;
             Assert.AreEqual(3, args.Count);
@@ -72,7 +72,7 @@
         {
             var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc();
-            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.Value);
+            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.IsTrue);
             observable.Subscribe(args.Add);
             fake.Next = new Level
                         {
@@ -83,7 +83,7 @@
             var temp = fake.Next;
             fake.Next = null;
             Assert.AreEqual(2, args.Count);
-            temp.Value = !temp.Value;
+            temp.IsTrue = !temp.IsTrue;
             Assert.AreEqual(2, args.Count);
         }
 
@@ -92,7 +92,7 @@
         {
             var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc();
-            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.Next.Value);
+            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.Next.IsTrue);
             observable.Subscribe(args.Add);
             fake.Next = new Level();
             Assert.AreEqual(0, args.Count);
@@ -109,11 +109,11 @@
                         {
                             Next = new Level
                                    {
-                                       Value = true
+                                       IsTrue = true
                                    }
                         };
             Assert.AreEqual(3, args.Count);
-            fake.Next.Next.Value = false;
+            fake.Next.Next.IsTrue = false;
             Assert.AreEqual(4, args.Count);
             fake.Next.Next = null;
             Assert.AreEqual(5, args.Count);
@@ -128,7 +128,7 @@
             var level1 = new Level();
             var wr = new WeakReference(level1);
             Assert.IsTrue(wr.IsAlive);
-            var subscription = fake.ToObservable(x => x.Next.Value).Subscribe();
+            var subscription = fake.ObservePropertyChanged(x => x.Next.IsTrue).Subscribe();
             fake.Next = level1;
             fake.Next = null;
             level1 = null;

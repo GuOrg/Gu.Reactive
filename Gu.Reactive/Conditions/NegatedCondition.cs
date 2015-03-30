@@ -37,7 +37,7 @@ namespace Gu.Reactive
         {
             _condition = condition;
             _innerNegated = negated;
-            _subscription = condition.ToObservable(x => x.IsSatisfied, false)
+            _subscription = condition.ObservePropertyChanged(x => x.IsSatisfied, false)
                                           .Subscribe(
                                               x =>
                                                   {
@@ -53,11 +53,11 @@ namespace Gu.Reactive
         /// <param name="condition">
         /// The condition.
         /// </param>
-        internal NegatedCondition(Condition condition)
+        public NegatedCondition(Condition condition)
             : this(
             (ICondition)condition, 
             new Condition(
-                condition.ToObservable(x => x.IsSatisfied), 
+                condition.ObservePropertyChanged(x => x.IsSatisfied), 
                 () => condition.IsSatisfied == null ? (bool?)null : !condition.IsSatisfied.Value))
         {
         }

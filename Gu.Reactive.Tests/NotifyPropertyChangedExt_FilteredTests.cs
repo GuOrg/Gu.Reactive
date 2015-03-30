@@ -4,14 +4,14 @@ namespace Gu.Reactive.Tests
 
     using NUnit.Framework;
 
-    public class ToObservableFilteredTests
+    public class NotifyPropertyChangedExt_FilteredTests
     {
         [Test]
         public void Reacts()
         {
             int count = 0;
             var fake = new FakeInpc { Prop1 = false, Prop2 = true };
-            var observable = fake.ToObservable(x => x.Prop1, false);
+            var observable = fake.ObservePropertyChanged(x => x.Prop1, false);
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(0, count);
             fake.Prop1 = !fake.Prop1;
@@ -27,7 +27,7 @@ namespace Gu.Reactive.Tests
         {
             int count = 0;
             var fake = new FakeInpc();
-            var observable = fake.ToObservable(x => x.Prop1, false);
+            var observable = fake.ObservePropertyChanged(x => x.Prop1, false);
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(0, count);
             fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
@@ -39,7 +39,7 @@ namespace Gu.Reactive.Tests
         {
             int count = 0;
             var fake = new FakeInpc { Prop1 = false, Prop2 = true };
-            var observable = fake.ToObservable(x => x.Prop1, true); // Default true captures initial value
+            var observable = fake.ObservePropertyChanged(x => x.Prop1, true); // Default true captures initial value
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(1, count);
             fake.Prop1 = !fake.Prop1;
@@ -51,7 +51,7 @@ namespace Gu.Reactive.Tests
         {
             int count = 0;
             var fake = new FakeInpc { Prop1 = false, Prop2 = true };
-            var observable = fake.ToObservable(x => x.Prop1, false);
+            var observable = fake.ObservePropertyChanged(x => x.Prop1, false);
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(0, count);
             fake.Prop1 = !fake.Prop1;
@@ -63,7 +63,7 @@ namespace Gu.Reactive.Tests
         {
             var fake = new FakeInpc();
             var wr = new WeakReference(fake);
-            var subscription = fake.ToObservable(x => x.Prop1).Subscribe();
+            var subscription = fake.ObservePropertyChanged(x => x.Prop1).Subscribe();
             fake = null;
             subscription.Dispose();
             GC.Collect();
@@ -76,7 +76,7 @@ namespace Gu.Reactive.Tests
         {
             var fake = new FakeInpc();
             var wr = new WeakReference(fake);
-            var subscription = fake.ToObservable(x => x.Prop1).Subscribe();
+            var subscription = fake.ObservePropertyChanged(x => x.Prop1).Subscribe();
             fake = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
@@ -90,7 +90,7 @@ namespace Gu.Reactive.Tests
             var fake = new FakeInpc();
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);
-            var subscription = fake.ToObservable(x => x.Name)
+            var subscription = fake.ObservePropertyChanged(x => x.Name)
                                    .Subscribe();
             fake = null;
             GC.Collect();

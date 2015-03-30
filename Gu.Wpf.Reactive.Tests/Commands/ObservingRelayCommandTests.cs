@@ -14,7 +14,7 @@
         public void NotifiesOnConditionChanged()
         {
             var fake = new FakeInpc { Prop1 = false };
-            var observable = fake.ToObservable(x => x.Prop1);
+            var observable = fake.ObservePropertyChanged(x => x.Prop1);
             var command = new ObservingRelayCommand(() => { }, () => false, observable);
             int count = 0;
             command.CanExecuteChanged += (sender, args) => count++;

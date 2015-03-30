@@ -7,15 +7,34 @@
 
     public class Level : INotifyPropertyChanged
     {
-        private bool _value;
+        private bool _isTrue;
         private Level _next;
         private string _name;
 
         private bool? _nullableValue;
 
+        private int _value;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool Value
+        public bool IsTrue
+        {
+            get
+            {
+                return _isTrue;
+            }
+            set
+            {
+                if (value.Equals(_isTrue))
+                {
+                    return;
+                }
+                _isTrue = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Value
         {
             get
             {
@@ -23,7 +42,7 @@
             }
             set
             {
-                if (value.Equals(_value))
+                if (value == _value)
                 {
                     return;
                 }
@@ -91,6 +110,11 @@
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public Level Method()
+        {
+            return Next;
         }
     }
 }

@@ -11,9 +11,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Demo", "Gu.Reac
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{24478258-C77E-4556-B69E-4903089398D9}"
 	ProjectSection(SolutionItems) = preProject
+		Gu.Reactive\Gu.Reactive.nuspec = Gu.Reactive\Gu.Reactive.nuspec
+		Gu.Wpf.Reactive\Gu.Wpf.Reactive.nuspec = Gu.Wpf.Reactive\Gu.Wpf.Reactive.nuspec
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\nuspec.2010.7.xsd = .nuget\nuspec.2010.7.xsd
+		.nuget\nuspec.2011.8.xsd = .nuget\nuspec.2011.8.xsd
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject

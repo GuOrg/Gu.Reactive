@@ -16,12 +16,12 @@ namespace Gu.Reactive
     /// </typeparam>
     /// <typeparam name="TProperty">
     /// </typeparam>
-    public class PropertyChangedTrackingEventArgs<TSource, TProperty> : PropertyChangedEventArgs<TSource, TProperty>
+    public class TrackingEventArgs<TSource, TProperty> : ChildPropertyChangedEventArgs<TSource, TProperty>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PropertyChangedTrackingEventArgs{TSource,TProperty}"/> class.
+        /// Initializes a new instance of the <see cref="TrackingEventArgs{TSource,TProperty}"/> class.
         /// </summary>
-        /// <param name="sender">
+        /// <param name="originalSender">
         /// The sender.
         /// </param>
         /// <param name="currentValue">
@@ -33,8 +33,8 @@ namespace Gu.Reactive
         /// <param name="propertyName">
         /// The property name.
         /// </param>
-        public PropertyChangedTrackingEventArgs(TSource sender, TProperty currentValue, TProperty previousValue, string propertyName)
-            : base(sender, currentValue, propertyName)
+        public TrackingEventArgs(TSource originalSender, TProperty currentValue, TProperty previousValue, string propertyName)
+            : base(originalSender, currentValue, propertyName)
         {
             PreviousValue = previousValue;
         }

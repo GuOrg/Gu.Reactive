@@ -65,7 +65,7 @@ namespace Gu.Reactive
 
             _isSatisfied = isSatisfied;
             _innerConditions = conditions.ToList();
-            _subscription = conditions.Select(x => x.ToObservable(y => y.IsSatisfied, false))
+            _subscription = conditions.Select(x => x.ObservePropertyChanged(y => y.IsSatisfied, false))
                                        .Merge()
                                        .Subscribe(
                                            x =>

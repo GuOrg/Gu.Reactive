@@ -18,7 +18,7 @@
         public void NegateCondition(bool? value, bool? expected)
         {
             var fake = new FakeInpc { Prop1 = value };
-            var condition = new Condition(fake.ToObservable(x => x.Prop1), () => fake.Prop1);
+            var condition = new Condition(fake.ObservePropertyChanged(x => x.Prop1), () => fake.Prop1);
             var negatedCondition = condition.Negate();
             Assert.AreEqual(expected, negatedCondition.IsSatisfied);
         }
@@ -33,13 +33,13 @@
         public void NegateAndCondition(bool? first, bool? other, bool? third, bool? expected)
         {
             var fake1 = new FakeInpc { Prop1 = first };
-            var condition1 = new Condition(fake1.ToObservable(x => x.Prop1), () => fake1.Prop1);
+            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.Prop1), () => fake1.Prop1);
 
             var fake2 = new FakeInpc { Prop1 = other };
-            var condition2 = new Condition(fake2.ToObservable(x => x.Prop1), () => fake2.Prop1);
+            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.Prop1), () => fake2.Prop1);
 
             var fake3 = new FakeInpc { Prop1 = third };
-            var condition3 = new Condition(fake3.ToObservable(x => x.Prop1), () => fake3.Prop1);
+            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.Prop1), () => fake3.Prop1);
 
             var andCondition = new AndCondition(condition1, condition2, condition3);
             var negated = andCondition.Negate();
@@ -57,13 +57,13 @@
         public void NegateOrCondition(bool? first, bool? other, bool? third, bool? expected)
         {
             var fake1 = new FakeInpc { Prop1 = first };
-            var condition1 = new Condition(fake1.ToObservable(x => x.Prop1), () => fake1.Prop1);
+            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.Prop1), () => fake1.Prop1);
 
             var fake2 = new FakeInpc { Prop1 = other };
-            var condition2 = new Condition(fake2.ToObservable(x => x.Prop1), () => fake2.Prop1);
+            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.Prop1), () => fake2.Prop1);
 
             var fake3 = new FakeInpc { Prop1 = third };
-            var condition3 = new Condition(fake3.ToObservable(x => x.Prop1), () => fake3.Prop1);
+            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.Prop1), () => fake3.Prop1);
 
             var orCondition = new OrCondition(condition1, condition2, condition3);
             var negated = orCondition.Negate();
@@ -77,7 +77,7 @@
             var argses = new List<PropertyChangedEventArgs>();
             var negArgses = new List<PropertyChangedEventArgs>();
             var fake = new FakeInpc { Prop1 = false };
-            var condition = new Condition(fake.ToObservable(x => x.Prop1), () => fake.Prop1 == true);
+            var condition = new Condition(fake.ObservePropertyChanged(x => x.Prop1), () => fake.Prop1 == true);
             var negatedCondition = condition.Negate();
 
             condition.PropertyChanged += (_, e) => argses.Add(e);
@@ -99,7 +99,7 @@
         public void Name()
         {
             var fake = new FakeInpc { Prop1 = false };
-            var condition = new Condition(fake.ToObservable(x => x.Prop1), () => fake.Prop1);
+            var condition = new Condition(fake.ObservePropertyChanged(x => x.Prop1), () => fake.Prop1);
             var negatedCondition = condition.Negate();
             Assert.AreEqual("Not_" + condition.Name, negatedCondition.Name);
         }
@@ -108,7 +108,7 @@
         public void NegateTwiceReturnsOriginal()
         {
             var fake = new FakeInpc { Prop1 = false };
-            var condition = new Condition(fake.ToObservable(x => x.Prop1), () => fake.Prop1);
+            var condition = new Condition(fake.ObservePropertyChanged(x => x.Prop1), () => fake.Prop1);
             var negatedCondition = condition.Negate();
             var negatedTwice = negatedCondition.Negate();
             Assert.AreSame(condition, negatedTwice);

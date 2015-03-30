@@ -19,10 +19,10 @@ namespace Gu.Reactive
     /// <summary>
     /// The property changed to observable ext.
     /// </summary>
-    public static class PropertyChangedToObservableExt
+    public static class NotifyPropertyChangedExt
     {
         /// <summary>
-        /// COnvenience wrapper for listening to property changes
+        /// CConvenience wrapper for listening to property changes
         /// </summary>
         /// <typeparam name="TNotifier">
         /// </typeparam>
@@ -38,9 +38,9 @@ namespace Gu.Reactive
         /// <returns>
         /// The <see cref="IObservable"/>.
         /// </returns>
-        public static IObservable<EventPattern<PropertyChangedEventArgs>> ToObservable<TNotifier, TProperty>(
-            this TNotifier source, 
-            Expression<Func<TNotifier, TProperty>> property, 
+        public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
+            this TNotifier source,
+            Expression<Func<TNotifier, TProperty>> property,
             bool signalInitial = true) where TNotifier : INotifyPropertyChanged
         {
             var me = (MemberExpression)property.Body;
@@ -53,22 +53,22 @@ namespace Gu.Reactive
                 {
                     return Observable.Defer(
                         () =>
-                            {
-                                var current = new EventPattern<PropertyChangedEventArgs>(
-                                    wr.Target, 
-                                    new PropertyChangedEventArgs(
-                                        observable.Path.Last()
-                                                  .PropertyInfo.Name));
-                                return Observable.Return(current)
-                                                 .Concat(observable);
-                            });
+                        {
+                            var current = new EventPattern<PropertyChangedEventArgs>(
+                                wr.Target,
+                                new PropertyChangedEventArgs(
+                                    observable.Path.Last()
+                                              .PropertyInfo.Name));
+                            return Observable.Return(current)
+                                             .Concat(observable);
+                        });
                 }
 
                 return observable;
             }
 
             string name = me.Member.Name;
-            return source.ToObservable(name, signalInitial);
+            return source.ObservePropertyChanged(name, signalInitial);
         }
 
         /// <summary>
@@ -86,13 +86,13 @@ namespace Gu.Reactive
         /// <returns>
         /// The <see cref="IObservable"/>.
         /// </returns>
-        public static IObservable<EventPattern<PropertyChangedEventArgs>> ToObservable(
-            this INotifyPropertyChanged source, 
-            string name, 
+        public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(
+            this INotifyPropertyChanged source,
+            string name,
             bool signalInitial = true)
         {
             var wr = new WeakReference(source);
-            var observable = source.ToObservable()
+            var observable = source.ObservePropertyChanged()
                                    .Where(
                                        e =>
                                        string.IsNullOrEmpty(e.EventArgs.PropertyName)
@@ -101,13 +101,13 @@ namespace Gu.Reactive
             {
                 return Observable.Defer(
                     () =>
-                        {
-                            var current = new EventPattern<PropertyChangedEventArgs>(
-                                wr.Target, 
-                                new PropertyChangedEventArgs(name));
-                            return Observable.Return(current)
-                                             .Concat(observable);
-                        });
+                    {
+                        var current = new EventPattern<PropertyChangedEventArgs>(
+                            wr.Target,
+                            new PropertyChangedEventArgs(name));
+                        return Observable.Return(current)
+                                         .Concat(observable);
+                    });
             }
             else
             {
@@ -134,26 +134,26 @@ namespace Gu.Reactive
         /// <returns>
         /// The <see cref="IObservable"/>.
         /// </returns>
-        public static IObservable<PropertyChangedTrackingEventArgs<TNotifier, TProperty>> ToTrackingObservable
+        public static IObservable<TrackingEventArgs<TNotifier, TProperty>> ToTrackingObservable
             <TNotifier, TProperty>(
-            this TNotifier source, 
-            Expression<Func<TNotifier, TProperty>> property, 
+            this TNotifier source,
+            Expression<Func<TNotifier, TProperty>> property,
             bool sampleCurrent) where TNotifier : INotifyPropertyChanged
         {
             var wr = new WeakReference(source);
             Func<TNotifier, TProperty> getter = property.Compile();
-            var observable = source.ToObservable(property, sampleCurrent)
+            var observable = source.ObservePropertyChanged(property, sampleCurrent)
                                    .Scan(
-                                       new PropertyChangedTrackingEventArgs<TNotifier, TProperty>(
-                                           (TNotifier)wr.Target, 
-                                           default(TProperty), 
-                                           default(TProperty), 
-                                           string.Empty), 
+                                       new TrackingEventArgs<TNotifier, TProperty>(
+                                           (TNotifier)wr.Target,
+                                           default(TProperty),
+                                           default(TProperty),
+                                           string.Empty),
                                        (acc, cur) =>
-                                       new PropertyChangedTrackingEventArgs<TNotifier, TProperty>(
-                                           (TNotifier)wr.Target, 
-                                           GetOrDefault(wr, getter), 
-                                           acc.CurrentValue, 
+                                       new TrackingEventArgs<TNotifier, TProperty>(
+                                           (TNotifier)wr.Target,
+                                           GetOrDefault(wr, getter),
+                                           acc.CurrentValue,
                                            acc.PropertyName));
             return observable;
         }
@@ -167,28 +167,28 @@ namespace Gu.Reactive
         /// <returns>
         /// The <see cref="IObservable"/>.
         /// </returns>
-        public static IObservable<EventPattern<PropertyChangedEventArgs>> ToObservable(
+        public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(
             this INotifyPropertyChanged source)
         {
             var wr = new WeakReference<INotifyPropertyChanged>(source);
             IObservable<EventPattern<PropertyChangedEventArgs>> observable =
                 Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
                     x =>
+                    {
+                        INotifyPropertyChanged inpc;
+                        if (wr.TryGetTarget(out inpc))
                         {
-                            INotifyPropertyChanged inpc;
-                            if (wr.TryGetTarget(out inpc))
-                            {
-                                inpc.PropertyChanged += x;
-                            }
-                        }, 
+                            inpc.PropertyChanged += x;
+                        }
+                    },
                     x =>
+                    {
+                        INotifyPropertyChanged inpc;
+                        if (wr.TryGetTarget(out inpc))
                         {
-                            INotifyPropertyChanged inpc;
-                            if (wr.TryGetTarget(out inpc))
-                            {
-                                inpc.PropertyChanged -= x;
-                            }
-                        });
+                            inpc.PropertyChanged -= x;
+                        }
+                    });
             return observable;
         }
 

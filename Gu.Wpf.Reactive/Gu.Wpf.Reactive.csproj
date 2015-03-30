@@ -51,10 +51,6 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gu.Reactive, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Gu.Reactive.1.2.4.0\lib\net45\Gu.Reactive.dll</HintPath>
-    </Reference>
     <Reference Include="Gu.Wpf.ToolTips, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Gu.Wpf.ToolTips.0.1.4.0\lib\net45\Gu.Wpf.ToolTips.dll</HintPath>
@@ -171,7 +167,12 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj">
+      <Project>{2230088e-f6dc-4c79-9983-d9654274d689}</Project>
+      <Name>Gu.Reactive</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

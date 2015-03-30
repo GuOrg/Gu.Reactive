@@ -78,6 +78,11 @@
             }
         }
 
+        public Level Method()
+        {
+            return Next;
+        }
+
         [NotifyPropertyChangedInvocator]
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

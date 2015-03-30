@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Gu.Wpf.ToolTips</name>
+    </assembly>
+    <members>
+        <member name="M:Gu.Wpf.ToolTips.AdornedElementProxy.MeasureOverride(System.Windows.Size)">
+            <summary>
+                AdornedElementProxy measure behavior is to measure
+                only the first visual child.  Note that the return value
+                of Measure on this child is ignored as the purpose of this
+                class is to match the size of the element for which this
+                is a placeholder.
+            </summary>
+            <param name="constraint">The measurement constraints.</param>
+            <returns>The desired size of the control.</returns>
+        </member>
+        <member name="M:Gu.Wpf.ToolTips.AdornedElementProxy.ArrangeOverride(System.Windows.Size)">
+            <summary>
+                Default AdornedElementProxy arrangement is to only arrange
+                the first visual child. No transforms will be applied.
+            </summary>
+            <param name="arrangeBounds">The computed size.</param>
+        </member>
+        <member name="P:Gu.Wpf.ToolTips.AdornedElementProxy.AdornedElement">
+            <summary>
+             Element for which the AdornedElementProxy is reserving space.
+            </summary>
+        </member>
+        <member name="T:Gu.Wpf.ToolTips.NegatingConverter">
+            <summary>
+            Negates bools
+            </summary>
+        </member>
+        <member name="T:Gu.Wpf.ToolTips.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Gu.Wpf.ToolTips.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Gu.Wpf.ToolTips.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:Gu.Wpf.ToolTips.TouchToolTip">
+            <summary>
+            Sets DataContext to the DataContext of the adorned element
+            </summary>
+        </member>
+        <member name="M:Gu.Wpf.ToolTips.TouchToolTipAdorner.#ctor(System.Windows.UIElement,System.Windows.Controls.ToolTip,System.Windows.Controls.ControlTemplate)">
+            <summary>
+            Be sure to call the base class constructor. 
+            </summary>
+            <param name="adornedElement">The ui element to adorn</param>
+            <param name="toolTip">The tooltip to show on click</param>
+            <param name="overlayTemplate">A style for a PopupButton</param>
+        </member>
+        <member name="M:Gu.Wpf.ToolTips.TouchToolTipAdorner.ClearChild">
+            <summary>
+            The clear the single child of a TemplatedAdorner
+            </summary>
+        </member>
+        <member name="M:Gu.Wpf.ToolTips.TouchToolTipAdorner.GetVisualChild(System.Int32)">
+             <summary>
+               Derived class must implement to support Visual children. The method must return
+                the child at the specified index. Index must be between 0 and GetVisualChildrenCount-1.
+            
+                By default a Visual does not have any children.
+            
+              Remark:
+                   During this virtual call it is not valid to modify the Visual tree.
+             </summary>
+        </member>
+        <member name="T:Gu.Wpf.ToolTips.TouchToolTipService">
+            <summary>
+            Helper class with attached properties for the TouchToolTipAdorner
+            Enables using it in syles
+            </summary>
+        </member>
+        <member name="F:Gu.Wpf.ToolTips.TouchToolTipService.OverlayTemplateProperty">
+            <summary>
+                Style used to overlay the control on the AdornerLayer.
+                Must be TargetType popupbutton
+            </summary>
+        </member>
+        <member name="F:Gu.Wpf.ToolTips.TouchToolTipService.IsVisibleProperty">
+            <summary>
+                Control when the adorner should be visible
+            </summary>
+        </member>
+        <member name="F:Gu.Wpf.ToolTips.TouchToolTipService.DefaultVisibleProxyProperty">
+            <summary>
+            Dummy property to get notificatins on when Visibility should toggle if Visibility is set to null
+            </summary>
+        </member>
+        <member name="F:Gu.Wpf.ToolTips.TouchToolTipService.ToolTipAdornerProperty">
+            <summary>
+                Reference to the ValidationAdorner
+            </summary>
+        </member>
+        <member name="M:Gu.Wpf.ToolTips.TouchToolTipService.GetOverlayTemplate(System.Windows.DependencyObject)">
+            <summary> Static accessor for AdornerTemplate property </summary>
+            <exception cref="T:System.ArgumentNullException"> DependencyObject element cannot be null </exception>
+        </member>
+        <member name="M:Gu.Wpf.ToolTips.TouchToolTipService.SetOverlayTemplate(System.Windows.DependencyObject,System.Windows.Controls.ControlTemplate)">
+            <summary> Static modifier for AdornerTemplate property </summary>
+            <exception cref="T:System.ArgumentNullException"> DependencyObject element cannot be null </exception>
+        </member>
+        <member name="M:Gu.Wpf.ToolTips.VisualTreeHelperEx.AllAncestors(System.Windows.DependencyObject)">
+            <summary>
+            Uses reflection and internal InheritanceContext, potentially fragile
+            http://stackoverflow.com/a/20988314/1069200
+            </summary>
+            <param name="child"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
