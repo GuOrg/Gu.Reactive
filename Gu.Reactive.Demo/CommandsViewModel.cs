@@ -23,10 +23,10 @@
             RelayCommand = new RelayCommand(() => Executed = "RelayCommand", () => CanExecute);
             RelayCommandWithParamater = new RelayCommand<string>(x => Executed = "RelayCommandWithParamater: " + x, x => CanExecute);
 
-            ObservingRelayCommand = new ObservingRelayCommand(() => Executed = "ObservingRelayCommand", () => CanExecute, this.ToObservable(x => x.CanExecute));
-            ObservingRelayCommandWithParameter = new ObservingRelayCommand<string>(x => Executed = "ObservingRelayCommandWithParameter:" + x, x => CanExecute, this.ToObservable(x => x.CanExecute));
+            ObservingRelayCommand = new ObservingRelayCommand(() => Executed = "ObservingRelayCommand", () => CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
+            ObservingRelayCommandWithParameter = new ObservingRelayCommand<string>(x => Executed = "ObservingRelayCommandWithParameter:" + x, x => CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
 
-            var condition = new Condition(this.ToObservable(x => x.CanExecute), () => CanExecute);
+            var condition = new Condition(this.ObservePropertyChanged(x => x.CanExecute), () => CanExecute);
             ConditionRelayCommand = new ConditionRelayCommand(() => Executed = "ObservingRelayCommand", condition);
             ConditionRelayCommandWithParameter = new ConditionRelayCommand<string>(x => Executed = "ConditionRelayCommandWithParameter: " + x, condition);
             RaiseCanExecuteCommand = new RelayCommand(RaiseCanExecute);

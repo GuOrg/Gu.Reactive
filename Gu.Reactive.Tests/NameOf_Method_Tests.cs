@@ -1,36 +1,23 @@
 ﻿namespace Gu.Reactive.Tests
 {
-    using System;
     using System.Linq;
 
     using NUnit.Framework;
-    public class NameOfTests
+
+    // ReSharper disable once InconsistentNaming
+    public class NameOf_Method_Tests
     {
-        public string DummyProperty { get; private set; }
-
         [Test]
-        public void NameOfPropertyHappyPath()
-        {
-            var name = NameOf.Property(() => DummyProperty);
-            Assert.AreEqual("DummyProperty", name);
-        }
-        [Test]
-        public void ThrowsOnNestedProperty()
-        {
-            var exception = Assert.Throws<Exception>(() => NameOf.Property(() => DummyProperty.Length));
-        }
-
-        [Test]
-        public void NameOfMethodAction()
+        public void MethodAction()
         {
             var actual = NameOf.Method(() => DummyMethod(0));
             Assert.AreEqual("DummyMethod", actual);
         }
 
         [Test]
-        public void NameOfMethodFunc()
+        public void MethodFunc()
         {
-            var actual = NameOf.Method(() => DummyMethod(0));
+            var actual = NameOf.Method<NameOf_Method_Tests>(x => DummyMethod(0));
             Assert.AreEqual("DummyMethod", actual);
         }
 

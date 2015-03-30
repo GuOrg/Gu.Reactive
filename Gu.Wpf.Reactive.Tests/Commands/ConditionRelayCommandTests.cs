@@ -23,7 +23,7 @@
         public void SetUp()
         {
             _fake = new FakeInpc { Prop1 = false };
-            _observable = _fake.ToObservable(x => x.Prop1);
+            _observable = _fake.ObservePropertyChanged(x => x.Prop1);
             _condition = new Condition(_observable, () => _fake.Prop1);
             _command = new ConditionRelayCommand(() => { }, _condition);
         }

@@ -5,7 +5,7 @@ namespace Gu.Reactive.Tests
 
     using NUnit.Framework;
 
-    public class ToTrackingObservableTests
+    public class NotifyProeprtyChangedExt_TrackingTests
     {
         [Test]
         public void ToTrackingTest()

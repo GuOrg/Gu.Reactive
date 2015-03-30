@@ -1,20 +1,17 @@
 ﻿namespace Gu.Reactive.Tests
 {
     using System;
-    using System.Linq;
-    using System.Reactive;
-    using System.Reactive.Linq;
 
     using NUnit.Framework;
 
-    public class ToObservableTests
+    public class NotifyPropertyChangedExt
     {
         [Test]
         public void Reacts()
         {
             int count = 0;
             var fake = new FakeInpc { Prop1 = false, Prop2 = true };
-            var observable = fake.ToObservable();
+            var observable = fake.ObservePropertyChanged();
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(0, count);
             fake.Prop1 = !fake.Prop1;
@@ -28,7 +25,7 @@
         {
             int count = 0;
             var fake = new FakeInpc { Prop1 = true };
-            var observable = fake.ToObservable();
+            var observable = fake.ObservePropertyChanged();
             var disposable = observable.Subscribe(x => count++);
             fake.Prop1 = !fake.Prop1;
             Assert.AreEqual(1, count);
@@ -42,7 +39,7 @@
         {
             var fake = new FakeInpc();
             var wr = new WeakReference(fake);
-            var subscription = fake.ToObservable().Subscribe();
+            var subscription = fake.ObservePropertyChanged().Subscribe();
             fake = null;
             subscription.Dispose();
             GC.Collect();
@@ -55,7 +52,7 @@
         {
             var fake = new FakeInpc();
             var wr = new WeakReference(fake);
-            var subscription = fake.ToObservable().Subscribe();
+            var subscription = fake.ObservePropertyChanged().Subscribe();
             fake = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);

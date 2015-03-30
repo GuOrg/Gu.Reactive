@@ -61,7 +61,7 @@ namespace Gu.Reactive
         /// </summary>
         /// <param name="conditionCollection"></param>
         protected Condition(ConditionCollection conditionCollection)
-            : this(conditionCollection.ToObservable(x => x.IsSatisfied, false), () => conditionCollection.IsSatisfied)
+            : this(conditionCollection.ObservePropertyChanged(x => x.IsSatisfied, false), () => conditionCollection.IsSatisfied)
         {
             _prerequisites = conditionCollection;
         }

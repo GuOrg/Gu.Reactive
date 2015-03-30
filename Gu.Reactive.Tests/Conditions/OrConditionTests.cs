@@ -41,9 +41,9 @@ namespace Gu.Reactive.Tests.Conditions
             var fake1 = new FakeInpc { Prop1 = false };
             var fake2 = new FakeInpc { Prop1 = false };
             var fake3 = new FakeInpc { Prop1 = false };
-            var condition1 = new Condition(fake1.ToObservable(x => x.Prop1), () => fake1.Prop1);
-            var condition2 = new Condition(fake2.ToObservable(x => x.Prop1), () => fake2.Prop1);
-            var condition3 = new Condition(fake3.ToObservable(x => x.Prop1), () => fake3.Prop1);
+            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.Prop1), () => fake1.Prop1);
+            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.Prop1), () => fake2.Prop1);
+            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.Prop1), () => fake3.Prop1);
             var collection = new OrCondition(condition1, condition2, condition3);
             collection.PropertyChanged += (sender, args) => argses.Add(args.PropertyName);
             Assert.AreEqual(false, collection.IsSatisfied);

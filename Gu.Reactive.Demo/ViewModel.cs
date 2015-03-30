@@ -19,11 +19,11 @@
         public ViewModel()
         {
             IsDoorClosedCondition = new Condition(
-                this.ToObservable(x => x.IsDoorClosed), 
+                this.ObservePropertyChanged(x => x.IsDoorClosed), 
                 () => IsDoorClosed) { Name = "Door open" };
 
             IsMotorRunningCondition = new Condition(
-                this.ToObservable(x => x.IsMotorRunning), 
+                this.ObservePropertyChanged(x => x.IsMotorRunning), 
                 () => IsMotorRunning) { Name = "Motor running" };
 
             AndCondition = new AndCondition(IsDoorClosedCondition, IsMotorRunningCondition)

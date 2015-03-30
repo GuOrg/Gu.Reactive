@@ -25,7 +25,7 @@ namespace Gu.Reactive
     /// </typeparam>
     /// <typeparam name="TProp">
     /// </typeparam>
-    internal class PathObservable<TClass, TProp> : ObservableBase<EventPattern<PropertyChangedEventArgs>>, IDisposable
+    internal sealed class PathObservable<TClass, TProp> : ObservableBase<EventPattern<PropertyChangedEventArgs>>, IDisposable
         where TClass : INotifyPropertyChanged
     {
         /// <summary>
@@ -43,6 +43,8 @@ namespace Gu.Reactive
         /// </summary>
         private readonly Subject<EventPattern<PropertyChangedEventArgs>> _subject = new Subject<EventPattern<PropertyChangedEventArgs>>();
 
+        private bool _disposed;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PathObservable{TClass,TProp}"/> class.
         /// </summary>
@@ -54,10 +56,11 @@ namespace Gu.Reactive
         /// </param>
         public PathObservable(TClass source, Expression<Func<TClass, TProp>> propertyExpression)
         {
-            var path = PathExpressionVisitor.GetPath(propertyExpression);
+            var path = PropertyPathVisitor.GetPath(propertyExpression);
             foreach (var pathItem in path)
             {
-                var item = new PathItem(pathItem.Expression.Type.GetProperty(pathItem.Member.Name));
+                var propertyInfo = (PropertyInfo)pathItem;
+                var item = new PathItem(propertyInfo);
                 _path.Add(item);
             }
 
@@ -79,13 +82,22 @@ namespace Gu.Reactive
             }
         }
 
-        /// <summary>
-        /// The dispose.
-        /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            foreach (var pathItem in _path)
+            {
+                pathItem.Dispose();
+            }
+            _path.Clear();
+            _subject.Dispose();
+        }
+
+        private void VerifyDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
         }
 
         /// <summary>
@@ -99,29 +111,8 @@ namespace Gu.Reactive
         /// </returns>
         protected override IDisposable SubscribeCore(IObserver<EventPattern<PropertyChangedEventArgs>> observer)
         {
+            VerifyDisposed();
             return _subject.Subscribe(observer);
-        }
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        /// <param name="disposing">
-        /// The disposing.
-        /// </param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_path.Any())
-                {
-                    foreach (var pathItem in _path)
-                    {
-                        pathItem.Dispose();
-                    }
-
-                    _path.Clear();
-                }
-            }
         }
 
         /// <summary>
@@ -164,7 +155,7 @@ namespace Gu.Reactive
                     break;
                 }
 
-                pathItem.Subscription = o.ToObservable(pathItem.PropertyInfo.Name, false)
+                pathItem.Subscription = o.ObservePropertyChanged(pathItem.PropertyInfo.Name, false)
                                          .Subscribe(OnPathItemChanged);
                 if (!pathItem.IsLast)
                 {

@@ -202,7 +202,7 @@ namespace Gu.Wpf.Reactive
             conditionControl.RootCondition = Enumerable.Repeat<ICondition>(condition, 1);
             var flatList = Flatten(condition);
             conditionControl.FlatList = flatList;
-            var updateTrigger = flatList.Select(x => x.ToObservable(y => y.IsSatisfied)).Merge();
+            var updateTrigger = flatList.Select(x => x.ObservePropertyChanged(y => y.IsSatisfied)).Merge();
             conditionControl.NotSatisfiedOnly = new FilteredView<ICondition>(flatList, TimeSpan.FromMilliseconds(10), updateTrigger);
         }
 

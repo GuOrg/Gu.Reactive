@@ -24,7 +24,7 @@
             : base(
                 action, 
                 _ => condition.IsSatisfied == true, 
-                condition.ToObservable(x => x.IsSatisfied))
+                condition.ObservePropertyChanged(x => x.IsSatisfied))
         {
             _condition = condition;
         }
@@ -63,7 +63,7 @@
             : base(
                 action,
                 () => condition.IsSatisfied == true,
-                condition.ToObservable(x => x.IsSatisfied))
+                condition.ObservePropertyChanged(x => x.IsSatisfied))
         {
             _condition = condition;
         }
