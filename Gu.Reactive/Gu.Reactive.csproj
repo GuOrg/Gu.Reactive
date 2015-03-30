@@ -132,6 +132,8 @@
     <Compile Include="Conditions\OrConditionCollection.cs" />
     <Compile Include="FixedSizedQueue.cs" />
     <Compile Include="ItemPropertyListener`1.cs" />
+    <Compile Include="ValuePath.cs" />
+    <Compile Include="PathItem.cs" />
     <Compile Include="PathObservable.cs" />
     <Compile Include="PropertyPathVisitor.cs" />
     <Compile Include="Properties\Annotations.generated.cs" />

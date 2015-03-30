@@ -57,7 +57,7 @@ namespace Gu.Reactive
                             var current = new EventPattern<PropertyChangedEventArgs>(
                                 wr.Target,
                                 new PropertyChangedEventArgs(
-                                    observable.Path.Last()
+                                    observable.ValuePath.Last()
                                               .PropertyInfo.Name));
                             return Observable.Return(current)
                                              .Concat(observable);

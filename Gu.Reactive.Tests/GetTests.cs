@@ -1,10 +1,23 @@
 ﻿namespace Gu.Reactive.Tests
 {
+    using System;
+
     using NUnit.Framework;
 
-    [Explicit("To be implemented")]
     public class GetTests
     {
+        [Test]
+        public void ValuePath()
+        {
+            this.Fake = new FakeInpc { Next = new Level { Name = "Johan" } };
+            var path  = Get.ValuePath<GetTests,string>(x => x.Fake.Next.Name);
+            throw new NotImplementedException("message");
+            
+            //path.CacheValue();
+            //Assert.IsTrue(path.HasValue(this));
+            //Assert.AreEqual("Johan", path.Value(this));
+        }
+
         [Test]
         public void GetNameWhenNull()
         {
