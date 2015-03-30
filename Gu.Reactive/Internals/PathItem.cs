@@ -14,8 +14,13 @@ namespace Gu.Reactive
         /// <param name="propertyInfo">
         /// The property info.
         /// </param>
-        public PathItem(PropertyInfo propertyInfo)
+        public PathItem(PathItem previous, PropertyInfo propertyInfo)
         {
+            this.Previous = previous;
+            if (previous != null)
+            {
+                previous.Next = this;
+            }
             this.PropertyInfo = propertyInfo;
         }
 
@@ -34,6 +39,10 @@ namespace Gu.Reactive
             }
         }
 
+        public PathItem Next { get; private set; }
+
+        public PathItem Previous { get; private set; }
+
         /// <summary>
         /// Gets the property info.
         /// </summary>
@@ -47,7 +56,10 @@ namespace Gu.Reactive
         /// <summary>
         /// Gets or sets a value indicating whether is last.
         /// </summary>
-        public bool IsLast { get; set; }
+        public bool IsLast
+        {
+            get { return Next == null; }
+        }
 
         /// <summary>
         /// Gets the value.
