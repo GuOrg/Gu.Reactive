@@ -15,18 +15,20 @@ namespace Gu.Reactive
         /// </summary>
         private readonly IReadOnlyList<PathItem> _parts;
 
-        public ValuePath(IEnumerable<PropertyInfo> properties)
+        public ValuePath(IReadOnlyList<PropertyInfo> properties)
         {
-            _parts = properties.Select(x => new PathItem(x)).ToArray();
-            _parts.Last().IsLast = true;
-            for (var i = 0; i < (_parts.Count - 1); i++)
+            var parts = new PathItem[properties.Count];
+            PathItem previous = null;
+            for (int i = 0; i < properties.Count; i++)
             {
-                var propertyInfo = this._parts[i].PropertyInfo;
-                if (propertyInfo.PropertyType.IsValueType)
+                var propertyInfo = properties[i];
+                if ((i != properties.Count - 1) && propertyInfo.PropertyType.IsValueType)
                 {
                     throw new NotImplementedException("Not sure how to handle copy by value");
                 }
+                parts[i] = new PathItem(previous, propertyInfo);
             }
+            _parts = parts;
         }
 
         public int Count
@@ -42,7 +44,7 @@ namespace Gu.Reactive
         internal static ValuePath Create<TSource, TValue>(Expression<Func<TSource, TValue>> propertyExpression)
         {
             var path = PropertyPathVisitor.GetPath(propertyExpression);
-            return new ValuePath(path.Cast<PropertyInfo>());
+            return new ValuePath(path.Cast<PropertyInfo>().ToArray());
         }
 
         IEnumerator<PathItem> IEnumerable<PathItem>.GetEnumerator()

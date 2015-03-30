@@ -131,10 +131,10 @@
     <Compile Include="Conditions\OrCondition.cs" />
     <Compile Include="Conditions\OrConditionCollection.cs" />
     <Compile Include="FixedSizedQueue.cs" />
-    <Compile Include="ItemPropertyListener`1.cs" />
-    <Compile Include="ValuePath.cs" />
-    <Compile Include="PathItem.cs" />
-    <Compile Include="PathObservable.cs" />
+    <Compile Include="Internals\ItemPropertyListener`1.cs" />
+    <Compile Include="Internals\ValuePath.cs" />
+    <Compile Include="Internals\PathItem.cs" />
+    <Compile Include="Internals\PathObservable.cs" />
     <Compile Include="PropertyPathVisitor.cs" />
     <Compile Include="Properties\Annotations.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
