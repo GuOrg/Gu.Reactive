@@ -16,7 +16,6 @@ namespace Gu.Reactive
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Subjects;
-    using System.Reflection;
 
     /// <summary>
     /// The nested observable.
@@ -34,15 +33,11 @@ namespace Gu.Reactive
         private readonly WeakReference _value;
 
         /// <summary>
-        /// The _path.
-        /// </summary>
-        private readonly List<PathItem> _path = new List<PathItem>();
-
-        /// <summary>
         /// The _subject.
         /// </summary>
         private readonly Subject<EventPattern<PropertyChangedEventArgs>> _subject = new Subject<EventPattern<PropertyChangedEventArgs>>();
 
+        internal readonly IReadOnlyList<PathItem> ValuePath;
         private bool _disposed;
 
         /// <summary>
@@ -56,48 +51,20 @@ namespace Gu.Reactive
         /// </param>
         public PathObservable(TClass source, Expression<Func<TClass, TProp>> propertyExpression)
         {
-            var path = PropertyPathVisitor.GetPath(propertyExpression);
-            foreach (var pathItem in path)
-            {
-                var propertyInfo = (PropertyInfo)pathItem;
-                var item = new PathItem(propertyInfo);
-                _path.Add(item);
-            }
-
-            _path.First().Source = source;
-            _path.Last().IsLast = true;
-            AssertPathNotifies(_path);
+            this.ValuePath = Reactive.ValuePath.Create(propertyExpression);
+            this.ValuePath[0].Source = source;
+            AssertPathNotifies(this.ValuePath);
             AddSubscriptions(0);
-            _value = new WeakReference(_path.Last().Value, false);
-        }
-
-        /// <summary>
-        /// Gets the path.
-        /// </summary>
-        internal IEnumerable<PathItem> Path
-        {
-            get
-            {
-                return _path;
-            }
+            _value = new WeakReference(this.ValuePath.Last().Value, false);
         }
 
         public void Dispose()
         {
-            foreach (var pathItem in _path)
+            foreach (var pathItem in this.ValuePath)
             {
                 pathItem.Dispose();
             }
-            _path.Clear();
             _subject.Dispose();
-        }
-
-        private void VerifyDisposed()
-        {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
         }
 
         /// <summary>
@@ -140,14 +107,14 @@ namespace Gu.Reactive
         /// </param>
         private void AddSubscriptions(int toIndex)
         {
-            if (toIndex > 0 && toIndex < _path.Count)
+            if (toIndex > 0 && toIndex < this.ValuePath.Count)
             {
-                _path[toIndex].Source = _path[toIndex - 1].Value;
+                this.ValuePath[toIndex].Source = (INotifyPropertyChanged)this.ValuePath[toIndex - 1].Value;
             }
 
-            for (int j = toIndex; j < _path.Count; j++)
+            for (int j = toIndex; j < this.ValuePath.Count; j++)
             {
-                var pathItem = _path[j];
+                var pathItem = this.ValuePath[j];
                 var o = pathItem.Source;
 
                 if (o == null)
@@ -159,7 +126,7 @@ namespace Gu.Reactive
                                          .Subscribe(OnPathItemChanged);
                 if (!pathItem.IsLast)
                 {
-                    _path[j + 1].Source = pathItem.Value;
+                    this.ValuePath[j + 1].Source = (INotifyPropertyChanged)pathItem.Value;
                 }
             }
         }
@@ -172,9 +139,9 @@ namespace Gu.Reactive
         /// </param>
         private void RemoveSubscriptions(int fromIndex)
         {
-            for (int j = fromIndex; j < _path.Count; j++)
+            for (int j = fromIndex; j < this.ValuePath.Count; j++)
             {
-                var pathItem = _path[j];
+                var pathItem = this.ValuePath[j];
                 if (pathItem.Subscription == null)
                 {
                     break;
@@ -198,11 +165,11 @@ namespace Gu.Reactive
             RemoveSubscriptions(i + 1);
             AddSubscriptions(i + 1);
 
-            var value = _path.Last().Value;
+            var value = this.ValuePath.Last().Value;
             if (!(value == null && _value.Target == null))
             {
                 _value.Target = value;
-                var pattern = new EventPattern<PropertyChangedEventArgs>(_path.Last().Source, new PropertyChangedEventArgs(_path.Last().PropertyInfo.Name));
+                var pattern = new EventPattern<PropertyChangedEventArgs>(this.ValuePath.Last().Source, new PropertyChangedEventArgs(this.ValuePath.Last().PropertyInfo.Name));
                 _subject.OnNext(pattern);
             }
         }
@@ -220,9 +187,9 @@ namespace Gu.Reactive
         /// </exception>
         private int IndexOf(INotifyPropertyChanged sender)
         {
-            for (int i = 0; i < _path.Count; i++)
+            for (int i = 0; i < this.ValuePath.Count; i++)
             {
-                var pathItem = _path[i];
+                var pathItem = this.ValuePath[i];
                 if (ReferenceEquals(pathItem.Source, sender))
                 {
                     return i;
@@ -232,95 +199,13 @@ namespace Gu.Reactive
             throw new ArgumentOutOfRangeException();
         }
 
-        /// <summary>
-        /// The path item.
-        /// </summary>
-        internal class PathItem : IDisposable
+        private void VerifyDisposed()
         {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="PathItem"/> class.
-            /// </summary>
-            /// <param name="propertyInfo">
-            /// The property info.
-            /// </param>
-            public PathItem(PropertyInfo propertyInfo)
+            if (_disposed)
             {
-                PropertyInfo = propertyInfo;
-            }
-
-            /// <summary>
-            /// Gets or sets the source.
-            /// </summary>
-            public INotifyPropertyChanged Source { get; set; }
-
-            /// <summary>
-            /// Gets the property info.
-            /// </summary>
-            public PropertyInfo PropertyInfo { get; private set; }
-
-            /// <summary>
-            /// Gets or sets the subscription.
-            /// </summary>
-            public IDisposable Subscription { get; set; }
-
-            /// <summary>
-            /// Gets or sets a value indicating whether is last.
-            /// </summary>
-            public bool IsLast { get; set; }
-
-            /// <summary>
-            /// Gets the value.
-            /// </summary>
-            public dynamic Value
-            {
-                get
-                {
-                    if (Source == null)
-                    {
-                        return null;
-                    }
-
-                    return PropertyInfo.GetMethod.Invoke(Source, null);
-                }
-            }
-
-            /// <summary>
-            /// The to string.
-            /// </summary>
-            /// <returns>
-            /// The <see cref="string"/>.
-            /// </returns>
-            public override string ToString()
-            {
-                return string.Format("{0}.{1}", Source != null ? Source.GetType().Name : "null", PropertyInfo.Name);
-            }
-
-            /// <summary>
-            /// The dispose.
-            /// </summary>
-            public void Dispose()
-            {
-                Dispose(true);
-                GC.SuppressFinalize(this);
-            }
-
-            /// <summary>
-            /// The dispose.
-            /// </summary>
-            /// <param name="disposing">
-            /// The disposing.
-            /// </param>
-            private void Dispose(bool disposing)
-            {
-                if (disposing)
-                {
-                    if (Subscription != null)
-                    {
-                        Subscription.Dispose();
-                        Subscription = null;
-                    }
-                }
+                throw new ObjectDisposedException(GetType().FullName);
             }
         }
+
     }
 }

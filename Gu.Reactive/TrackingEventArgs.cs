@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PropertyChangedTrackingEventArgs.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The property changed tracking event args.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     /// <summary>
     /// The property changed tracking event args.
