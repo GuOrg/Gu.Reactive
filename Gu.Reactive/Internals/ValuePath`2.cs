@@ -26,7 +26,14 @@
             lock (_lock)
             {
                 _valuePath.Source = source;
-                return new Maybe<TValue>(_valuePath.HasValue, (TValue)_valuePath.ValueOrDefault);
+                var lastSource = _valuePath.LastSource as PathItem;
+                if (lastSource == null)
+                {
+                    return new Maybe<TValue>(_valuePath.HasValue, (TValue)_valuePath.ValueOrDefault);
+                }
+                // This is an optimization. Profiler pointed here, minor issue.
+                var value = lastSource.Value;
+                return new Maybe<TValue>(value != null , (TValue) lastSource.Next.GetValue(value));
             }
         }
     }

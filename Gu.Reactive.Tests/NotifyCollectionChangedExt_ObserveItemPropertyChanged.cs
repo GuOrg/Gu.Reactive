@@ -26,18 +26,18 @@ namespace Gu.Reactive.Tests
             var item2 = new FakeInpc { Name = "2" };
             var collection = new ObservableCollection<FakeInpc> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanges(x => x.Name)
-                                   .Subscribe(changes.Add);
+                                         .Subscribe(changes.Add);
 
             Assert.AreEqual(2, changes.Count);
             Assert.AreSame(collection, changes[0].Sender);
             Assert.AreSame(item1, changes[0].EventArgs.OriginalSender);
-            Assert.AreSame("1", changes[0].EventArgs.CurrentValue);
-            Assert.AreSame("Name", changes[0].EventArgs.PropertyName);
+            Assert.AreSame("1", changes[0].EventArgs.Value);
+            Assert.AreEqual("Name", changes[0].EventArgs.PropertyName);
 
             Assert.AreSame(collection, changes[1].Sender);
-            Assert.AreSame(item1, changes[1].EventArgs.OriginalSender);
-            Assert.AreSame("2", changes[1].EventArgs.CurrentValue);
-            Assert.AreSame("Name", changes[1].EventArgs.PropertyName);
+            Assert.AreSame(item2, changes[1].EventArgs.OriginalSender);
+            Assert.AreSame("2", changes[1].EventArgs.Value);
+            Assert.AreEqual("Name", changes[1].EventArgs.PropertyName);
         }
 
         [Test]

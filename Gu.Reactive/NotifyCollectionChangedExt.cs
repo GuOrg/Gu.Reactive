@@ -39,7 +39,7 @@ namespace Gu.Reactive
         internal static IObservable<EventPattern<ChildPropertyChangedEventArgs<T, TProperty>>> ObserveItemPropertyChanges<T, TProperty>(
             this ObservableCollection<T> source,
             Expression<Func<T, TProperty>> property,
-            bool signalInitial = true) where T : INotifyPropertyChanged
+            bool signalInitial = true) where T : class, INotifyPropertyChanged
         {
             return new ItemsObservable<T, TProperty>(source, property, signalInitial);
         }
