@@ -4,6 +4,7 @@ namespace Gu.Reactive.Internals
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using System.Linq.Expressions;
 
     internal sealed class NotifyingPath : IReadOnlyList<INotifyingPathItem>, IDisposable
@@ -36,6 +37,14 @@ namespace Gu.Reactive.Internals
                 VerifyDisposed();
                 ((RootItem)_parts[0]).Value = value;
                 ((NotifyingPathItem)_parts[1]).Source = value;
+            }
+        }
+
+        public object LastSource
+        {
+            get
+            {
+                return ((NotifyingPathItem)_parts.Last()).Previous.Value;
             }
         }
 

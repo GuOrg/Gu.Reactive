@@ -94,6 +94,7 @@
     <Compile Include="Helpers\Level.cs" />
     <Compile Include="Helpers\NotifyPropertyChangedMockExt.cs" />
     <Compile Include="Internals\PathObservableTests.cs" />
+    <Compile Include="NotifyProeprtyChangedExt_ObservePropertyChangedAndValue_Nested.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purrformance.cs" />
@@ -101,7 +102,7 @@
     <Compile Include="NotifyPropertyChangedExt_FilteredTests.cs" />
     <Compile Include="NotifyPropertyChangedExt_NestedTests.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />
-    <Compile Include="NotifyProeprtyChangedExt_TrackingTests.cs" />
+    <Compile Include="NotifyProeprtyChangedExt_ObservePropertyChangedAndValue_Simple.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

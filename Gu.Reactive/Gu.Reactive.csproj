@@ -141,6 +141,7 @@
     <Compile Include="Internals\ValuePath.cs" />
     <Compile Include="Internals\PathItem.cs" />
     <Compile Include="Internals\PathObservable.cs" />
+    <Compile Include="PropertyChangedAndValueEventArgs.cs" />
     <Compile Include="PropertyPathVisitor.cs" />
     <Compile Include="Properties\Annotations.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
