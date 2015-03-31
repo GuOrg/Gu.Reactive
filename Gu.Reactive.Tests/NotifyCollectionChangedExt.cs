@@ -7,7 +7,7 @@
 
     using NUnit.Framework;
 
-    public class NotifyCollectionChangedExt
+    public class NotifyCollectionChangedExt_ObserveCollectionChanged
     {
         [Test]
         public void SignalsInitial()
