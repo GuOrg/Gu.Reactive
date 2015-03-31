@@ -15,6 +15,7 @@ namespace Gu.Reactive
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Linq;
+    using Internals;
 
     /// <summary>
     /// The property changed to observable ext.

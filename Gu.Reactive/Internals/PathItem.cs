@@ -1,12 +1,23 @@
-namespace Gu.Reactive
+namespace Gu.Reactive.Internals
 {
     using System;
-    using System.ComponentModel;
     using System.Reflection;
 
-    internal class PathItem : IDisposable
+    internal class PathItem
     {
-        private readonly WeakReference _sourceRef = new WeakReference(null);
+        protected readonly WeakReference _sourceRef = new WeakReference(null);
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PathItem"/> class.
+        /// </summary>
+        /// <param name="propertyInfo">
+        /// The property info.
+        /// </param>
+        public PathItem(object source, PropertyInfo propertyInfo)
+        {
+            _sourceRef.Target = source;
+            PropertyInfo = propertyInfo;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PathItem"/> class.
@@ -16,27 +27,9 @@ namespace Gu.Reactive
         /// </param>
         public PathItem(PathItem previous, PropertyInfo propertyInfo)
         {
-            this.Previous = previous;
-            if (previous != null)
-            {
-                previous.Next = this;
-            }
-            this.PropertyInfo = propertyInfo;
-        }
-
-        /// <summary>
-        /// Gets or sets the source.
-        /// </summary>
-        public INotifyPropertyChanged Source
-        {
-            get
-            {
-                return (INotifyPropertyChanged)this._sourceRef.Target;
-            }
-            set
-            {
-                this._sourceRef.Target = value;
-            }
+            Previous = previous;
+            previous.Next = this;
+            PropertyInfo = propertyInfo;
         }
 
         public PathItem Next { get; private set; }
@@ -47,11 +40,6 @@ namespace Gu.Reactive
         /// Gets the property info.
         /// </summary>
         public PropertyInfo PropertyInfo { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the subscription.
-        /// </summary>
-        public IDisposable Subscription { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether is last.
@@ -68,12 +56,16 @@ namespace Gu.Reactive
         {
             get
             {
-                if (this.Source == null)
+                var value = Previous == null 
+                    ? _sourceRef.Target 
+                    : this.Previous.Value;
+
+                if (value == null)
                 {
                     return null;
                 }
 
-                return this.PropertyInfo.GetMethod.Invoke(this.Source, null);
+                return PropertyInfo.GetMethod.Invoke(value, null);
             }
         }
 
@@ -85,34 +77,7 @@ namespace Gu.Reactive
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0}.{1}", this.Source != null ? this.Source.GetType().Name : "null", this.PropertyInfo.Name);
-        }
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        /// <param name="disposing">
-        /// The disposing.
-        /// </param>
-        private void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (this.Subscription != null)
-                {
-                    this.Subscription.Dispose();
-                    this.Subscription = null;
-                }
-            }
+            return string.Format("{0}.{1}", PropertyInfo.DeclaringType.Name, PropertyInfo.Name);
         }
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Linq.Expressions;
     using System.Reflection;
+    using Internals;
 
     public static class Get
     {
@@ -34,10 +35,19 @@
             throw new NotImplementedException("message");
         }
 
-        public static ValuePath ValuePath<TSource, TValue>(Expression<Func<TSource, TValue>> path)
+        public static IValuePath<TSource, TValue> ValuePath<TSource, TValue>(Expression<Func<TSource, TValue>> path)
         {
-            var valuePath = Reactive.ValuePath.Create(path);
-            return valuePath;
+            throw new NotImplementedException();
+
+            //var valuePath = Internals.ValuePath.CreatePropertyPath(path);
+            //return valuePath;
+        }
+
+        public static IValuePath<TValue> ValuePath<TValue>(Expression<Func<TValue>> path)
+        {
+            throw new NotImplementedException();
+            //var valuePath = Internals.ValuePath.CreatePropertyPath(path);
+            //return valuePath;
         }
     }
 }
