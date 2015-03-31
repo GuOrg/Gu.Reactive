@@ -34,7 +34,7 @@ namespace Gu.Reactive
         /// <param name="property">
         /// </param>
         /// <param name="signalInitial">
-        /// Default true means that the current value is signaled on Subscribe()
+        /// If true OnNext is called immediately on subscribe
         /// </param>
         /// <returns>
         /// The <see cref="IObservable"/>.
@@ -77,7 +77,7 @@ namespace Gu.Reactive
         /// The name.
         /// </param>
         /// <param name="signalInitial">
-        /// The signal initial.
+        /// If true OnNext is called immediately on subscribe
         /// </param>
         /// <returns>
         /// The <see cref="IObservable"/>.
@@ -89,18 +89,13 @@ namespace Gu.Reactive
         {
             var wr = new WeakReference(source);
             var observable = source.ObservePropertyChanged()
-                                   .Where(
-                                       e =>
-                                       string.IsNullOrEmpty(e.EventArgs.PropertyName)
-                                       || e.EventArgs.PropertyName == name);
+                                   .Where(e => IsPropertyName(e, name));
             if (signalInitial)
             {
                 return Observable.Defer(
                     () =>
                     {
-                        var current = new EventPattern<PropertyChangedEventArgs>(
-                            wr.Target,
-                            new PropertyChangedEventArgs(name));
+                        var current = new EventPattern<PropertyChangedEventArgs>(wr.Target, new PropertyChangedEventArgs(name));
                         return Observable.Return(current)
                                          .Concat(observable);
                     });
@@ -120,8 +115,8 @@ namespace Gu.Reactive
         /// <param name="property">
         /// The property.
         /// </param>
-        /// <param name="sampleCurrent">
-        /// The sample current.
+        /// <param name="signalInitial">
+        /// If true OnNext is called immediately on subscribe
         /// </param>
         /// <typeparam name="TNotifier">
         /// </typeparam>
@@ -130,28 +125,56 @@ namespace Gu.Reactive
         /// <returns>
         /// The <see cref="IObservable"/>.
         /// </returns>
-        public static IObservable<TrackingEventArgs<TNotifier, TProperty>> ToTrackingObservable
+        public static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedAndValue
             <TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
-            bool sampleCurrent) where TNotifier : INotifyPropertyChanged
+            bool signalInitial = true)
+            where TNotifier : INotifyPropertyChanged
         {
             var wr = new WeakReference(source);
-            Func<TNotifier, TProperty> getter = property.Compile();
-            var observable = source.ObservePropertyChanged(property, sampleCurrent)
-                                   .Scan(
-                                       new TrackingEventArgs<TNotifier, TProperty>(
-                                           (TNotifier)wr.Target,
-                                           default(TProperty),
-                                           default(TProperty),
-                                           string.Empty),
-                                       (acc, cur) =>
-                                       new TrackingEventArgs<TNotifier, TProperty>(
-                                           (TNotifier)wr.Target,
-                                           GetOrDefault(wr, getter),
-                                           acc.CurrentValue,
-                                           acc.PropertyName));
-            return observable;
+            var name = NameOf.Property(property);
+            var observable = source.ObservePropertyChanged(property, false);
+            return Observable.Defer(
+                () =>
+                {
+                    var valuePath = ValuePath.Create(property);
+                    valuePath.Source = wr.Target;
+                    var withValues = observable.Select(x => new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
+                                                            x.Sender,
+                                                            new PropertyChangedAndValueEventArgs<TProperty>(
+                                                                x.EventArgs.PropertyName,
+                                                                (TProperty)valuePath.ValueOrDefault,
+                                                                valuePath.HasValue)));
+                    if (signalInitial)
+                    {
+                        var current = new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
+                            valuePath.LastSource,
+                            new PropertyChangedAndValueEventArgs<TProperty>(
+                                name,
+                                (TProperty)valuePath.ValueOrDefault,
+                                valuePath.HasValue));
+                        return Observable.Return(current)
+                                         .Concat(withValues);
+                    }
+
+                    return withValues;
+                });
+            //Func<TNotifier, TProperty> getter = property.Compile();
+            //var observable = source.ObservePropertyChanged(property, sampleCurrent)
+            //                       .Scan(
+            //                           new TrackingEventArgs<TNotifier, TProperty>(
+            //                               (TNotifier)wr.Target,
+            //                               default(TProperty),
+            //                               default(TProperty),
+            //                               string.Empty),
+            //                           (acc, cur) =>
+            //                           new TrackingEventArgs<TNotifier, TProperty>(
+            //                               (TNotifier)wr.Target,
+            //                               GetOrDefault(wr, getter),
+            //                               acc.CurrentValue,
+            //                               acc.PropertyName));
+            //return observable;
         }
 
         /// <summary>
@@ -215,26 +238,9 @@ namespace Gu.Reactive
             return getter((TSource)target);
         }
 
-        ////    public static IObservable<TProperty> ToObservable<TNotifier, TProperty>(this OcNpcListener<TNotifier> source,
-        ////Expression<Func<TNotifier, TProperty>> property) where TNotifier : INotifyPropertyChanged
-        ////    {
-        ////        string name = ((MemberExpression)property.Body).Member.Name;
-        ////        Func<TNotifier, TProperty> getter = property.Compile();
-        ////        IObservable<TProperty> observable = source.ToObservable()
-        ////            .Select(x => x.EventArgs)
-        ////            .Where(x => x.PropertyName == name)
-        ////            .Select(x => getter((TNotifier)x.Child));
-        ////        return observable;
-        ////    }
-        ////    public static IObservable<EventPattern<ChildPropertyChangedEventArgs>> ToObservable<T>(this OcNpcListener<T> source) where T : INotifyPropertyChanged
-        ////    {
-        ////        IObservable<EventPattern<ChildPropertyChangedEventArgs>> observable = Observable
-        ////            .FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-        ////                x => source.PropertyChanged += x,
-        ////                x => source.PropertyChanged -= x)
-        ////                .Select(x => new EventPattern<ChildPropertyChangedEventArgs>(x.Sender, (ChildPropertyChangedEventArgs)x.EventArgs));
-        ////        return observable;
-        ////    }
-        ////    }
+        private static bool IsPropertyName(EventPattern<PropertyChangedEventArgs> e, string propertyName)
+        {
+            return string.IsNullOrEmpty(e.EventArgs.PropertyName) || e.EventArgs.PropertyName == propertyName;
+        }
     }
 }

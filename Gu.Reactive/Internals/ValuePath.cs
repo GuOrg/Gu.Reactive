@@ -28,6 +28,29 @@ namespace Gu.Reactive.Internals
             }
         }
 
+        public object LastSource
+        {
+            get
+            {
+                var last = (PathItem)_parts.Last();
+                var beforeLast = last.Previous; // This is the source
+                return beforeLast.Value;
+            }
+        }
+
+        public bool HasValue
+        {
+            get
+            {
+                return LastSource != null;
+            }
+        }
+
+        public object ValueOrDefault
+        {
+            get { return _parts.Last().Value; }
+        }
+
         public int Count
         {
             get { return _parts.Count; }
