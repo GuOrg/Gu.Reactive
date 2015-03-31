@@ -6,7 +6,7 @@ namespace Gu.Reactive.Internals
     internal class PathItem
     {
         protected readonly WeakReference _sourceRef = new WeakReference(null);
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PathItem"/> class.
         /// </summary>
@@ -15,6 +15,10 @@ namespace Gu.Reactive.Internals
         /// </param>
         public PathItem(object source, PropertyInfo propertyInfo)
         {
+            if (!propertyInfo.CanRead)
+            {
+                throw new ArgumentException("Propert must have get {0}", "propertyInfo");
+            }
             _sourceRef.Target = source;
             PropertyInfo = propertyInfo;
         }
@@ -27,8 +31,15 @@ namespace Gu.Reactive.Internals
         /// </param>
         public PathItem(PathItem previous, PropertyInfo propertyInfo)
         {
+            if (!propertyInfo.CanRead)
+            {
+                throw new ArgumentException("Propert must be readable");
+            }
             Previous = previous;
-            previous.Next = this;
+            if (previous != null)
+            {
+                previous.Next = this;
+            }
             PropertyInfo = propertyInfo;
         }
 
@@ -56,8 +67,8 @@ namespace Gu.Reactive.Internals
         {
             get
             {
-                var value = Previous == null 
-                    ? _sourceRef.Target 
+                var value = Previous == null
+                    ? _sourceRef.Target
                     : this.Previous.Value;
 
                 if (value == null)
@@ -77,7 +88,7 @@ namespace Gu.Reactive.Internals
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0}.{1}", PropertyInfo.DeclaringType.Name, PropertyInfo.Name);
+            return string.Format("PathItem for: {0}.{1}", PropertyInfo.DeclaringType.Name, PropertyInfo.Name);
         }
     }
 }

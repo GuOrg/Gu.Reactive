@@ -10,13 +10,13 @@
         public void Reacts()
         {
             int count = 0;
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true };
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true };
             var observable = fake.ObservePropertyChanged();
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(0, count);
-            fake.Prop1 = !fake.Prop1;
+            fake.IsTrueOrNull = !fake.IsTrueOrNull;
             Assert.AreEqual(1, count);
-            fake.Prop2 = !fake.Prop2;
+            fake.IsTrue = !fake.IsTrue;
             Assert.AreEqual(2, count);
         }
 
@@ -24,13 +24,13 @@
         public void StopsListeningOnDispose()
         {
             int count = 0;
-            var fake = new FakeInpc { Prop1 = true };
+            var fake = new FakeInpc { IsTrueOrNull = true };
             var observable = fake.ObservePropertyChanged();
             var disposable = observable.Subscribe(x => count++);
-            fake.Prop1 = !fake.Prop1;
+            fake.IsTrueOrNull = !fake.IsTrueOrNull;
             Assert.AreEqual(1, count);
             disposable.Dispose();
-            fake.Prop1 = !fake.Prop1;
+            fake.IsTrueOrNull = !fake.IsTrueOrNull;
             Assert.AreEqual(1, count);
         }
 

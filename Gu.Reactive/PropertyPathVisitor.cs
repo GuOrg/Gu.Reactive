@@ -223,6 +223,7 @@
 
         protected override Expression VisitUnary(UnaryExpression node)
         {
+            return base.VisitUnary(node);
             throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
         }
     }

@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Reactive;
+
+    using Gu.Reactive.Internals;
+
     using Internals;
     using NUnit.Framework;
 
@@ -12,99 +15,118 @@
     /// </summary>
     public class PathObservableTests
     {
-        [Test]
-        public void ThrowsIfNotNotifyingTest()
+        private List<EventPattern<PropertyChangedEventArgs>> _changes;
+
+        [SetUp]
+        public void SetUp()
         {
-            var fake = new FakeInpc();
-            var exception = Assert.Throws<ArgumentException>(() => new PathObservable<FakeInpc, int>(fake, x => x.Name.Length));
+            _changes = new List<EventPattern<PropertyChangedEventArgs>>();
+        }
+
+        [Test(Description = "All parts of the property path must be INotifyPropertyChanged")]
+        public void ThrowsIfNotNotifyingPath()
+        {
+            var exception = Assert.Throws<ArgumentException>(() => new PathObservable<FakeInpc, int>(new FakeInpc(), x => x.Name.Length));
             Console.WriteLine(exception.Message);
+        }
+
+        [Test(Description = "All parts of the property path must be class")]
+        public void ThrowsIfStructInPath()
+        {
+            var exception = Assert.Throws<ArgumentException>(() => new PathObservable<FakeInpc, string>(new FakeInpc(), x => x.StructLevel.Name));
+            Console.WriteLine(exception.Message);
+        }
+
+        [Test]
+        public void SubscribeToExistsingChangeLastValueInPath()
+        {
+            var fake = new FakeInpc { Next = new Level() };
+            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.IsTrue);
+            observable.Subscribe(_changes.Add);
+            fake.Next.IsTrue = !fake.Next.IsTrue;
+            Assert.AreEqual(1, _changes.Count);
         }
 
         [Test]
         public void TwoLevelsValueType()
         {
-            var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc();
             var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.IsTrue);
-            observable.Subscribe(args.Add);
+            observable.Subscribe(_changes.Add);
             fake.Next = new Level();
-            Assert.AreEqual(1, args.Count);
+            Assert.AreEqual(1, _changes.Count);
             fake.Next.IsTrue = !fake.Next.IsTrue;
-            Assert.AreEqual(2, args.Count);
+            Assert.AreEqual(2, _changes.Count);
             fake.Next = null;
-            Assert.AreEqual(3, args.Count);
+            Assert.AreEqual(3, _changes.Count);
         }
 
         [Test]
         public void TwoLevelsExisting()
         {
-            var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc { Next = new Level { Next = new Level() } };
             var observable = new PathObservable<FakeInpc, Level>(fake, x => x.Next.Next);
-            observable.Subscribe(args.Add);
+            observable.Subscribe(_changes.Add);
             fake.Next.Next = new Level();
-            Assert.AreEqual(1, args.Count);
+            Assert.AreEqual(1, _changes.Count);
             fake.Next.Next = null;
-            Assert.AreEqual(2, args.Count);
+            Assert.AreEqual(2, _changes.Count);
             fake.Next = null;
-            Assert.AreEqual(2, args.Count);
+            Assert.AreEqual(2, _changes.Count);
         }
 
         [Test]
         public void TwoLevelsReferenceType()
         {
-            var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc();
             var observable = new PathObservable<FakeInpc, Level>(fake, x => x.Next.Next);
-            observable.Subscribe(args.Add);
+            observable.Subscribe(_changes.Add);
             fake.Next = new Level();
-            Assert.AreEqual(0, args.Count);
+            Assert.AreEqual(0, _changes.Count);
             fake.Next.Next = new Level();
-            Assert.AreEqual(1, args.Count);
+            Assert.AreEqual(1, _changes.Count);
             fake.Next.Next = null;
-            Assert.AreEqual(2, args.Count);
+            Assert.AreEqual(2, _changes.Count);
             fake.Next = null;
-            Assert.AreEqual(2, args.Count);
+            Assert.AreEqual(2, _changes.Count);
         }
 
         [Test]
         public void Unsubscribes()
         {
-            var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc();
             var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.IsTrue);
-            observable.Subscribe(args.Add);
+            observable.Subscribe(_changes.Add);
             fake.Next = new Level
                         {
                             Next = new Level()
                         };
 
-            Assert.AreEqual(1, args.Count);
+            Assert.AreEqual(1, _changes.Count);
             var temp = fake.Next;
             fake.Next = null;
-            Assert.AreEqual(2, args.Count);
+            Assert.AreEqual(2, _changes.Count);
             temp.IsTrue = !temp.IsTrue;
-            Assert.AreEqual(2, args.Count);
+            Assert.AreEqual(2, _changes.Count);
         }
 
         [Test]
         public void ThreeLevels()
         {
-            var args = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new FakeInpc();
             var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.Next.IsTrue);
-            observable.Subscribe(args.Add);
+            observable.Subscribe(_changes.Add);
             fake.Next = new Level();
-            Assert.AreEqual(0, args.Count);
+            Assert.AreEqual(0, _changes.Count);
             fake.Next.Next = new Level
                              {
                                  Next = new Level()
                              };
-            Assert.AreEqual(1, args.Count);
+            Assert.AreEqual(1, _changes.Count);
             fake.Next.Next = null;
-            Assert.AreEqual(2, args.Count);
+            Assert.AreEqual(2, _changes.Count);
             fake.Next = null;
-            Assert.AreEqual(2, args.Count);
+            Assert.AreEqual(2, _changes.Count);
             fake.Next = new Level
                         {
                             Next = new Level
@@ -112,13 +134,13 @@
                                        IsTrue = true
                                    }
                         };
-            Assert.AreEqual(3, args.Count);
+            Assert.AreEqual(3, _changes.Count);
             fake.Next.Next.IsTrue = false;
-            Assert.AreEqual(4, args.Count);
+            Assert.AreEqual(4, _changes.Count);
             fake.Next.Next = null;
-            Assert.AreEqual(5, args.Count);
+            Assert.AreEqual(5, _changes.Count);
             fake.Next = null;
-            Assert.AreEqual(5, args.Count);
+            Assert.AreEqual(5, _changes.Count);
         }
 
         [Test]

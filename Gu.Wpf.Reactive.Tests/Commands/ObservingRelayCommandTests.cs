@@ -13,12 +13,12 @@
         [Test]
         public void NotifiesOnConditionChanged()
         {
-            var fake = new FakeInpc { Prop1 = false };
-            var observable = fake.ObservePropertyChanged(x => x.Prop1);
+            var fake = new FakeInpc { IsTrueOrNull = false };
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull);
             var command = new ObservingRelayCommand(() => { }, () => false, observable);
             int count = 0;
             command.CanExecuteChanged += (sender, args) => count++;
-            fake.Prop1 = true;
+            fake.IsTrueOrNull = true;
             Assert.AreEqual(1, count);
         }
 

@@ -38,36 +38,36 @@ namespace Gu.Reactive.Tests.Conditions
         public void Notifies()
         {
             var argses = new List<string>();
-            var fake1 = new FakeInpc { Prop1 = false };
-            var fake2 = new FakeInpc { Prop1 = false };
-            var fake3 = new FakeInpc { Prop1 = false };
-            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.Prop1), () => fake1.Prop1);
-            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.Prop1), () => fake2.Prop1);
-            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.Prop1), () => fake3.Prop1);
+            var fake1 = new FakeInpc { IsTrueOrNull = false };
+            var fake2 = new FakeInpc { IsTrueOrNull = false };
+            var fake3 = new FakeInpc { IsTrueOrNull = false };
+            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake1.IsTrueOrNull);
+            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake2.IsTrueOrNull);
+            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake3.IsTrueOrNull);
             var collection = new OrCondition(condition1, condition2, condition3);
             collection.PropertyChanged += (sender, args) => argses.Add(args.PropertyName);
             Assert.AreEqual(false, collection.IsSatisfied);
-            fake1.Prop1 = true;
+            fake1.IsTrueOrNull = true;
             Assert.AreEqual(true, collection.IsSatisfied);
             Assert.AreEqual(1, argses.Count);
 
-            fake2.Prop1 = true;
+            fake2.IsTrueOrNull = true;
             Assert.AreEqual(true, collection.IsSatisfied);
             Assert.AreEqual(1, argses.Count);
 
-            fake3.Prop1 = true;
+            fake3.IsTrueOrNull = true;
             Assert.AreEqual(true, collection.IsSatisfied);
             Assert.AreEqual(1, argses.Count);
 
-            fake1.Prop1 = false;
+            fake1.IsTrueOrNull = false;
             Assert.AreEqual(true, collection.IsSatisfied);
             Assert.AreEqual(1, argses.Count);
 
-            fake2.Prop1 = false;
+            fake2.IsTrueOrNull = false;
             Assert.AreEqual(true, collection.IsSatisfied);
             Assert.AreEqual(1, argses.Count);
 
-            fake3.Prop1 = false;
+            fake3.IsTrueOrNull = false;
             Assert.AreEqual(false, collection.IsSatisfied);
             Assert.AreEqual(2, argses.Count);
         }

@@ -7,6 +7,7 @@
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Subjects;
+    using System.Reflection;
 
     /// <summary>
     /// The nested observable.
@@ -15,14 +16,17 @@
     /// </typeparam>
     /// <typeparam name="TProp">
     /// </typeparam>
-    internal sealed class PathObservable<TClass, TProp> : ObservableBase<EventPattern<PropertyChangedEventArgs>>, IDisposable
+    internal sealed class PathObservable<TClass, TProp> :
+        ObservableBase<EventPattern<PropertyChangedEventArgs>>,
+        IDisposable
         where TClass : INotifyPropertyChanged
     {
-        internal readonly IReadOnlyList<NotifyingPathItem> ValuePath;
-        /// <summary>
-        /// The _subject.
-        /// </summary>
+        internal readonly PropertyChangedEventArgs PropertyChangedEventArgs;
+
+        private readonly IReadOnlyList<NotifyingPathItem> _valuePath;
+
         private readonly Subject<EventPattern<PropertyChangedEventArgs>> _subject = new Subject<EventPattern<PropertyChangedEventArgs>>();
+
         private readonly IDisposable _subscription;
 
         private bool _disposed;
@@ -38,15 +42,18 @@
         /// </param>
         public PathObservable(TClass source, Expression<Func<TClass, TProp>> propertyExpression)
         {
-            ValuePath = Internals.ValuePath.CreateNotifyingPropertyPath(propertyExpression);
-            ValuePath[0].Source = source;
-            AssertPathNotifies(ValuePath);
-            _subscription = ValuePath.Last().ObservePropertyChanged().Subscribe(x => _subject.OnNext(x));
+            _valuePath = ValuePath.CreateNotifyingPropertyPath(propertyExpression);
+            _valuePath[0].Source = source;
+            var last = _valuePath.Last();
+            PropertyChangedEventArgs = last.PropertyChangedEventArgs;
+            VerifyPath(_valuePath);
+            _subscription = last.ObservePropertyChanged()
+                                .Subscribe(OnNext, OnError);
         }
 
         public void Dispose()
         {
-            foreach (var pathItem in ValuePath)
+            foreach (var pathItem in _valuePath)
             {
                 pathItem.Dispose();
             }
@@ -74,24 +81,51 @@
         /// </summary>
         /// <param name="path">
         /// </param>
-        private static void AssertPathNotifies(IEnumerable<PathItem> path)
+        private static void VerifyPath(IReadOnlyList<PathItem> path)
         {
-            var notNotifyings = path.Where(x => !x.PropertyInfo.DeclaringType.GetInterfaces()
-                                               .Contains(typeof(INotifyPropertyChanged)))
-                                    .ToArray();
-            if (notNotifyings.Any())
+            for (int i = 0; i < path.Count; i++)
             {
-                var props = string.Join(", ", notNotifyings.Select(x => "." + x.PropertyInfo.Name));
-                throw new ArgumentException(string.Format("All levels in the path must notify (parent must be : INotifyPropertyChanged)  {{{0}}} does not.", props));
+                var propertyInfo = path[i].PropertyInfo;
+                if ((i != path.Count - 1) && propertyInfo.PropertyType.IsValueType)
+                {
+                    throw new ArgumentException(
+                        "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?");
+                }
+                if (!ImplementsINotifyPropertyChanged(propertyInfo.DeclaringType))
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            "All levels in the path must notify (DeclaringType is INotifyPropertyChanged) the type {0} does not so {0}.{1} will not notify.",
+                            propertyInfo.DeclaringType.Name,
+                            propertyInfo.Name));
+                }
             }
+        }
+
+        private static bool ImplementsINotifyPropertyChanged(Type type)
+        {
+            return type.GetInterfaces()
+                       .Contains(typeof(INotifyPropertyChanged));
         }
 
         private void VerifyDisposed()
         {
             if (_disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(
+                    GetType()
+                        .FullName);
             }
+        }
+
+        private void OnNext(EventPattern<PropertyChangedEventArgs> e)
+        {
+            _subject.OnNext(e);
+        }
+
+        private void OnError(Exception e)
+        {
+            _subject.OnError(e);
         }
     }
 }

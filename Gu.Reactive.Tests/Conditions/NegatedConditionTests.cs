@@ -17,8 +17,8 @@
         [TestCase(null, null)]
         public void NegateCondition(bool? value, bool? expected)
         {
-            var fake = new FakeInpc { Prop1 = value };
-            var condition = new Condition(fake.ObservePropertyChanged(x => x.Prop1), () => fake.Prop1);
+            var fake = new FakeInpc { IsTrueOrNull = value };
+            var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull);
             var negatedCondition = condition.Negate();
             Assert.AreEqual(expected, negatedCondition.IsSatisfied);
         }
@@ -32,14 +32,14 @@
         [TestCase(null, null, null, null)]
         public void NegateAndCondition(bool? first, bool? other, bool? third, bool? expected)
         {
-            var fake1 = new FakeInpc { Prop1 = first };
-            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.Prop1), () => fake1.Prop1);
+            var fake1 = new FakeInpc { IsTrueOrNull = first };
+            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake1.IsTrueOrNull);
 
-            var fake2 = new FakeInpc { Prop1 = other };
-            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.Prop1), () => fake2.Prop1);
+            var fake2 = new FakeInpc { IsTrueOrNull = other };
+            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake2.IsTrueOrNull);
 
-            var fake3 = new FakeInpc { Prop1 = third };
-            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.Prop1), () => fake3.Prop1);
+            var fake3 = new FakeInpc { IsTrueOrNull = third };
+            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake3.IsTrueOrNull);
 
             var andCondition = new AndCondition(condition1, condition2, condition3);
             var negated = andCondition.Negate();
@@ -56,14 +56,14 @@
         [TestCase(null, null, null, null)]
         public void NegateOrCondition(bool? first, bool? other, bool? third, bool? expected)
         {
-            var fake1 = new FakeInpc { Prop1 = first };
-            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.Prop1), () => fake1.Prop1);
+            var fake1 = new FakeInpc { IsTrueOrNull = first };
+            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake1.IsTrueOrNull);
 
-            var fake2 = new FakeInpc { Prop1 = other };
-            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.Prop1), () => fake2.Prop1);
+            var fake2 = new FakeInpc { IsTrueOrNull = other };
+            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake2.IsTrueOrNull);
 
-            var fake3 = new FakeInpc { Prop1 = third };
-            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.Prop1), () => fake3.Prop1);
+            var fake3 = new FakeInpc { IsTrueOrNull = third };
+            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake3.IsTrueOrNull);
 
             var orCondition = new OrCondition(condition1, condition2, condition3);
             var negated = orCondition.Negate();
@@ -76,8 +76,8 @@
         {
             var argses = new List<PropertyChangedEventArgs>();
             var negArgses = new List<PropertyChangedEventArgs>();
-            var fake = new FakeInpc { Prop1 = false };
-            var condition = new Condition(fake.ObservePropertyChanged(x => x.Prop1), () => fake.Prop1 == true);
+            var fake = new FakeInpc { IsTrueOrNull = false };
+            var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull == true);
             var negatedCondition = condition.Negate();
 
             condition.PropertyChanged += (_, e) => argses.Add(e);
@@ -86,11 +86,11 @@
             Assert.AreEqual(0, argses.Count);
             Assert.AreEqual(0, negArgses.Count);
 
-            fake.Prop1 = true;
+            fake.IsTrueOrNull = true;
             Assert.AreEqual(1, argses.Count);
             Assert.AreEqual(1, negArgses.Count);
 
-            fake.Prop1 = null;
+            fake.IsTrueOrNull = null;
             Assert.AreEqual(2, argses.Count);
             Assert.AreEqual(2, negArgses.Count);
         }
@@ -98,8 +98,8 @@
         [Test]
         public void Name()
         {
-            var fake = new FakeInpc { Prop1 = false };
-            var condition = new Condition(fake.ObservePropertyChanged(x => x.Prop1), () => fake.Prop1);
+            var fake = new FakeInpc { IsTrueOrNull = false };
+            var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull);
             var negatedCondition = condition.Negate();
             Assert.AreEqual("Not_" + condition.Name, negatedCondition.Name);
         }
@@ -107,8 +107,8 @@
         [Test]
         public void NegateTwiceReturnsOriginal()
         {
-            var fake = new FakeInpc { Prop1 = false };
-            var condition = new Condition(fake.ObservePropertyChanged(x => x.Prop1), () => fake.Prop1);
+            var fake = new FakeInpc { IsTrueOrNull = false };
+            var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull);
             var negatedCondition = condition.Negate();
             var negatedTwice = negatedCondition.Negate();
             Assert.AreSame(condition, negatedTwice);
