@@ -26,7 +26,7 @@
         public void ThrowsOnWriteOnly()
         {
             var propertyInfo = typeof(FakeInpc).GetProperty("WriteOnly");
-            Assert.Throws<ArgumentException>(() => new NotifyingPathItem(null, propertyInfo));
+            Assert.Throws<ArgumentException>(() => new NotifyingPathItem(null, new PathItem(null, propertyInfo)));
         }
 
         [Test]
@@ -34,7 +34,7 @@
         {
             var propertyName = NameOf.Property<FakeInpc>(x => x.IsTrue);
             var propertyInfo = typeof(FakeInpc).GetProperty(propertyName);
-            var pathItem = new NotifyingPathItem(null, propertyInfo);
+            var pathItem = new NotifyingPathItem(null, new PathItem(null, propertyInfo));
             Assert.Throws<InvalidOperationException>(() => pathItem.Source = new StructLevel());
         }
 
@@ -44,7 +44,7 @@
             var propertyName = NameOf.Property<FakeInpc>(x => x.IsTrue);
             var propertyInfo = typeof(FakeInpc).GetProperty(propertyName);
             var fakeInpc = new FakeInpc();
-            var pathItem = new NotifyingPathItem(null, propertyInfo);
+            var pathItem = new NotifyingPathItem(null, new PathItem(null, propertyInfo));
             pathItem.ObservePropertyChanged().Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
             pathItem.Source = fakeInpc;
@@ -59,7 +59,7 @@
             var propertyName = NameOf.Property<FakeInpc>(x => x.IsTrue);
             var propertyInfo = typeof(FakeInpc).GetProperty(propertyName);
             var fakeInpc = new FakeInpc();
-            var pathItem = new NotifyingPathItem(null, propertyInfo);
+            var pathItem = new NotifyingPathItem(null, new PathItem(null, propertyInfo));
             pathItem.Source = fakeInpc;
             pathItem.ObservePropertyChanged().Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
@@ -75,7 +75,7 @@
             var propertyName = NameOf.Property<FakeInpc>(x => x.Name);
             var propertyInfo = typeof(FakeInpc).GetProperty(propertyName);
             var fakeInpc = new FakeInpc();
-            var pathItem = new NotifyingPathItem(null, propertyInfo);
+            var pathItem = new NotifyingPathItem(null, new PathItem(null, propertyInfo));
             pathItem.ObservePropertyChanged().Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
             pathItem.Source = fakeInpc;
@@ -88,7 +88,7 @@
             var propertyName = NameOf.Property<FakeInpc>(x => x.Name);
             var propertyInfo = typeof(FakeInpc).GetProperty(propertyName);
             var fakeInpc = new FakeInpc();
-            var pathItem = new NotifyingPathItem(null, propertyInfo);
+            var pathItem = new NotifyingPathItem(null, new PathItem(null, propertyInfo));
             pathItem.ObservePropertyChanged().Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
             pathItem.Source = null;
@@ -101,7 +101,7 @@
             var propertyName = NameOf.Property<FakeInpc>(x => x.IsTrue);
             var propertyInfo = typeof(FakeInpc).GetProperty(propertyName);
             var fakeInpc = new FakeInpc { IsTrue = true };
-            var pathItem = new NotifyingPathItem(null, propertyInfo);
+            var pathItem = new NotifyingPathItem(null, new PathItem(null, propertyInfo));
             pathItem.ObservePropertyChanged().Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
             pathItem.Source = fakeInpc;
@@ -116,7 +116,7 @@
             var propertyName = NameOf.Property<FakeInpc>(x => x.IsTrue);
             var propertyInfo = typeof(FakeInpc).GetProperty(propertyName);
             var fakeInpc = new FakeInpc();
-            var pathItem = new NotifyingPathItem(null, propertyInfo);
+            var pathItem = new NotifyingPathItem(null, new PathItem(null, propertyInfo));
             pathItem.Source = fakeInpc;
             pathItem.ObservePropertyChanged().Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
@@ -126,7 +126,7 @@
             Assert.AreSame(fakeInpc, _changes.Single().Sender);
         }
 
-        [TestCase("",Description = "Wpf uses string.empty or null to mean all properties changed")]
+        [TestCase("", Description = "Wpf uses string.empty or null to mean all properties changed")]
         [TestCase(null)]
         [TestCase("IsTrue")]
         public void NotifiesOnSourcePropertyChangedEvent(string eventArgsPropName)
@@ -134,7 +134,7 @@
             var propertyName = NameOf.Property<FakeInpc>(x => x.IsTrue);
             var propertyInfo = typeof(FakeInpc).GetProperty(propertyName);
             var fakeInpc = new FakeInpc();
-            var pathItem = new NotifyingPathItem(null, propertyInfo);
+            var pathItem = new NotifyingPathItem(null, new PathItem(null, propertyInfo));
             pathItem.Source = fakeInpc;
             pathItem.ObservePropertyChanged().Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
@@ -147,15 +147,17 @@
         [Test]
         public void UpdatesNextSourceOnSourceChange()
         {
+            var fakeInpc = new FakeInpc { Next = new Level { Name = "1" } };
+            var rootItem = new RootItem { Value = fakeInpc };
             var nextName = NameOf.Property<FakeInpc>(x => x.Next);
             var nextProp = typeof(FakeInpc).GetProperty(nextName);
-            var first = new NotifyingPathItem(null, nextProp);
+            var firstPathItem = new PathItem(rootItem, nextProp);
+            var first = new NotifyingPathItem(rootItem, firstPathItem);
 
             var isTrueName = NameOf.Property<Level>(x => x.IsTrue);
             var isTrueProp = typeof(Level).GetProperty(isTrueName);
-            var second = new NotifyingPathItem(first, isTrueProp);
+            var second = new NotifyingPathItem(first, new PathItem(firstPathItem, isTrueProp));
 
-            var fakeInpc = new FakeInpc { Next = new Level() };
             first.Source = fakeInpc;
             Assert.AreSame(fakeInpc.Next, second.Source);
         }
@@ -163,16 +165,18 @@
         [Test]
         public void UpdatesNextSourceOnPropertyChange()
         {
+            var fakeInpc = new FakeInpc { Next = new Level { Name = "1" } };
+            var rootItem = new RootItem { Value = fakeInpc };
+
             var nextName = NameOf.Property<FakeInpc>(x => x.Next);
             var nextProp = typeof(FakeInpc).GetProperty(nextName);
-            var first = new NotifyingPathItem(null, nextProp);
+            var firstPathItem = new PathItem(rootItem, nextProp);
+            var first = new NotifyingPathItem(rootItem, firstPathItem);
 
             var isTrueName = NameOf.Property<Level>(x => x.IsTrue);
             var isTrueProp = typeof(Level).GetProperty(isTrueName);
-            var second = new NotifyingPathItem(first, isTrueProp);
-
-            var fakeInpc = new FakeInpc { Next = new Level { Name = "1" } };
-            first.Source = fakeInpc;
+            var second = new NotifyingPathItem(first, new PathItem(firstPathItem, isTrueProp));
+            
             Assert.AreSame(fakeInpc.Next, second.Source);
             fakeInpc.Next = new Level { Name = "2" };
             Assert.AreSame(fakeInpc.Next, second.Source);

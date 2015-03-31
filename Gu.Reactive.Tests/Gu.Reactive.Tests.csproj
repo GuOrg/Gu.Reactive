@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="GetTests.cs" />
     <Compile Include="Internals\NotifyingPathItemTests.cs" />
+    <Compile Include="Internals\RootItemTests.cs" />
     <Compile Include="NameOf_Method_Tests.cs" />
     <Compile Include="NotifyCollectionChangedExt.cs" />
     <Compile Include="FixedSizedQueueTests.cs" />

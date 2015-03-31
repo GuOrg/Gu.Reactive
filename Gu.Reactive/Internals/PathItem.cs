@@ -3,49 +3,32 @@ namespace Gu.Reactive.Internals
     using System;
     using System.Reflection;
 
-    internal class PathItem
+    internal class PathItem : IPathItem
     {
-        protected readonly WeakReference _sourceRef = new WeakReference(null);
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PathItem"/> class.
         /// </summary>
         /// <param name="propertyInfo">
         /// The property info.
         /// </param>
-        public PathItem(object source, PropertyInfo propertyInfo)
-        {
-            if (!propertyInfo.CanRead)
-            {
-                throw new ArgumentException("Propert must have get {0}", "propertyInfo");
-            }
-            _sourceRef.Target = source;
-            PropertyInfo = propertyInfo;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PathItem"/> class.
-        /// </summary>
-        /// <param name="propertyInfo">
-        /// The property info.
-        /// </param>
-        public PathItem(PathItem previous, PropertyInfo propertyInfo)
+        public PathItem(IPathItem previous, PropertyInfo propertyInfo)
         {
             if (!propertyInfo.CanRead)
             {
                 throw new ArgumentException("Propert must be readable");
             }
             Previous = previous;
-            if (previous != null)
+            var pathItem = previous as PathItem;
+            if (pathItem != null)
             {
-                previous.Next = this;
+                pathItem.Next = this;
             }
             PropertyInfo = propertyInfo;
         }
 
         public PathItem Next { get; private set; }
 
-        public PathItem Previous { get; private set; }
+        public IPathItem Previous { get; private set; }
 
         /// <summary>
         /// Gets the property info.
@@ -68,8 +51,8 @@ namespace Gu.Reactive.Internals
             get
             {
                 var value = Previous == null
-                    ? _sourceRef.Target
-                    : this.Previous.Value;
+                    ? null
+                    : Previous.Value;
 
                 if (value == null)
                 {
@@ -78,6 +61,24 @@ namespace Gu.Reactive.Internals
 
                 return PropertyInfo.GetMethod.Invoke(value, null);
             }
+        }
+
+        internal object GetValue(object source)
+        {
+            if (source == null)
+            {
+                return null;
+            }
+            if (source.GetType() != PropertyInfo.DeclaringType)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        "Trying to set source to illegal type. Was: {0} expected {1}",
+                        source.GetType()
+                              .FullName,
+                        PropertyInfo.DeclaringType.FullName));
+            }
+            return PropertyInfo.GetValue(source);
         }
 
         /// <summary>

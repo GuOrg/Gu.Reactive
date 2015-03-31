@@ -1,39 +1,68 @@
 namespace Gu.Reactive.Internals
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
 
-    public static class ValuePath
+    internal class ValuePath : IReadOnlyList<IPathItem>
     {
-        internal static ValuePath<PathItem> CreatePropertyPath<TSource, TValue>(Expression<Func<TSource, TValue>> propertyExpression)
+        private readonly IReadOnlyList<IPathItem> _parts;
+
+        private ValuePath(IReadOnlyList<IPathItem> parts)
         {
-            var path = PropertyPathVisitor.GetPath(propertyExpression);
-            var items = CreatePathItems<PathItem>(path.Cast<PropertyInfo>().ToArray(), (pi,info)=> new PathItem(pi,info));
-            return new ValuePath<PathItem>(items);
+            _parts = parts;
         }
 
-        internal static ValuePath<NotifyingPathItem> CreateNotifyingPropertyPath<TSource, TValue>(Expression<Func<TSource, TValue>> propertyExpression)
+        public object Source
         {
-            var path = PropertyPathVisitor.GetPath(propertyExpression);
-            var items = CreatePathItems<NotifyingPathItem>(path.Cast<PropertyInfo>().ToArray(), (pi,info)=> new NotifyingPathItem(pi,info));
-            return new ValuePath<NotifyingPathItem>(items);
-        }
-
-        private static IReadOnlyList<T> CreatePathItems<T>(IReadOnlyList<PropertyInfo> properties, Func<T, PropertyInfo, T> creator) where T : PathItem
-        {
-            var parts = new T[properties.Count];
-            T previous = null;
-            for (int i = 0; i < properties.Count; i++)
+            get
             {
-                var propertyInfo = properties[i];
-                var item = creator(previous, propertyInfo);
-                parts[i] = item;
+                return ((RootItem)_parts[0]).Value;
+            }
+            set
+            {
+                ((RootItem)_parts[0]).Value = value;
+            }
+        }
+
+        public int Count
+        {
+            get { return _parts.Count; }
+        }
+
+        public IPathItem this[int index]
+        {
+            get { return _parts[index]; }
+        }
+
+        public static ValuePath Create<TSource, TValue>(Expression<Func<TSource, TValue>> propertyExpression)
+        {
+            var path = PropertyPathVisitor.GetPath(propertyExpression);
+            var propertyInfos = path.Cast<PropertyInfo>().ToArray();
+            var parts = new IPathItem[propertyInfos.Length + 1];
+            IPathItem previous = new RootItem();
+            parts[0] = previous;
+            for (int i = 0; i < propertyInfos.Length; i++)
+            {
+                var propertyInfo = propertyInfos[i];
+                var item = new PathItem(previous, propertyInfo);
+                parts[i + 1] = item;
                 previous = item;
             }
-            return parts;
+            return new ValuePath(parts);
+        }
+
+        IEnumerator<IPathItem> IEnumerable<IPathItem>.GetEnumerator()
+        {
+            return _parts.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _parts.GetEnumerator();
         }
     }
 }
