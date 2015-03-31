@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +9,7 @@
     /// <summary>
     /// The path expression visitor.
     /// </summary>
-    public class PropertyPathVisitor : ExpressionVisitor
+    internal class PropertyPathVisitor : ExpressionVisitor
     {
         private readonly Expression _expression;
         /// <summary>
@@ -39,7 +39,8 @@
         {
             var visitor = new PropertyPathVisitor(expression);
             visitor.Visit(expression);
-            return Enumerable.Reverse(visitor._path).ToArray();
+            var memberinfos = Enumerable.Reverse(visitor._path).ToArray();
+            return memberinfos;
         }
 
         /// <summary>
@@ -57,7 +58,8 @@
         {
             var visitor = new PropertyPathVisitor(expression);
             visitor.Visit(expression);
-            return Enumerable.Reverse(visitor._path).ToArray();
+            var memberInfos = Enumerable.Reverse(visitor._path).ToArray();
+            return memberInfos;
         }
 
         /// <summary>

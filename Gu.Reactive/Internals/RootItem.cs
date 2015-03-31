@@ -6,7 +6,8 @@ namespace Gu.Reactive.Internals
     internal sealed class RootItem : INotifyingPathItem
     {
         private static readonly PropertyChangedEventArgs _propertyChangedEventArgs = new PropertyChangedEventArgs(null);
-
+        private static readonly PropertyChangedEventArgs ValueChangedEventArgs = new PropertyChangedEventArgs(NameOf.Property<RootItem>(x => x.Value));
+        private static readonly PropertyChangedEventArgs SourceChangedEventArgs = new PropertyChangedEventArgs(NameOf.Property<RootItem>(x => x.Source));
         private readonly WeakReference _sourceRef = new WeakReference(null);
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -48,8 +49,8 @@ namespace Gu.Reactive.Internals
                     return;
                 }
                 _sourceRef.Target = value;
-                OnPropertyChanged(new PropertyChangedEventArgs(NameOf.Property(() => Value)));
-                OnPropertyChanged(new PropertyChangedEventArgs(NameOf.Property(() => Source)));
+                OnPropertyChanged(ValueChangedEventArgs);
+                OnPropertyChanged(SourceChangedEventArgs);
             }
         }
 

@@ -5,6 +5,8 @@
     using System.Linq.Expressions;
     using System.Reflection;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// Class provides methods to obtain member names of data types.
     /// </summary>
