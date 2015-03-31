@@ -61,8 +61,13 @@ namespace Gu.Reactive
         /// </summary>
         public void Dispose()
         {
+            if (_disposed)
+            {
+                return;
+            }
             _disposed = true;
             _subject.Dispose();
+            _weakSource.Dispose();
         }
 
         private void VerifyDisposed()
