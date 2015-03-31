@@ -14,7 +14,9 @@
         public TProperty Value { get; private set; }
 
         /// <summary>
-        /// Use this to check if the returned value is a default value or read from source
+        /// Use this to check if the returned value is a default value or read from source.
+        /// Example: if subscribing to x => x.Next.Name and Next is null then IsDefaultValue will be true.
+        /// If Name is null IsDefaultValue will be false because the value is read from source.
         /// </summary>
         public bool IsDefaultValue { get; private set; }
     }

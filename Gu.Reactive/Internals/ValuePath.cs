@@ -78,6 +78,29 @@ namespace Gu.Reactive.Internals
             return new ValuePath(parts);
         }
 
+        public static ValuePath Create<TValue>(Expression<Func<TValue>> propertyExpression)
+        {
+            var path = PropertyPathVisitor.GetPath(propertyExpression);
+            var propertyInfos = path.Cast<PropertyInfo>().ToArray();
+            var parts = new IPathItem[propertyInfos.Length + 1];
+            IPathItem previous = new RootItem();
+            parts[0] = previous;
+            for (int i = 0; i < propertyInfos.Length; i++)
+            {
+                var propertyInfo = propertyInfos[i];
+                var item = new PathItem(previous, propertyInfo);
+                parts[i + 1] = item;
+                previous = item;
+            }
+            var constants = ConstantVisitor.GetConstants(propertyExpression);
+            if (!constants.Any())
+            {
+                throw new ArgumentException("Expression contains no constants", "propertyExpression");
+            }
+            //valuePath.Source = source;
+            return new ValuePath(parts) { Source = constants.Last().Value };
+        }
+
         IEnumerator<IPathItem> IEnumerable<IPathItem>.GetEnumerator()
         {
             return _parts.GetEnumerator();
@@ -86,6 +109,11 @@ namespace Gu.Reactive.Internals
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _parts.GetEnumerator();
+        }
+
+        public IValuePath<TSource, TValue> As<TSource, TValue>()
+        {
+            return new ValuePath<TSource, TValue>(this);
         }
     }
 }

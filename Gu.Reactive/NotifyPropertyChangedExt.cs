@@ -160,21 +160,6 @@ namespace Gu.Reactive
 
                     return withValues;
                 });
-            //Func<TNotifier, TProperty> getter = property.Compile();
-            //var observable = source.ObservePropertyChanged(property, sampleCurrent)
-            //                       .Scan(
-            //                           new TrackingEventArgs<TNotifier, TProperty>(
-            //                               (TNotifier)wr.Target,
-            //                               default(TProperty),
-            //                               default(TProperty),
-            //                               string.Empty),
-            //                           (acc, cur) =>
-            //                           new TrackingEventArgs<TNotifier, TProperty>(
-            //                               (TNotifier)wr.Target,
-            //                               GetOrDefault(wr, getter),
-            //                               acc.CurrentValue,
-            //                               acc.PropertyName));
-            //return observable;
         }
 
         /// <summary>
@@ -209,33 +194,6 @@ namespace Gu.Reactive
                         }
                     });
             return observable;
-        }
-
-        /// <summary>
-        /// The get or default.
-        /// </summary>
-        /// <param name="wr">
-        /// The wr.
-        /// </param>
-        /// <param name="getter">
-        /// The getter.
-        /// </param>
-        /// <typeparam name="TSource">
-        /// </typeparam>
-        /// <typeparam name="T">
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="T"/>.
-        /// </returns>
-        private static T GetOrDefault<TSource, T>(WeakReference wr, Func<TSource, T> getter)
-        {
-            var target = wr.Target;
-            if (target == null)
-            {
-                return default(T);
-            }
-
-            return getter((TSource)target);
         }
 
         private static bool IsPropertyName(EventPattern<PropertyChangedEventArgs> e, string propertyName)
