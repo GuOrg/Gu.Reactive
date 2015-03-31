@@ -29,11 +29,9 @@ namespace Gu.Reactive.Internals
             for (int i = 0; i < properties.Count; i++)
             {
                 var propertyInfo = properties[i];
-                if ((i != properties.Count - 1) && propertyInfo.PropertyType.IsValueType)
-                {
-                    throw new NotImplementedException("Not sure how to handle copy by value");
-                }
-                parts[i] = creator(previous, propertyInfo);
+                var item = creator(previous, propertyInfo);
+                parts[i] = item;
+                previous = item;
             }
             return parts;
         }

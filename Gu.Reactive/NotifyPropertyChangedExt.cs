@@ -55,11 +55,7 @@ namespace Gu.Reactive
                     return Observable.Defer(
                         () =>
                         {
-                            var current = new EventPattern<PropertyChangedEventArgs>(
-                                wr.Target,
-                                new PropertyChangedEventArgs(
-                                    observable.ValuePath.Last()
-                                              .PropertyInfo.Name));
+                            var current = new EventPattern<PropertyChangedEventArgs>(wr.Target, observable.PropertyChangedEventArgs);
                             return Observable.Return(current)
                                              .Concat(observable);
                         });

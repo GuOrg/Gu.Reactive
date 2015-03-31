@@ -25,6 +25,33 @@
         }
 
         [Test]
+        public void PropertyHappyPath2()
+        {
+            var name = NameOf.Property(() => StringProp);
+            Assert.AreEqual("StringProp", name);
+
+            name = NameOf.Property<NameOf_Property_Tests>(x => x.StringProp);
+            Assert.AreEqual("StringProp", name);
+
+            name = NameOf.Property<NameOf_Property_Tests, string>(x => x.StringProp);
+            Assert.AreEqual("StringProp", name);
+        }
+
+        [Test]
+        public void BoxedPropertyHappyPath()
+        {
+            var fakeInpc = new FakeInpc();
+            var name = NameOf.Property(() => fakeInpc.IsTrue, true);
+            Assert.AreEqual("IsTrue", name);
+
+            name = NameOf.Property<FakeInpc>(x => x.IsTrue);
+            Assert.AreEqual("IsTrue", name);
+
+            name = NameOf.Property<FakeInpc, bool>(x => x.IsTrue);
+            Assert.AreEqual("IsTrue", name);
+        }
+
+        [Test]
         public void NestedPropertyHappyPath()
         {
             var name = NameOf.Property(() => Fake.Next.Name, true);

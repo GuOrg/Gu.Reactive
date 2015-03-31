@@ -7,41 +7,45 @@
 
     public class FakeInpc : INotifyPropertyChanged
     {
-        private bool? _prop1;
-        private bool _prop2;
+        private bool? _isTrueOrNull;
+        private bool _isTrue;
         private Level _next;
         private string _name;
 
+        private StructLevel _structLevel;
+
         public event PropertyChangedEventHandler PropertyChanged;
-        public bool? Prop1
+        public int WriteOnly { set { return; } }
+
+        public bool? IsTrueOrNull
         {
             get
             {
-                return _prop1;
+                return _isTrueOrNull;
             }
             set
             {
-                if (value.Equals(_prop1))
+                if (value.Equals(_isTrueOrNull))
                 {
                     return;
                 }
-                _prop1 = value;
+                _isTrueOrNull = value;
                 this.OnPropertyChanged();
             }
         }
-        public bool Prop2
+        public bool IsTrue
         {
             get
             {
-                return _prop2;
+                return _isTrue;
             }
             set
             {
-                if (value.Equals(_prop2))
+                if (value.Equals(_isTrue))
                 {
                     return;
                 }
-                _prop2 = value;
+                _isTrue = value;
                 this.OnPropertyChanged();
             }
         }
@@ -61,6 +65,7 @@
                 this.OnPropertyChanged();
             }
         }
+
         public Level Next
         {
             get
@@ -75,6 +80,19 @@
                 }
                 _next = value;
                 this.OnPropertyChanged();
+            }
+        }
+
+        public StructLevel StructLevel
+        {
+            get
+            {
+                return _structLevel;
+            }
+            set
+            {
+                _structLevel = value;
+                OnPropertyChanged();
             }
         }
 

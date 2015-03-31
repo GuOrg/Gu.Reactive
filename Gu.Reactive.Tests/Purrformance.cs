@@ -15,11 +15,11 @@
         public void ToObservable()
         {
             var observables = new IObservable<EventPattern<PropertyChangedEventArgs>>[n];
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true };
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true };
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
-                observables[i] = fake.ObservePropertyChanged(x => x.Prop1, false);
+                observables[i] = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
             }
             Console.WriteLine("{0} fake.ToObservable(x => x.Prop1, false) took {1} ms ({2:F2} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
         }
@@ -29,7 +29,7 @@
         {
             int n = 1000;
             var observables = new IObservable<EventPattern<PropertyChangedEventArgs>>[n];
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true, Next = new Level { Name = "" } };
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
@@ -43,11 +43,11 @@
         {
             int n = 1000;
             var observables = new IDisposable[n];
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true };
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true };
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
-                observables[i] = fake.ObservePropertyChanged(x => x.Prop1, false).Subscribe(x => { });
+                observables[i] = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false).Subscribe(x => { });
             }
             Console.WriteLine("{0} fake.ToObservable(x => x.Prop1, false).Subscribe(x=>{{}}) took {1} ms ({2:F2} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
         }
@@ -57,7 +57,7 @@
         {
             const int n = 1000;
             var observables = new IDisposable[n];
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true, Next = new Level { Name = "" } };
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
@@ -70,12 +70,12 @@
         public void React()
         {
             int count = 0;
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true };
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true };
             var stopwatch = Stopwatch.StartNew();
-            var observable = fake.ObservePropertyChanged(x => x.Prop1, false).Subscribe(x => count++);
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false).Subscribe(x => count++);
             for (int i = 0; i < n; i++)
             {
-                fake.Prop1 = !fake.Prop1;
+                fake.IsTrueOrNull = !fake.IsTrueOrNull;
             }
             Console.WriteLine("Reacting to {0} events took {1} ms ({2:F2} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
             Assert.AreEqual(n, count);

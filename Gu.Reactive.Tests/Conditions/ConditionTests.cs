@@ -11,33 +11,33 @@
         [Test]
         public void ConditionTest()
         {
-            var fake = new FakeInpc { Prop1 = false };
-            var observable = fake.ObservePropertyChanged(x => x.Prop1);
-            var condition = new Condition(observable, () => fake.Prop1);
+            var fake = new FakeInpc { IsTrueOrNull = false };
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull);
+            var condition = new Condition(observable, () => fake.IsTrueOrNull);
             Assert.AreEqual(false, condition.IsSatisfied);
-            fake.Prop1 = true;
+            fake.IsTrueOrNull = true;
             Assert.AreEqual(true, condition.IsSatisfied);
         }
 
         [Test]
         public void Notifies()
         {
-            var fake = new FakeInpc { Prop1 = false };
-            var observable = fake.ObservePropertyChanged(x => x.Prop1, false);
-            var condition = new Condition(observable, () => fake.Prop1);
+            var fake = new FakeInpc { IsTrueOrNull = false };
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
+            var condition = new Condition(observable, () => fake.IsTrueOrNull);
             var argses = new List<PropertyChangedEventArgs>();
             condition.PropertyChanged += (sender, args) => argses.Add(args);
-            fake.Prop1 = true;
+            fake.IsTrueOrNull = true;
             Assert.AreEqual(1, argses.Count);
         }
 
         [Test]
         public void History()
         {
-            var fake = new FakeInpc { Prop1 = false };
-            var observable = fake.ObservePropertyChanged(x => x.Prop1, false);
-            var condition = new Condition(observable, () => fake.Prop1);
-            fake.Prop1 = true;
+            var fake = new FakeInpc { IsTrueOrNull = false };
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
+            var condition = new Condition(observable, () => fake.IsTrueOrNull);
+            fake.IsTrueOrNull = true;
             CollectionAssert.AreEqual(new[] { false, true }, condition.History.Select(x => x.State));
         }
 
@@ -47,7 +47,7 @@
             var dummy = new FakeInpc();
             var wr = new WeakReference(dummy);
             Assert.IsTrue(wr.IsAlive);
-            var condition = new Condition(dummy.ObservePropertyChanged(x => x.Prop1, false), () => dummy.Prop1);
+            var condition = new Condition(dummy.ObservePropertyChanged(x => x.IsTrueOrNull, false), () => dummy.IsTrueOrNull);
             dummy = null;
             condition.Dispose();
             GC.Collect();

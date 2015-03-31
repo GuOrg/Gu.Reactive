@@ -10,13 +10,13 @@ namespace Gu.Reactive.Tests
         public void Reacts()
         {
             int count = 0;
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true };
-            var observable = fake.ObservePropertyChanged(x => x.Prop1, false);
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true };
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(0, count);
-            fake.Prop1 = !fake.Prop1;
+            fake.IsTrueOrNull = !fake.IsTrueOrNull;
             Assert.AreEqual(1, count);
-            fake.Prop2 = !fake.Prop2; // No notification when changing other property
+            fake.IsTrue = !fake.IsTrue; // No notification when changing other property
             Assert.AreEqual(1, count);
         }
 
@@ -27,7 +27,7 @@ namespace Gu.Reactive.Tests
         {
             int count = 0;
             var fake = new FakeInpc();
-            var observable = fake.ObservePropertyChanged(x => x.Prop1, false);
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(0, count);
             fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
@@ -38,11 +38,11 @@ namespace Gu.Reactive.Tests
         public void SignalsInitial()
         {
             int count = 0;
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true };
-            var observable = fake.ObservePropertyChanged(x => x.Prop1, true); // Default true captures initial value
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true };
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, true); // Default true captures initial value
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(1, count);
-            fake.Prop1 = !fake.Prop1;
+            fake.IsTrueOrNull = !fake.IsTrueOrNull;
             Assert.AreEqual(2, count);
         }
 
@@ -50,11 +50,11 @@ namespace Gu.Reactive.Tests
         public void ExplicitNoSignalInitial()
         {
             int count = 0;
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true };
-            var observable = fake.ObservePropertyChanged(x => x.Prop1, false);
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true };
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(0, count);
-            fake.Prop1 = !fake.Prop1;
+            fake.IsTrueOrNull = !fake.IsTrueOrNull;
             Assert.AreEqual(1, count);
         }
 
@@ -63,7 +63,7 @@ namespace Gu.Reactive.Tests
         {
             var fake = new FakeInpc();
             var wr = new WeakReference(fake);
-            var subscription = fake.ObservePropertyChanged(x => x.Prop1).Subscribe();
+            var subscription = fake.ObservePropertyChanged(x => x.IsTrueOrNull).Subscribe();
             fake = null;
             subscription.Dispose();
             GC.Collect();
@@ -76,7 +76,7 @@ namespace Gu.Reactive.Tests
         {
             var fake = new FakeInpc();
             var wr = new WeakReference(fake);
-            var subscription = fake.ObservePropertyChanged(x => x.Prop1).Subscribe();
+            var subscription = fake.ObservePropertyChanged(x => x.IsTrueOrNull).Subscribe();
             fake = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);

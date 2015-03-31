@@ -93,17 +93,30 @@ namespace Gu.Reactive.Tests
 
         [TestCase("")]
         [TestCase(null)]
-        public void StringEmptyOrNull(string prop)
+        [TestCase("IsTrue")]
+        public void FirstInPathSignalsEvent(string eventargsPropertyName)
         {
             int count = 0;
             var next = new Level();
             var fake = new FakeInpc { Next = next };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
             var disposable = observable.Subscribe(x => count++);
-            fake.OnPropertyChanged(prop);
+            fake.OnPropertyChanged(eventargsPropertyName);
+            Assert.AreEqual(0, count);
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        [TestCase("IsTrue")]
+        public void LastInPathSignalsEvent(string eventargsPropertyName)
+        {
+            int count = 0;
+            var next = new Level();
+            var fake = new FakeInpc { Next = next };
+            var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
+            var disposable = observable.Subscribe(x => count++);
+            fake.Next.OnPropertyChanged(eventargsPropertyName);
             Assert.AreEqual(1, count);
-            next.OnPropertyChanged(prop);
-            Assert.AreEqual(2, count);
         }
 
         [Test]
@@ -141,7 +154,7 @@ namespace Gu.Reactive.Tests
         public void SignalsInitial()
         {
             int count = 0;
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true, Next = new Level { IsTrue = true } };
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true, Next = new Level { IsTrue = true } };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, true); // Default true captures initial value
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(1, count);
@@ -153,7 +166,7 @@ namespace Gu.Reactive.Tests
         public void ExplicitNoSignalInitial()
         {
             int count = 0;
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true };
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false); // Default true captures initial value
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(0, count);
@@ -165,7 +178,7 @@ namespace Gu.Reactive.Tests
         public void NoCaptureOfInitial()
         {
             int count = 0;
-            var fake = new FakeInpc { Prop1 = false, Prop2 = true, Next = new Level { IsTrue = true } };
+            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true, Next = new Level { IsTrue = true } };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
             var disposable = observable.Subscribe(x => count++);
             Assert.AreEqual(0, count);

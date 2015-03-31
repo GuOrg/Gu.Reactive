@@ -22,9 +22,9 @@
         [SetUp]
         public void SetUp()
         {
-            _fake = new FakeInpc { Prop1 = false };
-            _observable = _fake.ObservePropertyChanged(x => x.Prop1);
-            _condition = new Condition(_observable, () => _fake.Prop1);
+            _fake = new FakeInpc { IsTrueOrNull = false };
+            _observable = _fake.ObservePropertyChanged(x => x.IsTrueOrNull);
+            _condition = new Condition(_observable, () => _fake.IsTrueOrNull);
             _command = new ConditionRelayCommand(() => { }, _condition);
         }
         [Test]
@@ -32,7 +32,7 @@
         {
             int count = 0;
             _command.CanExecuteChanged += (sender, args) => count++;
-            _fake.Prop1 = true;
+            _fake.IsTrueOrNull = true;
             Assert.AreEqual(1, count);
         }
 
@@ -40,7 +40,7 @@
         [TestCase(true)]
         public void CanExecute(bool expected)
         {
-            _fake.Prop1 = expected;
+            _fake.IsTrueOrNull = expected;
             Assert.AreEqual(expected, _command.CanExecute());
         }
 
