@@ -118,9 +118,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Get.cs" />
+    <Compile Include="Internals\INotifyingPathItem.cs" />
+    <Compile Include="Internals\IPathItem.cs" />
     <Compile Include="Internals\IValuePath.cs" />
+    <Compile Include="Internals\NotifyingPath.cs" />
     <Compile Include="Internals\NotifyingPathItem.cs" />
-    <Compile Include="Internals\ValuePath.cs" />
+    <Compile Include="Internals\RootItem.cs" />
     <Compile Include="NotifyCollectionChangedExt.cs" />
     <Compile Include="Conditions\IConditionService.cs" />
     <Compile Include="NameOf.cs" />
@@ -135,7 +138,7 @@
     <Compile Include="Conditions\OrConditionCollection.cs" />
     <Compile Include="FixedSizedQueue.cs" />
     <Compile Include="Internals\ItemPropertyListener`1.cs" />
-    <Compile Include="Internals\ValuePath`1.cs" />
+    <Compile Include="Internals\ValuePath.cs" />
     <Compile Include="Internals\PathItem.cs" />
     <Compile Include="Internals\PathObservable.cs" />
     <Compile Include="PropertyPathVisitor.cs" />

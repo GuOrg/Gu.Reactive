@@ -48,14 +48,13 @@ namespace Gu.Reactive
             var pe = me.Expression as ParameterExpression;
             if (pe == null)
             {
-                var wr = new WeakReference(source);
                 var observable = new PathObservable<TNotifier, TProperty>(source, property);
                 if (signalInitial)
                 {
                     return Observable.Defer(
                         () =>
                         {
-                            var current = new EventPattern<PropertyChangedEventArgs>(wr.Target, observable.PropertyChangedEventArgs);
+                            var current = new EventPattern<PropertyChangedEventArgs>(observable._valuePath.Last().Source, observable.PropertyChangedEventArgs);
                             return Observable.Return(current)
                                              .Concat(observable);
                         });

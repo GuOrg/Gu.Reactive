@@ -4,19 +4,51 @@ namespace Gu.Reactive.Internals
     using System.ComponentModel;
     using System.Reflection;
 
-    internal sealed class NotifyingPathItem : PathItem, IDisposable, INotifyPropertyChanged
+    internal sealed class NotifyingPathItem : INotifyingPathItem
     {
-        internal readonly PropertyChangedEventArgs PropertyChangedEventArgs;
+        private readonly PropertyChangedEventArgs _propertyChangedEventArgs;
+        private readonly WeakReference _sourceRef = new WeakReference(null);
         private bool _disposed;
         private IDisposable _subscription;
 
-        public NotifyingPathItem(NotifyingPathItem previous, PropertyInfo propertyInfo)
-            : base(previous, propertyInfo)
+        public NotifyingPathItem(INotifyingPathItem previous, PathItem pathItem)
         {
-            PropertyChangedEventArgs = new PropertyChangedEventArgs(PropertyInfo.Name);
+            PathItem = pathItem;
+            _propertyChangedEventArgs = new PropertyChangedEventArgs(PathItem.PropertyInfo.Name);
+            Previous = previous;
+            var notifyingPathItem = previous as NotifyingPathItem;
+            if (notifyingPathItem != null)
+            {
+                notifyingPathItem.Next = this;
+            }
+            if (previous != null)
+            {
+                Source = (INotifyPropertyChanged)previous.Value;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public PathItem PathItem { get; private set; }
+
+        public INotifyingPathItem Previous { get; private set; }
+
+        public NotifyingPathItem Next { get; private set; }
+
+        public PropertyChangedEventArgs PropertyChangedEventArgs
+        {
+            get { return _propertyChangedEventArgs; }
+        }
+
+        public bool IsLast
+        {
+            get { return PathItem.IsLast; }
+        }
+
+        public object Value
+        {
+            get { return PathItem.Value; }
+        }
 
         /// <summary>
         /// Gets or sets the source.
@@ -31,9 +63,13 @@ namespace Gu.Reactive.Internals
             {
                 if (value != null)
                 {
-                    if (value.GetType() != PropertyInfo.DeclaringType)
+                    if (value.GetType() != PathItem.PropertyInfo.DeclaringType)
                     {
-                        throw new InvalidOperationException(string.Format("Trying to set source to illegal type. Was: {0} expected {1}", value.GetType().FullName, PropertyInfo.DeclaringType.FullName));
+                        throw new InvalidOperationException(
+                            string.Format(
+                                "Trying to set source to illegal type. Was: {0} expected {1}",
+                                value.GetType().FullName,
+                               PathItem.PropertyInfo.DeclaringType.FullName));
                     }
                 }
 
@@ -46,7 +82,7 @@ namespace Gu.Reactive.Internals
                 {
                     if (!ReferenceEquals(oldSource, value))
                     {
-                        Subscription = inpc.ObservePropertyChanged(PropertyInfo.Name, !isNullToNull)
+                        Subscription = inpc.ObservePropertyChanged(PathItem.PropertyInfo.Name, !isNullToNull)
                                            .Subscribe(x => OnPropertyChanged(x.Sender, x.EventArgs));
                     }
                 }
@@ -95,10 +131,10 @@ namespace Gu.Reactive.Internals
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var next = (NotifyingPathItem)Next;
+            var next = Next;
             if (next != null)
             {
-                var value = (INotifyPropertyChanged)Value;
+                var value = (INotifyPropertyChanged)PathItem.Value;
                 next.Source = value;
             }
             var handler = PropertyChanged;
@@ -110,8 +146,8 @@ namespace Gu.Reactive.Internals
 
         private bool IsNullToNull(object oldSource, object newSource)
         {
-            var oldValue = oldSource != null ? PropertyInfo.GetValue(oldSource) : null;
-            var newValue = newSource != null ? PropertyInfo.GetValue(newSource) : null;
+            var oldValue = oldSource != null ? PathItem.GetValue(oldSource) : null;
+            var newValue = newSource != null ? PathItem.GetValue(newSource) : null;
             return oldValue == null && newValue == null;
         }
     }

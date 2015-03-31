@@ -23,7 +23,7 @@
     {
         internal readonly PropertyChangedEventArgs PropertyChangedEventArgs;
 
-        private readonly IReadOnlyList<NotifyingPathItem> _valuePath;
+        internal readonly NotifyingPath _valuePath;
 
         private readonly Subject<EventPattern<PropertyChangedEventArgs>> _subject = new Subject<EventPattern<PropertyChangedEventArgs>>();
 
@@ -42,8 +42,8 @@
         /// </param>
         public PathObservable(TClass source, Expression<Func<TClass, TProp>> propertyExpression)
         {
-            _valuePath = ValuePath.CreateNotifyingPropertyPath(propertyExpression);
-            _valuePath[0].Source = source;
+            _valuePath = NotifyingPath.Create(propertyExpression);
+            _valuePath.Source = source;
             var last = _valuePath.Last();
             PropertyChangedEventArgs = last.PropertyChangedEventArgs;
             VerifyPath(_valuePath);
@@ -81,11 +81,11 @@
         /// </summary>
         /// <param name="path">
         /// </param>
-        private static void VerifyPath(IReadOnlyList<PathItem> path)
+        private static void VerifyPath(NotifyingPath path)
         {
-            for (int i = 0; i < path.Count; i++)
+            for (int i = 1; i < path.Count; i++)
             {
-                var propertyInfo = path[i].PropertyInfo;
+                var propertyInfo = path[i].PathItem.PropertyInfo;
                 if ((i != path.Count - 1) && propertyInfo.PropertyType.IsValueType)
                 {
                     throw new ArgumentException(

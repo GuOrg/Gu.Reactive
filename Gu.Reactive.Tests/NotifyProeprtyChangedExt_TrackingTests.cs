@@ -8,6 +8,12 @@ namespace Gu.Reactive.Tests
     public class NotifyProeprtyChangedExt_TrackingTests
     {
         [Test]
+        public void RenameOrRemoveTracking()
+        {
+            Assert.Fail("Figure out");
+        }
+
+        [Test]
         public void ToTrackingTest()
         {
             var fake = new FakeInpc();
