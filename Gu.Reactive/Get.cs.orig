@@ -1,0 +1,119 @@
+﻿namespace Gu.Reactive
+{
+    using System;
+    using System.Linq.Expressions;
+<<<<<<< HEAD
+    using System.Reflection;
+    using System.Text;
+    using System.Threading.Tasks;
+=======
+>>>>>>> WIP
+
+    public static class Get
+    {
+        public static TValue ValueOrDefault<TSource, TValue>(
+            this TSource source,
+            Expression<Func<TSource, TValue>> path,
+            TValue @default = default (TValue))
+        {
+            throw new NotImplementedException("message");
+            
+            //var valuePath = ValueVisitor<TSource, TValue>.Create(path);
+            //valuePath.CacheValue();
+            //if (!valuePath.HasValue(source))
+            //{
+            //    return @default;
+            //}
+            //return valuePath.Value(source);
+        }
+
+        public static TValue ValueOrDefault<TValue>(Expression<Func<TValue>> path, TValue @default = default (TValue))
+        {
+            //var valuePath = ValueVisitor<object, TValue>.Create(path);
+            //valuePath.CacheValue();
+            //if (!valuePath.HasValue(source))
+            //{
+            //    return @default;
+            //}
+            //return valuePath.Value(source);
+            throw new NotImplementedException("message");
+        }
+
+<<<<<<< HEAD
+        public static ValuePath ValuePath<TSource, TValue>(Expression<Func<TSource, TValue>> path)
+=======
+        private class PathItem<TSource, TValue>
+            where TValue : class
+        {
+            private readonly Func<TSource, TValue> _func;
+
+            public PathItem(Func<TSource, TValue> func)
+            {
+                _func = func;
+            }
+
+            public bool HasValue(TSource source)
+            {
+                return Value(source) != null;
+            }
+
+            public TValue Value(TSource source)
+            {
+                return _func(source);
+            }
+        }
+
+        private class StructItem<TSource, TValue>
+            where TValue : struct
+        {
+            private readonly Func<TSource, TValue> _func;
+
+            public StructItem(Func<TSource, TValue> func)
+            {
+                _func = func;
+            }
+
+            public bool HasValue(TSource source)
+            {
+                return true;
+            }
+
+            public TValue Value(TSource source)
+            {
+                return _func(source);
+            }
+        }
+
+        private class Path<TSource, TValue>
+        {
+            public bool HasValue(TSource source)
+            {
+                return Value(source) != null;
+            }
+
+            public TValue Value(TSource source)
+            {
+                throw new NotImplementedException("message");
+
+                //return _func(source);
+            }
+
+            public void CacheValue()
+            {
+                throw new NotImplementedException();
+            }
+
+            internal void Prepend()
+            {
+
+            }
+        }
+
+        private class ValueVisitor<TSource, TValue> : ExpressionVisitor
+>>>>>>> WIP
+        {
+            var valuePath = Reactive.ValuePath.Create(path);
+            return valuePath;
+        }
+    }
+}

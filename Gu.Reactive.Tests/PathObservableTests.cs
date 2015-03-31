@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Reactive;
-
+    using Internals;
     using NUnit.Framework;
 
     /// <summary>
