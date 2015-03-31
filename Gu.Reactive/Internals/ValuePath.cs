@@ -10,10 +10,11 @@ namespace Gu.Reactive.Internals
     internal class ValuePath : IReadOnlyList<IPathItem>
     {
         private readonly IReadOnlyList<IPathItem> _parts;
-
+        private readonly PathItem _last;
         private ValuePath(IReadOnlyList<IPathItem> parts)
         {
             _parts = parts;
+            _last = (PathItem) parts[parts.Count - 1];
         }
 
         public object Source
@@ -32,8 +33,7 @@ namespace Gu.Reactive.Internals
         {
             get
             {
-                var last = (PathItem)_parts.Last();
-                var beforeLast = last.Previous; // This is the source
+                var beforeLast = _last.Previous; // This is the source
                 return beforeLast.Value;
             }
         }
@@ -48,7 +48,7 @@ namespace Gu.Reactive.Internals
 
         public object ValueOrDefault
         {
-            get { return _parts.Last().Value; }
+            get { return _last.Value; }
         }
 
         public int Count

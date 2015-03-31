@@ -7,9 +7,9 @@
     /// </summary>
     /// <typeparam name="TSource">
     /// </typeparam>
-    /// <typeparam name="TProperty">
+    /// <typeparam name="TValue">
     /// </typeparam>
-    public class ChildPropertyChangedEventArgs<TSource, TProperty> : PropertyChangedEventArgs
+    public class ChildPropertyChangedEventArgs<TSource, TValue> : PropertyChangedEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ChildPropertyChangedEventArgs{TSource,TProperty}"/> class.
@@ -17,17 +17,24 @@
         /// <param name="originalSender">
         /// The sender.
         /// </param>
-        /// <param name="currentValue">
+        /// <param name="value">
         /// The current value.
         /// </param>
         /// <param name="propertyName">
         /// The property name.
         /// </param>
-        public ChildPropertyChangedEventArgs(TSource originalSender, TProperty currentValue, string propertyName)
+        public ChildPropertyChangedEventArgs(TSource originalSender, TValue value, string propertyName)
             : base(propertyName)
         {
             OriginalSender = originalSender;
-            CurrentValue = currentValue;
+            Value = value;
+        }
+
+        public ChildPropertyChangedEventArgs(INotifyPropertyChanged s, PropertyChangedAndValueEventArgs<TValue> e) 
+            : base(e.PropertyName)
+        {
+            OriginalSender = (TSource) s;
+            Value = e.Value;
         }
 
         /// <summary>
@@ -38,6 +45,6 @@
         /// <summary>
         /// Gets the current value.
         /// </summary>
-        public TProperty CurrentValue { get; private set; }
+        public TValue Value { get; private set; }
     }
 }
