@@ -11,12 +11,12 @@ namespace Gu.Reactive.Tests
 
     public class NotifyCollectionChangedExt_ObserveItemPropertyChanged
     {
-        private List<EventPattern<ChildPropertyChangedEventArgs<FakeInpc, string>>> changes;
+        private List<EventPattern<ChildPropertyChangedEventArgs<FakeInpc, string>>> _changes;
 
         [SetUp]
         public void SetUp()
         {
-            changes = new List<EventPattern<ChildPropertyChangedEventArgs<FakeInpc, string>>>();
+            _changes = new List<EventPattern<ChildPropertyChangedEventArgs<FakeInpc, string>>>();
         }
 
         [Test]
@@ -25,44 +25,179 @@ namespace Gu.Reactive.Tests
             var item1 = new FakeInpc { Name = "1" };
             var item2 = new FakeInpc { Name = "2" };
             var collection = new ObservableCollection<FakeInpc> { item1, item2 };
-            var subscription = collection.ObserveItemPropertyChanges(x => x.Name)
-                                         .Subscribe(changes.Add);
+            var subscription = collection.ObserveItemPropertyChanges(x => x.Name, true)
+                                         .Subscribe(_changes.Add);
 
-            Assert.AreEqual(2, changes.Count);
-            Assert.AreSame(collection, changes[0].Sender);
-            Assert.AreSame(item1, changes[0].EventArgs.OriginalSender);
-            Assert.AreSame("1", changes[0].EventArgs.Value);
-            Assert.AreEqual("Name", changes[0].EventArgs.PropertyName);
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(collection, _changes[0].Sender);
+            Assert.AreSame(item1, _changes[0].EventArgs.OriginalSender);
+            Assert.AreSame("1", _changes[0].EventArgs.Value);
+            Assert.AreEqual("Name", _changes[0].EventArgs.PropertyName);
 
-            Assert.AreSame(collection, changes[1].Sender);
-            Assert.AreSame(item2, changes[1].EventArgs.OriginalSender);
-            Assert.AreSame("2", changes[1].EventArgs.Value);
-            Assert.AreEqual("Name", changes[1].EventArgs.PropertyName);
+            Assert.AreSame(collection, _changes[1].Sender);
+            Assert.AreSame(item2, _changes[1].EventArgs.OriginalSender);
+            Assert.AreSame("2", _changes[1].EventArgs.Value);
+            Assert.AreEqual("Name", _changes[1].EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void DoesNotSignalInitial()
+        {
+            var item1 = new FakeInpc { Name = "1" };
+            var item2 = new FakeInpc { Name = "2" };
+            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var subscription = collection.ObserveItemPropertyChanges(x => x.Name, false)
+                .Subscribe(_changes.Add);
+            CollectionAssert.IsEmpty(_changes);
         }
 
         [Test]
         public void Reacts()
         {
-            Assert.Fail();
-            //var ints = new ObservableCollection<int>();
-            //var subscription = ints.ObserveCollectionChanged(false)
-            //                       .Subscribe(x => changes.Add(x.EventArgs));
-            //ints.Add(1);
-            //Assert.AreEqual(1, changes.Count);
+            var item1 = new FakeInpc { Name = "1" };
+            var item2 = new FakeInpc { Name = "2" };
+            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var subscription = collection.ObserveItemPropertyChanges(x => x.Name, false)
+                                         .Subscribe(_changes.Add);
+            CollectionAssert.IsEmpty(_changes);
+            item1.Name = "new";
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(collection, _changes[0].Sender);
+            Assert.AreSame(item1, _changes[0].EventArgs.OriginalSender);
+            Assert.AreSame("new", _changes[0].EventArgs.Value);
+            Assert.AreEqual("Name", _changes[0].EventArgs.PropertyName);
         }
 
         [Test]
-        public void Disposes()
+        public void ReactsNested()
         {
-            Assert.Fail();
-            //var ints = new ObservableCollection<int>();
-            //var subscription = ints.ObserveCollectionChanged(false)
-            //                       .Subscribe(x => changes.Add(x.EventArgs));
-            //ints.Add(1);
-            //Assert.AreEqual(1, changes.Count);
-            //subscription.Dispose();
-            //ints.Add(2);
-            //Assert.AreEqual(1, changes.Count);
+            var item1 = new FakeInpc { Next = new Level { Name = "1" } };
+            var item2 = new FakeInpc();
+            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var subscription = collection.ObserveItemPropertyChanges(x => x.Next.Name, false)
+                                         .Subscribe(_changes.Add);
+            CollectionAssert.IsEmpty(_changes);
+            item1.Next.Name = "new1";
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(collection, _changes[0].Sender);
+            Assert.AreSame(item1, _changes[0].EventArgs.OriginalSender);
+            Assert.AreSame("new1", _changes[0].EventArgs.Value);
+            Assert.AreEqual("Name", _changes[0].EventArgs.PropertyName);
+
+            item2.Next = new Level { Name = "2" };
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(collection, _changes[1].Sender);
+            Assert.AreSame(item2, _changes[1].EventArgs.OriginalSender);
+            Assert.AreSame("2", _changes[1].EventArgs.Value);
+            Assert.AreEqual("Name", _changes[1].EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void ReactsOnceWhenSameItemIsTwoElements()
+        {
+            var item1 = new FakeInpc { Name = "1" };
+            var collection = new ObservableCollection<FakeInpc> { item1, item1 };
+            var subscription = collection.ObserveItemPropertyChanges(x => x.Name, false)
+                                         .Subscribe(_changes.Add);
+            CollectionAssert.IsEmpty(_changes);
+            item1.Name = "new";
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(collection, _changes[0].Sender);
+            Assert.AreSame(item1, _changes[0].EventArgs.OriginalSender);
+            Assert.AreSame("new", _changes[0].EventArgs.Value);
+            Assert.AreEqual("Name", _changes[0].EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void HandlesNullItem()
+        {
+            var item1 = new FakeInpc { Name = "1" };
+            var collection = new ObservableCollection<FakeInpc> { item1, null };
+            var subscription = collection.ObserveItemPropertyChanges(x => x.Name, false)
+                                         .Subscribe(_changes.Add);
+            CollectionAssert.IsEmpty(_changes);
+            collection.Add(null);
+            item1.Name = "new";
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(collection, _changes[0].Sender);
+            Assert.AreSame(item1, _changes[0].EventArgs.OriginalSender);
+            Assert.AreSame("new", _changes[0].EventArgs.Value);
+            Assert.AreEqual("Name", _changes[0].EventArgs.PropertyName);
+            collection.Remove(null);
+            Assert.AreEqual(1, _changes.Count);
+            var item2 = new FakeInpc { Name = "2" };
+            collection[1] = item2;
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(collection, _changes[1].Sender);
+            Assert.AreSame(item2, _changes[1].EventArgs.OriginalSender);
+            Assert.AreSame("2", _changes[1].EventArgs.Value);
+            Assert.AreEqual("Name", _changes[1].EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void ReactsToAdd()
+        {
+            var item1 = new FakeInpc { Name = "1" };
+            var item2 = new FakeInpc { Name = "2" };
+            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var subscription = collection.ObserveItemPropertyChanges(x => x.Name, false)
+                                         .Subscribe(_changes.Add);
+            CollectionAssert.IsEmpty(_changes);
+            var item3 = new FakeInpc() { Name = "3" };
+            collection.Add(item3);
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(collection, _changes[0].Sender);
+            Assert.AreSame(item3, _changes[0].EventArgs.OriginalSender);
+            Assert.AreSame("3", _changes[0].EventArgs.Value);
+            Assert.AreEqual("Name", _changes[0].EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void ReactsToReplace()
+        {
+            var item1 = new FakeInpc { Name = "1" };
+            var item2 = new FakeInpc { Name = "2" };
+            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var subscription = collection.ObserveItemPropertyChanges(x => x.Name, false)
+                                         .Subscribe(_changes.Add);
+            CollectionAssert.IsEmpty(_changes);
+            var item3 = new FakeInpc() { Name = "3" };
+            collection[0] = item3;
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(collection, _changes[0].Sender);
+            Assert.AreSame(item3, _changes[0].EventArgs.OriginalSender);
+            Assert.AreSame("3", _changes[0].EventArgs.Value);
+            Assert.AreEqual("Name", _changes[0].EventArgs.PropertyName);
+            item1.Name = "new";
+            Assert.AreEqual(1, _changes.Count);
+
+        }
+
+        [Test]
+        public void RemoveRemovesSubscription()
+        {
+            var item1 = new FakeInpc { Name = "1" };
+            var item2 = new FakeInpc { Name = "2" };
+            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var subscription = collection.ObserveItemPropertyChanges(x => x.Name, false)
+                                         .Subscribe(_changes.Add);
+            CollectionAssert.IsEmpty(_changes);
+            collection.Remove(item2);
+            item2.Name = "new";
+            CollectionAssert.IsEmpty(_changes);
+        }
+
+        [Test]
+        public void DisposeStopsSubscribing()
+        {
+            var item1 = new FakeInpc { Name = "1" };
+            var item2 = new FakeInpc { Name = "2" };
+            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var subscription = collection.ObserveItemPropertyChanges(x => x.Name, false)
+                                         .Subscribe(_changes.Add);
+            subscription.Dispose();
+            collection.Add(new FakeInpc() { Name = "3" });
+            CollectionAssert.IsEmpty(_changes);
         }
 
         [Test]

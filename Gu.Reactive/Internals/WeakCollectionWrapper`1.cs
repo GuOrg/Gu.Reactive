@@ -9,12 +9,14 @@ namespace Gu.Reactive.Internals
     using System.Linq;
     using System.Runtime.CompilerServices;
 
-    internal class WeakCollectionWrapper<T> : IEnumerable<T> where T : class
+    internal sealed class WeakCollectionWrapper<T> : IEnumerable<T>, IDisposable where T : class
     {
         private static readonly ObjectIdentityComparer Comparer = new ObjectIdentityComparer();
         private readonly WeakReference _wr = new WeakReference(null);
         private readonly ConcurrentDictionary<T, IDisposable> _map = new ConcurrentDictionary<T, IDisposable>(Comparer);
         private readonly object _lock = new object();
+        private bool _disposed;
+
         public WeakCollectionWrapper(ObservableCollection<T> collection)
         {
             _wr.Target = collection;
@@ -22,11 +24,16 @@ namespace Gu.Reactive.Internals
 
         public IEnumerable<T> Collection
         {
-            get { return (IEnumerable<T>)_wr.Target; }
+            get
+            {
+                VerifyDisposed();
+                return (IEnumerable<T>)_wr.Target;
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
+            VerifyDisposed();
             var source = (ObservableCollection<T>)_wr.Target;
             if (source == null)
             {
@@ -38,13 +45,34 @@ namespace Gu.Reactive.Internals
 
         IEnumerator IEnumerable.GetEnumerator()
         {
+            VerifyDisposed();
             return GetEnumerator();
+        }
+
+        /// <summary>
+        /// Make the class sealed when using this. 
+        /// Call VerifyDisposed at the start of all public methods
+        /// </summary>
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
+            foreach (var disposable in _map.Values)
+            {
+                disposable.Dispose();
+            }
+            _map.Clear();
+            _wr.Target = null;
         }
 
         public void Update(
             NotifyCollectionChangedEventArgs e,
             Func<T, IDisposable> subscribe)
         {
+            VerifyDisposed();
             lock (_lock)
             {
                 switch (e.Action)
@@ -91,6 +119,10 @@ namespace Gu.Reactive.Internals
         {
             foreach (var item in items)
             {
+                if (item == null)
+                {
+                    continue;
+                }
                 IDisposable subscription;
                 if (_map.TryRemove(item, out subscription))
                 {
@@ -103,7 +135,21 @@ namespace Gu.Reactive.Internals
         {
             foreach (var item in items)
             {
+                if (item == null)
+                {
+                    continue;
+                }
                 _map.GetOrAdd(item, subscribe);
+            }
+        }
+
+        private void VerifyDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(
+                    GetType()
+                        .FullName);
             }
         }
 
