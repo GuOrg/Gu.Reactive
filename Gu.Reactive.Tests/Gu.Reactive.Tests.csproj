@@ -94,6 +94,7 @@
     <Compile Include="Helpers\Level.cs" />
     <Compile Include="Helpers\NotifyPropertyChangedMockExt.cs" />
     <Compile Include="Internals\PathObservableTests.cs" />
+    <Compile Include="NotifyCollectionChangedExt_ObserveItemPropertyChanged.cs" />
     <Compile Include="NotifyProeprtyChangedExt_ObservePropertyChangedAndValue_Nested.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

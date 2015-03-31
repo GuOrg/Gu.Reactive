@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+namespace Gu.Reactive.Internals
 {
     internal class Maybe<T> : IMaybe<T>
     {
