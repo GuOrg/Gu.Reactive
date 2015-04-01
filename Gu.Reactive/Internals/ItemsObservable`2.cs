@@ -1,58 +1,64 @@
-namespace Gu.Reactive
+namespace Gu.Reactive.Internals
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq.Expressions;
     using System.Reactive;
-    using System.Reactive.Subjects;
-    using Internals;
 
-    internal sealed class ItemsObservable<T, TProperty> :
-        ObservableBase<EventPattern<ChildPropertyChangedEventArgs<T, TProperty>>>,
+    internal sealed class ItemsObservable<TItem, TProperty> :
+        ObservableBase<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>,
         IDisposable
-        where T : class, INotifyPropertyChanged
+        where TItem : class, INotifyPropertyChanged
     {
-        private readonly Expression<Func<T, TProperty>> _property;
+        private readonly Expression<Func<TItem, TProperty>> _property;
         private readonly bool _signalInitial;
-        private readonly Subject<EventPattern<ChildPropertyChangedEventArgs<T, TProperty>>> _subject = new Subject<EventPattern<ChildPropertyChangedEventArgs<T, TProperty>>>();
-        private readonly WeakCollectionWrapper<T> _weakSource;
         private readonly string _propertyName;
-        private readonly IValuePath<T, TProperty> _valuePath;
+        private readonly ValuePath _valuePath;
+        private readonly WeakReference _collectionRef = new WeakReference(null);
         private bool _disposed;
 
         public ItemsObservable(
-            ObservableCollection<T> source,
-            Expression<Func<T, TProperty>> property,
+            ObservableCollection<TItem> source,
+            Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
+        {
+            _collectionRef.Target = source;
+            _property = property;
+            _signalInitial = signalInitial;
+            _propertyName = NameOf.Property(property);
+            _valuePath = Internals.ValuePath.Create(property);
+        }
+
+        public ItemsObservable(
+            IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> source,
+            Expression<Func<TItem, TProperty>> property)
+        {
+            _property = property;
+            _signalInitial = true;
+            _propertyName = NameOf.Property(property);
+            _valuePath = Internals.ValuePath.Create(property);
+            throw new NotImplementedException();
+        }
+
+        public ItemsObservable(
+            IObservable<EventPattern<NotifyCollectionChangedEventArgs>> collectionChanged,
+            Expression<Func<TItem, TProperty>> property,
+            bool signalInitial)
         {
             _property = property;
             _signalInitial = signalInitial;
             _propertyName = NameOf.Property(property);
-            _valuePath = Get.ValuePath(property);
-            _weakSource = new WeakCollectionWrapper<T>(source);
-            source.ObserveCollectionChanged(true)
-                  .Subscribe(OnSourceChanged);
+            _valuePath = Internals.ValuePath.Create(property);
+            throw new NotImplementedException();
         }
 
-        protected override IDisposable SubscribeCore(IObserver<EventPattern<ChildPropertyChangedEventArgs<T, TProperty>>> observer)
+        protected override IDisposable SubscribeCore(IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer)
         {
             VerifyDisposed();
-            if (_signalInitial)
-            {
-                var collection = (ObservableCollection<T>)_weakSource.Collection;
-                foreach (var item in _weakSource)
-                {
-                    var value = _valuePath.Value(item);
-                    if (value.HasValue)
-                    {
-                        observer.OnNext(new EventPattern<ChildPropertyChangedEventArgs<T, TProperty>>(collection, new ChildPropertyChangedEventArgs<T, TProperty>(item, value.ValueOrDefault, _propertyName)));
-                    }
-                }
-            }
-            return _subject.Subscribe(observer);
+            var observable = new CollectionItemsObservable<TItem, TProperty>((ObservableCollection<TItem>)_collectionRef.Target, _signalInitial, _valuePath, _property, _propertyName);
+            return observable.Subscribe(observer);
         }
 
         /// <summary>
@@ -66,8 +72,6 @@ namespace Gu.Reactive
                 return;
             }
             _disposed = true;
-            _subject.Dispose();
-            _weakSource.Dispose();
         }
 
         private void VerifyDisposed()
@@ -78,21 +82,6 @@ namespace Gu.Reactive
                     GetType()
                         .FullName);
             }
-        }
-
-        private void OnSourceChanged(EventPattern<NotifyCollectionChangedEventArgs> eventPattern)
-        {
-            _weakSource.Update(eventPattern.EventArgs, SubscribeToItem);
-        }
-
-        private IDisposable SubscribeToItem(T item)
-        {
-            var subscription = item.ObservePropertyChangedAndValue(_property)
-                .Subscribe(x => _subject.OnNext(
-                    new EventPattern<ChildPropertyChangedEventArgs<T, TProperty>>(
-                        _weakSource.Collection,
-                        new ChildPropertyChangedEventArgs<T, TProperty>(item, x.EventArgs))));
-            return subscription;
         }
     }
 }

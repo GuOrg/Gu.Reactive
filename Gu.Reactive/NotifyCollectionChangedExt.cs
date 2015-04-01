@@ -7,7 +7,8 @@ namespace Gu.Reactive
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Linq;
-    using System.Runtime.CompilerServices;
+
+    using Gu.Reactive.Internals;
 
     public static class NotifyCollectionChangedExt
     {
@@ -24,24 +25,32 @@ namespace Gu.Reactive
                 var wr = new WeakReference(source);
                 return Observable.Defer(
                     () =>
-                        {
-                            var current = new EventPattern<NotifyCollectionChangedEventArgs>(
-                                wr.Target,
-                                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-                            return Observable.Return(current)
-                                             .Concat(observable);
-                        });
+                    {
+                        var current = new EventPattern<NotifyCollectionChangedEventArgs>(
+                            wr.Target,
+                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                        return Observable.Return(current)
+                                         .Concat(observable);
+                    });
             }
 
             return observable;
         }
 
-        internal static IObservable<EventPattern<ChildPropertyChangedEventArgs<T, TProperty>>> ObserveItemPropertyChanges<T, TProperty>(
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<T, TProperty>>> ObserveItemPropertyChanged<T, TProperty>(
             this ObservableCollection<T> source,
             Expression<Func<T, TProperty>> property,
             bool signalInitial = true) where T : class, INotifyPropertyChanged
         {
             return new ItemsObservable<T, TProperty>(source, property, signalInitial);
+        }
+
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<T, TProperty>>> ItemPropertyChanged<T, TProperty>(
+             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<T>>>> source,
+             Expression<Func<T, TProperty>> property) where T : class, INotifyPropertyChanged
+        {
+            var observable = new ItemsObservable<T, TProperty>(source, property);
+            return observable;
         }
     }
 }

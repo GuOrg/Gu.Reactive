@@ -1,0 +1,125 @@
+﻿namespace Gu.Reactive.Tests
+{
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Reactive;
+
+    using NUnit.Framework;
+
+    public class NotifyPropertyChangedExt_ObservePropertyChanged
+    {
+        private List<EventPattern<PropertyChangedEventArgs>> _changes;
+
+        [SetUp]
+        public void SetUp()
+        {
+            _changes = new List<EventPattern<PropertyChangedEventArgs>>();
+        }
+
+        [Test]
+        public void DoesNotSIgnalSubscribe()
+        {
+            var fake = new FakeInpc { Value = 1 };
+            var observable = fake.ObservePropertyChanged();
+            var disposable = observable.Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        [TestCase("Value")]
+        public void ReactsOnStringEmptyOrNull(string prop)
+        {
+            var fake = new FakeInpc { Value = 1 };
+            fake.ObservePropertyChanged()
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+            fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
+            Assert.AreEqual(1, _changes.Count);
+        }
+
+        [Test]
+        public void ReactsOnEvent()
+        {
+            var fake = new FakeInpc { Value = 1 };
+            fake.ObservePropertyChanged()
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+            fake.OnPropertyChanged(NameOf.Property<FakeInpc>(x => x.Value));
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(fake, _changes.Last().Sender);
+            Assert.AreEqual(NameOf.Property<FakeInpc>(x => x.Value), _changes.Last().EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void ReactsValue()
+        {
+            var fake = new FakeInpc { Value = 1 };
+            fake.ObservePropertyChanged()
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+            fake.Value++;
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(fake, _changes.Last().Sender);
+            Assert.AreEqual(NameOf.Property<FakeInpc>(x => x.Value), _changes.Last().EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void ReactsNullable()
+        {
+            var fake = new FakeInpc { IsTrueOrNull = null};
+            var observable = fake.ObservePropertyChanged();
+            var disposable = observable.Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+            fake.IsTrueOrNull = true;
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(fake, _changes.Last().Sender);
+            Assert.AreEqual(NameOf.Property<FakeInpc>(x => x.IsTrueOrNull), _changes.Last().EventArgs.PropertyName);
+
+            fake.IsTrueOrNull = null;
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(fake, _changes.Last().Sender);
+            Assert.AreEqual(NameOf.Property<FakeInpc>(x => x.IsTrueOrNull), _changes.Last().EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void StopsListeningOnDispose()
+        {
+            var fake = new FakeInpc { IsTrue = true };
+            var observable = fake.ObservePropertyChanged();
+            var disposable = observable.Subscribe(_changes.Add);
+            fake.IsTrue = !fake.IsTrue;
+            Assert.AreEqual(1, _changes.Count);
+            disposable.Dispose();
+            fake.IsTrue = !fake.IsTrue;
+            Assert.AreEqual(1, _changes.Count);
+        }
+
+        [Test]
+        public void MemoryLeakDisposeTest()
+        {
+            var fake = new FakeInpc();
+            var wr = new WeakReference(fake);
+            var subscription = fake.ObservePropertyChanged().Subscribe();
+            fake = null;
+            subscription.Dispose();
+            GC.Collect();
+            Assert.IsFalse(wr.IsAlive);
+            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
+        }
+
+        [Test]
+        public void MemoryLeakNoDisposeTest()
+        {
+            var fake = new FakeInpc();
+            var wr = new WeakReference(fake);
+            var subscription = fake.ObservePropertyChanged().Subscribe();
+            fake = null;
+            GC.Collect();
+            Assert.IsFalse(wr.IsAlive);
+            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
+        }
+    }
+}

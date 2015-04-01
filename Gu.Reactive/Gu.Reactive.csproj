@@ -120,6 +120,7 @@
     <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />
     <Compile Include="Internals\ConstantVisitor.cs" />
+    <Compile Include="Internals\ObjectIdentityComparer`1.cs" />
     <Compile Include="Internals\RwLock.cs" />
     <Compile Include="Internals\INotifyingPathItem.cs" />
     <Compile Include="Internals\IPathItem.cs" />
@@ -143,7 +144,6 @@
     <Compile Include="Conditions\OrCondition.cs" />
     <Compile Include="Conditions\OrConditionCollection.cs" />
     <Compile Include="FixedSizedQueue.cs" />
-    <Compile Include="Internals\ItemPropertyListener.cs" />
     <Compile Include="Internals\ValuePath.cs" />
     <Compile Include="Internals\PathItem.cs" />
     <Compile Include="Internals\PathObservable.cs" />
@@ -151,11 +151,11 @@
     <Compile Include="Internals\PropertyPathVisitor.cs" />
     <Compile Include="Properties\Annotations.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ChildPropertyChangedEventArgs.cs" />
+    <Compile Include="ItemPropertyChangedEventArgs.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />
     <Compile Include="TrackingEventArgs.cs" />
     <Compile Include="TaskExt.cs" />
-    <Compile Include="Internals\WeakCollectionWrapper`1.cs" />
+    <Compile Include="Internals\CollectionItemsObservable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

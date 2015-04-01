@@ -5,16 +5,16 @@
     /// <summary>
     /// The property changed event args.
     /// </summary>
-    /// <typeparam name="TSource">
+    /// <typeparam name="TItem">
     /// </typeparam>
     /// <typeparam name="TValue">
     /// </typeparam>
-    public class ChildPropertyChangedEventArgs<TSource, TValue> : PropertyChangedEventArgs
+    public class ItemPropertyChangedEventArgs<TItem, TValue> : PropertyChangedEventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ChildPropertyChangedEventArgs{TSource,TProperty}"/> class.
+        /// Initializes a new instance of the <see cref="ItemPropertyChangedEventArgs{TSource,TValue}"/> class.
         /// </summary>
-        /// <param name="originalSender">
+        /// <param name="item">
         /// The sender.
         /// </param>
         /// <param name="value">
@@ -23,24 +23,24 @@
         /// <param name="propertyName">
         /// The property name.
         /// </param>
-        public ChildPropertyChangedEventArgs(TSource originalSender, TValue value, string propertyName)
+        public ItemPropertyChangedEventArgs(TItem item, TValue value, string propertyName)
             : base(propertyName)
         {
-            OriginalSender = originalSender;
+            Item = item;
             Value = value;
         }
 
-        public ChildPropertyChangedEventArgs(INotifyPropertyChanged s, PropertyChangedAndValueEventArgs<TValue> e) 
+        public ItemPropertyChangedEventArgs(TItem item, PropertyChangedAndValueEventArgs<TValue> e) 
             : base(e.PropertyName)
         {
-            OriginalSender = (TSource) s;
+            Item =  item;
             Value = e.Value;
         }
 
         /// <summary>
         /// Gets the sender.
         /// </summary>
-        public TSource OriginalSender { get; private set; }
+        public TItem Item { get; private set; }
 
         /// <summary>
         /// Gets the current value.
