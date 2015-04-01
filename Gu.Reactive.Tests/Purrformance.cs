@@ -6,7 +6,8 @@
     using System.Reactive;
     using System.Reactive.Linq;
     using NUnit.Framework;
-    [Explicit("Benchmarks")]
+   
+    [Explicit("Longrunning benchmarks")]
     public class Purrformance : INotifyPropertyChanged
     {
         const int n = 10000000;

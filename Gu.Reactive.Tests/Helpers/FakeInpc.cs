@@ -14,6 +14,8 @@
 
         private StructLevel _structLevel;
 
+        private int _value;
+
         public event PropertyChangedEventHandler PropertyChanged;
         public int WriteOnly { set { return; } }
 
@@ -92,6 +94,19 @@
             set
             {
                 _structLevel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Value
+        {
+            get
+            {
+                return _value;
+            }
+            set
+            {
+                _value = value;
                 OnPropertyChanged();
             }
         }

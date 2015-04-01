@@ -7,7 +7,7 @@ namespace Gu.Reactive.Tests
 
     using NUnit.Framework;
 
-    public class NotifyProeprtyChangedExt_ObservePropertyChangedAndValue_Nested
+    public class NotifyPropertyChangedExt_ObservePropertyChangedAndValue_Nested
     {
         private List<EventPattern<PropertyChangedAndValueEventArgs<string>>> _changes;
 
@@ -17,25 +17,61 @@ namespace Gu.Reactive.Tests
             _changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
         }
 
+        [TestCase("")]
+        [TestCase(null)]
+        [TestCase("Name")]
+        public void ReactsOnStringEmptyOrNullWithoutValue(string prop)
+        {
+            var fake = new FakeInpc();
+            fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+            fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(null, _changes.Single().EventArgs.Value);
+            Assert.IsTrue(_changes.Single().EventArgs.IsDefaultValue);
+            Assert.AreEqual(prop,_changes.Last().EventArgs.PropertyName);
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        [TestCase("Name")]
+        public void ReactsOnStringEmptyOrNullWithValue(string prop)
+        {
+            var fake = new FakeInpc{Next = new Level{Name = "Johan"}};
+            fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+            fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual("Johan", _changes.Single().EventArgs.Value);
+            Assert.IsFalse(_changes.Single().EventArgs.IsDefaultValue);
+            Assert.AreEqual(prop, _changes.Last().EventArgs.PropertyName);
+        }
+
         [Test]
         public void SignalsInitialNull()
         {
             var fake = new FakeInpc();
-            fake.ObservePropertyChangedAndValue(x => x.Next.Name, true)
+            fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
             Assert.AreEqual(null, _changes.Single().EventArgs.Value);
+            Assert.AreSame(null, _changes.Single().Sender);
             Assert.IsFalse(_changes.Single().EventArgs.IsDefaultValue);
+            Assert.AreEqual("Name", _changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
         public void CapturesInitialValue()
         {
             var fake = new FakeInpc { Next = new Level { Name = "Johan" } };
-            fake.ObservePropertyChangedAndValue(x => x.Next.Name, true)
+            fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreEqual("Johan", _changes.Single().EventArgs.Value);
+            Assert.AreEqual("Johan", _changes.Last().EventArgs.Value);
+            Assert.AreEqual("Name", _changes.Last().EventArgs.PropertyName);
+            Assert.AreSame(fake.Next, _changes.Last().Sender);
             Assert.IsTrue(_changes.Single().EventArgs.IsDefaultValue);
         }
 
@@ -43,7 +79,7 @@ namespace Gu.Reactive.Tests
         public void DoesNotSignalOnSubscribe()
         {
             var fake = new FakeInpc { Next = new Level { Name = "Johan" } };
-            fake.ObservePropertyChangedAndValue(x => x.Next.Name, false)
+            fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
                 .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
         }
@@ -52,7 +88,7 @@ namespace Gu.Reactive.Tests
         public void SignalsOnSourceChanges()
         {
             var fake = new FakeInpc();
-            fake.ObservePropertyChangedAndValue(x => x.Next.Name, false)
+            fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
                 .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
             fake.Next = new Level();
@@ -68,7 +104,7 @@ namespace Gu.Reactive.Tests
             var fake = new FakeInpc();
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);
-            var subscription = fake.ObservePropertyChangedAndValue(x => x.Next.Name, false)
+            var subscription = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
                                    .Subscribe();
             fake = null;
             GC.Collect();
@@ -82,7 +118,7 @@ namespace Gu.Reactive.Tests
             var fake = new FakeInpc();
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);
-            var subscription = fake.ObservePropertyChangedAndValue(x => x.Next.Name, false)
+            var subscription = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
                                    .Subscribe();
             fake = null;
             subscription.Dispose();

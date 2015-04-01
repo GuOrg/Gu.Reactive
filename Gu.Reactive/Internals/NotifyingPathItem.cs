@@ -2,6 +2,7 @@ namespace Gu.Reactive.Internals
 {
     using System;
     using System.ComponentModel;
+    using System.Reactive;
     using System.Reflection;
 
     internal sealed class NotifyingPathItem : INotifyingPathItem
@@ -10,10 +11,19 @@ namespace Gu.Reactive.Internals
         private readonly WeakReference _sourceRef = new WeakReference(null);
         private bool _disposed;
         private IDisposable _subscription;
+        private readonly Action<EventPattern<PropertyChangedEventArgs>> _onNext;
+
+        private readonly Action<Exception> _onError;
+
+        private NotifyingPathItem()
+        {
+        }
 
         public NotifyingPathItem(INotifyingPathItem previous, PathItem pathItem)
         {
             PathItem = pathItem;
+            _onNext = x => OnPropertyChanged(x.Sender, x.EventArgs);
+            _onError = OnError;
             _propertyChangedEventArgs = new PropertyChangedEventArgs(PathItem.PropertyInfo.Name);
             Previous = previous;
             var notifyingPathItem = previous as NotifyingPathItem;
@@ -25,6 +35,7 @@ namespace Gu.Reactive.Internals
             {
                 Source = (INotifyPropertyChanged)previous.Value;
             }
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -83,7 +94,7 @@ namespace Gu.Reactive.Internals
                     if (!ReferenceEquals(oldSource, value))
                     {
                         Subscription = inpc.ObservePropertyChanged(PathItem.PropertyInfo.Name, !isNullToNull)
-                                           .Subscribe(x => OnPropertyChanged(x.Sender, x.EventArgs));
+                                           .Subscribe(_onNext, _onError);
                     }
                 }
                 else
@@ -127,6 +138,11 @@ namespace Gu.Reactive.Internals
             {
                 Subscription.Dispose();
             }
+        }
+
+        private void OnError(Exception obj)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)

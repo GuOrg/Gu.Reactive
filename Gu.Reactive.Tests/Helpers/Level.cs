@@ -11,7 +11,7 @@
         private Level _next;
         private string _name;
 
-        private bool? _nullableValue;
+        private bool? _isTrueOrNull;
 
         private int _value;
 
@@ -34,6 +34,23 @@
             }
         }
 
+        public bool? IsTrueOrNull
+        {
+            get
+            {
+                return _isTrueOrNull;
+            }
+            set
+            {
+                if (Equals(value, _isTrueOrNull))
+                {
+                    return;
+                }
+                _isTrueOrNull = value;
+                OnPropertyChanged();
+            }
+        }
+
         public int Value
         {
             get
@@ -47,23 +64,6 @@
                     return;
                 }
                 _value = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool? NullableValue
-        {
-            get
-            {
-                return _nullableValue;
-            }
-            set
-            {
-                if (Equals(value, _nullableValue))
-                {
-                    return;
-                }
-                _nullableValue = value;
                 OnPropertyChanged();
             }
         }

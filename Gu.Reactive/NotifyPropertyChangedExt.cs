@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PropertyChangedToObservableExt.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The property changed to observable ext.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -54,7 +45,9 @@ namespace Gu.Reactive
                     return Observable.Defer(
                         () =>
                         {
-                            var current = new EventPattern<PropertyChangedEventArgs>(observable._valuePath.Last().Source, observable.PropertyChangedEventArgs);
+                            var current = new EventPattern<PropertyChangedEventArgs>(
+                                observable.ValuePath.Last().Source, 
+                                observable.PropertyChangedEventArgs);
                             return Observable.Return(current)
                                              .Concat(observable);
                         });
@@ -125,7 +118,7 @@ namespace Gu.Reactive
         /// <returns>
         /// The <see cref="IObservable"/>.
         /// </returns>
-        public static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedAndValue
+        public static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue
             <TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,

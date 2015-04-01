@@ -20,15 +20,13 @@
         where TClass : INotifyPropertyChanged
     {
         internal readonly PropertyChangedEventArgs PropertyChangedEventArgs;
-
-        internal readonly NotifyingPath _valuePath;
-
+        internal readonly NotifyingPath ValuePath;
         private readonly Subject<EventPattern<PropertyChangedEventArgs>> _subject = new Subject<EventPattern<PropertyChangedEventArgs>>();
-
         private readonly IDisposable _subscription;
-
+        private readonly Action<EventPattern<PropertyChangedEventArgs>> _onNext;
+        private readonly Action<Exception> _onError;
         private bool _disposed;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="PathObservable{TClass,TProp}"/> class.
         /// </summary>
@@ -40,18 +38,20 @@
         /// </param>
         public PathObservable(TClass source, Expression<Func<TClass, TProp>> propertyExpression)
         {
-            _valuePath = NotifyingPath.Create(propertyExpression);
-            _valuePath.Source = source;
-            var last = _valuePath.Last();
+            ValuePath = NotifyingPath.Create(propertyExpression);
+            ValuePath.Source = source;
+            var last = ValuePath.Last();
             PropertyChangedEventArgs = last.PropertyChangedEventArgs;
-            VerifyPath(_valuePath);
+            VerifyPath(ValuePath);
+            _onNext = OnNext;
+            _onError = OnError;
             _subscription = last.ObservePropertyChanged()
-                                .Subscribe(OnNext, OnError);
+                                .Subscribe(_onNext, _onError);
         }
 
         public void Dispose()
         {
-            foreach (var pathItem in _valuePath)
+            foreach (var pathItem in ValuePath)
             {
                 pathItem.Dispose();
             }
