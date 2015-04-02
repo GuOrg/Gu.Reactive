@@ -1,0 +1,129 @@
+﻿<CorruptedSettingsDescription>
+  <Exception Message="Unexpected end of file has occurred. The following elements are not closed: wpf:ResourceDictionary. Line 9, position 1." Kind="Error">Unexpected end of file has occurred. The following elements are not closed: wpf:ResourceDictionary. Line 9, position 1.
+
+--- EXCEPTION #1/2 [XmlException]
+Message = “Unexpected end of file has occurred. The following elements are not closed: wpf:ResourceDictionary. Line 9, position 1.”
+ExceptionPath = Root.InnerException
+ClassName = System.Xml.XmlException
+HResult = Xml=80131940
+Source = System.Xml
+res = Xml_UnexpectedEOFInElementContent
+args.#0 = wpf:ResourceDictionary.
+lineNumber = 9
+linePosition = 1
+version = 2.0
+StackTraceString = “
+  at System.Xml.XmlTextReaderImpl.Throw(Exception e)
+     at System.Xml.XmlTextReaderImpl.Throw(String res, String arg)
+     at System.Xml.XmlTextReaderImpl.ThrowUnclosedElements()
+     at System.Xml.XmlTextReaderImpl.ParseElementContent()
+     at System.Xml.XmlTextReaderImpl.Read()
+     at JetBrains.Application.Settings.Storage.Persistence.EntriesReader.Step_GenericRead_SkipToElement()
+”
+
+--- Outer ---
+
+--- EXCEPTION #2/2 [LoggerException]
+Message = “Unexpected end of file has occurred. The following elements are not closed: wpf:ResourceDictionary. Line 9, position 1.”
+ExceptionPath = Root
+ClassName = JetBrains.Util.LoggerException
+InnerException = “Exception #1 at Root.InnerException”
+HResult = COR_E_APPLICATION=80131600
+StackTraceString = “
+  at JetBrains.Application.Settings.Storage.Persistence.EntriesReader.Step_GenericRead()
+     at JetBrains.Application.Settings.Storage.Persistence.EntriesReader.Step()
+     at JetBrains.Application.Settings.Storage.Persistence.EntriesReader.Run(XmlReader reader, EntryPositionsFlag entryPositionsFlag)
+     at JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass4a.&lt;&gt;c__DisplayClass4c.&lt;&gt;c__DisplayClass4e.&lt;Save_WriteFile_BackupOldCorruptedFile&gt;b__40(XmlReader xmlreader)
+     at JetBrains.Util.XmlReaderEx.ReadXml(Stream stream, Action`1 FRead)
+     at JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass4a.&lt;&gt;c__DisplayClass4c.&lt;&gt;c__DisplayClass4e.&lt;Save_WriteFile_BackupOldCorruptedFile&gt;b__3f(Stream streamR)
+     at JetBrains.Util.FileSystemPathEx.ReadStream(FileSystemPath path, Action`1 FRead)
+     at JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass4a.&lt;&gt;c__DisplayClass4c.&lt;Save_WriteFile_BackupOldCorruptedFile&gt;b__3e()
+     at JetBrains.Util.Logging.Logger.Catch(Action action)
+     at JetBrains.Util.XmlWriterEx.InElement(XmlWriter writer, String name, Action nested, Boolean writeFullEndElement)
+     at JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass4a.&lt;Save_WriteFile_BackupOldCorruptedFile&gt;b__3d(XmlWriter xmlwriter)
+     at JetBrains.Util.XmlWriterEx.WriteXml(Stream stream, Action`1 FWrite)
+     at JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass4a.&lt;Save_WriteFile_BackupOldCorruptedFile&gt;b__3c(Stream stream)
+     at JetBrains.Util.FileSystemPathEx.WriteStream(FileSystemPath path, Action`1 FWrite)
+     at JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.Save_WriteFile_BackupOldCorruptedFile(FileSystemPath path)
+     at JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;&gt;c__DisplayClass2b.&lt;Save_WriteFile&gt;b__1e()
+     at JetBrains.Util.ILoggerEx.Catch(ILogger thіs, Action F, ExceptionOrigin origin)
+     at JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.Save_WriteFile(SaveDiffFlags flagsDiff, SaveForcedFlags flagsForced)
+     at JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.Save(SaveDiffFlags flagsDiff, SaveForcedFlags flagsForced)
+     at JetBrains.Application.Settings.Storage.Persistence.SettingsStoreSerializationToXmlDiskFile.&lt;Init_FirstLoadLastSave&gt;b__1()
+     at JetBrains.DataFlow.IPropertySignalEx.&lt;&gt;c__DisplayClass1`1.&lt;Advise_FallingFront&gt;b__0(PropertyChangedEventArgs`1 args)
+     at JetBrains.DataFlow.Property`1.PropertyChangeSignal.Acknowledge(Action`1 handler, AddRemove addremove)
+     at JetBrains.DataFlow.Property`1.PropertyChangeSignal.OnAfterUnadvise(Action`1 handler)
+     at JetBrains.DataFlow.Signal`1.&lt;&gt;c__DisplayClass2.&lt;AdviseCore&gt;b__1()
+     at JetBrains.DataFlow.Lifetime.Terminate()
+     at JetBrains.Application.Components.LifetimeValueResolver.LifetimeDescriptor.Dispose()
+     at JetBrains.Application.Components.SingletonDescriptor.DisposeImpl()
+     at JetBrains.Application.Components.SingletonDescriptor.System.IDisposable.Dispose()
+     at JetBrains.Application.Components.ComponentStorage.DisposeDescriptor(IComponentDescriptor descriptor)
+     at JetBrains.Application.Components.ComponentStorage.&lt;&gt;c__DisplayClassb.&lt;RegisterDescriptors&gt;b__9()
+     at JetBrains.DataFlow.Lifetime.Terminate()
+     at JetBrains.DataFlow.ICollectionEventsEx.&lt;&gt;c__DisplayClass15`1.&lt;ForEachItemCore&gt;b__12(AddRemoveEventArgs`1 args)
+     at JetBrains.DataFlow.CollectionEvents`1.OnAcknowledgeSinkAddRemove(Action`1 handler, AddRemove addremove)
+     at JetBrains.DataFlow.CollectionEvents`1.&lt;.ctor&gt;b__1(Action`1 handler)
+     at JetBrains.DataFlow.Infra.SignalWithDelegates`1.OnAfterUnadvise(Action`1 handler)
+     at JetBrains.DataFlow.Signal`1.&lt;&gt;c__DisplayClass2.&lt;AdviseCore&gt;b__1()
+     at JetBrains.DataFlow.Lifetime.Terminate()
+     at JetBrains.ProjectModel.SolutionInstance.CloseSolutionInstance()
+     at JetBrains.ProjectModel.SolutionManagerBase.CloseSolutionInstance(SolutionInstance instance)
+     at JetBrains.VsIntegration.ProjectDocuments.VSSolutionManager.CloseSolutionInstance(SolutionInstance instance)
+     at JetBrains.VsIntegration.ProjectDocuments.VSSolutionManager.&lt;&gt;c__DisplayClass21.&lt;OnBeforeCloseSolution&gt;b__1f()
+     at JetBrains.Util.Concurrency.UnguardedCallbackMerger.&lt;&gt;c__DisplayClass3.&lt;ExecuteOrQueueOrMerge&gt;b__0()
+     at JetBrains.Threading.ReentrancyGuard.Execute(String name, Action action)
+     at JetBrains.Threading.ReentrancyGuard.TryExecute(String name, Action action)
+     at JetBrains.Threading.ReentrancyGuardEx.ExecuteOrQueue(ReentrancyGuard thіs, Lifetime lifetime, String name, Action F)
+     at JetBrains.Util.Concurrency.UnguardedCallbackMerger.ExecuteOrQueueOrMerge(Lifetime lifetimeQueue, String name, Action F)
+     at JetBrains.VsIntegration.ProjectDocuments.VSSolutionManager.OnBeforeCloseSolution(Object pUnkReserved)
+”
+</Exception>
+  <!--The backup file has been created before writing in-memory changes to the settings file. As the existing settings file is corrupted, many settings might get lost when writing the new content. If you'd like to restore the settings from the previous version, here're the changes against the backed-up version (note: subsequent changes are not reflected here).-->
+  <InMemoryChanges>
+    <SetValue>
+      <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPRIVATE_005FTYPE_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FENUM_005FMEMBER/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPROTECTED_005FMEMBER_005FACCESSOR/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPUBLIC_005FMEMBER_005FACCESSOR/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/WebNaming/UserRules/=ASP_005FTAG_005FPREFIX/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/WebNaming/UserRules/=ASP_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FENUM/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPRIVATE_005FTYPE_005FMETHOD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=JS_005FPARAMETER/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/XamlNaming/UserRules/=NAMESPACE_005FALIAS/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPROTECTED_005FSTATIC_005FTYPE_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FINTERFACE/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="I" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=JS_005FOBJECT_005FPROPERTY_005FOF_005FFUNCTION/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FMODULE_005FLOCAL/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/PLACE_SIMPLE_ACCESSOR_ON_SINGLE_LINE/@EntryValue">True</s:Boolean>
+        <s:String x:Key="/Default/CodeStyle/Naming/XamlNaming/UserRules/=XAML_005FRESOURCE/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FMODULE/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/WebNaming/UserRules/=ASP_005FTAG_005FNAME/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FINTERFACE_005FFOR_005FJS_005FGLOBAL_005FVARIABLE/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=JS_005FCONSTRUCTOR/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=JS_005FLABEL/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/XamlNaming/UserRules/=XAML_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/WRAP_TERNARY_EXPR_STYLE/@EntryValue">CHOP_ALWAYS</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/WebNaming/UserRules/=ASP_005FHTML_005FCONTROL/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPUBLIC_005FTYPE_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPRIVATE_005FMEMBER_005FACCESSOR/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FMODULE_005FEXPORTED/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=JS_005FLOCAL_005FVARIABLE/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=JS_005FFUNCTION/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPROTECTED_005FTYPE_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FTYPE_005FPARAMETER/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="T" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPUBLIC_005FTYPE_005FMETHOD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPUBLIC_005FSTATIC_005FTYPE_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPROTECTED_005FTYPE_005FMETHOD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FCLASS/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=JS_005FGLOBAL_005FVARIABLE/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
+        <s:String x:Key="/Default/CodeStyle/Naming/JavaScriptNaming/UserRules/=TS_005FPRIVATE_005FSTATIC_005FTYPE_005FFIELD/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String>
+      </ResourceDictionary>
+    </SetValue>
+    <ClearValue>
+      <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" />
+    </ClearValue>
+  </InMemoryChanges>
+</CorruptedSettingsDescription>

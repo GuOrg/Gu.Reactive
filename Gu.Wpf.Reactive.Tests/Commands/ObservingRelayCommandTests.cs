@@ -5,6 +5,7 @@
 
     using Gu.Reactive;
     using Gu.Reactive.Tests;
+    using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
 
@@ -13,7 +14,7 @@
         [Test]
         public void NotifiesOnConditionChanged()
         {
-            var fake = new FakeInpc { IsTrueOrNull = false };
+            var fake = new Fake { IsTrueOrNull = false };
             var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull);
             var command = new ObservingRelayCommand(() => { }, () => false, observable);
             int count = 0;

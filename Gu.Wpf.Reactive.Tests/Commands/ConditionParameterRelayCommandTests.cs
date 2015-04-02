@@ -6,12 +6,13 @@
 
     using Gu.Reactive;
     using Gu.Reactive.Tests;
+    using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
 
     public class ConditionParameterRelayCommandTests
     {
-        private FakeInpc _fake;
+        private Fake _fake;
         private Condition _condition;
         private ConditionRelayCommand<int> _command;
         private IObservable<EventPattern<PropertyChangedEventArgs>> _observable;
@@ -19,7 +20,7 @@
         [SetUp]
         public void SetUp()
         {
-            _fake = new FakeInpc { IsTrueOrNull = false };
+            _fake = new Fake { IsTrueOrNull = false };
             _observable = _fake.ObservePropertyChanged(x => x.IsTrueOrNull);
             _condition = new Condition(_observable, () => _fake.IsTrueOrNull);
             _command = new ConditionRelayCommand<int>(x => { }, _condition);

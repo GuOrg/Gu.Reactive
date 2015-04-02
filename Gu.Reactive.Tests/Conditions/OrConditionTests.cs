@@ -2,6 +2,9 @@ namespace Gu.Reactive.Tests.Conditions
 {
     using System;
     using System.Collections.Generic;
+
+    using Gu.Reactive.Tests.Helpers;
+
     using Moq;
     using NUnit.Framework;
 
@@ -38,9 +41,9 @@ namespace Gu.Reactive.Tests.Conditions
         public void Notifies()
         {
             var argses = new List<string>();
-            var fake1 = new FakeInpc { IsTrueOrNull = false };
-            var fake2 = new FakeInpc { IsTrueOrNull = false };
-            var fake3 = new FakeInpc { IsTrueOrNull = false };
+            var fake1 = new Fake { IsTrueOrNull = false };
+            var fake2 = new Fake { IsTrueOrNull = false };
+            var fake3 = new Fake { IsTrueOrNull = false };
             var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake1.IsTrueOrNull);
             var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake2.IsTrueOrNull);
             var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake3.IsTrueOrNull);

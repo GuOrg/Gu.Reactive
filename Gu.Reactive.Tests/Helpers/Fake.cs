@@ -1,11 +1,11 @@
-﻿namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests.Helpers
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Annotations;
 
-    public class FakeInpc : INotifyPropertyChanged
+    public class Fake : INotifyPropertyChanged
     {
         private bool? _isTrueOrNull;
         private bool _isTrue;
@@ -35,6 +35,7 @@
                 this.OnPropertyChanged();
             }
         }
+       
         public bool IsTrue
         {
             get
@@ -51,6 +52,7 @@
                 this.OnPropertyChanged();
             }
         }
+        
         public string Name
         {
             get
@@ -97,6 +99,8 @@
                 OnPropertyChanged();
             }
         }
+
+        public NotInpc NotInpc { get; private set; }
 
         public int Value
         {

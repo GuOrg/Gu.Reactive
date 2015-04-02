@@ -24,7 +24,7 @@
             _queue.CollectionChanged += (_, e) => _args.Add(e);
         }
 
-        [Test, Explicit("Does not work on build server")]
+        [Test]
         public void EnqueTrimsOverflowAndNotifies()
         {
             _queue.Enqueue(0);

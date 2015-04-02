@@ -6,6 +6,7 @@
     using System.Reactive;
 
     using Gu.Reactive.Internals;
+    using Gu.Reactive.Tests.Helpers;
 
     using Internals;
     using NUnit.Framework;
@@ -26,22 +27,22 @@
         [Test(Description = "All parts of the property path must be INotifyPropertyChanged")]
         public void ThrowsIfNotNotifyingPath()
         {
-            var exception = Assert.Throws<ArgumentException>(() => new PathObservable<FakeInpc, int>(new FakeInpc(), x => x.Name.Length));
+            var exception = Assert.Throws<ArgumentException>(() => new PropertyPathObservable<Fake, int>(new Fake(), x => x.Name.Length));
             Console.WriteLine(exception.Message);
         }
 
         [Test(Description = "All parts of the property path must be class")]
         public void ThrowsIfStructInPath()
         {
-            var exception = Assert.Throws<ArgumentException>(() => new PathObservable<FakeInpc, string>(new FakeInpc(), x => x.StructLevel.Name));
+            var exception = Assert.Throws<ArgumentException>(() => new PropertyPathObservable<Fake, string>(new Fake(), x => x.StructLevel.Name));
             Console.WriteLine(exception.Message);
         }
 
         [Test]
         public void SubscribeToExistsingChangeLastValueInPath()
         {
-            var fake = new FakeInpc { Next = new Level() };
-            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.IsTrue);
+            var fake = new Fake { Next = new Level() };
+            var observable = new PropertyPathObservable<Fake, bool>(fake, x => x.Next.IsTrue);
             observable.Subscribe(_changes.Add);
             fake.Next.IsTrue = !fake.Next.IsTrue;
             Assert.AreEqual(1, _changes.Count);
@@ -50,8 +51,8 @@
         [Test]
         public void TwoLevelsValueType()
         {
-            var fake = new FakeInpc();
-            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.IsTrue);
+            var fake = new Fake();
+            var observable = new PropertyPathObservable<Fake, bool>(fake, x => x.Next.IsTrue);
             observable.Subscribe(_changes.Add);
             fake.Next = new Level();
             Assert.AreEqual(1, _changes.Count);
@@ -64,8 +65,8 @@
         [Test]
         public void TwoLevelsExisting()
         {
-            var fake = new FakeInpc { Next = new Level { Next = new Level() } };
-            var observable = new PathObservable<FakeInpc, Level>(fake, x => x.Next.Next);
+            var fake = new Fake { Next = new Level { Next = new Level() } };
+            var observable = new PropertyPathObservable<Fake, Level>(fake, x => x.Next.Next);
             observable.Subscribe(_changes.Add);
             fake.Next.Next = new Level();
             Assert.AreEqual(1, _changes.Count);
@@ -78,8 +79,8 @@
         [Test]
         public void TwoLevelsReferenceType()
         {
-            var fake = new FakeInpc();
-            var observable = new PathObservable<FakeInpc, Level>(fake, x => x.Next.Next);
+            var fake = new Fake();
+            var observable = new PropertyPathObservable<Fake, Level>(fake, x => x.Next.Next);
             observable.Subscribe(_changes.Add);
             fake.Next = new Level();
             Assert.AreEqual(0, _changes.Count);
@@ -94,8 +95,8 @@
         [Test]
         public void Unsubscribes()
         {
-            var fake = new FakeInpc();
-            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.IsTrue);
+            var fake = new Fake();
+            var observable = new PropertyPathObservable<Fake, bool>(fake, x => x.Next.IsTrue);
             observable.Subscribe(_changes.Add);
             fake.Next = new Level
                         {
@@ -113,8 +114,8 @@
         [Test]
         public void ThreeLevels()
         {
-            var fake = new FakeInpc();
-            var observable = new PathObservable<FakeInpc, bool>(fake, x => x.Next.Next.IsTrue);
+            var fake = new Fake();
+            var observable = new PropertyPathObservable<Fake, bool>(fake, x => x.Next.Next.IsTrue);
             observable.Subscribe(_changes.Add);
             fake.Next = new Level();
             Assert.AreEqual(0, _changes.Count);
@@ -146,7 +147,7 @@
         [Test]
         public void MemoryLeakTest()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             var level1 = new Level();
             var wr = new WeakReference(level1);
             Assert.IsTrue(wr.IsAlive);

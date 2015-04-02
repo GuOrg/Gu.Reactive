@@ -10,42 +10,27 @@ namespace Gu.Reactive.Internals
     internal sealed class NotifyingPath : IReadOnlyList<INotifyingPathItem>, IDisposable
     {
         private readonly IReadOnlyList<INotifyingPathItem> _parts;
-
-        private INotifyPropertyChanged _source;
-
+        private readonly RootItem _root;
         private bool _disposed;
 
-        private NotifyingPath(IReadOnlyList<INotifyingPathItem> parts)
+        internal NotifyingPath(RootItem root, IPropertyPath path)
         {
-            _parts = parts;
+            _root = root;
+            var items = new INotifyingPathItem[path.Count + 1];
+            items[0] = root;
+            INotifyingPathItem previous = root;
+            for (int i = 0; i < path.Count; i++)
+            {
+                var item = new NotifyingPathItem(previous, path[i]);
+                items[i + 1] = item;
+                previous = item;
+            }
+            _parts = items;
         }
 
         public int Count
         {
             get { return _parts.Count; }
-        }
-
-        public INotifyPropertyChanged Source
-        {
-            get
-            {
-                VerifyDisposed();
-                return (INotifyPropertyChanged)((RootItem)_parts[0]).Value;
-            }
-            set
-            {
-                VerifyDisposed();
-                ((RootItem)_parts[0]).Value = value;
-                ((NotifyingPathItem)_parts[1]).Source = value;
-            }
-        }
-
-        public object LastSource
-        {
-            get
-            {
-                return ((NotifyingPathItem)_parts.Last()).Previous.Value;
-            }
         }
 
         public INotifyingPathItem this[int index]
@@ -57,19 +42,43 @@ namespace Gu.Reactive.Internals
             }
         }
 
+        internal INotifyPropertyChanged Source
+        {
+            get
+            {
+                VerifyDisposed();
+                return (INotifyPropertyChanged)((RootItem)_parts[0]).Value;
+            }
+            set
+            {
+                VerifyDisposed();
+                _root.Value = value;
+            }
+        }
+
+        internal object LastSource
+        {
+            get
+            {
+                return ((NotifyingPathItem)_parts.Last()).Previous.Value;
+            }
+        }
+
         public static NotifyingPath Create<TSource, TValue>(Expression<Func<TSource, TValue>> propertyExpression)
         {
-            var path = ValuePath.Create(propertyExpression);
-            var items = new INotifyingPathItem[path.Count];
-            items[0] = (RootItem)path[0];
-            INotifyingPathItem previous = items[0];
-            for (int i = 1; i < path.Count; i++)
-            {
-                var item = new NotifyingPathItem(previous, (PathItem)path[i]);
-                items[i] = item;
-                previous = item;
-            }
-            return new NotifyingPath(items);
+            throw new NotImplementedException("Change to create from propertypath");
+
+            //var path = PropertyPath.Create(propertyExpression);
+            //var items = new INotifyingPathItem[path.Count];
+            //items[0] = (RootItem)path[0];
+            //INotifyingPathItem previous = items[0];
+            //for (int i = 1; i < path.Count; i++)
+            //{
+            //    var item = new NotifyingPathItem(previous, (PathProperty)path[i]);
+            //    items[i] = item;
+            //    previous = item;
+            //}
+            //return new NotifyingPath(items);
         }
 
         public IEnumerator<INotifyingPathItem> GetEnumerator()
@@ -90,8 +99,15 @@ namespace Gu.Reactive.Internals
         /// </summary>
         public void Dispose()
         {
+            if (_disposed)
+            {
+                return;
+            }
             _disposed = true;
-            // Dispose some stuff now
+            foreach (var part in _parts)
+            {
+                part.Dispose();
+            }
         }
 
         private void VerifyDisposed()

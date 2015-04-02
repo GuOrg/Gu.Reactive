@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reactive;
+    using System.Reactive.Disposables;
     using System.Reactive.Subjects;
 
     /// <summary>
@@ -14,21 +15,18 @@
     /// </typeparam>
     /// <typeparam name="TProp">
     /// </typeparam>
-    internal sealed class PathObservable<TClass, TProp> :
-        ObservableBase<EventPattern<PropertyChangedEventArgs>>,
-        IDisposable
+    internal sealed class PropertyPathObservable<TClass, TProp> :
+        ObservableBase<EventPattern<PropertyChangedEventArgs>>
         where TClass : INotifyPropertyChanged
     {
+        private readonly Expression<Func<TClass, TProp>> _propertyExpression;
         internal readonly PropertyChangedEventArgs PropertyChangedEventArgs;
-        internal readonly NotifyingPath ValuePath;
-        private readonly Subject<EventPattern<PropertyChangedEventArgs>> _subject = new Subject<EventPattern<PropertyChangedEventArgs>>();
-        private readonly IDisposable _subscription;
-        private readonly Action<EventPattern<PropertyChangedEventArgs>> _onNext;
-        private readonly Action<Exception> _onError;
+        private readonly WeakReference _sourceReference = new WeakReference(null);
         private bool _disposed;
-        
+        private readonly PropertyPath<TClass, TProp> _propertyPath;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="PathObservable{TClass,TProp}"/> class.
+        /// Initializes a new instance of the <see cref="PropertyPathObservable{TClass,TProp}"/> class.
         /// </summary>
         /// <param name="source">
         /// The source.
@@ -36,27 +34,13 @@
         /// <param name="propertyExpression">
         /// The property expression.
         /// </param>
-        public PathObservable(TClass source, Expression<Func<TClass, TProp>> propertyExpression)
+        public PropertyPathObservable(TClass source, Expression<Func<TClass, TProp>> propertyExpression)
         {
-            ValuePath = NotifyingPath.Create(propertyExpression);
-            ValuePath.Source = source;
-            var last = ValuePath.Last();
-            PropertyChangedEventArgs = last.PropertyChangedEventArgs;
-            VerifyPath(ValuePath);
-            _onNext = OnNext;
-            _onError = OnError;
-            _subscription = last.ObservePropertyChanged()
-                                .Subscribe(_onNext, _onError);
-        }
-
-        public void Dispose()
-        {
-            foreach (var pathItem in ValuePath)
-            {
-                pathItem.Dispose();
-            }
-            _subscription.Dispose();
-            _subject.Dispose();
+            _propertyExpression = propertyExpression;
+            _sourceReference.Target = source;
+            _propertyPath = PropertyPath.Create(propertyExpression);
+            VerifyPath(_propertyPath);
+            PropertyChangedEventArgs = new PropertyChangedEventArgs(_propertyPath.Last.PropertyInfo.Name);
         }
 
         /// <summary>
@@ -71,7 +55,28 @@
         protected override IDisposable SubscribeCore(IObserver<EventPattern<PropertyChangedEventArgs>> observer)
         {
             VerifyDisposed();
-            return _subject.Subscribe(observer);
+            var rootItem = new RootItem((INotifyPropertyChanged)_sourceReference.Target);
+            var path = new NotifyingPath(rootItem, _propertyPath);
+
+            var subscription = path.Last()
+                                   .ObservePropertyChanged()
+                                   .Subscribe(observer.OnNext, observer.OnError);
+            return new CompositeDisposable(2) { path, subscription };
+        }
+
+        public object LastSource
+        {
+            get
+            {
+                if (_propertyPath.Count == 1)
+                {
+                    return _sourceReference.Target;
+                }
+                var maybe = _propertyPath[_propertyPath.Count - 2].GetValue(_sourceReference.Target);
+                return maybe.HasValue
+                           ? maybe.Value
+                           : null;
+            }
         }
 
         /// <summary>
@@ -79,11 +84,11 @@
         /// </summary>
         /// <param name="path">
         /// </param>
-        private static void VerifyPath(NotifyingPath path)
+        private static void VerifyPath(IPropertyPath path)
         {
             for (int i = 1; i < path.Count; i++)
             {
-                var propertyInfo = path[i].PathItem.PropertyInfo;
+                var propertyInfo = path[i].PropertyInfo;
                 if ((i != path.Count - 1) && propertyInfo.PropertyType.IsValueType)
                 {
                     throw new ArgumentException(
@@ -114,16 +119,6 @@
                     GetType()
                         .FullName);
             }
-        }
-
-        private void OnNext(EventPattern<PropertyChangedEventArgs> e)
-        {
-            _subject.OnNext(e);
-        }
-
-        private void OnError(Exception e)
-        {
-            _subject.OnError(e);
         }
     }
 }

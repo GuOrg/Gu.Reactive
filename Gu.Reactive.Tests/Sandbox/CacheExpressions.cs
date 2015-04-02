@@ -6,6 +6,8 @@
     using System.Linq.Expressions;
     using System.Reflection;
 
+    using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
 
     [Explicit("Sandbox")]
@@ -13,7 +15,7 @@
     {
         private ConcurrentDictionary<Expression, int> _dictionary;
 
-        public FakeInpc Fake { get; set; }
+        public Fake Fake { get; set; }
 
         [SetUp]
         public void SetUp()
@@ -24,7 +26,7 @@
         [Test]
         public void TestNameTest()
         {
-            this.Fake = new FakeInpc { Next = new Level { Name = "Johan" } };
+            this.Fake = new Fake { Next = new Level { Name = "Johan" } };
 
             for (int i = 0; i < 100; i++)
             {
@@ -37,7 +39,7 @@
         public void Benchmark()
         {
             int n = 1000;
-            this.Fake = new FakeInpc { Next = new Level { Name = "Johan" } };
+            this.Fake = new Fake { Next = new Level { Name = "Johan" } };
             var sw = Stopwatch.StartNew();
 
             for (int i = 0; i < n; i++)

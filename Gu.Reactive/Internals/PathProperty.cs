@@ -3,30 +3,42 @@ namespace Gu.Reactive.Internals
     using System;
     using System.Reflection;
 
-    internal class PathItem : IPathItem
+    internal class PathProperty : IPathItem
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PathItem"/> class.
+        /// Initializes a new instance of the <see cref="PathProperty"/> class.
         /// </summary>
         /// <param name="propertyInfo">
         /// The property info.
         /// </param>
-        public PathItem(IPathItem previous, PropertyInfo propertyInfo)
+        public PathProperty(PathProperty previous, PropertyInfo propertyInfo)
         {
+            if (propertyInfo == null)
+            {
+                throw new ArgumentNullException("propertyInfo");
+            }
             if (!propertyInfo.CanRead)
             {
                 throw new ArgumentException("Propert must be readable");
             }
             Previous = previous;
-            var pathItem = previous as PathItem;
+            var pathItem = previous as PathProperty;
             if (pathItem != null)
             {
+                if (!previous.PropertyInfo.PropertyType.IsAssignableFrom(propertyInfo.DeclaringType))
+                {
+                    throw new ArgumentException();
+                }
                 pathItem.Next = this;
             }
             PropertyInfo = propertyInfo;
         }
 
-        public PathItem Next { get; private set; }
+        protected PathProperty()
+        {
+        }
+
+        public PathProperty Next { get; private set; }
 
         public IPathItem Previous { get; private set; }
 
@@ -63,11 +75,11 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        internal object GetValue(object source)
+        internal Maybe<object> GetValue(object source)
         {
             if (source == null)
             {
-                return null;
+                return new Maybe<object>(false, null);
             }
             if (source.GetType() != PropertyInfo.DeclaringType)
             {
@@ -78,7 +90,8 @@ namespace Gu.Reactive.Internals
                               .FullName,
                         PropertyInfo.DeclaringType.FullName));
             }
-            return PropertyInfo.GetValue(source);
+            var value = PropertyInfo.GetValue(source);
+            return new Maybe<object>(false, value);
         }
 
         /// <summary>

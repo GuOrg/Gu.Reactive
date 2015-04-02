@@ -6,6 +6,8 @@ namespace Gu.Reactive.Tests
     using System.Linq;
     using System.Reactive;
 
+    using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
 
     public class NotifyPropertyChangedExt_ObservePropertyChanged_NestedFilter
@@ -19,23 +21,67 @@ namespace Gu.Reactive.Tests
         }
 
         [Test]
+        public void ReactsTwoPropertiesSameInstance()
+        {
+            var fake = new Fake { Next = new Level() };
+            fake.ObservePropertyChanged(x => x.Next.Value, false)
+                .Subscribe(_changes.Add);
+
+            fake.ObservePropertyChanged(x => x.Next.IsTrue, false)
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+
+            fake.Next.Value++;
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(fake.Next, _changes.Last().Sender);
+            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+
+            fake.Next.IsTrue = !fake.IsTrue;
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(fake.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void ReactsTwoInstancesSameProperty()
+        {
+            var fake1 = new Fake { Next = new Level() };
+            fake1.ObservePropertyChanged(x => x.Next.Value, false)
+                .Subscribe(_changes.Add);
+            var fake2 = new Fake { Next = new Level() };
+            fake2.ObservePropertyChanged(x => x.Next.Value, false)
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+
+            fake1.Next.Value++;
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(fake1.Next, _changes.Last().Sender);
+            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+
+            fake2.Next.Value++;
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(fake2.Next, _changes.Last().Sender);
+            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+        }
+
+        [Test]
         public void ThrowsOnStructInPath()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.StructLevel.Name));
         }
 
         [Test]
         public void ThrowsOnNotInpcInPath()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.Name.Length));
         }
 
         [Test]
         public void ThrowsOnMethodInPath()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             Assert.Throws<InvalidCastException>(() => fake.ObservePropertyChanged(x => x.Method().Name)); // Leaving it InvalidCast here
         }
 
@@ -43,7 +89,7 @@ namespace Gu.Reactive.Tests
         [TestCase(false, 0)]
         public void SignalsInitialWhenHasValue(bool signalInitial, int expected)
         {
-            var fake = new FakeInpc { Next = new Level() };
+            var fake = new Fake { Next = new Level() };
             fake.ObservePropertyChanged(x => x.Next.Value, signalInitial)
                 .Subscribe(_changes.Add);
 
@@ -62,7 +108,7 @@ namespace Gu.Reactive.Tests
         [TestCase(false, 0)]
         public void SignalsInitialWhenNoValue(bool signalInitial, int expected)
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             fake.ObservePropertyChanged(x => x.Next.Value, signalInitial)
                 .Subscribe(_changes.Add);
 
@@ -73,15 +119,28 @@ namespace Gu.Reactive.Tests
                 Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
             }
 
-            fake.Next= new Level();
+            fake.Next = new Level();
             Assert.AreEqual(expected + 1, _changes.Count); // Double check that we are subscribing
         }
 
         [TestCase("")]
         [TestCase(null)]
-        public void ReactsOnStringEmptyOrNullFromRoot(string propertyName)
+        public void DoesReactsOnStringEmptyOrNullFromRootWhenNull(string propertyName)
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
+            var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
+            var disposable = observable.Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+
+            fake.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
+            Assert.AreEqual(0, _changes.Count);
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        public void DoesReactsOnStringEmptyOrNullFromRootWhenNotNull(string propertyName)
+        {
+            var fake = new Fake{Next = new Level()};
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
             var disposable = observable.Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
@@ -96,13 +155,13 @@ namespace Gu.Reactive.Tests
         [TestCase(null)]
         public void ReactsOnStringEmptyOrNullFromSource(string propertyName)
         {
-            var fake = new FakeInpc { Next = new Level() };
+            var fake = new Fake { Next = new Level() };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
             var disposable = observable.Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
-            
+
             fake.Next.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
-           
+
             Assert.AreEqual(1, _changes.Count);
             Assert.AreEqual(fake.Next, _changes.Last().Sender);
             Assert.AreEqual(propertyName, _changes.Last().EventArgs.PropertyName);
@@ -111,7 +170,7 @@ namespace Gu.Reactive.Tests
         [Test]
         public void TwoLevelsReacts()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             fake.ObservePropertyChanged(x => x.Next.IsTrue, true)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
@@ -132,7 +191,7 @@ namespace Gu.Reactive.Tests
         [Test]
         public void TwoLevelsRootChangesFromValueToNull()
         {
-            var fake = new FakeInpc { Next = new Level() };
+            var fake = new Fake { Next = new Level() };
             fake.ObservePropertyChanged(x => x.Next.IsTrue, true)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
@@ -148,7 +207,7 @@ namespace Gu.Reactive.Tests
         [Test]
         public void TwoLevelsRootChangesFromNullToValue()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             fake.ObservePropertyChanged(x => x.Next.IsTrue, true)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
@@ -164,7 +223,7 @@ namespace Gu.Reactive.Tests
         [Test]
         public void TwoLevelsStartingWithValue()
         {
-            var fake = new FakeInpc { Next = new Level() };
+            var fake = new Fake { Next = new Level() };
             fake.ObservePropertyChanged(x => x.Next.IsTrue, true)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
@@ -180,7 +239,7 @@ namespace Gu.Reactive.Tests
         [Test]
         public void TwoLevelsStartingWithoutValue()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             fake.ObservePropertyChanged(x => x.Next.IsTrue, true)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
@@ -203,7 +262,7 @@ namespace Gu.Reactive.Tests
         [TestCase(null, true)]
         public void TwoLevelsNullableStartingWithValue(bool? first, bool? other)
         {
-            var fake = new FakeInpc { Next = new Level { IsTrueOrNull = first } };
+            var fake = new Fake { Next = new Level { IsTrueOrNull = first } };
             fake.ObservePropertyChanged(x => x.Next.IsTrueOrNull, true)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
@@ -220,86 +279,176 @@ namespace Gu.Reactive.Tests
         [Test]
         public void ThreeLevelsStartingWithNull()
         {
-            int count = 0;
-            var fake = new FakeInpc();
+            var fake = new Fake();
             var observable = fake.ObservePropertyChanged(x => x.Next.Next.IsTrue);
-            var disposable = observable.Subscribe(x => count++);
-            Assert.AreEqual(1, count);
+            var disposable = observable.Subscribe(_changes.Add);
+            Assert.AreEqual(1, _changes.Count);
             fake.Next = new Level { Next = new Level() };
-            Assert.AreEqual(2, count);
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(fake.Next.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+
             fake.Next.Next.IsTrue = !fake.Next.Next.IsTrue;
-            Assert.AreEqual(3, count);
+            Assert.AreEqual(3, _changes.Count);
+            Assert.AreSame(fake.Next.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+
             fake.Next = null;
-            Assert.AreEqual(4, count);
+            Assert.AreEqual(4, _changes.Count);
+            Assert.AreSame(null, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        [TestCase("Next")]
+        public void FirstInPathSignalsEventWhenHasValue(string propertyName)
+        {
+            var next = new Level();
+            var fake = new Fake { Next = next };
+            fake.ObservePropertyChanged(x => x.Next.IsTrue, false)
+                .Subscribe(_changes.Add);
+            fake.OnPropertyChanged(propertyName);
+            Assert.AreEqual(1, _changes.Count);
         }
 
         [TestCase("")]
         [TestCase(null)]
         [TestCase("IsTrue")]
-        public void FirstInPathSignalsEvent(string eventargsPropertyName)
+        public void LastInPathSignalsEvent(string propertyName)
         {
-            int count = 0;
             var next = new Level();
-            var fake = new FakeInpc { Next = next };
+            var fake = new Fake { Next = next };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
-            var disposable = observable.Subscribe(x => count++);
-            fake.OnPropertyChanged(eventargsPropertyName);
-            Assert.AreEqual(0, count);
-        }
-
-        [TestCase("")]
-        [TestCase(null)]
-        [TestCase("IsTrue")]
-        public void LastInPathSignalsEvent(string eventargsPropertyName)
-        {
-            int count = 0;
-            var next = new Level();
-            var fake = new FakeInpc { Next = next };
-            var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
-            var disposable = observable.Subscribe(x => count++);
-            fake.Next.OnPropertyChanged(eventargsPropertyName);
-            Assert.AreEqual(1, count);
+            var disposable = observable.Subscribe(_changes.Add);
+            fake.Next.OnPropertyChanged(propertyName);
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(fake.Next, _changes.Last().Sender);
+            Assert.AreEqual(propertyName, _changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
         public void ThreeLevelsExisting()
         {
-            int count = 0;
-            var fake = new FakeInpc { Next = new Level { Next = new Level() } };
+            var fake = new Fake { Next = new Level { Next = new Level() } };
             var observable = fake.ObservePropertyChanged(x => x.Next.Next.IsTrue);
-            var disposable = observable.Subscribe(x => count++);
-            Assert.AreEqual(1, count);
+            var disposable = observable.Subscribe(_changes.Add);
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(fake.Next.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+
             fake.Next.Next.IsTrue = !fake.Next.Next.IsTrue;
-            Assert.AreEqual(2, count);
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(fake.Next.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void ThreeLevelsExistingLevelBecomesNull()
+        {
+            var fake = new Fake { Next = new Level { Next = new Level() } };
+            var observable = fake.ObservePropertyChanged(x => x.Next.Next.IsTrue);
+            var disposable = observable.Subscribe(_changes.Add);
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(fake.Next.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+
+            fake.Next = null;
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(null, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void ThreeLevelsExistingLevelBecomesNew()
+        {
+            var fake = new Fake { Next = new Level { Next = new Level() } };
+            var observable = fake.ObservePropertyChanged(x => x.Next.Next.IsTrue);
+            var disposable = observable.Subscribe(_changes.Add);
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(fake.Next.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+
+            fake.Next = new Level(){Next = new Level()};
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(fake.Next.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
         public void Reacts()
         {
-            var args = new List<EventPattern<PropertyChangedEventArgs>>();
-            var fake = new FakeInpc();
+            var fake = new Fake();
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue);
-            observable.Subscribe(args.Add);
-            Assert.AreEqual(1, args.Count);
+            observable.Subscribe(_changes.Add);
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(fake.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+
             fake.Next = new Level { IsTrue = false };
-            Assert.AreEqual(2, args.Count);
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(fake.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+
             fake.Next.IsTrue = true;
-            Assert.AreEqual(3, args.Count);
+            Assert.AreEqual(3, _changes.Count);
+            Assert.AreSame(fake.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+
             Level level1 = fake.Next;
             fake.Next = null;
-            Assert.AreEqual(4, args.Count);
+            Assert.AreEqual(4, _changes.Count);
+            Assert.AreSame(fake.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+
             level1.IsTrue = !level1.IsTrue;
-            Assert.AreEqual(4, args.Count);
+            Assert.AreEqual(4, _changes.Count);
+            Assert.AreSame(fake.Next, _changes.Last().Sender);
+            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
-        public void MemoryLeakDisposeTest()
+        public void MemoryLeakRootDisposeTest()
         {
-            var fake = new FakeInpc { Next = new Level() };
-            var wr = new WeakReference(fake);
-            var subscription = fake.ObservePropertyChanged()
-                                   .Subscribe();
-            fake = null;
+            var rootRef = new WeakReference(null);
+            var levelRef = new WeakReference(null);
+            IObservable<EventPattern<PropertyChangedAndValueEventArgs<string>>> observable = null;
+            new Action(
+                () =>
+                {
+                    var level = new Level();
+                    var fake = new Fake { Next = level };
+                    rootRef.Target = fake;
+                    levelRef.Target = fake.Next;
+                    Assert.IsTrue(rootRef.IsAlive);
+                    observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
+                })();
+            // http://stackoverflow.com/a/579001/1069200
+            var subscription = observable.Subscribe();
+            subscription.Dispose();
+            GC.Collect();
+            Assert.IsFalse(rootRef.IsAlive);
+            Assert.IsFalse(levelRef.IsAlive);
+            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
+        }
+
+        [Test]
+        public void MemoryLeakLevelDisposeTest()
+        {
+            WeakReference wr = new WeakReference(null);
+            IObservable<EventPattern<PropertyChangedAndValueEventArgs<string>>> observable = null;
+            new Action(
+                () =>
+                {
+                    var level = new Level();
+                    var fake = new Fake { Next = level };
+                    wr.Target = fake.Next;
+                    Assert.IsTrue(wr.IsAlive);
+                    observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
+                })();
+            // http://stackoverflow.com/a/579001/1069200
+
+            var subscription = observable.Subscribe();
             subscription.Dispose();
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
@@ -310,10 +459,11 @@ namespace Gu.Reactive.Tests
         public void MemoryLeakLevelNoDisposeTest()
         {
             var level = new Level();
-            var fake = new FakeInpc { Next = level };
+            var fake = new Fake { Next = level };
             var wr = new WeakReference(level);
-            var subscription = fake.ObservePropertyChanged().Subscribe();
-            fake = null;
+            var subscription = fake.ObservePropertyChanged(x => x.Next.Value).Subscribe();
+            level = null;
+            fake.Next = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
             var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
@@ -322,13 +472,24 @@ namespace Gu.Reactive.Tests
         [Test]
         public void MemoryLeakRootNoDisposeTest()
         {
-            var level = new Level();
-            var fake = new FakeInpc { Next = level };
-            var wr = new WeakReference(fake);
-            var subscription = fake.ObservePropertyChanged().Subscribe();
-            fake = null;
+            var rootRef = new WeakReference(null);
+            var levelRef = new WeakReference(null);
+            IObservable<EventPattern<PropertyChangedAndValueEventArgs<string>>> observable = null;
+            new Action(
+                () =>
+                {
+                    var level = new Level();
+                    var fake = new Fake { Next = level };
+                    rootRef.Target = fake;
+                    levelRef.Target = fake.Next;
+                    Assert.IsTrue(rootRef.IsAlive);
+                    observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
+                })();
+            // http://stackoverflow.com/a/579001/1069200
+            var subscription = observable.Subscribe();
             GC.Collect();
-            Assert.IsFalse(wr.IsAlive);
+            Assert.IsFalse(rootRef.IsAlive);
+            Assert.IsFalse(levelRef.IsAlive);
             var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
     }

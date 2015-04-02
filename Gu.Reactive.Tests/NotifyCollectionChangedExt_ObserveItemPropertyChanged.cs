@@ -5,24 +5,26 @@ namespace Gu.Reactive.Tests
     using System.Collections.ObjectModel;
     using System.Reactive;
 
+    using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
 
     public class NotifyCollectionChangedExt_ObserveItemPropertyChanged
     {
-        private List<EventPattern<ItemPropertyChangedEventArgs<FakeInpc, string>>> _changes;
+        private List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> _changes;
 
         [SetUp]
         public void SetUp()
         {
-            _changes = new List<EventPattern<ItemPropertyChangedEventArgs<FakeInpc, string>>>();
+            _changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
         }
 
         [Test]
         public void SignalsInitial()
         {
-            var item1 = new FakeInpc { Name = "1" };
-            var item2 = new FakeInpc { Name = "2" };
-            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var item1 = new Fake { Name = "1" };
+            var item2 = new Fake { Name = "2" };
+            var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, true)
                                          .Subscribe(_changes.Add);
 
@@ -41,9 +43,9 @@ namespace Gu.Reactive.Tests
         [Test]
         public void DoesNotSignalInitial()
         {
-            var item1 = new FakeInpc { Name = "1" };
-            var item2 = new FakeInpc { Name = "2" };
-            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var item1 = new Fake { Name = "1" };
+            var item2 = new Fake { Name = "2" };
+            var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
@@ -52,9 +54,9 @@ namespace Gu.Reactive.Tests
         [Test]
         public void Reacts()
         {
-            var item1 = new FakeInpc { Name = "1" };
-            var item2 = new FakeInpc { Name = "2" };
-            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var item1 = new Fake { Name = "1" };
+            var item2 = new Fake { Name = "2" };
+            var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
@@ -69,9 +71,9 @@ namespace Gu.Reactive.Tests
         [Test]
         public void ReactsNested()
         {
-            var item1 = new FakeInpc { Next = new Level { Name = "1" } };
-            var item2 = new FakeInpc();
-            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var item1 = new Fake { Next = new Level { Name = "1" } };
+            var item2 = new Fake();
+            var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Next.Name, false)
                                          .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
@@ -93,8 +95,8 @@ namespace Gu.Reactive.Tests
         [Test]
         public void ReactsOnceWhenSameItemIsTwoElements()
         {
-            var item1 = new FakeInpc { Name = "1" };
-            var collection = new ObservableCollection<FakeInpc> { item1, item1 };
+            var item1 = new Fake { Name = "1" };
+            var collection = new ObservableCollection<Fake> { item1, item1 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
@@ -109,8 +111,8 @@ namespace Gu.Reactive.Tests
         [Test]
         public void HandlesNullItem()
         {
-            var item1 = new FakeInpc { Name = "1" };
-            var collection = new ObservableCollection<FakeInpc> { item1, null };
+            var item1 = new Fake { Name = "1" };
+            var collection = new ObservableCollection<Fake> { item1, null };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
@@ -123,7 +125,7 @@ namespace Gu.Reactive.Tests
             Assert.AreEqual("Name", _changes[0].EventArgs.PropertyName);
             collection.Remove(null);
             Assert.AreEqual(1, _changes.Count);
-            var item2 = new FakeInpc { Name = "2" };
+            var item2 = new Fake { Name = "2" };
             collection[1] = item2;
             Assert.AreEqual(2, _changes.Count);
             Assert.AreSame(collection, _changes[1].Sender);
@@ -135,13 +137,13 @@ namespace Gu.Reactive.Tests
         [Test]
         public void ReactsToAdd()
         {
-            var item1 = new FakeInpc { Name = "1" };
-            var item2 = new FakeInpc { Name = "2" };
-            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var item1 = new Fake { Name = "1" };
+            var item2 = new Fake { Name = "2" };
+            var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
-            var item3 = new FakeInpc() { Name = "3" };
+            var item3 = new Fake() { Name = "3" };
             collection.Add(item3);
             Assert.AreEqual(1, _changes.Count);
             Assert.AreSame(collection, _changes[0].Sender);
@@ -153,13 +155,13 @@ namespace Gu.Reactive.Tests
         [Test]
         public void ReactsToReplace()
         {
-            var item1 = new FakeInpc { Name = "1" };
-            var item2 = new FakeInpc { Name = "2" };
-            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var item1 = new Fake { Name = "1" };
+            var item2 = new Fake { Name = "2" };
+            var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
-            var item3 = new FakeInpc() { Name = "3" };
+            var item3 = new Fake() { Name = "3" };
             collection[0] = item3;
             Assert.AreEqual(1, _changes.Count);
             Assert.AreSame(collection, _changes[0].Sender);
@@ -174,9 +176,9 @@ namespace Gu.Reactive.Tests
         [Test]
         public void RemoveRemovesSubscription()
         {
-            var item1 = new FakeInpc { Name = "1" };
-            var item2 = new FakeInpc { Name = "2" };
-            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var item1 = new Fake { Name = "1" };
+            var item2 = new Fake { Name = "2" };
+            var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
@@ -188,48 +190,48 @@ namespace Gu.Reactive.Tests
         [Test]
         public void DisposeStopsSubscribing()
         {
-            var item1 = new FakeInpc { Name = "1" };
-            var item2 = new FakeInpc { Name = "2" };
-            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var item1 = new Fake { Name = "1" };
+            var item2 = new Fake { Name = "2" };
+            var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
             subscription.Dispose();
-            collection.Add(new FakeInpc() { Name = "3" });
+            collection.Add(new Fake() { Name = "3" });
             CollectionAssert.IsEmpty(_changes);
         }
 
-        [Explicit("Fix")]
         [Test]
         public void MemoryLeakDisposeTest()
         {
-            var item1 = new FakeInpc { Name = "1" };
-            var item2 = new FakeInpc { Name = "2" };
-            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var collection = new ObservableCollection<Fake> {  new Fake { Name = "1" },  new Fake { Name = "2" } };
 
-            var wr = new WeakReference(collection);
+            var collectionRef = new WeakReference(collection);
+            var item1Ref = new WeakReference(collection[0]);
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
+            CollectionAssert.IsEmpty(_changes);
             collection = null;
             subscription.Dispose();
             GC.Collect();
-            Assert.IsFalse(wr.IsAlive);
+            Assert.IsFalse(collectionRef.IsAlive);
+            Assert.IsFalse(item1Ref.IsAlive);
             var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
-        [Explicit("Fix")]
         [Test]
         public void MemoryLeakNoDisposeTest()
         {
-            var item1 = new FakeInpc { Name = "1" };
-            var item2 = new FakeInpc { Name = "2" };
-            var collection = new ObservableCollection<FakeInpc> { item1, item2 };
+            var collection = new ObservableCollection<Fake> { new Fake { Name = "1" }, new Fake { Name = "2" } };
 
-            var wr = new WeakReference(collection);
+            var collectionRef = new WeakReference(collection);
+            var item1Ref = new WeakReference(collection[0]);
+
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
             collection = null;
             GC.Collect();
-            Assert.IsFalse(wr.IsAlive);
+            Assert.IsFalse(collectionRef.IsAlive);
+            Assert.IsFalse(item1Ref.IsAlive);
             var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
     }
