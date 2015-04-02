@@ -16,11 +16,10 @@ namespace Gu.Reactive.Internals
         IEnumerable<TItem>, IDisposable
         where TItem : class, INotifyPropertyChanged
     {
+        private static readonly ObjectIdentityComparer<TItem> IdentityComparer = new ObjectIdentityComparer<TItem>();
+
         private readonly bool _signalInitial;
         private readonly PropertyPath<TItem, TValue> _propertyPath;
-        private readonly Expression<Func<TItem, TValue>> _property;
-
-        private static readonly ObjectIdentityComparer<TItem> IdentityComparer = new ObjectIdentityComparer<TItem>();
         private readonly WeakReference _wr = new WeakReference(null);
         private readonly ConcurrentDictionary<TItem, IDisposable> _map = new ConcurrentDictionary<TItem, IDisposable>(IdentityComparer);
         private readonly object _lock = new object();
@@ -29,13 +28,10 @@ namespace Gu.Reactive.Internals
         private bool _intialized;
         private IDisposable _sourceSubscription;
 
-        public CollectionItemsObservable(ObservableCollection<TItem> collection, bool signalInitial, PropertyPath<TItem, TValue> propertyPath, Expression<Func<TItem, TValue>> property)
+        public CollectionItemsObservable(ObservableCollection<TItem> collection, bool signalInitial, PropertyPath<TItem, TValue> propertyPath)
         {
-            throw new NotImplementedException("Get rid of property and use propertypath only, perf");
-            
             _signalInitial = signalInitial;
             _propertyPath = propertyPath;
-            _property = property;
             _wr.Target = collection;
         }
 
@@ -178,7 +174,7 @@ namespace Gu.Reactive.Internals
 
         private IDisposable ObserveItem(TItem item)
         {
-            var itemSubscription = item.ObservePropertyChangedWithValue(_property, _intialized || _signalInitial)
+            var itemSubscription = item.ObservePropertyChangedWithValue(_propertyPath, _intialized || _signalInitial)
                                          .Subscribe(x => OnItemPropertyChanged(item, x));
             return itemSubscription;
         }

@@ -39,25 +39,34 @@
             var pe = me.Expression as ParameterExpression;
             if (pe == null)
             {
-                var observable = new PropertyPathObservable<TNotifier, TProperty>(source, property);
-                if (signalInitial)
-                {
-                    return Observable.Defer(
-                        () =>
-                        {
-                            var current = new EventPattern<PropertyChangedEventArgs>(
-                                observable.Sender,
-                                observable.PropertyChangedEventArgs);
-                            return Observable.Return(current)
-                                             .Concat(observable);
-                        });
-                }
-
-                return observable;
+                var path = PropertyPath.Create(property);
+                return source.ObservePropertyChanged(path, signalInitial);
             }
 
             string name = me.Member.Name;
             return source.ObservePropertyChanged(name, signalInitial);
+        }
+
+        internal static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
+            this TNotifier source,
+            PropertyPath<TNotifier, TProperty> property,
+            bool signalInitial = true)
+            where TNotifier : INotifyPropertyChanged
+        {
+            var observable = new PropertyPathObservable<TNotifier, TProperty>(source, property);
+            if (signalInitial)
+            {
+                return Observable.Defer(
+                    () =>
+                    {
+                        var current = new EventPattern<PropertyChangedEventArgs>(
+                            observable.Sender,
+                            observable.PropertyChangedEventArgs);
+                        return Observable.Return(current).Concat(observable);
+                    });
+            }
+
+            return observable;
         }
 
         /// <summary>
@@ -125,34 +134,42 @@
             bool signalInitial = true)
             where TNotifier : INotifyPropertyChanged
         {
-            var wr = new WeakReference(source);
-            var name = NameOf.Property(property);
-            var observable = source.ObservePropertyChanged(property, false);
+            var propertyPath = PropertyPath.Create(property);
+            return source.ObservePropertyChangedWithValue(propertyPath, signalInitial);
+        }
 
+        internal static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>>ObservePropertyChangedWithValue<TNotifier, TProperty>(
+            this TNotifier source,
+            PropertyPath<TNotifier, TProperty> propertyPath,
+            bool signalInitial = true) where TNotifier : INotifyPropertyChanged
+        {
+            var wr = new WeakReference(source);
+            var observable = source.ObservePropertyChanged(propertyPath, false);
             return Observable.Defer(
                 () =>
-                {
-                    var valuePath = PropertyPath.Create(property);
-
-                    var withValues = observable.Select(x => new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
-                                                            x.Sender,
-                                                            new PropertyChangedAndValueEventArgs<TProperty>(
-                                                                x.EventArgs.PropertyName,
-                                                                valuePath.GetValue((TNotifier)wr.Target))));
-                    if (signalInitial)
                     {
-                        var valueAndSource = valuePath.GetValueAndSender((TNotifier)wr.Target);
-                        var current = new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
-                            valueAndSource.Source,
-                            new PropertyChangedAndValueEventArgs<TProperty>(
-                                name,
-                                valueAndSource.Value));
-                        return Observable.Return(current)
-                                         .Concat(withValues);
-                    }
+                        var withValues =
+                            observable.Select(
+                                x =>
+                                new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
+                                    x.Sender,
+                                    new PropertyChangedAndValueEventArgs<TProperty>(
+                                    x.EventArgs.PropertyName,
+                                    propertyPath.GetValue((TNotifier)wr.Target))));
+                        if (signalInitial)
+                        {
+                            var valueAndSource = propertyPath.GetValueAndSender((TNotifier)wr.Target);
+                            var current =
+                                new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
+                                    valueAndSource.Source,
+                                    new PropertyChangedAndValueEventArgs<TProperty>(
+                                        propertyPath.Last.PropertyInfo.Name,
+                                        valueAndSource.Value));
+                            return Observable.Return(current).Concat(withValues);
+                        }
 
-                    return withValues;
-                });
+                        return withValues;
+                    });
         }
 
         /// <summary>

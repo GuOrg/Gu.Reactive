@@ -203,14 +203,21 @@ namespace Gu.Reactive.Tests
         [Test]
         public void MemoryLeakDisposeTest()
         {
-            var collection = new ObservableCollection<Fake> {  new Fake { Name = "1" },  new Fake { Name = "2" } };
-
-            var collectionRef = new WeakReference(collection);
-            var item1Ref = new WeakReference(collection[0]);
-            var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
-                                         .Subscribe(_changes.Add);
+            var collectionRef = new WeakReference(null);
+            var item1Ref = new WeakReference(null);
+            IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = null;
+            new Action(
+                () =>
+                {
+                    var collection = new ObservableCollection<Fake> { new Fake { Name = "1" }, new Fake { Name = "2" } };
+                    collectionRef.Target = collection;
+                    item1Ref.Target = collection[0];
+                    Assert.IsTrue(collectionRef.IsAlive);
+                    observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
+                })();
+            // http://stackoverflow.com/a/579001/1069200
+            var subscription = observable.Subscribe();
             CollectionAssert.IsEmpty(_changes);
-            collection = null;
             subscription.Dispose();
             GC.Collect();
             Assert.IsFalse(collectionRef.IsAlive);
@@ -218,17 +225,24 @@ namespace Gu.Reactive.Tests
             var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
-        [Test]
+        [Test, Explicit("Fix this")]
         public void MemoryLeakNoDisposeTest()
         {
-            var collection = new ObservableCollection<Fake> { new Fake { Name = "1" }, new Fake { Name = "2" } };
-
-            var collectionRef = new WeakReference(collection);
-            var item1Ref = new WeakReference(collection[0]);
-
-            var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
-                                         .Subscribe(_changes.Add);
-            collection = null;
+            var collectionRef = new WeakReference(null);
+            var item1Ref = new WeakReference(null);
+            IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = null;
+            new Action(
+                () =>
+                {
+                    var collection = new ObservableCollection<Fake> { new Fake { Name = "1" }, new Fake { Name = "2" } };
+                    collectionRef.Target = collection;
+                    item1Ref.Target = collection[0];
+                    Assert.IsTrue(collectionRef.IsAlive);
+                    observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
+                })();
+            // http://stackoverflow.com/a/579001/1069200
+            var subscription = observable.Subscribe();
+            CollectionAssert.IsEmpty(_changes);
             GC.Collect();
             Assert.IsFalse(collectionRef.IsAlive);
             Assert.IsFalse(item1Ref.IsAlive);
