@@ -18,7 +18,7 @@
                         typeof(TValue).FullName,
                         last.PropertyInfo.PropertyType.FullName));
             }
-            _maybe = propertyPath.GetValue(source).As<TValue>();
+            _maybe = propertyPath.GetValue<TValue>(source);
         }
 
         public bool HasValue

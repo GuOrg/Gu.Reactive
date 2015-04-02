@@ -60,11 +60,11 @@ namespace Gu.Reactive.Internals
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
-        internal Maybe<object> GetValue(object source)
+        internal Maybe<T> GetValue<T>(object source)
         {
             if (source == null)
             {
-                return new Maybe<object>(false, null);
+                return new Maybe<T>(false, default(T));
             }
             if (Previous == null)
             {
@@ -78,19 +78,19 @@ namespace Gu.Reactive.Internals
                             PropertyInfo.DeclaringType.FullName));
                 }
                 var o = PropertyInfo.GetValue(source);
-                return new Maybe<object>(true,o);
+                return new Maybe<T>(true,(T)o);
             }
-            var maybe = Previous.GetValue(source);
+            var maybe = Previous.GetValue<object>(source);
             if (!maybe.HasValue)
             {
-                return maybe;
+                return maybe.As<T>();
             }
             if (maybe.Value == null)
             {
-                return new Maybe<object>(false, null);
+                return new Maybe<T>(false, default(T));
             }
-            var value = PropertyInfo.GetValue(maybe.Value);
-            return new Maybe<object>(true, value);
+            var value = (T)PropertyInfo.GetValue(maybe.Value);
+            return new Maybe<T>(true, value);
         }
 
         /// <summary>

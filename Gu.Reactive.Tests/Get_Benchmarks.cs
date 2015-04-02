@@ -45,7 +45,7 @@ namespace Gu.Reactive.Tests
             var path = Get.ValuePath<Get_Benchmarks, string>(x => x.Fake.Next.Name);
             for (int i = 0; i < n; i++)
             {
-                var name = path.Value(this).Value;
+                var name = path.GetValue(this).Value;
             }
             sw.Stop();
             Console.WriteLine(
@@ -80,7 +80,7 @@ namespace Gu.Reactive.Tests
             var sw = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
-                var name = path.Value(this).Value;
+                var name = path.GetValue(this).Value;
             }
             sw.Stop();
             Console.WriteLine(

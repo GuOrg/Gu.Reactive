@@ -133,6 +133,7 @@
     <Compile Include="Internals\PropertyPath`2.cs" />
     <Compile Include="Internals\Maybe`1.cs" />
     <Compile Include="Internals\ItemsObservable`2.cs" />
+    <Compile Include="Internals\ValueAndSender.cs" />
     <Compile Include="NotifyCollectionChangedExt.cs" />
     <Compile Include="Conditions\IConditionService.cs" />
     <Compile Include="NameOf.cs" />

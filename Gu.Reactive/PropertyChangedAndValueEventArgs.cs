@@ -11,6 +11,15 @@
             HasValue = hasValue;
         }
 
+        public PropertyChangedAndValueEventArgs(string propertyName, IMaybe<TProperty> maybe)
+            : base(propertyName)
+        {
+            HasValue = maybe.HasValue;
+            Value = maybe.HasValue
+                        ? maybe.Value
+                        : default(TProperty);
+        }
+
         /// <summary>
         /// Use this to check if the returned value is a default value or read from source.
         /// Example: if subscribing to x => x.Next.Name and Next is null then IsDefaultValue will be true.
