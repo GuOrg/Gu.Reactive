@@ -120,7 +120,10 @@
     <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />
     <Compile Include="Internals\ConstantVisitor.cs" />
+    <Compile Include="Internals\IPropertyPath.cs" />
+    <Compile Include="Internals\MaybeExt.cs" />
     <Compile Include="Internals\ObjectIdentityComparer`1.cs" />
+    <Compile Include="Internals\PropertyPath`1.cs" />
     <Compile Include="Internals\RwLock.cs" />
     <Compile Include="Internals\INotifyingPathItem.cs" />
     <Compile Include="Internals\IPathItem.cs" />
@@ -128,7 +131,7 @@
     <Compile Include="Internals\NotifyingPath.cs" />
     <Compile Include="Internals\NotifyingPathItem.cs" />
     <Compile Include="Internals\RootItem.cs" />
-    <Compile Include="Internals\ValuePath`2.cs" />
+    <Compile Include="Internals\PropertyPath`2.cs" />
     <Compile Include="Internals\Maybe`1.cs" />
     <Compile Include="Internals\ItemsObservable`2.cs" />
     <Compile Include="NotifyCollectionChangedExt.cs" />
@@ -144,9 +147,9 @@
     <Compile Include="Conditions\OrCondition.cs" />
     <Compile Include="Conditions\OrConditionCollection.cs" />
     <Compile Include="FixedSizedQueue.cs" />
-    <Compile Include="Internals\ValuePath.cs" />
-    <Compile Include="Internals\PathItem.cs" />
-    <Compile Include="Internals\PathObservable.cs" />
+    <Compile Include="Internals\PropertyPath.cs" />
+    <Compile Include="Internals\PathProperty.cs" />
+    <Compile Include="Internals\PropertyPathObservable.cs" />
     <Compile Include="PropertyChangedAndValueEventArgs.cs" />
     <Compile Include="Internals\PropertyPathVisitor.cs" />
     <Compile Include="Properties\Annotations.generated.cs" />

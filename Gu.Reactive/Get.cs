@@ -9,39 +9,39 @@
     public static class Get
     {
         public static TValue ValueOrDefault<TSource, TValue>(
-            this TSource source,
+            TSource source,
             Expression<Func<TSource, TValue>> path,
             TValue @default = default (TValue))
         {
-            var valuePath = Internals.ValuePath.Create(path);
-            valuePath.Source = source;
-            if (valuePath.HasValue)
+            var valuePath = Internals.PropertyPath.Create(path);
+            var maybe = valuePath.Value(source);
+            if (maybe.HasValue)
             {
-                return (TValue)valuePath.ValueOrDefault;
+                return maybe.Value;
             }
             return @default;
         }
 
         public static TValue ValueOrDefault<TValue>(Expression<Func<TValue>> path, TValue @default = default (TValue))
         {
-            var valuePath = Internals.ValuePath.Create(path);
+            var valuePath = Internals.PropertyPath.Create(path);
             if (valuePath.HasValue)
             {
-                return (TValue)valuePath.ValueOrDefault;
+                return valuePath.Value;
             }
             return @default;
         }
 
-        public static IValuePath<TSource,TValue> ValuePath<TSource, TValue>(Expression<Func<TSource, TValue>> path)
+        internal static IValuePath<TSource, TValue> ValuePath<TSource, TValue>(Expression<Func<TSource, TValue>> path)
         {
-            var valuePath = Internals.ValuePath.Create(path);
-            return valuePath.As<TSource, TValue>();
+            var valuePath = Internals.PropertyPath.Create(path);
+            return valuePath;
         }
 
-        public static IMaybe<TValue> ValuePath<TValue>(Expression<Func<TValue>> path)
+        internal static IMaybe<TValue> ValuePath<TValue>(Expression<Func<TValue>> path)
         {
-            var valuePath = Internals.ValuePath.Create(path);
-            return new Maybe<TValue>(valuePath.HasValue, (TValue)valuePath.ValueOrDefault);
+            var valuePath = Internals.PropertyPath.Create(path);
+            return valuePath;
         }
     }
 }

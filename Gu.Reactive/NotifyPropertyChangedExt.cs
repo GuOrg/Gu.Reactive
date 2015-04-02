@@ -39,14 +39,14 @@
             var pe = me.Expression as ParameterExpression;
             if (pe == null)
             {
-                var observable = new PathObservable<TNotifier, TProperty>(source, property);
+                var observable = new PropertyPathObservable<TNotifier, TProperty>(source, property);
                 if (signalInitial)
                 {
                     return Observable.Defer(
                         () =>
                         {
                             var current = new EventPattern<PropertyChangedEventArgs>(
-                                observable.ValuePath.Last().Source, 
+                                observable.LastSource, 
                                 observable.PropertyChangedEventArgs);
                             return Observable.Return(current)
                                              .Concat(observable);
@@ -80,11 +80,11 @@
             string name,
             bool signalInitial = true)
         {
-            var wr = new WeakReference(source);
             var observable = source.ObservePropertyChanged()
                                    .Where(e => IsPropertyName(e, name));
             if (signalInitial)
             {
+                var wr = new WeakReference(source);
                 return Observable.Defer(
                     () =>
                     {
@@ -128,31 +128,32 @@
             var wr = new WeakReference(source);
             var name = NameOf.Property(property);
             var observable = source.ObservePropertyChanged(property, false);
-            return Observable.Defer(
-                () =>
-                {
-                    var valuePath = ValuePath.Create(property);
-                    valuePath.Source = wr.Target;
-                    var withValues = observable.Select(x => new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
-                                                            x.Sender,
-                                                            new PropertyChangedAndValueEventArgs<TProperty>(
-                                                                x.EventArgs.PropertyName,
-                                                                (TProperty)valuePath.ValueOrDefault,
-                                                                valuePath.HasValue)));
-                    if (signalInitial)
-                    {
-                        var current = new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
-                            valuePath.LastSource,
-                            new PropertyChangedAndValueEventArgs<TProperty>(
-                                name,
-                                (TProperty)valuePath.ValueOrDefault,
-                                valuePath.HasValue));
-                        return Observable.Return(current)
-                                         .Concat(withValues);
-                    }
+            throw new NotImplementedException("message");
+            
+            //return Observable.Defer(
+            //    () =>
+            //    {
+            //        var valuePath = PropertyPath.Create(property);
+            //        var maybe = valuePath.Value( (TNotifier)wr.Target);
+            //        var withValues = observable.Select(x => new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
+            //                                                x.Sender,
+            //                                                new PropertyChangedAndValueEventArgs<TProperty>(
+            //                                                    x.EventArgs.PropertyName,
+            //                                                    maybe.HasValue)));
+            //        if (signalInitial)
+            //        {
+            //            var current = new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
+            //                valuePath.LastSource,
+            //                new PropertyChangedAndValueEventArgs<TProperty>(
+            //                    name,
+            //                    (TProperty)valuePath.ValueOrDefault,
+            //                    valuePath.HasValue));
+            //            return Observable.Return(current)
+            //                             .Concat(withValues);
+            //        }
 
-                    return withValues;
-                });
+            //        return withValues;
+            //    });
         }
 
         /// <summary>

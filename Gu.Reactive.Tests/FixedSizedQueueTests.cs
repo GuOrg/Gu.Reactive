@@ -5,7 +5,6 @@
 
     using NUnit.Framework;
 
-    [Explicit("Does not work on build server")]
     public class FixedSizedQueueTests
     {
         private const int Size = 2;

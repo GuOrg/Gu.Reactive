@@ -5,6 +5,9 @@
     using System.Diagnostics;
     using System.Reactive;
     using System.Reactive.Linq;
+
+    using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
    
     [Explicit("Longrunning benchmarks")]
@@ -16,7 +19,7 @@
         public void ToObservable()
         {
             var observables = new IObservable<EventPattern<PropertyChangedEventArgs>>[n];
-            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true };
+            var fake = new Fake { IsTrueOrNull = false, IsTrue = true };
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
@@ -30,7 +33,7 @@
         {
             int n = 1000;
             var observables = new IObservable<EventPattern<PropertyChangedEventArgs>>[n];
-            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
+            var fake = new Fake { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
@@ -44,7 +47,7 @@
         {
             int n = 1000;
             var observables = new IDisposable[n];
-            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true };
+            var fake = new Fake { IsTrueOrNull = false, IsTrue = true };
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
@@ -58,7 +61,7 @@
         {
             const int n = 1000;
             var observables = new IDisposable[n];
-            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
+            var fake = new Fake { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
@@ -71,7 +74,7 @@
         public void React()
         {
             int count = 0;
-            var fake = new FakeInpc { IsTrueOrNull = false, IsTrue = true };
+            var fake = new Fake { IsTrueOrNull = false, IsTrue = true };
             var stopwatch = Stopwatch.StartNew();
             var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false).Subscribe(x => count++);
             for (int i = 0; i < n; i++)
@@ -87,7 +90,7 @@
         public void ReactNested()
         {
             int count = 0;
-            var fake = new FakeInpc { Next = new Level()};
+            var fake = new Fake { Next = new Level()};
             var stopwatch = Stopwatch.StartNew();
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false).Subscribe(x => count++);
             for (int i = 0; i < n; i++)

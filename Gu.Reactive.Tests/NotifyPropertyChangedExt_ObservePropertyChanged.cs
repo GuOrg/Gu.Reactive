@@ -6,6 +6,8 @@
     using System.Linq;
     using System.Reactive;
 
+    using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
 
     public class NotifyPropertyChangedExt_ObservePropertyChanged
@@ -21,7 +23,7 @@
         [Test]
         public void DoesNotSIgnalSubscribe()
         {
-            var fake = new FakeInpc { Value = 1 };
+            var fake = new Fake { Value = 1 };
             var observable = fake.ObservePropertyChanged();
             var disposable = observable.Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
@@ -32,7 +34,7 @@
         [TestCase("Value")]
         public void ReactsOnStringEmptyOrNull(string prop)
         {
-            var fake = new FakeInpc { Value = 1 };
+            var fake = new Fake { Value = 1 };
             fake.ObservePropertyChanged()
                 .Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
@@ -43,51 +45,73 @@
         [Test]
         public void ReactsOnEvent()
         {
-            var fake = new FakeInpc { Value = 1 };
+            var fake = new Fake { Value = 1 };
             fake.ObservePropertyChanged()
                 .Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
-            fake.OnPropertyChanged(NameOf.Property<FakeInpc>(x => x.Value));
+            fake.OnPropertyChanged("Value");
             Assert.AreEqual(1, _changes.Count);
             Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual(NameOf.Property<FakeInpc>(x => x.Value), _changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
         public void ReactsValue()
         {
-            var fake = new FakeInpc { Value = 1 };
+            var fake = new Fake { Value = 1 };
             fake.ObservePropertyChanged()
                 .Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
             fake.Value++;
             Assert.AreEqual(1, _changes.Count);
             Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual(NameOf.Property<FakeInpc>(x => x.Value), _changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+        }
+
+        [Test]
+        public void ReactsTwoInstancesValue()
+        {
+            var fake1 = new Fake { Value = 1 };
+            fake1.ObservePropertyChanged()
+                .Subscribe(_changes.Add);
+            var fake2 = new Fake { Value = 1 };
+            fake2.ObservePropertyChanged()
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+            
+            fake1.Value++;
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreSame(fake1, _changes.Last().Sender);
+            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+
+            fake2.Value++;
+            Assert.AreEqual(2, _changes.Count);
+            Assert.AreSame(fake2, _changes.Last().Sender);
+            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
         public void ReactsNullable()
         {
-            var fake = new FakeInpc { IsTrueOrNull = null};
+            var fake = new Fake { IsTrueOrNull = null};
             var observable = fake.ObservePropertyChanged();
             var disposable = observable.Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
             fake.IsTrueOrNull = true;
             Assert.AreEqual(1, _changes.Count);
             Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual(NameOf.Property<FakeInpc>(x => x.IsTrueOrNull), _changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual("IsTrueOrNull", _changes.Last().EventArgs.PropertyName);
 
             fake.IsTrueOrNull = null;
             Assert.AreEqual(2, _changes.Count);
             Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual(NameOf.Property<FakeInpc>(x => x.IsTrueOrNull), _changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual("IsTrueOrNull", _changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
         public void StopsListeningOnDispose()
         {
-            var fake = new FakeInpc { IsTrue = true };
+            var fake = new Fake { IsTrue = true };
             var observable = fake.ObservePropertyChanged();
             var disposable = observable.Subscribe(_changes.Add);
             fake.IsTrue = !fake.IsTrue;
@@ -100,7 +124,7 @@
         [Test]
         public void MemoryLeakDisposeTest()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             var wr = new WeakReference(fake);
             var subscription = fake.ObservePropertyChanged().Subscribe();
             fake = null;
@@ -113,7 +137,7 @@
         [Test]
         public void MemoryLeakNoDisposeTest()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             var wr = new WeakReference(fake);
             var subscription = fake.ObservePropertyChanged().Subscribe();
             fake = null;

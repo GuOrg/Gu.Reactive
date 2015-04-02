@@ -5,6 +5,8 @@ namespace Gu.Reactive.Tests
     using System.Linq;
     using System.Reactive;
 
+    using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
 
     public class NotifyPropertyChangedExt_ObservePropertyChangedAndValue_Simple
@@ -20,31 +22,31 @@ namespace Gu.Reactive.Tests
         [Test]
         public void SignalsInitialNull()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             fake.ObservePropertyChangedWithValue(x => x.Name, true)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
             Assert.AreEqual(null, _changes.Single().EventArgs.Value);
             Assert.AreSame(fake, _changes.Single().Sender);
-            Assert.IsTrue(_changes.Single().EventArgs.IsDefaultValue);
+            Assert.IsTrue(_changes.Single().EventArgs.HasValue);
         }
 
         [Test]
         public void SignalsInitialValue()
         {
-            var fake = new FakeInpc{Name = "Johan"};
+            var fake = new Fake{Name = "Johan"};
             fake.ObservePropertyChangedWithValue(x => x.Name, true)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
             Assert.AreEqual("Johan", _changes.Single().EventArgs.Value);
             Assert.AreSame(fake, _changes.Single().Sender);
-            Assert.IsTrue(_changes.Single().EventArgs.IsDefaultValue);
+            Assert.IsTrue(_changes.Single().EventArgs.HasValue);
         }
 
         [Test]
         public void DoesNotSignalOnSubscribe()
         {
-            var fake = new FakeInpc { Name = "Johan" };
+            var fake = new Fake { Name = "Johan" };
             fake.ObservePropertyChangedWithValue(x => x.Name, false)
                 .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
@@ -53,7 +55,7 @@ namespace Gu.Reactive.Tests
         [Test]
         public void SignalsOnSourceChanges()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             fake.ObservePropertyChangedWithValue(x => x.Name, false)
                 .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
@@ -61,13 +63,13 @@ namespace Gu.Reactive.Tests
             Assert.AreEqual(1, _changes.Count);
             Assert.AreEqual("El Kurro", _changes.Single().EventArgs.Value);
             Assert.AreSame(fake, _changes.Single().Sender);
-            Assert.IsTrue(_changes.Single().EventArgs.IsDefaultValue);
+            Assert.IsTrue(_changes.Single().EventArgs.HasValue);
         }
 
         [Test]
         public void MemoryLeakNoDisposeTest()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);
             var subscription = fake.ObservePropertyChangedWithValue(x => x.Name, false)
@@ -81,7 +83,7 @@ namespace Gu.Reactive.Tests
         [Test]
         public void MemoryLeakDisposeTest()
         {
-            var fake = new FakeInpc();
+            var fake = new Fake();
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);
             var subscription = fake.ObservePropertyChangedWithValue(x => x.Name, false)

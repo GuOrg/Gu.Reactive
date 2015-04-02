@@ -6,7 +6,7 @@ namespace Gu.Reactive.Internals
     internal interface INotifyingPathItem : IPathItem, IDisposable, INotifyPropertyChanged
     {
         PropertyChangedEventArgs PropertyChangedEventArgs { get; }
-        PathItem PathItem { get; }
+        PathProperty PathProperty { get; }
         /// <summary>
         /// Gets or sets the source.
         /// </summary>

@@ -2,6 +2,8 @@
 {
     using System;
 
+    using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
 
     // ReSharper disable once InconsistentNaming
@@ -9,7 +11,7 @@
     {
         public string StringProp { get; private set; }
 
-        public FakeInpc Fake { get; private set; }
+        public Fake Fake { get; private set; }
 
         [Test]
         public void PropertyHappyPath()
@@ -40,14 +42,14 @@
         [Test]
         public void BoxedPropertyHappyPath()
         {
-            var fakeInpc = new FakeInpc();
+            var fakeInpc = new Fake();
             var name = NameOf.Property(() => fakeInpc.IsTrue, true);
             Assert.AreEqual("IsTrue", name);
 
-            name = NameOf.Property<FakeInpc>(x => x.IsTrue);
+            name = NameOf.Property<Fake>(x => x.IsTrue);
             Assert.AreEqual("IsTrue", name);
 
-            name = NameOf.Property<FakeInpc, bool>(x => x.IsTrue);
+            name = NameOf.Property<Fake, bool>(x => x.IsTrue);
             Assert.AreEqual("IsTrue", name);
         }
 

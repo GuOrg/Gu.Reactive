@@ -17,10 +17,8 @@ namespace Gu.Reactive.Internals
         where TItem : class, INotifyPropertyChanged
     {
         private readonly bool _signalInitial;
-        private readonly ValuePath _valuePath;
+        private readonly PropertyPath<TItem, TValue> _propertyPath;
         private readonly Expression<Func<TItem, TValue>> _property;
-
-        private readonly string _propertyName;
 
         private static readonly ObjectIdentityComparer<TItem> IdentityComparer = new ObjectIdentityComparer<TItem>();
         private readonly WeakReference _wr = new WeakReference(null);
@@ -31,15 +29,12 @@ namespace Gu.Reactive.Internals
         private bool _intialized;
         private IDisposable _sourceSubscription;
 
-        private readonly IValuePath<TItem, TValue> _typedPath;
-
-        public CollectionItemsObservable(ObservableCollection<TItem> collection, bool signalInitial, ValuePath valuePath, Expression<Func<TItem, TValue>> property, string propertyName)
+        public CollectionItemsObservable(ObservableCollection<TItem> collection, bool signalInitial, PropertyPath<TItem, TValue> propertyPath, Expression<Func<TItem, TValue>> property)
         {
+            throw new NotImplementedException("Use propertypath for subscriptions");
             _signalInitial = signalInitial;
-            _valuePath = valuePath;
-            _typedPath = valuePath.As<TItem, TValue>();
+            _propertyPath = propertyPath;
             _property = property;
-            _propertyName = propertyName;
             _wr.Target = collection;
         }
 

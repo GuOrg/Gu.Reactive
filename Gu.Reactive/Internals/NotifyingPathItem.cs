@@ -2,6 +2,7 @@ namespace Gu.Reactive.Internals
 {
     using System;
     using System.ComponentModel;
+    using System.Linq;
     using System.Reactive;
     using System.Reflection;
 
@@ -19,12 +20,21 @@ namespace Gu.Reactive.Internals
         {
         }
 
-        public NotifyingPathItem(INotifyingPathItem previous, PathItem pathItem)
+        public NotifyingPathItem(INotifyingPathItem previous, PathProperty pathProperty)
         {
-            PathItem = pathItem;
+            var declaringType = pathProperty.PropertyInfo.DeclaringType;
+            if (declaringType.IsValueType)
+            {
+                throw new ArgumentException("Cannot listen to changes for structs. Copy by value...");
+            }
+            if (!declaringType.GetInterfaces().Any(i => i == typeof(INotifyPropertyChanged)))
+            {
+                throw new ArgumentException("Type must be INotifyPropertyChanged");
+            }
+            PathProperty = pathProperty;
             _onNext = x => OnPropertyChanged(x.Sender, x.EventArgs);
             _onError = OnError;
-            _propertyChangedEventArgs = new PropertyChangedEventArgs(PathItem.PropertyInfo.Name);
+            _propertyChangedEventArgs = new PropertyChangedEventArgs(PathProperty.PropertyInfo.Name);
             Previous = previous;
             var notifyingPathItem = previous as NotifyingPathItem;
             if (notifyingPathItem != null)
@@ -40,7 +50,7 @@ namespace Gu.Reactive.Internals
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public PathItem PathItem { get; private set; }
+        public PathProperty PathProperty { get; private set; }
 
         public INotifyingPathItem Previous { get; private set; }
 
@@ -53,12 +63,12 @@ namespace Gu.Reactive.Internals
 
         public bool IsLast
         {
-            get { return PathItem.IsLast; }
+            get { return PathProperty.IsLast; }
         }
 
         public object Value
         {
-            get { return PathItem.Value; }
+            get { return PathProperty.Value; }
         }
 
         /// <summary>
@@ -74,13 +84,13 @@ namespace Gu.Reactive.Internals
             {
                 if (value != null)
                 {
-                    if (value.GetType() != PathItem.PropertyInfo.DeclaringType)
+                    if (value.GetType() != PathProperty.PropertyInfo.DeclaringType)
                     {
                         throw new InvalidOperationException(
                             string.Format(
                                 "Trying to set source to illegal type. Was: {0} expected {1}",
                                 value.GetType().FullName,
-                               PathItem.PropertyInfo.DeclaringType.FullName));
+                               PathProperty.PropertyInfo.DeclaringType.FullName));
                     }
                 }
 
@@ -93,7 +103,7 @@ namespace Gu.Reactive.Internals
                 {
                     if (!ReferenceEquals(oldSource, value))
                     {
-                        Subscription = inpc.ObservePropertyChanged(PathItem.PropertyInfo.Name, !isNullToNull)
+                        Subscription = inpc.ObservePropertyChanged(PathProperty.PropertyInfo.Name, !isNullToNull)
                                            .Subscribe(_onNext, _onError);
                     }
                 }
@@ -150,8 +160,19 @@ namespace Gu.Reactive.Internals
             var next = Next;
             if (next != null)
             {
-                var value = (INotifyPropertyChanged)PathItem.Value;
-                next.Source = value;
+                var value = (INotifyPropertyChanged)PathProperty.Value;
+                if (ReferenceEquals(value, next.Source) && value != null) // The source signaled event without changing value. We still bubble up since it is not our job to filter.
+                {
+                    next.OnPropertyChanged(next.Source, e);
+                }
+                else if (string.IsNullOrEmpty(e.PropertyName) && value != null) // We want eventArgs.PropertyName string.Empty to bubble up
+                {
+                    next.OnPropertyChanged(next.Source, e);
+                }
+                else
+                {
+                    next.Source = value; // Let event bubble up this way.
+                }
             }
             var handler = PropertyChanged;
             if (handler != null)
@@ -162,8 +183,8 @@ namespace Gu.Reactive.Internals
 
         private bool IsNullToNull(object oldSource, object newSource)
         {
-            var oldValue = oldSource != null ? PathItem.GetValue(oldSource) : null;
-            var newValue = newSource != null ? PathItem.GetValue(newSource) : null;
+            var oldValue = oldSource != null ? PathProperty.GetValue(oldSource) : null;
+            var newValue = newSource != null ? PathProperty.GetValue(newSource) : null;
             return oldValue == null && newValue == null;
         }
     }
