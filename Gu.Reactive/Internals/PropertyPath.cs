@@ -69,9 +69,9 @@ namespace Gu.Reactive.Internals
             return new PropertyPath<TValue>(propertyPath, source);
         }
 
-        public Maybe<object> GetValue(object source)
+        public Maybe<T> GetValue<T>(object source)
         {
-            return Last.GetValue(source);
+            return Last.GetValue<T>(source);
         }
 
         public IEnumerator<PathProperty> GetEnumerator()

@@ -19,7 +19,6 @@
         ObservableBase<EventPattern<PropertyChangedEventArgs>>
         where TClass : INotifyPropertyChanged
     {
-        private readonly Expression<Func<TClass, TProp>> _propertyExpression;
         internal readonly PropertyChangedEventArgs PropertyChangedEventArgs;
         private readonly WeakReference _sourceReference = new WeakReference(null);
         private bool _disposed;
@@ -35,12 +34,21 @@
         /// The property expression.
         /// </param>
         public PropertyPathObservable(TClass source, Expression<Func<TClass, TProp>> propertyExpression)
+            : this(source, PropertyPath.Create(propertyExpression))
         {
-            _propertyExpression = propertyExpression;
+        }
+
+        public PropertyPathObservable(TClass source, PropertyPath<TClass,TProp> propertyPath )
+        {
             _sourceReference.Target = source;
-            _propertyPath = PropertyPath.Create(propertyExpression);
+            _propertyPath = propertyPath;
             VerifyPath(_propertyPath);
             PropertyChangedEventArgs = new PropertyChangedEventArgs(_propertyPath.Last.PropertyInfo.Name);
+        }
+
+        public object Sender
+        {
+            get { return _propertyPath.GetSender((TClass)_sourceReference.Target); }
         }
 
         /// <summary>
@@ -64,21 +72,6 @@
             return new CompositeDisposable(2) { path, subscription };
         }
 
-        public object LastSource
-        {
-            get
-            {
-                if (_propertyPath.Count == 1)
-                {
-                    return _sourceReference.Target;
-                }
-                var maybe = _propertyPath[_propertyPath.Count - 2].GetValue(_sourceReference.Target);
-                return maybe.HasValue
-                           ? maybe.Value
-                           : null;
-            }
-        }
-
         /// <summary>
         /// All steps in the path must implement INotifyPropertyChanged, this throws if this condition is not met.
         /// </summary>
@@ -86,7 +79,7 @@
         /// </param>
         private static void VerifyPath(IPropertyPath path)
         {
-            for (int i = 1; i < path.Count; i++)
+            for (int i = 0; i < path.Count; i++)
             {
                 var propertyInfo = path[i].PropertyInfo;
                 if ((i != path.Count - 1) && propertyInfo.PropertyType.IsValueType)

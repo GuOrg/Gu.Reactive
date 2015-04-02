@@ -22,7 +22,7 @@
         {
             this.Fake = new Fake { Next = new Level { Name = "Johan" } };
             var path = Get.ValuePath<Get_ValuePath, string>(x => x.Fake.Next.Name);
-            var value = path.Value(this);
+            var value = path.GetValue(this);
             Assert.IsTrue(value.HasValue);
             Assert.AreEqual("Johan", value.Value);
         }
@@ -32,7 +32,7 @@
         {
             this.Fake = new Fake { Next = new Level { Name = null } };
             var path = Get.ValuePath<Get_ValuePath, string>(x => x.Fake.Next.Name);
-            var value = path.Value(this);
+            var value = path.GetValue(this);
             Assert.IsTrue(value.HasValue);
             Assert.AreEqual(null, value.Value);
         }
@@ -42,7 +42,7 @@
         {
             this.Fake = new Fake();
             var path = Get.ValuePath<Get_ValuePath, string>(x => x.Fake.Next.Name);
-            var value = path.Value(this);
+            var value = path.GetValue(this);
             Assert.IsFalse(value.HasValue);
             Assert.Throws<InvalidOperationException>(()=> { var v = value.Value; });
         }

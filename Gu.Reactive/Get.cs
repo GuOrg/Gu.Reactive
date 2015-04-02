@@ -14,7 +14,7 @@
             TValue @default = default (TValue))
         {
             var valuePath = Internals.PropertyPath.Create(path);
-            var maybe = valuePath.Value(source);
+            var maybe = valuePath.GetValue(source);
             if (maybe.HasValue)
             {
                 return maybe.Value;

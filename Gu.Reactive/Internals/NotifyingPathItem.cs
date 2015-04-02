@@ -167,7 +167,10 @@ namespace Gu.Reactive.Internals
             var next = Next;
             if (next != null)
             {
-                var value = (INotifyPropertyChanged)PathProperty.PropertyInfo.GetValue(Source);
+                var source = Source;
+                var value = source != null
+                                ? (INotifyPropertyChanged)PathProperty.PropertyInfo.GetValue(Source)
+                                : null;
                 if (ReferenceEquals(value, next.Source) && value != null) // The source signaled event without changing value. We still bubble up since it is not our job to filter.
                 {
                     next.OnPropertyChanged(next.Source, e);

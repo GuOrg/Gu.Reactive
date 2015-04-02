@@ -31,7 +31,8 @@ namespace Gu.Reactive.Internals
 
         public CollectionItemsObservable(ObservableCollection<TItem> collection, bool signalInitial, PropertyPath<TItem, TValue> propertyPath, Expression<Func<TItem, TValue>> property)
         {
-            throw new NotImplementedException("Use propertypath for subscriptions");
+            throw new NotImplementedException("Get rid of property and use propertypath only, perf");
+            
             _signalInitial = signalInitial;
             _propertyPath = propertyPath;
             _property = property;

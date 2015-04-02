@@ -9,6 +9,8 @@
     {
         private readonly PropertyPath _propertyPath;
 
+        private static readonly ValueAndSender<TValue> EmptyValueAndSender = new ValueAndSender<TValue>(null, new Maybe<TValue>(false, default(TValue)));
+
         internal PropertyPath(PropertyPath propertyPath)
         {
             var last = propertyPath.Last();
@@ -27,21 +29,44 @@
         {
             get { return _propertyPath.Count; }
         }
-        
+
         public PathProperty Last
         {
             get { return _propertyPath.Last; }
         }
-        
+
         public PathProperty this[int index]
         {
             get { return _propertyPath[index]; }
         }
 
-        public IMaybe<TValue> Value(TSource source)
+        public IMaybe<TValue> GetValue(TSource source)
         {
-            var maybe = _propertyPath.GetValue(source);
-            return maybe.As<TValue>();
+            var maybe = _propertyPath.GetValue<TValue>(source);
+            return maybe;
+        }
+
+        public ValueAndSender<TValue> GetValueAndSender(TSource source)
+        {
+            var sender = GetSender(source);
+            if (sender == null)
+            {
+                return EmptyValueAndSender;
+            }
+            var value = _propertyPath.Last.PropertyInfo.GetValue(sender);
+            return new ValueAndSender<TValue>(sender, new Maybe<TValue>(true, (TValue)value));
+        }
+
+        public object GetSender(TSource source)
+        {
+            if (Count == 1)
+            {
+                return source;
+            }
+            var maybe = _propertyPath[_propertyPath.Count - 2].GetValue<object>(source);
+            return maybe.HasValue
+                       ? maybe.Value
+                       : null;
         }
 
         public IEnumerator<PathProperty> GetEnumerator()
