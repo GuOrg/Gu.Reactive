@@ -3,7 +3,7 @@ namespace Gu.Reactive.Internals
     using System;
     using System.ComponentModel;
 
-    internal sealed class RootItem : PathProperty, INotifyingPathItem
+    internal sealed class RootItem : INotifyingPathItem
     {
         private static readonly PropertyChangedEventArgs _propertyChangedEventArgs = new PropertyChangedEventArgs(null);
         private static readonly PropertyChangedEventArgs ValueChangedEventArgs = new PropertyChangedEventArgs(NameOf.Property<RootItem>(x => x.Value));

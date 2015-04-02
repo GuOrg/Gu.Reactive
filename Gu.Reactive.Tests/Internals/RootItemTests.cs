@@ -22,7 +22,7 @@
         [Test]
         public void SignalsValue()
         {
-            var item = new RootItem();
+            var item = new RootItem(null);
             item.ObservePropertyChanged(x => x.Value, false)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
@@ -34,7 +34,7 @@
         public void Signals()
         {
             int count = 0;
-            var item = new RootItem();
+            var item = new RootItem(null);
             item.ObservePropertyChanged(x => x.Source, false)
                 .Subscribe(_ => count++);
             Assert.AreEqual(0, count);

@@ -3,7 +3,7 @@ namespace Gu.Reactive.Internals
     using System;
     using System.Reflection;
 
-    internal class PathProperty : IPathItem
+    internal class PathProperty
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PathProperty"/> class.
@@ -22,14 +22,13 @@ namespace Gu.Reactive.Internals
                 throw new ArgumentException("Propert must be readable");
             }
             Previous = previous;
-            var pathItem = previous as PathProperty;
-            if (pathItem != null)
+            if (previous != null)
             {
                 if (!previous.PropertyInfo.PropertyType.IsAssignableFrom(propertyInfo.DeclaringType))
                 {
                     throw new ArgumentException();
                 }
-                pathItem.Next = this;
+                previous.Next = this;
             }
             PropertyInfo = propertyInfo;
         }
@@ -40,7 +39,7 @@ namespace Gu.Reactive.Internals
 
         public PathProperty Next { get; private set; }
 
-        public IPathItem Previous { get; private set; }
+        public PathProperty Previous { get; private set; }
 
         /// <summary>
         /// Gets the property info.
@@ -56,42 +55,42 @@ namespace Gu.Reactive.Internals
         }
 
         /// <summary>
-        /// Gets the value.
+        /// Gets value all the way from the root recursively.
+        /// Checks for null along the way.
         /// </summary>
-        public object Value
-        {
-            get
-            {
-                var value = Previous == null
-                    ? null
-                    : Previous.Value;
-
-                if (value == null)
-                {
-                    return null;
-                }
-
-                return PropertyInfo.GetMethod.Invoke(value, null);
-            }
-        }
-
+        /// <param name="source"></param>
+        /// <returns></returns>
         internal Maybe<object> GetValue(object source)
         {
             if (source == null)
             {
                 return new Maybe<object>(false, null);
             }
-            if (source.GetType() != PropertyInfo.DeclaringType)
+            if (Previous == null)
             {
-                throw new InvalidOperationException(
-                    string.Format(
-                        "Trying to set source to illegal type. Was: {0} expected {1}",
-                        source.GetType()
-                              .FullName,
-                        PropertyInfo.DeclaringType.FullName));
+                if (source.GetType() != PropertyInfo.DeclaringType)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            "Trying to set source to illegal type. Was: {0} expected {1}",
+                            source.GetType()
+                                  .FullName,
+                            PropertyInfo.DeclaringType.FullName));
+                }
+                var o = PropertyInfo.GetValue(source);
+                return new Maybe<object>(true,o);
             }
-            var value = PropertyInfo.GetValue(source);
-            return new Maybe<object>(false, value);
+            var maybe = Previous.GetValue(source);
+            if (!maybe.HasValue)
+            {
+                return maybe;
+            }
+            if (maybe.Value == null)
+            {
+                return new Maybe<object>(false, null);
+            }
+            var value = PropertyInfo.GetValue(maybe.Value);
+            return new Maybe<object>(true, value);
         }
 
         /// <summary>

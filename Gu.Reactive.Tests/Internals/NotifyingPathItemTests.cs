@@ -57,7 +57,9 @@
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
             pathItem.ObservePropertyChanged().Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
+           
             pathItem.Source = fakeInpc;
+            
             Assert.AreEqual(1, _changes.Count);
             Assert.AreEqual(propertyName, _changes.Single().EventArgs.PropertyName);
             Assert.AreSame(fakeInpc, _changes.Single().Sender);
@@ -158,10 +160,10 @@
         public void UpdatesNextSourceOnSourceChange()
         {
             var fakeInpc = new Fake { Next = new Level { Name = "1" } };
-            var rootItem = new RootItem { Value = fakeInpc };
+            var rootItem = new RootItem(fakeInpc);
             var nextName = NameOf.Property<Fake>(x => x.Next);
             var nextProp = typeof(Fake).GetProperty(nextName);
-            var firstPathItem = new PathProperty(rootItem, nextProp);
+            var firstPathItem = new PathProperty(null, nextProp);
             var first = new NotifyingPathItem(rootItem, firstPathItem);
 
             var isTrueName = NameOf.Property<Level>(x => x.IsTrue);
@@ -169,6 +171,7 @@
             var second = new NotifyingPathItem(first, new PathProperty(firstPathItem, isTrueProp));
 
             first.Source = fakeInpc;
+
             Assert.AreSame(fakeInpc.Next, second.Source);
         }
 
@@ -176,16 +179,17 @@
         public void UpdatesNextSourceOnPropertyChange()
         {
             var fakeInpc = new Fake { Next = new Level { Name = "1" } };
-            var rootItem = new RootItem { Value = fakeInpc };
+            var rootItem = new RootItem(fakeInpc);
 
             var nextName = NameOf.Property<Fake>(x => x.Next);
             var nextProp = typeof(Fake).GetProperty(nextName);
-            var firstPathItem = new PathProperty(rootItem, nextProp);
-            var first = new NotifyingPathItem(rootItem, firstPathItem);
+            var firstProperty = new PathProperty(null, nextProp);
+            var first = new NotifyingPathItem(rootItem, firstProperty);
 
             var isTrueName = NameOf.Property<Level>(x => x.IsTrue);
             var isTrueProp = typeof(Level).GetProperty(isTrueName);
-            var second = new NotifyingPathItem(first, new PathProperty(firstPathItem, isTrueProp));
+            var secondProperty = new PathProperty(firstProperty, isTrueProp);
+            var second = new NotifyingPathItem(first, secondProperty);
 
             Assert.AreSame(fakeInpc.Next, second.Source);
             fakeInpc.Next = new Level { Name = "2" };

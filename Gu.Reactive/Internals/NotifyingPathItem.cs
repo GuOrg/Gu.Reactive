@@ -45,7 +45,6 @@ namespace Gu.Reactive.Internals
             {
                 Source = (INotifyPropertyChanged)previous.Value;
             }
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -68,7 +67,15 @@ namespace Gu.Reactive.Internals
 
         public object Value
         {
-            get { return PathProperty.Value; }
+            get
+            {
+                var source = Source;
+                if (source == null)
+                {
+                    return null;
+                }
+                return PathProperty.PropertyInfo.GetValue(source);
+            }
         }
 
         /// <summary>
@@ -160,7 +167,7 @@ namespace Gu.Reactive.Internals
             var next = Next;
             if (next != null)
             {
-                var value = (INotifyPropertyChanged)PathProperty.Value;
+                var value = (INotifyPropertyChanged)PathProperty.PropertyInfo.GetValue(Source);
                 if (ReferenceEquals(value, next.Source) && value != null) // The source signaled event without changing value. We still bubble up since it is not our job to filter.
                 {
                     next.OnPropertyChanged(next.Source, e);
@@ -183,8 +190,9 @@ namespace Gu.Reactive.Internals
 
         private bool IsNullToNull(object oldSource, object newSource)
         {
-            var oldValue = oldSource != null ? PathProperty.GetValue(oldSource) : null;
-            var newValue = newSource != null ? PathProperty.GetValue(newSource) : null;
+            var propertyInfo = PathProperty.PropertyInfo;
+            var oldValue = oldSource != null ? propertyInfo.GetValue(oldSource) : null;
+            var newValue = newSource != null ? propertyInfo.GetValue(newSource) : null;
             return oldValue == null && newValue == null;
         }
     }

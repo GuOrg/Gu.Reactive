@@ -126,7 +126,6 @@
     <Compile Include="Internals\PropertyPath`1.cs" />
     <Compile Include="Internals\RwLock.cs" />
     <Compile Include="Internals\INotifyingPathItem.cs" />
-    <Compile Include="Internals\IPathItem.cs" />
     <Compile Include="Contracts\IValuePath`2.cs" />
     <Compile Include="Internals\NotifyingPath.cs" />
     <Compile Include="Internals\NotifyingPathItem.cs" />
