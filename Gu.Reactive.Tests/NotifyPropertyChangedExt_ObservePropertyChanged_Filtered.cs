@@ -134,12 +134,16 @@ namespace Gu.Reactive.Tests
         {
             var fake = new Fake();
             var wr = new WeakReference(fake);
-            var subscription = fake.ObservePropertyChanged(x => x.IsTrueOrNull).Subscribe();
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull);
+            var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             fake = null;
             subscription.Dispose();
             GC.Collect();
+
             Assert.IsFalse(wr.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
         [Test]
@@ -147,11 +151,15 @@ namespace Gu.Reactive.Tests
         {
             var fake = new Fake();
             var wr = new WeakReference(fake);
-            var subscription = fake.ObservePropertyChanged(x => x.IsTrueOrNull).Subscribe();
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull);
+            var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             fake = null;
             GC.Collect();
+          
             Assert.IsFalse(wr.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
         [Test]
@@ -160,13 +168,14 @@ namespace Gu.Reactive.Tests
             var fake = new Fake();
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);
-            var subscription = fake.ObservePropertyChanged(x => x.Name)
-                                   .Subscribe();
+            var observable = fake.ObservePropertyChanged(x => x.Name);
+            var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             fake = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
-
     }
 }

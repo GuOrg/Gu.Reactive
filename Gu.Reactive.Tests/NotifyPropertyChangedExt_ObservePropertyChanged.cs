@@ -126,12 +126,16 @@
         {
             var fake = new Fake();
             var wr = new WeakReference(fake);
-            var subscription = fake.ObservePropertyChanged().Subscribe();
+            var observable = fake.ObservePropertyChanged();
+            var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             fake = null;
             subscription.Dispose();
+            
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
         [Test]
@@ -139,11 +143,15 @@
         {
             var fake = new Fake();
             var wr = new WeakReference(fake);
-            var subscription = fake.ObservePropertyChanged().Subscribe();
+            var observable = fake.ObservePropertyChanged();
+            var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             fake = null;
             GC.Collect();
+
             Assert.IsFalse(wr.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
     }
 }

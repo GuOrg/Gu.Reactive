@@ -425,11 +425,13 @@ namespace Gu.Reactive.Tests
                 })();
             // http://stackoverflow.com/a/579001/1069200
             var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             subscription.Dispose();
             GC.Collect();
             Assert.IsFalse(rootRef.IsAlive);
             Assert.IsFalse(levelRef.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
         [Test]
@@ -449,10 +451,12 @@ namespace Gu.Reactive.Tests
             // http://stackoverflow.com/a/579001/1069200
 
             var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             subscription.Dispose();
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
         [Test]
@@ -461,12 +465,16 @@ namespace Gu.Reactive.Tests
             var level = new Level();
             var fake = new Fake { Next = level };
             var wr = new WeakReference(level);
-            var subscription = fake.ObservePropertyChanged(x => x.Next.Value).Subscribe();
+            var observable = fake.ObservePropertyChanged(x => x.Next.Value);
+            var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             level = null;
             fake.Next = null;
             GC.Collect();
+
             Assert.IsFalse(wr.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
         [Test]
@@ -487,10 +495,13 @@ namespace Gu.Reactive.Tests
                 })();
             // http://stackoverflow.com/a/579001/1069200
             var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             GC.Collect();
+          
             Assert.IsFalse(rootRef.IsAlive);
             Assert.IsFalse(levelRef.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
     }
 }

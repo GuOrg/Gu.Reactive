@@ -217,12 +217,15 @@ namespace Gu.Reactive.Tests
                 })();
             // http://stackoverflow.com/a/579001/1069200
             var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
             CollectionAssert.IsEmpty(_changes);
+            
             subscription.Dispose();
+            
             GC.Collect();
             Assert.IsFalse(collectionRef.IsAlive);
             Assert.IsFalse(item1Ref.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
         [Test, Explicit("Fix this")]
@@ -242,11 +245,14 @@ namespace Gu.Reactive.Tests
                 })();
             // http://stackoverflow.com/a/579001/1069200
             var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
             CollectionAssert.IsEmpty(_changes);
+          
             GC.Collect();
+            
             Assert.IsFalse(collectionRef.IsAlive);
             Assert.IsFalse(item1Ref.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
     }
 }
