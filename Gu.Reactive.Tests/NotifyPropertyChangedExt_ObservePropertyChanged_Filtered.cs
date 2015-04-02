@@ -154,7 +154,6 @@ namespace Gu.Reactive.Tests
             var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
-
         [Test]
         public void MemoryLeakFilteredNoDisposeTest()
         {

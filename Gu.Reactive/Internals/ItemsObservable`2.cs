@@ -57,7 +57,7 @@ namespace Gu.Reactive.Internals
         protected override IDisposable SubscribeCore(IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer)
         {
             VerifyDisposed();
-            var observable = new CollectionItemsObservable<TItem, TProperty>((ObservableCollection<TItem>)_collectionRef.Target, _signalInitial, _propertyPath, _property);
+            var observable = new CollectionItemsObservable<TItem, TProperty>((ObservableCollection<TItem>)_collectionRef.Target, _signalInitial, _propertyPath);
             return observable.Subscribe(observer);
         }
 
