@@ -4,7 +4,8 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
-
+    using System.ComponentModel;
+    using System.Reactive;
     using NUnit.Framework;
 
     public class NotifyCollectionChangedExt_ObserveCollectionChanged
@@ -57,12 +58,16 @@
         {
             var ints = new ObservableCollection<int>();
             var wr = new WeakReference(ints);
-            var subscription = ints.ObservePropertyChanged().Subscribe();
+            var observable = ints.ObservePropertyChanged();
+            var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             ints = null;
             subscription.Dispose();
+            
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
         [Test]
@@ -70,11 +75,15 @@
         {
             var ints = new ObservableCollection<int>();
             var wr = new WeakReference(ints);
-            var subscription = ints.ObservePropertyChanged().Subscribe();
+            var observable = ints.ObservePropertyChanged();
+            var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             ints = null;
             GC.Collect();
+
             Assert.IsFalse(wr.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
     }
 }

@@ -133,10 +133,13 @@ namespace Gu.Reactive.Tests
                     observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
                 })();
             // http://stackoverflow.com/a/579001/1069200
-            var disposable = observable.Subscribe();
+            var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             GC.Collect();
+          
             Assert.IsFalse(wr.IsAlive);
-            Assert.IsNotNull(observable); // touching it after GC.Collect for no optimizations
         }
 
         [Test]
@@ -155,8 +158,12 @@ namespace Gu.Reactive.Tests
                 })();
             // http://stackoverflow.com/a/579001/1069200
             var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             subscription.Dispose();
             GC.Collect();
+            
             Assert.IsFalse(wr.IsAlive);
             Assert.IsNotNull(subscription); // touching it after GC.Collect for no optimizations
         }
@@ -176,7 +183,11 @@ namespace Gu.Reactive.Tests
                 })();
             // http://stackoverflow.com/a/579001/1069200
             var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             GC.Collect();
+            
             Assert.IsFalse(wr.IsAlive);
             Assert.IsNotNull(subscription); // touching it after GC.Collect for no optimizations
         }
@@ -196,10 +207,13 @@ namespace Gu.Reactive.Tests
                 })();
             // http://stackoverflow.com/a/579001/1069200
             var subscription = observable.Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             subscription.Dispose();
             GC.Collect();
+            
             Assert.IsFalse(wr.IsAlive);
-            Assert.IsNotNull(subscription); // touching it after GC.Collect for no optimizations
         }
     }
 }

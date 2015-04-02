@@ -72,12 +72,16 @@ namespace Gu.Reactive.Tests
             var fake = new Fake();
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);
-            var subscription = fake.ObservePropertyChangedWithValue(x => x.Name, false)
+            var observable = fake.ObservePropertyChangedWithValue(x => x.Name, false);
+            var subscription = observable
                                    .Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             fake = null;
             GC.Collect();
+
             Assert.IsFalse(wr.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
         [Test]
@@ -86,13 +90,17 @@ namespace Gu.Reactive.Tests
             var fake = new Fake();
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);
-            var subscription = fake.ObservePropertyChangedWithValue(x => x.Name, false)
+            var observable = fake.ObservePropertyChangedWithValue(x => x.Name, false);
+            var subscription = observable
                                    .Subscribe();
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
+
             fake = null;
             subscription.Dispose();
             GC.Collect();
+            
             Assert.IsFalse(wr.IsAlive);
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
     }
 }

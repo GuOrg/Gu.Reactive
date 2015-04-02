@@ -1,6 +1,8 @@
 namespace Gu.Reactive
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -12,9 +14,10 @@ namespace Gu.Reactive
 
     public static class NotifyCollectionChangedExt
     {
-        public static IObservable<EventPattern<NotifyCollectionChangedEventArgs>> ObserveCollectionChanged(
-            this INotifyCollectionChanged source,
+        public static IObservable<EventPattern<NotifyCollectionChangedEventArgs>> ObserveCollectionChanged<TCollection>(
+            this TCollection source,
             bool signalInitial = true)
+            where TCollection : IEnumerable, INotifyCollectionChanged
         {
             IObservable<EventPattern<NotifyCollectionChangedEventArgs>> observable =
                 Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
