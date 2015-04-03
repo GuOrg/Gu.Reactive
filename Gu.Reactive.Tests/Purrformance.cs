@@ -26,7 +26,7 @@
             {
                 observables[i] = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
             }
-            Console.WriteLine("{0} fake.ToObservable(x => x.Prop1, false) took {1} ms ({2:F2} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
+            Console.WriteLine("{0} fake.ToObservable(x => x.Prop1, false) took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
         }
 
         [Test]
@@ -34,12 +34,14 @@
         {
             var observables = new IObservable<EventPattern<PropertyChangedEventArgs>>[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
+            fake.ObservePropertyChanged(x => x.Next.Name, false); // Warm up
+
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
                 observables[i] = fake.ObservePropertyChanged(x => x.Next.Name, false);
             }
-            Console.WriteLine("{0} fake.ToObservable(x => x.Next.Name, false); took {1} ms ({2:F2} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
+            Console.WriteLine("{0} fake.ToObservable(x => x.Next.Name, false); took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
         }
 
         [Test]
@@ -47,12 +49,13 @@
         {
             var observables = new IDisposable[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true };
+            fake.ObservePropertyChanged(x => x.IsTrueOrNull, false).Subscribe(x => { }); // Warm up
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
                 observables[i] = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false).Subscribe(x => { });
             }
-            Console.WriteLine("{0} fake.ToObservable(x => x.Prop1, false).Subscribe(x=>{{}}) took {1} ms ({2:F2} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
+            Console.WriteLine("{0} fake.ToObservable(x => x.Prop1, false).Subscribe(x=>{{}}) took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
         }
 
         [Test]
@@ -60,6 +63,8 @@
         {
             var observables = new IDisposable[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
+            fake.ObservePropertyChanged(x => x.Next.Name, false).Subscribe(x => { }); // Warm up
+
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
@@ -73,13 +78,13 @@
         {
             int count = 0;
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true };
-            var stopwatch = Stopwatch.StartNew();
             var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false).Subscribe(x => count++);
+            var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
                 fake.IsTrueOrNull = !fake.IsTrueOrNull;
             }
-            Console.WriteLine("Reacting to {0} events took {1} ms ({2:F2} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
+            Console.WriteLine("Reacting to {0} events took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
             Assert.AreEqual(n, count);
         }
 
@@ -88,13 +93,13 @@
         {
             int count = 0;
             var fake = new Fake { Next = new Level()};
-            var stopwatch = Stopwatch.StartNew();
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false).Subscribe(x => count++);
+            var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
                 fake.Next.IsTrue = !fake.Next.IsTrue;
             }
-            Console.WriteLine("Reacting to {0} events took {1} ms ({2:F2} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
+            Console.WriteLine("Reacting to {0} events took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
             Assert.AreEqual(n, count);
         }
 
@@ -108,7 +113,7 @@
             {
                 OnComparison();
             }
-            Console.WriteLine("Comparison += for {0} events took {1} ms ({2:F3} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
+            Console.WriteLine("Comparison += for {0} events took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
             Assert.AreEqual(n, count);
         }
 
@@ -151,14 +156,14 @@
         public void BaselinePropertyChangedEventManager()
         {
             int count = 0;
-            var stopwatch = Stopwatch.StartNew();
             PropertyChangedEventManager.AddHandler(this, (sender, args) => count++, "Meh");
+            var stopwatch = Stopwatch.StartNew();
 
             for (int i = 0; i < n; i++)
             {
                 OnPropertyChanged(new PropertyChangedEventArgs("Meh"));
             }
-            Console.WriteLine("Reacting to {0} events took {1} ms ({2:F3} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
+            Console.WriteLine("Reacting to {0} events took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
             Assert.AreEqual(n, count);
         }
 

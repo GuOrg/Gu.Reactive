@@ -59,15 +59,11 @@
     }
 
 
-    public class A
-    {
-    }
+    public class A { }
 
     public class B
     {
-        public B()
-        {
-        }
+        public B() { }
 
         public B(A a)
         {
