@@ -12,6 +12,13 @@ namespace Gu.Reactive
 
     public static class NotifyCollectionChangedExt
     {
+        /// <summary>
+        /// Observes collectionchanged events for source.
+        /// </summary>
+        /// <typeparam name="TCollection"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="signalInitial"></param>
+        /// <returns></returns>
         public static IObservable<EventPattern<NotifyCollectionChangedEventArgs>> ObserveCollectionChanged<TCollection>(
             this TCollection source,
             bool signalInitial = true)
@@ -38,6 +45,15 @@ namespace Gu.Reactive
             return observable;
         }
 
+        /// <summary>
+        /// Observes propertychanges for items of the collection.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="property"></param>
+        /// <param name="signalInitial"></param>
+        /// <returns></returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<T, TProperty>>> ObserveItemPropertyChanged<T, TProperty>(
             this ObservableCollection<T> source,
             Expression<Func<T, TProperty>> property,

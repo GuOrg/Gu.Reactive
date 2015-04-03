@@ -2,14 +2,13 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Linq;
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Linq;
     using Internals;
 
     /// <summary>
-    /// The property changed to observable ext.
+    /// Extension methods for subscribing to property changes.
     /// </summary>
     public static class NotifyPropertyChangedExt
     {
@@ -73,7 +72,8 @@
         }
 
         /// <summary>
-        /// Prefer other overloads.
+        /// Prefer other overloads with x => x.PropertyName for refactor friendliness.
+        /// This is faster though.
         /// </summary>
         /// <param name="source">
         /// The source.
@@ -176,7 +176,7 @@
         }
 
         /// <summary>
-        /// The to observable.
+        /// Observes all property change events for source.
         /// </summary>
         /// <param name="source">
         /// The source.

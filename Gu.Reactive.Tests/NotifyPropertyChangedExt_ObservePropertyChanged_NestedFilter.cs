@@ -6,6 +6,8 @@ namespace Gu.Reactive.Tests
     using System.Linq;
     using System.Reactive;
 
+    using global::NUnit.Framework;
+
     using Gu.Reactive.Tests.Fakes;
 
     using NUnit.Framework;
@@ -33,13 +35,11 @@ namespace Gu.Reactive.Tests
 
             fake.Next.Value++;
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreSame(fake.Next, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake.Next, "Value", _changes.Last());
 
             fake.Next.IsTrue = !fake.IsTrue;
             Assert.AreEqual(2, _changes.Count);
-            Assert.AreSame(fake.Next, _changes.Last().Sender);
-            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake.Next, "IsTrue", _changes.Last());
         }
 
         [Test]
@@ -55,13 +55,11 @@ namespace Gu.Reactive.Tests
 
             fake1.Next.Value++;
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreSame(fake1.Next, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake1.Next, "Value", _changes.Last());
 
             fake2.Next.Value++;
             Assert.AreEqual(2, _changes.Count);
-            Assert.AreSame(fake2.Next, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake2.Next, "Value", _changes.Last());
         }
 
         [Test]
@@ -96,8 +94,7 @@ namespace Gu.Reactive.Tests
             Assert.AreEqual(expected, _changes.Count);
             if (expected == 1)
             {
-                Assert.AreSame(fake.Next, _changes.Last().Sender);
-                Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+                AssertEventPattern(fake.Next, "Value", _changes.Last());
             }
 
             fake.Next.Value++;
@@ -115,8 +112,7 @@ namespace Gu.Reactive.Tests
             Assert.AreEqual(expected, _changes.Count);
             if (expected == 1)
             {
-                Assert.AreSame(null, _changes.Last().Sender);
-                Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+                AssertEventPattern(null, "Value", _changes.Last());
             }
 
             fake.Next = new Level();
@@ -125,7 +121,7 @@ namespace Gu.Reactive.Tests
 
         [TestCase("")]
         [TestCase(null)]
-        public void DoesReactsOnStringEmptyOrNullFromRootWhenNull(string propertyName)
+        public void DoesNotReactsnStringEmptyOrNullFromRootWhenNull(string propertyName)
         {
             var fake = new Fake();
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
@@ -147,8 +143,7 @@ namespace Gu.Reactive.Tests
 
             fake.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreEqual(fake.Next, _changes.Last().Sender);
-            Assert.AreEqual(propertyName, _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake.Next, propertyName, _changes.Last());
         }
 
         [TestCase("")]
@@ -502,6 +497,12 @@ namespace Gu.Reactive.Tests
 
             Assert.IsFalse(rootRef.IsAlive);
             Assert.IsFalse(levelRef.IsAlive);
+        }
+
+        private static void AssertEventPattern(object sender, string propertyName, EventPattern<PropertyChangedEventArgs> pattern)
+        {
+            Assert.AreSame(sender, pattern.Sender);
+            Assert.AreEqual(propertyName, pattern.EventArgs.PropertyName);
         }
     }
 }

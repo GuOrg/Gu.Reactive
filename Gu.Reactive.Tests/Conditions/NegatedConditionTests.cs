@@ -1,16 +1,11 @@
 ﻿namespace Gu.Reactive.Tests.Conditions
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Diagnostics;
 
     using Gu.Reactive.Tests.Fakes;
 
-    using Moq;
-
     using NUnit.Framework;
-    using NUnit.Framework.Constraints;
 
     public class NegatedConditionTests
     {
