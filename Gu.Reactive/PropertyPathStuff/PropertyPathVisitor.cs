@@ -35,12 +35,12 @@
         /// <returns>
         /// The <see cref="MemberExpression[]"/>.
         /// </returns>
-        public static MemberInfo[] GetPath<TSource, TResult>(Expression<Func<TSource, TResult>> expression)
+        public static IReadOnlyList<MemberInfo> GetPath<TSource, TResult>(Expression<Func<TSource, TResult>> expression)
         {
             var visitor = new PropertyPathVisitor(expression);
             visitor.Visit(expression);
-            var memberinfos = Enumerable.Reverse(visitor._path).ToArray();
-            return memberinfos;
+            visitor._path.Reverse();
+            return visitor._path;
         }
 
         /// <summary>
@@ -54,12 +54,12 @@
         /// <returns>
         /// The <see cref="MemberExpression[]"/>.
         /// </returns>
-        public static MemberInfo[] GetPath<T>(Expression<Func<T>> expression)
+        public static IReadOnlyList<MemberInfo> GetPath<T>(Expression<Func<T>> expression)
         {
             var visitor = new PropertyPathVisitor(expression);
             visitor.Visit(expression);
-            var memberInfos = Enumerable.Reverse(visitor._path).ToArray();
-            return memberInfos;
+            visitor._path.Reverse();
+            return visitor._path;
         }
 
         /// <summary>

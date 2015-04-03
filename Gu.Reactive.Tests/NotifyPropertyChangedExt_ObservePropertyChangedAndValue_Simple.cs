@@ -9,6 +9,7 @@ namespace Gu.Reactive.Tests
 
     using NUnit.Framework;
 
+    // ReSharper disable once InconsistentNaming
     public class NotifyPropertyChangedExt_ObservePropertyChangedAndValue_Simple
     {
         private List<EventPattern<PropertyChangedAndValueEventArgs<string>>> _changes;

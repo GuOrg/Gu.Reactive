@@ -31,7 +31,7 @@
         {
             var path = PropertyPathVisitor.GetPath(propertyExpression);
 
-            if (path.Length > 1 && !allowNestedProperty)
+            if (path.Count > 1 && !allowNestedProperty)
             {
                 throw new ArgumentException("Trying to get the name of a nested property: " + string.Join(".", path.Select(x => x.Name)));
             }
