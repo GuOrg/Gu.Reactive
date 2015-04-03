@@ -10,6 +10,7 @@
 
     using Internals;
     using NUnit.Framework;
+    using PropertyPathStuff;
 
     /// <summary>
     /// Dunno if it is nice to test internals like this, was used for development.

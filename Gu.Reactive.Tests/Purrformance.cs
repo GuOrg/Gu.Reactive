@@ -10,7 +10,7 @@
 
     using NUnit.Framework;
 
-    [Explicit("Longrunning benchmarks")]
+    //[Explicit("Longrunning benchmarks")]
     [TestFixture]
     public class Purrformance : INotifyPropertyChanged
     {
@@ -45,30 +45,29 @@
         }
 
         [Test]
-        public void ObservePropertyChangedAndSubscribeSimple()
+        public void SubscribeSimple()
         {
-            var observables = new IDisposable[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true };
-            fake.ObservePropertyChanged(x => x.IsTrueOrNull, false).Subscribe(x => { }); // Warm up
+            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
+            observable.Subscribe(x => { }); // Warm up
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
-                observables[i] = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false).Subscribe(x => { });
+                observable.Subscribe(x => { });
             }
             Console.WriteLine("{0} fake.ToObservable(x => x.Prop1, false).Subscribe(x=>{{}}) took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
         }
 
         [Test]
-        public void ObservePropertyChangedAndSubscribeNested()
+        public void SubscribeNested()
         {
-            var observables = new IDisposable[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
-            fake.ObservePropertyChanged(x => x.Next.Name, false).Subscribe(x => { }); // Warm up
-
+            var observable = fake.ObservePropertyChanged(x => x.Next.Name, false);
+            observable.Subscribe(x => { }); // Warm up
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
-                observables[i] = fake.ObservePropertyChanged(x => x.Next.Name, false).Subscribe(x => { });
+                observable.Subscribe(x => { });
             }
             Console.WriteLine("{0} fake.ToObservable(x => x.Next.Name, false).Subscribe(x => {{ }}) took {1} ms ({2:F2} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
         }
@@ -92,7 +91,7 @@
         public void ReactNested()
         {
             int count = 0;
-            var fake = new Fake { Next = new Level()};
+            var fake = new Fake { Next = new Level() };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false).Subscribe(x => count++);
             var stopwatch = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)

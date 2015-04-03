@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+namespace Gu.Reactive.PropertyPathStuff
 {
     using System;
     using System.Collections;
@@ -6,6 +6,7 @@ namespace Gu.Reactive.Internals
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
+    using Internals;
 
     internal class PropertyPath : IPropertyPath
     {
@@ -82,6 +83,19 @@ namespace Gu.Reactive.Internals
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _parts.GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            var first = _parts.First().PropertyInfo;
+            var path = string.Join(".", _parts.Skip(1).Select(x => x.PropertyInfo.Name));
+            return string.Format("{0}.{1}{2}{3}", 
+                first.DeclaringType.FullName, 
+                first.Name, 
+                !string.IsNullOrEmpty(path)
+                    ? "."
+                    : "", 
+                path);
         }
     }
 }

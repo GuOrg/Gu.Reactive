@@ -11,6 +11,7 @@ namespace Gu.Reactive.Internals
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Linq;
+    using PropertyPathStuff;
 
     internal sealed class CollectionItemsObservable<TItem, TValue> :
         ObservableBase<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>>,

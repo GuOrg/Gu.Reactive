@@ -6,6 +6,7 @@
     using System.Reflection;
 
     using Gu.Reactive.Internals;
+    using PropertyPathStuff;
 
     /// <summary>
     /// Class provides methods to obtain member names of data types.

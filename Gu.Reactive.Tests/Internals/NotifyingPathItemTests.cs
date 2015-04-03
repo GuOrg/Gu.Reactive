@@ -10,6 +10,7 @@
     using Gu.Reactive.Tests.Fakes;
 
     using NUnit.Framework;
+    using PropertyPathStuff;
 
     public class NotifyingPathItemTests
     {

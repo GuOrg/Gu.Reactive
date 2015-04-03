@@ -6,6 +6,7 @@ namespace Gu.Reactive.Internals
     using System.ComponentModel;
     using System.Linq.Expressions;
     using System.Reactive;
+    using PropertyPathStuff;
 
     internal sealed class ItemsObservable<TItem, TProperty> :
         ObservableBase<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>,

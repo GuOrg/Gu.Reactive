@@ -1,9 +1,10 @@
-namespace Gu.Reactive.Internals
+namespace Gu.Reactive.PropertyPathStuff
 {
     using System;
     using System.Reflection;
+    using Internals;
 
-    internal class PathProperty
+    internal sealed class PathProperty
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PathProperty"/> class.
@@ -31,10 +32,6 @@ namespace Gu.Reactive.Internals
                 previous.Next = this;
             }
             PropertyInfo = propertyInfo;
-        }
-
-        protected PathProperty()
-        {
         }
 
         public PathProperty Next { get; private set; }
@@ -68,17 +65,8 @@ namespace Gu.Reactive.Internals
             }
             if (Previous == null)
             {
-                if (source.GetType() != PropertyInfo.DeclaringType)
-                {
-                    throw new InvalidOperationException(
-                        string.Format(
-                            "Trying to set source to illegal type. Was: {0} expected {1}",
-                            source.GetType()
-                                  .FullName,
-                            PropertyInfo.DeclaringType.FullName));
-                }
                 var o = PropertyInfo.GetValue(source);
-                return new Maybe<T>(true,(T)o);
+                return new Maybe<T>(true, (T)o);
             }
             var maybe = Previous.GetValue<object>(source);
             if (!maybe.HasValue)
@@ -93,12 +81,6 @@ namespace Gu.Reactive.Internals
             return new Maybe<T>(true, value);
         }
 
-        /// <summary>
-        /// The to string.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
         public override string ToString()
         {
             return string.Format("PathItem for: {0}.{1}", PropertyInfo.DeclaringType.Name, PropertyInfo.Name);
