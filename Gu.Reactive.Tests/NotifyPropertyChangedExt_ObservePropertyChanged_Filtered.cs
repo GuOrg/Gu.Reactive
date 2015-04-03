@@ -33,13 +33,11 @@ namespace Gu.Reactive.Tests
 
             fake.Value++;
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake, "Value", _changes.Last());
 
             fake.IsTrue = !fake.IsTrue;
             Assert.AreEqual(2, _changes.Count);
-            Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake, "IsTrue", _changes.Last());
         }
 
         [Test]
@@ -55,13 +53,11 @@ namespace Gu.Reactive.Tests
 
             fake1.Value++;
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreSame(fake1, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake1, "Value", _changes.Last());
 
             fake2.Value++;
             Assert.AreEqual(2, _changes.Count);
-            Assert.AreSame(fake2, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake2, "Value", _changes.Last());
         }
 
         [Test]
@@ -75,8 +71,7 @@ namespace Gu.Reactive.Tests
             fake.Value++;
 
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake, "Value", _changes.Last());
         }
 
         [Test]
@@ -88,8 +83,7 @@ namespace Gu.Reactive.Tests
             Assert.AreEqual(0, _changes.Count);
             fake.Value++;
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake, "Value", _changes.Last());
 
             fake.IsTrue = !fake.IsTrue;
 
@@ -99,7 +93,7 @@ namespace Gu.Reactive.Tests
         [TestCase("")]
         [TestCase(null)]
         [TestCase("Value")]
-        public void ReactsOnStringEmptyOrNull(string prop)
+        public void ReactsOnStringEmptyOrNull(string propertyName)
         {
             var fake = new Fake { Value = 1 };
             fake.ObservePropertyChanged(x => x.Value, false)
@@ -107,11 +101,10 @@ namespace Gu.Reactive.Tests
 
             Assert.AreEqual(0, _changes.Count);
 
-            fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
+            fake.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
 
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual(prop, _changes.Last().EventArgs.PropertyName);
+            AssertEventPattern(fake, propertyName, _changes.Last());
         }
 
         [TestCase(true, 1)]
@@ -124,7 +117,10 @@ namespace Gu.Reactive.Tests
                 .Subscribe(_changes.Add);
 
             Assert.AreEqual(expected, _changes.Count);
-
+            if (signalInitial)
+            {
+                AssertEventPattern(fake, "Value", _changes.Last());
+            }
             fake.Value++;
             Assert.AreEqual(expected + 1, _changes.Count); // Double check that we are subscribing
         }
@@ -158,7 +154,7 @@ namespace Gu.Reactive.Tests
 
             fake = null;
             GC.Collect();
-          
+
             Assert.IsFalse(wr.IsAlive);
         }
 
@@ -176,6 +172,12 @@ namespace Gu.Reactive.Tests
             fake = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
+        }
+
+        private static void AssertEventPattern(object sender, string propertyName, EventPattern<PropertyChangedEventArgs> pattern)
+        {
+            Assert.AreSame(sender, pattern.Sender);
+            Assert.AreEqual(propertyName, pattern.EventArgs.PropertyName);
         }
     }
 }

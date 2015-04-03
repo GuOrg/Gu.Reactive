@@ -49,10 +49,9 @@
             fake.ObservePropertyChanged()
                 .Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
-            fake.OnPropertyChanged("Value");
+            fake.OnPropertyChanged("SomeProp");
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertRx.AreEqual(fake, "SomeProp", _changes.Last());
         }
 
         [Test]
@@ -64,8 +63,7 @@
             Assert.AreEqual(0, _changes.Count);
             fake.Value++;
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertRx.AreEqual(fake, "Value", _changes.Last());
         }
 
         [Test]
@@ -78,34 +76,32 @@
             fake2.ObservePropertyChanged()
                 .Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
-            
+
             fake1.Value++;
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreSame(fake1, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertRx.AreEqual(fake1, "Value", _changes.Last());
 
             fake2.Value++;
             Assert.AreEqual(2, _changes.Count);
-            Assert.AreSame(fake2, _changes.Last().Sender);
-            Assert.AreEqual("Value", _changes.Last().EventArgs.PropertyName);
+            AssertRx.AreEqual(fake2, "Value", _changes.Last());
         }
 
         [Test]
         public void ReactsNullable()
         {
-            var fake = new Fake { IsTrueOrNull = null};
+            var fake = new Fake { IsTrueOrNull = null };
             var observable = fake.ObservePropertyChanged();
             var disposable = observable.Subscribe(_changes.Add);
+
             Assert.AreEqual(0, _changes.Count);
+
             fake.IsTrueOrNull = true;
             Assert.AreEqual(1, _changes.Count);
-            Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual("IsTrueOrNull", _changes.Last().EventArgs.PropertyName);
+            AssertRx.AreEqual(fake, "IsTrueOrNull", _changes.Last());
 
             fake.IsTrueOrNull = null;
             Assert.AreEqual(2, _changes.Count);
-            Assert.AreSame(fake, _changes.Last().Sender);
-            Assert.AreEqual("IsTrueOrNull", _changes.Last().EventArgs.PropertyName);
+            AssertRx.AreEqual(fake, "IsTrueOrNull", _changes.Last());
         }
 
         [Test]
@@ -116,8 +112,10 @@
             var disposable = observable.Subscribe(_changes.Add);
             fake.IsTrue = !fake.IsTrue;
             Assert.AreEqual(1, _changes.Count);
+
             disposable.Dispose();
             fake.IsTrue = !fake.IsTrue;
+
             Assert.AreEqual(1, _changes.Count);
         }
 
@@ -133,7 +131,7 @@
 
             fake = null;
             subscription.Dispose();
-            
+
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
         }

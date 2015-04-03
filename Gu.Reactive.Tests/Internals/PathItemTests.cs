@@ -1,10 +1,6 @@
 ﻿namespace Gu.Reactive.Tests.Internals
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     using Gu.Reactive.Internals;
     using Gu.Reactive.Tests.Fakes;

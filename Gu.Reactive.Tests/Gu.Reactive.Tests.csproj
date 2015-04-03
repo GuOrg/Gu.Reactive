@@ -80,6 +80,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssertRx.cs" />
+    <Compile Include="Fakes\FakeWithCollection.cs" />
     <Compile Include="Get_ValuePath.cs" />
     <Compile Include="Get_Benchmarks.cs" />
     <Compile Include="Get_ValueOrDefault.cs" />
