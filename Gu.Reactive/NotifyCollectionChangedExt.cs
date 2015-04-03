@@ -2,15 +2,13 @@ namespace Gu.Reactive
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Linq;
-
-    using Gu.Reactive.Internals;
+    using Internals;
 
     public static class NotifyCollectionChangedExt
     {

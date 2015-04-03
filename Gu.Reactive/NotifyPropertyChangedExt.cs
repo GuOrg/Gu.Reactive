@@ -14,7 +14,10 @@
     public static class NotifyPropertyChangedExt
     {
         /// <summary>
-        /// CConvenience wrapper for listening to property changes
+        /// Extension method for listening to property changes.
+        /// Handles nested x => x.Level1.Level2.Level3
+        /// Unsubscribes & subscribes when each level changes.
+        /// Handles nulls.
         /// </summary>
         /// <typeparam name="TNotifier">
         /// </typeparam>
@@ -70,7 +73,7 @@
         }
 
         /// <summary>
-        /// The to observable.
+        /// Prefer other overloads.
         /// </summary>
         /// <param name="source">
         /// The source.
@@ -109,7 +112,7 @@
         }
 
         /// <summary>
-        /// The to tracking observable.
+        /// Observe propertychanges with values.
         /// </summary>
         /// <param name="source">
         /// The source.
