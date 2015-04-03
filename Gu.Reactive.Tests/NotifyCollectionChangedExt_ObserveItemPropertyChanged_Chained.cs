@@ -9,7 +9,7 @@ namespace Gu.Reactive.Tests
     using Gu.Reactive.Tests.Fakes;
 
     using NUnit.Framework;
-
+    // ReSharper disable once InconsistentNaming
     [TestFixture]
     public class NotifyCollectionChangedExt_ObserveItemPropertyChanged_Chained
     {

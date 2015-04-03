@@ -17,7 +17,7 @@
         const int n = 10000;
 
         [Test]
-        public void ToObservable()
+        public void ObservePropertyChangedSimple()
         {
             var observables = new IObservable<EventPattern<PropertyChangedEventArgs>>[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true };
@@ -30,7 +30,7 @@
         }
 
         [Test]
-        public void ToObservableNested()
+        public void ObservePropertyChangedNested()
         {
             var observables = new IObservable<EventPattern<PropertyChangedEventArgs>>[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
@@ -45,7 +45,7 @@
         }
 
         [Test]
-        public void ToObservableAndSubscribe()
+        public void ObservePropertyChangedAndSubscribeSimple()
         {
             var observables = new IDisposable[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true };
@@ -59,7 +59,7 @@
         }
 
         [Test]
-        public void ToObservableAndSubscribeNested()
+        public void ObservePropertyChangedAndSubscribeNested()
         {
             var observables = new IDisposable[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };

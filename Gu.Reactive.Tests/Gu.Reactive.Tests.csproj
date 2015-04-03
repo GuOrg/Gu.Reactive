@@ -91,6 +91,7 @@
     <Compile Include="Internals\PathItemTests.cs" />
     <Compile Include="Internals\RootItemTests.cs" />
     <Compile Include="NameOf_Method_Tests.cs" />
+    <Compile Include="NameOf_Property_Benchmarks.cs" />
     <Compile Include="NotifyCollectionChangedExt_ObserveCollectionChanged.cs" />
     <Compile Include="FixedSizedQueueTests.cs" />
     <Compile Include="NameOf_Property_Tests.cs" />
