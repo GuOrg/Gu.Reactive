@@ -23,7 +23,7 @@ namespace Gu.Reactive.Tests
         [Test]
         public void ReactsTwoPropertiesSameInstance()
         {
-            var fake = new Fake { Next = new Level() };
+            var fake = new Fake { Next = new Level { Value = 1 } };
             fake.ObservePropertyChanged(x => x.Next.Value, false)
                 .Subscribe(_changes.Add);
 
@@ -140,7 +140,7 @@ namespace Gu.Reactive.Tests
         [TestCase(null)]
         public void DoesReactsOnStringEmptyOrNullFromRootWhenNotNull(string propertyName)
         {
-            var fake = new Fake{Next = new Level()};
+            var fake = new Fake { Next = new Level() };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
             var disposable = observable.Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
@@ -369,7 +369,7 @@ namespace Gu.Reactive.Tests
             Assert.AreSame(fake.Next.Next, _changes.Last().Sender);
             Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
 
-            fake.Next = new Level(){Next = new Level()};
+            fake.Next = new Level() { Next = new Level() };
             Assert.AreEqual(2, _changes.Count);
             Assert.AreSame(fake.Next.Next, _changes.Last().Sender);
             Assert.AreEqual("IsTrue", _changes.Last().EventArgs.PropertyName);
@@ -499,7 +499,7 @@ namespace Gu.Reactive.Tests
             GC.KeepAlive(subscription);
 
             GC.Collect();
-          
+
             Assert.IsFalse(rootRef.IsAlive);
             Assert.IsFalse(levelRef.IsAlive);
         }

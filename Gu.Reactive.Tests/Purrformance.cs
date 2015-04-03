@@ -9,11 +9,12 @@
     using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
-   
-    [Explicit("Longrunning benchmarks")]
+
+    //[Explicit("Longrunning benchmarks")]
+    [TestFixture]
     public class Purrformance : INotifyPropertyChanged
     {
-        const int n = 10000000;
+        const int n = 10000;
 
         [Test]
         public void ToObservable()
@@ -31,7 +32,6 @@
         [Test]
         public void ToObservableNested()
         {
-            int n = 1000;
             var observables = new IObservable<EventPattern<PropertyChangedEventArgs>>[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
             var stopwatch = Stopwatch.StartNew();
@@ -45,7 +45,6 @@
         [Test]
         public void ToObservableAndSubscribe()
         {
-            int n = 1000;
             var observables = new IDisposable[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true };
             var stopwatch = Stopwatch.StartNew();
@@ -59,7 +58,6 @@
         [Test]
         public void ToObservableAndSubscribeNested()
         {
-            const int n = 1000;
             var observables = new IDisposable[n];
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
             var stopwatch = Stopwatch.StartNew();
@@ -71,7 +69,7 @@
         }
 
         [Test]
-        public void React()
+        public void ReactSimple()
         {
             int count = 0;
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true };
@@ -84,7 +82,6 @@
             Console.WriteLine("Reacting to {0} events took {1} ms ({2:F2} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
             Assert.AreEqual(n, count);
         }
-
 
         [Test]
         public void ReactNested()
@@ -100,7 +97,6 @@
             Console.WriteLine("Reacting to {0} events took {1} ms ({2:F2} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
             Assert.AreEqual(n, count);
         }
-
 
         [Test]
         public void BaselineVanillaEvent()
