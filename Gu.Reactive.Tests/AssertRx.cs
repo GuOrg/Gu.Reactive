@@ -13,13 +13,13 @@ namespace Gu.Reactive.Tests
             Assert.AreEqual(propertyName, pattern.EventArgs.PropertyName);
         }
 
-        public static void AreEqual<TItem, TSender, TProperty>(string propertyName, TItem item, TSender sender, TProperty value, EventPattern<ItemPropertyChangedEventArgs<TSender, string>> actual)
+        public static void AreEqual<TItem, TProperty>(object sender, string propertyName, TItem item, TProperty value, EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>> actual)
         {
             Assert.AreSame(sender, actual.Sender);
-
-            Assert.AreEqual(item, actual.EventArgs.Item);
             Assert.AreEqual(propertyName, actual.EventArgs.PropertyName);
+
             Assert.AreEqual(value, actual.EventArgs.Value);
+            Assert.AreSame(item, actual.EventArgs.Item);
         }
     }
 }

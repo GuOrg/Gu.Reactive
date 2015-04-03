@@ -5,6 +5,7 @@ namespace Gu.Reactive
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics.Contracts;
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Linq;
@@ -24,6 +25,7 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TCollection : IEnumerable, INotifyCollectionChanged
         {
+            //Contract.Requires<ArgumentNullException>(source != null);
             IObservable<EventPattern<NotifyCollectionChangedEventArgs>> observable =
                 Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
                     x => source.CollectionChanged += x,

@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive
 {
     using System.ComponentModel;
+    using System.Reactive;
 
     /// <summary>
     /// The property changed event args.
@@ -11,30 +12,12 @@
     /// </typeparam>
     public class ItemPropertyChangedEventArgs<TItem, TValue> : PropertyChangedEventArgs
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ItemPropertyChangedEventArgs{TSource,TValue}"/> class.
-        /// </summary>
-        /// <param name="item">
-        /// The sender.
-        /// </param>
-        /// <param name="value">
-        /// The current value.
-        /// </param>
-        /// <param name="propertyName">
-        /// The property name.
-        /// </param>
-        public ItemPropertyChangedEventArgs(TItem item, TValue value, string propertyName)
-            : base(propertyName)
-        {
-            Item = item;
-            Value = value;
-        }
-
-        public ItemPropertyChangedEventArgs(TItem item, PropertyChangedAndValueEventArgs<TValue> e) 
-            : base(e.PropertyName)
+        public ItemPropertyChangedEventArgs(TItem item, EventPattern<PropertyChangedAndValueEventArgs<TValue>> e) 
+            : base(e.EventArgs.PropertyName)
         {
             Item =  item;
-            Value = e.Value;
+            Value = e.EventArgs.Value;
+            Sender = e.Sender;
         }
 
         /// <summary>
@@ -46,5 +29,7 @@
         /// Gets the current value.
         /// </summary>
         public TValue Value { get; private set; }
+
+        public object Sender { get; private set; }
     }
 }

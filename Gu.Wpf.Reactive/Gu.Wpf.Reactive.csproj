@@ -98,6 +98,7 @@
     <Compile Include="Converters\TypeConverters\NullableEnumConverter.cs" />
     <Compile Include="Converters\TypeConverters\TypeConverterFactory.cs" />
     <Compile Include="DesignMode.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ObservableCollectionExtensions.cs" />
     <Compile Include="FilteredView.cs" />
     <Compile Include="DeferredView.cs" />
