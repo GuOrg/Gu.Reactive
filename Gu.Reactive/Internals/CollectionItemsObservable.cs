@@ -10,6 +10,7 @@ namespace Gu.Reactive.Internals
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reactive;
+    using System.Reactive.Linq;
 
     internal sealed class CollectionItemsObservable<TItem, TValue> :
         ObservableBase<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>>,
@@ -17,6 +18,8 @@ namespace Gu.Reactive.Internals
         where TItem : class, INotifyPropertyChanged
     {
         private static readonly ObjectIdentityComparer<TItem> IdentityComparer = new ObjectIdentityComparer<TItem>();
+
+        private readonly IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> _sourceObservable;
 
         private readonly bool _signalInitial;
         private readonly PropertyPath<TItem, TValue> _propertyPath;
@@ -26,13 +29,23 @@ namespace Gu.Reactive.Internals
         private IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>> _observer;
         private bool _disposed;
         private bool _intialized;
-        private IDisposable _sourceSubscription;
+        private IDisposable _collectionChangedSubscription;
 
         public CollectionItemsObservable(ObservableCollection<TItem> collection, bool signalInitial, PropertyPath<TItem, TValue> propertyPath)
         {
             _signalInitial = signalInitial;
             _propertyPath = propertyPath;
             _wr.Target = collection;
+        }
+
+        public CollectionItemsObservable(
+            IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> sourceObservable,
+            bool signalInitial,
+            PropertyPath<TItem, TValue> propertyPath)
+        {
+            _sourceObservable = sourceObservable;
+            _signalInitial = signalInitial;
+            _propertyPath = propertyPath;
         }
 
         public IEnumerable<TItem> Collection
@@ -63,9 +76,9 @@ namespace Gu.Reactive.Internals
                 return;
             }
             _disposed = true;
-            if (_sourceSubscription != null)
+            if (_collectionChangedSubscription != null)
             {
-                _sourceSubscription.Dispose();
+                _collectionChangedSubscription.Dispose();
             }
             foreach (var disposable in _map.Values.ToArray())
             {
@@ -84,11 +97,38 @@ namespace Gu.Reactive.Internals
             var observableCollection = _wr.Target as ObservableCollection<TItem>;
             if (observableCollection != null)
             {
-                _sourceSubscription = observableCollection.ObserveCollectionChanged(true)
+                _collectionChangedSubscription = observableCollection.ObserveCollectionChanged(true)
                                                           .Subscribe(Update);
+            }
+            else if (_sourceObservable != null)
+            {
+                _sourceObservable.Subscribe(UpdateCollectionSubscription);
+            }
+            else
+            {
+                throw new InvalidOperationException("Nothing to subscribe on");
             }
             _intialized = true;
             return this;
+        }
+
+        private void UpdateCollectionSubscription(EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>> eventPattern)
+        {
+            if (_collectionChangedSubscription != null)
+            {
+                _collectionChangedSubscription.Dispose();
+                _wr.Target = null;
+                Reset(null);
+            }
+            if (eventPattern.EventArgs.HasValue)
+            {
+                _intialized = false;
+                var collection = eventPattern.EventArgs.Value;
+                _wr.Target = collection;
+                _collectionChangedSubscription = collection.ObserveCollectionChanged(true)
+                                                           .Subscribe(Update);
+                _intialized = true;
+            }
         }
 
         private void Update(EventPattern<NotifyCollectionChangedEventArgs> e)
@@ -183,7 +223,7 @@ namespace Gu.Reactive.Internals
         {
             if (_observer != null)
             {
-                _observer.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>(_wr.Target, new ItemPropertyChangedEventArgs<TItem, TValue>(item, x.EventArgs)));
+                _observer.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>(x.Sender, new ItemPropertyChangedEventArgs<TItem, TValue>(item, x)));
             }
         }
 

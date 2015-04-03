@@ -79,107 +79,107 @@
 
         protected override Expression VisitBinary(BinaryExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitBlock(BlockExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override CatchBlock VisitCatchBlock(CatchBlock node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitConditional(ConditionalExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitDebugInfo(DebugInfoExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitDefault(DefaultExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitDynamic(DynamicExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override ElementInit VisitElementInit(ElementInit node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitExtension(Expression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitGoto(GotoExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitIndex(IndexExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitInvocation(InvocationExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitLabel(LabelExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override LabelTarget VisitLabelTarget(LabelTarget node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitListInit(ListInitExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitLoop(LoopExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override MemberAssignment VisitMemberAssignment(MemberAssignment node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override MemberBinding VisitMemberBinding(MemberBinding node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitMemberInit(MemberInitExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override MemberListBinding VisitMemberListBinding(MemberListBinding node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
@@ -190,43 +190,43 @@
 
         protected override Expression VisitNew(NewExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitNewArray(NewArrayExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitRuntimeVariables(RuntimeVariablesExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitSwitch(SwitchExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override SwitchCase VisitSwitchCase(SwitchCase node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitTry(TryExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitTypeBinary(TypeBinaryExpression node)
         {
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
 
         protected override Expression VisitUnary(UnaryExpression node)
         {
             return base.VisitUnary(node);
-            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression, "expression"));
+            throw new ArgumentException(string.Format("Expecxting a path like x.Property.Value was {0}", _expression), "expression");
         }
     }
 }

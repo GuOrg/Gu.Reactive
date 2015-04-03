@@ -10,7 +10,7 @@ namespace Gu.Reactive.Tests
 
     using NUnit.Framework;
 
-    [Explicit("Implement & test this")]
+    [TestFixture]
     public class NotifyCollectionChangedExt_ObserveItemPropertyChanged_Chained
     {
         private List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> _changes;
@@ -32,7 +32,7 @@ namespace Gu.Reactive.Tests
             var collection = new ObservableCollection<Fake> { new Fake { Name = "Johan" } };
             fake.Collection = collection;
             Assert.AreEqual(1, _changes.Count);
-            AssertRx.AreEqual("Name", collection[0], collection[0], "Johan", _changes.Last());
+            AssertRx.AreEqual(collection[0], "Name", collection[0], "Johan", _changes.Last());
         }
 
         [Test]
@@ -44,7 +44,41 @@ namespace Gu.Reactive.Tests
                 .ItemPropertyChanged(x => x.Name)
                 .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
-            AssertRx.AreEqual("Name", collection[0], collection[0], "Johan", _changes.Last());
+            AssertRx.AreEqual(collection[0], "Name", collection[0], "Johan", _changes.Last());
+        }
+
+        [Test]
+        public void ReactsNested()
+        {
+            var collection = new ObservableCollection<Fake> { new Fake { Next = new Level { Name = "Johan" } } };
+            var fake = new FakeWithCollection { Collection = collection };
+            fake.ObservePropertyChangedWithValue(x => x.Collection, true)
+                .ItemPropertyChanged(x => x.Next.Name)
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(1, _changes.Count);
+            AssertRx.AreEqual(collection[0].Next, "Name", collection[0], "Johan", _changes.Last());
+        }
+
+        [Test]
+        public void StopsSubscribing()
+        {
+            var collection1 = new ObservableCollection<Fake> { new Fake { Name = "Johan" } };
+            var fake = new FakeWithCollection { Collection = collection1 };
+            fake.ObservePropertyChangedWithValue(x => x.Collection, true)
+                .ItemPropertyChanged(x => x.Name)
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(1, _changes.Count);
+            AssertRx.AreEqual(collection1[0], "Name", collection1[0], "Johan", _changes.Last());
+
+            fake.Collection = null;
+            Assert.AreEqual(1, _changes.Count);
+            collection1[0].Name = "new";
+            Assert.AreEqual(1, _changes.Count);
+
+            var collection2 = new ObservableCollection<Fake> { new Fake { Name = "Kurt" } };
+            fake.Collection = collection2;
+            Assert.AreEqual(2, _changes.Count);
+            AssertRx.AreEqual(collection2[0], "Name", collection2[0], "Kurt", _changes.Last());
         }
     }
 }
