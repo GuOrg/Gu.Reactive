@@ -5,7 +5,7 @@
 
     using Gu.Reactive;
     using Gu.Reactive.Tests;
-    using Gu.Reactive.Tests.Helpers;
+    using Gu.Reactive.Tests.Fakes;
 
     using NUnit.Framework;
 

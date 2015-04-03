@@ -1,22 +1,42 @@
-﻿namespace Gu.Reactive.Tests.Helpers
+﻿namespace Gu.Reactive.Tests.Fakes
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Annotations;
 
-    public class Level : INotifyPropertyChanged
+    public class Fake : INotifyPropertyChanged
     {
+        private bool? _isTrueOrNull;
         private bool _isTrue;
         private Level _next;
         private string _name;
 
-        private bool? _isTrueOrNull;
+        private StructLevel _structLevel;
 
         private int _value;
 
         public event PropertyChangedEventHandler PropertyChanged;
+       
+        public int WriteOnly { set { return; } }
 
+        public bool? IsTrueOrNull
+        {
+            get
+            {
+                return _isTrueOrNull;
+            }
+            set
+            {
+                if (value.Equals(_isTrueOrNull))
+                {
+                    return;
+                }
+                _isTrueOrNull = value;
+                this.OnPropertyChanged();
+            }
+        }
+       
         public bool IsTrue
         {
             get
@@ -30,44 +50,10 @@
                     return;
                 }
                 _isTrue = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
-
-        public bool? IsTrueOrNull
-        {
-            get
-            {
-                return _isTrueOrNull;
-            }
-            set
-            {
-                if (Equals(value, _isTrueOrNull))
-                {
-                    return;
-                }
-                _isTrueOrNull = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int Value
-        {
-            get
-            {
-                return _value;
-            }
-            set
-            {
-                if (value == _value)
-                {
-                    return;
-                }
-                _value = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
         public string Name
         {
             get
@@ -81,7 +67,7 @@
                     return;
                 }
                 _name = value;
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -98,22 +84,47 @@
                     return;
                 }
                 _next = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public StructLevel StructLevel
+        {
+            get
+            {
+                return _structLevel;
+            }
+            set
+            {
+                _structLevel = value;
                 OnPropertyChanged();
             }
         }
 
         public NotInpc NotInpc { get; private set; }
 
+        public int Value
+        {
+            get
+            {
+                return _value;
+            }
+            set
+            {
+                _value = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Level Method()
         {
             return Next;
         }
 
-
         [NotifyPropertyChangedInvocator]
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
+            var handler = this.PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));

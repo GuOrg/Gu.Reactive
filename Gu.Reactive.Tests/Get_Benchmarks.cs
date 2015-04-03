@@ -3,7 +3,7 @@ namespace Gu.Reactive.Tests
     using System;
     using System.Diagnostics;
 
-    using Gu.Reactive.Tests.Helpers;
+    using Gu.Reactive.Tests.Fakes;
 
     using NUnit.Framework;
 

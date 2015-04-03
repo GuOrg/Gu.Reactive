@@ -5,7 +5,7 @@
     using System.ComponentModel;
     using System.Diagnostics;
 
-    using Gu.Reactive.Tests.Helpers;
+    using Gu.Reactive.Tests.Fakes;
 
     using Moq;
 

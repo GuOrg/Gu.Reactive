@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
 
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Tests.Helpers;
+    using Gu.Reactive.Tests.Fakes;
 
     using NUnit.Framework;
 
