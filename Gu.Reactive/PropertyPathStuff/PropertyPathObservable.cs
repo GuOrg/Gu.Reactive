@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.PropertyPathStuff
 {
     using System;
     using System.ComponentModel;
@@ -6,7 +6,6 @@
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Disposables;
-    using System.Reactive.Subjects;
 
     /// <summary>
     /// The nested observable.

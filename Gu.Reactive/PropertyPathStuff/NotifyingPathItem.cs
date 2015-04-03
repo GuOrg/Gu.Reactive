@@ -1,24 +1,18 @@
-namespace Gu.Reactive.Internals
+namespace Gu.Reactive.PropertyPathStuff
 {
     using System;
     using System.ComponentModel;
     using System.Linq;
     using System.Reactive;
-    using System.Reflection;
 
     internal sealed class NotifyingPathItem : INotifyingPathItem
     {
         private readonly PropertyChangedEventArgs _propertyChangedEventArgs;
         private readonly WeakReference _sourceRef = new WeakReference(null);
+        private readonly Action<EventPattern<PropertyChangedEventArgs>> _onNext;
+        private readonly Action<Exception> _onError;
         private bool _disposed;
         private IDisposable _subscription;
-        private readonly Action<EventPattern<PropertyChangedEventArgs>> _onNext;
-
-        private readonly Action<Exception> _onError;
-
-        private NotifyingPathItem()
-        {
-        }
 
         public NotifyingPathItem(INotifyingPathItem previous, PathProperty pathProperty)
         {
@@ -27,7 +21,7 @@ namespace Gu.Reactive.Internals
             {
                 throw new ArgumentException("Cannot listen to changes for structs. Copy by value...");
             }
-            if (!declaringType.GetInterfaces().Any(i => i == typeof(INotifyPropertyChanged)))
+            if (declaringType.GetInterfaces().All(i => i != typeof (INotifyPropertyChanged)))
             {
                 throw new ArgumentException("Type must be INotifyPropertyChanged");
             }

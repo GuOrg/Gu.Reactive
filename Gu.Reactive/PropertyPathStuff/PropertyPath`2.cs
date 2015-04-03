@@ -1,9 +1,10 @@
-﻿namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.PropertyPathStuff
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Internals;
 
     internal class PropertyPath<TSource, TValue> : IValuePath<TSource, TValue>, IPropertyPath
     {

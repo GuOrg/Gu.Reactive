@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+namespace Gu.Reactive.PropertyPathStuff
 {
     using System.Collections.Generic;
 

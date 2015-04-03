@@ -8,6 +8,7 @@
     using Gu.Reactive.Internals;
 
     using NUnit.Framework;
+    using PropertyPathStuff;
 
     public class RootItemTests
     {

@@ -1,7 +1,8 @@
-﻿namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.PropertyPathStuff
 {
     using System;
     using System.Linq;
+    using Internals;
 
     internal class PropertyPath<TValue> : IMaybe<TValue>
     {

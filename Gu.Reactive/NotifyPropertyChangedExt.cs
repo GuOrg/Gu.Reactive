@@ -6,6 +6,7 @@
     using System.Reactive;
     using System.Reactive.Linq;
     using Internals;
+    using PropertyPathStuff;
 
     /// <summary>
     /// Extension methods for subscribing to property changes.
