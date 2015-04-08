@@ -85,7 +85,7 @@ namespace Gu.Reactive.PropertyPathStuff
             {
                 if (value != null)
                 {
-                    if (value.GetType() != PathProperty.PropertyInfo.DeclaringType)
+                    if (!PathProperty.PropertyInfo.DeclaringType.IsInstanceOfType(value))
                     {
                         throw new InvalidOperationException(
                             string.Format(

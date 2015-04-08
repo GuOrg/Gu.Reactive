@@ -5,7 +5,7 @@
 
     using Gu.Reactive.Annotations;
 
-    public class Fake : INotifyPropertyChanged
+    public class Fake : INotifyPropertyChanged, IFake
     {
         private bool? _isTrueOrNull;
         private bool _isTrue;
