@@ -50,6 +50,38 @@
         }
 
         [Test]
+        public void SetSourceToCorrectType()
+        {
+            var propertyName = NameOf.Property<Fake>(x => x.IsTrue);
+            var propertyInfo = typeof(Fake).GetProperty(propertyName);
+            var fakeInpc = new Fake();
+            var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
+            pathItem.Source = fakeInpc;
+            Assert.AreSame(fakeInpc, pathItem.Source); // Really just scheking that we don't throw here
+        }
+
+        [Test]
+        public void SetSourceToSubtype()
+        {
+            var propertyName = NameOf.Property<IFake>(x => x.IsTrue);
+            var propertyInfo = typeof(IFake).GetProperty(propertyName);
+            var fakeInpc = new Fake();
+            var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
+            pathItem.Source = fakeInpc;
+            Assert.AreSame(fakeInpc, pathItem.Source); // Really just scheking that we don't throw here
+        }
+
+        [Test]
+        public void SetSourceToIncorrectTypeThrows()
+        {
+            var propertyName = NameOf.Property<Fake>(x => x.IsTrue);
+            var propertyInfo = typeof(Fake).GetProperty(propertyName);
+            var level = new Level();
+            var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
+            Assert.Throws<InvalidOperationException>(() => pathItem.Source = level);
+        }
+
+        [Test]
         public void NotifiesOnNewSourceAffectingProp()
         {
             var propertyName = NameOf.Property<Fake>(x => x.IsTrue);
@@ -58,9 +90,9 @@
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
             pathItem.ObservePropertyChanged().Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);
-           
+
             pathItem.Source = fakeInpc;
-            
+
             Assert.AreEqual(1, _changes.Count);
             Assert.AreEqual(propertyName, _changes.Single().EventArgs.PropertyName);
             Assert.AreSame(fakeInpc, _changes.Single().Sender);
