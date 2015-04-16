@@ -242,7 +242,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ItemPropertyChangedEventArgs.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />
-    <Compile Include="TrackingEventArgs.cs" />
     <Compile Include="TaskExt.cs" />
     <Compile Include="Internals\CollectionItemsObservable.cs" />
   </ItemGroup>

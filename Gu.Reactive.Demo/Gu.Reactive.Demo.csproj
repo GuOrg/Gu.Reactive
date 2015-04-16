@@ -95,14 +95,20 @@
     <Compile Include="AsyncCommands.xaml.cs">
       <DependentUpon>AsyncCommands.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AsyncViewModel.cs" />
+    <Compile Include="AsyncViewModel.cs">
+      <DependentUpon>AsyncCommands.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CollectionViewDemo.xaml.cs">
       <DependentUpon>CollectionViewDemo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CollectionViewDemoViewModel.cs" />
-    <Compile Include="CommandsViewModel.cs" />
-    <Compile Include="Commands.xaml.cs">
-      <DependentUpon>Commands.xaml</DependentUpon>
+    <Compile Include="CollectionViewDemoViewModel.cs">
+      <DependentUpon>CollectionViewDemo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommandsViewModel.cs">
+      <DependentUpon>CommandsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommandsView.xaml.cs">
+      <DependentUpon>CommandsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConditionButtons.xaml.cs">
       <DependentUpon>ConditionButtons.xaml</DependentUpon>
@@ -116,13 +122,29 @@
     <Compile Include="ConvertersDemoView.xaml.cs">
       <DependentUpon>ConvertersDemoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NamedFilter.cs" />
-    <Compile Include="NinjaBindingDemo.xaml.cs">
-      <DependentUpon>NinjaBindingDemo.xaml</DependentUpon>
+    <Compile Include="DummyReadonlyCollection.cs">
+      <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NinjaBindingViewModel.cs" />
+    <Compile Include="FilteredViewView.xaml.cs">
+      <DependentUpon>FilteredViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FilteredViewViewModel.cs">
+      <DependentUpon>FilteredViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NamedFilter.cs" />
+    <Compile Include="NinjaBindingView.xaml.cs">
+      <DependentUpon>NinjaBindingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NinjaBindingViewModel.cs">
+      <DependentUpon>NinjaBindingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Person.cs">
+      <DependentUpon>FilteredViewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ViewModel.cs" />
+    <Compile Include="MainWindowViewModel.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="AsyncCommands.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -131,7 +153,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Commands.xaml">
+    <Page Include="CommandsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -147,6 +169,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="FilteredViewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -159,7 +185,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NinjaBindingDemo.xaml">
+    <Page Include="NinjaBindingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

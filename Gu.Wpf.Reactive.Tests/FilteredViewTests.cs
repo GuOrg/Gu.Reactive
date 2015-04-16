@@ -125,7 +125,7 @@
             view.CollectionChanged += (sender, args) => argses.Add(args);
             ints.Add(3);
             Assert.AreEqual(1, argses.Count);
-            Assert.AreEqual(NotifyCollectionChangedAction.Add, argses.Single().Action);
+            Assert.AreEqual(NotifyCollectionChangedAction.Reset, argses.Single().Action);
             CollectionAssert.AreEqual(ints, view);
         }
 

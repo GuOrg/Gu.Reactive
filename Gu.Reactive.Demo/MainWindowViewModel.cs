@@ -10,13 +10,13 @@
 
     using Condition = Condition;
 
-    public class ViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
         private readonly List<ICondition> _conditions = new List<ICondition>();
         private bool _isDoorClosed;
         private bool _isMotorRunning;
 
-        public ViewModel()
+        public MainWindowViewModel()
         {
             IsDoorClosedCondition = new Condition(
                 this.ObservePropertyChanged(x => x.IsDoorClosed), 

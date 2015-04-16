@@ -131,8 +131,7 @@
         /// <returns>
         /// The <see cref="IObservable"/>.
         /// </returns>
-        public static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue
-            <TNotifier, TProperty>(
+        public static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
             bool signalInitial = true)
