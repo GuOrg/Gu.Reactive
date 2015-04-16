@@ -9,7 +9,7 @@
         Title="MainWindow"
         Width="525"
         Height="350"
-        d:DataContext="{d:DesignInstance demo:ViewModel}"
+        d:DataContext="{d:DesignInstance demo:MainWindowViewModel}"
         mc:Ignorable="d">
     <TabControl>
         <TabItem Header="Conditions">
@@ -53,7 +53,11 @@
         </TabItem>
 
         <TabItem Header="Commands">
-            <demo:Commands />
+            <demo:CommandsView />
+        </TabItem>
+
+        <TabItem Header="FilteredView">
+            <demo:FilteredViewView />
         </TabItem>
 
         <TabItem Header="CollectionView">
@@ -61,7 +65,7 @@
         </TabItem>
 
         <TabItem Header="NinjaBinding">
-            <demo:NinjaBindingDemo />
+            <demo:NinjaBindingView />
         </TabItem>
 
         <TabItem Header="Converters">

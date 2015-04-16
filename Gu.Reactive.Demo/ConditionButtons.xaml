@@ -6,7 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips"
-             d:DataContext="{d:DesignInstance demo:ViewModel}"
+             d:DataContext="{d:DesignInstance demo:MainWindowViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">

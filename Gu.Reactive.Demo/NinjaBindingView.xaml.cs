@@ -5,9 +5,9 @@
     /// <summary>
     /// Interaction logic for NinjaBindingDemo.xaml
     /// </summary>
-    public partial class NinjaBindingDemo : UserControl
+    public partial class NinjaBindingView : UserControl
     {
-        public NinjaBindingDemo()
+        public NinjaBindingView()
         {
             InitializeComponent();
             DataContext = new NinjaBindingViewModel();

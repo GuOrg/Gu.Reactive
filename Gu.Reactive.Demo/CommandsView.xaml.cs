@@ -1,13 +1,13 @@
-﻿using System.Windows.Controls;
-
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
+    using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for Commands.xaml
     /// </summary>
-    public partial class Commands : UserControl
+    public partial class CommandsView : UserControl
     {
-        public Commands()
+        public CommandsView()
         {
             InitializeComponent();
             DataContext = new CommandsViewModel();

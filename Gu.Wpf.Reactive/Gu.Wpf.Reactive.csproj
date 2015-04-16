@@ -99,9 +99,10 @@
     <Compile Include="Converters\TypeConverters\TypeConverterFactory.cs" />
     <Compile Include="DesignMode.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Maybe`1.cs" />
     <Compile Include="ObservableCollectionExtensions.cs" />
-    <Compile Include="FilteredView.cs" />
-    <Compile Include="DeferredView.cs" />
+    <Compile Include="FilteredView`1.cs" />
+    <Compile Include="DeferredView`1.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Page Include="Themes\Assets.xaml">
       <SubType>Designer</SubType>
@@ -143,7 +144,7 @@
   <ItemGroup>
     <Compile Include="Commands\ObservingRelayCommand.cs" />
     <Compile Include="NotifyTaskCompletionBase.cs" />
-    <Compile Include="ObservableFixedSizeQueue.cs" />
+    <Compile Include="ObservableFixedSizeQueue`1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
