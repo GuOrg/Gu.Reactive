@@ -104,10 +104,10 @@
     <Compile Include="CollectionViewDemoViewModel.cs">
       <DependentUpon>CollectionViewDemo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CommandsViewModel.cs">
+    <Compile Include="CommandsView.xaml.cs">
       <DependentUpon>CommandsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CommandsView.xaml.cs">
+    <Compile Include="CommandsViewModel.cs">
       <DependentUpon>CommandsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConditionButtons.xaml.cs">
@@ -131,6 +131,9 @@
     <Compile Include="FilteredViewViewModel.cs">
       <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainWindowViewModel.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NamedFilter.cs" />
     <Compile Include="NinjaBindingView.xaml.cs">
       <DependentUpon>NinjaBindingView.xaml</DependentUpon>
@@ -142,9 +145,6 @@
       <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="MainWindowViewModel.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
     <Page Include="AsyncCommands.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
