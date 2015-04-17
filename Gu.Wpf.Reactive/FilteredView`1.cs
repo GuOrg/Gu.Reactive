@@ -313,7 +313,34 @@
 
         bool IList.Contains(object value)
         {
-            throw new NotImplementedException();
+            var isValueType = typeof(T).IsValueType;
+            if (isValueType)
+            {
+                using (var enumerator = GetEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        if (Equals(value, enumerator.Current))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                using (var enumerator = GetEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        if (ReferenceEquals(value, enumerator.Current))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
 
         void IList.Clear()

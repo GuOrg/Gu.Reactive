@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              d:DataContext="{d:DesignInstance demo:FilteredViewViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -15,6 +16,7 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
+
         <GroupBox Grid.Row="0" Header="Vanilla observable collection">
             <DataGrid ItemsSource="{Binding PeopleRaw}" />
         </GroupBox>
@@ -28,7 +30,30 @@
         </GroupBox>
 
         <GroupBox Grid.Row="3" Header="Filtered view">
-            <DataGrid ItemsSource="{Binding Filtered}" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <!--  Hacking it like this for now  -->
+                    <TextBox Margin="4"
+                             BorderBrush="Black"
+                             BorderThickness="1"
+                             FontSize="24"
+                             Padding="0"
+                             Text="{Binding SearchText,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Delay=50}" />
+                    <Border BorderBrush="LightBlue"
+                            BorderThickness="5"
+                            Visibility="{Binding HasSearchText,
+                                                 Converter={reactive:BooleanToVisibilityConverter WhenTrue=Visible,
+                                                                                                  WhenFalse=Hidden}}" />
+                </Grid>
+                <DataGrid Grid.Row="1" ItemsSource="{Binding Filtered}" />
+            </Grid>
+
         </GroupBox>
     </Grid>
 </UserControl>
