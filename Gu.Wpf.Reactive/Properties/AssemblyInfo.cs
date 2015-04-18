@@ -3,6 +3,7 @@ using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Markup;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -56,3 +57,6 @@ using System.Windows;
 [assembly: NeutralResourcesLanguage("en")]
 [assembly: Guid("1E55FADA-8E21-45DC-B416-224C1956AD39")]
 [assembly: InternalsVisibleTo("Gu.Wpf.Reactive.Tests", AllInternalsVisible = true)]
+
+[assembly: XmlnsDefinition("http://Gu.com/Reactive", "Gu.Wpf.Reactive")]
+[assembly: XmlnsPrefix("http://Gu.com/Reactive", "reactive")]
