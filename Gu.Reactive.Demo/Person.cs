@@ -1,15 +1,18 @@
 ﻿namespace Gu.Reactive.Demo
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Demo.Annotations;
+    using Annotations;
 
     public class Person : INotifyPropertyChanged
     {
         private string _firstName;
-
         private string _lastName;
+        private IReadOnlyList<int> _tagsValues;
+        private string _tags;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -37,6 +40,29 @@
                     return;
                 }
                 _lastName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Tags
+        {
+            get { return _tags; }
+            private set
+            {
+                if (value == _tags) return;
+                _tags = value;
+                OnPropertyChanged();
+            }
+        }
+
+        internal IReadOnlyList<int> TagsValues
+        {
+            get { return _tagsValues; }
+            set
+            {
+                if (Equals(value, _tagsValues)) return;
+                _tagsValues = value;
+                _tags = String.Join(", ", _tagsValues);
                 OnPropertyChanged();
             }
         }

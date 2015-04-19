@@ -1,9 +1,11 @@
 ﻿namespace Gu.Reactive.Demo
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Globalization;
+    using System.Linq;
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Demo.Annotations;
@@ -13,19 +15,28 @@
     {
         private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
         private readonly ObservableCollection<Person> _peopleRaw;
+        private readonly Random _random = new Random();
+        
         private string _searchText;
-
         private bool _hasSearchText;
+        private IEnumerable<int> _selectedTags = Enumerable.Empty<int>();
 
         public FilteredViewViewModel()
         {
-            _peopleRaw = new ObservableCollection<Person>
-                             {
-                                 new Person { FirstName = "Johan", LastName = "Larsson" },
-                                 new Person { FirstName = "Max", LastName = "Andersson" },
-                                 new Person { FirstName = "Erik", LastName = "Svensson" },
-                             };
-            Filtered = new FilteredView<Person>(_peopleRaw, Filter, this.ObservePropertyChanged(x => x.SearchText));
+            Tags = new HashSet<int>(Enumerable.Range(0, 10));
+            _peopleRaw = new ObservableCollection<Person>();
+            int n = 1000;
+            for (int i = 0; i < n / 3; i++)
+            {
+                _peopleRaw.Add(new Person { FirstName = "Johan", LastName = "Larsson", TagsValues = CreateTags() });
+                _peopleRaw.Add(new Person { FirstName = "Max", LastName = "Andersson", TagsValues = CreateTags() });
+                _peopleRaw.Add(new Person { FirstName = "Erik", LastName = "Svensson", TagsValues = CreateTags() });
+            }
+            Filtered = new FilteredView<Person>(
+                _peopleRaw,
+                Filter,
+                this.ObservePropertyChanged(x => x.SearchText),
+                this.ObservePropertyChanged(x => x.SelectedTags));
             PeopleReadonly = new ReadOnlyObservableCollection<Person>(_peopleRaw);
             DummyReadonlyCollection = new DummyReadonlyCollection<Person>(_peopleRaw);
             this.ObservePropertyChanged(x => x.SearchText)
@@ -67,6 +78,19 @@
             get { return _peopleRaw; }
         }
 
+        public IEnumerable<int> Tags { get; private set; }
+
+        public IEnumerable<int> SelectedTags
+        {
+            get { return _selectedTags; }
+            set
+            {
+                if (Equals(value, _selectedTags)) return;
+                _selectedTags = value ?? Enumerable.Empty<int>();
+                OnPropertyChanged();
+            }
+        }
+
         public ReadOnlyObservableCollection<Person> PeopleReadonly { get; private set; }
 
         public FilteredView<Person> Filtered { get; private set; }
@@ -85,7 +109,11 @@
 
         private bool Filter(Person person)
         {
+            return IsTextMatch(person) && IsTagMatch(person);
+        }
 
+        private bool IsTextMatch(Person person)
+        {
             if (string.IsNullOrEmpty(SearchText))
             {
                 return true;
@@ -102,6 +130,24 @@
             }
 
             return false;
+        }
+
+        private bool IsTagMatch(Person person)
+        {
+            if (!_selectedTags.Any())
+            {
+                return true;
+            }
+            return _selectedTags.Intersect(person.TagsValues).Any();
+        }
+
+        private IReadOnlyList<int> CreateTags()
+        {
+            var tags = Enumerable.Repeat(0, _random.Next(0, 3))
+                                 .Select(_ => _random.Next(0, 10))
+                                 .Distinct()
+                                 .ToArray();
+            return tags;
         }
 
         private static bool IsMatch(string value, string pattern)
