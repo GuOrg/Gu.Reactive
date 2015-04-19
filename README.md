@@ -4,12 +4,46 @@ Gu.Reactive
 
 A collection of useful classes that uses System.Reactive
 
-Nice feature:
+### ObservePropertyChanged:
 
-var observable = fake.ToObservable(x => x.Next.Value);
+```
+var subscription = fake.ObservePropertyChanged(x => x.Next.Value)
+					   .Subscribe(...);
+```
 
-1) Listens to nested changes. All steps in the property path must be INotifyPropertyChanged. Thorws if not.
+1) Listens to nested changes. All steps in the property path must be INotifyPropertyChanged. Throws if not.
 
-2) Unsubscribes and uses weak events. Tested for memory leaks.
+2) Updates subscriptions for items in path and uses weak events. Tested for memory leaks.
 
 3) Refactor friendly cos lambdas.
+
+### ObserveItemPropertyChanged
+```
+var subscription = collection.ObserveItemPropertyChanged(x => x.Name)
+							 .Subscribe(...);
+```
+1) Listens to changes using ObservePropertyChanged
+2) Removes subscriptions for elements that are removed from the collection and adds subscription to new elements.
+
+### Composes
+```
+fake.ObservePropertyChangedWithValue(x => x.Collection)
+	.ItemPropertyChanged(x => x.Name)
+	.Subscribe(_changes.Add);
+```
+
+### Conditions:
+Se demo code
+
+### Commands
+* Not using CommandManager for raising CanExecuteChanged. Weak events & tests for memory leaks.
+* Typed parameters or no parameter.
+* ManualRelayCommand & ManualRelayCommand<T>
+* RelayCommand & RelayCommand<T>
+* ObservingRelayCommand<T>
+* ConditionRelayCommand & ConditionRelayCommand<T>
+
+### FilteredView<T>
+* No more CollectionViewSource in code.
+* Typed so you get intellisense in xaml.
+* Takes Filter<T, bool> and params IObservable<object> for max composability.
