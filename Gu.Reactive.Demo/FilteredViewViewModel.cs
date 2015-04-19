@@ -25,7 +25,7 @@
         {
             Tags = new HashSet<int>(Enumerable.Range(0, 10));
             _peopleRaw = new ObservableCollection<Person>();
-            int n = 1000;
+            int n = 100;
             for (int i = 0; i < n / 3; i++)
             {
                 _peopleRaw.Add(new Person { FirstName = "Johan", LastName = "Larsson", TagsValues = CreateTags() });
