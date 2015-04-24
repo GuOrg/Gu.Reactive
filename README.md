@@ -47,3 +47,12 @@ Se demo code
 * No more CollectionViewSource in code.
 * Typed so you get intellisense in xaml.
 * Takes Filter<T, bool> and params IObservable<object> for max composability.
+
+License
+=======
+
+Gu.Reactive is licensed under the MIT license. See License.md for the
+full license text, or at [opensource.org][1] if the license file was not
+provided.
+
+[1]: http://opensource.org/licenses/MIT
