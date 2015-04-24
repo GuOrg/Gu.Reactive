@@ -18,7 +18,7 @@
     <projectUrl>https://nuget.org/packages/NuGet.Gu.Reactive</projectUrl>
     <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
     <copyright>Copyright  2014</copyright>
     <dependencies>
         <group targetFramework="net45">
