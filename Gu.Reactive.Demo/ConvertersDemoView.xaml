@@ -26,7 +26,7 @@
             <TextBox Text="{Binding DoubleValue}" />
             <TextBox Text="{Binding DoubleValue, Converter={reactive:MultiplyConverter Factor=6.0}}" />
             <TextBox Text="{Binding IntValue}" />
-            <TextBox Text="{Binding IntValue, Converter={reactive:MultiplyConverter Factor=6}}" />
+            <TextBox Text="{Binding IntValue, Converter={reactive:MultiplyConverter Factor=3}}" />
         </StackPanel>
     </Grid>
 </UserControl>
