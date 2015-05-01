@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Gu.Reactive.Demo.ToolTipsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:demo="clr-namespace:Gu.Reactive.Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
+             xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips"
+             d:DataContext="{d:DesignInstance demo:MainWindowViewModel}"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <AdornerDecorator>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+           
+            <TextBlock HorizontalAlignment="Left" Text="Text with TouchTooltip" toolTips:TouchToolTipService.IsVisible="{Binding IsChecked, ElementName=Visible}">
+                <toolTips:TouchToolTipService.ToolTip>
+                    <toolTips:TouchToolTip>Tooltip text</toolTips:TouchToolTip>
+                </toolTips:TouchToolTipService.ToolTip>
+            </TextBlock>
+
+            <TextBlock Grid.Row="2"
+                       HorizontalAlignment="Left"
+                       Text="Text with ConditionToolTip"
+                       toolTips:TouchToolTipService.IsVisible="{Binding IsChecked,
+                                                                        ElementName=Visible}">
+                <toolTips:TouchToolTipService.ToolTip>
+                    <ToolTip>
+                        <reactive:ConditionControl Condition="{Binding AndCondition}" />
+
+                    </ToolTip>
+                </toolTips:TouchToolTipService.ToolTip>
+            </TextBlock>
+        </Grid>
+    </AdornerDecorator>
+</UserControl>

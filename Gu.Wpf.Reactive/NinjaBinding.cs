@@ -28,6 +28,7 @@
             Binding = binding;
         }
 
+        [ConstructorArgument("binding")]
         public Binding Binding { get; set; }
 
         private bool IsInDesignMode
@@ -43,22 +44,39 @@
             }
             if (IsInDesignMode)
             {
+                if (Binding.RelativeSource != null)
+                {
+                    throw new NotSupportedException("NinjaBinding does not support Binding with RelativeSource, try using ElementName instead.");
+                }
                 return DefaultValue(serviceProvider);
             }
             Binding binding = null;
             if (Binding.ElementName != null)
             {
                 var reference = new Reference(Binding.ElementName);
-                var source = reference.ProvideValue(serviceProvider);
+                var source = reference.ProvideValue(serviceProvider) as FrameworkElement;
                 if (source == null)
                 {
-                    throw new ArgumentException("Could not resolve element");
+                    var rootObjectProvider = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
+                    if (rootObjectProvider == null)
+                    {
+                        throw new ArgumentException(string.Format("Could not resolve element: {0}", Binding.ElementName));
+                    }
+                    var root = rootObjectProvider.RootObject as FrameworkElement;
+                    if (root != null && root.Name == Binding.ElementName)
+                    {
+                        source = root;
+                    }
+                    else
+                    {
+                        throw new ArgumentException(string.Format("Could not resolve element: {0}", Binding.ElementName));
+                    }
                 }
                 binding = CreateElementNameBinding(Binding, source);
             }
             else if (Binding.RelativeSource != null)
             {
-                throw new ArgumentException("RelativeSource not supported");
+                return null;
             }
             else
             {

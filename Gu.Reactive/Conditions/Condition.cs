@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Condition.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   To be used standalone or derived from. Conditions really starts to sing when you subclass them and use an IoC container to build trees.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;

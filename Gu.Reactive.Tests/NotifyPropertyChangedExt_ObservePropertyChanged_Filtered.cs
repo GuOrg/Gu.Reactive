@@ -21,6 +21,24 @@ namespace Gu.Reactive.Tests
         }
 
         [Test]
+        public void HandlesNull()
+        {
+            var fake = new Fake { Name = "1" };
+            fake.ObservePropertyChanged(x => x.Name, false)
+                .Subscribe(_changes.Add);
+
+            Assert.AreEqual(0, _changes.Count);
+
+            fake.Name = null;
+            Assert.AreEqual(1, _changes.Count);
+            AssertEventPattern(fake, "Name", _changes.Last());
+
+            fake.Name = "1";
+            Assert.AreEqual(2, _changes.Count);
+            AssertEventPattern(fake, "Name", _changes.Last());
+        }
+
+        [Test]
         public void ReactsTwoPropertiesSameInstance()
         {
             var fake = new Fake { Value = 1 };

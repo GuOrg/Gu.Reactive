@@ -71,5 +71,9 @@
         <TabItem Header="Converters">
             <demo:ConvertersDemoView />
         </TabItem>
+
+        <TabItem Header="ToolTips">
+            <demo:ToolTipsView />
+        </TabItem>
     </TabControl>
 </Window>

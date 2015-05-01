@@ -1,13 +1,13 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
-    using System.Linq;
     using System.Windows;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Input;
+
     using Gu.Reactive;
-    using ToolTips;
+    using Gu.Wpf.ToolTips;
 
     /// <summary>
     /// Exposes AdornedElement and sets DataContext to the CommandProxy of the adorned element
