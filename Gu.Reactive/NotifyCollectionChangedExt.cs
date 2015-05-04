@@ -2,14 +2,15 @@ namespace Gu.Reactive
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Diagnostics.Contracts;
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Linq;
-    using Internals;
+
+    using Gu.Reactive.Internals;
 
     public static class NotifyCollectionChangedExt
     {
@@ -50,25 +51,84 @@ namespace Gu.Reactive
         /// <summary>
         /// Observes propertychanges for items of the collection.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <typeparam name="TProperty"></typeparam>
+        /// <typeparam name="TItem"></typeparam>
         /// <param name="source"></param>
         /// <param name="property"></param>
         /// <param name="signalInitial"></param>
         /// <returns></returns>
-        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<T, TProperty>>> ObserveItemPropertyChanged<T, TProperty>(
-            this ObservableCollection<T> source,
-            Expression<Func<T, TProperty>> property,
-            bool signalInitial = true) where T : class, INotifyPropertyChanged
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TItem, TProperty>(
+            this ObservableCollection<TItem> source,
+            Expression<Func<TItem, TProperty>> property,
+            bool signalInitial = true)
+            where TItem : class, INotifyPropertyChanged
         {
-            return new ItemsObservable<T, TProperty>(source, property, signalInitial);
+            return new ItemsObservable<ObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
         }
 
-        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<T, TProperty>>> ItemPropertyChanged<T, TProperty>(
-             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<T>>>> source,
-             Expression<Func<T, TProperty>> property) where T : class, INotifyPropertyChanged
+        /// <summary>
+        /// Observes propertychanges for items of the collection.
+        /// </summary>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <typeparam name="TItem"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="property"></param>
+        /// <param name="signalInitial"></param>
+        /// <returns></returns>
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TItem, TProperty>(
+            this ReadOnlyObservableCollection<TItem> source,
+            Expression<Func<TItem, TProperty>> property,
+            bool signalInitial = true)
+            where TItem : class, INotifyPropertyChanged
         {
-            var observable = new ItemsObservable<T, TProperty>(source, property);
+            return new ItemsObservable<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+        }
+
+        /// <summary>
+        /// Observes propertychanges for items of the collection.
+        /// </summary>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <typeparam name="TCollection"></typeparam>
+        /// <typeparam name="TItem"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="property"></param>
+        /// <param name="signalInitial"></param>
+        /// <returns></returns>
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TCollection, TItem, TProperty>(
+            this TCollection source,
+            Expression<Func<TItem, TProperty>> property,
+            bool signalInitial = true)
+            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TItem : class, INotifyPropertyChanged
+        {
+            return new ItemsObservable<TCollection, TItem, TProperty>(source, property, signalInitial);
+        }
+
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
+             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> source,
+             Expression<Func<TItem, TProperty>> property)
+            where TItem : class, INotifyPropertyChanged
+        {
+            var observable = new ItemsObservable<ObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return observable;
+        }
+
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
+             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ReadOnlyObservableCollection<TItem>>>> source,
+             Expression<Func<TItem, TProperty>> property)
+             where TItem : class, INotifyPropertyChanged
+        {
+            var observable = new ItemsObservable<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return observable;
+        }
+
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
+             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
+             Expression<Func<TItem, TProperty>> property)
+            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TItem : class, INotifyPropertyChanged
+        {
+            var observable = new ItemsObservable<TCollection, TItem, TProperty>(source, property);
             return observable;
         }
     }

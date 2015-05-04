@@ -1,26 +1,28 @@
 namespace Gu.Reactive.Internals
 {
     using System;
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq.Expressions;
     using System.Reactive;
-    using PropertyPathStuff;
 
-    internal sealed class ItemsObservable<TItem, TProperty> :
+    using Gu.Reactive.PropertyPathStuff;
+
+    internal sealed class ItemsObservable<TCollection, TItem, TProperty> :
         ObservableBase<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>,
         IDisposable
+        where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
-        private readonly IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> _sourceObservable;
+        private readonly IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> _sourceObservable;
         private readonly bool _signalInitial;
         private readonly PropertyPath<TItem, TProperty> _propertyPath;
         private readonly WeakReference _collectionRef = new WeakReference(null);
         private bool _disposed;
 
         public ItemsObservable(
-            ObservableCollection<TItem> source,
+            TCollection source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
         {
@@ -30,7 +32,7 @@ namespace Gu.Reactive.Internals
         }
 
         public ItemsObservable(
-            IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> source,
+            IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
             Expression<Func<TItem, TProperty>> property)
         {
             _sourceObservable = source;
@@ -42,14 +44,14 @@ namespace Gu.Reactive.Internals
         {
             VerifyDisposed();
 
-            CollectionItemsObservable<TItem, TProperty> observable;
+            CollectionItemsObservable<TCollection, TItem, TProperty> observable;
             if (_collectionRef.Target != null)
             {
-                observable = new CollectionItemsObservable<TItem, TProperty>((ObservableCollection<TItem>)_collectionRef.Target, _signalInitial, _propertyPath);
+                observable = new CollectionItemsObservable<TCollection, TItem, TProperty>((TCollection)_collectionRef.Target, _signalInitial, _propertyPath);
             }
             else
             {
-                observable = new CollectionItemsObservable<TItem, TProperty>(_sourceObservable, _signalInitial, _propertyPath);
+                observable = new CollectionItemsObservable<TCollection, TItem, TProperty>(_sourceObservable, _signalInitial, _propertyPath);
             }
             return observable.Subscribe(observer);
         }

@@ -10,21 +10,14 @@
     /// </summary>
     /// <typeparam name="TInput">Type of the expected input - value to be converted</typeparam>
     /// <typeparam name="TResult">Type of the result of the conversion</typeparam>
+    [MarkupExtensionReturnType(typeof(IValueConverter))]
     public abstract class MarkupConverter<TInput, TResult> : MarkupExtension, IValueConverter
     {
-        private readonly ITypeConverter<TInput> _inputTypeConverter;
-        private readonly ITypeConverter<TResult> _resultTypeConverter;
+        private static readonly ITypeConverter<TInput> InputTypeConverter = TypeConverterFactory.Create<TInput>();
+        private static readonly ITypeConverter<TResult> ResultTypeConverter = TypeConverterFactory.Create<TResult>();
         protected MarkupConverter()
         {
-            _inputTypeConverter = TypeConverterFactory.Create<TInput>();
-            _resultTypeConverter = TypeConverterFactory.Create<TResult>();
         }
-
-        //protected MarkupConverter(ITypeConverter<TInput> inputTypeConverter, ITypeConverter<TResult> resultTypeConverter)
-        //{
-        //    _inputTypeConverter = inputTypeConverter;
-        //    _resultTypeConverter = resultTypeConverter;
-        //}
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -32,16 +25,16 @@
             {
                 if (parameter != null)
                 {
-                    throw new ArgumentException("parameter makes no sense for markupextension");
+                    throw new ArgumentException(string.Format("Converterparameter makes no sense for MarkupConverter. Parameter was: {0}", parameter));
                 }
-                if (!_inputTypeConverter.IsValid(value))
+                if (!InputTypeConverter.IsValid(value))
                 {
                     throw new ArgumentException("{0}.Convert() value is not valid", "value");
                 }
             }
-            if (_inputTypeConverter.IsValid(value))
+            if (InputTypeConverter.IsValid(value))
             {
-                var convertTo = _inputTypeConverter.ConvertTo(value, culture);
+                var convertTo = InputTypeConverter.ConvertTo(value, culture);
                 return Convert(convertTo, culture);
             }
             return ConvertDefault();
@@ -53,16 +46,16 @@
             {
                 if (parameter != null)
                 {
-                    throw new ArgumentException("parameter makes no sense for markupextension");
+                    throw new ArgumentException(string.Format("Converterparameter makes no sense for MarkupConverter. Parameter was: {0}", parameter));
                 }
-                if (!_resultTypeConverter.IsValid(value))
+                if (!ResultTypeConverter.IsValid(value))
                 {
                     throw new ArgumentException("{0}.ConvertBack() value is not valid", "value");
                 }
             }
-            if (_resultTypeConverter.CanConvertTo(value, culture))
+            if (ResultTypeConverter.CanConvertTo(value, culture))
             {
-                var convertTo = _resultTypeConverter.ConvertTo(value, culture);
+                var convertTo = ResultTypeConverter.ConvertTo(value, culture);
                 return ConvertBack(convertTo, culture);
             }
             return ConvertBackDefault();
