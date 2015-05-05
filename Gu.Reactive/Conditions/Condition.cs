@@ -1,9 +1,11 @@
 ﻿namespace Gu.Reactive
 {
     using System;
+    using System.CodeDom;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Annotations;
@@ -20,6 +22,20 @@
         private bool? _isSatisfied;
         private string _name;
         private bool _disposed;
+
+        /// <summary>
+        /// This constructor is meant for situations where you want to override the Criteria method
+        /// </summary>
+        /// <param name="observable"></param>
+        protected Condition(IObservable<object> observable)
+            : this(observable, () => { throw new InvalidOperationException("WHen not passing a criteria the Criteria method must be overridden"); })
+        {
+        }
+
+        public Condition(Func<bool?> criteria, IObservable<object> observable, params IObservable<object>[] observables)
+            : this(Observable.Merge(observables.Concat(new[] { observable })), criteria)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Condition"/> class.
@@ -70,7 +86,7 @@
         {
             get
             {
-                return InternalIsSatisfied(); // No caching
+                return Criteria(); // No caching
             }
 
             private set
@@ -182,9 +198,9 @@
         /// <summary>
         /// The update is satisfied.
         /// </summary>
-        protected void UpdateIsSatisfied()
+        private void UpdateIsSatisfied()
         {
-            IsSatisfied = InternalIsSatisfied();
+            IsSatisfied = Criteria();
         }
 
         /// <summary>
@@ -209,7 +225,7 @@
         /// <returns>
         /// The <see cref="bool?"/>.
         /// </returns>
-        private bool? InternalIsSatisfied()
+        protected virtual bool? Criteria()
         {
             return _criteria();
         }
