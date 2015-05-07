@@ -2,6 +2,7 @@
 {
     using System;
     using System.Globalization;
+    using System.Runtime.CompilerServices;
     using System.Windows.Data;
     using System.Windows.Markup;
 
@@ -21,17 +22,7 @@
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (DesignMode.IsDesignTime)
-            {
-                if (parameter != null)
-                {
-                    throw new ArgumentException(string.Format("Converterparameter makes no sense for MarkupConverter. Parameter was: {0}", parameter));
-                }
-                if (!InputTypeConverter.IsValid(value))
-                {
-                    throw new ArgumentException("{0}.Convert() value is not valid", "value");
-                }
-            }
+            VerifyValue(value, parameter);
             if (InputTypeConverter.IsValid(value))
             {
                 var convertTo = InputTypeConverter.ConvertTo(value, culture);
@@ -42,17 +33,7 @@
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (DesignMode.IsDesignTime)
-            {
-                if (parameter != null)
-                {
-                    throw new ArgumentException(string.Format("Converterparameter makes no sense for MarkupConverter. Parameter was: {0}", parameter));
-                }
-                if (!ResultTypeConverter.IsValid(value))
-                {
-                    throw new ArgumentException("{0}.ConvertBack() value is not valid", "value");
-                }
-            }
+            VerifyValue(value, parameter);
             if (ResultTypeConverter.CanConvertTo(value, culture))
             {
                 var convertTo = ResultTypeConverter.ConvertTo(value, culture);
@@ -78,6 +59,28 @@
         protected virtual TInput ConvertBackDefault()
         {
             return default(TInput);
+        }
+
+        private void VerifyValue(object value, object parameter, [CallerMemberName] string caller = null)
+        {
+            if (DesignMode.IsDesignTime)
+            {
+                if (parameter != null)
+                {
+                    throw new ArgumentException(string.Format("ConverterParameter makes no sense for MarkupConverter. Parameter was: {0} for converter of type {1}", parameter, GetType().Name));
+                }
+                if (!InputTypeConverter.IsValid(value))
+                {
+                    var message = string.Format(
+                            "{0} value: {1} is not valid for converter of type: {2} from: {3} to {4}",
+                            caller,
+                            value,
+                            GetType().Name,
+                            typeof(TInput).Name,
+                            typeof(TResult).Name);
+                    throw new ArgumentException(message, "value");
+                }
+            }
         }
     }
 }
