@@ -23,18 +23,20 @@
         private string _name;
         private bool _disposed;
 
-        /// <summary>
-        /// This constructor is meant for situations where you want to override the Criteria method
-        /// </summary>
-        /// <param name="observable"></param>
-        protected Condition(IObservable<object> observable)
-            : this(observable, () => { throw new InvalidOperationException("WHen not passing a criteria the Criteria method must be overridden"); })
-        {
-        }
-
         public Condition(Func<bool?> criteria, IObservable<object> observable, params IObservable<object>[] observables)
             : this(Observable.Merge(observables.Concat(new[] { observable })), criteria)
         {
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="conditionCollection"></param>
+        protected Condition(ConditionCollection conditionCollection)
+            : this(conditionCollection.ObservePropertyChanged(x => x.IsSatisfied, false), () => conditionCollection.IsSatisfied)
+        {
+            _prerequisites = conditionCollection;
         }
 
         /// <summary>
@@ -60,17 +62,8 @@
             _prerequisites = Enumerable.Empty<ICondition>();
             Name = GetType().Name;
             _subscription = observable.Subscribe(x => UpdateIsSatisfied());
-            UpdateIsSatisfied();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="conditionCollection"></param>
-        protected Condition(ConditionCollection conditionCollection)
-            : this(conditionCollection.ObservePropertyChanged(x => x.IsSatisfied, false), () => conditionCollection.IsSatisfied)
-        {
-            _prerequisites = conditionCollection;
+            // ReSharper disable once DoNotCallOverridableMethodsInConstructor. 
+            UpdateIsSatisfied(); 
         }
 
         /// <summary>
@@ -86,7 +79,7 @@
         {
             get
             {
-                return Criteria(); // No caching
+                return _criteria(); // No caching
             }
 
             private set
@@ -198,9 +191,9 @@
         /// <summary>
         /// The update is satisfied.
         /// </summary>
-        private void UpdateIsSatisfied()
+        protected void UpdateIsSatisfied()
         {
-            IsSatisfied = Criteria();
+            IsSatisfied = _criteria();
         }
 
         /// <summary>
@@ -210,24 +203,13 @@
         /// The property name.
         /// </param>
         [NotifyPropertyChangedInvocator]
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
-
-        /// <summary>
-        /// The internal is satisfied.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="bool?"/>.
-        /// </returns>
-        protected virtual bool? Criteria()
-        {
-            return _criteria();
         }
     }
 }
