@@ -3,6 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq.Expressions;
+    using System.Runtime.CompilerServices;
+
+    using Gu.Reactive.Annotations;
 
     /// <summary>
     /// This is a baseclass when you want to have a nonstatic Criteria method
@@ -56,6 +60,26 @@
             if (handler != null)
             {
                 handler(this, e);
+            }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Calls nameof internally
+        /// </summary>
+        /// <param name="propety"></param>
+        protected virtual void OnPropertyChanged<T>(Expression<Func<T>> propety)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(NameOf.Property(propety)));
             }
         }
     }

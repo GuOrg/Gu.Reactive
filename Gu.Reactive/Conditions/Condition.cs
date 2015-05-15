@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
 
@@ -209,6 +210,19 @@
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        /// <summary>
+        /// Calls nameof internally
+        /// </summary>
+        /// <param name="propety"></param>
+        protected virtual void OnPropertyChanged<T>(Expression<Func<T>> propety)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(NameOf.Property(propety)));
             }
         }
     }
