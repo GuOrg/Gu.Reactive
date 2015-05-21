@@ -5,6 +5,7 @@
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
+             x:Name="Root"
              d:DataContext="{d:DesignInstance demo:NinjaBindingViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -15,19 +16,65 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <CheckBox x:Name="CheckBox" IsChecked="{Binding Visible}" />
-        <DataGrid Grid.Row="1">
+        <TextBox Grid.Row="1" Text="Button with tooltip bound to:" />
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Content="Value in vm">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <TextBox Text="{reactive:NinjaBinding {Binding Visibility}}" />
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+
+            <Button Content="Elementname: CheckBox">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <TextBox Text="{reactive:NinjaBinding {Binding Visibility, ElementName=CheckBox}}" />
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+
+            <Button Content="Elementname: Root">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <TextBox Text="{reactive:NinjaBinding {Binding ActualHeight, ElementName=Root, Mode=OneWay}}" />
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+
+            <Button Content="RelativeSource">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <!--Have not figured out a way to bind with relativesource, this is intentionally left throwing-->
+                        <TextBox Text="{reactive:NinjaBinding {Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type demo:NinjaBindingView}}, Mode=OneWay}}" />
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+
+            <Button Content="RelativeSource">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <!--Have not figured out a way to bind with relativesource, this is intentionally left throwing-->
+                        <TextBox Text="{Binding PlacementTarget.ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type ToolTip}}, Mode=OneWay}" />
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+        </StackPanel>
+        <DataGrid Grid.Row="3">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Not so ninja" Visibility="{Binding Visibility}" />
                 <DataGridTextColumn Header="Not so ninja ElementName" Visibility="{Binding IsChecked, ElementName=CheckBox, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                <DataGridTextColumn Header="Vanilla" Visibility="{reactive:NinjaBinding Binding={Binding Visibility}}" />
+                <DataGridTextColumn Header="Vanilla" Visibility="{reactive:NinjaBinding {Binding Visibility}}" />
 
                 <DataGridTextColumn Header="Converter" Visibility="{reactive:NinjaBinding Binding={Binding Visible, Converter={StaticResource BooleanToVisibilityConverter}}}" />
 
-                <DataGridTextColumn Header="ElementName" Visibility="{reactive:NinjaBinding Binding={Binding IsChecked, ElementName=CheckBox, Converter={StaticResource BooleanToVisibilityConverter}}}" />
+                <DataGridTextColumn Header="ElementName: CheckBox" Visibility="{reactive:NinjaBinding Binding={Binding IsChecked, ElementName=CheckBox, Converter={StaticResource BooleanToVisibilityConverter}}}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

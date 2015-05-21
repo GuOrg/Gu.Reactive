@@ -25,10 +25,6 @@ namespace Gu.Reactive.PropertyPathStuff
             Previous = previous;
             if (previous != null)
             {
-                if (!previous.PropertyInfo.PropertyType.IsAssignableFrom(propertyInfo.DeclaringType))
-                {
-                    throw new ArgumentException();
-                }
                 previous.Next = this;
             }
             PropertyInfo = propertyInfo;

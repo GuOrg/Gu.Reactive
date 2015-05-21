@@ -103,7 +103,7 @@ namespace Gu.Reactive.Tests
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
-            
+
             collection.Add(null);
             Assert.AreEqual(3, collection.Count);
             Assert.AreEqual(0, _changes.Count);
@@ -164,7 +164,7 @@ namespace Gu.Reactive.Tests
 
             collection.Remove(item2);
             item2.Name = "new";
-            
+
             CollectionAssert.IsEmpty(_changes);
         }
 

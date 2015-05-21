@@ -1,18 +1,12 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Condition.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   To be used standalone or derived from. Conditions really starts to sing when you subclass them and use an IoC container to build trees.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
+    using System.CodeDom;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Annotations;
@@ -29,6 +23,22 @@ namespace Gu.Reactive
         private bool? _isSatisfied;
         private string _name;
         private bool _disposed;
+
+        public Condition(Func<bool?> criteria, IObservable<object> observable, params IObservable<object>[] observables)
+            : this(Observable.Merge(observables.Concat(new[] { observable })), criteria)
+        {
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="conditionCollection"></param>
+        protected Condition(ConditionCollection conditionCollection)
+            : this(conditionCollection.ObservePropertyChanged(x => x.IsSatisfied, false), () => conditionCollection.IsSatisfied)
+        {
+            _prerequisites = conditionCollection;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Condition"/> class.
@@ -53,17 +63,8 @@ namespace Gu.Reactive
             _prerequisites = Enumerable.Empty<ICondition>();
             Name = GetType().Name;
             _subscription = observable.Subscribe(x => UpdateIsSatisfied());
-            UpdateIsSatisfied();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="conditionCollection"></param>
-        protected Condition(ConditionCollection conditionCollection)
-            : this(conditionCollection.ObservePropertyChanged(x => x.IsSatisfied, false), () => conditionCollection.IsSatisfied)
-        {
-            _prerequisites = conditionCollection;
+            // ReSharper disable once DoNotCallOverridableMethodsInConstructor. 
+            UpdateIsSatisfied(); 
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace Gu.Reactive
         {
             get
             {
-                return InternalIsSatisfied(); // No caching
+                return _criteria(); // No caching
             }
 
             private set
@@ -193,7 +194,7 @@ namespace Gu.Reactive
         /// </summary>
         protected void UpdateIsSatisfied()
         {
-            IsSatisfied = InternalIsSatisfied();
+            IsSatisfied = _criteria();
         }
 
         /// <summary>
@@ -203,7 +204,7 @@ namespace Gu.Reactive
         /// The property name.
         /// </param>
         [NotifyPropertyChangedInvocator]
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
             if (handler != null)
@@ -213,14 +214,16 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// The internal is satisfied.
+        /// Calls nameof internally
         /// </summary>
-        /// <returns>
-        /// The <see cref="bool?"/>.
-        /// </returns>
-        private bool? InternalIsSatisfied()
+        /// <param name="propety"></param>
+        protected virtual void OnPropertyChanged<T>(Expression<Func<T>> propety)
         {
-            return _criteria();
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(NameOf.Property(propety)));
+            }
         }
     }
 }

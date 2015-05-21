@@ -6,7 +6,7 @@
     {
         private readonly ITypeConverter<object> _inner;
 
-        public CastingConverter(ITypeConverter<object> inner )
+        public CastingConverter(ITypeConverter<object> inner)
         {
             _inner = inner;
         }

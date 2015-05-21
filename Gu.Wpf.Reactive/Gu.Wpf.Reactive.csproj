@@ -89,6 +89,7 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToXConverter.cs" />
     <Compile Include="Converters\TypeConverters\CastingConverter.cs" />
+    <Compile Include="Converters\TypeConverters\DefaultTypeConverter`1.cs" />
     <Compile Include="Converters\TypeConverters\DefaultTypeConverter.cs" />
     <Compile Include="Converters\TypeConverters\ITypeConverter.cs" />
     <Compile Include="Converters\MarkupConverter.cs" />

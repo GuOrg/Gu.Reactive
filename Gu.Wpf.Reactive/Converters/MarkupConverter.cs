@@ -2,6 +2,7 @@
 {
     using System;
     using System.Globalization;
+    using System.Runtime.CompilerServices;
     using System.Windows.Data;
     using System.Windows.Markup;
 
@@ -10,38 +11,21 @@
     /// </summary>
     /// <typeparam name="TInput">Type of the expected input - value to be converted</typeparam>
     /// <typeparam name="TResult">Type of the result of the conversion</typeparam>
+    [MarkupExtensionReturnType(typeof(IValueConverter))]
     public abstract class MarkupConverter<TInput, TResult> : MarkupExtension, IValueConverter
     {
-        private readonly ITypeConverter<TInput> _inputTypeConverter;
-        private readonly ITypeConverter<TResult> _resultTypeConverter;
+        private static readonly ITypeConverter<TInput> InputTypeConverter = TypeConverterFactory.Create<TInput>();
+        private static readonly ITypeConverter<TResult> ResultTypeConverter = TypeConverterFactory.Create<TResult>();
         protected MarkupConverter()
         {
-            _inputTypeConverter = TypeConverterFactory.Create<TInput>();
-            _resultTypeConverter = TypeConverterFactory.Create<TResult>();
         }
-
-        //protected MarkupConverter(ITypeConverter<TInput> inputTypeConverter, ITypeConverter<TResult> resultTypeConverter)
-        //{
-        //    _inputTypeConverter = inputTypeConverter;
-        //    _resultTypeConverter = resultTypeConverter;
-        //}
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (DesignMode.IsDesignTime)
+            VerifyValue(value, parameter);
+            if (InputTypeConverter.IsValid(value))
             {
-                if (parameter != null)
-                {
-                    throw new ArgumentException("parameter makes no sense for markupextension");
-                }
-                if (!_inputTypeConverter.IsValid(value))
-                {
-                    throw new ArgumentException("{0}.Convert() value is not valid", "value");
-                }
-            }
-            if (_inputTypeConverter.IsValid(value))
-            {
-                var convertTo = _inputTypeConverter.ConvertTo(value, culture);
+                var convertTo = InputTypeConverter.ConvertTo(value, culture);
                 return Convert(convertTo, culture);
             }
             return ConvertDefault();
@@ -49,20 +33,10 @@
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (DesignMode.IsDesignTime)
+            VerifyValue(value, parameter);
+            if (ResultTypeConverter.CanConvertTo(value, culture))
             {
-                if (parameter != null)
-                {
-                    throw new ArgumentException("parameter makes no sense for markupextension");
-                }
-                if (!_resultTypeConverter.IsValid(value))
-                {
-                    throw new ArgumentException("{0}.ConvertBack() value is not valid", "value");
-                }
-            }
-            if (_resultTypeConverter.CanConvertTo(value, culture))
-            {
-                var convertTo = _resultTypeConverter.ConvertTo(value, culture);
+                var convertTo = ResultTypeConverter.ConvertTo(value, culture);
                 return ConvertBack(convertTo, culture);
             }
             return ConvertBackDefault();
@@ -85,6 +59,28 @@
         protected virtual TInput ConvertBackDefault()
         {
             return default(TInput);
+        }
+
+        private void VerifyValue(object value, object parameter, [CallerMemberName] string caller = null)
+        {
+            if (DesignMode.IsDesignTime)
+            {
+                if (parameter != null)
+                {
+                    throw new ArgumentException(string.Format("ConverterParameter makes no sense for MarkupConverter. Parameter was: {0} for converter of type {1}", parameter, GetType().Name));
+                }
+                if (!InputTypeConverter.IsValid(value))
+                {
+                    var message = string.Format(
+                            "{0} value: {1} is not valid for converter of type: {2} from: {3} to {4}",
+                            caller,
+                            value,
+                            GetType().Name,
+                            typeof(TInput).Name,
+                            typeof(TResult).Name);
+                    throw new ArgumentException(message, "value");
+                }
+            }
         }
     }
 }

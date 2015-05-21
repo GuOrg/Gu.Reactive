@@ -8,19 +8,19 @@ namespace Gu.Reactive.Internals
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Reactive;
-    using System.Reactive.Linq;
-    using PropertyPathStuff;
 
-    internal sealed class CollectionItemsObservable<TItem, TValue> :
+    using Gu.Reactive.PropertyPathStuff;
+
+    internal sealed class CollectionItemsObservable<TCollection, TItem, TValue> :
         ObservableBase<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>>,
         IEnumerable<TItem>, IDisposable
+        where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
         private static readonly ObjectIdentityComparer<TItem> IdentityComparer = new ObjectIdentityComparer<TItem>();
 
-        private readonly IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> _sourceObservable;
+        private readonly IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> _sourceObservable;
 
         private readonly bool _signalInitial;
         private readonly PropertyPath<TItem, TValue> _propertyPath;
@@ -32,7 +32,7 @@ namespace Gu.Reactive.Internals
         private bool _intialized;
         private IDisposable _collectionChangedSubscription;
 
-        public CollectionItemsObservable(ObservableCollection<TItem> collection, bool signalInitial, PropertyPath<TItem, TValue> propertyPath)
+        public CollectionItemsObservable(TCollection collection, bool signalInitial, PropertyPath<TItem, TValue> propertyPath)
         {
             _signalInitial = signalInitial;
             _propertyPath = propertyPath;
@@ -40,7 +40,7 @@ namespace Gu.Reactive.Internals
         }
 
         public CollectionItemsObservable(
-            IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> sourceObservable,
+            IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> sourceObservable,
             bool signalInitial,
             PropertyPath<TItem, TValue> propertyPath)
         {
@@ -95,7 +95,7 @@ namespace Gu.Reactive.Internals
         protected override IDisposable SubscribeCore(IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>> observer)
         {
             _observer = observer;
-            var observableCollection = _wr.Target as ObservableCollection<TItem>;
+            var observableCollection = _wr.Target as TCollection;
             if (observableCollection != null)
             {
                 _collectionChangedSubscription = observableCollection.ObserveCollectionChanged(true)
@@ -113,7 +113,7 @@ namespace Gu.Reactive.Internals
             return this;
         }
 
-        private void UpdateCollectionSubscription(EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>> eventPattern)
+        private void UpdateCollectionSubscription(EventPattern<PropertyChangedAndValueEventArgs<TCollection>> eventPattern)
         {
             if (_collectionChangedSubscription != null)
             {
