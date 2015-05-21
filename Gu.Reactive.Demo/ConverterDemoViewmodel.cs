@@ -1,5 +1,6 @@
 ﻿namespace Gu.Reactive.Demo
 {
+    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using Annotations;
@@ -8,7 +9,8 @@
     {
         private double _doubleValue = 10;
         private int _intValue = 10;
-        private bool _isVisible;
+        private bool? _isVisible;
+        private StringComparison _stringComparison;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public bool? IsVisible
@@ -20,7 +22,7 @@
                 {
                     return;
                 }
-                _isVisible = (bool)value;
+                _isVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -52,6 +54,21 @@
                 OnPropertyChanged();
             }
         }
+
+        public StringComparison StringComparison
+        {
+            get { return _stringComparison; }
+            set
+            {
+                if (value == _stringComparison)
+                {
+                    return;
+                }
+                _stringComparison = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

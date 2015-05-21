@@ -14,7 +14,7 @@
             <CheckBox x:Name="CheckBox"
                       Content="Visible"
                       IsChecked="{Binding IsVisible}"
-                      IsThreeState="True"  />
+                      IsThreeState="True" />
             <Rectangle Height="20"
                        Fill="Yellow"
                        Visibility="{Binding IsVisible,
@@ -27,6 +27,16 @@
             <TextBox Text="{Binding DoubleValue, Converter={reactive:MultiplyConverter Factor=6.0}}" />
             <TextBox Text="{Binding IntValue}" />
             <TextBox Text="{Binding IntValue, Converter={reactive:MultiplyConverter Factor=3}}" />
+            <RadioButton Content="CurrentCulture"
+                         GroupName="1"
+                         IsChecked="{Binding StringComparison,
+                                             Converter={demo:StringComparisonToBoolConverter TrueWhen=CurrentCulture}}" />
+            <RadioButton Content="OrdinalIgnoreCase"
+                         GroupName="1"
+                         IsChecked="{Binding StringComparison,
+                                             Converter={demo:StringComparisonToBoolConverter TrueWhen=OrdinalIgnoreCase}}" />
+            <TextBox Text="{Binding StringComparison}" />
+
         </StackPanel>
     </Grid>
 </UserControl>

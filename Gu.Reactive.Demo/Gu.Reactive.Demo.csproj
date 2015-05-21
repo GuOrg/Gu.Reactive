@@ -145,6 +145,7 @@
       <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="StringComparisonToBoolConverter.cs" />
     <Compile Include="ToolTipsView.xaml.cs">
       <DependentUpon>ToolTipsView.xaml</DependentUpon>
     </Compile>

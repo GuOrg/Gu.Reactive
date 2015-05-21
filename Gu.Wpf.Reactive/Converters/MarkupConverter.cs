@@ -16,6 +16,7 @@
     {
         private static readonly ITypeConverter<TInput> InputTypeConverter = TypeConverterFactory.Create<TInput>();
         private static readonly ITypeConverter<TResult> ResultTypeConverter = TypeConverterFactory.Create<TResult>();
+
         protected MarkupConverter()
         {
         }
