@@ -7,6 +7,7 @@
     using System.Windows.Markup;
 
     using Gu.Reactive;
+    using Gu.Wpf.Reactive.TypeConverters;
 
     /// <summary>
     /// Class implements a base for a typed value converter used as a markup extension. Override the Convert method in the inheriting class

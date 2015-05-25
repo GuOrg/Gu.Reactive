@@ -1,9 +1,7 @@
-﻿namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive.TypeConverters
 {
     using System;
     using System.Collections.Concurrent;
-
-    using Gu.Wpf.Reactive.Converters.TypeConverters;
 
     internal static class TypeConverterFactory
     {

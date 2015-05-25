@@ -1,6 +1,9 @@
-﻿namespace Gu.Wpf.Reactive.Converters.TypeConverters
+﻿namespace Gu.Wpf.Reactive.TypeConverters
 {
+    using System;
     using System.Globalization;
+
+    using Gu.Reactive;
 
     internal class DefaultTypeConverter<T> : ITypeConverter<T>
     {
@@ -13,9 +16,17 @@
 
         public bool IsValid(object value)
         {
-            if (!typeof(T).IsValueType && value == null)
+            if (value == null)
             {
+                if(typeof(T).IsValueType)
+                {
+                    return typeof(T).IsNullable();
+                }
                 return true;
+            }
+            if (typeof(T).IsValueType)
+            {
+                return value is T || (value.GetType() == Nullable.GetUnderlyingType(typeof(T)));
             }
             return value is T;
         }
@@ -35,5 +46,4 @@
             return ConvertTo(value, culture);
         }
     }
-
 }

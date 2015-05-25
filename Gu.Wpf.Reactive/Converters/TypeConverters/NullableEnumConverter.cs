@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive.TypeConverters
 {
     using System;
     using System.Globalization;
