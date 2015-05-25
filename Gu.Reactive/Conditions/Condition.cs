@@ -1,7 +1,6 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.CodeDom;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
@@ -61,7 +60,7 @@
             }
             _criteria = criteria;
             _prerequisites = Enumerable.Empty<ICondition>();
-            Name = GetType().Name;
+            _name = GetType().PrettyName();
             _subscription = observable.Subscribe(x => UpdateIsSatisfied());
             // ReSharper disable once DoNotCallOverridableMethodsInConstructor. 
             UpdateIsSatisfied(); 
@@ -80,6 +79,7 @@
         {
             get
             {
+                VerifyDisposed();
                 return _criteria(); // No caching
             }
 
@@ -104,11 +104,13 @@
         {
             get
             {
+                VerifyDisposed();
                 return _name;
             }
 
             set
             {
+                VerifyDisposed();
                 if (value == _name)
                 {
                     return;
@@ -137,18 +139,21 @@
         {
             get
             {
+                VerifyDisposed();
                 return _prerequisites;
             }
         }
 
         /// <summary>
-        /// Returns this condition negated, negating again returns the original
+        /// Negates the condition. Calling Negate does not mutate the condition it is called on.
+        /// Calling Negate on a negated condition returns the original condition.
         /// </summary>
         /// <returns>
-        /// The <see cref="ICondition"/>.
+        /// A new condition.
         /// </returns>
         public virtual ICondition Negate()
         {
+            VerifyDisposed();
             return new NegatedCondition(this);
         }
 
@@ -170,7 +175,7 @@
         public override string ToString()
         {
             return string.Format("Name: {0}, IsSatisfied: {1}",
-                string.IsNullOrEmpty(Name) ? GetType().Name : Name,
+                string.IsNullOrEmpty(Name) ? GetType().PrettyName() : Name,
                 IsSatisfied == null ? "null" : IsSatisfied.ToString());
         }
 
@@ -182,12 +187,25 @@
         /// </param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && !_disposed)
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
+            if (disposing)
             {
                 _subscription.Dispose();
             }
-            _disposed = true;
         }
+
+        protected void VerifyDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+        }
+
 
         /// <summary>
         /// The update is satisfied.

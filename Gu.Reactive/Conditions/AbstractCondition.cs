@@ -14,6 +14,7 @@
     public abstract class AbstractCondition : ICondition
     {
         private readonly Condition _condition;
+        private bool _disposed = false;
 
         protected AbstractCondition(IObservable<object> observable)
         {
@@ -34,7 +35,11 @@
 
         public IEnumerable<ICondition> Prerequisites
         {
-            get { return _condition.Prerequisites; }
+            get
+            {
+                VerifyDisposed();
+                return _condition.Prerequisites;
+            }
         }
 
         public IEnumerable<ConditionHistoryPoint> History
@@ -44,12 +49,39 @@
 
         public ICondition Negate()
         {
+            VerifyDisposed();
             return _condition.Negate();
         }
 
         public void Dispose()
         {
-            _condition.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Protected implementation of Dispose pattern. 
+        /// </summary>
+        /// <param name="disposing">true: safe to free managed resources</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
+            if (disposing)
+            {
+                _condition.Dispose();
+            }
+        }
+
+        protected void VerifyDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
         }
 
         protected abstract bool? Criteria();

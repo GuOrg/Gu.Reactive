@@ -1,24 +1,9 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TaskExt.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The task ext.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-
-using System;
-using System.Threading.Tasks;
-
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
+    using System;
     using System.Threading;
+    using System.Threading.Tasks;
 
-    /// <summary>
-    /// The task ext.
-    /// </summary>
     public static class TaskExt
     {
         /// <summary>
@@ -47,18 +32,6 @@ namespace Gu.Reactive
             return await task;
         }
 
-        /// <summary>
-        /// The timeout after.
-        /// </summary>
-        /// <param name="task">
-        /// The task.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
         public static Task TimeoutAfter(this Task task, TimeSpan timeout)
         {
             return TimeoutAfter(task, (int)timeout.TotalMilliseconds);
@@ -126,20 +99,6 @@ namespace Gu.Reactive
             return tcs.Task;
         }
 
-        /// <summary>
-        /// The timeout after.
-        /// </summary>
-        /// <param name="task">
-        /// The task.
-        /// </param>
-        /// <param name="timeout">
-        /// The timeout.
-        /// </param>
-        /// <typeparam name="T">
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, TimeSpan timeout)
         {
             return TimeoutAfter(task, (int)timeout.TotalMilliseconds);
@@ -237,9 +196,6 @@ namespace Gu.Reactive
             }
         }
 
-        /// <summary>
-        /// The void type struct.
-        /// </summary>
         internal struct VoidTypeStruct { }
     }
 }

@@ -1,13 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ConditionCollection.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   Base class for collections
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections;
@@ -30,17 +21,6 @@ namespace Gu.Reactive
         private bool? _previousIsSatisfied;
         private bool _disposed;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConditionCollection"/> class.
-        /// </summary>
-        /// <param name="isSatisfied">To avoid virtual call</param>
-        /// <param name="conditions">
-        /// The conditions.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// </exception>
         protected ConditionCollection(Func<IEnumerable<ICondition>, bool?> isSatisfied, params ICondition[] conditions)
         {
             if (conditions == null)
@@ -75,14 +55,8 @@ namespace Gu.Reactive
             _previousIsSatisfied = isSatisfied(_innerConditions);
         }
 
-        /// <summary>
-        /// The property changed.
-        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// Gets the is satisfied.
-        /// </summary>
         public bool? IsSatisfied
         {
             get
@@ -103,54 +77,27 @@ namespace Gu.Reactive
             }
         }
 
-        /// <summary>
-        /// The dispose.
-        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        /// The to string.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
         public override string ToString()
         {
             return string.Format("IsSatisfied: {0} {{{1}}}", IsSatisfied, string.Join(", ", _innerConditions.Select(x => x.Name)));
         }
 
-        /// <summary>
-        /// The get enumerator.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="IEnumerator"/>.
-        /// </returns>
         public IEnumerator<ICondition> GetEnumerator()
         {
             return _innerConditions.GetEnumerator();
         }
 
-        /// <summary>
-        /// The get enumerator.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="IEnumerator"/>.
-        /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        /// <param name="disposing">
-        /// The disposing.
-        /// </param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing && !_disposed)
@@ -167,12 +114,6 @@ namespace Gu.Reactive
             _disposed = true;
         }
 
-        /// <summary>
-        /// The on property changed.
-        /// </summary>
-        /// <param name="propertyName">
-        /// The property name.
-        /// </param>
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

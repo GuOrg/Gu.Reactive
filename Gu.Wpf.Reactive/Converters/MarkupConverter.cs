@@ -6,6 +6,8 @@
     using System.Windows.Data;
     using System.Windows.Markup;
 
+    using Gu.Reactive;
+
     /// <summary>
     /// Class implements a base for a typed value converter used as a markup extension. Override the Convert method in the inheriting class
     /// </summary>
@@ -77,8 +79,8 @@
                             caller,
                             value,
                             GetType().Name,
-                            typeof(TInput).Name,
-                            typeof(TResult).Name);
+                            typeof(TInput).PrettyName(),
+                            typeof(TResult).PrettyName());
                     throw new ArgumentException(message, "value");
                 }
             }

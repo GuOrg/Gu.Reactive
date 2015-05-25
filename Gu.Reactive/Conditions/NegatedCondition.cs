@@ -1,20 +1,11 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NegatedCondition.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The negated condition.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
 
     /// <summary>
-    /// The negated condition.
+    /// The negated condition. Calling Negate on it returns the original condition.
     /// </summary>
     public sealed class NegatedCondition : ICondition
     {
@@ -24,15 +15,6 @@ namespace Gu.Reactive
         private readonly IDisposable _subscription;
         private string _name;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NegatedCondition"/> class.
-        /// </summary>
-        /// <param name="condition">
-        /// The condition.
-        /// </param>
-        /// <param name="negated">
-        /// The negated.
-        /// </param>
         private NegatedCondition(ICondition condition, ICondition negated)
         {
             _condition = condition;
@@ -47,12 +29,6 @@ namespace Gu.Reactive
             Name = string.Format("Not_{0}", _condition.Name);
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NegatedCondition"/> class.
-        /// </summary>
-        /// <param name="condition">
-        /// The condition.
-        /// </param>
         public NegatedCondition(Condition condition)
             : this(
             (ICondition)condition, 
@@ -62,14 +38,8 @@ namespace Gu.Reactive
         {
         }
 
-        /// <summary>
-        /// The property changed.
-        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// Gets the is satisfied.
-        /// </summary>
         public bool? IsSatisfied
         {
             get
@@ -78,9 +48,6 @@ namespace Gu.Reactive
             }
         }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
         public string Name
         {
             get

@@ -245,6 +245,7 @@
     <Compile Include="NotifyPropertyChangedExt.cs" />
     <Compile Include="TaskExt.cs" />
     <Compile Include="Internals\CollectionItemsObservable.cs" />
+    <Compile Include="TypeExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
