@@ -12,10 +12,6 @@
 
     using Gu.Reactive.Annotations;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
     public class DeferredView<T> : ICollection<T>, IList, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable
     {
         private readonly ObservableCollection<T> _inner;
@@ -238,8 +234,8 @@
 
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            this.OnPropertyChanged("Count");
-            this.OnPropertyChanged("Item[]");
+            OnPropertyChanged("Count");
+            OnPropertyChanged("Item[]");
             var handler = CollectionChanged;
             if (handler != null)
             {

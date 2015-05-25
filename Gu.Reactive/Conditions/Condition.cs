@@ -28,11 +28,6 @@
         {
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="conditionCollection"></param>
         protected Condition(ConditionCollection conditionCollection)
             : this(conditionCollection.ObservePropertyChanged(x => x.IsSatisfied, false), () => conditionCollection.IsSatisfied)
         {
@@ -62,13 +57,9 @@
             _prerequisites = Enumerable.Empty<ICondition>();
             _name = GetType().PrettyName();
             _subscription = observable.Subscribe(x => UpdateIsSatisfied());
-            // ReSharper disable once DoNotCallOverridableMethodsInConstructor. 
             UpdateIsSatisfied(); 
         }
 
-        /// <summary>
-        /// The property changed event.
-        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -98,7 +89,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the name. The default name is .GetType().PrettyName()
         /// </summary>
         public string Name
         {
@@ -122,7 +113,7 @@
         }
 
         /// <summary>
-        /// A log of the last 100 states and times
+        /// A log of the last 100 times the condition has signaled. Use for debugging.
         /// </summary>
         public IEnumerable<ConditionHistoryPoint> History
         {
@@ -157,21 +148,12 @@
             return new NegatedCondition(this);
         }
 
-        /// <summary>
-        /// The dispose.
-        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        /// The to string.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
         public override string ToString()
         {
             return string.Format("Name: {0}, IsSatisfied: {1}",
@@ -179,12 +161,6 @@
                 IsSatisfied == null ? "null" : IsSatisfied.ToString());
         }
 
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        /// <param name="disposing">
-        /// The disposing.
-        /// </param>
         protected virtual void Dispose(bool disposing)
         {
             if (_disposed)
@@ -206,21 +182,11 @@
             }
         }
 
-
-        /// <summary>
-        /// The update is satisfied.
-        /// </summary>
         protected void UpdateIsSatisfied()
         {
             IsSatisfied = _criteria();
         }
 
-        /// <summary>
-        /// The on property changed.
-        /// </summary>
-        /// <param name="propertyName">
-        /// The property name.
-        /// </param>
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -232,7 +198,7 @@
         }
 
         /// <summary>
-        /// Calls nameof internally
+        /// Calls NameOf.Property(propety)
         /// </summary>
         /// <param name="propety"></param>
         protected virtual void OnPropertyChanged<T>(Expression<Func<T>> propety)
