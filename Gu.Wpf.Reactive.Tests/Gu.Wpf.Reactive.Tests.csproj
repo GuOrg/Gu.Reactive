@@ -88,6 +88,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AssertCompletion.cs" />
+    <Compile Include="Converters\TypeConverters\DefaultTypeConverter`1Tests.cs" />
     <Compile Include="NamespacesTests.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverterTests.cs" />
     <Compile Include="Converters\MultiplyConverterTests.cs" />

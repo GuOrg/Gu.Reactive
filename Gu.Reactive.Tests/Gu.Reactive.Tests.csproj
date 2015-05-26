@@ -116,6 +116,7 @@
     <Compile Include="NotifyPropertyChangedExt_ObservePropertyChanged_NestedFilter.cs" />
     <Compile Include="NotifyPropertyChangedExt_ObservePropertyChanged.cs" />
     <Compile Include="NotifyPropertyChangedExt_ObservePropertyChangedAndValue_Simple.cs" />
+    <Compile Include="TypeExtTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
