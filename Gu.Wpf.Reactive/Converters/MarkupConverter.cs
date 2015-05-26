@@ -76,9 +76,10 @@
                 if (!InputTypeConverter.IsValid(value))
                 {
                     var message = string.Format(
-                            "{0} value: {1} is not valid for converter of type: {2} from: {3} to {4}",
+                            "{0} value: {1}{2} is not valid for converter of type: {3} from: {4} to {5}",
                             caller,
                             value,
+                            value != null ? "of type: " + value.GetType().Name : "",
                             GetType().Name,
                             typeof(TInput).PrettyName(),
                             typeof(TResult).PrettyName());

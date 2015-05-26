@@ -2,6 +2,7 @@
 {
     using System;
     using System.Globalization;
+    using System.Text.RegularExpressions;
 
     using Gu.Reactive;
 
@@ -22,6 +23,11 @@
                 {
                     return typeof(T).IsNullable();
                 }
+                return true;
+            }
+            var name = value.GetType().Name;
+            if (Regex.IsMatch(name, @"_\.di\d+\..+"))
+            {
                 return true;
             }
             if (typeof(T).IsValueType)

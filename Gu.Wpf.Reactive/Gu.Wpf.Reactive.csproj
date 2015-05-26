@@ -86,9 +86,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\TypeConverters\ITypeConverter`1.cs" />
+    <Compile Include="Converters\TypeConverters\NullableEnumConverter`1.cs" />
+    <Compile Include="ServiceProviderExt.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToXConverter.cs" />
-    <Compile Include="Converters\TypeConverters\CastingConverter.cs" />
+    <Compile Include="Converters\TypeConverters\CastingConverter`1.cs" />
     <Compile Include="Converters\TypeConverters\DefaultTypeConverter`1.cs" />
     <Compile Include="Converters\TypeConverters\DefaultTypeConverter.cs" />
     <Compile Include="Converters\TypeConverters\ITypeConverter.cs" />

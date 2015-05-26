@@ -11,6 +11,9 @@
         private int _intValue = 10;
         private bool? _isVisible;
         private StringComparison _stringComparison;
+
+        private double _factor;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public bool? IsVisible
@@ -37,6 +40,20 @@
                     return;
                 }
                 _doubleValue = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double Factor
+        {
+            get { return _factor; }
+            set
+            {
+                if (value.Equals(_factor))
+                {
+                    return;
+                }
+                _factor = value;
                 OnPropertyChanged();
             }
         }

@@ -5,38 +5,158 @@
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              d:DataContext="{d:DesignInstance demo:ConverterDemoViewmodel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             >
     <Grid>
-        <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <CheckBox x:Name="CheckBox"
+                      Grid.Row="0"
+                      Grid.Column="0"
                       Content="Visible"
                       IsChecked="{Binding IsVisible}"
-                      IsThreeState="True" />
-            <Rectangle Height="20"
+                      IsThreeState="True"
+                      />
+            <Rectangle Grid.Row="0"
+                       Grid.Column="1"
                        Fill="Yellow"
                        Visibility="{Binding IsVisible,
                                             Converter={reactive:BooleanToVisibilityConverter WhenTrue=Visible,
                                                                                              WhenFalse=Collapsed,
-                                                                                             WhenNull=Collapsed}}" />
-            <TextBox Text="{Binding IsVisible, Converter={reactive:BooleanToVisibilityConverter}}" />
+                                                                                             WhenNull=Collapsed}}"
+                       />
 
-            <TextBox Text="{Binding DoubleValue}" />
-            <TextBox Text="{Binding DoubleValue, Converter={reactive:MultiplyConverter Factor=6.0}}" />
-            <TextBox Text="{Binding IntValue}" />
-            <TextBox Text="{Binding IntValue, Converter={reactive:MultiplyConverter Factor=3}}" />
-            <RadioButton Content="CurrentCulture"
-                         GroupName="1"
-                         IsChecked="{Binding StringComparison,
-                                             Converter={demo:StringComparisonToBoolConverter TrueWhen=CurrentCulture}}" />
-            <RadioButton Content="OrdinalIgnoreCase"
-                         GroupName="1"
-                         IsChecked="{Binding StringComparison,
-                                             Converter={demo:StringComparisonToBoolConverter TrueWhen=OrdinalIgnoreCase}}" />
-            <TextBox Text="{Binding StringComparison}" />
+            <TextBox Grid.Row="1"
+                     Grid.Column="1"
+                     Text="{Binding IsVisible,
+                                    Converter={reactive:BooleanToVisibilityConverter}}"
+                     />
 
-        </StackPanel>
+            <TextBlock Grid.Row="2"
+                       Grid.Column="0"
+                       Text="DoubleValue:"
+                       />
+            <TextBox Grid.Row="2"
+                     Grid.Column="1"
+                     Text="{Binding DoubleValue}"
+                     />
+
+            <TextBlock Grid.Row="3"
+                       Grid.Column="0"
+                       Text="Converted Double (6.0):"
+                       />
+            <TextBox Grid.Row="3"
+                     Grid.Column="1"
+                     Text="{Binding DoubleValue,
+                                    Converter={reactive:MultiplyConverter Factor=6.0}}"
+                     />
+
+            <TextBlock Grid.Row="4"
+                       Grid.Column="0"
+                       Text="Converted Double (2):"
+                       />
+            <TextBox Grid.Row="4"
+                     Grid.Column="1"
+                     Text="{Binding DoubleValue,
+                                    Converter={reactive:MultiplyConverter Factor=2}}"
+                     />
+
+            <TextBlock Grid.Row="7"
+                       Grid.Column="0"
+                       Text="IntValue:"
+                       />
+
+            <!--<TextBlock Grid.Row="5"
+                       Grid.Column="0"
+                       Text="BindingConverted Double:"
+                       />
+            <TextBox Grid.Row="5"
+                     Grid.Column="1"
+                     Text="{Binding DoubleValue,
+                                    Converter={demo:FactorConverter Factor={Binding Factor}}}"
+                     />
+
+            <TextBlock Grid.Row="6"
+                       Grid.Column="0"
+                       Text="Factor:"
+                       />
+            <Slider Grid.Row="6"
+                    Grid.Column="1"
+                    Maximum="10"
+                    Minimum="-10"
+                    Value="{Binding Factor}"
+                    />-->
+
+            <TextBox Grid.Row="7"
+                     Grid.Column="1"
+                     Text="{Binding IntValue}"
+                     />
+
+            <TextBlock Grid.Row="8"
+                       Grid.Column="0"
+                       Text="Converted Int:"
+                       />
+            <TextBox Grid.Row="8"
+                     Grid.Column="1"
+                     Text="{Binding IntValue,
+                                    Converter={reactive:MultiplyConverter Factor=3}}"
+                     />
+
+            <ComboBox Grid.Row="8"
+                      Grid.Column="1"
+                      SelectedItem="{Binding StringComparison}"
+                      >
+                <system:StringComparison>OrdinalIgnoreCase</system:StringComparison>
+                <system:StringComparison>CurrentCulture</system:StringComparison>
+                <system:StringComparison>InvariantCulture</system:StringComparison>
+            </ComboBox>
+            <TextBlock Grid.Row="9"
+                       Grid.Column="0"
+                       Text="EnumValue:"
+                       />
+            <GroupBox Grid.Row="9"
+                      Grid.Column="1"
+                      Header="EnumToBool"
+                      >
+                <StackPanel>
+                    <RadioButton Content="CurrentCulture"
+                                 GroupName="1"
+                                 IsChecked="{Binding StringComparison,
+                                                     Converter={demo:StringComparisonToBoolConverter TrueWhen=CurrentCulture}}"
+                                 />
+                    <RadioButton Content="OrdinalIgnoreCase"
+                                 GroupName="1"
+                                 IsChecked="{Binding StringComparison,
+                                                     Converter={demo:StringComparisonToBoolConverter TrueWhen=OrdinalIgnoreCase}}"
+                                 />
+                </StackPanel>
+            </GroupBox>
+        </Grid>
     </Grid>
 </UserControl>
