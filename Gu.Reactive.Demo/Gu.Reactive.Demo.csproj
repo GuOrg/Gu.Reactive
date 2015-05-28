@@ -156,6 +156,12 @@
     <Compile Include="NinjaBindingViewModel.cs">
       <DependentUpon>NinjaBindingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ObservableFixedSizeQueueView.xaml.cs">
+      <DependentUpon>ObservableFixedSizeQueueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ObservableFixedSizeQueueViewModel.cs">
+      <DependentUpon>ObservableFixedSizeQueueView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Person.cs">
       <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>
@@ -215,6 +221,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="NinjaBindingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ObservableFixedSizeQueueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

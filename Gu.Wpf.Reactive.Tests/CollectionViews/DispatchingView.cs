@@ -1,9 +1,11 @@
-﻿namespace Gu.Wpf.Reactive.Tests
+﻿namespace Gu.Wpf.Reactive.Tests.CollectionViews
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+
     using Gu.Reactive;
+
     using NUnit.Framework;
 
     [RequiresSTA]

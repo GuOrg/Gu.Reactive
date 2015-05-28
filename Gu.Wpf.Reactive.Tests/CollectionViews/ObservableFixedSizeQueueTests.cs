@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.Tests
+﻿namespace Gu.Wpf.Reactive.Tests.CollectionViews
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;

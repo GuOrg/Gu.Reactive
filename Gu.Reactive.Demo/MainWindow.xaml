@@ -67,6 +67,10 @@
         <TabItem Header="DispatchingView">
             <demo:DispatchingViewView />
         </TabItem>
+
+        <TabItem Header="ObservableFixedSizeQueu">
+            <demo:ObservableFixedSizeQueueView />
+        </TabItem>
         
         <TabItem Header="CollectionView">
             <demo:CollectionViewDemo />

@@ -11,6 +11,7 @@
     using System.Reactive.Linq;
     using System.Reactive.Subjects;
     using System.Runtime.CompilerServices;
+    using System.Threading;
     using System.Windows.Threading;
 
     using Gu.Reactive;
@@ -24,6 +25,8 @@
     {
         private const string CountName = "Count";
         private const string IndexerName = "Item[]";
+
+        internal static readonly TimeSpan DefaultBufferTime = TimeSpan.FromMilliseconds(10);
         private static readonly NotifyCollectionChangedEventArgs ResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
         private static readonly PropertyChangedEventArgs CountEventArgs = new PropertyChangedEventArgs(CountName);
         private static readonly PropertyChangedEventArgs IndexerEventArgs = new PropertyChangedEventArgs(IndexerName);
@@ -32,12 +35,12 @@
         private readonly List<TItem> _filtered = new List<TItem>();
         private readonly bool _isReadonly;
         private readonly ObservableCollection<IObservable<object>> _triggers;
+        private readonly DispatcherTimer _timer;
 
         private IDisposable _triggerSubscription;
         private Func<TItem, bool> _filter;
         private bool _disposed = false;
         private TimeSpan _bufferTime;
-        private IDisposable _timerSubscription;
 
         /// <summary>
         /// For manual Refresh()
@@ -52,6 +55,8 @@
             {
                 throw new ArgumentNullException("collection");
             }
+            _timer = new DispatcherTimer(DispatcherPriority.DataBind);
+            _timer.Tick += new EventHandler(Refresh);
             _bufferTime = bufferTime;
             _filter = filter;
 
@@ -62,13 +67,14 @@
             {
                 CollectionChangedEventManager.AddHandler(notifyCollectionChanged, OnInnerCollectionChanged);
             }
+
             _triggers = new ObservableCollection<IObservable<object>>(triggers);
             _triggers.ObserveCollectionChanged(true).Subscribe(_ => OnTriggersChanged());
             Refresh();
         }
 
         public FilteredView(IEnumerable<TItem> collection)
-            : this(collection, null, TimeSpan.Zero)
+            : this(collection, null, DefaultBufferTime)
         {
         }
 
@@ -78,14 +84,13 @@
         }
 
         public FilteredView(IEnumerable<TItem> collection, Func<TItem, bool> filter, params IObservable<object>[] triggers)
-            : this(collection, filter, TimeSpan.FromMilliseconds(10), triggers)
+            : this(collection, filter, DefaultBufferTime, triggers)
         {
         }
 
         public FilteredView(ObservableCollection<TItem> collection, Func<TItem, bool> filter, TimeSpan bufferTime, params IObservable<object>[] triggers)
             : this((IEnumerable<TItem>)collection, filter, bufferTime, triggers)
         {
-            _isReadonly = false;
         }
 
         public FilteredView(ObservableCollection<TItem> collection, TimeSpan deferTime, params IObservable<object>[] triggers)
@@ -95,9 +100,8 @@
         }
 
         public FilteredView(ObservableCollection<TItem> collection, params IObservable<object>[] triggers)
-            : this(collection, null, TimeSpan.FromMilliseconds(10), triggers)
+            : this(collection, null, DefaultBufferTime, triggers)
         {
-            _isReadonly = false;
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -157,6 +161,7 @@
 
         public void Refresh()
         {
+            _timer.Stop();
             _filtered.Clear();
             if (_filter != null)
             {
@@ -171,12 +176,16 @@
 
         protected void DeferredRefresh()
         {
-            if (_timerSubscription != null)
+            if (BufferTime > TimeSpan.Zero)
             {
-                _timerSubscription.Dispose();
+                _timer.Interval = BufferTime;
+                _timer.Start();
             }
-            _timerSubscription = Observable.Timer(BufferTime)
-                                           .Subscribe(_ => Refresh());
+            else
+            {
+                _timer.Stop();
+                Refresh();
+            }
         }
 
         /// <summary>
@@ -196,10 +205,7 @@
                 {
                     _triggerSubscription.Dispose();
                 }
-                if (_timerSubscription != null)
-                {
-                    _timerSubscription.Dispose();
-                }
+
                 var notifyCollectionChanged = _inner as INotifyCollectionChanged;
                 if (notifyCollectionChanged != null)
                 {
@@ -211,19 +217,8 @@
             _disposed = true;
         }
 
-        protected virtual void Notify(NotifyCollectionChangedEventArgs collectionChangedEventArgs)
-        {
-            var handler = CollectionChanged;
-            if (handler != null)
-            {
-                OnPropertyChanged(CountEventArgs);
-                OnPropertyChanged(IndexerEventArgs);
-                OnCollectionChanged(collectionChangedEventArgs);
-            }
-        }
-
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
             if (handler != null)
@@ -232,7 +227,7 @@
             }
         }
 
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        protected void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             var handler = PropertyChanged;
             if (handler != null)
@@ -245,7 +240,7 @@
         /// Can be called from any thread. Raises on Dispatcher if needed.
         /// </summary>
         /// <param name="e"></param>
-        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        protected void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             var handler = CollectionChanged;
             if (handler != null)
@@ -293,11 +288,30 @@
             }
         }
 
+        private void Notify(NotifyCollectionChangedEventArgs collectionChangedEventArgs)
+        {
+            var handler = CollectionChanged;
+            if (handler != null)
+            {
+                OnPropertyChanged(CountEventArgs);
+                OnPropertyChanged(IndexerEventArgs);
+                OnCollectionChanged(collectionChangedEventArgs);
+            }
+        }
+
+        private void Refresh(object sender, EventArgs e)
+        {
+            Refresh();
+        }
+
         #region IList<TItem>
 
         public int Count
         {
-            get { return _filtered.Count; }
+            get
+            {
+                return _filtered.Count;
+            }
         }
 
         public bool IsReadOnly
@@ -424,14 +438,14 @@
             ((ICollection)_filtered).CopyTo(array, index);
         }
 
-        object ICollection.SyncRoot
+        public object SyncRoot
         {
-            get { throw new NotImplementedException(); }
+            get { return ((ICollection)_inner).SyncRoot; }
         }
 
-        bool ICollection.IsSynchronized
+        public bool IsSynchronized
         {
-            get { throw new NotImplementedException(); }
+            get { return ((ICollection)_inner).IsSynchronized; }
         }
 
         #endregion ICollection

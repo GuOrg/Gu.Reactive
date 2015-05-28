@@ -1,8 +1,9 @@
-﻿namespace Gu.Wpf.Reactive.Tests
+﻿namespace Gu.Wpf.Reactive.Tests.CollectionViews
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
+
     using NUnit.Framework;
 
     public class ObservableCollectionExtensionsTests

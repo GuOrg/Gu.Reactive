@@ -88,15 +88,16 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AssertCompletion.cs" />
+    <Compile Include="CollectionViews\BenchmarkTests.cs" />
     <Compile Include="Converters\TypeConverters\DefaultTypeConverter`1Tests.cs" />
-    <Compile Include="DispatchingView.cs" />
+    <Compile Include="CollectionViews\DispatchingView.cs" />
     <Compile Include="FakesAndHelpers\EventArgsComparer.cs" />
     <Compile Include="NamespacesTests.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverterTests.cs" />
     <Compile Include="Converters\MultiplyConverterTests.cs" />
-    <Compile Include="ObservableCollectionExtensionsTests.cs" />
-    <Compile Include="DeferredViewTests.cs" />
-    <Compile Include="FilteredViewTests.cs" />
+    <Compile Include="CollectionViews\ObservableCollectionExtensionsTests.cs" />
+    <Compile Include="CollectionViews\DeferredViewTests.cs" />
+    <Compile Include="CollectionViews\FilteredViewTests.cs" />
     <Compile Include="Commands\AsyncCommandsTests.cs" />
     <Compile Include="Commands\AsyncParameterCommandTests.cs" />
     <Compile Include="Commands\AsyncParameterResultCommandTests.cs" />
@@ -109,7 +110,7 @@
     <Compile Include="Commands\ManualRelayCommandTests.cs" />
     <Compile Include="Commands\ObservingRelayCommandTests.cs" />
     <Compile Include="FakesAndHelpers\DumpXaml.cs" />
-    <Compile Include="ObservableFixedSizeQueueTests.cs" />
+    <Compile Include="CollectionViews\ObservableFixedSizeQueueTests.cs" />
     <Compile Include="NotifyTaskCompletionTests.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,14 +1,14 @@
-﻿namespace Gu.Wpf.Reactive.Tests
+﻿namespace Gu.Wpf.Reactive.Tests.CollectionViews
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
-    using System.Diagnostics;
     using System.Linq;
-    using System.Threading.Tasks;
+
     using Gu.Reactive;
+
     using NUnit.Framework;
 
     public class DeferredViewTests
@@ -28,7 +28,7 @@
         }
 
         [Test]
-        public async Task ViewSignalsSameAsCollectionWhenCollectionIsChanged()
+        public void ViewSignalsSameAsCollectionWhenCollectionIsChanged()
         {
             var collectionChanges = new List<EventArgs>();
             var viewChanges = new List<EventArgs>();
@@ -39,33 +39,13 @@
             view.ObservePropertyChanged().Subscribe(x => viewChanges.Add(x.EventArgs));
             view.ObserveCollectionChanged().Subscribe(x => viewChanges.Add(x.EventArgs));
             ints.Add(1);
-            await Task.Delay(20);
+            view.Refresh();
             CollectionAssert.AreEqual(ints, view);
             CollectionAssert.AreEqual(collectionChanges, viewChanges, new EventArgsComparer());
         }
 
         [Test]
-        public void BenchMark()
-        {
-            var ints = new ObservableCollection<int>();
-            var view = ints.AsDeferredView(TimeSpan.FromMilliseconds(10));
-            var sw = Stopwatch.StartNew();
-            for (int i = 0; i < 1000; i++)
-            {
-                ints.Add(i);
-            }
-            Console.WriteLine("adding 1000 took: {0} ms", sw.ElapsedMilliseconds);
-
-            sw.Restart();
-            for (int i = 0; i < 1000; i++)
-            {
-                view.Add(i);
-            }
-            Console.WriteLine("adding 1000 took: {0} ms", sw.ElapsedMilliseconds);
-        }
-
-        [Test]
-        public async Task ViewSignalsSameAsCollectionWhenViewIsChanged()
+        public void ViewSignalsSameAsCollectionWhenViewIsChanged()
         {
             var collectionChanges = new List<EventArgs>();
             var viewChanges = new List<EventArgs>();
@@ -76,7 +56,7 @@
             view.ObservePropertyChanged().Subscribe(x => viewChanges.Add(x.EventArgs));
             view.ObserveCollectionChanged().Subscribe(x => viewChanges.Add(x.EventArgs));
             view.Add(1);
-            await Task.Delay(20);
+            view.Refresh();
             CollectionAssert.AreEqual(ints, view);
             CollectionAssert.AreEqual(collectionChanges, viewChanges, new EventArgsComparer());
         }
@@ -99,40 +79,40 @@
         }
 
         [Test]
-        public async Task OneChangeOneNotification()
+        public void OneChangeOneNotification()
         {
             _deferredView.CollectionChanged += (_, e) => _changes.Add(e);
             _source.Add(4);
-            await Task.Delay(50);
+            _deferredView.Refresh();
             Assert.AreEqual(NotifyCollectionChangedAction.Add, _changes.Single().Action);
         }
 
         [Test]
-        public async Task ManyChangeOneReset()
+        public void ManyChangeOneReset()
         {
             _deferredView.CollectionChanged += (_, e) => _changes.Add(e);
             for (int i = 0; i < 10; i++)
             {
                 _source.Add(i);
             }
-            await Task.Delay(50);
+            _deferredView.Refresh();
             Assert.AreEqual(NotifyCollectionChangedAction.Reset, _changes.Single().Action);
         }
 
         [Test]
-        public async Task TwoBurstsTwoResets()
+        public void TwoBurstsTwoResets()
         {
             _deferredView.CollectionChanged += (_, e) => _changes.Add(e);
             for (int i = 0; i < 10; i++)
             {
                 _source.Add(i);
             }
-            await Task.Delay(40);
+            _deferredView.Refresh();
             for (int i = 0; i < 10; i++)
             {
                 _source.Add(i);
             }
-            await Task.Delay(50);
+            _deferredView.Refresh();
             Assert.AreEqual(2, _changes.Count);
             Assert.IsTrue(_changes.All(x => x.Action == NotifyCollectionChangedAction.Reset));
         }

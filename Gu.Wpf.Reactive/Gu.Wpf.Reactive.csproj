@@ -91,7 +91,9 @@
     <Compile Include="CollectionViews\DispatchingView.cs" />
     <Compile Include="CollectionViews\IDeferredView.cs" />
     <Compile Include="CollectionViews\IFilteredView.cs" />
-    <Compile Include="CollectionViews\INotifyingCollection.cs" />
+    <Compile Include="CollectionViews\IObservableCollection.cs" />
+    <Compile Include="CollectionViews\IReadonlyObservableCollection.cs" />
+    <Compile Include="CollectionViews\NotifyPropertyChangedEventHandlerExt.cs" />
     <Compile Include="Converters\TypeConverters\ITypeConverter`1.cs" />
     <Compile Include="Converters\TypeConverters\NullableEnumConverter`1.cs" />
     <Compile Include="CollectionViews\DispatchingView`2.cs" />
@@ -156,7 +158,7 @@
   <ItemGroup>
     <Compile Include="Commands\ObservingRelayCommand.cs" />
     <Compile Include="NotifyTaskCompletionBase.cs" />
-    <Compile Include="ObservableFixedSizeQueue`1.cs" />
+    <Compile Include="CollectionViews\ObservableFixedSizeQueue`1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

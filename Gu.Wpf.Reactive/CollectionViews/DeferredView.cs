@@ -8,6 +8,7 @@
 
     public static class DeferredView
     {
+        internal static readonly TimeSpan DefaultBufferTime = TimeSpan.FromMilliseconds(10);
         public static IDeferredView<TItem> Create<TCollection, TItem>(TCollection collection, TimeSpan bufferTime)
             where TCollection : IList<TItem>, INotifyCollectionChanged, INotifyPropertyChanged
         {
@@ -35,14 +36,29 @@
             return new DeferredView<TCollection, TItem>(collection, bufferTime);
         }
 
+        public static IDeferredView<TItem> AsDeferredView<TItem>(this ObservableCollection<TItem> collection)
+        {
+            return new DeferredView<ObservableCollection<TItem>, TItem>(collection, DefaultBufferTime);
+        }
+
         public static IDeferredView<TItem> AsDeferredView<TItem>(this ObservableCollection<TItem> collection, TimeSpan bufferTime)
         {
             return new DeferredView<ObservableCollection<TItem>, TItem>(collection, bufferTime);
         }
 
+        public static IDeferredView<TItem> AsDeferredView<TItem>(this ReadOnlyObservableCollection<TItem> collection)
+        {
+            return new DeferredView<ReadOnlyObservableCollection<TItem>, TItem>(collection, DefaultBufferTime);
+        }
+
         public static IDeferredView<TItem> AsDeferredView<TItem>(this ReadOnlyObservableCollection<TItem> collection, TimeSpan bufferTime)
         {
             return new DeferredView<ReadOnlyObservableCollection<TItem>, TItem>(collection, bufferTime);
+        }
+
+        public static IDeferredView<TItem> AsDeferredView<TItem>(this IObservableCollection<TItem> collection)
+        {
+            return new DeferredView<IObservableCollection<TItem>, TItem>(collection, DefaultBufferTime);
         }
 
         public static IDeferredView<TItem> AsDeferredView<TItem>(this IObservableCollection<TItem> collection, TimeSpan bufferTime)

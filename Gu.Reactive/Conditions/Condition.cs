@@ -188,7 +188,7 @@
         }
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             var handler = PropertyChanged;
             if (handler != null)
@@ -201,7 +201,7 @@
         /// Calls NameOf.Property(propety)
         /// </summary>
         /// <param name="propety"></param>
-        protected virtual void OnPropertyChanged<T>(Expression<Func<T>> propety)
+        protected void OnPropertyChanged<T>(Expression<Func<T>> propety)
         {
             var handler = PropertyChanged;
             if (handler != null)

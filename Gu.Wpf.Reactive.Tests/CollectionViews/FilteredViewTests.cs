@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.Tests
+﻿namespace Gu.Wpf.Reactive.Tests.CollectionViews
 {
     using System;
     using System.Collections;
@@ -7,7 +7,6 @@
     using System.Collections.Specialized;
     using System.Linq;
     using System.Reactive.Subjects;
-    using System.Threading.Tasks;
     using System.Windows.Controls;
     using System.Windows.Data;
 
@@ -19,7 +18,7 @@
     public class FilteredViewTests
     {
         [Test]
-        public async Task ManyTriggersOneReset()
+        public void ManyTriggersOneReset()
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var subject = new Subject<object>();
@@ -31,7 +30,7 @@
             {
                 subject.OnNext(null);
             }
-            await Task.Delay(5 * deferTime.Milliseconds);
+            view.Refresh();
             Assert.AreEqual(NotifyCollectionChangedAction.Reset, changes.Single().Action);
         }
 
@@ -53,7 +52,7 @@
         }
 
         [Test]
-        public async Task ManyAddsOneReset()
+        public void ManyAddsOneReset()
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var ints = new ObservableCollection<int>();
@@ -68,7 +67,7 @@
                 ints.Add(i);
             }
 
-            await Task.Delay(5 * deferTime.Milliseconds);
+            view.Refresh();
             CollectionAssert.AreEqual(Enumerable.Range(0, 100), view);
             Assert.AreEqual(NotifyCollectionChangedAction.Reset, changes.Single().Action);
         }
@@ -109,11 +108,21 @@
         }
 
         [Test]
-        public async Task Filter()
+        public void Refresh()
         {
             var ints = new List<int> { 1, 2, 3 };
             var view = new FilteredView<int>(ints) { Filter = x => x < 3 };
-            await Task.Delay(20);
+            view.Refresh();
+            view.Refresh();
+            CollectionAssert.AreEqual(new[] { 1, 2 }, view);
+        }
+
+        [Test]
+        public void Filter()
+        {
+            var ints = new List<int> { 1, 2, 3 };
+            var view = new FilteredView<int>(ints) { Filter = x => x < 3 };
+            view.Refresh();
             CollectionAssert.AreEqual(new[] { 1, 2 }, view);
         }
 
@@ -122,11 +131,12 @@
         {
             var ints = new List<int> { 1, 2, 3 };
             var view = new FilteredView<int>(ints);
+            view.Refresh();
             CollectionAssert.AreEqual(ints, view.ToArray());
         }
 
         [Test]
-        public async Task UpdatesAndNotifiesOnObservable()
+        public void UpdatesAndNotifiesOnObservable()
         {
             var subject = new Subject<object>();
             var ints = new List<int> { 1, 2, 3 };
@@ -134,40 +144,40 @@
             var argses = new List<NotifyCollectionChangedEventArgs>();
             view.CollectionChanged += (sender, args) => argses.Add(args);
             subject.OnNext(new object());
-            await Task.Delay(20);
+            view.Refresh();
             Assert.AreEqual(1, argses.Count);
             Assert.AreEqual(NotifyCollectionChangedAction.Reset, argses.Single().Action);
         }
 
         [Test]
-        public async Task UpdatesAndNotifiesOnObservableCollectionChanged()
+        public void UpdatesAndNotifiesOnObservableCollectionChanged()
         {
             var ints = new ObservableCollection<int>(new List<int> { 1, 2 });
             var view = new FilteredView<int>(ints);
             var argses = new List<NotifyCollectionChangedEventArgs>();
             view.CollectionChanged += (sender, args) => argses.Add(args);
             ints.Add(3);
-            await Task.Delay(20);
+            view.Refresh();
             Assert.AreEqual(1, argses.Count);
             Assert.AreEqual(NotifyCollectionChangedAction.Reset, argses.Single().Action);
             CollectionAssert.AreEqual(ints, view);
         }
 
         [Test]
-        public async Task UpdatesAndNotifiesOnObservableCollectionChangedWhenFiltered()
+        public void UpdatesAndNotifiesOnObservableCollectionChangedWhenFiltered()
         {
             var ints = new ObservableCollection<int>(new List<int> { 1, 2 });
             var view = new FilteredView<int>(ints) { Filter = x => x < 3 };
             var argses = new List<NotifyCollectionChangedEventArgs>();
             view.CollectionChanged += (sender, args) => argses.Add(args);
             ints.Add(3);
-            await Task.Delay(20);
+            view.Refresh();
             Assert.AreEqual(NotifyCollectionChangedAction.Reset, argses.Single().Action);
             CollectionAssert.AreEqual(new[] { 1, 2 }, view);
         }
 
         [Test]
-        public async Task NotifiesOnFilterChanged()
+        public void NotifiesOnFilterChanged()
         {
             var ints = new ObservableCollection<int>(new List<int> { 1, 2, 3 });
             var view = ints.AsFilteredView(x => x < 3);
@@ -176,7 +186,7 @@
             Assert.AreEqual(0, argses.Count);
             CollectionAssert.AreEqual(new[] { 1, 2 }, view);
             view.Filter = _ => true;
-            await Task.Delay(40);
+            view.Refresh();
             Assert.AreEqual(NotifyCollectionChangedAction.Reset, argses.Single().Action);
             CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
         }

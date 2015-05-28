@@ -127,7 +127,7 @@ namespace Gu.Wpf.Reactive
         /// A filtered view with all conditions where .IsSatisfied != true 
         /// and not due top a prerequisite.
         /// </summary>
-        public FilteredView<ICondition> NotSatisfiedOnly
+        public IReadonlyObservableCollection<ICondition> NotSatisfiedOnly
         {
             get
             {
