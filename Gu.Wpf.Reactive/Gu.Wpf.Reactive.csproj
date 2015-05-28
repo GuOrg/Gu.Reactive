@@ -87,8 +87,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CollectionViews\DeferredView.cs" />
+    <Compile Include="CollectionViews\FilteredView.cs" />
     <Compile Include="CollectionViews\DispatchingView.cs" />
     <Compile Include="CollectionViews\IDeferredView.cs" />
+    <Compile Include="CollectionViews\IFilteredView.cs" />
     <Compile Include="CollectionViews\INotifyingCollection.cs" />
     <Compile Include="Converters\TypeConverters\ITypeConverter`1.cs" />
     <Compile Include="Converters\TypeConverters\NullableEnumConverter`1.cs" />

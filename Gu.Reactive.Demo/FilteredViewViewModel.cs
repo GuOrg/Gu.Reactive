@@ -16,22 +16,19 @@
         private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
         private readonly ObservableCollection<Person> _peopleRaw;
         private readonly Random _random = new Random();
-        
+
         private string _searchText;
         private bool _hasSearchText;
         private IEnumerable<int> _selectedTags = Enumerable.Empty<int>();
+
+        private int _numberOfItems = 100;
 
         public FilteredViewViewModel()
         {
             Tags = new HashSet<int>(Enumerable.Range(0, 10));
             _peopleRaw = new ObservableCollection<Person>();
-            int n = 100;
-            for (int i = 0; i < n / 3; i++)
-            {
-                _peopleRaw.Add(new Person { FirstName = "Johan", LastName = "Larsson", TagsValues = CreateTags() });
-                _peopleRaw.Add(new Person { FirstName = "Max", LastName = "Andersson", TagsValues = CreateTags() });
-                _peopleRaw.Add(new Person { FirstName = "Erik", LastName = "Svensson", TagsValues = CreateTags() });
-            }
+            this.ObservePropertyChanged(x => x.NumberOfItems)
+                .Subscribe(_ => UpdateRawCollection());
             Filtered = new FilteredView<Person>(
                 _peopleRaw,
                 Filter,
@@ -97,6 +94,20 @@
 
         public DummyReadonlyCollection<Person> DummyReadonlyCollection { get; private set; }
 
+        public int NumberOfItems
+        {
+            get { return _numberOfItems; }
+            set
+            {
+                if (value == _numberOfItems)
+                {
+                    return;
+                }
+                _numberOfItems = value;
+                OnPropertyChanged();
+            }
+        }
+
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -138,6 +149,10 @@
             {
                 return true;
             }
+            if (person.TagsValues == null || !person.TagsValues.Any())
+            {
+                return true;
+            }
             return _selectedTags.Intersect(person.TagsValues).Any();
         }
 
@@ -162,6 +177,26 @@
                 return indexOf == 0;
             }
             return indexOf >= 0;
+        }
+
+        private void UpdateRawCollection()
+        {
+            _peopleRaw.Clear();
+            for (int i = 0; i < NumberOfItems; i++)
+            {
+                if (i % 3 == 0)
+                {
+                    _peopleRaw.Add(new Person { FirstName = "Johan", LastName = "Larsson", TagsValues = CreateTags() });
+                }
+                else if (i % 3 == 1)
+                {
+                    _peopleRaw.Add(new Person { FirstName = "Max", LastName = "Andersson", TagsValues = CreateTags() });
+                }
+                else
+                {
+                    _peopleRaw.Add(new Person { FirstName = "Erik", LastName = "Svensson", TagsValues = CreateTags() });
+                }
+            }
         }
     }
 }

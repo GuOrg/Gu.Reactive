@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.Reactive.Tests
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
@@ -76,6 +77,23 @@
             view.ObserveCollectionChanged().Subscribe(x => viewChanges.Add(x.EventArgs));
             view.Add(1);
             await Task.Delay(20);
+            CollectionAssert.AreEqual(ints, view);
+            CollectionAssert.AreEqual(collectionChanges, viewChanges, new EventArgsComparer());
+        }
+
+        [Test]
+        public void ViewSignalsImmediatelyOnIListAddTest()
+        {
+            var collectionChanges = new List<EventArgs>();
+            var viewChanges = new List<EventArgs>();
+            var ints = new ObservableCollection<int>();
+            ints.ObservePropertyChanged().Subscribe(x => collectionChanges.Add(x.EventArgs));
+            ints.ObserveCollectionChanged().Subscribe(x => collectionChanges.Add(x.EventArgs));
+            var view = ints.AsDeferredView(TimeSpan.FromMilliseconds(10));
+            view.ObservePropertyChanged().Subscribe(x => viewChanges.Add(x.EventArgs));
+            view.ObserveCollectionChanged().Subscribe(x => viewChanges.Add(x.EventArgs));
+            ((IList)view).Add(1);
+            ((IList)view).Add(2);
             CollectionAssert.AreEqual(ints, view);
             CollectionAssert.AreEqual(collectionChanges, viewChanges, new EventArgsComparer());
         }

@@ -11,6 +11,7 @@
     using System.Reactive.Linq;
     using System.Reactive.Subjects;
     using System.Runtime.CompilerServices;
+    using System.Windows.Threading;
 
     using Gu.Reactive;
     using Gu.Wpf.Reactive.Annotations;
@@ -18,37 +19,43 @@
     /// <summary>
     /// Typed CollectionView for intellisense in xaml
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class FilteredView<T> : IEnumerable<T>, IList, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable
+    /// <typeparam name="TItem"></typeparam>
+    public class FilteredView<TItem> : IFilteredView<TItem>, IDisposable
     {
-        private const string CountString = "Count";
+        private const string CountName = "Count";
         private const string IndexerName = "Item[]";
-        private static readonly Subject<object> DummyTrigger = new Subject<object>();
         private static readonly NotifyCollectionChangedEventArgs ResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-        private readonly IEnumerable<T> _inner;
+        private static readonly PropertyChangedEventArgs CountEventArgs = new PropertyChangedEventArgs(CountName);
+        private static readonly PropertyChangedEventArgs IndexerEventArgs = new PropertyChangedEventArgs(IndexerName);
+
+        private readonly IEnumerable<TItem> _inner;
+        private readonly List<TItem> _filtered = new List<TItem>();
         private readonly bool _isReadonly;
         private readonly ObservableCollection<IObservable<object>> _triggers;
 
         private IDisposable _triggerSubscription;
-        private Func<T, bool> _filter;
+        private Func<TItem, bool> _filter;
         private bool _disposed = false;
-        private TimeSpan _deferTime;
+        private TimeSpan _bufferTime;
+        private IDisposable _timerSubscription;
 
         /// <summary>
         /// For manual Refresh()
         /// </summary>
         /// <param name="collection">The collection to wrap</param>
         /// <param name="filter"></param>
-        /// <param name="deferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset</param>
+        /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset</param>
         /// <param name="triggers">Triggers when to re evaluate the filter</param>
-        public FilteredView(IEnumerable<T> collection, Func<T, bool> filter, TimeSpan deferTime, params IObservable<object>[] triggers)
+        public FilteredView(IEnumerable<TItem> collection, Func<TItem, bool> filter, TimeSpan bufferTime, params IObservable<object>[] triggers)
         {
-            _deferTime = deferTime;
-            _filter = filter;
             if (collection == null)
             {
                 throw new ArgumentNullException("collection");
             }
+            _bufferTime = bufferTime;
+            _filter = filter;
+
+            _isReadonly = !((collection is INotifyCollectionChanged) && (collection is IList<TItem>));
             _inner = collection;
             var notifyCollectionChanged = _inner as INotifyCollectionChanged;
             if (notifyCollectionChanged != null)
@@ -56,39 +63,39 @@
                 CollectionChangedEventManager.AddHandler(notifyCollectionChanged, OnInnerCollectionChanged);
             }
             _triggers = new ObservableCollection<IObservable<object>>(triggers);
-            _triggers.CollectionChanged += (_, __) => OnTriggersChanged();
-            OnTriggersChanged();
+            _triggers.ObserveCollectionChanged(true).Subscribe(_ => OnTriggersChanged());
+            Refresh();
         }
 
-        public FilteredView(IEnumerable<T> collection)
+        public FilteredView(IEnumerable<TItem> collection)
             : this(collection, null, TimeSpan.Zero)
         {
         }
 
-        public FilteredView(IEnumerable<T> collection, TimeSpan deferTime, params IObservable<object>[] triggers)
+        public FilteredView(IEnumerable<TItem> collection, TimeSpan deferTime, params IObservable<object>[] triggers)
             : this(collection, null, deferTime, triggers)
         {
         }
 
-        public FilteredView(IEnumerable<T> collection, Func<T, bool> filter, params IObservable<object>[] triggers)
-            : this(collection, filter, TimeSpan.Zero, triggers)
+        public FilteredView(IEnumerable<TItem> collection, Func<TItem, bool> filter, params IObservable<object>[] triggers)
+            : this(collection, filter, TimeSpan.FromMilliseconds(10), triggers)
         {
         }
 
-        public FilteredView(ObservableCollection<T> collection, Func<T, bool> filter, TimeSpan deferTime, params IObservable<object>[] triggers)
-            : this(collection.AsDeferredView(deferTime), filter, deferTime, triggers)
-        {
-            _isReadonly = false;
-        }
-
-        public FilteredView(ObservableCollection<T> collection, TimeSpan deferTime, params IObservable<object>[] triggers)
-            : this(collection.AsDeferredView(deferTime), null, deferTime, triggers)
+        public FilteredView(ObservableCollection<TItem> collection, Func<TItem, bool> filter, TimeSpan bufferTime, params IObservable<object>[] triggers)
+            : this((IEnumerable<TItem>)collection, filter, bufferTime, triggers)
         {
             _isReadonly = false;
         }
 
-        public FilteredView(ObservableCollection<T> collection, params IObservable<object>[] triggers)
-            : this(collection.AsDispatchingView(), null, TimeSpan.Zero, triggers)
+        public FilteredView(ObservableCollection<TItem> collection, TimeSpan deferTime, params IObservable<object>[] triggers)
+            : this(collection, null, deferTime, triggers)
+        {
+            _isReadonly = false;
+        }
+
+        public FilteredView(ObservableCollection<TItem> collection, params IObservable<object>[] triggers)
+            : this(collection, null, TimeSpan.FromMilliseconds(10), triggers)
         {
             _isReadonly = false;
         }
@@ -97,7 +104,7 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Func<T, bool> Filter
+        public Func<TItem, bool> Filter
         {
             get
             {
@@ -111,11 +118,7 @@
                 }
                 _filter = value;
                 OnPropertyChanged();
-                Schedulers.DispatcherOrCurrentThread.Schedule(
-                    () =>
-                    {
-                        OnCollectionChanged(ResetEventArgs);
-                    });
+                DeferredRefresh();
             }
         }
 
@@ -124,42 +127,22 @@
             get { return _triggers; }
         }
 
-        public TimeSpan DeferTime
+        public TimeSpan BufferTime
         {
             get
             {
-                return _deferTime;
+                return _bufferTime;
             }
             set
             {
-                if (value.Equals(_deferTime))
+                if (value.Equals(_bufferTime))
                 {
                     return;
                 }
-                _deferTime = value;
-                var deferredView = _inner as IDeferredView<T>;
-                if (deferredView != null)
-                {
-                    deferredView.BufferTime = _deferTime;
-                }
+                _bufferTime = value;
                 OnPropertyChanged();
-                OnTriggersChanged();
+                DeferredRefresh();
             }
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            if (_filter == null)
-            {
-                return _inner.GetEnumerator();
-            }
-            return _inner.Where(_filter)
-                         .GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         /// <summary>
@@ -170,6 +153,30 @@
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public void Refresh()
+        {
+            _filtered.Clear();
+            if (_filter != null)
+            {
+                _filtered.AddRange(_inner.Where(_filter));
+            }
+            else
+            {
+                _filtered.AddRange(_inner);
+            }
+            Notify(ResetEventArgs);
+        }
+
+        protected void DeferredRefresh()
+        {
+            if (_timerSubscription != null)
+            {
+                _timerSubscription.Dispose();
+            }
+            _timerSubscription = Observable.Timer(BufferTime)
+                                           .Subscribe(_ => Refresh());
         }
 
         /// <summary>
@@ -189,6 +196,10 @@
                 {
                     _triggerSubscription.Dispose();
                 }
+                if (_timerSubscription != null)
+                {
+                    _timerSubscription.Dispose();
+                }
                 var notifyCollectionChanged = _inner as INotifyCollectionChanged;
                 if (notifyCollectionChanged != null)
                 {
@@ -198,6 +209,17 @@
 
             // Free any unmanaged objects here. 
             _disposed = true;
+        }
+
+        protected virtual void Notify(NotifyCollectionChangedEventArgs collectionChangedEventArgs)
+        {
+            var handler = CollectionChanged;
+            if (handler != null)
+            {
+                OnPropertyChanged(CountEventArgs);
+                OnPropertyChanged(IndexerEventArgs);
+                OnCollectionChanged(collectionChangedEventArgs);
+            }
         }
 
         [NotifyPropertyChangedInvocator]
@@ -210,31 +232,39 @@
             }
         }
 
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
+        }
+
+        /// <summary>
+        /// Can be called from any thread. Raises on Dispatcher if needed.
+        /// </summary>
+        /// <param name="e"></param>
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             var handler = CollectionChanged;
             if (handler != null)
             {
-                OnPropertyChanged(CountString);
-                OnPropertyChanged(IndexerName);
-                handler(this, ResetEventArgs);
-            }
-        }
+                var invocationList = handler.GetInvocationList().OfType<NotifyCollectionChangedEventHandler>();
+                foreach (var invocation in invocationList)
+                {
+                    var dispatcherObject = invocation.Target as DispatcherObject;
 
-        private static IObservable<object> CreateTrigger(TimeSpan? deferTime, IList<IObservable<object>> triggers)
-        {
-            if (!triggers.Any())
-            {
-                return DummyTrigger;
+                    if (dispatcherObject != null && !dispatcherObject.CheckAccess())
+                    {
+                        dispatcherObject.Dispatcher.Invoke(DispatcherPriority.DataBind, invocation, this, e);
+                    }
+                    else
+                    {
+                        invocation(this, e); // note : this does not execute invocation in target thread's context
+                    }
+                }
             }
-            var observable = triggers.Merge();
-            if (deferTime.HasValue && deferTime.Value > TimeSpan.Zero)
-            {
-                return observable
-                    .Throttle(deferTime.Value)
-                    .ObserveOnDispatcherOrCurrentThread();
-            }
-            return observable.ObserveOnDispatcherOrCurrentThread();
         }
 
         private void OnTriggersChanged()
@@ -245,50 +275,153 @@
             }
             if (_triggers != null && _triggers.Any())
             {
-                _triggerSubscription = CreateTrigger(DeferTime, Triggers)
-                    .ObserveOnDispatcherOrCurrentThread()
-                    .Subscribe(x => OnCollectionChanged(ResetEventArgs));
+                _triggerSubscription = _triggers.Merge()
+                                                .Subscribe(x => DeferredRefresh());
             }
-            Schedulers.DispatcherOrCurrentThread.Schedule(() => OnCollectionChanged(ResetEventArgs));
         }
 
         private void OnInnerCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
-            //if (_filter == null)
-            //{
-            //    OnCollectionChanged(notifyCollectionChangedEventArgs);
-            //}
-            //else
-            //{
-            //    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            //}
-            // keeping it simple and resetting here.
-            OnPropertyChanged(CountString);
-            OnPropertyChanged(IndexerName);
-            OnCollectionChanged(ResetEventArgs);
+            DeferredRefresh();
         }
 
-        #region IList implementing this to make items editable in datagrid. Hardcoding fixed size so no add/remove.
+        private void VerifyEditable([CallerMemberName] string caller = null)
+        {
+            if (IsReadOnly)
+            {
+                throw new InvalidOperationException(string.Format("Collection is readonly, cannot perform {0}", caller));
+            }
+        }
+
+        #region IList<TItem>
+
+        public int Count
+        {
+            get { return _filtered.Count; }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return _isReadonly; }
+        }
+
+        public TItem this[int index]
+        {
+            get { return _filtered[index]; }
+            set
+            {
+                RemoveAt(index);
+                Insert(index, value);
+            }
+        }
+
+        public IEnumerator<TItem> GetEnumerator()
+        {
+            return _filtered.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public void Add(TItem item)
+        {
+            VerifyEditable();
+            ((IList<TItem>)_inner).Add(item);
+        }
+
+        public void Clear()
+        {
+            VerifyEditable();
+            ((IList<TItem>)_inner).Clear();
+        }
+
+        public bool Contains(TItem item)
+        {
+            return _filtered.Contains(item);
+        }
+
+        public int IndexOf(TItem value)
+        {
+            VerifyEditable();
+            return _filtered.IndexOf(value);
+        }
+
+        public void Insert(int index, TItem value)
+        {
+            VerifyEditable();
+            var i = ((IList<TItem>)_inner).IndexOf(_filtered[index]) + 1;
+            ((IList<TItem>)_inner).Insert(i, value);
+        }
+
+        public bool Remove(TItem item)
+        {
+            VerifyEditable();
+            return ((IList<TItem>)_inner).Remove(item);
+        }
+
+        public void RemoveAt(int index)
+        {
+            VerifyEditable();
+            ((IList<TItem>)_inner).Remove(_filtered[index]);
+        }
+
+        public void CopyTo(TItem[] array, int arrayIndex)
+        {
+            _filtered.CopyTo(array, arrayIndex);
+        }
+
+        #endregion  IList<TItem>
+
+        #region IList
+
+        int IList.Add(object value)
+        {
+            ((IList)_inner).Add(value); // Adding to inner
+            var index = ((IList)_filtered).Add(value); // Adding explicitly to filtered to get correct index.
+            Notify(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, value, index)); // IList.Add happens when new row is added in DataGrid, we need to notify here to avoid out of sync exception
+            return index;
+        }
+
+        bool IList.Contains(object value)
+        {
+            return ((IList)_filtered).Contains(value);
+        }
+
+        int IList.IndexOf(object value)
+        {
+            return ((IList)_filtered).IndexOf(value);
+        }
+
+        void IList.Insert(int index, object value)
+        {
+            Insert(index, (TItem)value);
+        }
+
+        void IList.Remove(object value)
+        {
+            Remove((TItem)value);
+        }
+
+        object IList.this[int index]
+        {
+            get { return this[index]; }
+            set { this[index] = (TItem)value; }
+        }
+
+        public bool IsFixedSize
+        {
+            get { return _isReadonly; }
+        }
+
+        #endregion IList
+
+        #region ICollection
 
         void ICollection.CopyTo(Array array, int index)
         {
-            throw new NotImplementedException();
-        }
-
-        int ICollection.Count
-        {
-            get
-            {
-                int i = 0;
-                using (var enumerator = GetEnumerator())
-                {
-                    while (enumerator.MoveNext())
-                    {
-                        i++;
-                    }
-                }
-                return i;
-            }
+            ((ICollection)_filtered).CopyTo(array, index);
         }
 
         object ICollection.SyncRoot
@@ -301,163 +434,6 @@
             get { throw new NotImplementedException(); }
         }
 
-        int IList.Add(object value)
-        {
-            throw new NotImplementedException("Was tricky to get eventargs correct");
-            ((IDeferredView<T>)_inner).Add((T)value);
-            var indexOf = ((IList)this).IndexOf(value);
-            return indexOf;
-        }
-
-        bool IList.Contains(object value)
-        {
-            var isValueType = typeof(T).IsValueType;
-            if (isValueType)
-            {
-                using (var enumerator = GetEnumerator())
-                {
-                    while (enumerator.MoveNext())
-                    {
-                        if (Equals(value, enumerator.Current))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                using (var enumerator = GetEnumerator())
-                {
-                    while (enumerator.MoveNext())
-                    {
-                        if (ReferenceEquals(value, enumerator.Current))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-        void IList.Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        int IList.IndexOf(object value)
-        {
-            int i = 0;
-            var isValueType = typeof(T).IsValueType;
-            if (isValueType)
-            {
-                using (var enumerator = GetEnumerator())
-                {
-                    while (enumerator.MoveNext())
-                    {
-                        if (Equals(value, enumerator.Current))
-                        {
-                            return i;
-                        }
-                        i++;
-                    }
-                }
-            }
-            else
-            {
-                using (var enumerator = GetEnumerator())
-                {
-                    while (enumerator.MoveNext())
-                    {
-                        if (ReferenceEquals(value, enumerator.Current))
-                        {
-                            return i;
-                        }
-                        i++;
-                    }
-                }
-            }
-            return -1;
-        }
-
-        void IList.Insert(int index, object value)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IList.Remove(object value)
-        {
-            throw new NotImplementedException("Was tricky to get eventargs correct");
-            ((IDeferredView<T>)_inner).Remove((T)value);
-        }
-
-        void IList.RemoveAt(int index)
-        {
-            throw new NotImplementedException("Was tricky to get eventargs correct");
-            int i = 0;
-            var isValueType = typeof(T).IsValueType;
-            if (isValueType)
-            {
-                using (var enumerator = GetEnumerator())
-                {
-                    while (enumerator.MoveNext())
-                    {
-                        if (index == i)
-                        {
-                            ((IDeferredView<T>)_inner).Remove(enumerator.Current);
-                        }
-                        i++;
-                    }
-                }
-            }
-            else
-            {
-                using (var enumerator = GetEnumerator())
-                {
-                    while (enumerator.MoveNext())
-                    {
-                        if (index == i)
-                        {
-                            ((IDeferredView<T>)_inner).Remove(enumerator.Current);
-                        }
-                        i++;
-                    }
-                }
-            }
-        }
-
-        public object this[int index]
-        {
-            get
-            {
-                int i = 0;
-                using (var enumerator = GetEnumerator())
-                {
-                    while (enumerator.MoveNext())
-                    {
-                        if (i == index)
-                        {
-                            return enumerator.Current;
-                        }
-                        i++;
-                    }
-                }
-                throw new ArgumentOutOfRangeException("index");
-            }
-            set { throw new NotImplementedException(); }
-        }
-
-        bool IList.IsReadOnly
-        {
-            get { return true; /* _isReadonly; */ }
-        }
-
-        bool IList.IsFixedSize
-        {
-            get { return true; /* _isReadonly; */}
-        }
-
-        #endregion IList
+        #endregion ICollection
     }
 }

@@ -18,12 +18,12 @@
     public abstract class ObservableCollectionWrapperBase<TCollection, TItem> : IObservableCollection<TItem>
         where TCollection : IList<TItem>, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        private const string CountName = "Count";
-        private const string IndexerName = "Item[]";
+        internal const string CountName = "Count";
+        internal const string IndexerName = "Item[]";
 
-        protected static readonly NotifyCollectionChangedEventArgs ResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-        protected static readonly PropertyChangedEventArgs CountEventArgs = new PropertyChangedEventArgs(CountName);
-        protected static readonly PropertyChangedEventArgs IndexerEventArgs = new PropertyChangedEventArgs(IndexerName);
+        internal static readonly NotifyCollectionChangedEventArgs ResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+        internal static readonly PropertyChangedEventArgs CountEventArgs = new PropertyChangedEventArgs(CountName);
+        internal static readonly PropertyChangedEventArgs IndexerEventArgs = new PropertyChangedEventArgs(IndexerName);
 
         private readonly TCollection _inner;
 
