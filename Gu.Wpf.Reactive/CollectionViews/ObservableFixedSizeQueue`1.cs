@@ -3,11 +3,9 @@
     using System;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Reactive.Concurrency;
     using System.Runtime.CompilerServices;
-
+    using Annotations;
     using Gu.Reactive;
-    using Gu.Wpf.Reactive.Annotations;
 
     [Serializable]
     public class ObservableFixedSizeQueue<T> : FixedSizedQueue<T>, INotifyCollectionChanged, INotifyPropertyChanged
@@ -26,10 +24,9 @@
 
         public override void Enqueue(T item)
         {
-            bool flag = true;
+            var count = Count;
             if (Count >= Size)
             {
-                flag = false;
                 T overflow;
                 while (Count >= Size && TryDequeue(out overflow))
                 {
@@ -39,7 +36,7 @@
             base.Enqueue(item);
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, Count - 1));
 
-            if (flag)
+            if (count != Count)
             {
                 OnPropertyChanged(CountPropertyChangedEventArgs);
             }

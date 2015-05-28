@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive.Tests
+namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
 {
     using System.Collections;
     using System.Collections.Specialized;
@@ -6,6 +6,7 @@ namespace Gu.Wpf.Reactive.Tests
 
     public class EventArgsComparer : IComparer
     {
+        public static readonly EventArgsComparer Instance = new EventArgsComparer();
         public int Compare(object x, object y)
         {
             if (Equals(x, y))
@@ -32,11 +33,45 @@ namespace Gu.Wpf.Reactive.Tests
                 return -1;
             }
 
+            if (!ListsEquals(x.NewItems, y.NewItems))
+            {
+                return -1;
+            }
+
             if (x.OldStartingIndex != y.OldStartingIndex)
             {
                 return -1;
             }
+
+            if (!ListsEquals(x.OldItems, y.OldItems))
+            {
+                return -1;
+            }
             return 0;
+        }
+
+        private static bool ListsEquals(IList newItems, IList oldItems)
+        {
+            if (newItems == null && oldItems == null)
+            {
+                return true;
+            }
+            if (newItems == null || oldItems == null)
+            {
+                return false;
+            }
+            if (newItems.Count != oldItems.Count)
+            {
+                return false;
+            }
+            for (int i = 0; i < newItems.Count; i++)
+            {
+                if (!Equals(newItems[i], oldItems[i]))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

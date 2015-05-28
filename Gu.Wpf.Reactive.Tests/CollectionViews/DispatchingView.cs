@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-
+    using FakesAndHelpers;
     using Gu.Reactive;
 
     using NUnit.Framework;

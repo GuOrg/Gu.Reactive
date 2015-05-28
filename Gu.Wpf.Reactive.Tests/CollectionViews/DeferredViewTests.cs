@@ -6,7 +6,7 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Linq;
-
+    using FakesAndHelpers;
     using Gu.Reactive;
 
     using NUnit.Framework;
@@ -84,7 +84,9 @@
             _deferredView.CollectionChanged += (_, e) => _changes.Add(e);
             _source.Add(4);
             _deferredView.Refresh();
-            Assert.AreEqual(NotifyCollectionChangedAction.Add, _changes.Single().Action);
+            CollectionAssert.AreEqual(_source, _deferredView);
+            var expected = new[] { new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, 4, 3) };
+            CollectionAssert.AreEqual(expected, _changes, new EventArgsComparer());
         }
 
         [Test]
@@ -96,7 +98,9 @@
                 _source.Add(i);
             }
             _deferredView.Refresh();
-            Assert.AreEqual(NotifyCollectionChangedAction.Reset, _changes.Single().Action);
+            CollectionAssert.AreEqual(_source, _deferredView);
+            var expected = new[] { new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset) };
+            CollectionAssert.AreEqual(expected, _changes, new EventArgsComparer());
         }
 
         [Test]
@@ -113,8 +117,13 @@
                 _source.Add(i);
             }
             _deferredView.Refresh();
-            Assert.AreEqual(2, _changes.Count);
-            Assert.IsTrue(_changes.All(x => x.Action == NotifyCollectionChangedAction.Reset));
+            CollectionAssert.AreEqual(_source, _deferredView);
+            var expected = new[]
+            {
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset),
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)
+            };
+            CollectionAssert.AreEqual(expected, _changes, new EventArgsComparer());
         }
     }
 }

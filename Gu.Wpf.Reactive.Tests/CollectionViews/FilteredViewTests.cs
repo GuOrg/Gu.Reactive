@@ -9,7 +9,7 @@
     using System.Reactive.Subjects;
     using System.Windows.Controls;
     using System.Windows.Data;
-
+    using FakesAndHelpers;
     using Gu.Reactive;
 
     using NUnit.Framework;
@@ -17,6 +17,8 @@
     [RequiresSTA]
     public class FilteredViewTests
     {
+        private static readonly NotifyCollectionChangedEventArgs ResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+
         [Test]
         public void ManyTriggersOneReset()
         {
@@ -69,7 +71,11 @@
 
             view.Refresh();
             CollectionAssert.AreEqual(Enumerable.Range(0, 100), view);
-            Assert.AreEqual(NotifyCollectionChangedAction.Reset, changes.Single().Action);
+            var expected = new[]
+            {
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)
+            };
+            CollectionAssert.AreEqual(expected, changes, new EventArgsComparer());
         }
 
         [Test]
@@ -103,17 +109,33 @@
             var view = new FilteredView<int>(ints) { Filter = x => x == 2 };
             var binding = new Binding { Source = view, };
             BindingOperations.SetBinding(listBox, ItemsControl.ItemsSourceProperty, binding);
-
+            view.Refresh();
             CollectionAssert.AreEqual(new[] { 2 }, listBox.Items); // Filtered
         }
 
         [Test]
         public void Refresh()
         {
+            var changes = new List<NotifyCollectionChangedEventArgs>();
             var ints = new List<int> { 1, 2, 3 };
             var view = new FilteredView<int>(ints) { Filter = x => x < 3 };
+            view.ObserveCollectionChanged(false).Subscribe(x => changes.Add(x.EventArgs));
+           
             view.Refresh();
+            var expected = new[]
+            {
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)
+            };
+            CollectionAssert.AreEqual(expected, changes, new EventArgsComparer());
+            CollectionAssert.AreEqual(new[] { 1, 2 }, view);
+
             view.Refresh();
+            expected = new[]
+            {
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset),
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)
+            };
+            CollectionAssert.AreEqual(expected, changes, new EventArgsComparer());
             CollectionAssert.AreEqual(new[] { 1, 2 }, view);
         }
 
@@ -142,11 +164,9 @@
             var ints = new List<int> { 1, 2, 3 };
             var view = new FilteredView<int>(ints, TimeSpan.Zero, subject);
             var argses = new List<NotifyCollectionChangedEventArgs>();
-            view.CollectionChanged += (sender, args) => argses.Add(args);
+            view.ObserveCollectionChanged(false).Subscribe(x => argses.Add(x.EventArgs));
             subject.OnNext(new object());
-            view.Refresh();
-            Assert.AreEqual(1, argses.Count);
-            Assert.AreEqual(NotifyCollectionChangedAction.Reset, argses.Single().Action);
+            CollectionAssert.AreEqual(new[] { ResetEventArgs }, argses, EventArgsComparer.Instance);
         }
 
         [Test]
