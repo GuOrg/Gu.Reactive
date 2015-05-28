@@ -47,14 +47,14 @@
                 </Button.ToolTip>
             </Button>
 
-            <Button Content="RelativeSource">
+            <!--<Button Content="RelativeSource">
                 <Button.ToolTip>
                     <ToolTip>
-                        <!--Have not figured out a way to bind with relativesource, this is intentionally left throwing-->
+                        --><!--Have not figured out a way to bind with relativesource, this is intentionally left throwing--><!--
                         <TextBox Text="{reactive:NinjaBinding {Binding ActualHeight, RelativeSource={RelativeSource AncestorType={x:Type demo:NinjaBindingView}}, Mode=OneWay}}" />
                     </ToolTip>
                 </Button.ToolTip>
-            </Button>
+            </Button>-->
 
             <Button Content="RelativeSource">
                 <Button.ToolTip>

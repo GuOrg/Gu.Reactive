@@ -8,53 +8,72 @@
              d:DataContext="{d:DesignInstance demo:FilteredViewViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-
-        <GroupBox Grid.Row="0" Header="Tags">
-            <ListBox x:Name="TagBox"
-                     ItemsSource="{Binding Tags}"
-                     SelectionChanged="OnTagsSelectionChanged"
-                     SelectionMode="Multiple">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-            </ListBox>
-        </GroupBox>
-        <GroupBox Grid.Row="1" Header="Tags">
-            <Grid>
-                <!--  Hacking it like this for now  -->
-                <TextBox Margin="4"
-                         BorderBrush="Black"
-                         BorderThickness="1"
-                         FontSize="24"
-                         Padding="0"
-                         Text="{Binding SearchText,
-                                        UpdateSourceTrigger=PropertyChanged,
-                                        Delay=50}" />
-                <Border BorderBrush="LightBlue"
-                        BorderThickness="5"
-                        Visibility="{Binding HasSearchText,
-                                             Converter={reactive:BooleanToVisibilityConverter WhenTrue=Visible,
-                                                                                              WhenFalse=Hidden}}" />
-            </Grid>
-        </GroupBox>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <GroupBox Grid.Column="0" Header="Filtered view">
+            <GroupBox Grid.Column="0"
+                      Header="Tags"
+                      >
+                <ListBox x:Name="TagBox"
+                         ItemsSource="{Binding Tags}"
+                         SelectionChanged="OnTagsSelectionChanged"
+                         SelectionMode="Multiple"
+                         >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </GroupBox>
+           
+            <GroupBox Grid.Column="1"
+                      Header="TextFilter"
+                      >
+                <Grid>
+                    <!--  Hacking it like this for now  -->
+                    <TextBox Margin="4"
+                             BorderBrush="Black"
+                             BorderThickness="1"
+                             FontSize="24"
+                             Padding="0"
+                             Text="{Binding SearchText,
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Delay=50}"
+                             />
+                    <Border BorderBrush="LightBlue"
+                            BorderThickness="5"
+                            Visibility="{Binding HasSearchText,
+                                                 Converter={reactive:BooleanToVisibilityConverter WhenTrue=Visible,
+                                                                                                  WhenFalse=Hidden}}"
+                            />
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <GroupBox Grid.Column="0"
+                      Header="Filtered view"
+                      >
                 <DataGrid ItemsSource="{Binding Filtered}" />
             </GroupBox>
-            <GroupBox Grid.Column="1" Header="Vanilla observable collection">
+            <GroupBox Grid.Column="1"
+                      Header="Vanilla observable collection"
+                      >
                 <DataGrid ItemsSource="{Binding PeopleRaw}" />
             </GroupBox>
         </Grid>

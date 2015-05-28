@@ -122,6 +122,21 @@
     <Compile Include="ConvertersDemoView.xaml.cs">
       <DependentUpon>ConvertersDemoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DeferredViewView.xaml.cs">
+      <DependentUpon>DeferredViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DeferredViewViewModel.cs">
+      <DependentUpon>DeferredViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DispatchingViewView.xaml.cs">
+      <DependentUpon>DispatchingViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DispatchingViewViewModel.cs">
+      <DependentUpon>DispatchingViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DummyItem.cs">
+      <DependentUpon>DeferredViewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DummyReadonlyCollection.cs">
       <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>
@@ -172,6 +187,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConvertersDemoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DeferredViewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DispatchingViewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

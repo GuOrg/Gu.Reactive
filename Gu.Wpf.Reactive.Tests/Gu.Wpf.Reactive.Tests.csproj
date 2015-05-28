@@ -89,11 +89,13 @@
   <ItemGroup>
     <Compile Include="AssertCompletion.cs" />
     <Compile Include="Converters\TypeConverters\DefaultTypeConverter`1Tests.cs" />
+    <Compile Include="DispatchingView.cs" />
+    <Compile Include="FakesAndHelpers\EventArgsComparer.cs" />
     <Compile Include="NamespacesTests.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverterTests.cs" />
     <Compile Include="Converters\MultiplyConverterTests.cs" />
     <Compile Include="ObservableCollectionExtensionsTests.cs" />
-    <Compile Include="DeferredCollectionTests.cs" />
+    <Compile Include="DeferredViewTests.cs" />
     <Compile Include="FilteredViewTests.cs" />
     <Compile Include="Commands\AsyncCommandsTests.cs" />
     <Compile Include="Commands\AsyncParameterCommandTests.cs" />

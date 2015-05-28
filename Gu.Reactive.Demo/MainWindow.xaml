@@ -60,6 +60,14 @@
             <demo:FilteredViewView />
         </TabItem>
 
+        <TabItem Header="DeferredView">
+            <demo:DeferredViewView />
+        </TabItem>
+
+        <TabItem Header="DispatchingView">
+            <demo:DispatchingViewView />
+        </TabItem>
+        
         <TabItem Header="CollectionView">
             <demo:CollectionViewDemo />
         </TabItem>

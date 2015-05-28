@@ -86,8 +86,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionViews\DeferredView.cs" />
+    <Compile Include="CollectionViews\DispatchingView.cs" />
+    <Compile Include="CollectionViews\IDeferredView.cs" />
+    <Compile Include="CollectionViews\INotifyingCollection.cs" />
     <Compile Include="Converters\TypeConverters\ITypeConverter`1.cs" />
     <Compile Include="Converters\TypeConverters\NullableEnumConverter`1.cs" />
+    <Compile Include="CollectionViews\DispatchingView`2.cs" />
+    <Compile Include="CollectionViews\ObservableCollectionWrapperBase`1.cs" />
     <Compile Include="ServiceProviderExt.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToXConverter.cs" />
@@ -104,9 +110,9 @@
     <Compile Include="DesignMode.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Maybe`1.cs" />
-    <Compile Include="ObservableCollectionExtensions.cs" />
-    <Compile Include="FilteredView`1.cs" />
-    <Compile Include="DeferredView`1.cs" />
+    <Compile Include="CollectionViews\ObservableCollectionExtensions.cs" />
+    <Compile Include="CollectionViews\FilteredView`1.cs" />
+    <Compile Include="CollectionViews\DeferredView`2.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Page Include="Themes\Assets.xaml">
       <SubType>Designer</SubType>

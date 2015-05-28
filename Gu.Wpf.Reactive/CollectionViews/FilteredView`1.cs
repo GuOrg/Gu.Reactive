@@ -7,7 +7,6 @@
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq;
-    using System.Reactive;
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
     using System.Reactive.Subjects;
@@ -34,7 +33,6 @@
         private Func<T, bool> _filter;
         private bool _disposed = false;
         private TimeSpan _deferTime;
-
 
         /// <summary>
         /// For manual Refresh()
@@ -78,19 +76,19 @@
         }
 
         public FilteredView(ObservableCollection<T> collection, Func<T, bool> filter, TimeSpan deferTime, params IObservable<object>[] triggers)
-            : this(new DeferredView<T>(collection, deferTime), filter, deferTime, triggers)
+            : this(collection.AsDeferredView(deferTime), filter, deferTime, triggers)
         {
             _isReadonly = false;
         }
 
         public FilteredView(ObservableCollection<T> collection, TimeSpan deferTime, params IObservable<object>[] triggers)
-            : this(new DeferredView<T>(collection, deferTime), null, deferTime, triggers)
+            : this(collection.AsDeferredView(deferTime), null, deferTime, triggers)
         {
             _isReadonly = false;
         }
 
         public FilteredView(ObservableCollection<T> collection, params IObservable<object>[] triggers)
-            : this(new DeferredView<T>(collection, TimeSpan.Zero), null, TimeSpan.Zero, triggers)
+            : this(collection.AsDispatchingView(), null, TimeSpan.Zero, triggers)
         {
             _isReadonly = false;
         }
@@ -139,10 +137,10 @@
                     return;
                 }
                 _deferTime = value;
-                var deferredView = _inner as DeferredView<T>;
+                var deferredView = _inner as IDeferredView<T>;
                 if (deferredView != null)
                 {
-                    deferredView.DeferTime = _deferTime;
+                    deferredView.BufferTime = _deferTime;
                 }
                 OnPropertyChanged();
                 OnTriggersChanged();
@@ -306,7 +304,7 @@
         int IList.Add(object value)
         {
             throw new NotImplementedException("Was tricky to get eventargs correct");
-            ((DeferredView<T>)_inner).Add((T)value);
+            ((IDeferredView<T>)_inner).Add((T)value);
             var indexOf = ((IList)this).IndexOf(value);
             return indexOf;
         }
@@ -391,7 +389,7 @@
         void IList.Remove(object value)
         {
             throw new NotImplementedException("Was tricky to get eventargs correct");
-            ((DeferredView<T>)_inner).Remove((T)value);
+            ((IDeferredView<T>)_inner).Remove((T)value);
         }
 
         void IList.RemoveAt(int index)
@@ -407,7 +405,7 @@
                     {
                         if (index == i)
                         {
-                            ((DeferredView<T>)_inner).Remove(enumerator.Current);
+                            ((IDeferredView<T>)_inner).Remove(enumerator.Current);
                         }
                         i++;
                     }
@@ -421,7 +419,7 @@
                     {
                         if (index == i)
                         {
-                            ((DeferredView<T>)_inner).Remove(enumerator.Current);
+                            ((IDeferredView<T>)_inner).Remove(enumerator.Current);
                         }
                         i++;
                     }

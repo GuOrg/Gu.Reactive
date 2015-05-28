@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="Gu.Reactive.Demo.DispatchingViewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:demo="clr-namespace:Gu.Reactive.Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d"
+             >
+    <UserControl.DataContext>
+        <demo:DispatchingViewViewModel />
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0">
+            <Button Command="{Binding AddOneCommand}"
+                    Content="AddOne"
+                    />
+
+            <Button Command="{Binding AddOneToViewCommand}"
+                    Content="AddOneToView"
+                    />
+
+            <Button Command="{Binding AddTenCommand}"
+                    Content="AddTen"
+                    />
+
+            <Button Command="{Binding AddOneOnOtherThreadCommand}"
+                    Content="AddOneOnOtherThread"
+                    />
+
+            <Button Command="{Binding ClearCommand}"
+                    Content="Clear"
+                    />
+        </WrapPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0"
+                      Header="ListBox"
+                      >
+                <ListBox x:Name="ListBox"
+                         ItemsSource="{Binding DispatchingView}"
+                         />
+            </GroupBox>
+
+            <GroupBox Grid.Column="1"
+                      Header="DataGrid"
+                      >
+                <DataGrid x:Name="DataGrid"
+                          ItemsSource="{Binding DispatchingView}"
+                          />
+            </GroupBox>
+
+            <GroupBox Grid.Column="2"
+                      Header="DispatchingChanges"
+                      >
+                <ItemsControl ItemsSource="{Binding DispatchingChanges}" />
+            </GroupBox>
+
+            <GroupBox Grid.Column="3"
+                      Header="ObservableCollectionChanges"
+                      >
+                <ItemsControl ItemsSource="{Binding ObservableCollectionChanges}" />
+            </GroupBox>
+        </Grid>
+    </Grid>
+</UserControl>
