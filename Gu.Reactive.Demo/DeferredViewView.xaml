@@ -25,7 +25,7 @@
             <Button Command="{Binding AddOneToViewCommand}"
                     Content="AddOneToView"
                     />
-            
+
             <Button Command="{Binding AddTenCommand}"
                     Content="AddTen"
                     />
@@ -49,25 +49,29 @@
             <GroupBox Grid.Column="0"
                       Header="DeferredView ListBox"
                       >
-                <ListBox x:Name="ListBox" ItemsSource="{Binding ObservableCollectionDeferredView}" />
+                <ListBox x:Name="ListBox"
+                         ItemsSource="{Binding ObservableCollectionDeferredView}"
+                         />
             </GroupBox>
 
             <GroupBox Grid.Column="1"
                       Header="DeferredView DataGrid"
                       >
-                <DataGrid x:Name="DataGrid" ItemsSource="{Binding ObservableCollectionDeferredView}" />
+                <DataGrid x:Name="DataGrid"
+                          ItemsSource="{Binding ObservableCollectionDeferredView}"
+                          />
             </GroupBox>
 
             <GroupBox Grid.Column="2"
                       Header="DeferredChanges"
                       >
-                <ItemsControl ItemsSource="{Binding DeferredChanges}" />
+                <ItemsControl ItemsSource="{Binding DeferredEvents}" />
             </GroupBox>
 
             <GroupBox Grid.Column="3"
                       Header="ObservableCollectionChanges"
                       >
-                <ItemsControl ItemsSource="{Binding ObservableCollectionChanges}" />
+                <ItemsControl ItemsSource="{Binding ObservableCollectionEvents}" />
             </GroupBox>
         </Grid>
     </Grid>

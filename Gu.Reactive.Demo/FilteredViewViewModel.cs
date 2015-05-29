@@ -3,10 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Windows.Input;
 
     using Gu.Reactive.Demo.Annotations;
     using Gu.Wpf.Reactive;
@@ -16,11 +18,12 @@
         private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
         private readonly ObservableCollection<Person> _peopleRaw;
         private readonly Random _random = new Random();
+        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _rawEvents = new ObservableCollection<NotifyCollectionChangedEventArgs>();
+        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _filteredEvents = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
         private string _searchText;
         private bool _hasSearchText;
         private IEnumerable<int> _selectedTags = Enumerable.Empty<int>();
-
         private int _numberOfItems = 100;
 
         public FilteredViewViewModel()
@@ -38,6 +41,20 @@
             DummyReadonlyCollection = new DummyReadonlyCollection<Person>(_peopleRaw);
             this.ObservePropertyChanged(x => x.SearchText)
                 .Subscribe(_ => HasSearchText = !string.IsNullOrEmpty(SearchText));
+
+            PeopleRaw.ObserveCollectionChanged()
+                    .ObserveOnDispatcherOrCurrentThread()
+                    .Subscribe(x => _rawEvents.Add(x.EventArgs));
+
+            Filtered.ObserveCollectionChanged()
+                    .ObserveOnDispatcherOrCurrentThread()
+                    .Subscribe(x => _filteredEvents.Add(x.EventArgs));
+            ClearEventsCommand = new RelayCommand(
+                () =>
+                    {
+                        _filteredEvents.Clear();
+                        _rawEvents.Clear();
+                    });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -70,6 +87,8 @@
             }
         }
 
+        public ICommand ClearEventsCommand { get; private set; }
+
         public ObservableCollection<Person> PeopleRaw
         {
             get { return _peopleRaw; }
@@ -91,6 +110,16 @@
         public ReadOnlyObservableCollection<Person> PeopleReadonly { get; private set; }
 
         public FilteredView<Person> Filtered { get; private set; }
+
+        public ObservableCollection<NotifyCollectionChangedEventArgs> RawEvents
+        {
+            get { return _rawEvents; }
+        }
+
+        public ObservableCollection<NotifyCollectionChangedEventArgs> FilteredEvents
+        {
+            get { return _filteredEvents; }
+        }
 
         public DummyReadonlyCollection<Person> DummyReadonlyCollection { get; private set; }
 

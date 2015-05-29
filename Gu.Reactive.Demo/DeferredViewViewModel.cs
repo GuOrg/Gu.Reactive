@@ -11,8 +11,8 @@
     public class DeferredViewViewModel
     {
         private readonly ObservableCollection<DummyItem> _observableCollection = new ObservableCollection<DummyItem>();
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _observableCollectionChanges = new ObservableCollection<NotifyCollectionChangedEventArgs>();
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _deferredChanges = new ObservableCollection<NotifyCollectionChangedEventArgs>();
+        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _observableCollectionEvents = new ObservableCollection<NotifyCollectionChangedEventArgs>();
+        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _deferredEvents = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
         public DeferredViewViewModel()
         {
@@ -27,21 +27,21 @@
             ClearCommand = new RelayCommand(() => Clear(), () => true);
             ObservableCollection.ObserveCollectionChanged()
                                 .ObserveOnDispatcherOrCurrentThread()
-                                .Subscribe(x => _observableCollectionChanges.Add(x.EventArgs));
+                                .Subscribe(x => _observableCollectionEvents.Add(x.EventArgs));
 
             ObservableCollectionDeferredView.ObserveCollectionChanged()
                     .ObserveOnDispatcherOrCurrentThread()
-                    .Subscribe(x => _deferredChanges.Add(x.EventArgs));
+                    .Subscribe(x => _deferredEvents.Add(x.EventArgs));
         }
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionChanges
+        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionEvents
         {
-            get { return _observableCollectionChanges; }
+            get { return _observableCollectionEvents; }
         }
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> DeferredChanges
+        public ObservableCollection<NotifyCollectionChangedEventArgs> DeferredEvents
         {
-            get { return _deferredChanges; }
+            get { return _deferredEvents; }
         }
 
         public ObservableCollection<DummyItem> ObservableCollection
@@ -91,8 +91,8 @@
         private void Clear()
         {
             _observableCollection.Clear();
-            _observableCollectionChanges.Clear();
-            _deferredChanges.Clear();
+            _observableCollectionEvents.Clear();
+            _deferredEvents.Clear();
         }
     }
 }
