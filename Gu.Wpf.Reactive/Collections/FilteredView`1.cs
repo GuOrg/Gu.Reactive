@@ -7,11 +7,10 @@
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq;
-    using System.Reactive.Concurrency;
+    using System.Reactive;
+    using System.Reactive.Disposables;
     using System.Reactive.Linq;
-    using System.Reactive.Subjects;
     using System.Runtime.CompilerServices;
-    using System.Threading;
     using System.Windows.Threading;
 
     using Gu.Reactive;
@@ -26,7 +25,7 @@
         private const string CountName = "Count";
         private const string IndexerName = "Item[]";
 
-        internal static readonly TimeSpan DefaultBufferTime = TimeSpan.FromMilliseconds(10);
+        private static readonly TimeSpan DefaultBufferTime = TimeSpan.FromMilliseconds(10);
         private static readonly NotifyCollectionChangedEventArgs ResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
         private static readonly PropertyChangedEventArgs CountEventArgs = new PropertyChangedEventArgs(CountName);
         private static readonly PropertyChangedEventArgs IndexerEventArgs = new PropertyChangedEventArgs(IndexerName);
@@ -41,6 +40,8 @@
         private Func<TItem, bool> _filter;
         private bool _disposed = false;
         private TimeSpan _bufferTime;
+
+        private IDisposable _collectionChangedSubscription;
 
         /// <summary>
         /// For manual Refresh()
@@ -62,10 +63,13 @@
 
             _isReadonly = !((collection is INotifyCollectionChanged) && (collection is IList<TItem>));
             _inner = collection;
-            var notifyCollectionChanged = _inner as INotifyCollectionChanged;
-            if (notifyCollectionChanged != null)
+            var incc = _inner as INotifyCollectionChanged;
+            if (incc != null)
             {
-                CollectionChangedEventManager.AddHandler(notifyCollectionChanged, OnInnerCollectionChanged);
+                var colChanges = Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
+                    x => incc.CollectionChanged += x,
+                    x => incc.CollectionChanged -= x);
+                _collectionChangedSubscription = colChanges.Subscribe(_ => DeferredRefresh());
             }
 
             _triggers = new ObservableCollection<IObservable<object>>(triggers);
@@ -112,10 +116,12 @@
         {
             get
             {
+                VerifyDisposed();
                 return _filter;
             }
             set
             {
+                VerifyDisposed();
                 if (Equals(value, _filter))
                 {
                     return;
@@ -128,7 +134,11 @@
 
         public ObservableCollection<IObservable<object>> Triggers
         {
-            get { return _triggers; }
+            get
+            {
+                VerifyDisposed();
+                return _triggers;
+            }
         }
 
         public TimeSpan BufferTime
@@ -161,6 +171,7 @@
 
         public void Refresh()
         {
+            VerifyDisposed();
             _timer.Stop();
             _filtered.Clear();
             if (_filter != null)
@@ -198,6 +209,7 @@
             {
                 return;
             }
+            _disposed = true;
 
             if (disposing)
             {
@@ -205,16 +217,11 @@
                 {
                     _triggerSubscription.Dispose();
                 }
-
-                var notifyCollectionChanged = _inner as INotifyCollectionChanged;
-                if (notifyCollectionChanged != null)
+                if (_collectionChangedSubscription != null)
                 {
-                    CollectionChangedEventManager.RemoveHandler(notifyCollectionChanged, OnInnerCollectionChanged);
+                    _collectionChangedSubscription.Dispose();
                 }
             }
-
-            // Free any unmanaged objects here. 
-            _disposed = true;
         }
 
         [NotifyPropertyChangedInvocator]
@@ -262,6 +269,14 @@
             }
         }
 
+        protected void VerifyDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+        }
+
         private void OnTriggersChanged()
         {
             if (_triggerSubscription != null)
@@ -273,11 +288,6 @@
                 _triggerSubscription = _triggers.Merge()
                                                 .Subscribe(x => DeferredRefresh());
             }
-        }
-
-        private void OnInnerCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
-        {
-            DeferredRefresh();
         }
 
         private void VerifyEditable([CallerMemberName] string caller = null)

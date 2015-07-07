@@ -6,8 +6,6 @@ namespace Gu.Reactive.Tests
     using System.Linq;
     using System.Reactive;
 
-    using global::NUnit.Framework;
-
     using Gu.Reactive.Tests.Fakes;
 
     using NUnit.Framework;

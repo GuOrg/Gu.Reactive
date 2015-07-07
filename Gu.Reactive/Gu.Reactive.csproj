@@ -207,6 +207,7 @@
     <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />
     <Compile Include="Internals\ConstantVisitor.cs" />
+    <Compile Include="ObservableExt.cs" />
     <Compile Include="PropertyPathStuff\IPropertyPath.cs" />
     <Compile Include="Internals\MaybeExt.cs" />
     <Compile Include="Internals\ObjectIdentityComparer`1.cs" />
