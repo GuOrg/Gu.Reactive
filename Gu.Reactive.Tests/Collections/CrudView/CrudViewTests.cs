@@ -18,13 +18,9 @@ namespace Gu.Reactive.Tests.Collections.CrudView
     public abstract class CrudViewTests
     {
         private List<EventArgs> _expected;
-
         protected List<EventArgs> _actual;
-
         protected TestScheduler _scheduler;
-
         protected IFilteredView<int> _view;
-
         protected ObservableCollection<int> _ints;
 
         [SetUp]

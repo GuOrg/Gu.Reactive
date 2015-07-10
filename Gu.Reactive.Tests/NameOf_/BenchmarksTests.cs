@@ -10,6 +10,7 @@ namespace Gu.Reactive.Tests.NameOf_
 
 
     // ReSharper disable once InconsistentNaming
+    [Explicit("Longrunning benchmarks")]
     public class BenchmarksTests
     {
         const int n = 10000;

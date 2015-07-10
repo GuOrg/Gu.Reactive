@@ -68,11 +68,6 @@
             }
         }
 
-        protected virtual void OnViewEdited()
-        {
-            RefreshNow();
-        }
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -107,7 +102,6 @@
             {
                 var sourceIndex = Source.IndexOf(Synchronized.Current[index]);
                 Source[sourceIndex] = value;
-                OnViewEdited();
             }
         }
 
@@ -124,13 +118,11 @@
         public void Add(T item)
         {
             Source.Add(item);
-            OnViewEdited();
         }
 
         public void Clear()
         {
             Source.Clear();
-            OnViewEdited();
         }
 
         public bool Contains(T item)
@@ -146,7 +138,6 @@
         public void Insert(int index, T value)
         {
             InsertCore(index, value);
-            OnViewEdited();
         }
 
         private void InsertCore(int index, T value)
@@ -158,14 +149,12 @@
         public bool Remove(T item)
         {
             var result = Source.Remove(item);
-            OnViewEdited();
             return result;
         }
 
         public void RemoveAt(int index)
         {
             RemoveAtCore(index);
-            OnViewEdited();
         }
 
         private void RemoveAtCore(int index)
@@ -185,7 +174,11 @@
         object IList.this[int index]
         {
             get { return this[index]; }
-            set { this[index] = (T)value; }
+            set
+            {
+                this[index] = (T)value;
+                RefreshNow();
+            }
         }
 
         bool IList.IsFixedSize
@@ -197,7 +190,7 @@
         {
             // IList.Add happens when a new row is added in DataGrid, we need to notify here to avoid out of sync exception.
             ((IList)Source).Add(value); // Adding to inner
-            OnViewEdited();
+            RefreshNow();
             var index = Synchronized.LastIndexOf((T)value); // Adding explicitly to filtered to get correct index.
             return index;
         }
@@ -215,11 +208,13 @@
         void IList.Insert(int index, object value)
         {
             Insert(index, (T)value);
+            RefreshNow();
         }
 
         void IList.Remove(object value)
         {
             Remove((T)value);
+            RefreshNow();
         }
 
         #endregion IList

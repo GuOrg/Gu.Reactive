@@ -11,6 +11,7 @@
 
     using NUnit.Framework;
 
+    [Explicit]
     public class BenchmarkTests
     {
         [TestCase(1000)]

@@ -10,7 +10,7 @@
 
     using NUnit.Framework;
 
-    //[Explicit("Longrunning benchmarks")]
+    [Explicit("Longrunning benchmarks")]
     [TestFixture]
     public class PurrformanceTests : INotifyPropertyChanged
     {
