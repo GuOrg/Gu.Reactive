@@ -63,6 +63,11 @@
             Synchronized.Reset(this, Source, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
+        protected override void RefreshNow()
+        {
+            Synchronized.Reset(this, Source, null, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+        }
+
         protected  override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             VerifyDisposed();

@@ -49,6 +49,11 @@
 
         public abstract void Refresh();
 
+        /// <summary>
+        /// Pass null as scheduler here, change came from the ui thread.
+        /// </summary>
+        protected abstract void RefreshNow();
+
         protected abstract void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes);
 
         protected virtual void Dispose(bool disposing)
@@ -65,7 +70,7 @@
 
         protected virtual void OnViewEdited()
         {
-            Refresh();
+            RefreshNow();
         }
 
         [NotifyPropertyChangedInvocator]

@@ -121,6 +121,11 @@
             Synchronized.Reset(this, Filtered(), _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
+        protected override void RefreshNow()
+        {
+            Synchronized.Reset(this, Filtered(), null, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+        }
+
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             Synchronized.Refresh(this, Filtered(), changes, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
