@@ -7,14 +7,12 @@
     using System.Reactive.Concurrency;
     using System.Reactive.Disposables;
 
-    using Gu.Reactive.Collections;
-
-    public partial class DeferredView<T> : SynchronizedEditableView<T>, IDeferredView<T>, IReadOnlyDeferredView<T>
+    public class DeferredView<T> : SynchronizedEditableView<T>, IDeferredView<T>, IReadOnlyDeferredView<T>
     {
         private readonly IScheduler _scheduler;
         private readonly SerialDisposable _refreshSubscription = new SerialDisposable();
         private TimeSpan _bufferTime;
-        private bool _disposed = false;
+        private bool _disposed;
 
         public DeferredView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
             : base(source)
@@ -75,7 +73,7 @@
         /// Protected implementation of Dispose pattern. 
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (_disposed)
             {

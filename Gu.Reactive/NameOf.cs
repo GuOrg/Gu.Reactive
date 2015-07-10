@@ -5,8 +5,7 @@
     using System.Linq.Expressions;
     using System.Reflection;
 
-    using Gu.Reactive.Internals;
-    using PropertyPathStuff;
+    using Gu.Reactive.PropertyPathStuff;
 
     /// <summary>
     /// Class provides methods to obtain member names of data types.
@@ -74,7 +73,7 @@
         /// <summary>
         /// Returns the name of a property provided as a property expression.
         /// </summary>
-        /// <typeparam name="TProperty">
+        /// <typeparam name="TValue">
         /// Type of the property.
         /// </typeparam>
         /// <typeparam name="TItem">

@@ -1,13 +1,8 @@
-﻿namespace Gu.Wpf.Reactive.Converters.TypeConverters
+﻿namespace Gu.Wpf.Reactive.TypeConverters
 {
     using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
-    using Gu.Wpf.Reactive.TypeConverters;
 
     internal class NullableEnumConverter<T> : ITypeConverter<T?>
         where T : struct, IComparable, IFormattable

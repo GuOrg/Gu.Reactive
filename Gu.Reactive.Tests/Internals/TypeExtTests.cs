@@ -1,7 +1,8 @@
-﻿namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests.Internals
 {
     using System;
     using System.Collections.Generic;
+
     using NUnit.Framework;
 
     public class TypeExtTests

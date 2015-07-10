@@ -11,7 +11,7 @@
     using Microsoft.Reactive.Testing;
     using NUnit.Framework;
 
-    public class CreateBox
+    public class CreateBoxTests
     {
         public event EventHandler Event;
         [Test, Explicit]
@@ -48,7 +48,5 @@
             scheduler.Schedule(TimeSpan.Zero, () => Event(this, EventArgs.Empty));
             scheduler.Start();
         }
-
-
     }
 }

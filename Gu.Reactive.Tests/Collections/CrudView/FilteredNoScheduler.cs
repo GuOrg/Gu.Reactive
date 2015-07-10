@@ -7,7 +7,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
     public class FilteredNoScheduler : CrudViewTests
     {
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             base.SetUp();
             _view = _ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10));

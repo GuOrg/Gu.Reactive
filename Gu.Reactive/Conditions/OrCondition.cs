@@ -1,7 +1,5 @@
 namespace Gu.Reactive
 {
-    using System;
-
     public class OrCondition : Condition
     {
         public OrCondition(params ICondition[] prerequisites)

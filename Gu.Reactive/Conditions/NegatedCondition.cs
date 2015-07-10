@@ -89,32 +89,16 @@
             }
         }
 
-        /// <summary>
-        /// The negate.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="ICondition"/>.
-        /// </returns>
         public ICondition Negate()
         {
             return _condition;
         }
 
-        /// <summary>
-        /// The dispose.
-        /// </summary>
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        /// <param name="disposing">
-        /// The disposing.
-        /// </param>
         private void Dispose(bool disposing)
         {
             if (disposing)
@@ -124,12 +108,6 @@
             }
         }
 
-        /// <summary>
-        /// The on property changed.
-        /// </summary>
-        /// <param name="propertyName">
-        /// The property name.
-        /// </param>
         private void OnPropertyChanged(string propertyName = null)
         {
             var handler = PropertyChanged;

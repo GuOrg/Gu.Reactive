@@ -1,17 +1,16 @@
-namespace Gu.Reactive.Tests
+namespace Gu.Reactive.Tests.NameOf_
 {
     using System;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.Linq.Expressions;
-    using System.Reactive;
 
     using Gu.Reactive.Tests.Fakes;
 
     using NUnit.Framework;
 
+
     // ReSharper disable once InconsistentNaming
-    public class NameOf_Property_Benchmarks
+    public class BenchmarksTests
     {
         const int n = 10000;
 

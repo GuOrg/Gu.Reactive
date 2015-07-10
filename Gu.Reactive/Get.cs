@@ -1,11 +1,9 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.Linq;
     using System.Linq.Expressions;
-    using System.Reflection;
-    using Internals;
-    using PropertyPathStuff;
+
+    using Gu.Reactive.PropertyPathStuff;
 
     public static class Get
     {

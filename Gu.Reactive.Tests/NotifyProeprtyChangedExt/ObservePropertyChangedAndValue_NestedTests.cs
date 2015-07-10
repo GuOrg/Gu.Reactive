@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests
+namespace Gu.Reactive.Tests.NotifyProeprtyChangedExt
 {
     using System;
     using System.Collections.Generic;
@@ -8,8 +8,9 @@ namespace Gu.Reactive.Tests
     using Gu.Reactive.Tests.Fakes;
 
     using NUnit.Framework;
+
     // ReSharper disable once InconsistentNaming
-    public class NotifyPropertyChangedExt_ObservePropertyChangedAndValue_Nested
+    public class ObservePropertyChangedAndValue_NestedTests
     {
         private List<EventPattern<PropertyChangedAndValueEventArgs<string>>> _changes;
 

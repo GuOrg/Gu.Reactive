@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests
+namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace Gu.Reactive.Tests
     using NUnit.Framework;
 
     // ReSharper disable once InconsistentNaming
-    public class NotifyCollectionChangedExt_ObserveItemPropertyChanged
+    public class ObserveItemPropertyChangedTests
     {
         private List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> _changes;
 

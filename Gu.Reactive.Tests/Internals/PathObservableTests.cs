@@ -1,16 +1,14 @@
-﻿namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests.Internals
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Reactive;
 
-    using Gu.Reactive.Internals;
+    using Gu.Reactive.PropertyPathStuff;
     using Gu.Reactive.Tests.Fakes;
 
-    using Internals;
     using NUnit.Framework;
-    using PropertyPathStuff;
 
     /// <summary>
     /// Dunno if it is nice to test internals like this, was used for development.

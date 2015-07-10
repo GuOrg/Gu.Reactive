@@ -12,7 +12,7 @@
 
     //[Explicit("Longrunning benchmarks")]
     [TestFixture]
-    public class Purrformance : INotifyPropertyChanged
+    public class PurrformanceTests : INotifyPropertyChanged
     {
         const int n = 10000;
 

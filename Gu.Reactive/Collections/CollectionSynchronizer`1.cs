@@ -14,10 +14,6 @@ namespace Gu.Reactive
         internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgs = new[] { Diff.NotifyCollectionResetEventArgs };
         private readonly List<T> _current = new List<T>();
 
-        public CollectionSynchronizer()
-        {
-        }
-
         public CollectionSynchronizer(IEnumerable<T> source)
         {
             _current.AddRange(source);

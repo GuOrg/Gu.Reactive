@@ -6,7 +6,7 @@
     public sealed class RwLock : IDisposable
     {
         private readonly ReaderWriterLockSlim _innerLock;
-        private bool _disposed = false;
+        private bool _disposed;
 
         /// <summary>
         /// Creates a RwLock with LockRecursionPolicy.NoRecursion

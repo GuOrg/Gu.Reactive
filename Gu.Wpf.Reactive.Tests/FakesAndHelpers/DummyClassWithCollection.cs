@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.Tests
+﻿namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
 {
     using System.Collections.Generic;
     using System.ComponentModel;

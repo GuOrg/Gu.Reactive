@@ -1,11 +1,12 @@
-﻿namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests.NameOf_
 {
     using System.Linq;
 
     using NUnit.Framework;
 
+
     // ReSharper disable once InconsistentNaming
-    public class NameOf_Method_Tests
+    public class MethodTests
     {
         [Test]
         public void MethodAction()
@@ -17,7 +18,7 @@
         [Test]
         public void MethodFunc()
         {
-            var actual = NameOf.Method<NameOf_Method_Tests>(x => DummyMethod(0));
+            var actual = NameOf.Method<MethodTests>(x => DummyMethod(0));
             Assert.AreEqual("DummyMethod", actual);
         }
 

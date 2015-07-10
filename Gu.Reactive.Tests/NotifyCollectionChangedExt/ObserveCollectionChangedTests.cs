@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +8,7 @@
     using NUnit.Framework;
 
     // ReSharper disable once InconsistentNaming
-    public class NotifyCollectionChangedExt_ObserveCollectionChanged
+    public class ObserveCollectionChangedTests
     {
         [Test]
         public void SignalsInitial()

@@ -1,10 +1,12 @@
-namespace Gu.Reactive.Tests
+namespace Gu.Reactive.Tests.Get
 {
     using Gu.Reactive.Tests.Fakes;
 
     using NUnit.Framework;
 
-    public class Get_ValueOrDefault
+    using Get = Gu.Reactive.Get;
+
+    public class ValueOrDefaultTests
     {
         public Fake Fake { get; private set; }
 

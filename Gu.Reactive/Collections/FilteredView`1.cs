@@ -9,19 +9,17 @@
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
 
-    using Gu.Reactive.Collections;
-
     /// <summary>
     /// Typed CollectionView for intellisense in xaml
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public partial class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
+    public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
         private readonly ObservableCollection<IObservable<object>> _triggers;
         private readonly IScheduler _scheduler;
         private readonly SerialDisposable _refreshSubscription = new SerialDisposable();
         private Func<T, bool> _filter;
-        private bool _disposed = false;
+        private bool _disposed;
         private TimeSpan _bufferTime;
 
         /// <summary>
@@ -141,7 +139,7 @@
         /// Protected implementation of Dispose pattern. 
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (_disposed)
             {

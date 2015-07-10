@@ -227,7 +227,6 @@
     <Compile Include="Collections\IReadOnlyDeferredView`1.cs" />
     <Compile Include="Collections\IReadOnlyFilteredView`1.cs" />
     <Compile Include="Collections\IReadOnlyObservableCollection`1.cs" />
-    <Compile Include="Collections\ObservableCollectionWrapper.cs" />
     <Compile Include="Collections\ReadOnlyDeferredView`.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
     <Compile Include="Get.cs" />

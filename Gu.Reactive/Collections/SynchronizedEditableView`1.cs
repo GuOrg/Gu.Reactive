@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Collections
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections;

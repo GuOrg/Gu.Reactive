@@ -6,7 +6,6 @@
     public interface IConditionsService
     {
         /// <summary>
-        /// Sample: service.Get<SomeCondition>
         /// Useful for returning mocks.
         /// </summary>
         /// <typeparam name="T"></typeparam>

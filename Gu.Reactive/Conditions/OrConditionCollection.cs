@@ -10,7 +10,7 @@
         {
         }
 
-        private static bool? IsSatisfied(IEnumerable<ICondition> conditions)
+        private static bool? IsSatisfied(IReadOnlyList<ICondition> conditions)
         {
             if (conditions.Any(x => x.IsSatisfied == true))
             {
@@ -22,7 +22,7 @@
                 return false;
             }
 
-            return null; // Mix of falses & nulls means not enough info
+            return null; // Mix of false & nulls means not enough info
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
     public class FilteredView : CrudViewTests
     {
         [SetUp]
-        public void SetUp()
+        public override void SetUp()
         {
             base.SetUp();
             _scheduler = new TestScheduler();

@@ -23,13 +23,13 @@
             var tcs = new TaskCompletionSource<bool>();
             using (cancellationToken.Register(s => ((TaskCompletionSource<bool>)s).TrySetResult(true), tcs))
             {
-                if (task != await Task.WhenAny(task, tcs.Task))
+                if (task != await Task.WhenAny(task, tcs.Task).ConfigureAwait(false))
                 {
                     throw new OperationCanceledException(cancellationToken);
                 }
             }
 
-            return await task;
+            return await task.ConfigureAwait(false);
         }
 
         public static Task TimeoutAfter(this Task task, TimeSpan timeout)
@@ -90,10 +90,10 @@
 
                 // Marshal results to proxy
                 MarshalTaskResults(antecedent, tuple.Item2);
-            }, 
-            Tuple.Create(timer, tcs), 
-            CancellationToken.None, 
-            TaskContinuationOptions.ExecuteSynchronously, 
+            },
+            Tuple.Create(timer, tcs),
+            CancellationToken.None,
+            TaskContinuationOptions.ExecuteSynchronously,
             TaskScheduler.Default);
 
             return tcs.Task;
@@ -157,10 +157,10 @@
 
                 // Marshal results to proxy
                 MarshalTaskResults(antecedent, tuple.Item2);
-            }, 
-            Tuple.Create(timer, tcs), 
-            CancellationToken.None, 
-            TaskContinuationOptions.ExecuteSynchronously, 
+            },
+            Tuple.Create(timer, tcs),
+            CancellationToken.None,
+            TaskContinuationOptions.ExecuteSynchronously,
             TaskScheduler.Default);
 
             return tcs.Task;

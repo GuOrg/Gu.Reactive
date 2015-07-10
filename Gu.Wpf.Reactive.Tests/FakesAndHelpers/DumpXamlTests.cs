@@ -4,7 +4,7 @@
 
     using NUnit.Framework;
 
-    public class DumpXaml
+    public class DumpXamlTests
     {
         [Test]
         public void DumpTaskCompletion()

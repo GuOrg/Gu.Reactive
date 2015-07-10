@@ -11,7 +11,6 @@ namespace Gu.Reactive.PropertyPathStuff
         private readonly WeakReference _sourceRef = new WeakReference(null);
 
         public RootItem(INotifyPropertyChanged value)
-            : base()
         {
             _sourceRef.Target = value;
         }

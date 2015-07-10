@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests.Collections
 {
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;

@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests.NotifyProeprtyChangedExt
 {
     using System;
     using System.Collections.Generic;
@@ -10,7 +10,7 @@
 
     using NUnit.Framework;
 
-    public class NotifyPropertyChangedExt_ObservePropertyChanged
+    public class ObservePropertyChangedTests
     {
         private List<EventPattern<PropertyChangedEventArgs>> _changes;
 

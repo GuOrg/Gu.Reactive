@@ -11,7 +11,7 @@
         <description>Wpf related components for Gu.Reactive</description>
         <copyright>Copyright ©  2014</copyright>
         <dependencies>
-            <dependency id="Gu.Reactive" version="1.6.3.0" />
+            <dependency id="Gu.Reactive" version="1.7.0.0" />
             <dependency id="Gu.Wpf.ToolTips" version="0.1.4.0" />
             <dependency id="Rx-WPF" version="2.2.5" />
         </dependencies>

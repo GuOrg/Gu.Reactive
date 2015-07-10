@@ -13,7 +13,7 @@
         {
         }
 
-        private static bool? IsSatisfied(IEnumerable<ICondition> conditions)
+        private static bool? IsSatisfied(IReadOnlyList<ICondition> conditions)
         {
             if (conditions.All(x => x.IsSatisfied == true))
             {

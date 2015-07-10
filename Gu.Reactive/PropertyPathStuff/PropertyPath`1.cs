@@ -6,7 +6,7 @@
 
     internal class PropertyPath<TValue> : IMaybe<TValue>
     {
-        private Maybe<TValue> _maybe;
+        private readonly Maybe<TValue> _maybe;
 
         internal PropertyPath(PropertyPath propertyPath, object source)
         {

@@ -14,7 +14,7 @@
     public abstract class AbstractCondition : ICondition
     {
         private readonly Condition _condition;
-        private bool _disposed = false;
+        private bool _disposed;
 
         protected AbstractCondition(IObservable<object> observable)
         {

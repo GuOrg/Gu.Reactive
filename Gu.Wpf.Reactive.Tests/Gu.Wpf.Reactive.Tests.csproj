@@ -102,7 +102,7 @@
     <Compile Include="Converters\BooleanToVisibilityConverterTests.cs" />
     <Compile Include="Converters\MultiplyConverterTests.cs" />
     <Compile Include="CollectionViews\ObservableCollectionExtensionsTests.cs" />
-    <Compile Include="Commands\AsyncCommandsTests.cs" />
+    <Compile Include="Commands\AsyncCommandTests.cs" />
     <Compile Include="Commands\AsyncParameterCommandTests.cs" />
     <Compile Include="Commands\AsyncParameterResultCommandTests.cs" />
     <Compile Include="Commands\AsyncResultCommandTests.cs" />
@@ -113,7 +113,7 @@
     <Compile Include="FakesAndHelpers\CommandListener.cs" />
     <Compile Include="Commands\ManualRelayCommandTests.cs" />
     <Compile Include="Commands\ObservingRelayCommandTests.cs" />
-    <Compile Include="FakesAndHelpers\DumpXaml.cs" />
+    <Compile Include="FakesAndHelpers\DumpXamlTests.cs" />
     <Compile Include="CollectionViews\ObservableFixedSizeQueueTests.cs" />
     <Compile Include="NotifyTaskCompletionTests.cs" />
     <Compile Include="Properties\Annotations.cs" />

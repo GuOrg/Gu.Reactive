@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests.NameOf_
 {
     using System;
 
@@ -6,8 +6,9 @@
 
     using NUnit.Framework;
 
+
     // ReSharper disable once InconsistentNaming
-    public class NameOf_Property_Tests
+    public class PropertyTests
     {
         public string StringProp { get; private set; }
 
@@ -19,10 +20,10 @@
             var name = NameOf.Property(() => StringProp);
             Assert.AreEqual("StringProp", name);
 
-            name = NameOf.Property<NameOf_Property_Tests>(x => StringProp);
+            name = NameOf.Property<PropertyTests>(x => StringProp);
             Assert.AreEqual("StringProp", name);
 
-            name = NameOf.Property<NameOf_Property_Tests, string>(x => StringProp);
+            name = NameOf.Property<PropertyTests, string>(x => StringProp);
             Assert.AreEqual("StringProp", name);
         }
 
@@ -32,10 +33,10 @@
             var name = NameOf.Property(() => StringProp);
             Assert.AreEqual("StringProp", name);
 
-            name = NameOf.Property<NameOf_Property_Tests>(x => x.StringProp);
+            name = NameOf.Property<PropertyTests>(x => x.StringProp);
             Assert.AreEqual("StringProp", name);
 
-            name = NameOf.Property<NameOf_Property_Tests, string>(x => x.StringProp);
+            name = NameOf.Property<PropertyTests, string>(x => x.StringProp);
             Assert.AreEqual("StringProp", name);
         }
 
@@ -59,10 +60,10 @@
             var name = NameOf.Property(() => Fake.Next.Name, true);
             Assert.AreEqual("Name", name);
 
-            name = NameOf.Property<NameOf_Property_Tests>(x => Fake.Next.Name);
+            name = NameOf.Property<PropertyTests>(x => Fake.Next.Name);
             Assert.AreEqual("Name", name);
 
-            name = NameOf.Property<NameOf_Property_Tests, string>(x => Fake.Next.Name);
+            name = NameOf.Property<PropertyTests, string>(x => Fake.Next.Name);
             Assert.AreEqual("Name", name);
         }
 
@@ -76,16 +77,16 @@
         public void ThrowsOnMethod()
         {
             Assert.Throws<ArgumentException>(() => NameOf.Property(() => Fake.Method()));
-            Assert.Throws<ArgumentException>(() => NameOf.Property<NameOf_Property_Tests>(x => x.Fake.Method()));
-            Assert.Throws<ArgumentException>(() => NameOf.Property<NameOf_Property_Tests, Level>(x => x.Fake.Method()));
+            Assert.Throws<ArgumentException>(() => NameOf.Property<PropertyTests>(x => x.Fake.Method()));
+            Assert.Throws<ArgumentException>(() => NameOf.Property<PropertyTests, Level>(x => x.Fake.Method()));
         }
 
         [Test]
         public void ThrowsOnNestedMethod()
         {
             Assert.Throws<ArgumentException>(() => NameOf.Property(() => Fake.Next.Method()));
-            Assert.Throws<ArgumentException>(() => NameOf.Property<NameOf_Property_Tests>(x => x.Fake.Next.Method()));
-            Assert.Throws<ArgumentException>(() => NameOf.Property<NameOf_Property_Tests, Level>(x => x.Fake.Next.Method()));
+            Assert.Throws<ArgumentException>(() => NameOf.Property<PropertyTests>(x => x.Fake.Next.Method()));
+            Assert.Throws<ArgumentException>(() => NameOf.Property<PropertyTests, Level>(x => x.Fake.Next.Method()));
         }
 
         [Test]
@@ -94,10 +95,10 @@
             var property = NameOf.Property(() => Fake.Method().Name, true);
             Assert.AreEqual("Name", property);
 
-            property = NameOf.Property<NameOf_Property_Tests>(x => Fake.Method().Name);
+            property = NameOf.Property<PropertyTests>(x => Fake.Method().Name);
             Assert.AreEqual("Name", property);
 
-            property = NameOf.Property<NameOf_Property_Tests, string>(x => Fake.Method().Name);
+            property = NameOf.Property<PropertyTests, string>(x => Fake.Method().Name);
             Assert.AreEqual("Name", property);
         }
     }

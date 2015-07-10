@@ -3,11 +3,11 @@
 // set of attributes. Change these attribute values to modify the information
 
 // associated with an assembly.
+
 using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Activation;
 
 [assembly: AssemblyTitle("Gu.Reactive")]
 [assembly: AssemblyDescription("A bunch of reactive stuff")]
@@ -34,8 +34,8 @@ using System.Runtime.Remoting.Activation;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.6.3.0")]
-[assembly: AssemblyFileVersion("1.6.3.0")]
+[assembly: AssemblyVersion("1.7.0.0")]
+[assembly: AssemblyFileVersion("1.7.0.0")]
 [assembly: InternalsVisibleTo("Gu.Wpf.Reactive", AllInternalsVisible = true)]
 [assembly: InternalsVisibleTo("Gu.Reactive.Tests", AllInternalsVisible = true)]
 [assembly: InternalsVisibleTo("Gu.Wpf.Reactive.Tests", AllInternalsVisible = true)]
