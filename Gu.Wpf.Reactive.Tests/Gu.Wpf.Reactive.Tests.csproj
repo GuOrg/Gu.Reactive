@@ -46,6 +46,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Gu.Wpf.ToolTips.0.1.4.0\lib\net45\Gu.Wpf.ToolTips.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Reactive.Testing, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rx-Testing.2.2.5\lib\net45\Microsoft.Reactive.Testing.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -89,15 +94,14 @@
   <ItemGroup>
     <Compile Include="AssertCompletion.cs" />
     <Compile Include="CollectionViews\BenchmarkTests.cs" />
+    <Compile Include="CollectionViews\FilteredViewWpfTests.cs" />
     <Compile Include="Converters\TypeConverters\DefaultTypeConverter`1Tests.cs" />
-    <Compile Include="CollectionViews\DispatchingView.cs" />
+    <Compile Include="CollectionViews\DispatchingViewTests.cs" />
     <Compile Include="FakesAndHelpers\EventArgsComparer.cs" />
     <Compile Include="NamespacesTests.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverterTests.cs" />
     <Compile Include="Converters\MultiplyConverterTests.cs" />
     <Compile Include="CollectionViews\ObservableCollectionExtensionsTests.cs" />
-    <Compile Include="CollectionViews\DeferredViewTests.cs" />
-    <Compile Include="CollectionViews\FilteredViewTests.cs" />
     <Compile Include="Commands\AsyncCommandsTests.cs" />
     <Compile Include="Commands\AsyncParameterCommandTests.cs" />
     <Compile Include="Commands\AsyncParameterResultCommandTests.cs" />

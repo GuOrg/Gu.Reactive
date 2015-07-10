@@ -1,13 +1,18 @@
-namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
+﻿namespace Gu.Reactive.Tests.Fakes
 {
     using System;
     using System.Collections;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Linq;
 
     public class EventArgsComparer : IComparer
     {
         public static readonly EventArgsComparer Default = new EventArgsComparer();
+
+        private EventArgsComparer()
+        {
+        }
 
         public int Compare(object x, object y)
         {
@@ -54,8 +59,8 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
 
             if (!ListsEquals(x.NewItems, yArgs.NewItems))
             {
-                var xItems = string.Join(", ", x.NewItems);
-                var yItems = string.Join(", ", yArgs.NewItems);
+                var xItems = string.Join(", ", x.NewItems.Cast<object>());
+                var yItems = string.Join(", ", yArgs.NewItems.Cast<object>());
                 Console.WriteLine("NotifyCollectionChangedEventArgs NewItems, expected: {0} was: {1}", xItems, yItems);
                 return -1;
             }
@@ -68,8 +73,8 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
 
             if (!ListsEquals(x.OldItems, yArgs.OldItems))
             {
-                var xItems = string.Join(", ", x.OldItems);
-                var yItems = string.Join(", ", yArgs.OldItems);
+                var xItems = string.Join(", ", x.OldItems.Cast<object>());
+                var yItems = string.Join(", ", yArgs.OldItems.Cast<object>());
                 Console.WriteLine("NotifyCollectionChangedEventArgs OldItems, expected: {0} was: {1}", xItems, yItems);
                 return -1;
             }
@@ -98,6 +103,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
                 Console.WriteLine("PropertyChangedEventArgs PropertyName, expected: {0} was: {1}", x.PropertyName, yArgs.PropertyName);
                 return -1;
             }
+            Console.WriteLine("PropertyChangedEventArgs Success: {0}", x.PropertyName);
             return 0;
         }
 

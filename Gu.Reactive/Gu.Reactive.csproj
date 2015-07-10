@@ -203,9 +203,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\SynchronizedEditableView`1.cs" />
+    <Compile Include="Collections\CollectionSynchronizer`1.cs" />
+    <Compile Include="Collections\DeferredRefresher.cs" />
+    <Compile Include="Collections\DeferredView.genareted.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DeferredView.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\DeferredView`1.cs" />
+    <Compile Include="Collections\Diff.cs" />
+    <Compile Include="Collections\FilteredRefresher.cs" />
+    <Compile Include="Collections\FilteredView.cs" />
+    <Compile Include="Collections\FilteredView.genareted.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FilteredView.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\FilteredView`1.cs" />
+    <Compile Include="Collections\IDeferredView`1.cs" />
+    <Compile Include="Collections\IFilteredView`1.cs" />
+    <Compile Include="Collections\IObservableCollection`1.cs" />
+    <Compile Include="Collections\IReadOnlyDeferredView`1.cs" />
+    <Compile Include="Collections\IReadOnlyFilteredView`1.cs" />
+    <Compile Include="Collections\IReadOnlyObservableCollection`1.cs" />
+    <Compile Include="Collections\ObservableCollectionWrapper.cs" />
+    <Compile Include="Collections\ReadOnlyDeferredView`.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
     <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />
+    <Compile Include="Internals\Ensure.cs" />
     <Compile Include="Internals\ConstantVisitor.cs" />
     <Compile Include="ObservableExt.cs" />
     <Compile Include="PropertyPathStuff\IPropertyPath.cs" />
@@ -234,24 +261,35 @@
     <Compile Include="Conditions\NegatedCondition.cs" />
     <Compile Include="Conditions\OrCondition.cs" />
     <Compile Include="Conditions\OrConditionCollection.cs" />
-    <Compile Include="FixedSizedQueue.cs" />
+    <Compile Include="Collections\FixedSizedQueue`1.cs" />
     <Compile Include="PropertyPathStuff\PropertyPath.cs" />
     <Compile Include="PropertyPathStuff\PathProperty.cs" />
     <Compile Include="PropertyPathStuff\PropertyPathObservable.cs" />
-    <Compile Include="PropertyChangedAndValueEventArgs.cs" />
+    <Compile Include="PropertyChangedAndValueEventArgs`1.cs" />
     <Compile Include="PropertyPathStuff\PropertyPathVisitor.cs" />
     <Compile Include="Properties\Annotations.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ItemPropertyChangedEventArgs.cs" />
+    <Compile Include="ItemPropertyChangedEventArgs`2.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />
     <Compile Include="TaskExt.cs" />
     <Compile Include="Internals\CollectionItemsObservable.cs" />
     <Compile Include="TypeExt.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Collections\DeferredView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DeferredView.genareted.cs</LastGenOutput>
+    </None>
+    <None Include="Collections\FilteredView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FilteredView.genareted.cs</LastGenOutput>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

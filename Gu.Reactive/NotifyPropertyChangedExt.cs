@@ -5,8 +5,7 @@
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Linq;
-    using Internals;
-    using PropertyPathStuff;
+    using Gu.Reactive.PropertyPathStuff;
 
     /// <summary>
     /// Extension methods for subscribing to property changes.

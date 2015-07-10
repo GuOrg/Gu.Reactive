@@ -35,6 +35,8 @@
             Filtered = new FilteredView<Person>(
                 _peopleRaw,
                 Filter,
+                TimeSpan.FromMilliseconds(10),
+                Schedulers.DispatcherOrCurrentThread,
                 this.ObservePropertyChanged(x => x.SearchText),
                 this.ObservePropertyChanged(x => x.SelectedTags));
             PeopleReadonly = new ReadOnlyObservableCollection<Person>(_peopleRaw);
@@ -51,10 +53,10 @@
                     .Subscribe(x => _filteredEvents.Add(x.EventArgs));
             ClearEventsCommand = new RelayCommand(
                 () =>
-                    {
-                        _filteredEvents.Clear();
-                        _rawEvents.Clear();
-                    });
+                {
+                    _filteredEvents.Clear();
+                    _rawEvents.Clear();
+                });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

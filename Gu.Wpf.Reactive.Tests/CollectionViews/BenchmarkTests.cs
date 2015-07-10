@@ -7,6 +7,8 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using Gu.Reactive;
+
     using NUnit.Framework;
 
     public class BenchmarkTests
@@ -73,7 +75,7 @@
         public void AsDeferredView(int n)
         {
             var ints = new ObservableCollection<int>();
-            var view = ints.AsDeferredView();
+            var view = ints.AsDeferredView(TimeSpan.FromMilliseconds(10));
             var sw = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {

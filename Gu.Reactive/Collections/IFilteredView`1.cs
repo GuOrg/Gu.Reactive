@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
 

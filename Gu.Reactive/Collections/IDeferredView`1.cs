@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
 
@@ -8,7 +8,7 @@
     /// This is useful if the view has expensive Layout
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IDeferredView<T> : IObservableCollection<T>
+    public interface IDeferredView<T> : IObservableCollection<T>, IDisposable
     {
         /// <summary>
         /// The time while the collections buffers changes from the inner collection.

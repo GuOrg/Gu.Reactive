@@ -1,8 +1,12 @@
 ﻿namespace Gu.Wpf.Reactive.Tests.CollectionViews
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+    using System.ComponentModel;
+
     using FakesAndHelpers;
     using Gu.Reactive;
 
@@ -14,15 +18,14 @@
         [Test]
         public void ViewSignalsSameAsCollectionWhenCollectionIsChanged()
         {
-            var collectionChanges = new List<EventArgs>();
-            var viewChanges = new List<EventArgs>();
             var ints = new ObservableCollection<int>();
-            ints.ObservePropertyChanged().Subscribe(x => collectionChanges.Add(x.EventArgs));
-            ints.ObserveCollectionChanged().Subscribe(x => collectionChanges.Add(x.EventArgs));
+            var collectionChanges = SubscribeAll(ints);
+
             var view = ints.AsDispatchingView();
-            view.ObservePropertyChanged().Subscribe(x => viewChanges.Add(x.EventArgs));
-            view.ObserveCollectionChanged().Subscribe(x => viewChanges.Add(x.EventArgs));
+            var viewChanges = SubscribeAll(view);
+            
             ints.Add(1);
+            
             CollectionAssert.AreEqual(ints, view);
             CollectionAssert.AreEqual(collectionChanges, viewChanges, new EventArgsComparer());
         }
@@ -30,17 +33,27 @@
         [Test]
         public void ViewSignalsSameAsCollectionWhenViewIsChanged()
         {
-            var collectionChanges = new List<EventArgs>();
-            var viewChanges = new List<EventArgs>();
             var ints = new ObservableCollection<int>();
-            ints.ObservePropertyChanged().Subscribe(x => collectionChanges.Add(x.EventArgs));
-            ints.ObserveCollectionChanged().Subscribe(x => collectionChanges.Add(x.EventArgs));
+            var collectionChanges = SubscribeAll(ints);
+
             var view = ints.AsDispatchingView();
-            view.ObservePropertyChanged().Subscribe(x => viewChanges.Add(x.EventArgs));
-            view.ObserveCollectionChanged().Subscribe(x => viewChanges.Add(x.EventArgs));
+            var viewChanges = SubscribeAll(view);
+           
             view.Add(1);
+            
             CollectionAssert.AreEqual(ints, view);
             CollectionAssert.AreEqual(collectionChanges, viewChanges, new EventArgsComparer());
+        }
+
+        protected List<EventArgs> SubscribeAll<T>(T view)
+            where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
+        {
+            var changes = new List<EventArgs>();
+            view.ObserveCollectionChanged(false)
+                .Subscribe(x => changes.Add(x.EventArgs));
+            view.ObservePropertyChanged()
+                .Subscribe(x => changes.Add(x.EventArgs));
+            return changes;
         }
     }
 }

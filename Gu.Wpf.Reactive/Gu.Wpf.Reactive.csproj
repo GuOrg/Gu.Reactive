@@ -86,18 +86,16 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\DeferredView.cs" />
-    <Compile Include="Collections\FilteredView.cs" />
-    <Compile Include="Collections\DispatchingView.cs" />
-    <Compile Include="Collections\IDeferredView.cs" />
-    <Compile Include="Collections\IFilteredView.cs" />
-    <Compile Include="Collections\IObservableCollection.cs" />
-    <Compile Include="Collections\IReadonlyObservableCollection.cs" />
+    <Compile Include="Collections\DispatchingView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DispatchingView.tt</DependentUpon>
+    </Compile>
     <Compile Include="Collections\NotifyPropertyChangedEventHandlerExt.cs" />
+    <Compile Include="Collections\ReadOnlyDispatchingView`1.cs" />
     <Compile Include="Converters\TypeConverters\ITypeConverter`1.cs" />
     <Compile Include="Converters\TypeConverters\NullableEnumConverter`1.cs" />
-    <Compile Include="Collections\DispatchingView`2.cs" />
-    <Compile Include="Collections\ObservableCollectionWrapperBase`1.cs" />
+    <Compile Include="Collections\DispatchingView`1.cs" />
     <Compile Include="ServiceProviderExt.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToXConverter.cs" />
@@ -115,8 +113,6 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Maybe`1.cs" />
     <Compile Include="Collections\ObservableCollectionExtensions.cs" />
-    <Compile Include="Collections\FilteredView`1.cs" />
-    <Compile Include="Collections\DeferredView`2.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Page Include="Themes\Assets.xaml">
       <SubType>Designer</SubType>
@@ -176,6 +172,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Collections\DispatchingView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DispatchingView.generated.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -188,6 +188,9 @@
       <Project>{2230088e-f6dc-4c79-9983-d9654274d689}</Project>
       <Name>Gu.Reactive</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

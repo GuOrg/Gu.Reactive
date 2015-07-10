@@ -1,0 +1,55 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+namespace Gu.Wpf.Reactive
+{
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Reactive.Concurrency;
+
+    using Gu.Reactive;
+
+    public static partial class DispatchingView
+    {
+<#
+    var typeNames = new []{"IObservableCollection", "ObservableCollection" };
+    for(int i = 0; i < typeNames.Length; i++)
+    {
+        var typeName = typeNames[i];
+        if(i > 0)
+		{#>
+
+<#      }	
+#>
+        public static DispatchingView<TItem> AsDispatchingView<TItem>(this <#= typeName #><TItem> collection)
+        {
+            return new DispatchingView<TItem>(collection, TimeSpan.Zero);
+        }
+
+        public static DispatchingView<TItem> AsDispatchingView<TItem>(this <#= typeName #><TItem> collection, TimeSpan bufferTime)
+        {
+            return new DispatchingView<TItem>(collection, bufferTime);
+        }
+<#    } #>
+<#
+    var readOnlyTypeNames = new []{"ReadOnlyObservableCollection", "IReadOnlyObservableCollection" };
+    for(int i = 0; i < readOnlyTypeNames.Length; i++)
+    {
+        var typeName = readOnlyTypeNames[i];
+#>
+
+        public static ReadOnlyDispatchingView<TItem> AsDispatchingView<TItem>(this <#= typeName #><TItem> collection)
+        {
+            return new ReadOnlyDispatchingView<TItem>(collection, TimeSpan.Zero);
+        }
+
+        public static ReadOnlyDispatchingView<TItem> AsDispatchingView<TItem>(this <#= typeName #><TItem> collection, TimeSpan bufferTime, IScheduler scheduler)
+        {
+            return new ReadOnlyDispatchingView<TItem>(collection, bufferTime);
+        }
+<#    } #>
+    }
+}

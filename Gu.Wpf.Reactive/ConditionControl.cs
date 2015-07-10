@@ -1,14 +1,11 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
     using System.Reactive.Linq;
-    using System.Windows.Data;
+    using System.Windows;
+    using System.Windows.Controls;
 
     using Gu.Reactive;
 
@@ -127,11 +124,11 @@ namespace Gu.Wpf.Reactive
         /// A filtered view with all conditions where .IsSatisfied != true 
         /// and not due top a prerequisite.
         /// </summary>
-        public IReadonlyObservableCollection<ICondition> NotSatisfiedOnly
+        public IReadOnlyObservableCollection<ICondition> NotSatisfiedOnly
         {
             get
             {
-                return (FilteredView<ICondition>)GetValue(NotSatisfiedOnlyProperty);
+                return (IReadOnlyObservableCollection<ICondition>)GetValue(NotSatisfiedOnlyProperty);
             }
             protected set
             {
@@ -194,16 +191,22 @@ namespace Gu.Wpf.Reactive
                 conditionControl.Prerequisites = null;
                 conditionControl.RootCondition = Enumerable.Empty<ICondition>();
                 conditionControl.FlatList = Enumerable.Empty<ICondition>();
-
-                conditionControl.NotSatisfiedOnly = new FilteredView<ICondition>(Enumerable.Empty<ICondition>());
+                conditionControl.NotSatisfiedOnly = null;
                 return;
             }
+
             conditionControl.Prerequisites = condition.Prerequisites;
             conditionControl.RootCondition = Enumerable.Repeat<ICondition>(condition, 1);
             var flatList = Flatten(condition);
             conditionControl.FlatList = flatList;
-            var updateTrigger = flatList.Select(x => x.ObservePropertyChanged(y => y.IsSatisfied)).Merge();
-            conditionControl.NotSatisfiedOnly = new FilteredView<ICondition>(flatList, TimeSpan.FromMilliseconds(10), updateTrigger);
+
+            conditionControl.NotSatisfiedOnly = new FilteredView<ICondition>(
+                flatList,
+                x => x.IsSatisfied == false,
+                TimeSpan.FromMilliseconds(10),
+                Schedulers.DispatcherOrCurrentThread,
+                flatList.Select(x => x.ObservePropertyChanged(y => y.IsSatisfied))
+                        .Merge());
         }
 
         private static List<ICondition> Flatten(ICondition condition, List<ICondition> list = null)

@@ -36,5 +36,7 @@ using System.Runtime.Remoting.Activation;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.6.3.0")]
 [assembly: AssemblyFileVersion("1.6.3.0")]
-[assembly:InternalsVisibleTo("Gu.Reactive.Tests", AllInternalsVisible= true) ]
+[assembly: InternalsVisibleTo("Gu.Wpf.Reactive", AllInternalsVisible = true)]
+[assembly: InternalsVisibleTo("Gu.Reactive.Tests", AllInternalsVisible = true)]
+[assembly: InternalsVisibleTo("Gu.Wpf.Reactive.Tests", AllInternalsVisible = true)]
 [assembly: NeutralResourcesLanguage("en")]

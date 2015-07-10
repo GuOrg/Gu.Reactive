@@ -77,6 +77,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertRx.cs" />
+    <Compile Include="Collections\CrudSource\DeferredView.cs" />
+    <Compile Include="Collections\CrudSource\DeferredViewNoScheduler.cs" />
+    <Compile Include="Collections\CrudSource\FilteredView.cs" />
+    <Compile Include="Collections\CrudSource\FilteredViewNoScheduler.cs" />
+    <Compile Include="Collections\CrudSource\ReadOnlyDeferredViewNoScheduler.cs" />
+    <Compile Include="Collections\CrudView\DeferredViewTests.cs" />
+    <Compile Include="Collections\CrudView\FilteredNoScheduler.cs" />
+    <Compile Include="Collections\CrudView\FilteredView.cs" />
+    <Compile Include="Collections\DeferredRefresherTests.cs" />
+    <Compile Include="Collections\DiffTests.cs" />
+    <Compile Include="Collections\CrudView\CrudTests.cs" />
+    <Compile Include="Collections\Filter\FilteredView.cs" />
+    <Compile Include="Collections\Filter\FilteredViewNoScheduler.cs" />
+    <Compile Include="Collections\Filter\FilterTests.cs" />
+    <Compile Include="Collections\Filter\FilteredViewTests.cs" />
+    <Compile Include="Collections\FilteredViewTriggersTests.cs" />
+    <Compile Include="Collections\CrudSource\CrudSourceTests.cs" />
+    <Compile Include="Collections\CrudSource\ReadOnlyDeferredView.cs" />
+    <Compile Include="Fakes\EventArgsComparer.cs" />
     <Compile Include="Fakes\FakeWithCollection.cs" />
     <Compile Include="Fakes\IFake.cs" />
     <Compile Include="Get_ValuePath.cs" />
@@ -107,6 +126,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purrformance.cs" />
     <Compile Include="Sandbox\CacheExpressions.cs" />
+    <Compile Include="Sandbox\CreateBox.cs" />
     <Compile Include="Sandbox\GC_Box.cs" />
     <Compile Include="NotifyPropertyChangedExt_ObservePropertyChanged_Filtered.cs" />
     <Compile Include="NotifyPropertyChangedExt_ObservePropertyChanged_NestedFilter.cs" />
