@@ -11,7 +11,7 @@
     using NUnit.Framework;
 
     [Explicit("Sandbox")]
-    public class CacheExpressions
+    public class CacheExpressionsTests
     {
         private ConcurrentDictionary<Expression, int> _dictionary;
 

@@ -5,7 +5,7 @@
     using NUnit.Framework;
 
     [Explicit("Sandbox")]
-    public class GC_Box
+    public class GC_BoxTests
     {
         [Test]
         public void GCCollect_B()

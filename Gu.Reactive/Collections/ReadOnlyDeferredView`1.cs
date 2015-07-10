@@ -55,24 +55,7 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Count { get { return _tracker.Current.Count; } }
-
-        public T this[int index]
-        {
-            get { return _tracker.Current[index]; }
-        }
-
         public TimeSpan BufferTime { get; private set; }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _tracker.Current.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
 
         public void Dispose()
         {
@@ -114,5 +97,32 @@
                 throw new ObjectDisposedException(GetType().FullName);
             }
         }
+
+        #region IReadOnlyList<T>
+
+        public int Count { get { return _tracker.Current.Count; } }
+
+        public T this[int index]
+        {
+            get
+            {
+                VerifyDisposed();
+                return _tracker.Current[index];
+            }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            VerifyDisposed();
+            return _tracker.Current.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            VerifyDisposed();
+            return GetEnumerator();
+        }
+
+        #endregion IReadOnlyList<T>
     }
 }

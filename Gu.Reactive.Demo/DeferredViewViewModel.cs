@@ -19,7 +19,7 @@
             DeferTime = TimeSpan.FromMilliseconds(10);
             Add(3);
             ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(_observableCollection);
-            ObservableCollectionDeferredView = _observableCollection.AsDeferredView(DeferTime);
+            ObservableCollectionDeferredView = _observableCollection.AsDeferredView(DeferTime,Schedulers.DispatcherOrCurrentThread);
             AddOneCommand = new RelayCommand(AddOne, () => true);
             AddOneToViewCommand = new RelayCommand(AddOneToView, () => true);
             AddTenCommand = new RelayCommand(AddTen, () => true);

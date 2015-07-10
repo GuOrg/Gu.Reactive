@@ -32,8 +32,7 @@
             _peopleRaw = new ObservableCollection<Person>();
             this.ObservePropertyChanged(x => x.NumberOfItems)
                 .Subscribe(_ => UpdateRawCollection());
-            Filtered = new FilteredView<Person>(
-                _peopleRaw,
+            Filtered = _peopleRaw.AsFilteredView(
                 Filter,
                 TimeSpan.FromMilliseconds(10),
                 Schedulers.DispatcherOrCurrentThread,

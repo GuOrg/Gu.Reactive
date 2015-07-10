@@ -1,0 +1,179 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".cs" #>
+namespace Gu.Reactive
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Reactive.Concurrency;
+    using Gu.Reactive.Internals;
+
+    public static partial class ReadOnlyFilteredView
+    {
+<#
+    var readOnlies = new []{"IReadOnlyObservableCollection", "ReadOnlyObservableCollection" };
+    for(int i = 0; i < readOnlies.Length; i++)
+    {
+        var typeName = readOnlies[i];
+        if(i > 0)
+        {#>
+
+<#        }	
+#>
+        public static ReadOnlyFilteredView<T> AsFilteredView<T>(
+            this <#= typeName #><T> collection,
+            Func<T, bool> filter,
+            params IObservable<object>[] triggers)
+        {
+			Ensure.NotNull(collection, "collection");
+            return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, null, triggers);
+        }
+
+        public static ReadOnlyFilteredView<T> AsFilteredView<T>(
+            this <#= typeName #><T> collection,
+            Func<T, bool> filter,
+            TimeSpan bufferTime,
+            params IObservable<object>[] triggers)
+        {
+			Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(filter, "filter");
+            return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, null, triggers);
+        }
+
+        public static ReadOnlyFilteredView<T> AsFilteredView<T>(
+            this <#= typeName #><T> collection,
+            Func<T, bool> filter,
+            IScheduler scheduler,
+            params IObservable<object>[] triggers)
+        {
+		    Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(filter, "filter");
+            Ensure.NotNull(scheduler, "scheduler");
+            return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
+        }
+       
+        public static ReadOnlyFilteredView<T> AsFilteredView<T>(
+            this <#= typeName #><T> collection,
+            Func<T, bool> filter,
+            TimeSpan bufferTime,
+            IScheduler scheduler,
+            params IObservable<object>[] triggers)
+        {
+		    Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(filter, "filter");
+            Ensure.NotNull(scheduler, "scheduler");
+            return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, scheduler, triggers);
+        }
+<#    } #>
+<#
+    var mutables = new []{"IObservableCollection","ObservableCollection" };
+    for(int i = 0; i < mutables.Length; i++)
+    {
+        var typeName = mutables[i];#>
+        public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
+            this <#= typeName #><T> collection,
+            Func<T, bool> filter,
+            params IObservable<object>[] triggers)
+        {
+			Ensure.NotNull(collection, "collection");
+            return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, null, triggers);
+        }
+
+        public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
+            this <#= typeName #><T> collection,
+            Func<T, bool> filter,
+            TimeSpan bufferTime,
+            params IObservable<object>[] triggers)
+        {
+			Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(filter, "filter");
+            return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, null, triggers);
+        }
+
+        public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
+            this <#= typeName #><T> collection,
+            Func<T, bool> filter,
+            IScheduler scheduler,
+            params IObservable<object>[] triggers)
+        {
+		    Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(filter, "filter");
+            Ensure.NotNull(scheduler, "scheduler");
+            return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
+        }
+       
+        public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
+            this <#= typeName #><T> collection,
+            Func<T, bool> filter,
+            TimeSpan bufferTime,
+            IScheduler scheduler,
+            params IObservable<object>[] triggers)
+        {
+		    Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(filter, "filter");
+            Ensure.NotNull(scheduler, "scheduler");
+            return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, scheduler, triggers);
+        }
+<#    } #>
+<#
+    var triggers = new[]
+                        {
+                            new[] { "IEnumerable<IObservable<object>>", "triggers" },
+                            new[] { "IObservable<object>", "trigger" }
+                        };
+    for(int i = 0; i < mutables.Length; i++)
+    {
+        var trigger = triggers[i];#>
+        public static ReadOnlyFilteredView<T> AsFilteredView<T>(
+            this IEnumerable<T> collection,
+            Func<T, bool> filter,
+            <#= trigger[0] #> <#= trigger[1] #>)
+        {
+			Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(filter, "filter");
+			Ensure.NotNull(<#= trigger[1] #>, "<#= trigger[1] #>");
+            return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, null, <#= trigger[1] #>);
+        }
+
+        public static ReadOnlyFilteredView<T> AsFilteredView<T>(
+            this IEnumerable<T> collection,
+            Func<T, bool> filter,
+            TimeSpan bufferTime,
+            <#= trigger[0] #> <#= trigger[1] #>)
+        {
+			Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(filter, "filter");
+			Ensure.NotNull(<#= trigger[1] #>, "<#= trigger[1] #>");
+            return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, null, <#= trigger[1] #>);
+        }
+
+        public static ReadOnlyFilteredView<T> AsFilteredView<T>(
+            this IEnumerable<T> collection,
+            Func<T, bool> filter,
+            IScheduler scheduler,
+            <#= trigger[0] #> <#= trigger[1] #>)
+        {
+		    Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(filter, "filter");
+            Ensure.NotNull(scheduler, "scheduler");
+			Ensure.NotNull(<#= trigger[1] #>, "<#= trigger[1] #>");
+            return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, <#= trigger[1] #>);
+        }
+       
+        public static ReadOnlyFilteredView<T> AsFilteredView<T>(
+            this IEnumerable<T> collection,
+            Func<T, bool> filter,
+            TimeSpan bufferTime,
+            IScheduler scheduler,
+            <#= trigger[0] #> <#= trigger[1] #>)
+        {
+		    Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(filter, "filter");
+            Ensure.NotNull(scheduler, "scheduler");
+			Ensure.NotNull(<#= trigger[1] #>, "<#= trigger[1] #>");
+            return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, scheduler, <#= trigger[1] #>);
+        }
+<#    } #>
+    }
+}

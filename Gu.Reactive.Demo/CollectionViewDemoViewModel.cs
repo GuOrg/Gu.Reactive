@@ -14,25 +14,23 @@
 
     public class CollectionViewDemoViewModel : INotifyPropertyChanged
     {
-        private Func<int, bool> _filter;
+        private Func<int, bool> _filter = x => true;
 
         public CollectionViewDemoViewModel()
         {
             Enumerable = new[] { 1, 2, 3, 4, 5 };
-            //FilteredView1 = new FilteredView<int>(Enumerable, Filter, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread);
-            //FilteredView2 = new FilteredView<int>(Enumerable, Filter, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread);
+            FilteredView1 = Enumerable.AsFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread, this.ObservePropertyChanged(x => x.Filter));
+            FilteredView2 = Enumerable.AsFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread, this.ObservePropertyChanged(x => x.Filter));
 
             ObservableCollection = new ObservableCollection<int>(new[] { 1, 2, 3, 4, 5 });
             ObservableDefaultView = CollectionViewSource.GetDefaultView(ObservableCollection);
-            ObservableFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.Zero);
-            DeferredObservableFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.FromMilliseconds(10));
+            ObservableFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.Zero, Schedulers.DispatcherOrCurrentThread);
+            DeferredObservableFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread);
 
             this.ObservePropertyChanged(x => x.Filter, false)
                 .Subscribe(
                     x =>
                     {
-                        FilteredView1.Filter = Filter;
-                        FilteredView2.Filter = Filter;
                         Schedulers.DispatcherOrCurrentThread.Schedule(() => ObservableDefaultView.Filter = o => Filter((int)o));
                         ObservableFilteredView.Filter = Filter;
                         DeferredObservableFilteredView.Filter = Filter;
@@ -43,9 +41,9 @@
 
         public IEnumerable<int> Enumerable { get; private set; }
 
-        public FilteredView<int> FilteredView1 { get; private set; }
+        public ReadOnlyFilteredView<int> FilteredView1 { get; private set; }
 
-        public FilteredView<int> FilteredView2 { get; private set; }
+        public ReadOnlyFilteredView<int> FilteredView2 { get; private set; }
 
         public ObservableCollection<int> ObservableCollection { get; private set; }
 
@@ -70,6 +68,11 @@
                 _filter = value;
                 OnPropertyChanged();
             }
+        }
+
+        private bool FilterMethod(int value)
+        {
+            return Filter(value);
         }
 
         [NotifyPropertyChangedInvocator]
