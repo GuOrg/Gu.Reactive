@@ -67,7 +67,7 @@ namespace Gu.Reactive
             return changes;
         }
 
-        private void Notify(object sender,
+        internal static void Notify(object sender,
                      IReadOnlyList<EventArgs> args,
                      IScheduler scheduler,
                      PropertyChangedEventHandler propertyChangedEventHandler,

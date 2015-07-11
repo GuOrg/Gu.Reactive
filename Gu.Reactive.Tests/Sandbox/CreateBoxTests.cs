@@ -1,13 +1,9 @@
 ﻿namespace Gu.Reactive.Tests.Sandbox
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.Reactive.Disposables;
     using System.Reactive.Concurrency;
+    using System.Reactive.Disposables;
     using System.Reactive.Linq;
-    using System.Reactive.Subjects;
-    using System.Security.Cryptography.X509Certificates;
     using Microsoft.Reactive.Testing;
     using NUnit.Framework;
 

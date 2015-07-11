@@ -59,9 +59,29 @@
             return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newItem, newIndex);
         }
 
+        public static IReadOnlyList<EventArgs> CreateAddEventArgsCollection(object item, int index)
+        {
+            return new EventArgs[]
+                       {
+                           CountPropertyChangedEventArgs,
+                           IndexerPropertyChangedEventArgs,
+                           CreateAddEventArgs(item, index),
+                       };
+        }
+
         internal static NotifyCollectionChangedEventArgs CreateRemoveEventArgs(object oldItem, int index)
         {
             return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem, index);
+        }
+
+        public static IReadOnlyList<EventArgs> CreateRemoveEventArgsCollection(object item, int index)
+        {
+            return new EventArgs[]
+                       {
+                           CountPropertyChangedEventArgs,
+                           IndexerPropertyChangedEventArgs,
+                           CreateRemoveEventArgs(item, index),
+                       };
         }
 
         internal static NotifyCollectionChangedEventArgs CreateReplaceEventArgs(object newItem, object oldItem, int index)
@@ -91,12 +111,7 @@
                     i--;
                 }
             }
-            return new EventArgs[]
-                       {
-                           CountPropertyChangedEventArgs,
-                           IndexerPropertyChangedEventArgs,
-                           CreateAddEventArgs(after[newIndex], newIndex),
-                       };
+            return CreateAddEventArgsCollection(after[newIndex], newIndex);
         }
 
         private static IReadOnlyList<EventArgs> RemoveOrReset<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IComparer<T> comparer)
@@ -115,12 +130,7 @@
                     offset = -1;
                 }
             }
-            return new EventArgs[]
-                       {
-                           CountPropertyChangedEventArgs,
-                           IndexerPropertyChangedEventArgs,
-                           CreateRemoveEventArgs(before[oldIndex], oldIndex)
-                       };
+            return CreateRemoveEventArgsCollection(before[oldIndex], oldIndex);
         }
 
         private static IReadOnlyList<EventArgs> MoveReplaceNoneOrReset<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IComparer<T> comparer)

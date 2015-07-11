@@ -154,7 +154,6 @@
   <ItemGroup>
     <Compile Include="Commands\ObservingRelayCommand.cs" />
     <Compile Include="NotifyTaskCompletionBase.cs" />
-    <Compile Include="Collections\ObservableFixedSizeQueue`1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

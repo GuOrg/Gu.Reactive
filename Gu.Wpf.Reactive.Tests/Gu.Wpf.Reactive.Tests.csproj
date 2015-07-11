@@ -114,7 +114,6 @@
     <Compile Include="Commands\ManualRelayCommandTests.cs" />
     <Compile Include="Commands\ObservingRelayCommandTests.cs" />
     <Compile Include="FakesAndHelpers\DumpXamlTests.cs" />
-    <Compile Include="CollectionViews\ObservableFixedSizeQueueTests.cs" />
     <Compile Include="NotifyTaskCompletionTests.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
