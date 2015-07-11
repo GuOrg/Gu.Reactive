@@ -99,6 +99,7 @@
     <Compile Include="Collections\CrudSource\ReadOnlyDeferredView.cs" />
     <Compile Include="Collections\NotifierTests.cs" />
     <Compile Include="Collections\ObservableFixedSizeQueueTests.cs" />
+    <Compile Include="Collections\WeakCompositeDisposableTests.cs" />
     <Compile Include="Helpers\AssertEx.cs" />
     <Compile Include="Helpers\EventArgsComparer.cs" />
     <Compile Include="Helpers\FakeWithCollection.cs" />
