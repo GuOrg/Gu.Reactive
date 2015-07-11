@@ -11,14 +11,15 @@
     {
         private static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgses = new[] { Diff.NotifyCollectionResetEventArgs };
 
-        public static IObservable<IReadOnlyList<NotifyCollectionChangedEventArgs>> Create(
+        internal static IObservable<IReadOnlyList<NotifyCollectionChangedEventArgs>> Create(
+            IRefresher refresher,
+            IEnumerable source,
             TimeSpan bufferTime,
             IEnumerable<IObservable<object>> triggers,
-            IEnumerable source,
             IScheduler scheduler,
             bool signalInitial)
         {
-            var collectionChanges = DeferredRefresher.Create(source, bufferTime, scheduler, false);
+            var collectionChanges = DeferredRefresher.Create(refresher, source, bufferTime, scheduler, false);
             var triggersChanges = triggers.Merge()
                                           .ThrottleOrDefault(bufferTime, scheduler)
                                           .Select(_ => ResetArgses);

@@ -149,6 +149,15 @@
     <Compile Include="MainWindowViewModel.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MappedDummy.cs">
+      <DependentUpon>MappingViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MappingViewView.xaml.cs">
+      <DependentUpon>MappingViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MappingViewViewModel.cs">
+      <DependentUpon>MappingViewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NamedFilter.cs" />
     <Compile Include="NinjaBindingView.xaml.cs">
       <DependentUpon>NinjaBindingView.xaml</DependentUpon>
@@ -220,6 +229,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MappingViewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NinjaBindingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

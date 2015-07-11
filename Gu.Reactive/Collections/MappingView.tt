@@ -1,0 +1,44 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".cs" #>
+namespace Gu.Reactive
+{
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Reactive.Concurrency;
+    using Gu.Reactive.Internals;
+
+    public static partial class MappingView
+    {
+<#
+    var typeNames = new []{"IObservableCollection", "IReadOnlyObservableCollection","ObservableCollection", "ReadOnlyObservableCollection" };
+    for(int i = 0; i < typeNames.Length; i++)
+    {
+        var typeName = typeNames[i];
+        if(i > 0)
+		{#>
+
+<#      }	
+#>
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this <#= typeName #><TSource> source,
+            Func<TSource, TResult> selector,
+            params IObservable<object>[] triggers) where TResult : class
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+            return new MappingView<TSource, TResult>(source, selector, null);
+        }
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this <#= typeName #><TSource> source,
+            Func<TSource, TResult> selector,
+            IScheduler scheduler) where TResult : class
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+            return new MappingView<TSource, TResult>(source, selector, scheduler);
+        }
+<#    } #>
+    }
+}

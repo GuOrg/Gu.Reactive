@@ -1,67 +1,75 @@
 ﻿namespace Gu.Reactive.Tests.Collections
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
-    using System.ComponentModel;
-    using System.Linq;
-    using Gu.Reactive.Tests.Fakes;
+    using System.Diagnostics;
+
+    using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
 
     public class DiffTests
     {
-        private List<EventArgs> _changes = new List<EventArgs>();
-
-        private ObservableCollection<int> _ints;
-
-        private IReadOnlyList<int> _before;
-
-        [SetUp]
-        public void SetUp()
+        [TestCase(1000000), Explicit("Longrunning benchmark")]
+        public void Benchmark(int n)
         {
-            _changes.Clear();
-            _ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            _changes = SubscribeAll(_ints);
-            _before = _ints.ToArray();
+            var fakes = new List<Fake>();
+            for (int i = 0; i < n; i++)
+            {
+                fakes.Add(new Fake { Value = n });
+            }
+
+            var warmup = Diff.CollectionChange(fakes, fakes);
+            var sw = Stopwatch.StartNew();
+            var change = Diff.CollectionChange(fakes, fakes);
+            sw.Stop();
+            Console.WriteLine("Diff of {0} items took {1} ms", n, sw.ElapsedMilliseconds);
         }
 
         [Test]
         public void NoChange()
         {
-            var actual = Diff.Changes(_before, _ints);
-            CollectionAssert.IsEmpty(actual);
+            var actual = Diff.CollectionChange(new[] { 1, 2, 3 }, new[] { 1, 2, 3 });
+            Assert.IsNull(actual);
         }
 
         [Test]
         public void AddToEmpty()
         {
             var ints = new ObservableCollection<int>();
-            var expected = SubscribeAll(ints);
+            var expected = ints.CollectionChange();
             ints.Add(1);
 
-            var actual = Diff.Changes(new int[0], ints);
+            var actual = Diff.CollectionChange(new int[0], ints);
 
-            CollectionAssert.IsNotEmpty(actual);
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+            AssertEx.AreEqual(expected.Value, actual);
         }
 
         [Test]
         public void Add()
         {
-            _ints.Add(4);
-            var actual = Diff.Changes(_before, _ints);
-            CollectionAssert.AreEqual(_changes, actual, EventArgsComparer.Default);
+            var before = new[] { 1, 2, 3 };
+            var ints = new ObservableCollection<int>(before);
+            var expected = ints.CollectionChange();
+            ints.Add(4);
+
+            var actual = Diff.CollectionChange(before, ints);
+
+            AssertEx.AreEqual(expected.Value, actual);
         }
 
         [Test]
-        public void AddAndRemove()
+        public void AddRefType()
         {
-            _ints.Add(4);
-            _ints.RemoveAt(0);
-            var actual = Diff.Changes(_before, _ints);
-            CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, actual, EventArgsComparer.Default);
+            var before = new[] { new Fake(), new Fake(), new Fake() };
+            var ints = new ObservableCollection<Fake>(before);
+            var expected = ints.CollectionChange();
+            ints.Add(new Fake());
+
+            var actual = Diff.CollectionChange(before, ints);
+
+            AssertEx.AreEqual(expected.Value, actual);
         }
 
         [TestCase(0)]
@@ -69,9 +77,14 @@
         [TestCase(2)]
         public void Insert(int index)
         {
-            _ints.Insert(index, 4);
-            var actual = Diff.Changes(_before, _ints);
-            CollectionAssert.AreEqual(_changes, actual, EventArgsComparer.Default);
+            var before = new[] { 1, 2, 3 };
+            var ints = new ObservableCollection<int>(before);
+            var expected = ints.CollectionChange();
+
+            ints.Insert(index, 4);
+            var actual = Diff.CollectionChange(before, ints);
+
+            AssertEx.AreEqual(expected.Value, actual);
         }
 
         [TestCase(0)]
@@ -79,75 +92,78 @@
         [TestCase(2)]
         public void Remove(int index)
         {
-            _ints.RemoveAt(index);
-            var actual = Diff.Changes(_before, _ints);
-            CollectionAssert.AreEqual(_changes, actual, EventArgsComparer.Default);
+            var before = new[] { 1, 2, 3 };
+            var ints = new ObservableCollection<int>(before);
+            var expected = ints.CollectionChange();
+
+            ints.RemoveAt(index);
+            var actual = Diff.CollectionChange(before, ints);
+
+            AssertEx.AreEqual(expected.Value, actual);
         }
 
         [Test]
         public void RemoveLast()
         {
-            var ints = new ObservableCollection<int>(new[] { 1 });
-            var expected = SubscribeAll(ints);
+            var before = new[] { 1 };
+            var ints = new ObservableCollection<int>(before);
+            var expected = ints.CollectionChange();
 
             ints.Remove(1);
+            var actual = Diff.CollectionChange(before, ints);
 
-            var actual = Diff.Changes(new[] { 1 }, ints);
-            CollectionAssert.IsNotEmpty(actual);
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+            AssertEx.AreEqual(expected.Value, actual);
         }
 
         [Test]
         public void Move()
         {
-            _ints.Move(1, 2);
-            var actual = Diff.Changes(_before, _ints);
-            CollectionAssert.AreEqual(_changes, actual, EventArgsComparer.Default);
+            var before = new[] { 1, 2, 3 };
+            var ints = new ObservableCollection<int>(before);
+            var expected = ints.CollectionChange();
+
+            ints.Move(1, 2);
+            var actual = Diff.CollectionChange(before, ints);
+
+            AssertEx.AreEqual(expected.Value, actual);
         }
 
         [Test]
         public void Replace()
         {
-            _ints[0] = 5;
-            var actual = Diff.Changes(_before, _ints);
+            var before = new[] { 1, 2, 3 };
+            var ints = new ObservableCollection<int>(before);
+            var expected = ints.CollectionChange();
 
-            CollectionAssert.IsNotEmpty(actual);
-            CollectionAssert.AreEqual(_changes, actual, EventArgsComparer.Default);
+            ints[0] = 5;
+            var actual = Diff.CollectionChange(before, ints);
+
+            AssertEx.AreEqual(expected.Value, actual);
         }
 
         [Test]
         public void Clear()
         {
-            _ints.Clear();
+            var before = new[] { 1, 2, 3 };
+            var ints = new ObservableCollection<int>(before);
+            var expected = ints.CollectionChange();
 
-            var actual = Diff.Changes(_before, _ints);
-            CollectionAssert.IsNotEmpty(actual);
-            CollectionAssert.AreEqual(_changes, actual, EventArgsComparer.Default);
+            ints.Clear();
+            var actual = Diff.CollectionChange(before, ints);
+
+            AssertEx.AreEqual(expected.Value, actual);
         }
 
         [Test]
         public void ClearOne()
         {
-            var ints = new ObservableCollection<int>(new[] { 1 });
-            var expected = SubscribeAll(ints);
+            var before = new[] { 1 };
+            var ints = new ObservableCollection<int>(before);
 
             ints.Clear();
+            var actual = Diff.CollectionChange(new[] { 1 }, ints);
 
-            var actual = Diff.Changes(new[] { 1 }, ints);
-            CollectionAssert.IsNotEmpty(actual);
-            Assert.Inconclusive("I think we like remove more here");
-            //CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-        }
-
-        protected List<EventArgs> SubscribeAll<T>(T view)
-            where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
-        {
-            var changes = new List<EventArgs>();
-            view.ObserveCollectionChanged(false)
-                .Subscribe(x => changes.Add(x.EventArgs));
-            view.ObservePropertyChanged()
-                .Subscribe(x => changes.Add(x.EventArgs));
-            return changes;
+            AssertEx.AreEqual(Diff.CreateRemoveEventArgs(1, 0), actual);
         }
     }
 }

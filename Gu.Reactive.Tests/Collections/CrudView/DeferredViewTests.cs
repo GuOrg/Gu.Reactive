@@ -7,7 +7,7 @@
     using System.Collections.Specialized;
 
     using Gu.Reactive;
-    using Gu.Reactive.Tests.Fakes;
+    using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
 

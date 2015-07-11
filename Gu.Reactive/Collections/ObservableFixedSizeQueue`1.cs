@@ -31,22 +31,31 @@
         public override void Enqueue(T item)
         {
             var count = Count;
-            var eventArgses = new List<EventArgs> { Diff.IndexerPropertyChangedEventArgs };
+            T overflow = default(T);
             if (Count >= Size)
             {
-                T overflow;
-                while (Count >= Size && TryDequeue(out overflow))
-                {
-                    eventArgses.Add(Diff.CreateRemoveEventArgs(overflow, 0));
-                }
+                while (Count >= Size && TryDequeue(out overflow)) { }
             }
             base.Enqueue(item);
-            eventArgses.Add(Diff.CreateAddEventArgs(item, Count - 1));
             if (Count != count)
             {
-                eventArgses.Insert(0, Diff.CountPropertyChangedEventArgs);
+                OnPropertyChanged(Notifier.CountPropertyChangedEventArgs);
             }
-            CollectionSynchronizer<T>.Notify(this, eventArgses, _scheduler, PropertyChanged, CollectionChanged);
+            OnPropertyChanged(Notifier.IndexerPropertyChangedEventArgs);
+            if (count >= Size)
+            {
+                CollectionChanged.Notify(this, Diff.CreateRemoveEventArgs(overflow, 0), _scheduler);
+            }
+            CollectionChanged.Notify(this, Diff.CreateAddEventArgs(item, Count - 1), _scheduler);
+        }
+
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, e);
+            }
         }
     }
 }

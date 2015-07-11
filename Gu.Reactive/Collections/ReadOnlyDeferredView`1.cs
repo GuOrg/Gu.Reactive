@@ -9,7 +9,7 @@
     using System.Reactive.Concurrency;
     using Gu.Reactive.Internals;
 
-    public class ReadOnlyDeferredView<T> : IReadOnlyDeferredView<T>
+    public class ReadOnlyDeferredView<T> : IReadOnlyDeferredView<T>, IRefresher
     {
         private readonly IReadOnlyList<T> _collection;
         private readonly IScheduler _scheduler;
@@ -44,10 +44,7 @@
             _tracker = new CollectionSynchronizer<T>(collection);
             _scheduler = scheduler;
             BufferTime = bufferTime;
-            _refreshSubscription = DeferredRefresher.Create(collection,
-                                                            bufferTime,
-                                                            scheduler,
-                                                            false)
+            _refreshSubscription = DeferredRefresher.Create(this,collection,bufferTime,scheduler,false)
                                                     .Subscribe(Refresh);
         }
 
@@ -56,6 +53,11 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         public TimeSpan BufferTime { get; private set; }
+
+        bool IRefresher.IsRefreshing
+        {
+            get { return false; }
+        }
 
         public void Dispose()
         {

@@ -6,7 +6,7 @@ namespace Gu.Reactive.Tests.NotifyProeprtyChangedExt
     using System.Linq;
     using System.Reactive;
 
-    using Gu.Reactive.Tests.Fakes;
+    using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
 

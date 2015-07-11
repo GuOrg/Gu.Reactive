@@ -13,6 +13,7 @@
         internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 
         internal static IObservable<IReadOnlyList<NotifyCollectionChangedEventArgs>> Create(
+            IRefresher refresher,
             IEnumerable source,
             TimeSpan throttleTime,
             IScheduler scheduler,
@@ -28,7 +29,10 @@
             {
                 NotifyCollectionChangedEventHandler fsHandler = (_, e) =>
                 {
-                    o.OnNext(e);
+                    if (!refresher.IsRefreshing)
+                    {
+                        o.OnNext(e);
+                    }
                 };
                 incc.CollectionChanged += fsHandler;
                 return Disposable.Create(() => incc.CollectionChanged -= fsHandler);

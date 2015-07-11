@@ -7,7 +7,7 @@
     using System.Reactive;
 
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Tests.Fakes;
+    using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
     using PropertyPathStuff;

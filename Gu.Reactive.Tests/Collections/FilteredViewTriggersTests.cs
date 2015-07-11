@@ -8,7 +8,9 @@ namespace Gu.Reactive.Tests.Collections
     using System.ComponentModel;
     using System.Linq;
     using System.Reactive.Subjects;
-    using Gu.Reactive.Tests.Fakes;
+
+    using Gu.Reactive.Tests.Helpers;
+
     using Microsoft.Reactive.Testing;
     using NUnit.Framework;
 
@@ -68,7 +70,7 @@ namespace Gu.Reactive.Tests.Collections
 
             _scheduler.Start();
 
-            var expected = new EventArgs[] { Diff.CountPropertyChangedEventArgs, Diff.IndexerPropertyChangedEventArgs, Diff.CreateAddEventArgs(4, 3) };
+            var expected = new EventArgs[] { Notifier.CountPropertyChangedEventArgs, Notifier.IndexerPropertyChangedEventArgs, Diff.CreateAddEventArgs(4, 3) };
             CollectionAssert.AreEqual(expected, _actualChanges, EventArgsComparer.Default);
             CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, _view);
         }
@@ -92,12 +94,12 @@ namespace Gu.Reactive.Tests.Collections
         {
             var ints = new ObservableCollection<int>(new List<int> { 1, 2 });
             var view = ints.AsFilteredView(x => x < 2);
-            var actual = SubscribeAll(view);
             ints.Add(1);
+            var actual = SubscribeAll(view);
             view.Refresh();
             var expected = new EventArgs[]
                                           {
-                                              Diff.IndexerPropertyChangedEventArgs,
+                                              Notifier.IndexerPropertyChangedEventArgs,
                                               Diff.CreateReplaceEventArgs(1, 2, 1)
                                           };
             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);

@@ -10,11 +10,12 @@
     using Gu.Reactive.Annotations;
     using Gu.Reactive.Internals;
 
-    public abstract class SynchronizedEditableView<T> : IList
+    public abstract class SynchronizedEditableView<T> : IList, IRefresher
     {
         protected readonly IList<T> Source;
         protected readonly CollectionSynchronizer<T> Synchronized;
         private bool _disposed;
+        private bool _isRefreshing;
 
         protected SynchronizedEditableView(IList<T> source)
         {
@@ -26,6 +27,11 @@
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        bool IRefresher.IsRefreshing
+        {
+            get { return _isRefreshing; }
+        }
 
         protected PropertyChangedEventHandler PropertyChangedEventHandler
         {
@@ -43,6 +49,11 @@
         /// </summary>
         public void Dispose()
         {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
             Dispose(true);
             GC.SuppressFinalize(this);
         }
@@ -52,7 +63,7 @@
         /// <summary>
         /// Pass null as scheduler here, change came from the ui thread.
         /// </summary>
-        protected abstract void RefreshNow();
+        protected abstract void RefreshNow(NotifyCollectionChangedEventArgs change);
 
         protected abstract void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes);
 
@@ -176,8 +187,11 @@
             get { return this[index]; }
             set
             {
+                _isRefreshing = true;
+                var old = this[index];
                 this[index] = (T)value;
-                RefreshNow();
+                RefreshNow(Diff.CreateReplaceEventArgs(value, old, index));
+                _isRefreshing = false;
             }
         }
 
@@ -189,8 +203,10 @@
         int IList.Add(object value)
         {
             // IList.Add happens when a new row is added in DataGrid, we need to notify here to avoid out of sync exception.
+            _isRefreshing = true;
             ((IList)Source).Add(value); // Adding to inner
-            RefreshNow();
+            RefreshNow(Diff.CreateAddEventArgs(value, Count));
+            _isRefreshing = false;
             var index = Synchronized.LastIndexOf((T)value); // Adding explicitly to filtered to get correct index.
             return index;
         }
@@ -207,14 +223,23 @@
 
         void IList.Insert(int index, object value)
         {
+            _isRefreshing = true;
             Insert(index, (T)value);
-            RefreshNow();
+            RefreshNow(Diff.CreateAddEventArgs(value, index));
+            _isRefreshing = false;
         }
 
         void IList.Remove(object value)
         {
-            Remove((T)value);
-            RefreshNow();
+            var index = IndexOf((T)value);
+            if (index < 0)
+            {
+                return;
+            }
+            _isRefreshing = true;
+            RemoveAtCore(index);
+            RefreshNow(Diff.CreateRemoveEventArgs(value, index));
+            _isRefreshing = false;
         }
 
         #endregion IList

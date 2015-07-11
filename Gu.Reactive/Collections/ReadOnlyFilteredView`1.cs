@@ -11,7 +11,7 @@
 
     using Gu.Reactive.Internals;
 
-    public class ReadOnlyFilteredView<T> : IReadOnlyFilteredView<T>
+    public class ReadOnlyFilteredView<T> : IReadOnlyFilteredView<T>, IRefresher
     {
         private readonly IEnumerable<T> _source;
         private readonly IScheduler _scheduler;
@@ -60,7 +60,7 @@
             _scheduler = scheduler;
             Filter = filter;
             BufferTime = bufferTime;
-            _refreshSubscription = FilteredRefresher.Create(bufferTime, triggers, source, scheduler, false)
+            _refreshSubscription = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, false)
                                                     .Subscribe(Refresh);
         }
 
@@ -72,6 +72,11 @@
 
         public Func<T, bool> Filter { get; private set; }
 
+        bool IRefresher.IsRefreshing
+        {
+            get { return false; }
+        }
+
         public void Dispose()
         {
             Dispose(true);
@@ -81,12 +86,12 @@
         public void Refresh()
         {
             VerifyDisposed();
-            _tracker.Reset(this, Filtered(), _scheduler, PropertyChanged, CollectionChanged);
+            _tracker.Reset(this, Filtered().ToArray(), _scheduler, PropertyChanged, CollectionChanged);
         }
 
         protected void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            _tracker.Refresh(this, Filtered(), changes, _scheduler, PropertyChanged, CollectionChanged);
+            _tracker.Refresh(this, Filtered().ToArray(), changes, _scheduler, PropertyChanged, CollectionChanged);
         }
 
         protected IEnumerable<T> Filtered()

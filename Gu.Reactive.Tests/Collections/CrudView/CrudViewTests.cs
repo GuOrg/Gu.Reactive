@@ -9,7 +9,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
     using System.Linq;
 
     using Gu.Reactive;
-    using Gu.Reactive.Tests.Fakes;
+    using Gu.Reactive.Tests.Helpers;
 
     using Microsoft.Reactive.Testing;
 

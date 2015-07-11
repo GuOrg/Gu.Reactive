@@ -2,7 +2,7 @@
 {
     using System;
 
-    using Gu.Reactive.Tests.Fakes;
+    using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
 

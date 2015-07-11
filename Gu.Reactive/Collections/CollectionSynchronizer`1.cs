@@ -13,7 +13,6 @@ namespace Gu.Reactive
         internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];
         internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgs = new[] { Diff.NotifyCollectionResetEventArgs };
         private readonly List<T> _current = new List<T>();
-
         public CollectionSynchronizer(IEnumerable<T> source)
         {
             _current.AddRange(source);
@@ -32,7 +31,7 @@ namespace Gu.Reactive
 
         internal void Reset(
             object sender,
-            IEnumerable<T> updated,
+            IReadOnlyList<T> updated,
             IScheduler scheduler,
             PropertyChangedEventHandler propertyChanged,
             NotifyCollectionChangedEventHandler collectionChanged)
@@ -42,7 +41,7 @@ namespace Gu.Reactive
 
         internal void Refresh(
             object sender,
-            IEnumerable<T> updated,
+            IReadOnlyList<T> updated,
             IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges,
             IScheduler scheduler,
             PropertyChangedEventHandler propertyChanged,
@@ -50,53 +49,22 @@ namespace Gu.Reactive
         {
             lock (_current)
             {
-                var changes = Update(updated, collectionChanges);
-                Notify(sender, changes, scheduler, propertyChanged, collectionChanged);
+                var change = Update(updated, collectionChanges, collectionChanged != null);
+                Notifier.Notify(sender, change, scheduler, propertyChanged, collectionChanged);
             }
         }
 
-        private IReadOnlyList<EventArgs> Update(IEnumerable<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges)
+        private NotifyCollectionChangedEventArgs Update(IReadOnlyList<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges, bool calculateDiff)
         {
-            var list = updated as IReadOnlyList<T> ?? updated.ToArray();
-            IReadOnlyList<EventArgs> changes = Diff.Changes(_current, list);
-            if (changes.Any())
+            NotifyCollectionChangedEventArgs change = calculateDiff
+                                                          ? Diff.CollectionChange(_current, updated, collectionChanges)
+                                                          : null;
+            if (change != null)
             {
                 _current.Clear();
-                _current.AddRange(list);
+                _current.AddRange(updated);
             }
-            return changes;
-        }
-
-        internal static void Notify(object sender,
-                     IReadOnlyList<EventArgs> args,
-                     IScheduler scheduler,
-                     PropertyChangedEventHandler propertyChangedEventHandler,
-                     NotifyCollectionChangedEventHandler collectionChangeEventHandler)
-        {
-            if (propertyChangedEventHandler == null && collectionChangeEventHandler == null)
-            {
-                return;
-            }
-            foreach (var e in args)
-            {
-                var propertyChangedEventArgs = e as PropertyChangedEventArgs;
-                if (propertyChangedEventArgs != null && propertyChangedEventHandler != null)
-                {
-                    propertyChangedEventHandler(sender, propertyChangedEventArgs);
-                }
-                var notifyCollectionChangedEventArgs = e as NotifyCollectionChangedEventArgs;
-                if (notifyCollectionChangedEventArgs != null && collectionChangeEventHandler != null)
-                {
-                    if (scheduler != null)
-                    {
-                        scheduler.Schedule(() => collectionChangeEventHandler(sender, notifyCollectionChangedEventArgs));
-                    }
-                    else
-                    {
-                        collectionChangeEventHandler(sender, notifyCollectionChangedEventArgs);
-                    }
-                }
-            }
+            return change;
         }
 
         #region Ilist & IList<T>

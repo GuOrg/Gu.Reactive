@@ -203,6 +203,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\IRefresher.cs" />
+    <Compile Include="Collections\MappingView.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MappingView.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\MappingView`2.cs" />
+    <Compile Include="Collections\Notifier.cs" />
     <Compile Include="Collections\ReadOnlyFilteredView.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -234,6 +242,7 @@
     <Compile Include="Collections\IReadOnlyFilteredView`1.cs" />
     <Compile Include="Collections\IReadOnlyObservableCollection`1.cs" />
     <Compile Include="Collections\ReadOnlyDeferredView`1.cs" />
+    <Compile Include="Collections\WeakCompositeDisposable.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
     <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />
@@ -289,6 +298,10 @@
     <None Include="Collections\FilteredView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FilteredView.genareted.cs</LastGenOutput>
+    </None>
+    <None Include="Collections\MappingView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MappingView.cs</LastGenOutput>
     </None>
     <None Include="Collections\ReadOnlyFilteredView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

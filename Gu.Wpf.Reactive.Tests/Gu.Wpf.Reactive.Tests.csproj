@@ -117,6 +117,7 @@
     <Compile Include="NotifyTaskCompletionTests.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sandbox\Misc.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -135,9 +136,7 @@
       <Name>Gu.Wpf.Reactive</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Sandbox\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

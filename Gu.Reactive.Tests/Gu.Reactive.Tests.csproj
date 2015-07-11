@@ -97,7 +97,9 @@
     <Compile Include="Collections\FilteredViewTriggersTests.cs" />
     <Compile Include="Collections\CrudSource\CrudSourceTests.cs" />
     <Compile Include="Collections\CrudSource\ReadOnlyDeferredView.cs" />
+    <Compile Include="Collections\NotifierTests.cs" />
     <Compile Include="Collections\ObservableFixedSizeQueueTests.cs" />
+    <Compile Include="Helpers\AssertEx.cs" />
     <Compile Include="Helpers\EventArgsComparer.cs" />
     <Compile Include="Helpers\FakeWithCollection.cs" />
     <Compile Include="Helpers\IFake.cs" />

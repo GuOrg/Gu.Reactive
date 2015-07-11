@@ -8,7 +8,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
     using System.ComponentModel;
 
     using Gu.Reactive;
-    using Gu.Reactive.Tests.Fakes;
+    using Gu.Reactive.Tests.Helpers;
 
     using Microsoft.Reactive.Testing;
 
@@ -46,8 +46,8 @@ namespace Gu.Reactive.Tests.Collections.Filter
             CollectionAssert.AreEqual(new[] { 1, 2 }, _view);
             var expected = new EventArgs[]
                                {
-                                   Diff.CountPropertyChangedEventArgs,
-                                   Diff.IndexerPropertyChangedEventArgs,
+                                   Notifier.CountPropertyChangedEventArgs,
+                                   Notifier.IndexerPropertyChangedEventArgs,
                                    Diff.CreateRemoveEventArgs(3, 2),
                                };
             _actual.RemoveAll(
@@ -66,8 +66,8 @@ namespace Gu.Reactive.Tests.Collections.Filter
                 _scheduler.Start();
             }
             CollectionAssert.AreEqual(new[] { 1, 2 }, _view);
-            _expected.Add(Diff.CountPropertyChangedEventArgs);
-            _expected.Add(Diff.IndexerPropertyChangedEventArgs);
+            _expected.Add(Notifier.CountPropertyChangedEventArgs);
+            _expected.Add(Notifier.IndexerPropertyChangedEventArgs);
             _expected.Add(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, 3, 2));
 
             _actual.RemoveAll(
@@ -82,8 +82,8 @@ namespace Gu.Reactive.Tests.Collections.Filter
                 _scheduler.Start();
             }
             CollectionAssert.AreEqual(new[] { 1, 2, 3 }, _view);
-            _expected.Add(Diff.CountPropertyChangedEventArgs);
-            _expected.Add(Diff.IndexerPropertyChangedEventArgs);
+            _expected.Add(Notifier.CountPropertyChangedEventArgs);
+            _expected.Add(Notifier.IndexerPropertyChangedEventArgs);
             _expected.Add(Diff.CreateAddEventArgs(3, 2));
 
             _actual.RemoveAll(

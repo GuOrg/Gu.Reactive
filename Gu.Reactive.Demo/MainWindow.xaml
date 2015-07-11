@@ -68,6 +68,10 @@
             <demo:DispatchingViewView />
         </TabItem>
 
+        <TabItem Header="MappingView">
+            <demo:MappingViewView />
+        </TabItem>
+
         <TabItem Header="ObservableFixedSizeQueue">
             <demo:ObservableFixedSizeQueueView />
         </TabItem>

@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests.Fakes
+﻿namespace Gu.Reactive.Tests.Helpers
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;

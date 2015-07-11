@@ -4,7 +4,7 @@ namespace Gu.Reactive.Tests.NameOf_
     using System.Diagnostics;
     using System.Linq.Expressions;
 
-    using Gu.Reactive.Tests.Fakes;
+    using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
 

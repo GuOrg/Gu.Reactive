@@ -17,7 +17,7 @@
         }
 
         [Test]
-        public void EnqueTrims()
+        public void EnqueueTrims()
         {
             _queue.Enqueue(0);
             CollectionAssert.AreEqual(new[] { 0 }, _queue);

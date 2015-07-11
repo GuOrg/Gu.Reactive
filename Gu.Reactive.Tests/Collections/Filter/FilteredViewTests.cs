@@ -7,7 +7,7 @@
     using System.ComponentModel;
     using System.Reactive.Subjects;
 
-    using Gu.Reactive.Tests.Fakes;
+    using Gu.Reactive.Tests.Helpers;
 
     using Microsoft.Reactive.Testing;
 

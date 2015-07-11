@@ -1,27 +1,26 @@
-﻿namespace Gu.Reactive.Tests.Helpers
+namespace Gu.Reactive.Demo
 {
-    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Tests.Annotations;
+    using Gu.Reactive.Demo.Annotations;
 
-    public class FakeWithCollection : INotifyPropertyChanged
+    public class MappedDummy : INotifyPropertyChanged
     {
-        private ObservableCollection<Fake> _collection;
+        private int _value;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ObservableCollection<Fake> Collection
+        public int Value
         {
-            get { return _collection; }
+            get { return _value; }
             set
             {
-                if (Equals(value, _collection))
+                if (value == _value)
                 {
                     return;
                 }
-                _collection = value;
+                _value = value;
                 OnPropertyChanged();
             }
         }

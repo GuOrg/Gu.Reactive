@@ -54,7 +54,7 @@
                 _triggers = new ObservableCollection<IObservable<object>>(triggers);
             }
 
-            _refreshSubscription.Disposable = FilteredRefresher.Create(bufferTime, triggers, source, scheduler, false)
+            _refreshSubscription.Disposable = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, false)
                                                                .Subscribe(Refresh);
             var observables = new IObservable<object>[]
                                             {
@@ -64,7 +64,7 @@
                                             };
             observables.Merge()
                        .ThrottleOrDefault(bufferTime, scheduler)
-                       .Subscribe(_ => _refreshSubscription.Disposable = FilteredRefresher.Create(bufferTime, triggers, source, scheduler, true)
+                       .Subscribe(_ => _refreshSubscription.Disposable = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, true)
                                                                                           .Subscribe(Refresh));
         }
 
@@ -118,17 +118,65 @@
         public override void Refresh()
         {
             VerifyDisposed();
-            Synchronized.Reset(this, Filtered(), _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            Synchronized.Reset(this, Filtered().ToArray(), _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
-        protected override void RefreshNow()
+        protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
         {
-            Synchronized.Reset(this, Filtered(), null, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            var filter = Filter;
+            if (filter != null)
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        {
+                            var newItem = (T)e.NewItem();
+                            if (!filter(newItem))
+                            {
+                                return; // added item that is not visible
+                            }
+                            break;
+                        }
+                    case NotifyCollectionChangedAction.Remove:
+                        {
+                            var item = (T)e.OldItem();
+                            if (!filter(item))
+                            {
+                                return; // removed item that is not visible
+                            }
+                            break;
+                        }
+                    case NotifyCollectionChangedAction.Replace:
+                        {
+                            var newItem = (T)e.NewItem();
+                            var oldItem = (T)e.OldItem();
+                            if (!(filter(newItem) || filter(oldItem)))
+                            {
+                                return; // replaced item that is not visible
+                            }
+                            break;
+                        }
+                    case NotifyCollectionChangedAction.Move:
+                        {
+                            var newItem = (T)e.NewItem();
+                            if (!filter(newItem))
+                            {
+                                return; // added item that is not visible
+                            }
+                            break;
+                        }
+                    case NotifyCollectionChangedAction.Reset:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            Synchronized.Refresh(this, Filtered().ToArray(), CollectionSynchronizer<T>.ResetArgs, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            Synchronized.Refresh(this, Filtered(), changes, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            Synchronized.Refresh(this, Filtered().ToArray(), changes, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
         protected IEnumerable<T> Filtered()

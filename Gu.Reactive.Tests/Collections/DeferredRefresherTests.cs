@@ -12,6 +12,8 @@
 
     using Microsoft.Reactive.Testing;
 
+    using Moq;
+
     using NUnit.Framework;
 
     public class DeferredRefresherTests
@@ -22,7 +24,7 @@
             var ints = new ObservableCollection<int>();
             var results = new List<Timestamped<IReadOnlyList<NotifyCollectionChangedEventArgs>>>();
             var scheduler = new TestScheduler();
-            var observable = DeferredRefresher.Create(ints, TimeSpan.FromMilliseconds(10), scheduler, data.SignalInitial)
+            var observable = DeferredRefresher.Create(Mock.Of<IRefresher>(x=>x.IsRefreshing == false), ints, TimeSpan.FromMilliseconds(10), scheduler, data.SignalInitial)
                                  .Timestamp(scheduler);
             observable.Subscribe(results.Add);
 

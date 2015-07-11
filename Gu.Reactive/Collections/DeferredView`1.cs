@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
+    using System.Linq;
     using System.Reactive.Concurrency;
     using System.Reactive.Disposables;
 
@@ -19,7 +20,7 @@
         {
             _scheduler = scheduler;
             _bufferTime = bufferTime;
-            _refreshSubscription.Disposable = DeferredRefresher.Create(source, _bufferTime, _scheduler, false)
+            _refreshSubscription.Disposable = DeferredRefresher.Create(this, source, _bufferTime, _scheduler, false)
                                                                .Subscribe(Refresh);
         }
 
@@ -28,10 +29,7 @@
         {
             _scheduler = scheduler;
             _bufferTime = bufferTime;
-            _refreshSubscription.Disposable = DeferredRefresher.Create(source,
-                                                                       bufferTime,
-                                                                       scheduler,
-                                                                       false)
+            _refreshSubscription.Disposable = DeferredRefresher.Create(this, source, bufferTime, scheduler, false)
                                                                .Subscribe(Refresh);
         }
 
@@ -48,10 +46,7 @@
                     return;
                 }
                 _bufferTime = value;
-                _refreshSubscription.Disposable = DeferredRefresher.Create(Source,
-                                                                           _bufferTime,
-                                                                           _scheduler,
-                                                                           true)
+                _refreshSubscription.Disposable = DeferredRefresher.Create(this, Source, _bufferTime, _scheduler, true)
                                                                     .Subscribe(Refresh);
                 OnPropertyChanged();
             }
@@ -60,18 +55,21 @@
         public override void Refresh()
         {
             VerifyDisposed();
-            Synchronized.Reset(this, Source, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            var updated = Source as IReadOnlyList<T> ?? Source.ToArray();
+            Synchronized.Reset(this, updated, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
-        protected override void RefreshNow()
+        protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
         {
-            Synchronized.Reset(this, Source, null, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            var updated = Source as IReadOnlyList<T> ?? Source.ToArray();
+            Synchronized.Refresh(this, updated, new[] { e }, null, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
-        protected  override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             VerifyDisposed();
-            Synchronized.Refresh(this, Source, changes, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            var updated = Source as IReadOnlyList<T> ?? Source.ToArray();
+            Synchronized.Refresh(this, updated, changes, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
         /// <summary>

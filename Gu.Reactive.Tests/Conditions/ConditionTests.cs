@@ -5,7 +5,7 @@
     using System.ComponentModel;
     using System.Linq;
 
-    using Gu.Reactive.Tests.Fakes;
+    using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
 
