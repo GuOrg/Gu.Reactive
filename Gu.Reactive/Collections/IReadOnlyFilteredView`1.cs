@@ -6,7 +6,7 @@
     /// A typed filtered view
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IReadOnlyFilteredView<T> : IReadOnlyDeferredView<T>
+    public interface IReadOnlyFilteredView<T> : IReadOnlyThrottledView<T>
     {
         Func<T, bool> Filter { get; }
     }

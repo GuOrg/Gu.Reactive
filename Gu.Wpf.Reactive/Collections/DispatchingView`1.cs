@@ -4,7 +4,7 @@
     using System.Collections.ObjectModel;
     using Gu.Reactive;
 
-    public class DispatchingView<T> : DeferredView<T>
+    public class DispatchingView<T> : ThrottledView<T>
     {
         public DispatchingView(ObservableCollection<T> source)
             : base(source, TimeSpan.Zero, Schedulers.DispatcherOrCurrentThread)

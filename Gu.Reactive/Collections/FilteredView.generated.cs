@@ -8,7 +8,7 @@
     public static partial class FilteredView
     {
         public static FilteredView<T> AsFilteredView<T>(
-            this IObservableCollection<T> collection,
+            this ObservableCollection<T> collection,
             Func<T, bool> filter,
             params IObservable<object>[] triggers)
         {
@@ -17,7 +17,7 @@
         }
 
         public static FilteredView<T> AsFilteredView<T>(
-            this IObservableCollection<T> collection,
+            this ObservableCollection<T> collection,
             Func<T, bool> filter,
             TimeSpan bufferTime,
             params IObservable<object>[] triggers)
@@ -28,7 +28,7 @@
         }
 
         public static FilteredView<T> AsFilteredView<T>(
-            this IObservableCollection<T> collection,
+            this ObservableCollection<T> collection,
             Func<T, bool> filter,
             IScheduler scheduler,
             params IObservable<object>[] triggers)
@@ -40,7 +40,7 @@
         }
        
         public static FilteredView<T> AsFilteredView<T>(
-            this IObservableCollection<T> collection,
+            this ObservableCollection<T> collection,
             Func<T, bool> filter,
             TimeSpan bufferTime,
             IScheduler scheduler,
@@ -53,7 +53,7 @@
         }
 
         public static FilteredView<T> AsFilteredView<T>(
-            this ObservableCollection<T> collection,
+            this IObservableCollection<T> collection,
             Func<T, bool> filter,
             params IObservable<object>[] triggers)
         {
@@ -62,7 +62,7 @@
         }
 
         public static FilteredView<T> AsFilteredView<T>(
-            this ObservableCollection<T> collection,
+            this IObservableCollection<T> collection,
             Func<T, bool> filter,
             TimeSpan bufferTime,
             params IObservable<object>[] triggers)
@@ -73,7 +73,7 @@
         }
 
         public static FilteredView<T> AsFilteredView<T>(
-            this ObservableCollection<T> collection,
+            this IObservableCollection<T> collection,
             Func<T, bool> filter,
             IScheduler scheduler,
             params IObservable<object>[] triggers)
@@ -85,7 +85,7 @@
         }
        
         public static FilteredView<T> AsFilteredView<T>(
-            this ObservableCollection<T> collection,
+            this IObservableCollection<T> collection,
             Func<T, bool> filter,
             TimeSpan bufferTime,
             IScheduler scheduler,

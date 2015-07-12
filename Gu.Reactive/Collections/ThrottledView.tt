@@ -1,0 +1,50 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".generated.cs" #>
+namespace Gu.Reactive
+{
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Reactive.Concurrency;
+
+    public static partial class ThrottledView
+    {
+<#
+    var typeNames = new []{ "ObservableCollection", "IObservableCollection", };
+    for(int i = 0; i < typeNames.Length; i++)
+    {
+        var typeName = typeNames[i];
+        if(i > 0)
+		{#>
+
+<#      }	
+#>
+        public static ThrottledView<TItem> AsThrottledView<TItem>(this <#= typeName #><TItem> collection, TimeSpan bufferTime)
+        {
+            return new ThrottledView<TItem>(collection, bufferTime, null);
+        }
+
+        public static ThrottledView<TItem> AsThrottledView<TItem>(this <#= typeName #><TItem> collection, TimeSpan bufferTime, IScheduler scheduler)
+        {
+            return new ThrottledView<TItem>(collection, bufferTime, scheduler);
+        }
+<#    } #>
+<#
+    var readOnlyTypeNames = new []{"ObservableCollection", "ReadOnlyObservableCollection", "IReadOnlyObservableCollection" };
+    for(int i = 0; i < readOnlyTypeNames.Length; i++)
+    {
+        var typeName = readOnlyTypeNames[i];
+#>
+
+        public static ReadOnlyThrottledView<TItem> AsReadOnlyThrottledView<TItem>(this <#= typeName #><TItem> collection, TimeSpan bufferTime)
+        {
+            return new ReadOnlyThrottledView<TItem>(collection, bufferTime, null);
+        }
+
+        public static ReadOnlyThrottledView<TItem> AsReadOnlyThrottledView<TItem>(this <#= typeName #><TItem> collection, TimeSpan bufferTime, IScheduler scheduler)
+        {
+            return new ReadOnlyThrottledView<TItem>(collection, bufferTime, scheduler);
+        }
+<#    } #>
+    }
+}

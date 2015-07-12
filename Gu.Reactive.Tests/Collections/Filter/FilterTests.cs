@@ -17,15 +17,10 @@ namespace Gu.Reactive.Tests.Collections.Filter
     public abstract class FilterTests
     {
         private static readonly PropertyChangedEventArgs FilterChangedEventArgs = new PropertyChangedEventArgs("Filter");
-
         protected List<EventArgs> _actual;
-
         private List<EventArgs> _expected = new List<EventArgs>();
-
         protected TestScheduler _scheduler;
-
         protected IFilteredView<int> _view;
-
         protected ObservableCollection<int> _ints;
 
         [SetUp]
@@ -110,17 +105,6 @@ namespace Gu.Reactive.Tests.Collections.Filter
                 x is PropertyChangedEventArgs
                 && ((PropertyChangedEventArgs)x).PropertyName == FilterChangedEventArgs.PropertyName);
             CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
-        }
-
-        protected List<EventArgs> SubscribeAll<T>(T view)
-            where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
-        {
-            var changes = new List<EventArgs>();
-            view.ObserveCollectionChanged(false)
-                .Subscribe(x => changes.Add(x.EventArgs));
-            view.ObservePropertyChanged()
-                .Subscribe(x => changes.Add(x.EventArgs));
-            return changes;
         }
     }
 }

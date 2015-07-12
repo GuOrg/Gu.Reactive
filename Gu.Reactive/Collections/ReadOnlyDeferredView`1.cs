@@ -9,7 +9,7 @@
     using System.Reactive.Concurrency;
     using Gu.Reactive.Internals;
 
-    public class ReadOnlyDeferredView<T> : IReadOnlyDeferredView<T>, IRefresher
+    public class ReadOnlyThrottledView<T> : IReadOnlyThrottledView<T>, IRefresher
     {
         private readonly IReadOnlyList<T> _collection;
         private readonly IScheduler _scheduler;
@@ -17,34 +17,34 @@
         private readonly CollectionSynchronizer<T> _tracker;
         private bool _disposed;
 
-        public ReadOnlyDeferredView(ObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
+        public ReadOnlyThrottledView(ObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
             : this((IReadOnlyList<T>)collection, bufferTime, scheduler)
         {
         }
 
-        public ReadOnlyDeferredView(ReadOnlyObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
+        public ReadOnlyThrottledView(ReadOnlyObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
             : this((IReadOnlyList<T>)collection, bufferTime, scheduler)
         {
         }
 
-        public ReadOnlyDeferredView(IObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
+        public ReadOnlyThrottledView(IObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
             : this((IReadOnlyList<T>)collection, bufferTime, scheduler)
         {
         }
 
-        public ReadOnlyDeferredView(IReadOnlyObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
+        public ReadOnlyThrottledView(IReadOnlyObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
             : this((IReadOnlyList<T>)collection, bufferTime, scheduler)
         {
         }
 
-        private ReadOnlyDeferredView(IReadOnlyList<T> collection, TimeSpan bufferTime, IScheduler scheduler)
+        private ReadOnlyThrottledView(IReadOnlyList<T> collection, TimeSpan bufferTime, IScheduler scheduler)
         {
             Ensure.NotNull(collection as INotifyCollectionChanged, "collection");
             _collection = collection;
             _tracker = new CollectionSynchronizer<T>(collection);
             _scheduler = scheduler;
             BufferTime = bufferTime;
-            _refreshSubscription = DeferredRefresher.Create(this,collection,bufferTime,scheduler,false)
+            _refreshSubscription = ThrottledRefresher.Create(this,collection,bufferTime,scheduler,false)
                                                     .Subscribe(Refresh);
         }
 

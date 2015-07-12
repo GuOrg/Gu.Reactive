@@ -5,19 +5,30 @@
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DataContext="{d:DesignInstance demo:CollectionViewDemoViewModel}"
-             mc:Ignorable="d">
+             mc:Ignorable="d"
+             >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <ToggleButton Click="FilterOnClick" Content="Filter" />
-            <ToggleButton Click="FilterOnOtherThreadOnClick" Content="Filter OnPropertyChanged thread" />
-            <Button Click="AddOnClick" Content="Add" />
-            <Button Click="RemoveOnClick" Content="Remove" />
+            <ToggleButton Click="FilterOnClick"
+                          Content="Filter"
+                          />
+            <ToggleButton Click="FilterOnOtherThreadOnClick"
+                          Content="Filter OnPropertyChanged thread"
+                          />
+            <Button Click="AddOnClick"
+                    Content="Add"
+                    />
+            <Button Click="RemoveOnClick"
+                    Content="Remove"
+                    />
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    >
             <GroupBox Header="Enumerable">
                 <ListBox ItemsSource="{Binding Enumerable}" />
             </GroupBox>
@@ -42,12 +53,8 @@
                 <ListBox ItemsSource="{Binding ObservableFilteredView}" />
             </GroupBox>
 
-            <GroupBox Header="DeferredObservableFilteredView">
-                <ListBox ItemsSource="{Binding DeferredObservableFilteredView}" />
-            </GroupBox>
-
-            <GroupBox Header="TypedObservableCollectionView">
-                <ListBox ItemsSource="{Binding TypedObservableCollectionView}" />
+            <GroupBox Header="ThrottledObservableFilteredView">
+                <ListBox ItemsSource="{Binding ThrottledFilteredView}" />
             </GroupBox>
         </StackPanel>
     </Grid>

@@ -8,18 +8,18 @@
 
     using Gu.Wpf.Reactive;
 
-    public class DeferredViewViewModel
+    public class ThrottledViewViewModel
     {
         private readonly ObservableCollection<DummyItem> _observableCollection = new ObservableCollection<DummyItem>();
         private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _observableCollectionEvents = new ObservableCollection<NotifyCollectionChangedEventArgs>();
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _deferredEvents = new ObservableCollection<NotifyCollectionChangedEventArgs>();
+        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _throttledEvents = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
-        public DeferredViewViewModel()
+        public ThrottledViewViewModel()
         {
             DeferTime = TimeSpan.FromMilliseconds(10);
             Add(3);
             ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(_observableCollection);
-            ObservableCollectionDeferredView = _observableCollection.AsDeferredView(DeferTime,Schedulers.DispatcherOrCurrentThread);
+            ThrottledView = _observableCollection.AsThrottledView(DeferTime, Schedulers.DispatcherOrCurrentThread);
             AddOneCommand = new RelayCommand(AddOne, () => true);
             AddOneToViewCommand = new RelayCommand(AddOneToView, () => true);
             AddTenCommand = new RelayCommand(AddTen, () => true);
@@ -29,9 +29,9 @@
                                 .ObserveOnDispatcherOrCurrentThread()
                                 .Subscribe(x => _observableCollectionEvents.Add(x.EventArgs));
 
-            ObservableCollectionDeferredView.ObserveCollectionChanged()
+            ThrottledView.ObserveCollectionChanged()
                     .ObserveOnDispatcherOrCurrentThread()
-                    .Subscribe(x => _deferredEvents.Add(x.EventArgs));
+                    .Subscribe(x => _throttledEvents.Add(x.EventArgs));
         }
 
         public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionEvents
@@ -39,9 +39,9 @@
             get { return _observableCollectionEvents; }
         }
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> DeferredEvents
+        public ObservableCollection<NotifyCollectionChangedEventArgs> ThrottledEvents
         {
-            get { return _deferredEvents; }
+            get { return _throttledEvents; }
         }
 
         public ObservableCollection<DummyItem> ObservableCollection
@@ -51,7 +51,7 @@
 
         public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; private set; }
 
-        public IDeferredView<DummyItem> ObservableCollectionDeferredView { get; private set; }
+        public IThrottledView<DummyItem> ThrottledView { get; private set; }
 
         public TimeSpan DeferTime { get; private set; }
 
@@ -72,7 +72,7 @@
 
         private void AddOneToView()
         {
-            ObservableCollectionDeferredView.Add(new DummyItem(_observableCollection.Count + 1));
+            ThrottledView.Add(new DummyItem(_observableCollection.Count + 1));
         }
 
         private void AddTen()
@@ -92,7 +92,7 @@
         {
             _observableCollection.Clear();
             _observableCollectionEvents.Clear();
-            _deferredEvents.Clear();
+            _throttledEvents.Clear();
         }
     }
 }

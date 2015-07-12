@@ -203,15 +203,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\FilteredView.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FilteredView.tt</DependentUpon>
+    </Compile>
     <Compile Include="Collections\IRefresher.cs" />
-    <Compile Include="Collections\MappingView.cs">
+    <Compile Include="Collections\MappingView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MappingView.tt</DependentUpon>
     </Compile>
     <Compile Include="Collections\MappingView`2.cs" />
     <Compile Include="Collections\Notifier.cs" />
-    <Compile Include="Collections\ReadOnlyFilteredView.cs">
+    <Compile Include="Collections\ReadOnlyFilteredView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ReadOnlyFilteredView.tt</DependentUpon>
@@ -219,21 +224,16 @@
     <Compile Include="Collections\ReadOnlyFilteredView`1.cs" />
     <Compile Include="Collections\SynchronizedEditableView`1.cs" />
     <Compile Include="Collections\CollectionSynchronizer`1.cs" />
-    <Compile Include="Collections\DeferredRefresher.cs" />
-    <Compile Include="Collections\DeferredView.genareted.cs">
+    <Compile Include="Collections\ThrottledRefresher.cs" />
+    <Compile Include="Collections\ThrottledView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DeferredView.tt</DependentUpon>
+      <DependentUpon>ThrottledView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\DeferredView`1.cs" />
+    <Compile Include="Collections\ThrottledView`1.cs" />
     <Compile Include="Collections\Diff.cs" />
     <Compile Include="Collections\FilteredRefresher.cs" />
     <Compile Include="Collections\FilteredView.cs" />
-    <Compile Include="Collections\FilteredView.genareted.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FilteredView.tt</DependentUpon>
-    </Compile>
     <Compile Include="Collections\FilteredView`1.cs" />
     <Compile Include="Collections\IDeferredView`1.cs" />
     <Compile Include="Collections\IFilteredView`1.cs" />
@@ -291,21 +291,21 @@
     <Compile Include="TypeExt.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Collections\DeferredView.tt">
+    <None Include="Collections\ThrottledView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DeferredView.genareted.cs</LastGenOutput>
+      <LastGenOutput>ThrottledView.generated.cs</LastGenOutput>
     </None>
     <None Include="Collections\FilteredView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FilteredView.genareted.cs</LastGenOutput>
+      <LastGenOutput>FilteredView.generated.cs</LastGenOutput>
     </None>
     <None Include="Collections\MappingView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MappingView.cs</LastGenOutput>
+      <LastGenOutput>MappingView.generated.cs</LastGenOutput>
     </None>
     <None Include="Collections\ReadOnlyFilteredView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ReadOnlyFilteredView.cs</LastGenOutput>
+      <LastGenOutput>ReadOnlyFilteredView.generated.cs</LastGenOutput>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>

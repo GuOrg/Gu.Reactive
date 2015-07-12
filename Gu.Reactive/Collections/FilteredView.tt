@@ -1,6 +1,6 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ output extension=".cs" #>
+<#@ output extension=".generated.cs" #>
 namespace Gu.Reactive
 {
     using System;
@@ -11,8 +11,7 @@ namespace Gu.Reactive
     public static partial class FilteredView
     {
 <#
-    // var typeNames = new []{"IObservableCollection", "IReadOnlyObservableCollection","ObservableCollection", "ReadOnlyObservableCollection" };
-    var typeNames = new []{"IObservableCollection","ObservableCollection" };
+    var typeNames = new []{"ObservableCollection", "IObservableCollection" };
     for(int i = 0; i < typeNames.Length; i++)
     {
         var typeName = typeNames[i];

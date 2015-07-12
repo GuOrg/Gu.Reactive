@@ -2,6 +2,8 @@ namespace Gu.Reactive.Tests.Collections.Filter
 {
     using System;
 
+    using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
 
     public class FilteredViewNoScheduler : FilterTests
@@ -11,7 +13,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
         {
             base.SetUp();
             _view = _ints.AsFilteredView(x => true, TimeSpan.Zero);
-            _actual = SubscribeAll(_view);
+            _actual = _view.SubscribeAll();
         }
     }
 }

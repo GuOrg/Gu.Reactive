@@ -8,28 +8,28 @@
     using System.Reactive.Concurrency;
     using System.Reactive.Disposables;
 
-    public class DeferredView<T> : SynchronizedEditableView<T>, IDeferredView<T>, IReadOnlyDeferredView<T>
+    public class ThrottledView<T> : SynchronizedEditableView<T>, IThrottledView<T>, IReadOnlyThrottledView<T>
     {
         private readonly IScheduler _scheduler;
         private readonly SerialDisposable _refreshSubscription = new SerialDisposable();
         private TimeSpan _bufferTime;
         private bool _disposed;
 
-        public DeferredView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
+        public ThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
             : base(source)
         {
             _scheduler = scheduler;
             _bufferTime = bufferTime;
-            _refreshSubscription.Disposable = DeferredRefresher.Create(this, source, _bufferTime, _scheduler, false)
+            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, _bufferTime, _scheduler, false)
                                                                .Subscribe(Refresh);
         }
 
-        public DeferredView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
+        public ThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
             : base(source)
         {
             _scheduler = scheduler;
             _bufferTime = bufferTime;
-            _refreshSubscription.Disposable = DeferredRefresher.Create(this, source, bufferTime, scheduler, false)
+            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, bufferTime, scheduler, false)
                                                                .Subscribe(Refresh);
         }
 
@@ -46,7 +46,7 @@
                     return;
                 }
                 _bufferTime = value;
-                _refreshSubscription.Disposable = DeferredRefresher.Create(this, Source, _bufferTime, _scheduler, true)
+                _refreshSubscription.Disposable = ThrottledRefresher.Create(this, Source, _bufferTime, _scheduler, true)
                                                                     .Subscribe(Refresh);
                 OnPropertyChanged();
             }

@@ -40,13 +40,13 @@
         }
 
         public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, IEnumerable<IObservable<object>> triggers)
-            : this((IReadOnlyList<T>)source, filter, scheduler, bufferTime, triggers.ToArray())
+            : this(source, filter, scheduler, bufferTime, triggers.ToArray())
         {
             Ensure.NotNull(triggers, "triggers");
         }
 
         public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, IObservable<object> trigger)
-            : this((IReadOnlyList<T>)source, filter, scheduler, bufferTime, new[] { trigger })
+            : this(source, filter, scheduler, bufferTime, new[] { trigger })
         {
             Ensure.NotNull(trigger, "trigger");
         }

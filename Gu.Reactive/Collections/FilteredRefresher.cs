@@ -19,7 +19,7 @@
             IScheduler scheduler,
             bool signalInitial)
         {
-            var collectionChanges = DeferredRefresher.Create(refresher, source, bufferTime, scheduler, false);
+            var collectionChanges = ThrottledRefresher.Create(refresher, source, bufferTime, scheduler, false);
             var triggersChanges = triggers.Merge()
                                           .ThrottleOrDefault(bufferTime, scheduler)
                                           .Select(_ => ResetArgses);

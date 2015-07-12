@@ -4,7 +4,7 @@ namespace Gu.Wpf.Reactive
     using System.Collections.ObjectModel;
     using Gu.Reactive;
 
-    public class ReadOnlyDispatchingView<T> : ReadOnlyDeferredView<T>
+    public class ReadOnlyDispatchingView<T> : ReadOnlyThrottledView<T>
     {
         public ReadOnlyDispatchingView(ObservableCollection<T> inner, TimeSpan bufferTime)
             : base(inner, bufferTime, Schedulers.DispatcherOrCurrentThread)

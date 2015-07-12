@@ -1,5 +1,7 @@
 namespace Gu.Reactive.Tests.Collections.Filter
 {
+    using Gu.Reactive.Tests.Helpers;
+
     using Microsoft.Reactive.Testing;
 
     using NUnit.Framework;
@@ -13,7 +15,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
             _scheduler = new TestScheduler();
 
             _view = _ints.AsFilteredView(x => true, _scheduler);
-            _actual = SubscribeAll(_view);
+            _actual = _view.SubscribeAll();
         }
     }
 }

@@ -16,7 +16,7 @@
 
     using NUnit.Framework;
 
-    public class DeferredRefresherTests
+    public class ThrottledRefresherTests
     {
         [TestCaseSource(typeof(RefresherSource))]
         public void BufferTest(RefresherData data)
@@ -24,7 +24,7 @@
             var ints = new ObservableCollection<int>();
             var results = new List<Timestamped<IReadOnlyList<NotifyCollectionChangedEventArgs>>>();
             var scheduler = new TestScheduler();
-            var observable = DeferredRefresher.Create(Mock.Of<IRefresher>(x=>x.IsRefreshing == false), ints, TimeSpan.FromMilliseconds(10), scheduler, data.SignalInitial)
+            var observable = ThrottledRefresher.Create(Mock.Of<IRefresher>(x=>x.IsRefreshing == false), ints, TimeSpan.FromMilliseconds(10), scheduler, data.SignalInitial)
                                  .Timestamp(scheduler);
             observable.Subscribe(results.Add);
 

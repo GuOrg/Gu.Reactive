@@ -19,13 +19,13 @@
         public CollectionViewDemoViewModel()
         {
             Enumerable = new[] { 1, 2, 3, 4, 5 };
-            FilteredView1 = Enumerable.AsFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread, this.ObservePropertyChanged(x => x.Filter));
-            FilteredView2 = Enumerable.AsFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread, this.ObservePropertyChanged(x => x.Filter));
+            FilteredView1 = Enumerable.AsReadOnlyFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread, this.ObservePropertyChanged(x => x.Filter));
+            FilteredView2 = Enumerable.AsReadOnlyFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread, this.ObservePropertyChanged(x => x.Filter));
 
             ObservableCollection = new ObservableCollection<int>(new[] { 1, 2, 3, 4, 5 });
             ObservableDefaultView = CollectionViewSource.GetDefaultView(ObservableCollection);
             ObservableFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.Zero, Schedulers.DispatcherOrCurrentThread);
-            DeferredObservableFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread);
+            ThrottledFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread);
 
             this.ObservePropertyChanged(x => x.Filter, false)
                 .Subscribe(
@@ -33,7 +33,7 @@
                     {
                         Schedulers.DispatcherOrCurrentThread.Schedule(() => ObservableDefaultView.Filter = o => Filter((int)o));
                         ObservableFilteredView.Filter = Filter;
-                        DeferredObservableFilteredView.Filter = Filter;
+                        ThrottledFilteredView.Filter = Filter;
                     });
         }
 
@@ -51,7 +51,7 @@
 
         public IFilteredView<int> ObservableFilteredView { get; private set; }
 
-        public IFilteredView<int> DeferredObservableFilteredView { get; private set; }
+        public IFilteredView<int> ThrottledFilteredView { get; private set; }
 
         public Func<int, bool> Filter
         {

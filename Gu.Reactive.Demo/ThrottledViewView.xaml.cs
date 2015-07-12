@@ -3,11 +3,11 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for DeferredViewView.xaml
+    /// Interaction logic for ThrottledViewView.xaml
     /// </summary>
-    public partial class DeferredViewView : UserControl
+    public partial class ThrottledViewView : UserControl
     {
-        public DeferredViewView()
+        public ThrottledViewView()
         {
             InitializeComponent();
         }

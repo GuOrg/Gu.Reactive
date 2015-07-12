@@ -1,16 +1,16 @@
-﻿<UserControl x:Class="Gu.Reactive.Demo.DeferredViewView"
+﻿<UserControl x:Class="Gu.Reactive.Demo.ThrottledViewView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DataContext="{d:DesignInstance demo:DeferredViewViewModel}"
+             d:DataContext="{d:DesignInstance demo:ThrottledViewViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d"
              >
     <UserControl.DataContext>
-        <demo:DeferredViewViewModel />
+        <demo:ThrottledViewViewModel />
     </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
@@ -47,25 +47,25 @@
             </Grid.ColumnDefinitions>
 
             <GroupBox Grid.Column="0"
-                      Header="DeferredView ListBox"
+                      Header="ThrottledView ListBox"
                       >
                 <ListBox x:Name="ListBox"
-                         ItemsSource="{Binding ObservableCollectionDeferredView}"
+                         ItemsSource="{Binding ThrottledView}"
                          />
             </GroupBox>
 
             <GroupBox Grid.Column="1"
-                      Header="DeferredView DataGrid"
+                      Header="ThrottledView DataGrid"
                       >
                 <DataGrid x:Name="DataGrid"
-                          ItemsSource="{Binding ObservableCollectionDeferredView}"
+                          ItemsSource="{Binding ThrottledView}"
                           />
             </GroupBox>
 
             <GroupBox Grid.Column="2"
-                      Header="DeferredChanges"
+                      Header="ThrottledChanges"
                       >
-                <ItemsControl ItemsSource="{Binding DeferredEvents}" />
+                <ItemsControl ItemsSource="{Binding ThrottledEvents}" />
             </GroupBox>
 
             <GroupBox Grid.Column="3"

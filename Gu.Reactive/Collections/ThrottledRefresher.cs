@@ -8,7 +8,7 @@
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
 
-    internal static class DeferredRefresher
+    internal static class ThrottledRefresher
     {
         internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 

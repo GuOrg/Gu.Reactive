@@ -10,7 +10,8 @@
         Width="525"
         Height="350"
         d:DataContext="{d:DesignInstance demo:MainWindowViewModel}"
-        mc:Ignorable="d">
+        mc:Ignorable="d"
+        >
     <TabControl>
         <TabItem Header="Conditions">
             <AdornerDecorator>
@@ -28,17 +29,22 @@
                     <StackPanel Grid.Row="0">
                         <CheckBox Margin="7"
                                   Content="Door"
-                                  IsChecked="{Binding IsDoorClosed}" />
+                                  IsChecked="{Binding IsDoorClosed}"
+                                  />
                         <CheckBox Margin="7"
                                   Content="Motor"
-                                  IsChecked="{Binding IsMotorRunning}" />
+                                  IsChecked="{Binding IsMotorRunning}"
+                                  />
                     </StackPanel>
 
                     <demo:Conditions Grid.Row="0"
                                      Grid.RowSpan="2"
-                                     Grid.Column="1" />
+                                     Grid.Column="1"
+                                     />
 
-                    <demo:ConditionButtons Grid.Row="1" Grid.Column="0" />
+                    <demo:ConditionButtons Grid.Row="1"
+                                           Grid.Column="0"
+                                           />
 
                 </Grid>
             </AdornerDecorator>
@@ -60,8 +66,8 @@
             <demo:FilteredViewView />
         </TabItem>
 
-        <TabItem Header="DeferredView">
-            <demo:DeferredViewView />
+        <TabItem Header="ThrottledView">
+            <demo:ThrottledViewView />
         </TabItem>
 
         <TabItem Header="DispatchingView">
@@ -75,7 +81,7 @@
         <TabItem Header="ObservableFixedSizeQueue">
             <demo:ObservableFixedSizeQueueView />
         </TabItem>
-        
+
         <TabItem Header="CollectionView">
             <demo:CollectionViewDemo />
         </TabItem>
