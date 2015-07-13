@@ -145,7 +145,7 @@
     <Compile Include="MainWindowViewModel.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MappedDummy.cs">
+    <Compile Include="MappedVm.cs">
       <DependentUpon>MappingViewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MappingViewView.xaml.cs">

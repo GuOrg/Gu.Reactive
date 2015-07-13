@@ -5,7 +5,7 @@ namespace Gu.Reactive.Demo
 
     using Gu.Reactive.Demo.Annotations;
 
-    public class MappedDummy : INotifyPropertyChanged
+    public class MappedVm : INotifyPropertyChanged
     {
         private int _value;
 

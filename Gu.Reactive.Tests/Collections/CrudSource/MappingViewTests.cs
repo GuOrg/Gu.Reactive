@@ -1,9 +1,9 @@
 ﻿namespace Gu.Reactive.Tests.Collections.CrudSource
 {
-    using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
+
     using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
 
     class MappingViewTests
@@ -22,8 +22,37 @@
             CollectionAssert.IsEmpty(view);
             models.Add(model);
             Assert.AreEqual(1, view.Count);
-            Assert.AreSame(vm, view[0]);
 
+        }
+
+        [Test]
+        public void CachesRefTypes()
+        {
+            var models = new ObservableCollection<Model>();
+            var view = models.AsMappingView(x => new Vm { Model = x });
+            var model = new Model(1);
+            models.Add(model);
+            var vm = view[0];
+            models.Clear();
+            CollectionAssert.IsEmpty(view);
+            models.Add(model);
+            Assert.AreSame(vm, view[0]);
+            Assert.AreSame(vm.Model, view[0].Model);
+        }
+
+
+        [Test]
+        public void DoesNotCacheValueTypes()
+        {
+            var models = new ObservableCollection<int>();
+            var view = models.AsMappingView(x => new Vm { Value = x });
+            models.Add(1);
+            var vm = view[0];
+            models.Clear();
+            CollectionAssert.IsEmpty(view);
+            models.Add(1);
+            Assert.AreNotSame(vm, view[0]);
+            Assert.AreEqual(1, view[0].Value);
         }
 
         [Test]
@@ -51,6 +80,7 @@
         private class Vm
         {
             public Model Model { get; set; }
+            public int Value { get; set; }
         }
     }
 }

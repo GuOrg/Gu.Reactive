@@ -20,9 +20,9 @@
         {
             Ints = _ints.AsDispatchingView();
 
-            MappedInts = _ints.AsMappingView(x => new MappedDummy { Value = x }, Schedulers.DispatcherOrCurrentThread);
+            MappedInts = _ints.AsMappingView(x => new MappedVm { Value = x }, Schedulers.DispatcherOrCurrentThread);
 
-            MappedMapped = MappedInts.AsMappingView(x => new MappedDummy { Value = x.Value * 2 }, Schedulers.DispatcherOrCurrentThread);
+            MappedMapped = MappedInts.AsMappingView(x => new MappedVm { Value = x.Value * 2 }, Schedulers.DispatcherOrCurrentThread);
 
             AddOneCommand = new RelayCommand(() => _ints.Add(_ints.Count + 1));
 
@@ -41,9 +41,9 @@
 
         public DispatchingView<int> Ints { get; private set; }
 
-        public IReadOnlyObservableCollection<MappedDummy> MappedInts { get; private set; }
+        public IReadOnlyObservableCollection<MappedVm> MappedInts { get; private set; }
 
-        public IReadOnlyObservableCollection<MappedDummy> MappedMapped { get; private set; }
+        public IReadOnlyObservableCollection<MappedVm> MappedMapped { get; private set; }
 
         public int RemoveAt
         {

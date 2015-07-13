@@ -10,7 +10,6 @@
     using System.Reactive.Concurrency;
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
-    using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Internals;
 
@@ -18,12 +17,10 @@
         where TResult : class
     {
         private readonly IEnumerable<TSource> _source;
-        private readonly Func<TSource, TResult> _selector;
         private readonly IScheduler _scheduler;
-        private readonly ConditionalWeakTable<object, TResult> _cache;
-        private readonly WeakCompositeDisposable _itemDisposables = new WeakCompositeDisposable();
         private readonly List<TResult> _mapped;
         private readonly IDisposable _changeSubscription;
+        private readonly IMappingFactory<TSource, TResult> _factory;
         private bool _disposed;
 
         public MappingView(ObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler)
@@ -52,12 +49,8 @@
             Ensure.NotNull(source as INotifyCollectionChanged, "source");
             Ensure.NotNull(selector, "selector");
             _source = source;
-            _selector = selector;
             _scheduler = scheduler;
-            if (!typeof(TSource).IsValueType)
-            {
-                _cache = new ConditionalWeakTable<object, TResult>();
-            }
+            _factory = MappingFactory.Create(selector);
             _mapped = source.Select(GetOrCreateValue)
                             .ToList();
             var incc = source as INotifyCollectionChanged;
@@ -89,6 +82,7 @@
 
         public void Refresh()
         {
+            VerifyDisposed();
             var mapped = _source.Select(GetOrCreateValue)
                                 .ToArray();
             var change = Diff.CollectionChange(_mapped, mapped);
@@ -99,6 +93,7 @@
 
         public IEnumerator<TResult> GetEnumerator()
         {
+            VerifyDisposed();
             return _mapped.GetEnumerator();
         }
 
@@ -128,32 +123,7 @@
 
         protected virtual TResult GetOrCreateValue(TSource key)
         {
-            if (_cache == null)
-            {
-                var mapped = _selector(key);
-                var disposable = mapped as IDisposable;
-                if (disposable != null)
-                {
-                    _itemDisposables.Add(disposable);
-                }
-                return mapped;
-            }
-
-            { // empty scope here to use the same variable names
-                TResult mapped;
-                if (_cache.TryGetValue(key, out mapped))
-                {
-                    return mapped;
-                }
-                mapped = _selector(key);
-                var disposable = mapped as IDisposable;
-                if (disposable != null)
-                {
-                    _itemDisposables.Add(disposable);
-                }
-                _cache.Add(key, mapped);
-                return mapped;
-            }
+            return _factory.GetOrCreateValue(key);
         }
 
         protected virtual void OnSourceCollectionChanged(NotifyCollectionChangedEventArgs e)
@@ -219,7 +189,7 @@
             if (disposing)
             {
                 _changeSubscription.Dispose();
-                _itemDisposables.Dispose();
+                _factory.Dispose();
             }
         }
     }
