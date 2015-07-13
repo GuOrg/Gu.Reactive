@@ -208,8 +208,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FilteredView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\IMappingFactory.cs" />
-    <Compile Include="Collections\IRefresher.cs" />
+    <Compile Include="Collections\IMappingFactory`2.cs" />
+    <Compile Include="Collections\IUpdater.cs" />
     <Compile Include="Collections\MappingCache`2.cs" />
     <Compile Include="Collections\MappingFactory.cs" />
     <Compile Include="Collections\MappingFactory`2.cs" />

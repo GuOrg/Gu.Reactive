@@ -10,12 +10,12 @@
     using Gu.Reactive.Annotations;
     using Gu.Reactive.Internals;
 
-    public abstract class SynchronizedEditableView<T> : IList, IRefresher
+    public abstract class SynchronizedEditableView<T> : IList, IUpdater
     {
         protected readonly IList<T> Source;
         protected readonly CollectionSynchronizer<T> Synchronized;
         private bool _disposed;
-        private bool _isRefreshing;
+        private object _isUpdatingSourceItem;
 
         protected SynchronizedEditableView(IList<T> source)
         {
@@ -28,9 +28,9 @@
 
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        bool IRefresher.IsRefreshing
+        object IUpdater.IsUpdatingSourceItem
         {
-            get { return _isRefreshing; }
+            get { return _isUpdatingSourceItem; }
         }
 
         protected PropertyChangedEventHandler PropertyChangedEventHandler
@@ -187,11 +187,11 @@
             get { return this[index]; }
             set
             {
-                _isRefreshing = true;
                 var old = this[index];
+                _isUpdatingSourceItem = old;
                 this[index] = (T)value;
                 RefreshNow(Diff.CreateReplaceEventArgs(value, old, index));
-                _isRefreshing = false;
+                _isUpdatingSourceItem = null;
             }
         }
 
@@ -203,11 +203,11 @@
         int IList.Add(object value)
         {
             // IList.Add happens when a new row is added in DataGrid, we need to notify here to avoid out of sync exception.
-            _isRefreshing = true;
+            _isUpdatingSourceItem = value;
             ((IList)Source).Add(value); // Adding to inner
             RefreshNow(Diff.CreateAddEventArgs(value, Count));
-            _isRefreshing = false;
-            var index = Synchronized.LastIndexOf((T)value); // Adding explicitly to filtered to get correct index.
+            _isUpdatingSourceItem = null;
+            var index = Synchronized.LastIndexOf((T)value);
             return index;
         }
 
@@ -223,10 +223,10 @@
 
         void IList.Insert(int index, object value)
         {
-            _isRefreshing = true;
+            _isUpdatingSourceItem = value;
             Insert(index, (T)value);
             RefreshNow(Diff.CreateAddEventArgs(value, index));
-            _isRefreshing = false;
+            _isUpdatingSourceItem = null;
         }
 
         void IList.Remove(object value)
@@ -236,10 +236,10 @@
             {
                 return;
             }
-            _isRefreshing = true;
+            _isUpdatingSourceItem = value;
             RemoveAtCore(index);
             RefreshNow(Diff.CreateRemoveEventArgs(value, index));
-            _isRefreshing = false;
+            _isUpdatingSourceItem = null;
         }
 
         #endregion IList

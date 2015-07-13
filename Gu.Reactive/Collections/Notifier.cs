@@ -1,6 +1,7 @@
 namespace Gu.Reactive
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Reactive.Concurrency;
@@ -23,6 +24,25 @@ namespace Gu.Reactive
                    scheduler,
                    propertyChangedEventHandler,
                    collectionChangeEventHandler);
+        }
+
+        public static void Notify(
+            object sender,
+            IReadOnlyList<NotifyCollectionChangedEventArgs> changes,
+            IScheduler scheduler,
+            PropertyChangedEventHandler propHandler,
+            NotifyCollectionChangedEventHandler colHandler)
+        {
+            if (changes == null || changes.Count == 0)
+            {
+                return;
+            }
+            if (changes.Count == 1)
+            {
+                Notify(sender, changes[0], scheduler, propHandler, colHandler);
+                return;
+            }
+            NotifyReset(sender, scheduler, propHandler, colHandler);
         }
 
         internal static void Notify(object sender,
@@ -100,5 +120,6 @@ namespace Gu.Reactive
             }
             return e.OldItems[0];
         }
+
     }
 }

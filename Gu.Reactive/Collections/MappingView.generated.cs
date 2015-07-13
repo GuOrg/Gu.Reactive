@@ -10,7 +10,7 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            params IObservable<object>[] triggers) where TResult : class
+            params IObservable<object>[] triggers)
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
@@ -20,7 +20,7 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler) where TResult : class
+            IScheduler scheduler)
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
@@ -28,9 +28,58 @@
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            params IObservable<object>[] triggers)
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+            return new MappingView<TSource, TResult>(source, selector, null);
+        }
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            IScheduler scheduler)
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+            return new MappingView<TSource, TResult>(source, selector, scheduler);
+        }
+
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            Func<TResult, int, TResult> updater,
+            params IObservable<object>[] triggers) 
+            where TSource : class
+            where TResult : class
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(updater, "updater");
+            return new MappingView<TSource, TResult>(source, selector, updater, null);
+        }
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            Func<TResult, int, TResult> updater,
+            IScheduler scheduler)
+            where TSource : class
+            where TResult : class
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(updater, "updater");
+            return new MappingView<TSource, TResult>(source, selector, updater, scheduler);
+        }
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            params IObservable<object>[] triggers) where TResult : class
+            params IObservable<object>[] triggers)
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
@@ -40,7 +89,7 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler) where TResult : class
+            IScheduler scheduler)
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
@@ -48,9 +97,58 @@
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ReadOnlyObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            params IObservable<object>[] triggers)
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+            return new MappingView<TSource, TResult>(source, selector, null);
+        }
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ReadOnlyObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            IScheduler scheduler)
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+            return new MappingView<TSource, TResult>(source, selector, scheduler);
+        }
+
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ReadOnlyObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            Func<TResult, int, TResult> updater,
+            params IObservable<object>[] triggers) 
+            where TSource : class
+            where TResult : class
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(updater, "updater");
+            return new MappingView<TSource, TResult>(source, selector, updater, null);
+        }
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ReadOnlyObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            Func<TResult, int, TResult> updater,
+            IScheduler scheduler)
+            where TSource : class
+            where TResult : class
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(updater, "updater");
+            return new MappingView<TSource, TResult>(source, selector, updater, scheduler);
+        }
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            params IObservable<object>[] triggers) where TResult : class
+            params IObservable<object>[] triggers)
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
@@ -60,11 +158,60 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler) where TResult : class
+            IScheduler scheduler)
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
             return new MappingView<TSource, TResult>(source, selector, scheduler);
+        }
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this IReadOnlyObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            params IObservable<object>[] triggers)
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+            return new MappingView<TSource, TResult>(source, selector, null);
+        }
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this IReadOnlyObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            IScheduler scheduler)
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+            return new MappingView<TSource, TResult>(source, selector, scheduler);
+        }
+
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this IReadOnlyObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            Func<TResult, int, TResult> updater,
+            params IObservable<object>[] triggers) 
+            where TSource : class
+            where TResult : class
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(updater, "updater");
+            return new MappingView<TSource, TResult>(source, selector, updater, null);
+        }
+
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this IReadOnlyObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            Func<TResult, int, TResult> updater,
+            IScheduler scheduler)
+            where TSource : class
+            where TResult : class
+        {
+			Ensure.NotNull(source, "source");
+			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(updater, "updater");
+            return new MappingView<TSource, TResult>(source, selector, updater, scheduler);
         }
     }
 }

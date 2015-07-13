@@ -81,7 +81,6 @@
     <Compile Include="Collections\CrudSource\ThrottledViewNoScheduler.cs" />
     <Compile Include="Collections\CrudSource\FilteredView.cs" />
     <Compile Include="Collections\CrudSource\FilteredViewNoScheduler.cs" />
-    <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
     <Compile Include="Collections\CrudSource\ReadOnlyThrottledViewNoScheduler.cs" />
     <Compile Include="Collections\CrudSource\ReadOnlyFilteredView.cs" />
     <Compile Include="Collections\CrudSource\ReadOnlyFilteredViewNoScheduler.cs" />
@@ -116,6 +115,7 @@
     <Compile Include="Internals\NotifyingPathItemTests.cs" />
     <Compile Include="Internals\PathItemTests.cs" />
     <Compile Include="Internals\RootItemTests.cs" />
+    <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
     <Compile Include="NameOf_\MethodTests.cs" />
     <Compile Include="NameOf_\BenchmarksTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveCollectionChangedTests.cs" />

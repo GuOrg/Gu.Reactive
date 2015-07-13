@@ -21,8 +21,12 @@
             Ints = _ints.AsDispatchingView();
 
             MappedInts = _ints.AsMappingView(x => new MappedVm { Value = x }, Schedulers.DispatcherOrCurrentThread);
+            MappedIndexedInts = _ints.AsMappingView((x, i) => new MappedVm { Value = x, Index = i }, Schedulers.DispatcherOrCurrentThread);
 
             MappedMapped = MappedInts.AsMappingView(x => new MappedVm { Value = x.Value * 2 }, Schedulers.DispatcherOrCurrentThread);
+            MappedMappedIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, Schedulers.DispatcherOrCurrentThread);
+            MappedMappedUpdateIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => x.UpdateIndex(i), Schedulers.DispatcherOrCurrentThread);
+            MappedMappedUpdateNewIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => new MappedVm { Value = x.Value * 2, Index = i }, Schedulers.DispatcherOrCurrentThread);
 
             AddOneCommand = new RelayCommand(() => _ints.Add(_ints.Count + 1));
 
@@ -37,13 +41,22 @@
                 new Condition(() => _ints.Any(), _ints.ObserveCollectionChanged()));
         }
 
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public DispatchingView<int> Ints { get; private set; }
 
-        public IReadOnlyObservableCollection<MappedVm> MappedInts { get; private set; }
+        public MappingView<int, MappedVm> MappedInts { get; private set; }
 
-        public IReadOnlyObservableCollection<MappedVm> MappedMapped { get; private set; }
+        public MappingView<int, MappedVm> MappedIndexedInts { get; private set; }
+
+        public MappingView<MappedVm, MappedVm> MappedMapped { get; private set; }
+
+        public IReadOnlyObservableCollection<MappedVm> MappedMappedIndexed { get; private set; }
+
+        public MappingView<MappedVm, MappedVm> MappedMappedUpdateIndexed { get; private set; }
+        
+        public MappingView<MappedVm, MappedVm> MappedMappedUpdateNewIndexed { get; private set; }
 
         public int RemoveAt
         {

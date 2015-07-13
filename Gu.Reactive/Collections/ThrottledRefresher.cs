@@ -13,7 +13,7 @@
         internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 
         internal static IObservable<IReadOnlyList<NotifyCollectionChangedEventArgs>> Create(
-            IRefresher refresher,
+            IUpdater updater,
             IEnumerable source,
             TimeSpan throttleTime,
             IScheduler scheduler,
@@ -26,17 +26,32 @@
             }
 
             var observable = Observable.Create<NotifyCollectionChangedEventArgs>(o =>
-            {
-                NotifyCollectionChangedEventHandler fsHandler = (_, e) =>
                 {
-                    if (!refresher.IsRefreshing)
-                    {
-                        o.OnNext(e);
-                    }
-                };
-                incc.CollectionChanged += fsHandler;
-                return Disposable.Create(() => incc.CollectionChanged -= fsHandler);
-            });
+                    NotifyCollectionChangedEventHandler fsHandler = (_, e) =>
+                        {
+                            var isUpdatingSourceItem = updater.IsUpdatingSourceItem;
+                            if (isUpdatingSourceItem == null)
+                            {
+                                o.OnNext(e);
+                                return;
+                            }
+                            var newItem = e.NewItem();
+                            if (Equals( isUpdatingSourceItem, newItem))
+                            {
+                                return;
+                            }
+
+                            var oldItem = e.OldItem();
+                            if (Equals(isUpdatingSourceItem, oldItem))
+                            {
+                                return;
+                            }
+
+                            o.OnNext(e);
+                        };
+                    incc.CollectionChanged += fsHandler;
+                    return Disposable.Create(() => incc.CollectionChanged -= fsHandler);
+                });
             return observable.Buffer(throttleTime, scheduler, signalInitial);
         }
 

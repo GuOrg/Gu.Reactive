@@ -24,7 +24,7 @@
             var ints = new ObservableCollection<int>();
             var results = new List<Timestamped<IReadOnlyList<NotifyCollectionChangedEventArgs>>>();
             var scheduler = new TestScheduler();
-            var observable = ThrottledRefresher.Create(Mock.Of<IRefresher>(x=>x.IsRefreshing == false), ints, TimeSpan.FromMilliseconds(10), scheduler, data.SignalInitial)
+            var observable = ThrottledRefresher.Create(Mock.Of<IUpdater>(x => x.IsUpdatingSourceItem == null), ints, TimeSpan.FromMilliseconds(10), scheduler, data.SignalInitial)
                                  .Timestamp(scheduler);
             observable.Subscribe(results.Add);
 
@@ -46,6 +46,22 @@
             var secondResults = new List<Timestamped<IReadOnlyList<NotifyCollectionChangedEventArgs>>>();
             observable.Subscribe(secondResults.Add);
             CollectionAssert.IsEmpty(secondResults);
+        }
+
+        [Test]
+        public void Filters()
+        {
+            var ints = new ObservableCollection<int>();
+            var results = new List<IReadOnlyList<NotifyCollectionChangedEventArgs>>();
+            var observable = ThrottledRefresher.Create(
+                Mock.Of<IUpdater>(x => x.IsUpdatingSourceItem == (object)1),
+                ints,
+                TimeSpan.Zero,
+                null,
+                false);
+            var disposable = observable.Subscribe(results.Add);
+            ints.Add(1);
+            CollectionAssert.IsEmpty(results);
         }
 
         [Test]

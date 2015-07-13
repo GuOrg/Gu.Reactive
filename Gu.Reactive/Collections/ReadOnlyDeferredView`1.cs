@@ -9,7 +9,7 @@
     using System.Reactive.Concurrency;
     using Gu.Reactive.Internals;
 
-    public class ReadOnlyThrottledView<T> : IReadOnlyThrottledView<T>, IRefresher
+    public class ReadOnlyThrottledView<T> : IReadOnlyThrottledView<T>, IUpdater
     {
         private readonly IReadOnlyList<T> _collection;
         private readonly IScheduler _scheduler;
@@ -54,9 +54,9 @@
 
         public TimeSpan BufferTime { get; private set; }
 
-        bool IRefresher.IsRefreshing
+        object IUpdater.IsUpdatingSourceItem
         {
-            get { return false; }
+            get { return null; }
         }
 
         public void Dispose()

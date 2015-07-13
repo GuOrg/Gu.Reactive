@@ -11,7 +11,7 @@
 
     using Gu.Reactive.Internals;
 
-    public class ReadOnlyFilteredView<T> : IReadOnlyFilteredView<T>, IRefresher
+    public class ReadOnlyFilteredView<T> : IReadOnlyFilteredView<T>, IUpdater
     {
         private readonly IEnumerable<T> _source;
         private readonly IScheduler _scheduler;
@@ -72,9 +72,9 @@
 
         public Func<T, bool> Filter { get; private set; }
 
-        bool IRefresher.IsRefreshing
+        object IUpdater.IsUpdatingSourceItem
         {
-            get { return false; }
+            get { return null; }
         }
 
         public void Dispose()

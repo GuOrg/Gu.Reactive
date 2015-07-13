@@ -12,7 +12,10 @@
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type demo:MappedVm}">
             <GroupBox Header="Mapped">
-                <TextBlock Text="{Binding Value}"  />
+                <StackPanel>
+                    <TextBlock Text="{Binding Index, StringFormat='Index: {0}'}" />
+                    <TextBlock Text="{Binding Value, StringFormat='Value: {0}'}" />
+                </StackPanel>
             </GroupBox>
         </DataTemplate>
     </UserControl.Resources>
@@ -65,6 +68,11 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <GroupBox Grid.Column="0"
@@ -73,16 +81,70 @@
                 <ItemsControl ItemsSource="{Binding Ints}" />
             </GroupBox>
 
-            <GroupBox Grid.Column="1"
-                      Header="Mapped"
-                      >
+            <GroupBox Grid.Column="1">
+                <GroupBox.Header>
+                    <StackPanel>
+                        <TextBlock Text="Source: Ints" />
+                        <TextBlock Text="Indexed: No" />
+                        <TextBlock Text="Update: No" />
+                    </StackPanel>
+                </GroupBox.Header>
                 <ItemsControl ItemsSource="{Binding MappedInts}" />
             </GroupBox>
 
-            <GroupBox Grid.Column="2"
-                      Header="MappedMapped"
-                      >
+            <GroupBox Grid.Column="2">
+                <GroupBox.Header>
+                    <StackPanel>
+                        <TextBlock Text="Source: Ints" />
+                        <TextBlock Text="Indexed: Yes" />
+                        <TextBlock Text="Update: New" />
+                    </StackPanel>
+                </GroupBox.Header>
+                <ItemsControl ItemsSource="{Binding MappedIndexedInts}" />
+            </GroupBox>
+
+            <GroupBox Grid.Column="3">
+                <GroupBox.Header>
+                    <StackPanel>
+                        <TextBlock Text="Source: Mapped" />
+                        <TextBlock Text="Indexed: No" />
+                        <TextBlock Text="Update: No" />
+                    </StackPanel>
+                </GroupBox.Header>
                 <ItemsControl ItemsSource="{Binding MappedMapped}" />
+            </GroupBox>
+
+            <GroupBox Grid.Column="4">
+                <GroupBox.Header>
+                    <StackPanel>
+                        <TextBlock Text="Source: Mapped" />
+                        <TextBlock Text="Indexed: Yes" />
+                        <TextBlock Text="Update: No" />
+                    </StackPanel>
+                </GroupBox.Header>
+                <ItemsControl ItemsSource="{Binding MappedMappedIndexed}" />
+            </GroupBox>
+
+            <GroupBox Grid.Column="5">
+                <GroupBox.Header>
+                    <StackPanel>
+                        <TextBlock Text="Source: Mapped" />
+                        <TextBlock Text="Indexed: Yes" />
+                        <TextBlock Text="Update: Inplace" />
+                    </StackPanel>
+                </GroupBox.Header>
+                <ItemsControl ItemsSource="{Binding MappedMappedUpdateIndexed}" />
+            </GroupBox>
+
+            <GroupBox Grid.Column="6">
+                <GroupBox.Header>
+                    <StackPanel>
+                        <TextBlock Text="Source: Mapped" />
+                        <TextBlock Text="Indexed: Yes" />
+                        <TextBlock Text="Update: New" />
+                    </StackPanel>
+                </GroupBox.Header>
+                <ItemsControl ItemsSource="{Binding MappedMappedUpdateNewIndexed}" />
             </GroupBox>
         </Grid>
     </Grid>
