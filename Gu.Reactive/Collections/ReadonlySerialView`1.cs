@@ -3,45 +3,25 @@ namespace Gu.Reactive
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Linq;
     using System.Reactive.Disposables;
 
     public sealed class ReadOnlySerialView<T> : IReadOnlyObservableCollection<T>, IUpdater, IDisposable
     {
-        private static readonly ReadOnlyObservableCollection<T> Empty = new ReadOnlyObservableCollection<T>(new ObservableCollection<T>());
+        private static readonly IReadOnlyList<T> Empty = new T[0];
         private readonly CollectionSynchronizer<T> _tracker;
-        private IReadOnlyList<T> _source;
+        private IEnumerable<T> _source;
         private readonly SerialDisposable _refreshSubscription = new SerialDisposable();
         private bool _disposed;
 
         public ReadOnlySerialView()
-            : this((IReadOnlyList<T>)null)
+            : this(null)
         {
         }
 
-        public ReadOnlySerialView(ObservableCollection<T> source)
-            : this((IReadOnlyList<T>)source)
-        {
-        }
-
-        public ReadOnlySerialView(ReadOnlyObservableCollection<T> source)
-            : this((IReadOnlyList<T>)source)
-        {
-        }
-
-        public ReadOnlySerialView(IObservableCollection<T> source)
-            : this((IReadOnlyList<T>)source)
-        {
-        }
-
-        public ReadOnlySerialView(IReadOnlyObservableCollection<T> source)
-            : this((IReadOnlyList<T>)source)
-        {
-        }
-
-        private ReadOnlySerialView(IReadOnlyList<T> source)
+        public ReadOnlySerialView(IEnumerable<T> source)
         {
             _source = source ?? Empty;
             _tracker = new CollectionSynchronizer<T>(_source);
@@ -59,29 +39,19 @@ namespace Gu.Reactive
             get { return null; }
         }
 
-        public void SetSource(ObservableCollection<T> collection)
+        public void SetSource(IEnumerable<T> source)
         {
-            SetSource((IReadOnlyList<T>)collection);
-        }
-
-        public void SetSource(ReadOnlyObservableCollection<T> collection)
-        {
-            SetSource((IReadOnlyList<T>)collection);
-        }
-
-        public void SetSource(IObservableCollection<T> collection)
-        {
-            SetSource((IReadOnlyList<T>)collection);
-        }
-
-        public void SetSource(IReadOnlyObservableCollection<T> collection)
-        {
-            SetSource((IReadOnlyList<T>)collection);
+            _source = source ?? Empty;
+            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, _source, TimeSpan.Zero, null, false)
+                                                                .Subscribe(Refresh);
+            Refresh();
         }
 
         public void ClearSource()
         {
-            SetSource((IReadOnlyList<T>)null);
+            _source = Empty;
+            _refreshSubscription.Disposable = null;
+            Refresh();
         }
 
         /// <summary>
@@ -101,7 +71,8 @@ namespace Gu.Reactive
 
         public void Refresh()
         {
-            _tracker.Reset(this, _source, null, PropertyChanged, CollectionChanged);
+            var source = _source as IReadOnlyList<T> ?? _source.ToArray();
+            _tracker.Reset(this, source, null, PropertyChanged, CollectionChanged);
         }
 
         private void VerifyDisposed()
@@ -114,17 +85,10 @@ namespace Gu.Reactive
             }
         }
 
-        private void SetSource(IReadOnlyList<T> source)
-        {
-            _source = source ?? Empty;
-            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, _source, TimeSpan.Zero, null, false)
-                                                                .Subscribe(Refresh);
-            Refresh();
-        }
-
         private void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            _tracker.Refresh(this, _source, changes, null, PropertyChanged, CollectionChanged);
+            var source =_source as IReadOnlyList<T> ?? _source.ToArray();
+            _tracker.Refresh(this, source, changes, null, PropertyChanged, CollectionChanged);
         }
 
         #region IReadOnlyList<T>
