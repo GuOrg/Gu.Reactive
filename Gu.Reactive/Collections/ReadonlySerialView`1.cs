@@ -25,7 +25,7 @@ namespace Gu.Reactive
         {
             _source = source ?? Empty;
             _tracker = new CollectionSynchronizer<T>(_source);
-            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, TimeSpan.Zero, null, false)
+            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, _source, TimeSpan.Zero, null, false)
                                                                 .Subscribe(Refresh);
         }
 
