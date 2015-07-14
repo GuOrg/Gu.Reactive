@@ -11,8 +11,8 @@ namespace Gu.Reactive
     public sealed class ReadOnlySerialView<T> : IReadOnlyObservableCollection<T>, IUpdater, IDisposable
     {
         private static readonly ReadOnlyObservableCollection<T> Empty = new ReadOnlyObservableCollection<T>(new ObservableCollection<T>());
-        private IReadOnlyList<T> _collection;
-        private CollectionSynchronizer<T> _tracker;
+        private readonly CollectionSynchronizer<T> _tracker;
+        private IReadOnlyList<T> _source;
         private readonly SerialDisposable _refreshSubscription = new SerialDisposable();
         private bool _disposed;
 
@@ -21,31 +21,31 @@ namespace Gu.Reactive
         {
         }
 
-        public ReadOnlySerialView(ObservableCollection<T> collection)
-            : this((IReadOnlyList<T>)collection)
+        public ReadOnlySerialView(ObservableCollection<T> source)
+            : this((IReadOnlyList<T>)source)
         {
         }
 
-        public ReadOnlySerialView(ReadOnlyObservableCollection<T> collection)
-            : this((IReadOnlyList<T>)collection)
+        public ReadOnlySerialView(ReadOnlyObservableCollection<T> source)
+            : this((IReadOnlyList<T>)source)
         {
         }
 
-        public ReadOnlySerialView(IObservableCollection<T> collection)
-            : this((IReadOnlyList<T>)collection)
+        public ReadOnlySerialView(IObservableCollection<T> source)
+            : this((IReadOnlyList<T>)source)
         {
         }
 
-        public ReadOnlySerialView(IReadOnlyObservableCollection<T> collection)
-            : this((IReadOnlyList<T>)collection)
+        public ReadOnlySerialView(IReadOnlyObservableCollection<T> source)
+            : this((IReadOnlyList<T>)source)
         {
         }
 
-        private ReadOnlySerialView(IReadOnlyList<T> collection)
+        private ReadOnlySerialView(IReadOnlyList<T> source)
         {
-            _collection = collection ?? Empty;
-            _tracker = new CollectionSynchronizer<T>(collection);
-            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, collection, TimeSpan.Zero, null, false)
+            _source = source ?? Empty;
+            _tracker = new CollectionSynchronizer<T>(source);
+            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, TimeSpan.Zero, null, false)
                                                                 .Subscribe(Refresh);
         }
 
@@ -79,6 +79,11 @@ namespace Gu.Reactive
             SetSource((IReadOnlyList<T>)collection);
         }
 
+        public void ClearSource()
+        {
+            SetSource((IReadOnlyList<T>)null);
+        }
+
         /// <summary>
         /// Make the class sealed when using this. 
         /// Call VerifyDisposed at the start of all public methods
@@ -96,7 +101,7 @@ namespace Gu.Reactive
 
         public void Refresh()
         {
-            _tracker.Reset(this, _collection, null, PropertyChanged, CollectionChanged);
+            _tracker.Reset(this, _source, null, PropertyChanged, CollectionChanged);
         }
 
         private void VerifyDisposed()
@@ -111,16 +116,15 @@ namespace Gu.Reactive
 
         private void SetSource(IReadOnlyList<T> source)
         {
-            _collection = source ?? Empty;
-            _tracker = new CollectionSynchronizer<T>(Empty);
-            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, _collection, TimeSpan.Zero, null, false)
+            _source = source ?? Empty;
+            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, _source, TimeSpan.Zero, null, false)
                                                                 .Subscribe(Refresh);
             Refresh();
         }
 
         private void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            _tracker.Refresh(this, _collection, changes, null, PropertyChanged, CollectionChanged);
+            _tracker.Refresh(this, _source, changes, null, PropertyChanged, CollectionChanged);
         }
 
         #region IReadOnlyList<T>
