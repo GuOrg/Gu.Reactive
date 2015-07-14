@@ -16,6 +16,10 @@ namespace Gu.Reactive
         private readonly SerialDisposable _refreshSubscription = new SerialDisposable();
         private bool _disposed;
 
+        public ReadOnlySerialView()
+            : this((IReadOnlyList<T>)null)
+        {
+        }
 
         public ReadOnlySerialView(ObservableCollection<T> collection)
             : this((IReadOnlyList<T>)collection)
@@ -55,17 +59,17 @@ namespace Gu.Reactive
             get { return null; }
         }
 
-        public  void SetSource(ObservableCollection<T> collection)
+        public void SetSource(ObservableCollection<T> collection)
         {
             SetSource((IReadOnlyList<T>)collection);
         }
 
-        public  void SetSource(ReadOnlyObservableCollection<T> collection)
+        public void SetSource(ReadOnlyObservableCollection<T> collection)
         {
             SetSource((IReadOnlyList<T>)collection);
         }
 
-        public  void SetSource(IObservableCollection<T> collection)
+        public void SetSource(IObservableCollection<T> collection)
         {
             SetSource((IReadOnlyList<T>)collection);
         }
