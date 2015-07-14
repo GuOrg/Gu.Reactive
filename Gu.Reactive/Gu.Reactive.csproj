@@ -253,6 +253,11 @@
     <Compile Include="Contracts\IMaybe.cs" />
     <Compile Include="Internals\Ensure.cs" />
     <Compile Include="Internals\ConstantVisitor.cs" />
+    <Compile Include="NotifyCollectionChangedExt.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotifyCollectionChangedExt.tt</DependentUpon>
+    </Compile>
     <Compile Include="ObservableExt.cs" />
     <Compile Include="Collections\ObservableFixedSizeQueue`1.cs" />
     <Compile Include="PropertyPathStuff\IPropertyPath.cs" />
@@ -311,6 +316,10 @@
     <None Include="Collections\ReadOnlyFilteredView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ReadOnlyFilteredView.generated.cs</LastGenOutput>
+    </None>
+    <None Include="NotifyCollectionChangedExt.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NotifyCollectionChangedExt.generated.cs</LastGenOutput>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>

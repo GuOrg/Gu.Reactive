@@ -43,7 +43,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var fake = new FakeWithCollection { Collection = collection };
             fake.ObservePropertyChangedWithValue(x => x.Collection, true)
                 .ItemPropertyChanged(x => x.Name)
-                .Subscribe(_changes.Add);
+                            .Subscribe(_changes.Add);
             Assert.AreEqual(1, _changes.Count);
             AssertRx.AreEqual(collection[0], "Name", collection[0], "Johan", _changes.Last());
         }
