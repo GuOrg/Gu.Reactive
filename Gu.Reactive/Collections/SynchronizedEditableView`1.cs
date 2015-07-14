@@ -10,7 +10,7 @@
     using Gu.Reactive.Annotations;
     using Gu.Reactive.Internals;
 
-    public abstract class SynchronizedEditableView<T> : IList, IUpdater
+    public abstract class SynchronizedEditableView<T> : IList, IUpdater, IDisposable
     {
         protected readonly IList<T> Source;
         protected readonly CollectionSynchronizer<T> Synchronized;

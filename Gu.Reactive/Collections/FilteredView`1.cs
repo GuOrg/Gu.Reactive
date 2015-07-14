@@ -204,6 +204,8 @@
             {
                 _refreshSubscription.Dispose();
             }
+
+            base.Dispose(disposing);
         }
     }
 }

@@ -161,8 +161,8 @@
                 return;
             }
             _disposed = true;
-            _changeSubscription.Dispose();
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         protected void VerifyDisposed()
