@@ -1,9 +1,9 @@
 namespace Gu.Reactive.Tests.Collections
 {
     using System.Collections.ObjectModel;
-    using System.Diagnostics.CodeAnalysis;
 
     using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
 
     public class MappingView_IndexedTests
