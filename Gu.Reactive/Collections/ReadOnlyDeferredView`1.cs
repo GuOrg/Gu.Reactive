@@ -7,6 +7,7 @@
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Reactive.Concurrency;
+
     using Gu.Reactive.Internals;
 
     public class ReadOnlyThrottledView<T> : IReadOnlyThrottledView<T>, IUpdater
@@ -44,7 +45,7 @@
             _tracker = new CollectionSynchronizer<T>(collection);
             _scheduler = scheduler;
             BufferTime = bufferTime;
-            _refreshSubscription = ThrottledRefresher.Create(this,collection,bufferTime,scheduler,false)
+            _refreshSubscription = ThrottledRefresher.Create(this, collection, bufferTime, scheduler, false)
                                                     .Subscribe(Refresh);
         }
 

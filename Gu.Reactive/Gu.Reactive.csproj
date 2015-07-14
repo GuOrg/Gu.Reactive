@@ -226,6 +226,7 @@
       <DependentUpon>ReadOnlyFilteredView.tt</DependentUpon>
     </Compile>
     <Compile Include="Collections\ReadOnlyFilteredView`1.cs" />
+    <Compile Include="Collections\ReadonlySerialView.cs" />
     <Compile Include="Collections\SynchronizedEditableView`1.cs" />
     <Compile Include="Collections\CollectionSynchronizer`1.cs" />
     <Compile Include="Collections\ThrottledRefresher.cs" />
