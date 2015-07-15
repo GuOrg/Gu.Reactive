@@ -22,11 +22,13 @@
         {
             var ints = new List<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            var view = ints.AsFilteredView(x => x < 2, scheduler, new Subject<object>());
+            var view = ints.AsFilteredView(x => true, scheduler, new Subject<object>());
             var changes = SubscribeAll(view);
+            view.Filter = x => x < 2;
             view.Refresh();
             scheduler.Start();
             var expected = new List<EventArgs>();
+            expected.Add(new PropertyChangedEventArgs("Filter"));
             expected.AddRange(Diff.ResetEventArgsCollection);
             CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
             CollectionAssert.AreEqual(new[] { 1 }, view);

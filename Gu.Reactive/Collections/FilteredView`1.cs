@@ -36,7 +36,7 @@
             TimeSpan bufferTime,
             IScheduler scheduler,
             params IObservable<object>[] triggers)
-            : base(source)
+            : base(source, Filtered(source, filter))
         {
             if (filter == null)
             {
@@ -186,6 +186,19 @@
                 return Source;
             }
             return Source.Where(_filter);
+        }
+
+        protected static IEnumerable<T> Filtered(IEnumerable<T> source, Func<T, bool> filter)
+        {
+            if (source == null)
+            {
+                return Enumerable.Empty<T>();
+            }
+            if (filter == null)
+            {
+                return source;
+            }
+            return source.Where(filter);
         }
 
         /// <summary>

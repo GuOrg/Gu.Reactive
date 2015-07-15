@@ -6,12 +6,12 @@ namespace Gu.Reactive.Tests.Collections
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Linq;
     using System.Reactive.Subjects;
 
     using Gu.Reactive.Tests.Helpers;
 
     using Microsoft.Reactive.Testing;
+
     using NUnit.Framework;
 
     public class FilteredViewTriggersTests
@@ -31,7 +31,7 @@ namespace Gu.Reactive.Tests.Collections
 
             _scheduler = new TestScheduler();
 
-            _view = (FilteredView<int>)_ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), _scheduler, new Subject<object>());
+            _view = _ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), _scheduler, new Subject<object>());
             _actualChanges = SubscribeAll(_view);
         }
 
@@ -93,14 +93,16 @@ namespace Gu.Reactive.Tests.Collections
         public void UpdatesAndNotifiesOnObservableCollectionChangedWhenFiltered()
         {
             var ints = new ObservableCollection<int>(new List<int> { 1, 2 });
-            var view = ints.AsFilteredView(x => x < 2);
+            var view = ints.AsFilteredView(x => true);
             ints.Add(1);
             var actual = SubscribeAll(view);
+            view.Filter = x => x < 2;
             view.Refresh();
             var expected = new EventArgs[]
                                           {
                                               Notifier.IndexerPropertyChangedEventArgs,
-                                              Diff.CreateReplaceEventArgs(1, 2, 1)
+                                              Diff.CreateReplaceEventArgs(1, 2, 1),
+                                              new PropertyChangedEventArgs("Filter"), 
                                           };
             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
             CollectionAssert.AreEqual(new[] { 1, 1 }, view);

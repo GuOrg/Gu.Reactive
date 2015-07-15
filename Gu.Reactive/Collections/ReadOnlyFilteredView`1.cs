@@ -56,10 +56,10 @@
             Ensure.NotNull(source, "collection");
             Ensure.NotNull(filter, "filter");
             _source = source;
-            _tracker = new CollectionSynchronizer<T>(source);
             _scheduler = scheduler;
             Filter = filter;
             BufferTime = bufferTime;
+            _tracker = new CollectionSynchronizer<T>(Filtered());
             _refreshSubscription = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, false)
                                                     .Subscribe(Refresh);
         }

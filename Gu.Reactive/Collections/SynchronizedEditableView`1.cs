@@ -18,10 +18,18 @@
         private object _isUpdatingSourceItem;
 
         protected SynchronizedEditableView(IList<T> source)
+            : this(source, source)
         {
             Ensure.NotNull(source, "source");
             Source = source;
             Synchronized = new CollectionSynchronizer<T>(source);
+        }
+
+        protected SynchronizedEditableView(IList<T> source, IEnumerable<T> sourceItems )
+        {
+            Ensure.NotNull(source, "source");
+            Source = source;
+            Synchronized = new CollectionSynchronizer<T>(sourceItems);
         }
 
         public virtual event PropertyChangedEventHandler PropertyChanged;
