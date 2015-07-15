@@ -51,6 +51,30 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         }
 
         [Test]
+        public void UpdatesBeforeItNotifies()
+        {
+            int[] actual = null;
+            int[] expected = null;
+            _view.ObserveCollectionChanged(false)
+                 .Subscribe(_ => { actual = _view.ToArray(); });
+            _ints.ObserveCollectionChanged(false)
+                 .Subscribe(_ => { expected = _ints.ToArray(); });
+            _view.Add(5);
+            if (_scheduler != null)
+            {
+                _scheduler.Start();
+            }
+            CollectionAssert.AreEqual(expected, actual);
+
+            _view.Clear();
+            if (_scheduler != null)
+            {
+                _scheduler.Start();
+            }
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Test]
         public void Add()
         {
             _view.Add(4);

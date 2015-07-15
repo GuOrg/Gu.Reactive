@@ -6,6 +6,7 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Linq;
 
     using Gu.Reactive.Tests.Helpers;
 
@@ -46,6 +47,30 @@
 
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.IsEmpty(_actual);
+        }
+
+        [Test]
+        public void UpdatesBeforeItNotifies()
+        {
+            int[] actual = null;
+            int[] expected = null;
+            _view.ObserveCollectionChanged(false)
+                 .Subscribe(_ => { actual = _view.ToArray(); });
+            _ints.ObserveCollectionChanged(false)
+                 .Subscribe(_ => { expected = _ints.ToArray(); });
+            _ints.Add(5);
+            if (_scheduler != null)
+            {
+                _scheduler.Start();
+            }
+            CollectionAssert.AreEqual(expected, actual);
+
+            _ints.Clear();
+            if (_scheduler != null)
+            {
+                _scheduler.Start();
+            }
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         [Test]
