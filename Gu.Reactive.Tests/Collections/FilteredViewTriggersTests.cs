@@ -32,7 +32,7 @@ namespace Gu.Reactive.Tests.Collections
             _scheduler = new TestScheduler();
 
             _view = _ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), _scheduler, new Subject<object>());
-            _actualChanges = SubscribeAll(_view);
+            _actualChanges = _view.SubscribeAll();
         }
 
         [Test]
@@ -79,9 +79,9 @@ namespace Gu.Reactive.Tests.Collections
         public void UpdatesAndNotifiesOnCollectionChanged()
         {
             var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            var expected = SubscribeAll(ints);
+            var expected = ints.SubscribeAll();
             var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), _scheduler);
-            var actual = SubscribeAll(view);
+            var actual = view.SubscribeAll();
 
             ints.Add(4);
             CollectionAssert.IsEmpty(actual);
@@ -95,28 +95,18 @@ namespace Gu.Reactive.Tests.Collections
             var ints = new ObservableCollection<int>(new List<int> { 1, 2 });
             var view = ints.AsFilteredView(x => true);
             ints.Add(1);
-            var actual = SubscribeAll(view);
+            var actual = view.SubscribeAll();
             view.Filter = x => x < 2;
             view.Refresh();
             var expected = new EventArgs[]
                                           {
+                                              Notifier.CountPropertyChangedEventArgs,
                                               Notifier.IndexerPropertyChangedEventArgs,
-                                              Diff.CreateReplaceEventArgs(1, 2, 1),
+                                              Diff.CreateRemoveEventArgs(2, 1),
                                               new PropertyChangedEventArgs("Filter"), 
                                           };
             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
             CollectionAssert.AreEqual(new[] { 1, 1 }, view);
-        }
-
-        private List<EventArgs> SubscribeAll<T>(T view)
-            where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
-        {
-            var changes = new List<EventArgs>();
-            view.ObserveCollectionChanged(false)
-                .Subscribe(x => changes.Add(x.EventArgs));
-            view.ObservePropertyChanged()
-                .Subscribe(x => changes.Add(x.EventArgs));
-            return changes;
         }
     }
 }

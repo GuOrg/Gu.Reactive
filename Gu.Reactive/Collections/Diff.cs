@@ -16,7 +16,7 @@
 
         public static NotifyCollectionChangedEventArgs CollectionChange<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges)
         {
-            if (collectionChanges.Count == 1)
+            if (collectionChanges != null && collectionChanges.Count == 1)
             {
                 var change = collectionChanges[0];
                 switch (change.Action)

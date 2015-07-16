@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertRx.cs" />
+    <Compile Include="Collections\CollectionSynchronizerTests.cs" />
     <Compile Include="Collections\CrudSource\ThrottledView.cs" />
     <Compile Include="Collections\CrudSource\ThrottledViewNoScheduler.cs" />
     <Compile Include="Collections\CrudSource\FilteredView.cs" />

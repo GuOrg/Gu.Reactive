@@ -8,18 +8,18 @@ namespace Gu.Reactive
     using System.Diagnostics;
     using System.Reactive.Concurrency;
 
-    [DebuggerDisplay("Count = {Current.Count}")] 
+    [DebuggerDisplay("Count = {Current.Count}")]
     public class CollectionSynchronizer<T>
     {
-        internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];
-        internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgs = new[] { Diff.NotifyCollectionResetEventArgs };
+        public static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];
+        public static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgs = new[] { Diff.NotifyCollectionResetEventArgs };
         private readonly List<T> _current = new List<T>();
         public CollectionSynchronizer(IEnumerable<T> source)
         {
             _current.AddRange(source);
         }
 
-        internal IReadOnlyList<T> Current
+        public IReadOnlyList<T> Current
         {
             get
             {
@@ -30,7 +30,7 @@ namespace Gu.Reactive
             }
         }
 
-        internal void Reset(
+        public void Reset(
             object sender,
             IReadOnlyList<T> updated,
             IScheduler scheduler,
@@ -40,7 +40,7 @@ namespace Gu.Reactive
             Refresh(sender, updated, EmptyArgs, scheduler, propertyChanged, collectionChanged);
         }
 
-        internal void Refresh(
+        public void Refresh(
             object sender,
             IReadOnlyList<T> updated,
             IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges,
@@ -60,11 +60,12 @@ namespace Gu.Reactive
             NotifyCollectionChangedEventArgs change = calculateDiff
                                                           ? Diff.CollectionChange(_current, updated, collectionChanges)
                                                           : null;
-            if (change != null)
+            if (!calculateDiff || change != null)
             {
                 _current.Clear();
                 _current.AddRange(updated);
             }
+
             return change;
         }
 

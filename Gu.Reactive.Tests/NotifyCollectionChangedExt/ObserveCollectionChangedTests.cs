@@ -15,8 +15,8 @@
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var ints = new ObservableCollection<int> { 1, 2 };
-            var subscription = ints.ObserveCollectionChanged()
-                                   .Subscribe(x => changes.Add(x.EventArgs));
+            ints.ObserveCollectionChanged()
+                .Subscribe(x => changes.Add(x.EventArgs));
 
             Assert.AreEqual(1, changes.Count);
             Assert.AreEqual(NotifyCollectionChangedAction.Reset, changes[0].Action);
@@ -33,8 +33,20 @@
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var ints = new ObservableCollection<int>();
-            var subscription = ints.ObserveCollectionChanged(false)
-                                   .Subscribe(x => changes.Add(x.EventArgs));
+            ints.ObserveCollectionChanged(false)
+                .Subscribe(x => changes.Add(x.EventArgs));
+            ints.Add(1);
+            Assert.AreEqual(1, changes.Count);
+        }
+
+        [Test]
+        public void ReactsOnView()
+        {
+            var changes = new List<NotifyCollectionChangedEventArgs>();
+            var ints = new ObservableCollection<int>();
+            var view = ints.AsReadOnlyFilteredView(x => true);
+            view.ObserveCollectionChanged(false)
+                .Subscribe(x => changes.Add(x.EventArgs));
             ints.Add(1);
             Assert.AreEqual(1, changes.Count);
         }

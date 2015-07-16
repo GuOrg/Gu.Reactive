@@ -65,6 +65,25 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         }
 
         [Test]
+        public void ReactsView()
+        {
+            var item1 = new Fake { Name = "1" };
+            var item2 = new Fake { Name = "2" };
+            var collection = new ObservableCollection<Fake> { item1, item2 };
+            var view = collection.AsReadOnlyFilteredView(x => true);
+            view.ObserveItemPropertyChanged(x => x.Name, false)
+                .Subscribe(_changes.Add);
+            CollectionAssert.IsEmpty(_changes);
+            item1.Name = "new1";
+            Assert.AreEqual(1, _changes.Count);
+            AssertRx.AreEqual(item1, "Name", item1, "new1", _changes.Last());
+
+            item2.Name = "new2";
+            Assert.AreEqual(2, _changes.Count);
+            AssertRx.AreEqual(item2, "Name", item2, "new2", _changes.Last());
+        }
+
+        [Test]
         public void ReactsNested()
         {
             var item1 = new Fake { Next = new Level { Name = "1" } };
