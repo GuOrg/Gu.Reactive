@@ -5,9 +5,10 @@ namespace Gu.Reactive
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Linq;
+    using System.Diagnostics;
     using System.Reactive.Concurrency;
 
+    [DebuggerDisplay("Count = {Current.Count}")] 
     public class CollectionSynchronizer<T>
     {
         internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];

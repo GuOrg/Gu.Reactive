@@ -2,8 +2,12 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Diagnostics;
+
     using Gu.Reactive;
 
+    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    [DebuggerDisplay("Count = {Count}")] 
     public class DispatchingView<T> : ThrottledView<T>
     {
         public DispatchingView(ObservableCollection<T> source)

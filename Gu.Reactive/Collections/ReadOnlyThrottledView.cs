@@ -6,10 +6,13 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Reactive.Concurrency;
 
     using Gu.Reactive.Internals;
 
+    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    [DebuggerDisplay("Count = {Count}")] 
     public class ReadOnlyThrottledView<T> : IReadOnlyThrottledView<T>, IUpdater
     {
         private readonly IReadOnlyList<T> _collection;

@@ -6,11 +6,14 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Reactive.Concurrency;
 
     using Gu.Reactive.Internals;
 
+    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    [DebuggerDisplay("Count = {Count}")] 
     public class ReadOnlyFilteredView<T> : IReadOnlyFilteredView<T>, IUpdater
     {
         private readonly IEnumerable<T> _source;

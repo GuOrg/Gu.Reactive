@@ -5,11 +5,14 @@
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Annotations;
     using Gu.Reactive.Internals;
 
+    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    [DebuggerDisplay("Count = {Count}")] 
     public abstract class SynchronizedEditableView<T> : IList, IUpdater, IDisposable
     {
         protected readonly IList<T> Source;

@@ -6,6 +6,7 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive.Concurrency;
@@ -13,6 +14,8 @@
     using Gu.Reactive.Internals;
 
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "We need the reference")]
+    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    [DebuggerDisplay("Count = {Count}")] 
     public class MappingView<TSource, TResult> : IReadOnlyObservableCollection<TResult>, IUpdater, IDisposable
     {
         private readonly IEnumerable<TSource> _source;

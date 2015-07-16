@@ -5,9 +5,12 @@ namespace Gu.Reactive
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
     using System.Reactive.Disposables;
 
+    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    [DebuggerDisplay("Count = {Count}")] 
     public sealed class ReadOnlySerialView<T> : IReadOnlyObservableCollection<T>, IUpdater, IDisposable
     {
         private static readonly IReadOnlyList<T> Empty = new T[0];

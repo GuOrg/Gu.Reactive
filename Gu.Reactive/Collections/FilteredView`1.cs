@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
+    using System.Diagnostics;
     using System.Linq;
     using System.Reactive.Concurrency;
     using System.Reactive.Disposables;
@@ -13,6 +14,8 @@
     /// Typed CollectionView for intellisense in xaml
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    [DebuggerDisplay("Count = {Count}")] 
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
         private readonly ObservableCollection<IObservable<object>> _triggers;

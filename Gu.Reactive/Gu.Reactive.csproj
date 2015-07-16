@@ -203,6 +203,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\CollectionDebugView.cs" />
     <Compile Include="Collections\FilteredView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -246,7 +247,7 @@
     <Compile Include="Collections\IReadOnlyDeferredView`1.cs" />
     <Compile Include="Collections\IReadOnlyFilteredView`1.cs" />
     <Compile Include="Collections\IReadOnlyObservableCollection`1.cs" />
-    <Compile Include="Collections\ReadOnlyDeferredView`1.cs" />
+    <Compile Include="Collections\ReadOnlyThrottledView.cs" />
     <Compile Include="Collections\WeakCompositeDisposable.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
     <Compile Include="Get.cs" />

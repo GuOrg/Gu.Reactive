@@ -4,8 +4,11 @@
     using System.Collections;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics;
 
     [Serializable]
+    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    [DebuggerDisplay("Count = {Count}")] 
     public class FixedSizedQueue<T> : IProducerConsumerCollection<T>
     {
         private readonly ConcurrentQueue<T> _innerQueue = new ConcurrentQueue<T>();
