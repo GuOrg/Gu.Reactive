@@ -10,9 +10,9 @@ namespace Gu.Reactive
     /// <typeparam name="T"></typeparam>
     public class CollectionDebugView<T>
     {
-        private readonly ICollection<T> _collection;
+        private readonly IReadOnlyList<T> _collection;
 
-        public CollectionDebugView(ICollection<T> collection)
+        public CollectionDebugView(IReadOnlyList<T> collection)
         {
             if (collection == null)
             {
@@ -27,7 +27,10 @@ namespace Gu.Reactive
             get
             {
                 T[] array = new T[_collection.Count];
-                _collection.CopyTo(array, 0);
+                for (int i = 0; i < _collection.Count; i++)
+                {
+                    array[i] = _collection[i];
+                }
                 return array;
             }
         }
