@@ -35,13 +35,17 @@
                                 o.OnNext(e);
                                 return;
                             }
-                            var newItem = e.NewItem();
-                            if (Equals( isUpdatingSourceItem, newItem))
+                            var newItem = e.IsSingleNewItem()
+                                              ? e.NewItem<object>()
+                                              : null;
+                            if (Equals(isUpdatingSourceItem, newItem))
                             {
                                 return;
                             }
 
-                            var oldItem = e.OldItem();
+                            var oldItem = e.IsSingleOldItem()
+                                              ? e.OldItem<object>()
+                                              : null;
                             if (Equals(isUpdatingSourceItem, oldItem))
                             {
                                 return;

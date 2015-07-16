@@ -59,7 +59,7 @@
                 TimeSpan.Zero,
                 null,
                 false);
-            var disposable = observable.Subscribe(results.Add);
+            observable.Subscribe(results.Add);
             ints.Add(1);
             CollectionAssert.IsEmpty(results);
         }

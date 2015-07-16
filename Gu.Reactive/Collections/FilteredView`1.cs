@@ -15,7 +15,7 @@
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")] 
+    [DebuggerDisplay("Count = {Count}")]
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
         private readonly ObservableCollection<IObservable<object>> _triggers;
@@ -133,7 +133,11 @@
                 {
                     case NotifyCollectionChangedAction.Add:
                         {
-                            var newItem = (T)e.NewItem();
+                            if (!e.IsSingleNewItem())
+                            {
+                                break;
+                            }
+                            var newItem = e.NewItem<T>();
                             if (!filter(newItem))
                             {
                                 return; // added item that is not visible
@@ -142,7 +146,11 @@
                         }
                     case NotifyCollectionChangedAction.Remove:
                         {
-                            var item = (T)e.OldItem();
+                            if (!e.IsSingleOldItem())
+                            {
+                                break;
+                            }
+                            var item = e.OldItem<T>();
                             if (!filter(item))
                             {
                                 return; // removed item that is not visible
@@ -151,8 +159,12 @@
                         }
                     case NotifyCollectionChangedAction.Replace:
                         {
-                            var newItem = (T)e.NewItem();
-                            var oldItem = (T)e.OldItem();
+                            if (!(e.IsSingleNewItem() && e.IsSingleOldItem()))
+                            {
+                                break;
+                            }
+                            var newItem = e.NewItem<T>();
+                            var oldItem = e.OldItem<T>();
                             if (!(filter(newItem) || filter(oldItem)))
                             {
                                 return; // replaced item that is not visible
@@ -161,10 +173,14 @@
                         }
                     case NotifyCollectionChangedAction.Move:
                         {
-                            var newItem = (T)e.NewItem();
+                            if (!e.IsSingleNewItem())
+                            {
+                                break;
+                            }
+                            var newItem = e.NewItem<T>();
                             if (!filter(newItem))
                             {
-                                return; // added item that is not visible
+                                return; // moved item that is not visible
                             }
                             break;
                         }

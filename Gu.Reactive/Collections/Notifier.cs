@@ -1,6 +1,7 @@
 namespace Gu.Reactive
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -103,23 +104,50 @@ namespace Gu.Reactive
             }
         }
 
-        internal static object NewItem(this NotifyCollectionChangedEventArgs e)
+        public static bool IsSingleNewItem(this NotifyCollectionChangedEventArgs e)
         {
-            if (e == null || e.NewItems == null || e.NewItems.Count != 1)
+            if (e == null)
             {
-                return null;
+                return false;
             }
-            return e.NewItems[0];
+            var items = e.NewItems;
+            if (items == null)
+            {
+                return false;
+            }
+            return items.Count == 1;
         }
 
-        internal static object OldItem(this NotifyCollectionChangedEventArgs e)
+        public static T NewItem<T>(this NotifyCollectionChangedEventArgs e)
         {
-            if (e == null || e.OldItems == null || e.OldItems.Count != 1)
+            if (!e.IsSingleNewItem())
             {
-                return null;
+                throw new InvalidOperationException("Expected single new item");
             }
-            return e.OldItems[0];
+            return (T)e.NewItems[0];
         }
 
+        public static bool IsSingleOldItem(this NotifyCollectionChangedEventArgs e)
+        {
+            if (e == null)
+            {
+                return false;
+            }
+            var items = e.OldItems;
+            if (items == null)
+            {
+                return false;
+            }
+            return items.Count == 1;
+        }
+
+        public static T OldItem<T>(this NotifyCollectionChangedEventArgs e)
+        {
+            if (!e.IsSingleOldItem())
+            {
+                throw new InvalidOperationException("Expected single old item");
+            }
+            return (T)e.OldItems[0];
+        }
     }
 }
