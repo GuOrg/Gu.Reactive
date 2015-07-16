@@ -8,6 +8,7 @@ namespace Gu.Reactive.Internals
     using System.ComponentModel;
     using System.Linq;
     using System.Reactive;
+    using System.Reactive.Disposables;
 
     using Gu.Reactive.PropertyPathStuff;
 
@@ -26,10 +27,10 @@ namespace Gu.Reactive.Internals
         private readonly WeakReference _wr = new WeakReference(null);
         private readonly ConcurrentDictionary<TItem, IDisposable> _map = new ConcurrentDictionary<TItem, IDisposable>(IdentityComparer);
         private readonly object _lock = new object();
+        private readonly SerialDisposable _collectionChangedSubscription = new SerialDisposable();
         private IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>> _observer;
         private bool _disposed;
         private bool _intialized;
-        private IDisposable _collectionChangedSubscription;
 
         public CollectionItemsObservable(TCollection collection, bool signalInitial, PropertyPath<TItem, TValue> propertyPath)
         {
@@ -76,10 +77,7 @@ namespace Gu.Reactive.Internals
                 return;
             }
             _disposed = true;
-            if (_collectionChangedSubscription != null)
-            {
-                _collectionChangedSubscription.Dispose();
-            }
+            _collectionChangedSubscription.Dispose();
             foreach (var disposable in _map.Values.ToArray())
             {
                 if (disposable != null)
@@ -97,7 +95,7 @@ namespace Gu.Reactive.Internals
             var observableCollection = _wr.Target as TCollection;
             if (observableCollection != null)
             {
-                _collectionChangedSubscription = observableCollection.ObserveCollectionChanged(true)
+                _collectionChangedSubscription.Disposable = observableCollection.ObserveCollectionChanged(true)
                                                           .Subscribe(Update);
             }
             else if (_sourceObservable != null)
@@ -114,18 +112,14 @@ namespace Gu.Reactive.Internals
 
         private void UpdateCollectionSubscription(EventPattern<PropertyChangedAndValueEventArgs<TCollection>> eventPattern)
         {
-            if (_collectionChangedSubscription != null)
-            {
-                _collectionChangedSubscription.Dispose();
-                _wr.Target = null;
-                Reset(null);
-            }
+            _wr.Target = null;
+            Reset(null);
             if (eventPattern.EventArgs.HasValue)
             {
                 _intialized = false;
                 var collection = eventPattern.EventArgs.Value;
                 _wr.Target = collection;
-                _collectionChangedSubscription = collection.ObserveCollectionChanged(true)
+                _collectionChangedSubscription.Disposable = collection.ObserveCollectionChanged(true)
                                                            .Subscribe(Update);
                 _intialized = true;
             }
@@ -215,7 +209,7 @@ namespace Gu.Reactive.Internals
         private IDisposable ObserveItem(TItem item)
         {
             var itemSubscription = item.ObservePropertyChangedWithValue(_propertyPath, _intialized || _signalInitial)
-                                         .Subscribe(x => OnItemPropertyChanged(item, x));
+                                       .Subscribe(x => OnItemPropertyChanged(item, x));
             return itemSubscription;
         }
 

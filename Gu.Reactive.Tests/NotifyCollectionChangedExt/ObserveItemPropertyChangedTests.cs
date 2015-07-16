@@ -47,7 +47,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         }
 
         [Test]
-        public void Reacts()
+        public void ReactsWhenPropertyChanges()
         {
             var item1 = new Fake { Name = "1" };
             var item2 = new Fake { Name = "2" };
@@ -65,7 +65,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         }
 
         [Test]
-        public void ReactsView()
+        public void ReactsWhenPropertyChangesView()
         {
             var item1 = new Fake { Name = "1" };
             var item2 = new Fake { Name = "2" };
@@ -146,7 +146,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
                                          .Subscribe(_changes.Add);
             CollectionAssert.IsEmpty(_changes);
-            var item3 = new Fake() { Name = "3" };
+            var item3 = new Fake { Name = "3" };
             collection.Add(item3);
             Assert.AreEqual(1, _changes.Count);
             AssertRx.AreEqual(item3, "Name", item3, "3", _changes.Last());
