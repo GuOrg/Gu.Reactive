@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests.Benchmarks
 {
     using System;
     using System.ComponentModel;
@@ -6,13 +6,14 @@
     using System.Reactive;
     using System.Reactive.Linq;
 
+    using Gu.Reactive.PropertyPathStuff;
     using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
 
     [Explicit("Longrunning benchmarks")]
     [TestFixture]
-    public class PurrformanceTests : INotifyPropertyChanged
+    public class ObservePropertyChangedTests : INotifyPropertyChanged
     {
         const int n = 10000;
 
@@ -40,6 +41,22 @@
             for (int i = 0; i < n; i++)
             {
                 observables[i] = fake.ObservePropertyChanged(x => x.Next.Name, false);
+            }
+            Console.WriteLine("{0} fake.ToObservable(x => x.Next.Name, false); took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
+        }
+
+        [Test]
+        public void ObservePropertyChangedNestedCachedPath()
+        {
+            var path = PropertyPath.Create<Fake, string>(x => x.Next.Name);
+            var observables = new IObservable<EventPattern<PropertyChangedEventArgs>>[n];
+            var fake = new Fake { IsTrueOrNull = false, IsTrue = true, Next = new Level { Name = "" } };
+            fake.ObservePropertyChanged(x => x.Next.Name, false); // Warm up
+
+            var stopwatch = Stopwatch.StartNew();
+            for (int i = 0; i < n; i++)
+            {
+                observables[i] = fake.ObservePropertyChanged(path, false);
             }
             Console.WriteLine("{0} fake.ToObservable(x => x.Next.Name, false); took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
         }

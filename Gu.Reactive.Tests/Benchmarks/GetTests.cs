@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Get
+namespace Gu.Reactive.Tests.Benchmarks
 {
     using System;
     using System.Diagnostics;
@@ -10,7 +10,7 @@ namespace Gu.Reactive.Tests.Get
     using Get = Gu.Reactive.Get;
 
     [Explicit("Longrunning benchmark")]
-    public class BenchmarkTests
+    public class GetTests
     {
         public Fake Fake { get; private set; }
 
@@ -21,7 +21,7 @@ namespace Gu.Reactive.Tests.Get
         }
 
         [Test]
-        public void Benchmark()
+        public void ValueOrDefault()
         {
             int n = 1000;
             this.Fake = new Fake { Next = new Level { Name = "Johan" } };
@@ -44,7 +44,7 @@ namespace Gu.Reactive.Tests.Get
                 sw.Elapsed.TotalMilliseconds / n);
 
             sw.Restart();
-            var path = Get.ValuePath<BenchmarkTests, string>(x => x.Fake.Next.Name);
+            var path = Get.ValuePath<GetTests, string>(x => x.Fake.Next.Name);
             for (int i = 0; i < n; i++)
             {
                 var name = path.GetValue(this).Value;
@@ -74,11 +74,11 @@ namespace Gu.Reactive.Tests.Get
         }
 
         [Test]
-        public void BenchmarkCachedPath()
+        public void GetValueCachedPath()
         {
             Fake = new Fake { Next = new Level() };
             var n = 1000;
-            var path = Get.ValuePath<BenchmarkTests, string>(x => x.Fake.Next.Name);
+            var path = Get.ValuePath<GetTests, string>(x => x.Fake.Next.Name);
             var sw = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
@@ -91,6 +91,5 @@ namespace Gu.Reactive.Tests.Get
                 sw.Elapsed.TotalMilliseconds,
                 sw.Elapsed.TotalMilliseconds / n);
         }
-
     }
 }

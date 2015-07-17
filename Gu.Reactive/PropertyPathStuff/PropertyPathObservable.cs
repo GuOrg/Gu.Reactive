@@ -50,15 +50,6 @@
             get { return _propertyPath.GetSender((TClass)_sourceReference.Target); }
         }
 
-        /// <summary>
-        /// The subscribe core.
-        /// </summary>
-        /// <param name="observer">
-        /// The observer.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IDisposable"/>.
-        /// </returns>
         protected override IDisposable SubscribeCore(IObserver<EventPattern<PropertyChangedEventArgs>> observer)
         {
             VerifyDisposed();

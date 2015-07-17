@@ -77,6 +77,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertRx.cs" />
+    <Compile Include="Benchmarks\DiffTests.cs" />
+    <Compile Include="Benchmarks\MinTrackerTests.cs" />
+    <Compile Include="Benchmarks\ObserveItemPropertyChanged.cs" />
     <Compile Include="Collections\CollectionSynchronizerTests.cs" />
     <Compile Include="Collections\CrudSource\ThrottledView.cs" />
     <Compile Include="Collections\CrudSource\ThrottledViewNoScheduler.cs" />
@@ -109,7 +112,7 @@
     <Compile Include="Helpers\FakeWithCollection.cs" />
     <Compile Include="Helpers\IFake.cs" />
     <Compile Include="Get\ValuePathTests.cs" />
-    <Compile Include="Get\BenchmarkTests.cs" />
+    <Compile Include="Benchmarks\GetTests.cs" />
     <Compile Include="Get\ValueOrDefaultTests.cs" />
     <Compile Include="Helpers\NotInpc.cs" />
     <Compile Include="Helpers\StructLevel.cs" />
@@ -119,7 +122,7 @@
     <Compile Include="Internals\RootItemTests.cs" />
     <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
     <Compile Include="NameOf_\MethodTests.cs" />
-    <Compile Include="NameOf_\BenchmarksTests.cs" />
+    <Compile Include="Benchmarks\NameOfTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveCollectionChangedSlimTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveCollectionChangedTests.cs" />
     <Compile Include="Collections\FixedSizedQueueTests.cs" />
@@ -137,7 +140,7 @@
     <Compile Include="ObservableExtTests.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PurrformanceTests.cs" />
+    <Compile Include="Benchmarks\ObservePropertyChangedTests.cs" />
     <Compile Include="Sandbox\CacheExpressionsTests.cs" />
     <Compile Include="Sandbox\CreateBoxTests.cs" />
     <Compile Include="Sandbox\GC_BoxTests.cs" />
@@ -146,6 +149,7 @@
     <Compile Include="NotifyProeprtyChangedExt\ObservePropertyChangedTests.cs" />
     <Compile Include="NotifyProeprtyChangedExt\ObservePropertyChangedAndValue_SimpleTests.cs" />
     <Compile Include="Internals\TypeExtTests.cs" />
+    <Compile Include="Sandbox\ItemsObservableBox.cs" />
     <Compile Include="Trackers\AverageTracker_PrimitiveTests.cs" />
     <Compile Include="Trackers\MinTrackerTests.cs" />
     <Compile Include="Trackers\MinTracker_NestedTests.cs" />

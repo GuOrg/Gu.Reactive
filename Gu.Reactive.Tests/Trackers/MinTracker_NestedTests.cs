@@ -80,24 +80,6 @@
             }
         }
 
-        [Explicit("Longrunning benchmark")]
-        [TestCase(1000, true)]
-        [TestCase(1000, false)]
-        public void Benchmark(int n, bool trackItemChanges)
-        {
-            var ints = new ObservableCollection<Dummy>();
-            using (var tracker = ints.TrackMin(x => x.Value, -1, trackItemChanges))
-            {
-                var sw = Stopwatch.StartNew();
-                for (int i = 0; i < n; i++)
-                {
-                    ints.Add(new Dummy(i));
-                }
-                sw.Stop();
-                Console.WriteLine("Track item changes: {0}. {1} updates took {2} ms {3:F3} ms each", trackItemChanges, n, sw.ElapsedMilliseconds, sw.Elapsed.TotalMilliseconds / n);
-            }
-        }
-
         public class Dummy : INotifyPropertyChanged
         {
             private int _value;

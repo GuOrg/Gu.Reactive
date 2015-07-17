@@ -11,22 +11,6 @@
 
     public class DiffTests
     {
-        [TestCase(1000000), Explicit("Longrunning benchmark")]
-        public void Benchmark(int n)
-        {
-            var fakes = new List<Fake>();
-            for (int i = 0; i < n; i++)
-            {
-                fakes.Add(new Fake { Value = n });
-            }
-
-            var warmup = Diff.CollectionChange(fakes, fakes);
-            var sw = Stopwatch.StartNew();
-            var change = Diff.CollectionChange(fakes, fakes);
-            sw.Stop();
-            Console.WriteLine("Diff of {0} items took {1} ms", n, sw.ElapsedMilliseconds);
-        }
-
         [Test]
         public void NoChange()
         {

@@ -274,7 +274,7 @@
     <Compile Include="PropertyPathStuff\PropertyPath`2.cs" />
     <Compile Include="Internals\Maybe`1.cs" />
     <Compile Include="Internals\ItemsObservable`2.cs" />
-    <Compile Include="Internals\ValueAndSender.cs" />
+    <Compile Include="Internals\ValueAndSender`1.cs" />
     <Compile Include="NotifyCollectionChangedExt.cs" />
     <Compile Include="Conditions\IConditionService.cs" />
     <Compile Include="NameOf.cs" />
@@ -298,7 +298,7 @@
     <Compile Include="ItemPropertyChangedEventArgs`2.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />
     <Compile Include="TaskExt.cs" />
-    <Compile Include="Internals\CollectionItemsObservable.cs" />
+    <Compile Include="Internals\CollectionItemsObservable`2.cs" />
     <Compile Include="Trackers\DoubleAverageTracker.cs" />
     <Compile Include="Trackers\ITracker`1.cs" />
     <Compile Include="Trackers\Mapper`2.cs" />

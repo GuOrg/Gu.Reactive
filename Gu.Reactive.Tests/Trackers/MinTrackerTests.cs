@@ -65,21 +65,5 @@
             Assert.AreEqual(3, count);
             Assert.AreEqual(2, tracker.Value);
         }
-
-        [TestCase(10000), Explicit("Longrunning benchmark")]
-        public void Benchmark(int n)
-        {
-            var ints = new ObservableCollection<int>();
-            var tracker = ints.TrackMin(-1);
-            var sw = Stopwatch.StartNew();
-            for (int i = 0; i < n; i++)
-            {
-                ints.Add(i);
-            }
-            sw.Stop();
-            // 10000 updates took 1172 ms 0,117 ms each
-            // 10000 updates took 10 ms 0,001 ms each
-            Console.WriteLine("{0} updates took {1} ms {2:F3} ms each", n, sw.ElapsedMilliseconds, sw.Elapsed.TotalMilliseconds / n);
-        }
     }
 }
