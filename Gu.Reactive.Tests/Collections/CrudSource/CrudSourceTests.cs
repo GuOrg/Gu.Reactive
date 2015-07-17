@@ -26,7 +26,7 @@
         public virtual void SetUp()
         {
             _ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            _expected = SubscribeAll(_ints);
+            _expected = _ints.SubscribeAll();
         }
 
         [Test]
@@ -145,17 +145,6 @@
 
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
-        }
-
-        protected List<EventArgs> SubscribeAll<T>(T view)
-            where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
-        {
-            var changes = new List<EventArgs>();
-            view.ObserveCollectionChanged(false)
-                .Subscribe(x => changes.Add(x.EventArgs));
-            view.ObservePropertyChanged()
-                .Subscribe(x => changes.Add(x.EventArgs));
-            return changes;
         }
     }
 }

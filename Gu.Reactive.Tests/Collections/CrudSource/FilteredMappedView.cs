@@ -6,13 +6,14 @@ namespace Gu.Reactive.Tests.Collections
 
     using Microsoft.Reactive.Testing;
 
-    public class ThrottledView : CrudSourceTests
+    public class FilteredMappedView : CrudSourceTests
     {
         public override void SetUp()
         {
             base.SetUp();
             _scheduler = new TestScheduler();
-            _view = new ThrottledView<int>(_ints, TimeSpan.FromMilliseconds(10), _scheduler);
+            _view = _ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), _scheduler)
+                         .AsMappingView(x => x);
             _scheduler.Start();
             _actual = _view.SubscribeAll();
         }

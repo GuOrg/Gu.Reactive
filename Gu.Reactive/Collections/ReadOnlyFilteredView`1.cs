@@ -94,7 +94,7 @@
 
         protected void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            _tracker.Refresh(this, Filtered().ToArray(), changes, _scheduler, PropertyChanged, CollectionChanged);
+            _tracker.Refresh(this, Filtered().ToArray(), null, _scheduler, PropertyChanged, CollectionChanged);
         }
 
         protected IEnumerable<T> Filtered()

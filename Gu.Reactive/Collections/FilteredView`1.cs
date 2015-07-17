@@ -195,7 +195,7 @@
 
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            Synchronized.Refresh(this, Filtered().ToArray(), changes, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            Synchronized.Refresh(this, Filtered().ToArray(), null, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
         protected IEnumerable<T> Filtered()
