@@ -37,7 +37,7 @@
         {
         }
 
-        public PropertyPathObservable(TClass source, PropertyPath<TClass,TProp> propertyPath )
+        public PropertyPathObservable(TClass source, PropertyPath<TClass, TProp> propertyPath)
         {
             _sourceReference.Target = source;
             _propertyPath = propertyPath;
@@ -74,24 +74,29 @@
                 var propertyInfo = path[i].PropertyInfo;
                 if ((i != path.Count - 1) && propertyInfo.PropertyType.IsValueType)
                 {
-                    throw new ArgumentException(
-                        "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?");
+                    var message = string.Format(
+                            "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?" + Environment.NewLine + 
+                            "The type {0} does not so {1}.{2} will not notify when it changes." + Environment.NewLine + 
+                            "The path is: {3}",
+                            propertyInfo.DeclaringType.PrettyName(),
+                            i == 0 ? "x" : path[i - 1].PropertyInfo.Name, 
+                            propertyInfo.Name,
+                            path);
+                    throw new ArgumentException(message, "path");
                 }
-                if (!ImplementsINotifyPropertyChanged(propertyInfo.DeclaringType))
+                if (!typeof(INotifyPropertyChanged).IsAssignableFrom(propertyInfo.DeclaringType))
                 {
-                    throw new ArgumentException(
-                        string.Format(
-                            "All levels in the path must notify (DeclaringType is INotifyPropertyChanged) the type {0} does not so {0}.{1} will not notify.",
-                            propertyInfo.DeclaringType.Name,
-                            propertyInfo.Name));
+                    var message = string.Format(
+                        "All levels in the path must implement INotifyPropertyChanged." + Environment.NewLine +
+                        "The type {0} does not so {1}.{2} will not notify when it changes." + Environment.NewLine +
+                        "The path is: {3}",
+                        propertyInfo.DeclaringType.PrettyName(),
+                        i == 0 ? "x" : path[i - 1].PropertyInfo.Name,
+                        propertyInfo.Name,
+                        path);
+                    throw new ArgumentException(message, "path");
                 }
             }
-        }
-
-        private static bool ImplementsINotifyPropertyChanged(Type type)
-        {
-            return type.GetInterfaces()
-                       .Contains(typeof(INotifyPropertyChanged));
         }
 
         private void VerifyDisposed()

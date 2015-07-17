@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Reactive;
 
@@ -35,6 +36,14 @@
         {
             var exception = Assert.Throws<ArgumentException>(() => new PropertyPathObservable<Fake, string>(new Fake(), x => x.StructLevel.Name));
             Console.WriteLine(exception.Message);
+        }
+
+        [Test]
+        public void TestNameTest()
+        {
+            var ints = new ObservableCollection<int>();
+            IReadOnlyObservableCollection<int> view = ints.AsReadOnlyFilteredView(x => true);
+            view.ObservePropertyChanged(x => x.Count);
         }
 
         [Test]

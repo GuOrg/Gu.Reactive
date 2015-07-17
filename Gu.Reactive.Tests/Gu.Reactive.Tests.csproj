@@ -120,6 +120,7 @@
     <Compile Include="Helpers\TestExtensions.cs" />
     <Compile Include="Internals\NotifyingPathItemTests.cs" />
     <Compile Include="Internals\PathItemTests.cs" />
+    <Compile Include="Internals\PropertyPathTests.cs" />
     <Compile Include="Internals\RootItemTests.cs" />
     <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
     <Compile Include="NameOf_\MethodTests.cs" />

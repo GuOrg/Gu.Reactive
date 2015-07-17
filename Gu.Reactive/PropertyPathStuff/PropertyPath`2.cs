@@ -79,5 +79,10 @@
         {
             return GetEnumerator();
         }
+
+        public override string ToString()
+        {
+            return string.Format("x => x.{0}", string.Join(".", _propertyPath.Select(x => x.PropertyInfo.Name)));
+        }
     }
 }
