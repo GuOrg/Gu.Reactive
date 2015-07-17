@@ -5,6 +5,8 @@ namespace Gu.Reactive.PropertyPathStuff
     using System.Linq;
     using System.Reactive;
 
+    using Gu.Reactive.Internals;
+
     internal sealed class NotifyingPathItem : INotifyingPathItem
     {
         private readonly PropertyChangedEventArgs _propertyChangedEventArgs;
@@ -16,15 +18,32 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public NotifyingPathItem(INotifyingPathItem previous, PathProperty pathProperty)
         {
-            var declaringType = pathProperty.PropertyInfo.DeclaringType;
-            if (declaringType.IsValueType)
+            Ensure.NotNull(pathProperty, "pathProperty");
+            if (previous != null && previous.PathProperty != null)
             {
-                throw new ArgumentException("Cannot listen to changes for structs. Copy by value...");
+                var type = previous.PathProperty.PropertyInfo.PropertyType;
+                if (type.IsValueType)
+                {
+                    var message = string.Format(
+                            "Property path cannot have structs in it. Copy by value will make subscribing error prone." + Environment.NewLine +
+                        "The type {0} is a value type not so {1}.{2} will not notify when it changes.",
+                        type.PrettyName(),
+                        previous.PathProperty.PropertyInfo,
+                        pathProperty.PropertyInfo.Name);
+                    throw new ArgumentException(message, "path");
+                }
+                if (!typeof(INotifyPropertyChanged).IsAssignableFrom(type))
+                {
+                    var message = string.Format(
+                        "All levels in the path must implement INotifyPropertyChanged." + Environment.NewLine +
+                        "The type {0} does not so {1}.{2} will not notify when it changes.",
+                        type.PrettyName(),
+                        previous.PathProperty.PropertyInfo,
+                        pathProperty.PropertyInfo.Name);
+                    throw new ArgumentException(message, "path");
+                }
             }
-            if (declaringType.GetInterfaces().All(i => i != typeof (INotifyPropertyChanged)))
-            {
-                throw new ArgumentException("Type must be INotifyPropertyChanged");
-            }
+
             PathProperty = pathProperty;
             _onNext = x => OnPropertyChanged(x.Sender, x.EventArgs);
             _onError = OnError;

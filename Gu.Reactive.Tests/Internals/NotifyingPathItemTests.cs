@@ -28,7 +28,8 @@
             var propertyInfo = typeof(StructLevel).GetProperty(NameOf.Property<StructLevel>(x => x.Name));
             Assert.NotNull(propertyInfo);
             var pathItem = new PathProperty(null, propertyInfo);
-            Assert.Throws<ArgumentException>(() => new NotifyingPathItem(null, pathItem));
+            var item = new NotifyingPathItem(null, pathItem);
+            Assert.Throws<ArgumentException>(() => new NotifyingPathItem(item, pathItem));
         }
 
         [Test]
@@ -37,7 +38,8 @@
             var propertyInfo = typeof(NotInpc).GetProperty(NameOf.Property<NotInpc>(x => x.Name));
             Assert.NotNull(propertyInfo);
             var pathItem = new PathProperty(null, propertyInfo);
-            Assert.Throws<ArgumentException>(() => new NotifyingPathItem(null, pathItem));
+            var item = new NotifyingPathItem(null, pathItem);
+            Assert.Throws<ArgumentException>(() => new NotifyingPathItem(item, pathItem));
         }
 
         [Test]
