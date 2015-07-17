@@ -299,6 +299,23 @@
     <Compile Include="NotifyPropertyChangedExt.cs" />
     <Compile Include="TaskExt.cs" />
     <Compile Include="Internals\CollectionItemsObservable.cs" />
+    <Compile Include="Trackers\DoubleAverageTracker.cs" />
+    <Compile Include="Trackers\ITracker`1.cs" />
+    <Compile Include="Trackers\Mapper`2.cs" />
+    <Compile Include="Trackers\MaxTracker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MaxTracker.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Trackers\MaxTracker`2.cs" />
+    <Compile Include="Trackers\MinTracker.cs" />
+    <Compile Include="Trackers\MinTracker.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MinTracker.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Trackers\MinTracker`2.cs" />
+    <Compile Include="Trackers\Tracker`2.cs" />
     <Compile Include="TypeExt.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +341,14 @@
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Trackers\MaxTracker.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MaxTracker.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Trackers\MinTracker.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MinTracker.generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

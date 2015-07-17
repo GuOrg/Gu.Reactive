@@ -150,6 +150,9 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             collection.Add(item3);
             Assert.AreEqual(1, _changes.Count);
             AssertRx.AreEqual(item3, "Name", item3, "3", _changes.Last());
+
+            item3.Name = "new";
+            AssertRx.AreEqual(item3, "Name", item3, "new", _changes.Last());
         }
 
         [Test]

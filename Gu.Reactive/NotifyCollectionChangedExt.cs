@@ -8,12 +8,32 @@ namespace Gu.Reactive
     using System.ComponentModel;
     using System.Linq.Expressions;
     using System.Reactive;
+    using System.Reactive.Disposables;
     using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
 
     public static partial class NotifyCollectionChangedExt
     {
+        public static IObservable<NotifyCollectionChangedEventArgs> ObserveCollectionChangedSlim(
+            this INotifyCollectionChanged source, bool signalInitial)
+        {
+            var observable = Observable.Create<NotifyCollectionChangedEventArgs>(o =>
+            {
+                if (signalInitial)
+                {
+                    o.OnNext(Diff.NotifyCollectionResetEventArgs);
+                }
+                NotifyCollectionChangedEventHandler fsHandler = (_, e) =>
+                {
+                    o.OnNext(e); 
+                };
+                source.CollectionChanged += fsHandler;
+                return Disposable.Create(() => source.CollectionChanged -= fsHandler);
+            });
+            return observable;
+        } 
+
         /// <summary>
         /// Observes collectionchanged events for source.
         /// </summary>

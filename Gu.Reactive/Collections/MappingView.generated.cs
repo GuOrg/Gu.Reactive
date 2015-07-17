@@ -14,7 +14,7 @@
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
-            return new MappingView<TSource, TResult>(source, selector, null);
+            return new MappingView<TSource, TResult>(source, selector, null, triggers);
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
@@ -34,7 +34,7 @@
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
-            return new MappingView<TSource, TResult>(source, selector, null);
+            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
@@ -44,7 +44,7 @@
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
-            return new MappingView<TSource, TResult>(source, selector, scheduler);
+            return new MappingView<TSource, TResult>(source, selector, scheduler, null);
         }
 
 
@@ -59,7 +59,7 @@
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
 			Ensure.NotNull(updater, "updater");
-            return new MappingView<TSource, TResult>(source, selector, updater, null);
+            return new MappingView<TSource, TResult>(source, selector, updater, null, triggers);
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
@@ -83,7 +83,7 @@
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
-            return new MappingView<TSource, TResult>(source, selector, null);
+            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
@@ -103,7 +103,7 @@
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
-            return new MappingView<TSource, TResult>(source, selector, null);
+            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
@@ -113,7 +113,7 @@
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
-            return new MappingView<TSource, TResult>(source, selector, scheduler);
+            return new MappingView<TSource, TResult>(source, selector, scheduler, null);
         }
 
 
@@ -128,7 +128,7 @@
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
 			Ensure.NotNull(updater, "updater");
-            return new MappingView<TSource, TResult>(source, selector, updater, null);
+            return new MappingView<TSource, TResult>(source, selector, updater, null, triggers);
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
@@ -152,7 +152,7 @@
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
-            return new MappingView<TSource, TResult>(source, selector, null);
+            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
@@ -172,7 +172,7 @@
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
-            return new MappingView<TSource, TResult>(source, selector, null);
+            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
@@ -182,7 +182,7 @@
         {
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
-            return new MappingView<TSource, TResult>(source, selector, scheduler);
+            return new MappingView<TSource, TResult>(source, selector, scheduler, null);
         }
 
 
@@ -197,7 +197,7 @@
 			Ensure.NotNull(source, "source");
 			Ensure.NotNull(selector, "selector");
 			Ensure.NotNull(updater, "updater");
-            return new MappingView<TSource, TResult>(source, selector, updater, null);
+            return new MappingView<TSource, TResult>(source, selector, updater, null, triggers);
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(

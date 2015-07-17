@@ -96,7 +96,7 @@ namespace Gu.Reactive.Internals
             if (observableCollection != null)
             {
                 _collectionChangedSubscription.Disposable = observableCollection.ObserveCollectionChanged(true)
-                                                          .Subscribe(Update);
+                                                                                .Subscribe(Update);
             }
             else if (_sourceObservable != null)
             {
@@ -114,6 +114,7 @@ namespace Gu.Reactive.Internals
         {
             _wr.Target = null;
             Reset(null);
+            _collectionChangedSubscription.Disposable = null;
             if (eventPattern.EventArgs.HasValue)
             {
                 _intialized = false;

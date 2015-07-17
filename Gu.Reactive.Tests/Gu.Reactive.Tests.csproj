@@ -120,6 +120,7 @@
     <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
     <Compile Include="NameOf_\MethodTests.cs" />
     <Compile Include="NameOf_\BenchmarksTests.cs" />
+    <Compile Include="NotifyCollectionChangedExt\ObserveCollectionChangedSlimTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveCollectionChangedTests.cs" />
     <Compile Include="Collections\FixedSizedQueueTests.cs" />
     <Compile Include="NameOf_\PropertyTests.cs" />
@@ -145,6 +146,9 @@
     <Compile Include="NotifyProeprtyChangedExt\ObservePropertyChangedTests.cs" />
     <Compile Include="NotifyProeprtyChangedExt\ObservePropertyChangedAndValue_SimpleTests.cs" />
     <Compile Include="Internals\TypeExtTests.cs" />
+    <Compile Include="Trackers\AverageTracker_PrimitiveTests.cs" />
+    <Compile Include="Trackers\MinTrackerTests.cs" />
+    <Compile Include="Trackers\MinTracker_NestedTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -10,44 +10,46 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive.Concurrency;
+    using System.Reactive.Disposables;
+    using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
 
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "We need the reference")]
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")] 
+    [DebuggerDisplay("Count = {Count}")]
     public class MappingView<TSource, TResult> : IReadOnlyObservableCollection<TResult>, IUpdater, IDisposable
     {
         private readonly IEnumerable<TSource> _source;
         private readonly IScheduler _scheduler;
         private readonly List<TResult> _mapped;
-        private readonly IDisposable _changeSubscription;
+        private readonly CompositeDisposable _updateSubscription = new CompositeDisposable();
         private readonly IMappingFactory<TSource, TResult> _factory;
 
         private bool _disposed;
 
-        public MappingView(ObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler)
-            : this(source, scheduler, selector)
+        public MappingView(ObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, selector, triggers)
         {
         }
 
-        public MappingView(IObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler)
-            : this(source, scheduler, selector)
+        public MappingView(IObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, selector, triggers)
         {
         }
 
-        public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler)
-            : this(source, scheduler, selector)
+        public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, selector, triggers)
         {
         }
 
-        public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler)
-            : this(source, scheduler, selector)
+        public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, selector, triggers)
         {
         }
 
-        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, TResult> selector)
-            : this(source, scheduler)
+        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, TResult> selector, params IObservable<object>[] triggers)
+            : this(source, scheduler, triggers)
         {
             Ensure.NotNull(selector, "selector");
             _factory = MappingFactory.Create(selector);
@@ -56,48 +58,48 @@
 
         }
 
-        public MappingView(ObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler)
-            : this(source, scheduler, indexSelector, null)
+        public MappingView(ObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, indexSelector, null, triggers)
         {
         }
 
-        public MappingView(IObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler)
-            : this(source, scheduler, indexSelector, null)
+        public MappingView(IObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, indexSelector, null, triggers)
         {
         }
 
-        public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler)
-            : this(source, scheduler, indexSelector, null)
+        public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, indexSelector, null, triggers)
         {
         }
 
-        public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler)
-            : this(source, scheduler, indexSelector, null)
+        public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, indexSelector, null, triggers)
         {
         }
 
-        public MappingView(ObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler)
-            : this(source, scheduler, indexSelector, indexUpdater)
+        public MappingView(ObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, indexSelector, indexUpdater, triggers)
         {
         }
 
-        public MappingView(IObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler)
-            : this(source, scheduler, indexSelector, indexUpdater)
+        public MappingView(IObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, indexSelector, indexUpdater, triggers)
         {
         }
 
-        public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler)
-            : this(source, scheduler, indexSelector, indexUpdater)
+        public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, indexSelector, indexUpdater, triggers)
         {
         }
 
-        public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler)
-            : this(source, scheduler, indexSelector, indexUpdater)
+        public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler, params IObservable<object>[] triggers)
+            : this(source, scheduler, indexSelector, indexUpdater, triggers)
         {
         }
 
-        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater)
-            : this(source, scheduler)
+        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, params IObservable<object>[] triggers)
+            : this(source, scheduler, triggers)
         {
             Ensure.NotNull(indexSelector, "indexSelector");
             _factory = MappingFactory.Create(indexSelector, indexUpdater);
@@ -106,14 +108,18 @@
 
         }
 
-        private MappingView(IEnumerable<TSource> source, IScheduler scheduler)
+        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, "source");
             Ensure.NotNull(source as INotifyCollectionChanged, "source");
             _source = source;
             _scheduler = scheduler;
-            _changeSubscription = ThrottledRefresher.Create(this, source, TimeSpan.Zero, scheduler, false)
-                                                    .Subscribe(OnSourceCollectionChanged);
+            _updateSubscription.Add(ThrottledRefresher.Create(this, source, TimeSpan.Zero, scheduler, false)
+                                                      .Subscribe(OnSourceCollectionChanged));
+            if (triggers != null && triggers.Any(t => t != null))
+            {
+                _updateSubscription.Add(triggers.Merge().Subscribe(_ => Refresh()));
+            }
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -301,7 +307,7 @@
         {
             if (disposing)
             {
-                _changeSubscription.Dispose();
+                _updateSubscription.Dispose();
                 _factory.Dispose();
             }
         }
