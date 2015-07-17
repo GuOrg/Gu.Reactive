@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Linq;
     using System.Reactive;
+    using System.Reflection;
 
     using Gu.Reactive.Internals;
     using Gu.Reactive.Tests.Helpers;
@@ -48,7 +49,7 @@
             var propertyName = NameOf.Property<Fake>(x => x.IsTrue);
             var propertyInfo = typeof(Fake).GetProperty(propertyName);
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
-            Assert.Throws<InvalidOperationException>(() => pathItem.Source = new StructLevel());
+            Assert.Throws<TargetException>(() => pathItem.Source = new StructLevel());
         }
 
         [Test]
@@ -80,7 +81,7 @@
             var propertyInfo = typeof(Fake).GetProperty(propertyName);
             var level = new Level();
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
-            Assert.Throws<InvalidOperationException>(() => pathItem.Source = level);
+            Assert.Throws<TargetException>(() => pathItem.Source = level);
         }
 
         [Test]

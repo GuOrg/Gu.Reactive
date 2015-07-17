@@ -102,18 +102,6 @@ namespace Gu.Reactive.PropertyPathStuff
             }
             set
             {
-                if (value != null)
-                {
-                    if (!PathProperty.PropertyInfo.DeclaringType.IsInstanceOfType(value))
-                    {
-                        throw new InvalidOperationException(
-                            string.Format(
-                                "Trying to set source to illegal type. Was: {0} expected {1}",
-                                value.GetType().FullName,
-                               PathProperty.PropertyInfo.DeclaringType.FullName));
-                    }
-                }
-
                 var oldSource = _sourceRef.Target;
                 _sourceRef.Target = value;
                 var inpc = value;
