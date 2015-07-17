@@ -69,22 +69,22 @@
         /// </param>
         private static void VerifyPath(IPropertyPath path)
         {
-            for (int i = 0; i < path.Count; i++)
+            for (int i = 0; i < path.Count - 1; i++)
             {
                 var propertyInfo = path[i].PropertyInfo;
-                if ((i != path.Count - 1) && propertyInfo.PropertyType.IsValueType)
+                if (propertyInfo.PropertyType.IsValueType)
                 {
                     var message = string.Format(
-                            "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?" + Environment.NewLine + 
-                            "The type {0} does not so {1}.{2} will not notify when it changes." + Environment.NewLine + 
+                            "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?" + Environment.NewLine +
+                            "The type {0} does not so {1}.{2} will not notify when it changes." + Environment.NewLine +
                             "The path is: {3}",
                             propertyInfo.DeclaringType.PrettyName(),
-                            i == 0 ? "x" : path[i - 1].PropertyInfo.Name, 
+                            i == 0 ? "x" : path[i - 1].PropertyInfo.Name,
                             propertyInfo.Name,
                             path);
                     throw new ArgumentException(message, "path");
                 }
-                if (!typeof(INotifyPropertyChanged).IsAssignableFrom(propertyInfo.DeclaringType))
+                if (!typeof(INotifyPropertyChanged).IsAssignableFrom(propertyInfo.PropertyType))
                 {
                     var message = string.Format(
                         "All levels in the path must implement INotifyPropertyChanged." + Environment.NewLine +

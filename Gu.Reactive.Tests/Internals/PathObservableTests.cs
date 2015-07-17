@@ -9,6 +9,8 @@
     using Gu.Reactive.PropertyPathStuff;
     using Gu.Reactive.Tests.Helpers;
 
+    using Moq;
+
     using NUnit.Framework;
 
     /// <summary>
@@ -39,11 +41,11 @@
         }
 
         [Test]
-        public void TestNameTest()
+        public void Implicit()
         {
-            var ints = new ObservableCollection<int>();
-            IReadOnlyObservableCollection<int> view = ints.AsReadOnlyFilteredView(x => true);
-            view.ObservePropertyChanged(x => x.Count);
+            var path = PropertyPath.Create<IReadOnlyObservableCollection<Fake>, int>(x => x.Count);
+            var source = Mock.Of<IReadOnlyObservableCollection<Fake>>();
+            Assert.DoesNotThrow(() => new PropertyPathObservable<IReadOnlyObservableCollection<Fake>, int>(source, path));
         }
 
         [Test]

@@ -3,9 +3,11 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using Internals;
 
+    //[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     internal class PropertyPath<TSource, TValue> : IValuePath<TSource, TValue>, IPropertyPath
     {
         private readonly PropertyPath _propertyPath;
