@@ -12,8 +12,8 @@
             where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
         {
             var changes = new List<EventArgs>();
-            observableCollection.ObserveCollectionChanged(false)
-                                .Subscribe(x => changes.Add(x.EventArgs));
+            observableCollection.ObserveCollectionChangedSlim(false)
+                                .Subscribe(x => changes.Add(x));
             observableCollection.ObservePropertyChanged()
                                 .Subscribe(x => changes.Add(x.EventArgs));
             return changes;

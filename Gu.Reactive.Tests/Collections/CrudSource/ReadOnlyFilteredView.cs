@@ -1,7 +1,9 @@
 namespace Gu.Reactive.Tests.Collections
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
 
     using Gu.Reactive.Tests.Helpers;
 
@@ -26,6 +28,36 @@ namespace Gu.Reactive.Tests.Collections
             var ints = new ObservableCollection<int>(new[] { 1, 2 });
             var view = ints.AsReadOnlyFilteredView(x => x < 2);
             CollectionAssert.AreEqual(new[] { 1 }, view);
+        }
+
+        [Test]
+        public void NotifiesWithOnlyPropertyChangedSubscription()
+        {
+            var ints = new ObservableCollection<int>();
+            var view = ints.AsReadOnlyFilteredView(x => true);
+            var changes = new List<EventArgs>();
+            view.ObservePropertyChanged()
+                .Subscribe(x => changes.Add(x.EventArgs));
+            ints.Add(1);
+            var expected = new[]
+                               {
+                                   Notifier.CountPropertyChangedEventArgs, 
+                                   Notifier.IndexerPropertyChangedEventArgs
+                               };
+            CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+        }
+
+        [Test]
+        public void NotifiesWithOnlyCollectionChangedSubscription()
+        {
+            var ints = new ObservableCollection<int>();
+            var view = ints.AsReadOnlyFilteredView(x => true);
+            var changes = new List<EventArgs>();
+            view.ObserveCollectionChangedSlim(false)
+                .Subscribe(x => changes.Add(x));
+            ints.Add(1);
+            var expected = new[] { Diff.CreateAddEventArgs(1, 0) };
+            CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
         }
 
         [Test]

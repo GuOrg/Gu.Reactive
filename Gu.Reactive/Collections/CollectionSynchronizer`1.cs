@@ -50,7 +50,7 @@ namespace Gu.Reactive
         {
             lock (_current)
             {
-                var change = Update(updated, collectionChanges, collectionChanged != null);
+                var change = Update(updated, collectionChanges, propertyChanged != null || collectionChanged != null);
                 Notifier.Notify(sender, change, scheduler, propertyChanged, collectionChanged);
             }
         }
