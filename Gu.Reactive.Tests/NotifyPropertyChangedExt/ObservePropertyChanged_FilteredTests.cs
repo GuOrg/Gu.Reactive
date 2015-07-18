@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.NotifyProeprtyChangedExt
+namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
     using System.Collections.Generic;
@@ -7,6 +7,8 @@ namespace Gu.Reactive.Tests.NotifyProeprtyChangedExt
     using System.Reactive;
 
     using Gu.Reactive.Tests.Helpers;
+
+    using Moq;
 
     using NUnit.Framework;
 
@@ -19,6 +21,18 @@ namespace Gu.Reactive.Tests.NotifyProeprtyChangedExt
         public void SetUp()
         {
             _changes = new List<EventPattern<PropertyChangedEventArgs>>();
+        }
+
+        [Test]
+        public void ReactsOnMock()
+        {
+            var mock = new Mock<IReadOnlyObservableCollection<int>>();
+            mock.Object.ObservePropertyChanged(x => x.Count, false)
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+
+            mock.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("Count"));
+            Assert.AreEqual(1, _changes.Count);
         }
 
         [Test]

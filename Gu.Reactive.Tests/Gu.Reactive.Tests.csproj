@@ -138,7 +138,7 @@
     <Compile Include="Internals\PathObservableTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveItemPropertyChangedTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveItemPropertyChanged_ChainedTests.cs" />
-    <Compile Include="NotifyProeprtyChangedExt\ObservePropertyChangedAndValue_NestedTests.cs" />
+    <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedAndValue_NestedTests.cs" />
     <Compile Include="ObservableExtTests.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -146,10 +146,10 @@
     <Compile Include="Sandbox\CacheExpressionsTests.cs" />
     <Compile Include="Sandbox\CreateBoxTests.cs" />
     <Compile Include="Sandbox\GC_BoxTests.cs" />
-    <Compile Include="NotifyProeprtyChangedExt\ObservePropertyChanged_FilteredTests.cs" />
-    <Compile Include="NotifyProeprtyChangedExt\ObservePropertyChanged_NestedFilterTests.cs" />
-    <Compile Include="NotifyProeprtyChangedExt\ObservePropertyChangedTests.cs" />
-    <Compile Include="NotifyProeprtyChangedExt\ObservePropertyChangedAndValue_SimpleTests.cs" />
+    <Compile Include="NotifyPropertyChangedExt\ObservePropertyChanged_FilteredTests.cs" />
+    <Compile Include="NotifyPropertyChangedExt\ObservePropertyChanged_NestedFilterTests.cs" />
+    <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedTests.cs" />
+    <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedAndValue_SimpleTests.cs" />
     <Compile Include="Internals\TypeExtTests.cs" />
     <Compile Include="Sandbox\ItemsObservableBox.cs" />
     <Compile Include="Trackers\AverageTracker_PrimitiveTests.cs" />
