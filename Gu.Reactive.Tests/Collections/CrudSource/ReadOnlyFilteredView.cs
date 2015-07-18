@@ -40,6 +40,29 @@ namespace Gu.Reactive.Tests.Collections
         }
 
         [Test]
+        public void AddVisibleWhenFiltered()
+        {
+            var ints = new ObservableCollection<int>();
+            var view = ints.AsFilteredView(x => x % 2 == 0);
+            var changes = view.SubscribeAll();
+            int countChanges = 0;
+            view.ObservePropertyChanged(x => x.Count, false)
+                .Subscribe(_ => countChanges++);
+            Assert.AreEqual(0, countChanges);
+
+            ints.Add(2);
+            CollectionAssert.AreEqual(new[] { 2 }, view);
+            var expected = new EventArgs[]
+                               {
+                                   Notifier.CountPropertyChangedEventArgs,
+                                   Notifier.IndexerPropertyChangedEventArgs,
+                                   Diff.CreateAddEventArgs(2, 0)
+                               };
+            CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+            Assert.AreEqual(1, countChanges);
+        }
+
+        [Test]
         public void RemoveFiltered()
         {
             var ints = new ObservableCollection<int>(new[] { 1 });
