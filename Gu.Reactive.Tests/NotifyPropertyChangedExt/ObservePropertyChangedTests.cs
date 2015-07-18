@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests.NotifyProeprtyChangedExt
+﻿namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
     using System.Collections.Generic;
