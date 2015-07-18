@@ -89,12 +89,14 @@
         public void Refresh()
         {
             VerifyDisposed();
-            _tracker.Reset(this, Filtered().ToArray(), _scheduler, PropertyChanged, CollectionChanged);
+            var updated = Filtered().ToArray();
+            _tracker.Reset(this, updated, _scheduler, PropertyChanged, CollectionChanged);
         }
 
         protected void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            _tracker.Refresh(this, Filtered().ToArray(), null, _scheduler, PropertyChanged, CollectionChanged);
+            var updated = Filtered().ToArray();
+            _tracker.Refresh(this, updated, null, _scheduler, PropertyChanged, CollectionChanged);
         }
 
         protected IEnumerable<T> Filtered()

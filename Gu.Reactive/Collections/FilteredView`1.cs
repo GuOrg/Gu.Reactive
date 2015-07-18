@@ -121,7 +121,8 @@
         public override void Refresh()
         {
             VerifyDisposed();
-            Synchronized.Reset(this, Filtered().ToArray(), _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            var updated = Filtered().ToArray();
+            Synchronized.Reset(this, updated, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
         protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
@@ -195,7 +196,8 @@
 
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            Synchronized.Refresh(this, Filtered().ToArray(), null, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            var updated = Filtered().ToArray();
+            Synchronized.Refresh(this, updated, null, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
         protected IEnumerable<T> Filtered()
