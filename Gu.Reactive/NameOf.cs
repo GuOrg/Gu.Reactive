@@ -27,6 +27,7 @@
         /// <returns>
         /// Returns the simple name of the property.
         /// </returns>
+        [Obsolete("Use nameof instead")]
         public static string Property<T>(Expression<Func<T>> propertyExpression, bool allowNestedProperty = false)
         {
             var path = PropertyPathVisitor.GetPath(propertyExpression);
@@ -59,6 +60,7 @@
         /// <returns>
         /// Returns the simple name of the property.
         /// </returns>
+        [Obsolete("Use nameof instead")]
         public static string Property<TItem>(Expression<Func<TItem, object>> propertyExpression)
         {
             var path = PropertyPathVisitor.GetPath(propertyExpression);
@@ -85,6 +87,7 @@
         /// <returns>
         /// Returns the simple name of the property.
         /// </returns>
+        [Obsolete("Use nameof instead")]
         public static string Property<TItem, TValue>(Expression<Func<TItem, TValue>> propertyExpression)
         {
             var path = PropertyPathVisitor.GetPath(propertyExpression);
@@ -105,6 +108,7 @@
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
+        [Obsolete("Use nameof instead")]
         public static string Method(Expression<Action> action)
         {
             return ((MethodCallExpression)action.Body).Method.Name;
@@ -121,6 +125,7 @@
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
+        [Obsolete("Use nameof instead")]
         public static string Method<T>(Expression<Action<T>> action)
         {
             return ((MethodCallExpression)action.Body).Method.Name;
@@ -137,6 +142,7 @@
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
+        [Obsolete("Use nameof instead")]
         public static string Method<T>(Expression<Func<T>> func)
         {
             return ((MethodCallExpression)func.Body).Method.Name;
@@ -155,6 +161,7 @@
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
+        [Obsolete("Use nameof instead")]
         public static string Method<TClass, TReturnValue>(Expression<Func<TClass, TReturnValue>> func)
         {
             return ((MethodCallExpression)func.Body).Method.Name;

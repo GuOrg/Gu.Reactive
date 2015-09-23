@@ -114,6 +114,7 @@
     <Compile Include="Maybe`1.cs" />
     <Compile Include="Collections\ObservableCollectionExtensions.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="WpfSchedulers.cs" />
     <Page Include="Themes\Assets.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

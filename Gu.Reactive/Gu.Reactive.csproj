@@ -203,6 +203,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\ISchedulers.cs" />
     <Compile Include="Collections\CollectionDebugView.cs" />
     <Compile Include="Collections\FilteredView.generated.cs">
       <AutoGen>True</AutoGen>
@@ -250,10 +251,12 @@
     <Compile Include="Collections\ReadOnlyThrottledView.cs" />
     <Compile Include="Collections\WeakCompositeDisposable.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
+    <Compile Include="ForegroundScheduler.cs" />
     <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />
     <Compile Include="Internals\Ensure.cs" />
     <Compile Include="Internals\ConstantVisitor.cs" />
+    <Compile Include="Contracts\IWpfSchedulers.cs" />
     <Compile Include="NotifyCollectionChangedExt.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -297,6 +300,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ItemPropertyChangedEventArgs`2.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />
+    <Compile Include="Schedulers.cs" />
     <Compile Include="TaskExt.cs" />
     <Compile Include="Internals\CollectionItemsObservable`2.cs" />
     <Compile Include="Trackers\DoubleAverageTracker.cs" />
