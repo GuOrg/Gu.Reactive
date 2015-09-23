@@ -21,7 +21,7 @@
         }
 
         [Test]
-        public void DoesNotSIgnalSubscribe()
+        public void DoesNotSignalSubscribe()
         {
             var fake = new Fake { Value = 1 };
             var observable = fake.ObservePropertyChanged();
@@ -46,6 +46,18 @@
         public void ReactsOnEvent()
         {
             var fake = new Fake { Value = 1 };
+            fake.ObservePropertyChanged()
+                .Subscribe(_changes.Add);
+            Assert.AreEqual(0, _changes.Count);
+            fake.OnPropertyChanged("SomeProp");
+            Assert.AreEqual(1, _changes.Count);
+            AssertRx.AreEqual(fake, "SomeProp", _changes.Last());
+        }
+
+        [Test]
+        public void ReactsOnEventDerived()
+        {
+            var fake = new DerivedFake { Value = 1 };
             fake.ObservePropertyChanged()
                 .Subscribe(_changes.Add);
             Assert.AreEqual(0, _changes.Count);

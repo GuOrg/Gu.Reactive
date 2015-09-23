@@ -35,7 +35,6 @@
         internal static void NotNullOrEmpty<T>(IEnumerable<T> value, string parameter, string message = null)
         {
             Debug.Assert(!string.IsNullOrEmpty(parameter),"parameter cannot be null");
-            Ensure.NotNull(value, parameter);
             if (!value.Any())
             {
                 if (message == null)

@@ -109,6 +109,7 @@
     <Compile Include="Collections\ObservableFixedSizeQueueTests.cs" />
     <Compile Include="Collections\WeakCompositeDisposableTests.cs" />
     <Compile Include="Helpers\AssertEx.cs" />
+    <Compile Include="Helpers\DerivedFake.cs" />
     <Compile Include="Helpers\EventArgsComparer.cs" />
     <Compile Include="Helpers\FakeWithCollection.cs" />
     <Compile Include="Helpers\IFake.cs" />

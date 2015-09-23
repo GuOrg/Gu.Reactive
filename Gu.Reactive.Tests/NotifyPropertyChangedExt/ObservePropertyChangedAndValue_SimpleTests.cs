@@ -68,6 +68,20 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
+        public void SignalsOnDerivedSourceChanges()
+        {
+            var fake = new DerivedFake();
+            fake.ObservePropertyChangedWithValue(x => x.Name, false)
+                .Subscribe(_changes.Add);
+            CollectionAssert.IsEmpty(_changes);
+            fake.Name = "El Kurro";
+            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual("El Kurro", _changes.Single().EventArgs.Value);
+            Assert.AreSame(fake, _changes.Single().Sender);
+            Assert.IsTrue(_changes.Single().EventArgs.HasValue);
+        }
+
+        [Test]
         public void MemoryLeakNoDisposeTest()
         {
             var fake = new Fake();
