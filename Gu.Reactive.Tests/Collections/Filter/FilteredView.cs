@@ -1,5 +1,8 @@
 namespace Gu.Reactive.Tests.Collections.Filter
 {
+    using System;
+    using System.Collections.Generic;
+
     using Gu.Reactive.Tests.Helpers;
 
     using Microsoft.Reactive.Testing;
