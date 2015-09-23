@@ -2,9 +2,13 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq.Expressions;
     using System.Reactive;
+    using System.Reactive.Disposables;
     using System.Reactive.Linq;
+
+    using Gu.Reactive.Internals;
     using Gu.Reactive.PropertyPathStuff;
 
     /// <summary>
@@ -93,7 +97,7 @@
             bool signalInitial = true)
         {
             var observable = source.ObservePropertyChanged()
-                                   .Where(e => IsPropertyName(e, name));
+                                   .Where(e => IsPropertyName(e.EventArgs, name));
             if (signalInitial)
             {
                 var wr = new WeakReference(source);
@@ -109,6 +113,24 @@
             {
                 return observable;
             }
+        }
+
+        public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source, string name, bool signalInitial = true)
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNullOrEmpty(name, "name");
+            if (source.GetType().GetProperty(name) == null)
+            {
+                throw new ArgumentException($"The type {source.GetType()} does not have a property named {name}", name);
+            }
+
+            var observable = source.ObservePropertyChangedSlim()
+                                   .Where(e => IsPropertyName(e, name));
+            if (signalInitial)
+            {
+                observable = observable.StartWith(new PropertyChangedEventArgs(name));
+            }
+            return observable;
         }
 
         /// <summary>
@@ -136,11 +158,13 @@
             bool signalInitial = true)
             where TNotifier : INotifyPropertyChanged
         {
+            Ensure.NotNull(source, "source");
+            Ensure.NotNull(property, "property");
             var propertyPath = PropertyPath.Create(property);
             return source.ObservePropertyChangedWithValue(propertyPath, signalInitial);
         }
 
-        internal static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>>ObservePropertyChangedWithValue<TNotifier, TProperty>(
+        internal static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(
             this TNotifier source,
             PropertyPath<TNotifier, TProperty> propertyPath,
             bool signalInitial = true) where TNotifier : INotifyPropertyChanged
@@ -174,18 +198,10 @@
                     });
         }
 
-        /// <summary>
-        /// Observes all property change events for source.
-        /// </summary>
-        /// <param name="source">
-        /// The source.
-        /// </param>
-        /// <returns>
-        /// The <see cref="IObservable"/>.
-        /// </returns>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(
             this INotifyPropertyChanged source)
         {
+            Ensure.NotNull(source, "source");
             var wr = new WeakReference<INotifyPropertyChanged>(source);
             IObservable<EventPattern<PropertyChangedEventArgs>> observable =
                 Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
@@ -208,9 +224,26 @@
             return observable;
         }
 
-        private static bool IsPropertyName(EventPattern<PropertyChangedEventArgs> e, string propertyName)
+        public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source)
         {
-            return string.IsNullOrEmpty(e.EventArgs.PropertyName) || e.EventArgs.PropertyName == propertyName;
+            Ensure.NotNull(source, "source");
+
+            var observable = Observable.Create<PropertyChangedEventArgs>(
+                o =>
+                    {
+                        PropertyChangedEventHandler handler = (_, e) =>
+                            {
+                                o.OnNext(e);
+                            };
+                        source.PropertyChanged += handler;
+                        return Disposable.Create(() => source.PropertyChanged -= handler);
+                    });
+            return observable;
+        }
+
+        private static bool IsPropertyName(this PropertyChangedEventArgs e, string propertyName)
+        {
+            return string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName;
         }
     }
 }

@@ -140,6 +140,7 @@
     <Compile Include="NotifyCollectionChangedExt\ObserveItemPropertyChangedTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveItemPropertyChanged_ChainedTests.cs" />
     <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedAndValue_NestedTests.cs" />
+    <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedSlimTests.cs" />
     <Compile Include="ObservableExtTests.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
