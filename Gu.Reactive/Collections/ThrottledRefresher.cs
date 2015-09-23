@@ -12,6 +12,8 @@
     {
         internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 
+        private static readonly IObservable<IReadOnlyList<NotifyCollectionChangedEventArgs>> Empty = Observable.Empty<IReadOnlyList<NotifyCollectionChangedEventArgs>>();
+
         internal static IObservable<IReadOnlyList<NotifyCollectionChangedEventArgs>> Create(
             IUpdater updater,
             IEnumerable source,
@@ -22,7 +24,7 @@
             var incc = source as INotifyCollectionChanged;
             if (incc == null)
             {
-                return Observable.Empty<IReadOnlyList<NotifyCollectionChangedEventArgs>>();
+                return Empty;
             }
 
             var observable = Observable.Create<NotifyCollectionChangedEventArgs>(o =>

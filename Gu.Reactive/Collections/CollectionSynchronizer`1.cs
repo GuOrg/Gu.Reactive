@@ -9,23 +9,23 @@ namespace Gu.Reactive
     using System.Reactive.Concurrency;
 
     [DebuggerDisplay("Count = {Current.Count}")]
-    public class CollectionSynchronizer<T>
+    public class CollectionSynchronizer<T> : IReadOnlyList<T>
     {
         public static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];
         public static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgs = new[] { Diff.NotifyCollectionResetEventArgs };
-        private readonly List<T> _current = new List<T>();
+        private readonly List<T> _inner = new List<T>();
         public CollectionSynchronizer(IEnumerable<T> source)
         {
-            _current.AddRange(source);
+            _inner.AddRange(source);
         }
 
         public IReadOnlyList<T> Current
         {
             get
             {
-                lock (_current)
+                lock (_inner)
                 {
-                    return _current;
+                    return _inner;
                 }
             }
         }
@@ -48,7 +48,7 @@ namespace Gu.Reactive
             PropertyChangedEventHandler propertyChanged,
             NotifyCollectionChangedEventHandler collectionChanged)
         {
-            lock (_current)
+            lock (_inner)
             {
                 var change = Update(updated, collectionChanges, propertyChanged != null || collectionChanged != null);
                 Notifier.Notify(sender, change, scheduler, propertyChanged, collectionChanged);
@@ -58,64 +58,84 @@ namespace Gu.Reactive
         private NotifyCollectionChangedEventArgs Update(IReadOnlyList<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges, bool calculateDiff)
         {
             NotifyCollectionChangedEventArgs change = calculateDiff
-                                                          ? Diff.CollectionChange(_current, updated, collectionChanges)
+                                                          ? Diff.CollectionChange(_inner, updated, collectionChanges)
                                                           : null;
             if (!calculateDiff || change != null)
             {
-                _current.Clear();
-                _current.AddRange(updated);
+                _inner.Clear();
+                _inner.AddRange(updated);
             }
 
             return change;
         }
 
-        #region Ilist & IList<T>
+        #region IList & IList<T>
+
+        public int Count => _inner.Count;
+
+        public object SyncRoot => ((IList)_inner).SyncRoot;
+
+        public bool IsSynchronized => ((IList)_inner).IsSynchronized;
+
+        public T this[int index] => _inner[index];
+
+        public IEnumerator<T> GetEnumerator() => _inner.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public int IndexOf(T value)
         {
-            lock (_current)
+            lock (_inner)
             {
-                return _current.IndexOf(value);
+                return _inner.IndexOf(value);
             }
         }
 
         public int IndexOf(object value)
         {
-            lock (_current)
+            lock (_inner)
             {
-                return ((IList)_current).IndexOf(value);
+                return ((IList)_inner).IndexOf(value);
             }
         }
 
         public int LastIndexOf(T value)
         {
-            lock (_current)
+            lock (_inner)
             {
-                return _current.LastIndexOf(value);
+                return _inner.LastIndexOf(value);
             }
         }
 
         public bool Contains(T value)
         {
-            lock (_current)
+            lock (_inner)
             {
-                return _current.Contains(value);
+                return _inner.Contains(value);
             }
         }
 
         public bool Contains(object value)
         {
-            lock (_current)
+            lock (_inner)
             {
-                return ((IList)_current).Contains(value);
+                return ((IList)_inner).Contains(value);
+            }
+        }
+
+        public void CopyTo(T[] array, int index)
+        {
+            lock (_inner)
+            {
+                _inner.CopyTo(array, index);
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            lock (_current)
+            lock (_inner)
             {
-                ((IList)_current).CopyTo(array, index);
+                ((IList)_inner).CopyTo(array, index);
             }
         }
 

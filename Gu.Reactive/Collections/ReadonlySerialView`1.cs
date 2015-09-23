@@ -10,12 +10,9 @@ namespace Gu.Reactive
     using System.Reactive.Disposables;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")] 
-    public sealed class ReadOnlySerialView<T> : IReadOnlyObservableCollection<T>, IUpdater, IRefreshAble, IDisposable
+    [DebuggerDisplay("Count = {Count}")]
+    public sealed class ReadOnlySerialView<T> : SerialViewBase<T>, IReadOnlyObservableCollection<T>, IUpdater
     {
-        private static readonly IReadOnlyList<T> Empty = new T[0];
-        private readonly CollectionSynchronizer<T> _tracker;
-        private IEnumerable<T> _source;
         private readonly SerialDisposable _refreshSubscription = new SerialDisposable();
         private bool _disposed;
 
@@ -25,100 +22,34 @@ namespace Gu.Reactive
         }
 
         public ReadOnlySerialView(IEnumerable<T> source)
+            : base(source, true, true)
         {
-            _source = source ?? Empty;
-            _tracker = new CollectionSynchronizer<T>(_source);
-            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, _source, TimeSpan.Zero, null, false)
+            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, Source, TimeSpan.Zero, null, false)
                                                                 .Subscribe(Refresh);
         }
 
+        object IUpdater.IsUpdatingSourceItem => null;
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        object IUpdater.IsUpdatingSourceItem
+        public new void SetSource(IEnumerable<T> source)
         {
-            get { return null; }
-        }
-
-        public void SetSource(IEnumerable<T> source)
-        {
-            _source = source ?? Empty;
-            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, _source, TimeSpan.Zero, null, false)
+            base.SetSource(source);
+            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, Source, TimeSpan.Zero, null, false)
                                                                 .Subscribe(Refresh);
-            Refresh();
         }
 
-        public void ClearSource()
+        public new void ClearSource()
         {
-            _source = Empty;
+            base.ClearSource();
             _refreshSubscription.Disposable = null;
-            Refresh();
         }
 
-        /// <summary>
-        /// Make the class sealed when using this. 
-        /// Call VerifyDisposed at the start of all public methods
-        /// </summary>
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (disposing)
             {
-                return;
+                _refreshSubscription.Dispose();
             }
-            _disposed = true;
-            _refreshSubscription.Dispose();
-            // Dispose some stuff now
+            base.Dispose(disposing);
         }
-
-        public void Refresh()
-        {
-            var source = _source as IReadOnlyList<T> ?? _source.ToArray();
-            _tracker.Reset(this, source, null, PropertyChanged, CollectionChanged);
-        }
-
-        private void VerifyDisposed()
-        {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(
-                    GetType()
-                        .FullName);
-            }
-        }
-
-        private void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
-        {
-            var source =_source as IReadOnlyList<T> ?? _source.ToArray();
-            _tracker.Refresh(this, source, changes, null, PropertyChanged, CollectionChanged);
-        }
-
-        #region IReadOnlyList<T>
-
-        public int Count { get { return _tracker.Current.Count; } }
-
-        public T this[int index]
-        {
-            get
-            {
-                VerifyDisposed();
-                return _tracker.Current[index];
-            }
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            VerifyDisposed();
-            return _tracker.Current.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            VerifyDisposed();
-            return GetEnumerator();
-        }
-
-        #endregion IReadOnlyList<T>
     }
 }
