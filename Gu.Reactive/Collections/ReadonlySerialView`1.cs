@@ -11,7 +11,7 @@ namespace Gu.Reactive
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")] 
-    public sealed class ReadOnlySerialView<T> : IReadOnlyObservableCollection<T>, IUpdater, IDisposable
+    public sealed class ReadOnlySerialView<T> : IReadOnlyObservableCollection<T>, IUpdater, IRefreshAble, IDisposable
     {
         private static readonly IReadOnlyList<T> Empty = new T[0];
         private readonly CollectionSynchronizer<T> _tracker;

@@ -13,7 +13,7 @@
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")] 
-    public class ReadOnlyThrottledView<T> : IReadOnlyThrottledView<T>, IUpdater
+    public class ReadOnlyThrottledView<T> : IReadOnlyThrottledView<T>, IUpdater, IRefreshAble
     {
         private readonly IReadOnlyList<T> _collection;
         private readonly IScheduler _scheduler;
@@ -56,12 +56,9 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public TimeSpan BufferTime { get; private set; }
+        public TimeSpan BufferTime { get; }
 
-        object IUpdater.IsUpdatingSourceItem
-        {
-            get { return null; }
-        }
+        object IUpdater.IsUpdatingSourceItem => null;
 
         public void Dispose()
         {
@@ -106,7 +103,7 @@
 
         #region IReadOnlyList<T>
 
-        public int Count { get { return _tracker.Current.Count; } }
+        public int Count => _tracker.Current.Count;
 
         public T this[int index]
         {
@@ -123,11 +120,7 @@
             return _tracker.Current.GetEnumerator();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            VerifyDisposed();
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion IReadOnlyList<T>
     }

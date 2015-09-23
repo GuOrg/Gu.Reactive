@@ -203,6 +203,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\IRefreshAble.cs" />
     <Compile Include="Contracts\ISchedulers.cs" />
     <Compile Include="Collections\CollectionDebugView.cs" />
     <Compile Include="Collections\FilteredView.generated.cs">

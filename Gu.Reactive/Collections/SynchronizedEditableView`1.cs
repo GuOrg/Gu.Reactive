@@ -13,7 +13,7 @@
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")] 
-    public abstract class SynchronizedEditableView<T> : IList, IUpdater, IDisposable
+    public abstract class SynchronizedEditableView<T> : IList, IUpdater, IRefreshAble, IDisposable
     {
         protected readonly IList<T> Source;
         protected readonly CollectionSynchronizer<T> Synchronized;
@@ -39,10 +39,7 @@
 
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        object IUpdater.IsUpdatingSourceItem
-        {
-            get { return _isUpdatingSourceItem; }
-        }
+        object IUpdater.IsUpdatingSourceItem => _isUpdatingSourceItem;
 
         protected PropertyChangedEventHandler PropertyChangedEventHandler
         {
@@ -107,15 +104,9 @@
 
         #region IList<TItem>
 
-        public int Count
-        {
-            get { return Synchronized.Current.Count; }
-        }
+        public int Count => Synchronized.Current.Count;
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         public T this[int index]
         {
@@ -127,40 +118,19 @@
             }
         }
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return Synchronized.Current.GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() => Synchronized.Current.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public void Add(T item)
-        {
-            Source.Add(item);
-        }
+        public void Add(T item) => Source.Add(item);
 
-        public void Clear()
-        {
-            Source.Clear();
-        }
+        public void Clear() => Source.Clear();
 
-        public bool Contains(T item)
-        {
-            return Synchronized.Contains(item);
-        }
+        public bool Contains(T item) => Synchronized.Contains(item);
 
-        public int IndexOf(T value)
-        {
-            return Synchronized.IndexOf(value);
-        }
+        public int IndexOf(T value) => Synchronized.IndexOf(value);
 
-        public void Insert(int index, T value)
-        {
-            InsertCore(index, value);
-        }
+        public void Insert(int index, T value) => InsertCore(index, value);
 
         private void InsertCore(int index, T value)
         {
@@ -184,10 +154,7 @@
             Source.Remove(Synchronized.Current[index]);
         }
 
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            Synchronized.CopyTo(array, arrayIndex);
-        }
+        public void CopyTo(T[] array, int arrayIndex) => Synchronized.CopyTo(array, arrayIndex);
 
         #endregion  IList<TItem>
 
@@ -206,10 +173,7 @@
             }
         }
 
-        bool IList.IsFixedSize
-        {
-            get { return false; }
-        }
+        bool IList.IsFixedSize => false;
 
         int IList.Add(object value)
         {
@@ -222,15 +186,9 @@
             return index;
         }
 
-        bool IList.Contains(object value)
-        {
-            return Synchronized.Contains(value);
-        }
+        bool IList.Contains(object value) => Synchronized.Contains(value);
 
-        int IList.IndexOf(object value)
-        {
-            return Synchronized.IndexOf(value);
-        }
+        int IList.IndexOf(object value) => Synchronized.IndexOf(value);
 
         void IList.Insert(int index, object value)
         {
@@ -257,20 +215,11 @@
 
         #region ICollection
 
-        void ICollection.CopyTo(Array array, int index)
-        {
-            Synchronized.CopyTo(array, index);
-        }
+        void ICollection.CopyTo(Array array, int index) => Synchronized.CopyTo(array, index);
 
-        object ICollection.SyncRoot
-        {
-            get { return ((ICollection)Source).SyncRoot; }
-        }
+        object ICollection.SyncRoot => ((ICollection)Source).SyncRoot;
 
-        bool ICollection.IsSynchronized
-        {
-            get { return ((ICollection)Source).IsSynchronized; }
-        }
+        bool ICollection.IsSynchronized => ((ICollection)Source).IsSynchronized;
 
         #endregion ICollection
     }

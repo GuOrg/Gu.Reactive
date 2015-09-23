@@ -18,7 +18,7 @@
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "We need the reference")]
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
-    public class MappingView<TSource, TResult> : IReadOnlyObservableCollection<TResult>, IUpdater, IDisposable
+    public class MappingView<TSource, TResult> : IReadOnlyObservableCollection<TResult>, IUpdater, IRefreshAble, IDisposable
     {
         private readonly IEnumerable<TSource> _source;
         private readonly IScheduler _scheduler;
