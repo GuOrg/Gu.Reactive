@@ -6,6 +6,7 @@ namespace Gu.Reactive
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Linq;
     using System.Reactive.Concurrency;
 
     [DebuggerDisplay("Count = {Current.Count}")]
@@ -16,7 +17,7 @@ namespace Gu.Reactive
         private readonly List<T> _inner = new List<T>();
         public CollectionSynchronizer(IEnumerable<T> source)
         {
-            _inner.AddRange(source);
+            _inner.AddRange(source ?? Enumerable.Empty<T>());
         }
 
         public IReadOnlyList<T> Current

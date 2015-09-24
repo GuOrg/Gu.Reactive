@@ -32,7 +32,7 @@ namespace Gu.Reactive
             IsReadOnly = isreadonly;
             IsFixedSize = isFixedSize;
             Source = source ?? Empty;
-            _tracker = new CollectionSynchronizer<T>(Source);
+            _tracker = new CollectionSynchronizer<T>(source ?? Empty);
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -59,8 +59,15 @@ namespace Gu.Reactive
         public void Refresh()
         {
             VerifyDisposed();
-            var source = Source as IReadOnlyList<T> ?? Source.ToArray();
-            _tracker.Reset(this, source, null, PropertyChanged, CollectionChanged);
+            try
+            {
+                var source = Source as IReadOnlyList<T> ?? Source.ToArray();
+                _tracker.Reset(this, source, null, PropertyChanged, CollectionChanged);
+            }
+            catch (InvalidOperationException) // when (e.Message == Environment.GetCollectionWasModifiedText())
+            {
+                Refresh();
+            }
         }
 
         protected void SetSource(IEnumerable<T> source)
@@ -118,8 +125,25 @@ namespace Gu.Reactive
 
         protected void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            var source = Source as IReadOnlyList<T> ?? Source.ToArray();
-            _tracker.Refresh(this, source, changes, null, PropertyChanged, CollectionChanged);
+            try
+            {
+                var source = Source as IReadOnlyList<T> ?? Source.ToArray();
+                _tracker.Refresh(this, source, changes, null, PropertyChanged, CollectionChanged);
+            }
+            catch (InvalidOperationException) // when (e.Message == Environment.GetCollectionWasModifiedText())
+            {
+                Refresh(changes);
+            }
+        }
+
+        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            CollectionChanged?.Invoke(this, e);
+        }
+
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(this, e);
         }
 
         #region IReadOnlyList<T> & IList

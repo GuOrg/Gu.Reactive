@@ -24,7 +24,7 @@ namespace Gu.Reactive
         public ReadOnlySerialView(IEnumerable<T> source)
             : base(source, true, true)
         {
-            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, Source, TimeSpan.Zero, null, false)
+            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, TimeSpan.Zero, null, false)
                                                                 .Subscribe(Refresh);
         }
 
