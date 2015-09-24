@@ -13,7 +13,7 @@
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
-    public class ReadOnlyThrottledView<T> : IReadOnlyThrottledView<T>, IUpdater, IRefreshAble
+    public class ReadOnlyThrottledView<T> : IReadOnlyThrottledView<T>, IUpdater, IList, IRefreshAble
     {
         private readonly IReadOnlyList<T> _collection;
         private readonly IScheduler _scheduler;
@@ -101,26 +101,57 @@
             }
         }
 
-        #region IReadOnlyList<T>
-
-        public int Count => _tracker.Current.Count;
-
-        public T this[int index]
-        {
-            get
-            {
-                VerifyDisposed();
-                return _tracker.Current[index];
-            }
-        }
-
-        public IEnumerator<T> GetEnumerator()
+        protected void VerifyDisposed(Action action)
         {
             VerifyDisposed();
-            return _tracker.Current.GetEnumerator();
+            action();
         }
 
+        protected TResult VerifyDisposed<TResult>(TResult result)
+        {
+            VerifyDisposed();
+            return result;
+        }
+
+        #region IReadOnlyList<T> & IList
+
+        public int Count => VerifyDisposed(_tracker.Current.Count);
+
+        bool IList.IsReadOnly => true;
+
+        bool IList.IsFixedSize => true;
+
+        object ICollection.SyncRoot => VerifyDisposed(_tracker.SyncRoot);
+
+        bool ICollection.IsSynchronized => VerifyDisposed(_tracker.IsSynchronized);
+
+        object IList.this[int index]
+        {
+            get { return this[index]; }
+            set { ThrowHelper.ThrowCollectionIsReadonly(); }
+        }
+
+        public T this[int index] => VerifyDisposed(_tracker.Current[index]);
+
+        public IEnumerator<T> GetEnumerator() => VerifyDisposed(_tracker.Current.GetEnumerator());
+
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        int IList.Add(object value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
+
+        bool IList.Contains(object value) => VerifyDisposed(_tracker.Contains(value));
+
+        void IList.Clear() => ThrowHelper.ThrowCollectionIsReadonly();
+
+        int IList.IndexOf(object value) => VerifyDisposed(_tracker.IndexOf(value));
+
+        void IList.Insert(int index, object value) => ThrowHelper.ThrowCollectionIsReadonly();
+
+        void IList.Remove(object value) => ThrowHelper.ThrowCollectionIsReadonly();
+
+        void IList.RemoveAt(int index) => ThrowHelper.ThrowCollectionIsReadonly();
+
+        void ICollection.CopyTo(Array array, int index) => VerifyDisposed(() => _tracker.CopyTo(array, index));
 
         #endregion IReadOnlyList<T>
     }

@@ -34,7 +34,7 @@
 
         internal static void NotNullOrEmpty<T>(IEnumerable<T> value, string parameter, string message = null)
         {
-            Debug.Assert(!string.IsNullOrEmpty(parameter),"parameter cannot be null");
+            Debug.Assert(!string.IsNullOrEmpty(parameter), "parameter cannot be null");
             if (!value.Any())
             {
                 if (message == null)
@@ -52,6 +52,15 @@
             if (Equals(value, other))
             {
                 var message = string.Format("Expected {0} to not equal {1}", value, other);
+                throw new ArgumentException(message, parameter);
+            }
+        }
+
+        public static void That(bool criteria, string parameter, string message)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(parameter), "parameter cannot be null");
+            if (!criteria)
+            {
                 throw new ArgumentException(message, parameter);
             }
         }

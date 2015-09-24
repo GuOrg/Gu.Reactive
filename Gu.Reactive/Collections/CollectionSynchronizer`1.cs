@@ -15,6 +15,7 @@ namespace Gu.Reactive
         public static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];
         public static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgs = new[] { Diff.NotifyCollectionResetEventArgs };
         private readonly List<T> _inner = new List<T>();
+        private readonly object _gate = new object();
         public CollectionSynchronizer(IEnumerable<T> source)
         {
             _inner.AddRange(source ?? Enumerable.Empty<T>());
@@ -49,7 +50,7 @@ namespace Gu.Reactive
             PropertyChangedEventHandler propertyChanged,
             NotifyCollectionChangedEventHandler collectionChanged)
         {
-            lock (_inner)
+            lock (_gate)
             {
                 var change = Update(updated, collectionChanges, propertyChanged != null || collectionChanged != null);
                 Notifier.Notify(sender, change, scheduler, propertyChanged, collectionChanged);

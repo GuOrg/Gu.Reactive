@@ -9,17 +9,16 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Reactive.Concurrency;
+    using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")] 
-    public class ReadOnlyFilteredView<T> : IReadOnlyFilteredView<T>, IUpdater
+    public class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T>, IReadOnlyFilteredView<T>, IUpdater
     {
         private readonly IEnumerable<T> _source;
-        private readonly IScheduler _scheduler;
         private readonly IDisposable _refreshSubscription;
-        private readonly CollectionSynchronizer<T> _tracker;
         private bool _disposed;
 
         public ReadOnlyFilteredView(ObservableCollection<T> collection, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
@@ -59,44 +58,27 @@
             Ensure.NotNull(source, "collection");
             Ensure.NotNull(filter, "filter");
             _source = source;
-            _scheduler = scheduler;
             Filter = filter;
             BufferTime = bufferTime;
-            _tracker = new CollectionSynchronizer<T>(Filtered());
+            SetSource(Filtered());
             _refreshSubscription = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, false)
                                                     .Subscribe(Refresh);
         }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public TimeSpan BufferTime { get; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public Func<T, bool> Filter { get;  }
 
-        public TimeSpan BufferTime { get; private set; }
+        object IUpdater.IsUpdatingSourceItem => null;
 
-        public Func<T, bool> Filter { get; private set; }
-
-        object IUpdater.IsUpdatingSourceItem
+        public new void Refresh()
         {
-            get { return null; }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        public void Refresh()
-        {
-            VerifyDisposed();
-            var updated = Filtered().ToArray();
-            _tracker.Reset(this, updated, _scheduler, PropertyChanged, CollectionChanged);
+            SetSource(Filtered());
         }
 
         protected void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            var updated = Filtered().ToArray();
-            _tracker.Refresh(this, updated, null, _scheduler, PropertyChanged, CollectionChanged);
+            SetSource(Filtered());
         }
 
         protected IEnumerable<T> Filtered()
@@ -108,7 +90,7 @@
         /// Protected implementation of Dispose pattern. 
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (_disposed)
             {
@@ -119,41 +101,7 @@
             {
                 _refreshSubscription.Dispose();
             }
+            base.Dispose(disposing);
         }
-
-        protected void VerifyDisposed()
-        {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
-        }
-
-        #region IReadOnlyList<T>
-
-        public int Count { get { return _tracker.Current.Count; } }
-
-        public T this[int index]
-        {
-            get
-            {
-                VerifyDisposed();
-                return _tracker.Current[index];
-            }
-        }
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            VerifyDisposed();
-            return _tracker.Current.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            VerifyDisposed();
-            return GetEnumerator();
-        }
-
-        #endregion IReadOnlyList<T>
     }
 }

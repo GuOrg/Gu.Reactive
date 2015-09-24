@@ -203,8 +203,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\ReadonlyIListView.cs" />
+    <Compile Include="Contracts\IEditableListView.cs" />
+    <Compile Include="Contracts\IReadonlyIListView.cs" />
     <Compile Include="Collections\ListExt.cs" />
-    <Compile Include="Collections\SerialViewBase.cs" />
+    <Compile Include="Collections\ReadonlySerialViewBase.cs" />
     <Compile Include="Collections\ThrowHelper.cs" />
     <Compile Include="Contracts\IRefreshAble.cs" />
     <Compile Include="Contracts\ISchedulers.cs" />
@@ -255,6 +258,8 @@
     <Compile Include="Collections\ReadOnlyThrottledView.cs" />
     <Compile Include="Collections\WeakCompositeDisposable.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
+    <Compile Include="Collections\ReadonlyIListView`1.cs" />
+    <Compile Include="Collections\EditableListView.cs" />
     <Compile Include="ForegroundScheduler.cs" />
     <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />

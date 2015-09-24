@@ -15,5 +15,15 @@
         {
             throw new InvalidOperationException(CollectionIsReadonly);
         }
+
+        internal static void ThrowNotSupportedException()
+        {
+            throw new NotSupportedException();
+        }
+
+        internal static TResult ThrowNotSupportedException<TResult>()
+        {
+            throw new NotSupportedException();
+        }
     }
 }

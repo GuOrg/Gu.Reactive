@@ -10,24 +10,24 @@ namespace Gu.Reactive
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
-    public abstract class SerialViewBase<T> : IRefreshAble, IList, IDisposable
+    public abstract class ReadonlySerialViewBase<T> : IRefreshAble, IList, IDisposable
     {
         private static readonly IReadOnlyList<T> Empty = new T[0];
         private readonly CollectionSynchronizer<T> _tracker;
 
         private bool _disposed;
 
-        protected SerialViewBase()
+        protected ReadonlySerialViewBase()
             : this(null, true, true)
         {
         }
 
-        protected SerialViewBase(bool isreadonly, bool isFixedSize)
+        protected ReadonlySerialViewBase(bool isreadonly, bool isFixedSize)
             : this(null, isreadonly, isFixedSize)
         {
         }
 
-        protected SerialViewBase(IEnumerable<T> source, bool isreadonly, bool isFixedSize)
+        protected ReadonlySerialViewBase(IEnumerable<T> source, bool isreadonly, bool isFixedSize)
         {
             IsReadOnly = isreadonly;
             IsFixedSize = isFixedSize;
