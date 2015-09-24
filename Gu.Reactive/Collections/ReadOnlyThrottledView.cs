@@ -12,7 +12,7 @@
     using Gu.Reactive.Internals;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")] 
+    [DebuggerDisplay("Count = {Count}")]
     public class ReadOnlyThrottledView<T> : IReadOnlyThrottledView<T>, IUpdater, IRefreshAble
     {
         private readonly IReadOnlyList<T> _collection;
@@ -22,26 +22,26 @@
         private bool _disposed;
 
         public ReadOnlyThrottledView(ObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
-            : this((IReadOnlyList<T>)collection, bufferTime, scheduler)
+            : this(bufferTime, scheduler, collection.AsReadOnly())
         {
         }
 
         public ReadOnlyThrottledView(ReadOnlyObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
-            : this((IReadOnlyList<T>)collection, bufferTime, scheduler)
+            : this(bufferTime, scheduler, collection.AsReadOnly())
         {
         }
 
         public ReadOnlyThrottledView(IObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
-            : this((IReadOnlyList<T>)collection, bufferTime, scheduler)
+            : this(bufferTime, scheduler, collection.AsReadOnly())
         {
         }
 
         public ReadOnlyThrottledView(IReadOnlyObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
-            : this((IReadOnlyList<T>)collection, bufferTime, scheduler)
+            : this(bufferTime, scheduler, collection)
         {
         }
 
-        private ReadOnlyThrottledView(IReadOnlyList<T> collection, TimeSpan bufferTime, IScheduler scheduler)
+        private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler scheduler, IReadOnlyList<T> collection)
         {
             Ensure.NotNull(collection as INotifyCollectionChanged, "collection");
             _collection = collection;
@@ -49,7 +49,7 @@
             _scheduler = scheduler;
             BufferTime = bufferTime;
             _refreshSubscription = ThrottledRefresher.Create(this, collection, bufferTime, scheduler, false)
-                                                    .Subscribe(Refresh);
+                                                     .Subscribe(Refresh);
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;

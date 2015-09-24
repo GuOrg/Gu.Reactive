@@ -203,6 +203,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\ListExt.cs" />
     <Compile Include="Collections\SerialViewBase.cs" />
     <Compile Include="Collections\ThrowHelper.cs" />
     <Compile Include="Contracts\IRefreshAble.cs" />
