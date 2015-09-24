@@ -6,6 +6,5 @@
 
     public interface IReadOnlyObservableCollection<out T> : IReadOnlyList<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        void Refresh();
     }
 }

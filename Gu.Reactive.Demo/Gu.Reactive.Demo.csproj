@@ -122,10 +122,15 @@
     <Compile Include="ConvertersDemoView.xaml.cs">
       <DependentUpon>ConvertersDemoView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataGridAndEventsView.xaml.cs">
+      <DependentUpon>DataGridAndEventsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ThrottledViewView.xaml.cs">
       <DependentUpon>ThrottledViewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ThrottledViewViewModel.cs" />
+    <Compile Include="ThrottledViewViewModel.cs">
+      <DependentUpon>ThrottledViewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DispatchingViewView.xaml.cs">
       <DependentUpon>DispatchingViewView.xaml</DependentUpon>
     </Compile>
@@ -198,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ConvertersDemoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DataGridAndEventsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

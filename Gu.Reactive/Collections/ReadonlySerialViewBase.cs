@@ -127,7 +127,7 @@ namespace Gu.Reactive
         {
             try
             {
-                var source = Source as IReadOnlyList<T> ?? Source.ToArray();
+                var source = Source.AsReadOnly();
                 _tracker.Refresh(this, source, changes, null, PropertyChanged, CollectionChanged);
             }
             catch (InvalidOperationException) // when (e.Message == Environment.GetCollectionWasModifiedText())

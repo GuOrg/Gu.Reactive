@@ -11,8 +11,6 @@
     public class ThrottledViewViewModel
     {
         private readonly ObservableCollection<DummyItem> _observableCollection = new ObservableCollection<DummyItem>();
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _observableCollectionEvents = new ObservableCollection<NotifyCollectionChangedEventArgs>();
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _throttledEvents = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
         public ThrottledViewViewModel()
         {
@@ -20,38 +18,23 @@
             Add(3);
             ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(_observableCollection);
             ThrottledView = _observableCollection.AsThrottledView(DeferTime, Schedulers.DispatcherOrCurrentThread);
+            ReadOnlyThrottledView = _observableCollection.AsReadOnlyThrottledView(DeferTime, Schedulers.DispatcherOrCurrentThread);
+            ReadOnlyIlistThrottledView = ReadOnlyThrottledView.AsReadonlyIListView();
             AddOneCommand = new RelayCommand(AddOne, () => true);
             AddOneToViewCommand = new RelayCommand(AddOneToView, () => true);
             AddTenCommand = new RelayCommand(AddTen, () => true);
             AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => AddOne()), () => true);
-            ClearCommand = new RelayCommand(() => Clear(), () => true);
-            ObservableCollection.ObserveCollectionChanged()
-                                .ObserveOnDispatcherOrCurrentThread()
-                                .Subscribe(x => _observableCollectionEvents.Add(x.EventArgs));
-
-            ThrottledView.ObserveCollectionChanged()
-                    .ObserveOnDispatcherOrCurrentThread()
-                    .Subscribe(x => _throttledEvents.Add(x.EventArgs));
         }
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionEvents
-        {
-            get { return _observableCollectionEvents; }
-        }
+        public ObservableCollection<DummyItem> ObservableCollection => _observableCollection;
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> ThrottledEvents
-        {
-            get { return _throttledEvents; }
-        }
+        public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; }
 
-        public ObservableCollection<DummyItem> ObservableCollection
-        {
-            get { return _observableCollection; }
-        }
+        public IThrottledView<DummyItem> ThrottledView { get;  }
 
-        public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; private set; }
+        public IReadOnlyObservableCollection<DummyItem> ReadOnlyThrottledView { get;  }
 
-        public IThrottledView<DummyItem> ThrottledView { get; private set; }
+        public IReadOnlyObservableCollection<DummyItem> ReadOnlyIlistThrottledView { get; private set; }
 
         public TimeSpan DeferTime { get; private set; }
 
@@ -62,8 +45,6 @@
         public ICommand AddTenCommand { get; private set; }
 
         public ICommand AddOneOnOtherThreadCommand { get; private set; }
-
-        public RelayCommand ClearCommand { get; private set; }
 
         private void AddOne()
         {
@@ -91,8 +72,6 @@
         private void Clear()
         {
             _observableCollection.Clear();
-            _observableCollectionEvents.Clear();
-            _throttledEvents.Clear();
         }
     }
 }

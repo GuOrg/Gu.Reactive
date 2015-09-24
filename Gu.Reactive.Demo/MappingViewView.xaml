@@ -7,8 +7,7 @@
              d:DataContext="{d:DesignInstance demo:MappingViewViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             mc:Ignorable="d"
-             >
+             mc:Ignorable="d">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type demo:MappedVm}">
             <GroupBox Header="Mapped">
@@ -38,141 +37,46 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0"
                     Command="{Binding AddOneToSourceCommand}"
-                    Content="Add to source"
-                    />
+                    Content="Add to source" />
 
             <Button Grid.Column="1"
                     Command="{Binding AddOneToSourceOnOtherThreadCommand}"
-                    Content="Add to source on thread"
-                    />
+                    Content="Add to source on thread" />
 
             <Slider Grid.Column="2"
                     Maximum="{Binding Ints.Count}"
                     Minimum="0"
-                    Value="{Binding RemoveAt}"
-                    />
+                    Value="{Binding RemoveAt}" />
             <Button Grid.Column="3"
                     Command="{Binding RemoveAtCommand}"
-                    Content="RemoveAt"
-                    />
+                    Content="RemoveAt" />
 
             <Button Grid.Column="4"
                     Command="{Binding ClearCommand}"
-                    Content="Clear"
-                    />
+                    Content="Clear" />
 
         </Grid>
 
-        <ItemsControl Grid.Row="1">
-           <ItemsControl.ItemsPanel>
-               <ItemsPanelTemplate>
-                   <UniformGrid Columns="10"></UniformGrid>
-               </ItemsPanelTemplate>
-           </ItemsControl.ItemsPanel>
-
-            <GroupBox Header="Ints"
-                      >
+        <UniformGrid Grid.Row="1" Columns="{Binding Children.Count, RelativeSource={RelativeSource Self}}">
+            <GroupBox Header="Ints">
                 <ItemsControl ItemsSource="{Binding Ints}" />
             </GroupBox>
 
-            <GroupBox>
-                <GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Source: Filtered ints" />
-                        <TextBlock Text="Indexed: No" />
-                        <TextBlock Text="Update: No" />
-                    </StackPanel>
-                </GroupBox.Header>
-                <ItemsControl ItemsSource="{Binding FilteredMappedInts}" />
-            </GroupBox>
+            <demo:DataGridAndEventsView Header="MappedInts" Source="{Binding MappedInts}" />
+
+            <demo:DataGridAndEventsView Header="MappedIndexedInts" Source="{Binding MappedIndexedInts}" />
+
+            <demo:DataGridAndEventsView Header="FilteredMappedInts" Source="{Binding FilteredMappedInts}" />
+
+            <demo:DataGridAndEventsView Header="MappedMapped" Source="{Binding MappedMapped}" />
+
+            <demo:DataGridAndEventsView Header="MappedMappedIndexed" Source="{Binding MappedMappedIndexed}" />
+
+            <demo:DataGridAndEventsView Header="MappedMappedUpdateIndexed" Source="{Binding MappedMappedUpdateIndexed}" />
+
+            <demo:DataGridAndEventsView Header="MappedMappedUpdateNewIndexed" Source="{Binding MappedMappedUpdateNewIndexed}" />
             
-            <GroupBox>
-                <GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Source: Ints" />
-                        <TextBlock Text="Indexed: No" />
-                        <TextBlock Text="Update: No" />
-                    </StackPanel>
-                </GroupBox.Header>
-                <ItemsControl ItemsSource="{Binding MappedInts}" />
-            </GroupBox>
-            
-            <GroupBox>
-                <GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Source: Ints" />
-                        <TextBlock Text="Indexed: No" />
-                        <TextBlock Text="Update: No" />
-                    </StackPanel>
-                </GroupBox.Header>
-                <ItemsControl ItemsSource="{Binding MappedInts}" />
-            </GroupBox>
-
-            <GroupBox>
-                <GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Source: Ints" />
-                        <TextBlock Text="Indexed: Yes" />
-                        <TextBlock Text="Update: New" />
-                    </StackPanel>
-                </GroupBox.Header>
-                <ItemsControl ItemsSource="{Binding MappedIndexedInts}" />
-            </GroupBox>
-
-            <GroupBox>
-                <GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Source: Filtered Mapped" />
-                        <TextBlock Text="Indexed: No" />
-                        <TextBlock Text="Update: No" />
-                    </StackPanel>
-                </GroupBox.Header>
-                <ItemsControl ItemsSource="{Binding FilteredMappedMapped}" />
-            </GroupBox>
-            
-            <GroupBox>
-                <GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Source: Mapped" />
-                        <TextBlock Text="Indexed: No" />
-                        <TextBlock Text="Update: No" />
-                    </StackPanel>
-                </GroupBox.Header>
-                <ItemsControl ItemsSource="{Binding MappedMapped}" />
-            </GroupBox>
-
-            <GroupBox >
-                <GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Source: Mapped" />
-                        <TextBlock Text="Indexed: Yes" />
-                        <TextBlock Text="Update: No" />
-                    </StackPanel>
-                </GroupBox.Header>
-                <ItemsControl ItemsSource="{Binding MappedMappedIndexed}" />
-            </GroupBox>
-
-            <GroupBox>
-                <GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Source: Mapped" />
-                        <TextBlock Text="Indexed: Yes" />
-                        <TextBlock Text="Update: Inplace" />
-                    </StackPanel>
-                </GroupBox.Header>
-                <ItemsControl ItemsSource="{Binding MappedMappedUpdateIndexed}" />
-            </GroupBox>
-
-            <GroupBox>
-                <GroupBox.Header>
-                    <StackPanel>
-                        <TextBlock Text="Source: Mapped" />
-                        <TextBlock Text="Indexed: Yes" />
-                        <TextBlock Text="Update: New" />
-                    </StackPanel>
-                </GroupBox.Header>
-                <ItemsControl ItemsSource="{Binding MappedMappedUpdateNewIndexed}" />
-            </GroupBox>
-        </ItemsControl>
+            <demo:DataGridAndEventsView Header="FilteredMappedMapped" Source="{Binding FilteredMappedMapped}" />
+        </UniformGrid>
     </Grid>
 </UserControl>

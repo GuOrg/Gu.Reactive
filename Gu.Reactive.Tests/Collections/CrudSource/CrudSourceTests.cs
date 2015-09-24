@@ -36,11 +36,8 @@
         public void NoChangeNoEvent()
         {
             CollectionAssert.AreEqual(_ints, _view);
-            _view.Refresh();
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            (_view as IRefreshAble)?.Refresh();
+            _scheduler?.Start();
 
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.IsEmpty(_actual);

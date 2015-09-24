@@ -5,6 +5,7 @@ namespace Gu.Reactive
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Linq;
     using System.Reactive.Disposables;
 
     using Gu.Reactive.Internals;
@@ -68,11 +69,36 @@ namespace Gu.Reactive
 
         int IList.Add(object value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
 
-        bool IList.Contains(object value) => ThrowHelper.ThrowNotSupportedException<bool>();
+        bool IList.Contains(object value)
+        {
+            foreach (var item in _source)
+            {
+                if (ReferenceEquals(value, item))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         void IList.Clear() => ThrowHelper.ThrowCollectionIsReadonly();
 
-        int IList.IndexOf(object value) => ThrowHelper.ThrowNotSupportedException<int>();
+        int IList.IndexOf(object value)
+        {
+            var list = _source as IList<T>;
+            if (list != null)
+            {
+                return list.IndexOf((T)value);
+            }
+            for (int i = 0; i < _source.Count; i++)
+            {
+                if (ReferenceEquals(value, _source[i]))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
 
         void IList.Insert(int index, object value) => ThrowHelper.ThrowCollectionIsReadonly();
 

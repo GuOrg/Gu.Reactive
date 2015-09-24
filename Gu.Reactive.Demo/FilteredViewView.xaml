@@ -61,32 +61,15 @@
                 </Grid>
             </GroupBox>
 
-            <Button Grid.Column="3"
+            <!--<Button Grid.Column="3"
                     Command="{Binding ClearEventsCommand}"
-                    Content="ClearEvents" />
+                    Content="ClearEvents" />-->
         </Grid>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <GroupBox Grid.Column="0" Header="Filtered view">
-                <DataGrid ItemsSource="{Binding Filtered}" />
-            </GroupBox>
-
-            <GroupBox Grid.Column="1" Header="Filtered events">
-                <ItemsControl ItemsSource="{Binding FilteredEvents}" />
-            </GroupBox>
-
-            <GroupBox Grid.Column="2" Header="Vanilla observable collection">
-                <DataGrid ItemsSource="{Binding PeopleRaw}" />
-            </GroupBox>
-            <GroupBox Grid.Column="3" Header="Raw events">
-                <ItemsControl ItemsSource="{Binding RawEvents}" />
-            </GroupBox>
-        </Grid>
+        <UniformGrid Grid.Row="1" Columns="3">
+            <demo:DataGridAndEventsView Header="Filtered" Source="{Binding Filtered}" />
+            <demo:DataGridAndEventsView Header="ReadOnlyFiltered" Source="{Binding ReadOnlyFiltered}" />
+            <demo:DataGridAndEventsView Header="Raw" Source="{Binding PeopleRaw}" />
+        </UniformGrid>
     </Grid>
 </UserControl>

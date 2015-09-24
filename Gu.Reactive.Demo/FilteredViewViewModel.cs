@@ -18,8 +18,6 @@
         private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
         private readonly ObservableCollection<Person> _peopleRaw;
         private readonly Random _random = new Random();
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _rawEvents = new ObservableCollection<NotifyCollectionChangedEventArgs>();
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _filteredEvents = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
         private string _searchText;
         private bool _hasSearchText;
@@ -38,24 +36,20 @@
                 Schedulers.DispatcherOrCurrentThread,
                 this.ObservePropertyChanged(x => x.SearchText),
                 this.ObservePropertyChanged(x => x.SelectedTags));
+
+
+            ReadOnlyFiltered = _peopleRaw.AsReadOnlyFilteredView(
+                Filter,
+                TimeSpan.FromMilliseconds(10),
+                Schedulers.DispatcherOrCurrentThread,
+                this.ObservePropertyChanged(x => x.SearchText),
+                this.ObservePropertyChanged(x => x.SelectedTags));
+
             PeopleReadonly = new ReadOnlyObservableCollection<Person>(_peopleRaw);
             DummyReadonlyCollection = new DummyReadonlyCollection<Person>(_peopleRaw);
             this.ObservePropertyChanged(x => x.SearchText)
                 .Subscribe(_ => HasSearchText = !string.IsNullOrEmpty(SearchText));
 
-            PeopleRaw.ObserveCollectionChanged()
-                    .ObserveOnDispatcherOrCurrentThread()
-                    .Subscribe(x => _rawEvents.Add(x.EventArgs));
-
-            Filtered.ObserveCollectionChanged()
-                    .ObserveOnDispatcherOrCurrentThread()
-                    .Subscribe(x => _filteredEvents.Add(x.EventArgs));
-            ClearEventsCommand = new RelayCommand(
-                () =>
-                {
-                    _filteredEvents.Clear();
-                    _rawEvents.Clear();
-                });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -88,8 +82,6 @@
             }
         }
 
-        public ICommand ClearEventsCommand { get; private set; }
-
         public ObservableCollection<Person> PeopleRaw
         {
             get { return _peopleRaw; }
@@ -112,15 +104,7 @@
 
         public FilteredView<Person> Filtered { get; private set; }
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> RawEvents
-        {
-            get { return _rawEvents; }
-        }
-
-        public ObservableCollection<NotifyCollectionChangedEventArgs> FilteredEvents
-        {
-            get { return _filteredEvents; }
-        }
+        public IReadOnlyObservableCollection<Person> ReadOnlyFiltered { get; private set; }
 
         public DummyReadonlyCollection<Person> DummyReadonlyCollection { get; private set; }
 
