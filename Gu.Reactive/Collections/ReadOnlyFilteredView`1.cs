@@ -1,15 +1,12 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.Linq;
     using System.Reactive.Concurrency;
-    using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
 

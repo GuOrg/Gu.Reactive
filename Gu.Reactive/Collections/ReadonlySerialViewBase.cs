@@ -61,7 +61,7 @@ namespace Gu.Reactive
             VerifyDisposed();
             try
             {
-                var source = Source as IReadOnlyList<T> ?? Source.ToArray();
+                var source = Source.AsReadOnly();
                 _tracker.Reset(this, source, null, PropertyChanged, CollectionChanged);
             }
             catch (InvalidOperationException) // when (e.Message == Environment.GetCollectionWasModifiedText())

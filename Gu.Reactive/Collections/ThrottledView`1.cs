@@ -33,7 +33,7 @@
             _scheduler = scheduler;
             _bufferTime = bufferTime;
             _refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, bufferTime, scheduler, false)
-                                                               .Subscribe(Refresh);
+                                                                .Subscribe(Refresh);
         }
 
         public TimeSpan BufferTime
@@ -58,13 +58,13 @@
         public override void Refresh()
         {
             VerifyDisposed();
-            var updated = Source as IReadOnlyList<T> ?? Source.ToArray();
+            var updated = Source.AsReadOnly();
             Synchronized.Reset(this, updated, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
         protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
         {
-            var updated = Source as IReadOnlyList<T> ?? Source.ToArray();
+            var updated = Source.AsReadOnly();
             Synchronized.Refresh(this, updated, new[] { e }, null, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
