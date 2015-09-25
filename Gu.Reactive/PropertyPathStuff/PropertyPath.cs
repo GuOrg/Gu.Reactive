@@ -18,7 +18,7 @@ namespace Gu.Reactive.PropertyPathStuff
             Last = parts[parts.Count - 1];
         }
 
-        public PathProperty Last { get; private set; }
+        public PathProperty Last { get; }
 
         public int Count
         {

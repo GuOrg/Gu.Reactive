@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
     using System.Threading.Tasks;
     using System.Windows.Input;
 
@@ -17,8 +16,8 @@
             DeferTime = TimeSpan.FromMilliseconds(10);
             Add(3);
             ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(_observableCollection);
-            ThrottledView = _observableCollection.AsThrottledView(DeferTime, Schedulers.DispatcherOrCurrentThread);
-            ReadOnlyThrottledView = _observableCollection.AsReadOnlyThrottledView(DeferTime, Schedulers.DispatcherOrCurrentThread);
+            ThrottledView = _observableCollection.AsThrottledView(DeferTime, WpfSchedulers.Dispatcher);
+            ReadOnlyThrottledView = _observableCollection.AsReadOnlyThrottledView(DeferTime, WpfSchedulers.Dispatcher);
             ReadOnlyIlistThrottledView = ReadOnlyThrottledView.AsReadonlyIListView();
             AddOneCommand = new RelayCommand(AddOne, () => true);
             AddOneToViewCommand = new RelayCommand(AddOneToView, () => true);
@@ -36,7 +35,7 @@
 
         public IReadOnlyObservableCollection<DummyItem> ReadOnlyIlistThrottledView { get; private set; }
 
-        public TimeSpan DeferTime { get; private set; }
+        public TimeSpan DeferTime { get; }
 
         public ICommand AddOneCommand { get; private set; }
 

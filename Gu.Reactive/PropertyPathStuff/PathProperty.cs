@@ -32,12 +32,12 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public PathProperty Next { get; private set; }
 
-        public PathProperty Previous { get; private set; }
+        public PathProperty Previous { get; }
 
         /// <summary>
         /// Gets the property info.
         /// </summary>
-        public PropertyInfo PropertyInfo { get; private set; }
+        public PropertyInfo PropertyInfo { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether is last.

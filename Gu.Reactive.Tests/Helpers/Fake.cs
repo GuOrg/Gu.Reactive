@@ -33,7 +33,7 @@
                     return;
                 }
                 _isTrueOrNull = value;
-                this.OnPropertyChanged();
+                OnPropertyChanged();
             }
         }
        
@@ -50,7 +50,7 @@
                     return;
                 }
                 _isTrue = value;
-                this.OnPropertyChanged();
+                OnPropertyChanged();
             }
         }
         
@@ -67,7 +67,7 @@
                     return;
                 }
                 _name = value;
-                this.OnPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -84,7 +84,7 @@
                     return;
                 }
                 _next = value;
-                this.OnPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -124,7 +124,7 @@
         [NotifyPropertyChangedInvocator]
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = this.PropertyChanged;
+            var handler = PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));

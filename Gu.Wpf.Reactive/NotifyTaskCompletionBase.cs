@@ -28,9 +28,9 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public T Task { get; private set; }
+        public T Task { get; }
 
-        public Task Completed { get; private set; }
+        public Task Completed { get; }
 
         public TaskStatus Status { get { return Task.Status; } }
 

@@ -73,7 +73,7 @@
             SetSource(Filtered());
         }
 
-        protected void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             SetSource(Filtered());
         }

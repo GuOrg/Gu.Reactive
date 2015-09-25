@@ -227,7 +227,7 @@ namespace Gu.Reactive.Tests.Collections
                 Value = value;
             }
 
-            public int Value { get; set; }
+            public int Value { get; }
 
             public int Index { get; set; }
         }

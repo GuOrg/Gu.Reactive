@@ -8,7 +8,7 @@
     public class TypeExtTests
     {
         [TestCase(typeof(double), "double")]
-        [TestCase(typeof(Nullable<double>), "Nullable<double>")]
+        [TestCase(typeof(double?), "Nullable<double>")]
         [TestCase(typeof(IDictionary<string, double>), "IDictionary<string, double>")]
         public void PrettyName(Type type, string expected)
         {

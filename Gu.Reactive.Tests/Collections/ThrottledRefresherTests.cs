@@ -114,9 +114,9 @@
 
             public bool SignalInitial { get; set; }
 
-            public int[] Times { get; private set; }
+            public int[] Times { get; }
 
-            public IReadOnlyList<IReadOnlyList<int>> Results { get; private set; }
+            public IReadOnlyList<IReadOnlyList<int>> Results { get; }
 
             public static string ToString(IReadOnlyList<IReadOnlyList<int>> values)
             {

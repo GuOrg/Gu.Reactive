@@ -92,13 +92,13 @@
             }
         }
 
-        public Condition IsDoorClosedCondition { get; private set; }
+        public Condition IsDoorClosedCondition { get; }
 
-        public Condition IsMotorRunningCondition { get; private set; }
+        public Condition IsMotorRunningCondition { get; }
 
-        public Condition AndCondition { get; private set; }
+        public Condition AndCondition { get; }
 
-        public ICondition NegatedCondition { get; private set; }
+        public ICondition NegatedCondition { get; }
 
         public ConditionRelayCommand<string> StartCommand { get; private set; }
 

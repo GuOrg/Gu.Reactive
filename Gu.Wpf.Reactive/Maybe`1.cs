@@ -30,6 +30,6 @@ namespace Gu.Wpf.Reactive
             }
         }
 
-        public bool HasValue { get; private set; }
+        public bool HasValue { get; }
     }
 }

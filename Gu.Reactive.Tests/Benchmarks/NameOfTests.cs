@@ -7,7 +7,7 @@ namespace Gu.Reactive.Tests.Benchmarks
     using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
-
+#pragma warning disable CS0618 // Type or member is obsolete
     // ReSharper disable once InconsistentNaming
     [Explicit("Longrunning benchmarks")]
     public class NameOfTests
@@ -44,4 +44,5 @@ namespace Gu.Reactive.Tests.Benchmarks
         {
         }
     }
+#pragma warning restore CS0618 // Type or member is obsolete
 }

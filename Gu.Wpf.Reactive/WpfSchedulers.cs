@@ -5,11 +5,11 @@
 
     using Gu.Reactive;
 
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class WpfSchedulers : Gu.Reactive.Schedulers, IWpfSchedulers
     {
-        private DispatcherScheduler _dispatcherScheduler;
+        public static readonly DispatcherScheduler Dispatcher = new DispatcherScheduler(Application.Current.Dispatcher);
 
-        public IScheduler Dispatcher => _dispatcherScheduler
-                                        ?? (_dispatcherScheduler = new DispatcherScheduler(Application.Current.Dispatcher));
+        IScheduler IWpfSchedulers.Dispatcher => Dispatcher;
     }
 }

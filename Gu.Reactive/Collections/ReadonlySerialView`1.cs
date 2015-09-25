@@ -14,7 +14,6 @@ namespace Gu.Reactive
     public sealed class ReadOnlySerialView<T> : ReadonlySerialViewBase<T>, IReadOnlyObservableCollection<T>, IUpdater
     {
         private readonly SerialDisposable _refreshSubscription = new SerialDisposable();
-        private bool _disposed;
 
         public ReadOnlySerialView()
             : this(null)

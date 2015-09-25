@@ -4,7 +4,7 @@
 
     using NUnit.Framework;
 
-
+    #pragma warning disable CS0618 // Type or member is obsolete
     // ReSharper disable once InconsistentNaming
     public class MethodTests
     {
@@ -49,4 +49,5 @@
         {
         }
     }
+    #pragma warning restore CS0618 // Type or member is obsolete
 }

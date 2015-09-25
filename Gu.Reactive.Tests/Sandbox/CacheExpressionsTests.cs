@@ -26,7 +26,7 @@
         [Test]
         public void TestNameTest()
         {
-            this.Fake = new Fake { Next = new Level { Name = "Johan" } };
+            Fake = new Fake { Next = new Level { Name = "Johan" } };
 
             for (int i = 0; i < 100; i++)
             {
@@ -39,17 +39,17 @@
         public void Benchmark()
         {
             int n = 1000;
-            this.Fake = new Fake { Next = new Level { Name = "Johan" } };
+            Fake = new Fake { Next = new Level { Name = "Johan" } };
             var sw = Stopwatch.StartNew();
 
             for (int i = 0; i < n; i++)
             {
-                var h = HashVisitor.GetHash(x => this.Fake.Next.Name); // Warming things up
+                var h = HashVisitor.GetHash(x => Fake.Next.Name); // Warming things up
             }
             sw.Restart();
             for (int i = 0; i < n; i++)
             {
-                var h = HashVisitor.GetHash(x => this.Fake.Next.Name);
+                var h = HashVisitor.GetHash(x => Fake.Next.Name);
             }
             sw.Stop();
             var t1 = sw.Elapsed;
@@ -62,7 +62,7 @@
             sw.Restart();
             for (int i = 0; i < n; i++)
             {
-                Expression<Func<object, string>> expression = x => this.Fake.Next.Name;
+                Expression<Func<object, string>> expression = x => Fake.Next.Name;
                 var h = expression.ToString();
             }
             sw.Stop();

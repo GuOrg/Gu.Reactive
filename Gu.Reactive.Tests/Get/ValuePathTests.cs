@@ -21,7 +21,7 @@
         [Test]
         public void ValuePathWhenHasValue()
         {
-            this.Fake = new Fake { Next = new Level { Name = "Johan" } };
+            Fake = new Fake { Next = new Level { Name = "Johan" } };
             var path = Get.ValuePath<ValuePathTests, string>(x => x.Fake.Next.Name);
             var value = path.GetValue(this);
             Assert.IsTrue(value.HasValue);
@@ -31,7 +31,7 @@
         [Test]
         public void ValuePathWhenHasNullValue()
         {
-            this.Fake = new Fake { Next = new Level { Name = null } };
+            Fake = new Fake { Next = new Level { Name = null } };
             var path = Get.ValuePath<ValuePathTests, string>(x => x.Fake.Next.Name);
             var value = path.GetValue(this);
             Assert.IsTrue(value.HasValue);
@@ -41,7 +41,7 @@
         [Test]
         public void ValuePathWhenNullInPath()
         {
-            this.Fake = new Fake();
+            Fake = new Fake();
             var path = Get.ValuePath<ValuePathTests, string>(x => x.Fake.Next.Name);
             var value = path.GetValue(this);
             Assert.IsFalse(value.HasValue);

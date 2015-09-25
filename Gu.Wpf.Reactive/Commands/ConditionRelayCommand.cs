@@ -11,8 +11,6 @@
     /// </summary>
     public class ConditionRelayCommand<T> : ObservingRelayCommand<T>, IConditionRelayCommand
     {
-        private readonly ICondition _condition;
-
         /// <summary>
         /// 
         /// </summary>
@@ -26,22 +24,16 @@
                 _ => condition.IsSatisfied == true, 
                 condition.ObservePropertyChanged(x => x.IsSatisfied))
         {
-            _condition = condition;
+            Condition = condition;
         }
 
-        public ICondition Condition
-        {
-            get
-            {
-                return _condition;
-            }
-        }
+        public ICondition Condition { get; }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && Condition != null)
+            if (disposing)
             {
-                Condition.Dispose();
+                Condition?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -52,8 +44,6 @@
     /// </summary>
     public class ConditionRelayCommand : ObservingRelayCommand, IConditionRelayCommand
     {
-        private readonly ICondition _condition;
-
         /// <summary>
         /// 
         /// </summary>
@@ -65,22 +55,16 @@
                 () => condition.IsSatisfied == true,
                 condition.ObservePropertyChanged(x => x.IsSatisfied))
         {
-            _condition = condition;
+            Condition = condition;
         }
 
-        public ICondition Condition
-        {
-            get
-            {
-                return _condition;
-            }
-        }
+        public ICondition Condition { get; }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && Condition != null)
+            if (disposing)
             {
-                Condition.Dispose();
+                Condition?.Dispose();
             }
             base.Dispose(disposing);
         }

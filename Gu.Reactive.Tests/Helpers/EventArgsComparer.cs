@@ -54,14 +54,9 @@
             {
                 return false;
             }
-            for (int i = 0; i < newItems.Count; i++)
-            {
-                if (!Equals(newItems[i], oldItems[i]))
-                {
-                    return false;
-                }
-            }
-            return true;
+            return !newItems.Cast<object>()
+                            .Where((t, i) => !Equals(t, oldItems[i]))
+                            .Any();
         }
     }
 }

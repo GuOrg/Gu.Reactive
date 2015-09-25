@@ -5,10 +5,7 @@ namespace Gu.Reactive
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Linq;
     using System.Reactive.Disposables;
-
-    using Gu.Reactive.Internals;
 
     public class ReadOnlyIListView<T> : IReadonlyIListView<T>
     {
@@ -55,50 +52,15 @@ namespace Gu.Reactive
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        void ICollection.CopyTo(Array array, int index)
-        {
-            Ensure.NotNull(array, nameof(array));
-            Ensure.That(index >= 0, nameof(index), "Index must be greater than or equal to 0");
-            Ensure.That(index < array.Length, nameof(index), "Index must be less than array.Length");
-
-            for (int i = index; i < _source.Count; i++)
-            {
-                array.SetValue(_source[i], i);
-            }
-        }
+        void ICollection.CopyTo(Array array, int index) => _source.CopyTo(array, index);
 
         int IList.Add(object value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
 
-        bool IList.Contains(object value)
-        {
-            foreach (var item in _source)
-            {
-                if (ReferenceEquals(value, item))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        bool IList.Contains(object value) => _source.Contains(value);
 
         void IList.Clear() => ThrowHelper.ThrowCollectionIsReadonly();
 
-        int IList.IndexOf(object value)
-        {
-            var list = _source as IList<T>;
-            if (list != null)
-            {
-                return list.IndexOf((T)value);
-            }
-            for (int i = 0; i < _source.Count; i++)
-            {
-                if (ReferenceEquals(value, _source[i]))
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
+        int IList.IndexOf(object value) => _source.IndexOf(value);
 
         void IList.Insert(int index, object value) => ThrowHelper.ThrowCollectionIsReadonly();
 

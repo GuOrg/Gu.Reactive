@@ -2,14 +2,12 @@ namespace Gu.Reactive.PropertyPathStuff
 {
     using System;
     using System.ComponentModel;
-    using System.Linq;
     using System.Reactive;
 
     using Gu.Reactive.Internals;
 
     internal sealed class NotifyingPathItem : INotifyingPathItem
     {
-        private readonly PropertyChangedEventArgs _propertyChangedEventArgs;
         private readonly WeakReference _sourceRef = new WeakReference(null);
         private readonly Action<EventPattern<PropertyChangedEventArgs>> _onNext;
         private readonly Action<Exception> _onError;
@@ -30,7 +28,7 @@ namespace Gu.Reactive.PropertyPathStuff
                         type.PrettyName(),
                         previous.PathProperty.PropertyInfo,
                         pathProperty.PropertyInfo.Name);
-                    throw new ArgumentException(message, "path");
+                    throw new ArgumentException(message, nameof(pathProperty));
                 }
                 if (!typeof(INotifyPropertyChanged).IsAssignableFrom(type))
                 {
@@ -40,14 +38,14 @@ namespace Gu.Reactive.PropertyPathStuff
                         type.PrettyName(),
                         previous.PathProperty.PropertyInfo,
                         pathProperty.PropertyInfo.Name);
-                    throw new ArgumentException(message, "path");
+                    throw new ArgumentException(message, nameof(pathProperty));
                 }
             }
 
             PathProperty = pathProperty;
             _onNext = x => OnPropertyChanged(x.Sender, x.EventArgs);
             _onError = OnError;
-            _propertyChangedEventArgs = new PropertyChangedEventArgs(PathProperty.PropertyInfo.Name);
+            PropertyChangedEventArgs = new PropertyChangedEventArgs(PathProperty.PropertyInfo.Name);
             Previous = previous;
             var notifyingPathItem = previous as NotifyingPathItem;
             if (notifyingPathItem != null)
@@ -62,21 +60,15 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public PathProperty PathProperty { get; private set; }
+        public PathProperty PathProperty { get; }
 
         public INotifyingPathItem Previous { get; private set; }
 
         public NotifyingPathItem Next { get; private set; }
 
-        public PropertyChangedEventArgs PropertyChangedEventArgs
-        {
-            get { return _propertyChangedEventArgs; }
-        }
+        public PropertyChangedEventArgs PropertyChangedEventArgs { get; }
 
-        public bool IsLast
-        {
-            get { return PathProperty.IsLast; }
-        }
+        public bool IsLast => PathProperty.IsLast;
 
         public object Value
         {

@@ -24,16 +24,16 @@ namespace Gu.Reactive.Tests.Benchmarks
         public void ValueOrDefault()
         {
             int n = 1000;
-            this.Fake = new Fake { Next = new Level { Name = "Johan" } };
+            Fake = new Fake { Next = new Level { Name = "Johan" } };
             var sw = Stopwatch.StartNew();
             for (int i = 0; i < n; i++)
             {
-                var name = Get.ValueOrDefault(this, x => this.Fake.Next.Name); // Warming things up
+                var name = Get.ValueOrDefault(this, x => Fake.Next.Name); // Warming things up
             }
             sw.Restart();
             for (int i = 0; i < n; i++)
             {
-                var name = Get.ValueOrDefault(this, x => this.Fake.Next.Name);
+                var name = Get.ValueOrDefault(this, x => Fake.Next.Name);
             }
             sw.Stop();
             var t1 = sw.Elapsed;
@@ -57,7 +57,7 @@ namespace Gu.Reactive.Tests.Benchmarks
                 sw.Elapsed.TotalMilliseconds / n);
 
             sw.Restart();
-            Func<Fake, string> func = x => this.Fake.Next.Name;
+            Func<Fake, string> func = x => Fake.Next.Name;
             for (int i = 0; i < n; i++)
             {
                 var name = func(Fake);

@@ -8,17 +8,9 @@
 
     public class DummyClassWithCollection : INotifyPropertyChanged
     {
-        private readonly List<int> _items = new List<int>();
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public List<int> Items
-        {
-            get
-            {
-                return _items;
-            }
-        }
+        public List<int> Items { get; } = new List<int>();
 
         [NotifyPropertyChangedInvocator]
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

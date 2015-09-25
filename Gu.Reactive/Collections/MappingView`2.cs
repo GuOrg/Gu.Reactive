@@ -18,15 +18,12 @@
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "We need the reference")]
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
-    public class MappingView<TSource, TResult> : IReadOnlyObservableCollection<TResult>, IUpdater, IRefreshAble, IDisposable
+    public class MappingView<TSource, TResult> : ReadonlySerialViewBase<TResult>, IReadOnlyObservableCollection<TResult>, IUpdater, IRefreshAble
     {
         private readonly IEnumerable<TSource> _source;
-        private readonly IScheduler _scheduler;
-        private readonly List<TResult> _mapped;
         private readonly CompositeDisposable _updateSubscription = new CompositeDisposable();
         private readonly IMappingFactory<TSource, TResult> _factory;
-
-        private bool _disposed;
+        private readonly List<TResult> _mapped =new List<TResult>();
 
         public MappingView(ObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, selector, triggers)
@@ -49,13 +46,8 @@
         }
 
         private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, TResult> selector, params IObservable<object>[] triggers)
-            : this(source, scheduler, triggers)
+            : this(source, scheduler, MappingFactory.Create(selector), triggers)
         {
-            Ensure.NotNull(selector, "selector");
-            _factory = MappingFactory.Create(selector);
-            _mapped = source.Select(GetOrCreateValue)
-                            .ToList();
-
         }
 
         public MappingView(ObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler, params IObservable<object>[] triggers)
@@ -99,87 +91,38 @@
         }
 
         private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, params IObservable<object>[] triggers)
-            : this(source, scheduler, triggers)
+            : this(source, scheduler, MappingFactory.Create(indexSelector, indexUpdater), triggers)
         {
-            Ensure.NotNull(indexSelector, "indexSelector");
-            _factory = MappingFactory.Create(indexSelector, indexUpdater);
-            _mapped = source.Select(GetOrCreateValue)
-                            .ToList();
-
         }
 
-        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, params IObservable<object>[] triggers)
+        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, IMappingFactory<TSource,TResult> factory , params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, "source");
             Ensure.NotNull(source as INotifyCollectionChanged, "source");
+            Ensure.NotNull(factory, "factory");
+            
             _source = source;
-            _scheduler = scheduler;
+            _factory = factory;
+            _mapped.AddRange(source.Select(GetOrCreateValue));
             _updateSubscription.Add(ThrottledRefresher.Create(this, source, TimeSpan.Zero, scheduler, false)
                                                       .Subscribe(OnSourceCollectionChanged));
             if (triggers != null && triggers.Any(t => t != null))
             {
-                _updateSubscription.Add(triggers.Merge().Subscribe(_ => Refresh()));
+                var triggerSubscription = triggers.Merge()
+                                                  .ObserveOn(scheduler ?? Scheduler.Default)
+                                                  .Subscribe(_ => Refresh());
+                _updateSubscription.Add(triggerSubscription);
             }
+            SetSource(_mapped);
         }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        object IUpdater.IsUpdatingSourceItem => null;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public int Count
+        public override void Refresh()
         {
-            get { return _mapped.Count; }
-        }
-
-        public TResult this[int index]
-        {
-            get { return _mapped[index]; }
-        }
-
-        object IUpdater.IsUpdatingSourceItem
-        {
-            get { return null; }
-        }
-
-        public void Refresh()
-        {
-            VerifyDisposed();
-            var mapped = _source.Select(GetOrCreateValue)
-                                .ToArray();
-            var change = Diff.CollectionChange(_mapped, mapped);
             _mapped.Clear();
-            _mapped.AddRange(mapped);
-            Notifier.Notify(this, change, _scheduler, PropertyChanged, CollectionChanged);
-        }
-
-        public IEnumerator<TResult> GetEnumerator()
-        {
-            VerifyDisposed();
-            return _mapped.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public void Dispose()
-        {
-            if (_disposed)
-            {
-                return;
-            }
-            _disposed = true;
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected void VerifyDisposed()
-        {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(GetType().FullName);
-            }
+            _mapped.AddRange(_source.Select(GetOrCreateValue));
+            base.Refresh();
         }
 
         protected virtual TResult GetOrCreateValue(TSource key, int index)
@@ -253,7 +196,7 @@
                             var changes = UpdateIndicesFrom(index + 1);
                             var change = Diff.CreateAddEventArgs(value, index);
                             changes.Add(change);
-                            Notifier.Notify(this, changes, _scheduler, PropertyChanged, CollectionChanged);
+                            base.Refresh(changes);
                             break;
                         }
                     case NotifyCollectionChangedAction.Remove:
@@ -264,7 +207,7 @@
                             var changes = UpdateIndicesFrom(index);
                             var change = Diff.CreateRemoveEventArgs(value, index);
                             changes.Add(change);
-                            Notifier.Notify(this, changes, _scheduler, PropertyChanged, CollectionChanged);
+                            base.Refresh(changes);
                             break;
                         }
                     case NotifyCollectionChangedAction.Replace:
@@ -274,7 +217,7 @@
                             var oldValue = _mapped[singleChange.OldStartingIndex];
                             _mapped[index] = value;
                             var change = Diff.CreateReplaceEventArgs(value, oldValue, index);
-                            Notifier.Notify(this, change, _scheduler, PropertyChanged, CollectionChanged);
+                            base.Refresh(new[] { change });
                             break;
                         }
 
@@ -286,7 +229,7 @@
                             UpdateIndex(singleChange.OldStartingIndex);
                             UpdateIndex(singleChange.NewStartingIndex);
                             var change = Diff.CreateMoveEventArgs(_mapped[singleChange.NewStartingIndex], singleChange.NewStartingIndex, singleChange.OldStartingIndex);
-                            Notifier.Notify(this, change, _scheduler, PropertyChanged, CollectionChanged);
+                            base.Refresh(new[] { change});
                             break;
                         }
 
@@ -303,7 +246,7 @@
             }
         }
 
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {

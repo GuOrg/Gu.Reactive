@@ -25,8 +25,8 @@
         /// Example: if subscribing to x => x.Next.Name and Next is null then IsDefaultValue will be true.
         /// If Name is null IsDefaultValue will be false because the value is read from source.
         /// </summary>
-        public bool HasValue { get; private set; }
+        public bool HasValue { get; }
 
-        public TProperty Value { get; private set; }
+        public TProperty Value { get; }
     }
 }

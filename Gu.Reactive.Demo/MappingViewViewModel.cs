@@ -20,17 +20,17 @@
         {
             Ints = _ints.AsDispatchingView();
 
-            FilteredMappedInts = _ints.AsReadOnlyFilteredView(x=>x%2==0).AsMappingView(x => new MappedVm { Value = x }, Schedulers.DispatcherOrCurrentThread);
-            MappedInts = _ints.AsMappingView(x => new MappedVm { Value = x }, Schedulers.DispatcherOrCurrentThread);
-            MappedIndexedInts = _ints.AsMappingView((x, i) => new MappedVm { Value = x, Index = i }, Schedulers.DispatcherOrCurrentThread);
+            FilteredMappedInts = _ints.AsReadOnlyFilteredView(x=>x%2==0).AsMappingView(x => new MappedVm { Value = x },  WpfSchedulers.Dispatcher);
+            MappedInts = _ints.AsMappingView(x => new MappedVm { Value = x },  WpfSchedulers.Dispatcher);
+            MappedIndexedInts = _ints.AsMappingView((x, i) => new MappedVm { Value = x, Index = i },  WpfSchedulers.Dispatcher);
 
             FilteredMappedMapped = MappedInts.AsReadOnlyFilteredView(x => x.Value % 2 == 0)
-                                             .AsMappingView(x => new MappedVm { Value = x.Value * 2 }, Schedulers.DispatcherOrCurrentThread);
+                                             .AsMappingView(x => new MappedVm { Value = x.Value * 2 },  WpfSchedulers.Dispatcher);
 
-            MappedMapped = MappedInts.AsMappingView(x => new MappedVm { Value = x.Value * 2 }, Schedulers.DispatcherOrCurrentThread);
-            MappedMappedIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, Schedulers.DispatcherOrCurrentThread);
-            MappedMappedUpdateIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => x.UpdateIndex(i), Schedulers.DispatcherOrCurrentThread);
-            MappedMappedUpdateNewIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => new MappedVm { Value = x.Value * 2, Index = i }, Schedulers.DispatcherOrCurrentThread);
+            MappedMapped = MappedInts.AsMappingView(x => new MappedVm { Value = x.Value * 2 },  WpfSchedulers.Dispatcher);
+            MappedMappedIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i },  WpfSchedulers.Dispatcher);
+            MappedMappedUpdateIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => x.UpdateIndex(i),  WpfSchedulers.Dispatcher);
+            MappedMappedUpdateNewIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => new MappedVm { Value = x.Value * 2, Index = i },  WpfSchedulers.Dispatcher);
 
             AddOneToSourceCommand = new RelayCommand(() => _ints.Add(_ints.Count + 1));
 
@@ -48,11 +48,11 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DispatchingView<int> Ints { get; private set; }
+        public DispatchingView<int> Ints { get; }
 
         public MappingView<int, MappedVm> FilteredMappedInts { get; set; }
 
-        public MappingView<int, MappedVm> MappedInts { get; private set; }
+        public MappingView<int, MappedVm> MappedInts { get; }
 
         public MappingView<int, MappedVm> MappedIndexedInts { get; private set; }
 

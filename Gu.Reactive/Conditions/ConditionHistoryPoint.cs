@@ -19,9 +19,9 @@
             State = state;
         }
 
-        public DateTime TimeStamp { get; private set; }
+        public DateTime TimeStamp { get; }
 
-        public bool? State { get; private set; }
+        public bool? State { get; }
 
         public override string ToString()
         {

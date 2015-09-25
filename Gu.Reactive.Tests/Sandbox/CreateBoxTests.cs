@@ -35,8 +35,8 @@
                 {
                     x.OnNext(e);
                 };
-                this.Event += h;
-                return Disposable.Create(() => this.Event -= h);
+                Event += h;
+                return Disposable.Create(() => Event -= h);
             });
             var shared = observable.Publish().RefCount();
             var buffering = shared.Buffer(() => shared.Throttle(TimeSpan.FromMilliseconds(15), scheduler));

@@ -26,7 +26,7 @@
         [Test]
         public void ThrowsOnStruct()
         {
-            var propertyInfo = typeof(StructLevel).GetProperty(NameOf.Property<StructLevel>(x => x.Name));
+            var propertyInfo = typeof(StructLevel).GetProperty( NameOf.Property<StructLevel>(x => x.Name));
             Assert.NotNull(propertyInfo);
             var pathItem = new PathProperty(null, propertyInfo);
             var item = new NotifyingPathItem(null, pathItem);

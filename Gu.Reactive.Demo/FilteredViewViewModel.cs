@@ -33,7 +33,7 @@
             Filtered = _peopleRaw.AsFilteredView(
                 Filter,
                 TimeSpan.FromMilliseconds(10),
-                Schedulers.DispatcherOrCurrentThread,
+                 WpfSchedulers.Dispatcher,
                 this.ObservePropertyChanged(x => x.SearchText),
                 this.ObservePropertyChanged(x => x.SelectedTags));
 
@@ -41,7 +41,7 @@
             ReadOnlyFiltered = _peopleRaw.AsReadOnlyFilteredView(
                 Filter,
                 TimeSpan.FromMilliseconds(10),
-                Schedulers.DispatcherOrCurrentThread,
+                 WpfSchedulers.Dispatcher,
                 this.ObservePropertyChanged(x => x.SearchText),
                 this.ObservePropertyChanged(x => x.SelectedTags));
 

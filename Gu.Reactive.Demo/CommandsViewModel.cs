@@ -79,25 +79,25 @@
 
         public RelayCommand DelayedToggleCanExecute { get; private set; }
 
-        public ManualRelayCommand ManualRelayCommandNoCondition { get; private set; }
+        public ManualRelayCommand ManualRelayCommandNoCondition { get; }
 
-        public ManualRelayCommand ManualRelayCommand { get; private set; }
+        public ManualRelayCommand ManualRelayCommand { get; }
 
-        public ManualRelayCommand<string> ManualRelayCommandWithParameter { get; private set; }
+        public ManualRelayCommand<string> ManualRelayCommandWithParameter { get; }
 
-        public RelayCommand RelayCommandNoCondition { get; private set; }
+        public RelayCommand RelayCommandNoCondition { get; }
 
-        public RelayCommand RelayCommand { get; private set; }
+        public RelayCommand RelayCommand { get; }
 
-        public RelayCommand<string> RelayCommandWithParamater { get; private set; }
+        public RelayCommand<string> RelayCommandWithParamater { get; }
 
-        public ObservingRelayCommand ObservingRelayCommand { get; private set; }
+        public ObservingRelayCommand ObservingRelayCommand { get; }
 
-        public ObservingRelayCommand<string> ObservingRelayCommandWithParameter { get; private set; }
+        public ObservingRelayCommand<string> ObservingRelayCommandWithParameter { get; }
 
-        public ConditionRelayCommand ConditionRelayCommand { get; private set; }
+        public ConditionRelayCommand ConditionRelayCommand { get; }
 
-        public ConditionRelayCommand<string> ConditionRelayCommandWithParameter { get; private set; }
+        public ConditionRelayCommand<string> ConditionRelayCommandWithParameter { get; }
 
 
         [NotifyPropertyChangedInvocator]

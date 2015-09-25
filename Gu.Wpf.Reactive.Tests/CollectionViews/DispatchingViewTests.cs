@@ -12,7 +12,7 @@
 
     using NUnit.Framework;
 
-    [RequiresSTA]
+    [RequiresSTA, Explicit("Not testable as it uses the dispatcher")]
     public class DispatchingViewTests
     {
         [Test]

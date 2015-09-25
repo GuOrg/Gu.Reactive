@@ -15,7 +15,6 @@
         /// </summary>
         /// <param name="action"></param>
         /// <param name="condition"></param>
-        /// <param name="raiseCanExecuteOnDispatcher">Default true, use false in tests</param>
         public ManualRelayCommand(Action<T> action, Func<T, bool> condition)
         {
             _action = action;

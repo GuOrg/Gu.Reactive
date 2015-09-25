@@ -19,19 +19,19 @@
         public CollectionViewDemoViewModel()
         {
             Enumerable = new[] { 1, 2, 3, 4, 5 };
-            FilteredView1 = Enumerable.AsReadOnlyFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread, this.ObservePropertyChanged(x => x.Filter));
-            FilteredView2 = Enumerable.AsReadOnlyFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread, this.ObservePropertyChanged(x => x.Filter));
+            FilteredView1 = Enumerable.AsReadOnlyFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher, this.ObservePropertyChanged(x => x.Filter));
+            FilteredView2 = Enumerable.AsReadOnlyFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher, this.ObservePropertyChanged(x => x.Filter));
 
             ObservableCollection = new ObservableCollection<int>(new[] { 1, 2, 3, 4, 5 });
             ObservableDefaultView = CollectionViewSource.GetDefaultView(ObservableCollection);
-            ObservableFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.Zero, Schedulers.DispatcherOrCurrentThread);
-            ThrottledFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.FromMilliseconds(10), Schedulers.DispatcherOrCurrentThread);
+            ObservableFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.Zero, WpfSchedulers.Dispatcher);
+            ThrottledFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher);
 
             this.ObservePropertyChanged(x => x.Filter, false)
                 .Subscribe(
                     x =>
                     {
-                        Schedulers.DispatcherOrCurrentThread.Schedule(() => ObservableDefaultView.Filter = o => Filter((int)o));
+                        WpfSchedulers.Dispatcher.Schedule(() => ObservableDefaultView.Filter = o => Filter((int)o));
                         ObservableFilteredView.Filter = Filter;
                         ThrottledFilteredView.Filter = Filter;
                     });
@@ -39,19 +39,19 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IEnumerable<int> Enumerable { get; private set; }
+        public IEnumerable<int> Enumerable { get; }
 
         public ReadOnlyFilteredView<int> FilteredView1 { get; private set; }
 
         public ReadOnlyFilteredView<int> FilteredView2 { get; private set; }
 
-        public ObservableCollection<int> ObservableCollection { get; private set; }
+        public ObservableCollection<int> ObservableCollection { get; }
 
-        public ICollectionView ObservableDefaultView { get; private set; }
+        public ICollectionView ObservableDefaultView { get; }
 
-        public IFilteredView<int> ObservableFilteredView { get; private set; }
+        public IFilteredView<int> ObservableFilteredView { get; }
 
-        public IFilteredView<int> ThrottledFilteredView { get; private set; }
+        public IFilteredView<int> ThrottledFilteredView { get; }
 
         public Func<int, bool> Filter
         {
@@ -76,13 +76,6 @@
         }
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

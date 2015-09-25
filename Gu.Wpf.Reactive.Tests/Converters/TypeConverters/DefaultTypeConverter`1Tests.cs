@@ -12,7 +12,7 @@
         [TestCase("", false)]
         public void IsValidNullable_Bool(object value, bool expected)
         {
-            var converter = TypeConverterFactory.Create<Nullable<bool>>();
+            var converter = TypeConverterFactory.Create<bool?>();
             var actual = converter.IsValid(value);
             Assert.AreEqual(expected, actual);
         }
@@ -23,7 +23,7 @@
         [TestCase("", false)]
         public void IsValidNullable_Double(object value, bool expected)
         {
-            var converter = TypeConverterFactory.Create<Nullable<double>>();
+            var converter = TypeConverterFactory.Create<double?>();
             var actual = converter.IsValid(value);
             Assert.AreEqual(expected, actual);
         }

@@ -22,6 +22,11 @@ namespace Gu.Reactive
         {
         }
 
+        protected ReadonlySerialViewBase(IEnumerable<T> source)
+            : this(source, true, true)
+        {
+        }
+
         protected ReadonlySerialViewBase(bool isreadonly, bool isFixedSize)
             : this(null, isreadonly, isFixedSize)
         {
@@ -56,7 +61,7 @@ namespace Gu.Reactive
             // Dispose some stuff now
         }
 
-        public void Refresh()
+        public virtual void Refresh()
         {
             VerifyDisposed();
             try
@@ -123,7 +128,7 @@ namespace Gu.Reactive
             return action();
         }
 
-        protected void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             try
             {

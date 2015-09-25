@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.NameOf_
+﻿#pragma warning disable 618
+namespace Gu.Reactive.Tests.NameOf_
 {
     using System;
 

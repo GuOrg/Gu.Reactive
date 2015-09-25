@@ -3,6 +3,7 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
+    using System.Reactive.Linq;
     using System.Threading.Tasks;
     using System.Windows.Input;
 
@@ -26,11 +27,11 @@
             AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => AddOne()), () => true);
             ClearCommand = new RelayCommand(() => Clear(), () => true);
             ObservableCollection.ObserveCollectionChanged()
-                                .ObserveOnDispatcherOrCurrentThread()
+                                .ObserveOnDispatcher()
                                 .Subscribe(x => _observableCollectionChanges.Add(x.EventArgs));
 
             DispatchingView.ObserveCollectionChanged()
-                    .ObserveOnDispatcherOrCurrentThread()
+                    .ObserveOnDispatcher()
                     .Subscribe(x => _dispatchingChanges.Add(x.EventArgs));
         }
 
@@ -51,7 +52,7 @@
 
         public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; private set; }
 
-        public IObservableCollection<DummyItem> DispatchingView { get; private set; }
+        public IObservableCollection<DummyItem> DispatchingView { get; }
 
         public TimeSpan DeferTime { get; private set; }
 

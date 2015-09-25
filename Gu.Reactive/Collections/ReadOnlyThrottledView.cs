@@ -1,7 +1,6 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
@@ -50,7 +49,7 @@
         /// Protected implementation of Dispose pattern. 
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (_disposed)
             {

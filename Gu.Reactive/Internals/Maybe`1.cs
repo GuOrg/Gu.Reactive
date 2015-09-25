@@ -12,7 +12,7 @@ namespace Gu.Reactive.Internals
             _value = value;
         }
 
-        public bool HasValue { get; private set; }
+        public bool HasValue { get; }
 
         public T Value
         {
