@@ -1,10 +1,8 @@
 ﻿namespace Gu.Wpf.Reactive.Tests
 {
-    using System;
     using System.Reactive.Subjects;
 
     using Gu.Reactive;
-    using Gu.Reactive.Tests;
     using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;

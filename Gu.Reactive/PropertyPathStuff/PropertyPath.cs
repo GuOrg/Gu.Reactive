@@ -20,15 +20,9 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public PathProperty Last { get; }
 
-        public int Count
-        {
-            get { return _parts.Count; }
-        }
+        public int Count => _parts.Count;
 
-        public PathProperty this[int index]
-        {
-            get { return _parts[index]; }
-        }
+        public PathProperty this[int index] => _parts[index];
 
         public static PropertyPath<TSource, TValue> Create<TSource, TValue>(Expression<Func<TSource, TValue>> propertyExpression)
         {
@@ -62,7 +56,7 @@ namespace Gu.Reactive.PropertyPathStuff
             var constants = ConstantVisitor.GetConstants(propertyExpression);
             if (!constants.Any())
             {
-                throw new ArgumentException("Expression contains no constants", "propertyExpression");
+                throw new ArgumentException("Expression contains no constants", nameof(propertyExpression));
             }
             //valuePath.Source = source;
             var source = constants.Last().Value;
@@ -89,13 +83,7 @@ namespace Gu.Reactive.PropertyPathStuff
         {
             var first = _parts.First().PropertyInfo;
             var path = string.Join(".", _parts.Skip(1).Select(x => x.PropertyInfo.Name));
-            return string.Format("{0}.{1}{2}{3}", 
-                first.DeclaringType.FullName, 
-                first.Name, 
-                !string.IsNullOrEmpty(path)
-                    ? "."
-                    : "", 
-                path);
+            return $"{first.DeclaringType?.FullName}.{first.Name}{(!string.IsNullOrEmpty(path) ? "." : "")}{path}";
         }
     }
 }

@@ -53,17 +53,11 @@
             _ints.ObserveCollectionChanged(false)
                  .Subscribe(_ => { expected = _ints.ToArray(); });
             _ints.Add(5);
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             CollectionAssert.AreEqual(expected, actual);
 
             _ints.Clear();
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             CollectionAssert.AreEqual(expected, actual);
         }
 
@@ -71,10 +65,7 @@
         public void Add()
         {
             _ints.Add(4);
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
 
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
@@ -104,10 +95,7 @@
         public void Remove(int toRemove)
         {
             _ints.Remove(toRemove);
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
 
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
@@ -118,10 +106,7 @@
         public void Replace(int index, int value)
         {
             _ints[index] = value;
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
 
             Assert.AreEqual(value, _view[index]);
             CollectionAssert.AreEqual(_ints, _view);
@@ -132,10 +117,7 @@
         public void Move(int fromIndex, int toIndex)
         {
             _ints.Move(fromIndex, toIndex);
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
 
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);

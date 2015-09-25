@@ -24,7 +24,7 @@
             throw new NotImplementedException();
         }
 
-        int ICollection.Count { get { return _items.Count; } }
+        int ICollection.Count => _items.Count;
 
         object ICollection.SyncRoot
         {
@@ -75,14 +75,8 @@
             get { return _items[index]; }
             set { throw new NotImplementedException(); }
         }
-        bool IList.IsReadOnly
-        {
-            get { return true; }
-        }
+        bool IList.IsReadOnly => true;
 
-        bool IList.IsFixedSize
-        {
-            get { return true; }
-        }
+        bool IList.IsFixedSize => true;
     }
 }

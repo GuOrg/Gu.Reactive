@@ -102,7 +102,7 @@
             var toolTipCommand = command as IToolTipCommand;
             if (toolTipCommand != null)
             {
-                var prop = NameOf.Property<IToolTipCommand, string>(x => x.ToolTipText);
+                var prop = nameof(ToolTipText);
                 var binding = new Binding(prop)
                                   {
                                       Source = toolTipCommand, 

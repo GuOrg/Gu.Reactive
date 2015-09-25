@@ -1,8 +1,8 @@
-﻿namespace Gu.Reactive.Tests.Trackers
+﻿// ReSharper disable All
+namespace Gu.Reactive.Tests.Trackers
 {
     using System;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using NUnit.Framework;
 
     public class MinTracker_PrimitiveTests

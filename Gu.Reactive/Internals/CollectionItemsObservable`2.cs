@@ -80,10 +80,7 @@ namespace Gu.Reactive.Internals
             _collectionChangedSubscription.Dispose();
             foreach (var disposable in _map.Values.ToArray())
             {
-                if (disposable != null)
-                {
-                    disposable.Dispose();
-                }
+                disposable?.Dispose();
             }
             _map.Clear();
             _wr.Target = null;
@@ -216,19 +213,14 @@ namespace Gu.Reactive.Internals
 
         private void OnItemPropertyChanged(TItem item, EventPattern<PropertyChangedAndValueEventArgs<TValue>> x)
         {
-            if (_observer != null)
-            {
-                _observer.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>(x.Sender, new ItemPropertyChangedEventArgs<TItem, TValue>(item, x)));
-            }
+            _observer?.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>(x.Sender, new ItemPropertyChangedEventArgs<TItem, TValue>(item, x)));
         }
 
         private void VerifyDisposed()
         {
             if (_disposed)
             {
-                throw new ObjectDisposedException(
-                    GetType()
-                        .FullName);
+                throw new ObjectDisposedException(GetType().FullName);
             }
         }
     }

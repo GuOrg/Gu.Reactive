@@ -40,7 +40,7 @@
             var memberInfo = path.Last();
             if (!(memberInfo is PropertyInfo))
             {
-                throw new ArgumentException("The expression is for a method", "propertyExpression");
+                throw new ArgumentException("The expression is for a method", nameof(propertyExpression));
             }
             return memberInfo.Name;
         }
@@ -48,7 +48,7 @@
         /// <summary>
         /// Returns the name of a property provided as a property expression.
         /// </summary>
-        /// <typeparam name="TProperty">
+        /// <typeparam name="TItem">
         /// Type of the property.
         /// </typeparam>
         /// <typeparam name="TItem">
@@ -67,7 +67,7 @@
             var memberInfo = path.Last();
             if (!(memberInfo is PropertyInfo))
             {
-                throw new ArgumentException("The expression is for a method", "propertyExpression");
+                throw new ArgumentException("The expression is for a method", nameof(propertyExpression));
             }
             return memberInfo.Name;
         }
@@ -94,7 +94,7 @@
             var memberInfo = path.Last();
             if (!(memberInfo is PropertyInfo))
             {
-                throw new ArgumentException("The expression is for a method", "propertyExpression");
+                throw new ArgumentException("The expression is for a method", nameof(propertyExpression));
             }
             return memberInfo.Name;
         }
@@ -253,7 +253,7 @@
                 return propertyInfo.GetValue(container);
             }
 
-            throw new ArgumentException("Failed to get value", "e");
+            throw new ArgumentException("Failed to get value", nameof(e));
         }
 
         /// <summary>

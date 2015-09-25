@@ -83,7 +83,7 @@
                             GetType().Name,
                             typeof(TInput).PrettyName(),
                             typeof(TResult).PrettyName());
-                    throw new ArgumentException(message, "value");
+                    throw new ArgumentException(message, nameof(value));
                 }
             }
         }

@@ -22,8 +22,8 @@
         {
             _source = source;
             _selector = selector;
-            Ensure.NotNull(source, "source");
-            Ensure.NotNull(selector, "selector");
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(selector, nameof(selector));
             _subscription = source.ObservePropertyChanged(x => x.Value)
                                   .Subscribe(_ => { Value = _selector(_source.Value); });
         }
@@ -71,11 +71,7 @@
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

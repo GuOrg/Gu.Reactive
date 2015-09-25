@@ -26,7 +26,7 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, "collection");
+			Ensure.NotNull(collection, nameof(collection));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, null, triggers);
         }
 
@@ -36,8 +36,8 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
+			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, null, triggers);
         }
 
@@ -47,9 +47,9 @@ namespace Gu.Reactive
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(scheduler, "scheduler");
+		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
         }
        
@@ -60,9 +60,9 @@ namespace Gu.Reactive
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(scheduler, "scheduler");
+		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, scheduler, triggers);
         }
 <#    } #>
@@ -81,8 +81,8 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             <#= trigger[0] #> <#= trigger[1] #>)
         {
-			Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
+			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
 			Ensure.NotNull(<#= trigger[1] #>, "<#= trigger[1] #>");
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, null, <#= trigger[1] #>);
         }
@@ -93,8 +93,8 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             <#= trigger[0] #> <#= trigger[1] #>)
         {
-			Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
+			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
 			Ensure.NotNull(<#= trigger[1] #>, "<#= trigger[1] #>");
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, null, <#= trigger[1] #>);
         }
@@ -105,9 +105,9 @@ namespace Gu.Reactive
             IScheduler scheduler,
             <#= trigger[0] #> <#= trigger[1] #>)
         {
-		    Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(scheduler, "scheduler");
+		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
 			Ensure.NotNull(<#= trigger[1] #>, "<#= trigger[1] #>");
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, <#= trigger[1] #>);
         }
@@ -119,9 +119,9 @@ namespace Gu.Reactive
             IScheduler scheduler,
             <#= trigger[0] #> <#= trigger[1] #>)
         {
-		    Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(scheduler, "scheduler");
+		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
 			Ensure.NotNull(<#= trigger[1] #>, "<#= trigger[1] #>");
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, scheduler, <#= trigger[1] #>);
         }

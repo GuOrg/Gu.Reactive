@@ -35,20 +35,11 @@
                     .Subscribe(x => _dispatchingChanges.Add(x.EventArgs));
         }
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionChanges
-        {
-            get { return _observableCollectionChanges; }
-        }
+        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionChanges => _observableCollectionChanges;
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> DispatchingChanges
-        {
-            get { return _dispatchingChanges; }
-        }
+        public ObservableCollection<NotifyCollectionChangedEventArgs> DispatchingChanges => _dispatchingChanges;
 
-        public ObservableCollection<DummyItem> ObservableCollection
-        {
-            get { return _observableCollection; }
-        }
+        public ObservableCollection<DummyItem> ObservableCollection => _observableCollection;
 
         public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; private set; }
 

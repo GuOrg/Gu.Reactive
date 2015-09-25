@@ -1,12 +1,10 @@
 ﻿namespace Gu.Reactive.Tests.Collections
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.ComponentModel;
-    using Gu.Reactive;
+
     using Gu.Reactive.Tests.Helpers;
+
     using NUnit.Framework;
 
     public class ObservableFixedSizeQueueTests

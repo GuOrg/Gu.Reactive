@@ -7,8 +7,6 @@
     using System.Windows;
     using System.Windows.Input;
 
-    using Gu.Reactive;
-
     public abstract class ManualCommandBase<T> : IToolTipCommand
     {
         private string _toolTipText;
@@ -72,11 +70,7 @@
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private class InternalCanExecuteChangedEventManager : WeakEventManager

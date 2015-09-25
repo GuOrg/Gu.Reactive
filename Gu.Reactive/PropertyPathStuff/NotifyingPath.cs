@@ -28,10 +28,7 @@ namespace Gu.Reactive.PropertyPathStuff
             _parts = items;
         }
 
-        public int Count
-        {
-            get { return _parts.Count; }
-        }
+        public int Count => _parts.Count;
 
         public INotifyingPathItem this[int index]
         {
@@ -56,13 +53,7 @@ namespace Gu.Reactive.PropertyPathStuff
             }
         }
 
-        internal object LastSource
-        {
-            get
-            {
-                return ((NotifyingPathItem)_parts.Last()).Previous.Value;
-            }
-        }
+        internal object LastSource => ((NotifyingPathItem)_parts.Last()).Previous.Value;
 
         public static NotifyingPath Create<TSource, TValue>(Expression<Func<TSource, TValue>> propertyExpression)
         {

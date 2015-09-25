@@ -1,8 +1,8 @@
 ﻿namespace Gu.Wpf.Reactive.Tests.Converters.TypeConverters
 {
-    using System;
+    using Gu.Wpf.Reactive.TypeConverters;
+
     using NUnit.Framework;
-    using Reactive.TypeConverters;
 
     public class DefaultTypeConverterTests
     {

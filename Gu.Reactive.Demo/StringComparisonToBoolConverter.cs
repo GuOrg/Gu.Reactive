@@ -6,6 +6,7 @@
 
     public class StringComparisonToBoolConverter : MarkupConverter<StringComparison?, bool?>
     {
+        // ReSharper disable once EmptyConstructor
         public StringComparisonToBoolConverter()
         {
         }

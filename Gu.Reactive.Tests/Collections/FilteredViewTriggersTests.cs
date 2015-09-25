@@ -1,10 +1,8 @@
 namespace Gu.Reactive.Tests.Collections
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Reactive.Subjects;
 
@@ -17,7 +15,6 @@ namespace Gu.Reactive.Tests.Collections
     public class FilteredViewTriggersTests
     {
         private List<EventArgs> _actualChanges;
-        private List<EventArgs> _expectedChanges;
         private TestScheduler _scheduler;
         private FilteredView<int> _view;
         private List<int> _ints;
@@ -26,7 +23,6 @@ namespace Gu.Reactive.Tests.Collections
         public void SetUp()
         {
             _actualChanges = new List<EventArgs>();
-            _expectedChanges = new List<EventArgs>();
             _ints = new List<int>(new[] { 1, 2, 3 });
 
             _scheduler = new TestScheduler();

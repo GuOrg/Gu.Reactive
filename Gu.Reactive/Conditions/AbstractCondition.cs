@@ -15,6 +15,7 @@
     {
         private readonly Condition _condition;
         private bool _disposed;
+        private string _name;
 
         protected AbstractCondition(IObservable<object> observable)
         {
@@ -26,14 +27,30 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool? IsSatisfied
+        public bool? IsSatisfied => _condition.IsSatisfied;
+
+        public string Name
         {
-            get { return _condition.IsSatisfied; }
+            get
+            {
+                VerifyDisposed();
+                return _name;
+            }
+
+            set
+            {
+                VerifyDisposed();
+                if (value == _name)
+                {
+                    return;
+                }
+
+                _name = value;
+                OnPropertyChanged();
+            }
         }
 
-        public string Name { get; protected set; }
-
-        public IEnumerable<ICondition> Prerequisites
+        public IReadOnlyList<ICondition> Prerequisites
         {
             get
             {
@@ -42,10 +59,7 @@
             }
         }
 
-        public IEnumerable<ConditionHistoryPoint> History
-        {
-            get { return _condition.History; }
-        }
+        public IEnumerable<ConditionHistoryPoint> History => _condition.History;
 
         public ICondition Negate()
         {
@@ -88,31 +102,23 @@
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
         /// Calls nameof internally
         /// </summary>
         /// <param name="propety"></param>
+        [Obsolete("Use nameof")]
         protected virtual void OnPropertyChanged<T>(Expression<Func<T>> propety)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(NameOf.Property(propety)));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(NameOf.Property(propety)));
         }
     }
 }

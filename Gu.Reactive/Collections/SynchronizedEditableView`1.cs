@@ -23,14 +23,14 @@
         protected SynchronizedEditableView(IList<T> source)
             : this(source, source)
         {
-            Ensure.NotNull(source, "source");
+            Ensure.NotNull(source, nameof(source));
             Source = source;
             Synchronized = new CollectionSynchronizer<T>(source);
         }
 
         protected SynchronizedEditableView(IList<T> source, IEnumerable<T> sourceItems )
         {
-            Ensure.NotNull(source, "source");
+            Ensure.NotNull(source, nameof(source));
             Source = source;
             Synchronized = new CollectionSynchronizer<T>(sourceItems);
         }
@@ -41,15 +41,9 @@
 
         object IUpdater.IsUpdatingSourceItem => _isUpdatingSourceItem;
 
-        protected PropertyChangedEventHandler PropertyChangedEventHandler
-        {
-            get { return PropertyChanged; }
-        }
+        protected PropertyChangedEventHandler PropertyChangedEventHandler => PropertyChanged;
 
-        protected NotifyCollectionChangedEventHandler NotifyCollectionChangedEventHandler
-        {
-            get { return CollectionChanged; }
-        }
+        protected NotifyCollectionChangedEventHandler NotifyCollectionChangedEventHandler => CollectionChanged;
 
         /// <summary>
         /// Dispose(true); //I am calling you from Dispose, it's safe
@@ -95,11 +89,7 @@
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
 
         #region IList<TItem>

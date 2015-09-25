@@ -184,24 +184,17 @@
         }
 
         public event EventHandler Comparison;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnComparison()
         {
-            var handler = Comparison;
-            if (handler != null)
-            {
-                handler(this, EventArgs.Empty);
-            }
+            Comparison?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            PropertyChanged?.Invoke(this, e);
         }
     }
 }

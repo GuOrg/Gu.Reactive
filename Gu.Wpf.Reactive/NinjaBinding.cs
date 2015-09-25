@@ -13,7 +13,7 @@
     /// Binds to the datacontext of the current root object or elementname
     /// Us this for things that are not in the visual tree such as DataGridColumn
     /// </summary>
-    [MarkupExtensionReturnType(typeof(object))]
+    [MarkupExtensionReturnType(typeof(BindingExpression))]
     public class NinjaBinding : MarkupExtension
     {
         private static readonly DependencyObject DependencyObject = new DependencyObject();
@@ -31,10 +31,7 @@
         [ConstructorArgument("binding")]
         public Binding Binding { get; set; }
 
-        private bool IsInDesignMode
-        {
-            get { return DesignerProperties.GetIsInDesignMode(DependencyObject); }
-        }
+        private bool IsInDesignMode => DesignerProperties.GetIsInDesignMode(DependencyObject);
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {

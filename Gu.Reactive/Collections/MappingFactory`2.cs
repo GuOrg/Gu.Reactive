@@ -19,7 +19,7 @@
             _indexSelector = indexSelector;
         }
 
-        public bool CanUpdateIndex { get { return _indexSelector != null; } }
+        public bool CanUpdateIndex => _indexSelector != null;
 
         public TResult GetOrCreateValue(TSource key, int index)
         {

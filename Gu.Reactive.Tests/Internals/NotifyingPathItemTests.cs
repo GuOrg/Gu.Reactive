@@ -1,4 +1,6 @@
-﻿namespace Gu.Reactive.Tests.Internals
+﻿// ReSharper disable All
+#pragma warning disable 618
+namespace Gu.Reactive.Tests.Internals
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +9,6 @@
     using System.Reactive;
     using System.Reflection;
 
-    using Gu.Reactive.Internals;
     using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;

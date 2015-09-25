@@ -23,13 +23,13 @@
         /// <summary>
         /// Gets the sender.
         /// </summary>
-        public TItem Item { get; private set; }
+        public TItem Item { get; }
 
         /// <summary>
         /// Gets the current value.
         /// </summary>
-        public TValue Value { get; private set; }
+        public TValue Value { get; }
 
-        public object Sender { get; private set; }
+        public object Sender { get;  }
     }
 }

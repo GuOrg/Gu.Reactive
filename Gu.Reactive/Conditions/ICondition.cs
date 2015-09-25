@@ -16,7 +16,7 @@
         /// <summary>
         /// Gets the conditions that are prerequisites to this condition.
         /// </summary>
-        IEnumerable<ICondition> Prerequisites { get; }
+        IReadOnlyList<ICondition> Prerequisites { get; }
 
         /// <summary>
         /// Gets a log of the last 100 times the condition has signaled changes. Use for debugging.

@@ -5,7 +5,7 @@ namespace Gu.Reactive.PropertyPathStuff
 
     internal sealed class RootItem : INotifyingPathItem
     {
-        public static readonly PropertyChangedEventArgs PropertyChangedEventArgs = new PropertyChangedEventArgs(null);
+        private static readonly PropertyChangedEventArgs PropertyChangedEventArgs = new PropertyChangedEventArgs(null);
         private static readonly PropertyChangedEventArgs ValueChangedEventArgs = new PropertyChangedEventArgs(nameof(Value));
         private static readonly PropertyChangedEventArgs SourceChangedEventArgs = new PropertyChangedEventArgs(nameof(Source));
         private readonly WeakReference _sourceRef = new WeakReference(null);
@@ -19,23 +19,11 @@ namespace Gu.Reactive.PropertyPathStuff
 
         PropertyChangedEventArgs INotifyingPathItem.PropertyChangedEventArgs => PropertyChangedEventArgs;
 
-        PathProperty INotifyingPathItem.PathProperty
-        {
-            get { return null; }
-        }
+        PathProperty INotifyingPathItem.PathProperty => null;
 
-        public INotifyPropertyChanged Source
-        {
-            get
-            {
-                return Value as INotifyPropertyChanged;
-            }
-        }
+        public INotifyPropertyChanged Source => Value as INotifyPropertyChanged;
 
-        public bool IsLast
-        {
-            get { return false; }
-        }
+        public bool IsLast => false;
 
         public object Value
         {
@@ -61,14 +49,6 @@ namespace Gu.Reactive.PropertyPathStuff
             // NOP 
         }
 
-        private void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
-        }
-
+        private void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
     }
 }

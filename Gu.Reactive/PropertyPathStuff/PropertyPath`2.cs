@@ -3,9 +3,9 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
-    using Internals;
+
+    using Gu.Reactive.Internals;
 
     //[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     internal class PropertyPath<TSource, TValue> : IValuePath<TSource, TValue>, IPropertyPath
@@ -28,20 +28,11 @@
             _propertyPath = propertyPath;
         }
 
-        public int Count
-        {
-            get { return _propertyPath.Count; }
-        }
+        public int Count => _propertyPath.Count;
 
-        public PathProperty Last
-        {
-            get { return _propertyPath.Last; }
-        }
+        public PathProperty Last => _propertyPath.Last;
 
-        public PathProperty this[int index]
-        {
-            get { return _propertyPath[index]; }
-        }
+        public PathProperty this[int index] => _propertyPath[index];
 
         public IMaybe<TValue> GetValue(TSource source)
         {

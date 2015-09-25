@@ -178,15 +178,9 @@
             public event PropertyChangedEventHandler PropertyChanged;
             public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-            public PropertyChangedEventHandler PropertyChangedEventHandler
-            {
-                get { return PropertyChanged; }
-            }
+            public PropertyChangedEventHandler PropertyChangedEventHandler => PropertyChanged;
 
-            public NotifyCollectionChangedEventHandler NotifyCollectionChangedEventHandler
-            {
-                get { return CollectionChanged; }
-            }
+            public NotifyCollectionChangedEventHandler NotifyCollectionChangedEventHandler => CollectionChanged;
 
             public IEnumerator GetEnumerator()
             {

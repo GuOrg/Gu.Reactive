@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.Internals
+﻿// ReSharper disable All
+namespace Gu.Reactive.Tests.Internals
 {
     using System;
 

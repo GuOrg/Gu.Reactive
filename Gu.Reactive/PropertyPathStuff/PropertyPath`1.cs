@@ -22,14 +22,8 @@
             _maybe = propertyPath.GetValue<TValue>(source);
         }
 
-        public bool HasValue
-        {
-            get { return _maybe.HasValue; }
-        }
+        public bool HasValue => _maybe.HasValue;
 
-        public TValue Value
-        {
-            get { return _maybe.Value; }
-        }
+        public TValue Value => _maybe.Value;
     }
 }

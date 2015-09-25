@@ -5,7 +5,7 @@ namespace Gu.Wpf.Reactive
     internal class Maybe<T>
     {
         public static readonly Maybe<T> Empty = new Maybe<T>();
-        private T _value;
+        private readonly T _value;
 
         public Maybe(T value)
         {

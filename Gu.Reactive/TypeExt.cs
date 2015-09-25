@@ -55,7 +55,7 @@
         {
             if (type == null)
             {
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             }
 
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);

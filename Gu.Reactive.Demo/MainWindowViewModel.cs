@@ -12,7 +12,7 @@
 
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private readonly List<ICondition> _conditions = new List<ICondition>();
+        private readonly List<ICondition> _conditions;
         private bool _isDoorClosed;
         private bool _isMotorRunning;
 
@@ -104,22 +104,12 @@
 
         public ConditionRelayCommand<string> OtherCommand { get; private set; }
 
-        public IEnumerable<ICondition> Conditions
-        {
-            get
-            {
-                return _conditions;
-            }
-        }
+        public IEnumerable<ICondition> Conditions => _conditions;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

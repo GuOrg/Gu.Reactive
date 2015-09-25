@@ -1,8 +1,8 @@
-﻿namespace Gu.Reactive.Tests.Internals
+﻿// ReSharper disable All
+namespace Gu.Reactive.Tests.Internals
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Reactive;
 

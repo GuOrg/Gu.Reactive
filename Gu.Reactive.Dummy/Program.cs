@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Reactive.Linq;
 
+    // ReSharper disable once ClassNeverInstantiated.Global
     class Program
     {
         static void Main(string[] args)

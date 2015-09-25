@@ -26,27 +26,23 @@
                                                       _history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, IsSatisfied));
                                                       OnPropertyChanged(x.EventArgs.PropertyName);
                                                   });
-            Name = string.Format("Not_{0}", _condition.Name);
+            Name = $"Not_{_condition.Name}";
         }
 
         public NegatedCondition(Condition condition)
             : this(
-            (ICondition)condition, 
-            new Condition(
-                condition.ObservePropertyChanged(x => x.IsSatisfied), 
-                () => condition.IsSatisfied == null ? (bool?)null : !condition.IsSatisfied.Value))
+                (ICondition)condition,
+                new Condition(
+                    condition.ObservePropertyChanged(x => x.IsSatisfied),
+                    () => condition.IsSatisfied == null
+                              ? (bool?)null
+                              : !condition.IsSatisfied.Value))
         {
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool? IsSatisfied
-        {
-            get
-            {
-                return _innerNegated.IsSatisfied;
-            }
-        }
+        public bool? IsSatisfied => _innerNegated.IsSatisfied;
 
         public string Name
         {
@@ -70,24 +66,12 @@
         /// <summary>
         /// Gets the prerequisites.
         /// </summary>
-        public IEnumerable<ICondition> Prerequisites
-        {
-            get
-            {
-                return _condition.Prerequisites;
-            }
-        }
+        public IReadOnlyList<ICondition> Prerequisites => _condition.Prerequisites;
 
         /// <summary>
         /// Gets the history.
         /// </summary>
-        public IEnumerable<ConditionHistoryPoint> History
-        {
-            get
-            {
-                return _history;
-            }
-        }
+        public IEnumerable<ConditionHistoryPoint> History => _history;
 
         public ICondition Negate()
         {
@@ -110,11 +94,7 @@
 
         private void OnPropertyChanged(string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

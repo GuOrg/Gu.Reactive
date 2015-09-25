@@ -1,7 +1,7 @@
+// ReSharper disable All
 namespace Gu.Reactive.Tests.Collections.Filter
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
@@ -18,7 +18,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
     {
         private static readonly PropertyChangedEventArgs FilterChangedEventArgs = new PropertyChangedEventArgs("Filter");
         protected List<EventArgs> _actual;
-        private List<EventArgs> _expected = new List<EventArgs>();
+        private readonly List<EventArgs> _expected = new List<EventArgs>();
         protected TestScheduler _scheduler;
         protected IFilteredView<int> _view;
         protected ObservableCollection<int> _ints;
@@ -56,10 +56,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
         public void FilterRemoveOneThenAdd()
         {
             _view.Filter = x => x < 3;
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             CollectionAssert.AreEqual(new[] { 1, 2 }, _view);
             _expected.Add(Notifier.CountPropertyChangedEventArgs);
             _expected.Add(Notifier.IndexerPropertyChangedEventArgs);
@@ -72,10 +69,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
             CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
 
             _view.Filter = x => true;
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             CollectionAssert.AreEqual(new[] { 1, 2, 3 }, _view);
             _expected.Add(Notifier.CountPropertyChangedEventArgs);
             _expected.Add(Notifier.IndexerPropertyChangedEventArgs);
@@ -93,10 +87,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
         {
             _view.Filter = x => x < 0;
 
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             CollectionAssert.IsEmpty(_view);
             _expected.AddRange(Diff.ResetEventArgsCollection);
 

@@ -14,10 +14,10 @@
             IObservable<object> trigger,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(scheduler, "scheduler");
-            Ensure.NotNull(trigger, "trigger");
+            Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
+            Ensure.NotNull(trigger, nameof(trigger));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers.Prepend(trigger));
         }
 
@@ -27,9 +27,9 @@
             IObservable<object> trigger,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(trigger, "trigger");
+            Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(trigger, nameof(trigger));
             return new FilteredView<T>(
                 collection,
                 filter,
@@ -45,9 +45,9 @@
             IObservable<object> trigger,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(trigger, "trigger");
+            Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(trigger, nameof(trigger));
             return new FilteredView<T>(collection, filter, bufferTime, null, triggers.Prepend(trigger));
         }
 
@@ -59,10 +59,10 @@
             IObservable<object> trigger,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(scheduler, "scheduler");
-            Ensure.NotNull(trigger, "trigger");
+            Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
+            Ensure.NotNull(trigger, nameof(trigger));
             return new FilteredView<T>(collection, filter, bufferTime, scheduler, triggers.Prepend(trigger));
         }
 

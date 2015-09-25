@@ -101,10 +101,7 @@
             return hashVisitor.Hash;
         }
 
-        private int Hash
-        {
-            get { return _hash; }
-        }
+        private int Hash => _hash;
 
         private void Reset()
         {
@@ -132,8 +129,10 @@
                     componentHash = member.Name.GetHashCode();
 
                     var declaringType = member.DeclaringType;
-                    if (declaringType != null && declaringType.AssemblyQualifiedName != null)
+                    if (declaringType?.AssemblyQualifiedName != null)
+                    {
                         componentHash = (componentHash * 397) ^ declaringType.AssemblyQualifiedName.GetHashCode();
+                    }
                 }
                 else
                 {

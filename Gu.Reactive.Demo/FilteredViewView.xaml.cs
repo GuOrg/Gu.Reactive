@@ -8,7 +8,7 @@
     /// </summary>
     public partial class FilteredViewView : UserControl
     {
-        private FilteredViewViewModel _vm;
+        private readonly FilteredViewViewModel _vm;
 
         public FilteredViewView()
         {

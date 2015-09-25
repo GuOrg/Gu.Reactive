@@ -14,7 +14,7 @@
     /// <summary>
     /// Base class for collections
     /// </summary>
-    public abstract class ConditionCollection : IEnumerable<ICondition>, INotifyPropertyChanged, IDisposable
+    public abstract class ConditionCollection : IReadOnlyList<ICondition>, INotifyPropertyChanged, IDisposable
     {
         private readonly IReadOnlyList<ICondition> _innerConditions;
         private readonly IDisposable _subscription;
@@ -24,7 +24,7 @@
 
         protected ConditionCollection(Func<IReadOnlyList<ICondition>, bool?> isSatisfied, params ICondition[] conditions)
         {
-            Ensure.NotNull(isSatisfied, "isSatisfied");
+            Ensure.NotNull(isSatisfied, nameof(isSatisfied));
             Ensure.NotNullOrEmpty(conditions, "conditions");
             
             if (conditions.Distinct().Count() != conditions.Length)
@@ -67,16 +67,18 @@
             }
         }
 
+
+        public int Count => _innerConditions.Count;
+
+        public ICondition this[int index] => _innerConditions[index];
+
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        public override string ToString()
-        {
-            return string.Format("IsSatisfied: {0} {{{1}}}", IsSatisfied, string.Join(", ", _innerConditions.Select(x => x.Name)));
-        }
+        public override string ToString() => $"IsSatisfied: {IsSatisfied} {{{string.Join(", ", _innerConditions.Select(x => x.Name))}}}";
 
         public IEnumerator<ICondition> GetEnumerator()
         {
@@ -103,11 +105,7 @@
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected void VerifyDisposed()

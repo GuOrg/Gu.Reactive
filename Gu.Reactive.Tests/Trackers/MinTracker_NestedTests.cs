@@ -57,7 +57,7 @@
             Assert.AreEqual(4, tracker.Value);
         }
 
-        [TestCase(true)]
+        [TestCase(true), Explicit("Rewrite to use scheduler")]
         [TestCase(false)]
         public void ReactsAndNotifiesOnItemChanges(bool trackItemChanges)
         {
@@ -104,11 +104,7 @@
             [NotifyPropertyChangedInvocator]
             protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
             {
-                var handler = PropertyChanged;
-                if (handler != null)
-                {
-                    handler(this, new PropertyChangedEventArgs(propertyName));
-                }
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

@@ -45,10 +45,7 @@
             PropertyChangedEventArgs = new PropertyChangedEventArgs(_propertyPath.Last.PropertyInfo.Name);
         }
 
-        public object Sender
-        {
-            get { return _propertyPath.GetSender((TClass)_sourceReference.Target); }
-        }
+        public object Sender => _propertyPath.GetSender((TClass)_sourceReference.Target);
 
         protected override IDisposable SubscribeCore(IObserver<EventPattern<PropertyChangedEventArgs>> observer)
         {
@@ -82,7 +79,7 @@
                             i == 0 ? "x" : path[i - 1].PropertyInfo.Name,
                             propertyInfo.Name,
                             path);
-                    throw new ArgumentException(message, "path");
+                    throw new ArgumentException(message, nameof(path));
                 }
                 if (!typeof(INotifyPropertyChanged).IsAssignableFrom(propertyInfo.PropertyType))
                 {
@@ -94,7 +91,7 @@
                         i == 0 ? "x" : path[i - 1].PropertyInfo.Name,
                         propertyInfo.Name,
                         path);
-                    throw new ArgumentException(message, "path");
+                    throw new ArgumentException(message, nameof(path));
                 }
             }
         }

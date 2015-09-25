@@ -42,10 +42,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             CollectionAssert.AreEqual(_ints, _view);
 
             _view.Refresh();
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.IsEmpty(_actual);
         }
@@ -60,17 +57,11 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             _ints.ObserveCollectionChanged(false)
                  .Subscribe(_ => { expected = _ints.ToArray(); });
             _view.Add(5);
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             CollectionAssert.AreEqual(expected, actual);
 
             _view.Clear();
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             CollectionAssert.AreEqual(expected, actual);
         }
 
@@ -78,10 +69,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public void Add()
         {
             _view.Add(4);
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
         }
@@ -91,20 +79,14 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         {
             // DataGrid adds items like this
             var index = ((IList)_view).Add(4);
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             Assert.AreEqual(3, index);
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.IsNotEmpty(_actual);
             CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
 
             var before = _actual.ToArray();
-            if (_scheduler != null)
-            {
-                _scheduler.Start(); // Should not signal deferred
-            }
+            _scheduler?.Start(); // Should not signal deferred
 
             CollectionAssert.AreEqual(before, _actual, EventArgsComparer.Default);
         }
@@ -114,10 +96,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public void Remove(int toRemove)
         {
             _view.Remove(toRemove);
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
         }
@@ -127,10 +106,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public void ReplaceIndexer(int index, int value)
         {
             _view[index] = value;
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             Assert.AreEqual(value, _view[index]);
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
@@ -141,10 +117,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         {
             Assert.Inconclusive("Do we want move?");
             //_view.Move(fromIndex, toIndex);
-            if (_scheduler != null)
-            {
-                _scheduler.Start();
-            }
+            _scheduler?.Start();
             CollectionAssert.AreEqual(_ints, _view);
             CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
         }

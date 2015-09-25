@@ -96,6 +96,8 @@
     <Compile Include="Converters\TypeConverters\ITypeConverter`1.cs" />
     <Compile Include="Converters\TypeConverters\NullableEnumConverter`1.cs" />
     <Compile Include="Collections\DispatchingView`1.cs" />
+    <Compile Include="INotifyTaskCompletion.cs" />
+    <Compile Include="NotifyTaskCompletion.cs" />
     <Compile Include="ServiceProviderExt.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToXConverter.cs" />
@@ -142,7 +144,7 @@
     <Compile Include="Commands\IConditionRelayCommand.cs" />
     <Compile Include="Commands\ManualCommandBase.cs" />
     <Compile Include="Commands\VoidTypeStruct.cs" />
-    <Compile Include="NotifyTaskCompletion.cs" />
+    <Compile Include="NotifyTaskCompletion`1.cs" />
     <Compile Include="CommandToolTip.cs" />
     <Compile Include="Commands\ConditionRelayCommand.cs" />
     <Compile Include="Commands\IToolTipCommand.cs" />

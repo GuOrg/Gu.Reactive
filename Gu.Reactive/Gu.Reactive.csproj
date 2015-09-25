@@ -205,8 +205,6 @@
   <ItemGroup>
     <Compile Include="Collections\EditableListView.cs" />
     <Compile Include="Collections\ReadonlyIListView.cs" />
-    <Compile Include="Contracts\IEditableListView.cs" />
-    <Compile Include="Contracts\IReadonlyIListView.cs" />
     <Compile Include="Collections\ListExt.cs" />
     <Compile Include="Collections\ReadonlySerialViewBase.cs" />
     <Compile Include="Collections\ThrowHelper.cs" />
@@ -308,7 +306,7 @@
     <Compile Include="PropertyPathStuff\PropertyPathObservable.cs" />
     <Compile Include="PropertyChangedAndValueEventArgs`1.cs" />
     <Compile Include="PropertyPathStuff\PropertyPathVisitor.cs" />
-    <Compile Include="Properties\Annotations.generated.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ItemPropertyChangedEventArgs`2.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />

@@ -9,15 +9,18 @@
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Annotations;
+    using Gu.Reactive.Internals;
 
     /// <summary>
     /// To be used standalone or derived from. Conditions really starts to sing when you subclass them and use an IoC container to build trees.
     /// </summary>
     public class Condition : ICondition
     {
+        private static readonly IReadOnlyList<ICondition> Empty = new ICondition[0];
+        private static readonly PropertyChangedEventArgs IsSatisfiedChangedEventArgs = new PropertyChangedEventArgs(nameof(IsSatisfied));
         private readonly Func<bool?> _criteria;
         private readonly IDisposable _subscription;
-        private readonly IEnumerable<ICondition> _prerequisites;
+        private readonly IReadOnlyList<ICondition> _prerequisites;
         private readonly FixedSizedQueue<ConditionHistoryPoint> _history = new FixedSizedQueue<ConditionHistoryPoint>(100);
         private bool? _isSatisfied;
         private string _name;
@@ -31,6 +34,7 @@
         protected Condition(ConditionCollection conditionCollection)
             : this(conditionCollection.ObservePropertyChanged(x => x.IsSatisfied, false), () => conditionCollection.IsSatisfied)
         {
+            Ensure.NotNullOrEmpty(conditionCollection, nameof(conditionCollection));
             _prerequisites = conditionCollection;
         }
 
@@ -45,19 +49,14 @@
         /// </param>
         public Condition(IObservable<object> observable, Func<bool?> criteria)
         {
-            if (observable == null)
-            {
-                throw new ArgumentNullException("observable");
-            }
-            if (criteria == null)
-            {
-                throw new ArgumentNullException("criteria");
-            }
+            Ensure.NotNull(observable, nameof(observable));
+            Ensure.NotNull(criteria, nameof(criteria));
+
             _criteria = criteria;
-            _prerequisites = Enumerable.Empty<ICondition>();
+            _prerequisites = Empty;
             _name = GetType().PrettyName();
             _subscription = observable.Subscribe(x => UpdateIsSatisfied());
-            UpdateIsSatisfied(); 
+            UpdateIsSatisfied();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -84,7 +83,7 @@
 
                 _isSatisfied = value;
                 _history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, _isSatisfied));
-                OnPropertyChanged();
+                OnPropertyChanged(IsSatisfiedChangedEventArgs);
             }
         }
 
@@ -115,18 +114,12 @@
         /// <summary>
         /// A log of the last 100 times the condition has signaled. Use for debugging.
         /// </summary>
-        public IEnumerable<ConditionHistoryPoint> History
-        {
-            get
-            {
-                return _history;
-            }
-        }
+        public IEnumerable<ConditionHistoryPoint> History => _history;
 
         /// <summary>
         /// The subconditions for this condition
         /// </summary>
-        public IEnumerable<ICondition> Prerequisites
+        public IReadOnlyList<ICondition> Prerequisites
         {
             get
             {
@@ -154,12 +147,7 @@
             GC.SuppressFinalize(this);
         }
 
-        public override string ToString()
-        {
-            return string.Format("Name: {0}, IsSatisfied: {1}",
-                string.IsNullOrEmpty(Name) ? GetType().PrettyName() : Name,
-                IsSatisfied == null ? "null" : IsSatisfied.ToString());
-        }
+        public override string ToString() => $"Name: {(string.IsNullOrEmpty(Name) ? GetType() .PrettyName() : Name)}, IsSatisfied: {IsSatisfied?.ToString() ?? "null"}";
 
         protected virtual void Dispose(bool disposing)
         {
@@ -190,24 +178,22 @@
         [NotifyPropertyChangedInvocator]
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(this, e);
         }
 
         /// <summary>
         /// Calls NameOf.Property(propety)
         /// </summary>
         /// <param name="propety"></param>
+        [Obsolete("Use nameof")]
         protected void OnPropertyChanged<T>(Expression<Func<T>> propety)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(NameOf.Property(propety)));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(NameOf.Property(propety)));
         }
     }
 }

@@ -12,9 +12,9 @@
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
-            return new MappingView<TSource, TResult>(source, selector, null, triggers);
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
+            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
@@ -22,8 +22,8 @@
             Func<TSource, TResult> selector,
             IScheduler scheduler)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector, scheduler);
         }
 
@@ -32,8 +32,8 @@
             Func<TSource, int, TResult> selector,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
@@ -42,8 +42,8 @@
             Func<TSource, int, TResult> selector,
             IScheduler scheduler)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector, scheduler, null);
         }
 
@@ -56,9 +56,9 @@
             where TSource : class
             where TResult : class
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
-			Ensure.NotNull(updater, "updater");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
+			Ensure.NotNull(updater, nameof(updater));
             return new MappingView<TSource, TResult>(source, selector, updater, null, triggers);
         }
 
@@ -70,9 +70,9 @@
             where TSource : class
             where TResult : class
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
-			Ensure.NotNull(updater, "updater");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
+			Ensure.NotNull(updater, nameof(updater));
             return new MappingView<TSource, TResult>(source, selector, updater, scheduler);
         }
 
@@ -81,8 +81,8 @@
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
@@ -91,8 +91,8 @@
             Func<TSource, TResult> selector,
             IScheduler scheduler)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector, scheduler);
         }
 
@@ -101,8 +101,8 @@
             Func<TSource, int, TResult> selector,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
@@ -111,8 +111,8 @@
             Func<TSource, int, TResult> selector,
             IScheduler scheduler)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector, scheduler, null);
         }
 
@@ -125,9 +125,9 @@
             where TSource : class
             where TResult : class
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
-			Ensure.NotNull(updater, "updater");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
+			Ensure.NotNull(updater, nameof(updater));
             return new MappingView<TSource, TResult>(source, selector, updater, null, triggers);
         }
 
@@ -139,9 +139,9 @@
             where TSource : class
             where TResult : class
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
-			Ensure.NotNull(updater, "updater");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
+			Ensure.NotNull(updater, nameof(updater));
             return new MappingView<TSource, TResult>(source, selector, updater, scheduler);
         }
 
@@ -150,8 +150,8 @@
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
@@ -160,8 +160,8 @@
             Func<TSource, TResult> selector,
             IScheduler scheduler)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector, scheduler);
         }
 
@@ -170,8 +170,8 @@
             Func<TSource, int, TResult> selector,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
@@ -180,8 +180,8 @@
             Func<TSource, int, TResult> selector,
             IScheduler scheduler)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector, scheduler, null);
         }
 
@@ -194,9 +194,9 @@
             where TSource : class
             where TResult : class
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
-			Ensure.NotNull(updater, "updater");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
+			Ensure.NotNull(updater, nameof(updater));
             return new MappingView<TSource, TResult>(source, selector, updater, null, triggers);
         }
 
@@ -208,9 +208,9 @@
             where TSource : class
             where TResult : class
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
-			Ensure.NotNull(updater, "updater");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
+			Ensure.NotNull(updater, nameof(updater));
             return new MappingView<TSource, TResult>(source, selector, updater, scheduler);
         }
     }

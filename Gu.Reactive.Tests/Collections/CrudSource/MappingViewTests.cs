@@ -1,3 +1,4 @@
+// ReSharper disable All
 namespace Gu.Reactive.Tests.Collections
 {
     using System.Collections.ObjectModel;

@@ -3,7 +3,6 @@ namespace Gu.Reactive.Tests.Helpers
     using System;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Linq;
 
     using NUnit.Framework;
 

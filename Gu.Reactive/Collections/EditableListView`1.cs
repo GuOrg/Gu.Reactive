@@ -9,7 +9,7 @@ namespace Gu.Reactive
 
     using Gu.Reactive.Internals;
 
-    public class EditableListView<T> : IEditableListView<T>
+    public class EditableListView<T> : IObservableCollection<T>, IList, IDisposable
     {
         private readonly IObservableCollection<T> _source;
         private readonly IDisposable _subscriptions;

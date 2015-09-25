@@ -21,8 +21,8 @@ namespace Gu.Reactive
                           IObservable<NotifyCollectionChangedEventArgs> onRefresh,
                           TValue? whenEmpty)
         {
-            Ensure.NotNull(source, "source");
-            Ensure.NotNull(onRefresh, "resetObservable");
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(onRefresh, nameof(onRefresh));
             Source = source;
             WhenEmpty = whenEmpty;
             _subscription = onRefresh.Subscribe(Refresh);
@@ -165,11 +165,7 @@ namespace Gu.Reactive
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

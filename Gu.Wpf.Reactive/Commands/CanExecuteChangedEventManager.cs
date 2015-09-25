@@ -36,11 +36,11 @@
         {
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
             if (listener == null)
             {
-                throw new ArgumentNullException("listener");
+                throw new ArgumentNullException(nameof(listener));
             }
             CurrentManager.ProtectedAddListener(source, listener);
         }
@@ -54,7 +54,7 @@
         {
             if (listener == null)
             {
-                throw new ArgumentNullException("listener");
+                throw new ArgumentNullException(nameof(listener));
             }
             CurrentManager.ProtectedRemoveListener(source, listener);
         }
@@ -68,7 +68,7 @@
         {
             if (handler == null)
             {
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             }
             CurrentManager.ProtectedAddHandler(source, handler);
         }
@@ -81,7 +81,7 @@
         public static void RemoveHandler(ICommand source, EventHandler handler)
         {
             if (handler == null)
-                throw new ArgumentNullException("handler");
+                throw new ArgumentNullException(nameof(handler));
             CurrentManager.ProtectedRemoveHandler(source, handler);
         }
 

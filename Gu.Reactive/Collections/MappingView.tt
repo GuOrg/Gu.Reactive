@@ -25,8 +25,8 @@ namespace Gu.Reactive
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
@@ -35,8 +35,8 @@ namespace Gu.Reactive
             Func<TSource, TResult> selector,
             IScheduler scheduler)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector, scheduler);
         }
 
@@ -45,8 +45,8 @@ namespace Gu.Reactive
             Func<TSource, int, TResult> selector,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector,  null, triggers);
         }
 
@@ -55,8 +55,8 @@ namespace Gu.Reactive
             Func<TSource, int, TResult> selector,
             IScheduler scheduler)
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
             return new MappingView<TSource, TResult>(source, selector, scheduler, null);
         }
 
@@ -69,9 +69,9 @@ namespace Gu.Reactive
             where TSource : class
             where TResult : class
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
-			Ensure.NotNull(updater, "updater");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
+			Ensure.NotNull(updater, nameof(updater));
             return new MappingView<TSource, TResult>(source, selector, updater, null, triggers);
         }
 
@@ -83,9 +83,9 @@ namespace Gu.Reactive
             where TSource : class
             where TResult : class
         {
-			Ensure.NotNull(source, "source");
-			Ensure.NotNull(selector, "selector");
-			Ensure.NotNull(updater, "updater");
+			Ensure.NotNull(source, nameof(source));
+			Ensure.NotNull(selector, nameof(selector));
+			Ensure.NotNull(updater, nameof(updater));
             return new MappingView<TSource, TResult>(source, selector, updater, scheduler);
         }
 <#    } #>

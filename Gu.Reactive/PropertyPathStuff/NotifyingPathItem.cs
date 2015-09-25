@@ -3,6 +3,7 @@ namespace Gu.Reactive.PropertyPathStuff
     using System;
     using System.ComponentModel;
     using System.Reactive;
+    using System.Reactive.Disposables;
 
     using Gu.Reactive.Internals;
 
@@ -12,12 +13,12 @@ namespace Gu.Reactive.PropertyPathStuff
         private readonly Action<EventPattern<PropertyChangedEventArgs>> _onNext;
         private readonly Action<Exception> _onError;
         private bool _disposed;
-        private IDisposable _subscription;
+        private readonly SerialDisposable _subscription = new SerialDisposable();
 
         public NotifyingPathItem(INotifyingPathItem previous, PathProperty pathProperty)
         {
-            Ensure.NotNull(pathProperty, "pathProperty");
-            if (previous != null && previous.PathProperty != null)
+            Ensure.NotNull(pathProperty, nameof(pathProperty));
+            if (previous?.PathProperty != null)
             {
                 var type = previous.PathProperty.PropertyInfo.PropertyType;
                 if (type.IsValueType)
@@ -126,11 +127,7 @@ namespace Gu.Reactive.PropertyPathStuff
             get { return _subscription; }
             private set
             {
-                if (_subscription != null)
-                {
-                    _subscription.Dispose();
-                }
-                _subscription = value;
+                _subscription.Disposable = value;
             }
         }
 
@@ -144,10 +141,7 @@ namespace Gu.Reactive.PropertyPathStuff
                 return;
             }
             _disposed = true;
-            if (Subscription != null)
-            {
-                Subscription.Dispose();
-            }
+            Subscription.Dispose();
         }
 
         private void OnError(Exception obj)
@@ -177,11 +171,7 @@ namespace Gu.Reactive.PropertyPathStuff
                     next.Source = value; // Let event bubble up this way.
                 }
             }
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(sender, e);
-            }
+            PropertyChanged?.Invoke(sender, e);
         }
 
         private bool IsNullToNull(object oldSource, object newSource)

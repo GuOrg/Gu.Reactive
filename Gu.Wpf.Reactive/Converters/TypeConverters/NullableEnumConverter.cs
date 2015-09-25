@@ -23,12 +23,12 @@ namespace Gu.Wpf.Reactive.TypeConverters
                 }
                 else
                 {
-                    throw new ArgumentException("Type must be enum or Nullable<enum>", "type");
+                    throw new ArgumentException("Type must be enum or Nullable<enum>", nameof(type));
                 }
             }
             else
             {
-                throw new ArgumentException("Type must be enum or Nullable<enum>", "type");
+                throw new ArgumentException("Type must be enum or Nullable<enum>", nameof(type));
             }
         }
 

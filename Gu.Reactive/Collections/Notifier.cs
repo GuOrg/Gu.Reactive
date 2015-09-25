@@ -1,7 +1,6 @@
 namespace Gu.Reactive
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -81,11 +80,7 @@ namespace Gu.Reactive
 
         internal static void Notify(this PropertyChangedEventHandler handler, object sender, PropertyChangedEventArgs e)
         {
-            if (handler == null)
-            {
-                return;
-            }
-            handler(sender, e);
+            handler?.Invoke(sender, e);
         }
 
         internal static void Notify(this NotifyCollectionChangedEventHandler handler, object sender, NotifyCollectionChangedEventArgs e, IScheduler scheduler)
@@ -106,16 +101,7 @@ namespace Gu.Reactive
 
         public static bool IsSingleNewItem(this NotifyCollectionChangedEventArgs e)
         {
-            if (e == null)
-            {
-                return false;
-            }
-            var items = e.NewItems;
-            if (items == null)
-            {
-                return false;
-            }
-            return items.Count == 1;
+            return e?.NewItems?.Count ==1;
         }
 
         public static T NewItem<T>(this NotifyCollectionChangedEventArgs e)
@@ -129,16 +115,7 @@ namespace Gu.Reactive
 
         public static bool IsSingleOldItem(this NotifyCollectionChangedEventArgs e)
         {
-            if (e == null)
-            {
-                return false;
-            }
-            var items = e.OldItems;
-            if (items == null)
-            {
-                return false;
-            }
-            return items.Count == 1;
+            return e?.OldItems?.Count == 1;
         }
 
         public static T OldItem<T>(this NotifyCollectionChangedEventArgs e)

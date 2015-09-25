@@ -1,11 +1,9 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
-    using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
@@ -97,9 +95,9 @@
 
         private MappingView(IEnumerable<TSource> source, IScheduler scheduler, IMappingFactory<TSource,TResult> factory , params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, "source");
+            Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(source as INotifyCollectionChanged, "source");
-            Ensure.NotNull(factory, "factory");
+            Ensure.NotNull(factory, nameof(factory));
             
             _source = source;
             _factory = factory;

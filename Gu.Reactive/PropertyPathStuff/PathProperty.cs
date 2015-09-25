@@ -9,6 +9,7 @@ namespace Gu.Reactive.PropertyPathStuff
         /// <summary>
         /// Initializes a new instance of the <see cref="PathProperty"/> class.
         /// </summary>
+        /// <param name="previous"></param>
         /// <param name="propertyInfo">
         /// The property info.
         /// </param>
@@ -16,7 +17,7 @@ namespace Gu.Reactive.PropertyPathStuff
         {
             if (propertyInfo == null)
             {
-                throw new ArgumentNullException("propertyInfo");
+                throw new ArgumentNullException(nameof(propertyInfo));
             }
             if (!propertyInfo.CanRead)
             {
@@ -42,10 +43,7 @@ namespace Gu.Reactive.PropertyPathStuff
         /// <summary>
         /// Gets or sets a value indicating whether is last.
         /// </summary>
-        public bool IsLast
-        {
-            get { return Next == null; }
-        }
+        public bool IsLast => Next == null;
 
         /// <summary>
         /// Gets value all the way from the root recursively.

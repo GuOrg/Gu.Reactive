@@ -3,12 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Globalization;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    using System.Windows.Input;
 
     using Gu.Reactive.Demo.Annotations;
     using Gu.Wpf.Reactive;
@@ -82,10 +80,7 @@
             }
         }
 
-        public ObservableCollection<Person> PeopleRaw
-        {
-            get { return _peopleRaw; }
-        }
+        public ObservableCollection<Person> PeopleRaw => _peopleRaw;
 
         public IEnumerable<int> Tags { get; private set; }
 
@@ -125,11 +120,7 @@
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private bool Filter(Person person)

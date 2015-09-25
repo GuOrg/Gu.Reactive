@@ -12,7 +12,7 @@
             Func<T, bool> filter,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, "collection");
+			Ensure.NotNull(collection, nameof(collection));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, null, triggers);
         }
 
@@ -22,8 +22,8 @@
             TimeSpan bufferTime,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
+			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
             return new FilteredView<T>(collection, filter, bufferTime, null, triggers);
         }
 
@@ -33,9 +33,9 @@
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(scheduler, "scheduler");
+		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
         }
        
@@ -46,9 +46,9 @@
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(scheduler, "scheduler");
+		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
             return new FilteredView<T>(collection, filter, bufferTime, scheduler, triggers);
         }
 
@@ -57,7 +57,7 @@
             Func<T, bool> filter,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, "collection");
+			Ensure.NotNull(collection, nameof(collection));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, null, triggers);
         }
 
@@ -67,8 +67,8 @@
             TimeSpan bufferTime,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
+			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
             return new FilteredView<T>(collection, filter, bufferTime, null, triggers);
         }
 
@@ -78,9 +78,9 @@
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(scheduler, "scheduler");
+		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
         }
        
@@ -91,9 +91,9 @@
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, "collection");
-            Ensure.NotNull(filter, "filter");
-            Ensure.NotNull(scheduler, "scheduler");
+		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
             return new FilteredView<T>(collection, filter, bufferTime, scheduler, triggers);
         }
     }

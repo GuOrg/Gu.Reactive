@@ -25,7 +25,6 @@
         /// 
         /// </summary>
         /// <param name="action"></param>
-        /// <param name="raiseCanExecuteOnDispatcher">Default true, use false in tests</param>
         public ManualRelayCommand(Action<T> action)
             : this(action, _ => true)
         {

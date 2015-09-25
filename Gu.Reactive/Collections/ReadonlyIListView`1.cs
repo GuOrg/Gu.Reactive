@@ -7,7 +7,7 @@ namespace Gu.Reactive
     using System.ComponentModel;
     using System.Reactive.Disposables;
 
-    public class ReadOnlyIListView<T> : IReadonlyIListView<T>
+    public class ReadOnlyIListView<T> : IReadOnlyObservableCollection<T>, IList, IDisposable
     {
         private readonly IReadOnlyList<T> _source;
         private readonly IDisposable _subscriptions;

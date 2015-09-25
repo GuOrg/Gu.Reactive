@@ -4,6 +4,7 @@
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
     using System.Windows;
+    using System.Windows.Threading;
 
     public static class Schedulers
     {
@@ -17,12 +18,12 @@
         {
             get
             {
-                var application = Application.Current;
-                if (application == null || application.Dispatcher == null)
+                var dispatcher = Application.Current?.Dispatcher;
+                if (dispatcher == null)
                 {
                     return Scheduler.CurrentThread;
                 }
-                return new DispatcherScheduler(application.Dispatcher);
+                return WpfSchedulers.Dispatcher;
             }
         }
 

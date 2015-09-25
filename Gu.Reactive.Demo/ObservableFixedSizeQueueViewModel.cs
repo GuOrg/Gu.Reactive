@@ -7,7 +7,7 @@
 
     public class ObservableFixedSizeQueueViewModel
     {
-        private int _count = 0;
+        private int _count;
 
         public ObservableFixedSizeQueueViewModel()
         {

@@ -8,7 +8,7 @@ namespace Gu.Reactive
         private readonly Func<TSource, int, TResult> _indexSelector;
         private readonly Func<TResult, int, TResult> _indexUpdater;
         private readonly Func<TSource, TResult> _selector;
-        private readonly ConditionalWeakTable<object, object> _cache = new ConditionalWeakTable<object, object>();
+        private readonly ConditionalWeakTable<object, object> _cache;
         private readonly WeakCompositeDisposable _itemDisposables = new WeakCompositeDisposable();
         private bool _disposed;
 
@@ -25,7 +25,7 @@ namespace Gu.Reactive
             _cache = new ConditionalWeakTable<object, object>();
         }
 
-        public bool CanUpdateIndex { get { return _indexSelector != null && _indexUpdater != null; } }
+        public bool CanUpdateIndex => _indexSelector != null && _indexUpdater != null;
 
         public TResult GetOrCreateValue(TSource key, int index)
         {

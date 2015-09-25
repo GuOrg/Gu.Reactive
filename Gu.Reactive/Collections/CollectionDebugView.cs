@@ -16,7 +16,7 @@ namespace Gu.Reactive
         {
             if (collection == null)
             {
-                throw new ArgumentNullException("collection");
+                throw new ArgumentNullException(nameof(collection));
             }
             _collection = collection;
         }

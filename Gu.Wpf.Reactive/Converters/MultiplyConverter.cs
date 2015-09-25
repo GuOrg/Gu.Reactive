@@ -32,16 +32,12 @@
 
         protected override double? Convert(double? value, CultureInfo culture)
         {
-            return value.HasValue
-                ? value.Value * Factor
-                : default(double?);
+            return value * Factor;
         }
 
         protected override double? ConvertBack(double? value, CultureInfo culture)
         {
-            return value.HasValue
-                ? value.Value / Factor
-                : default(double?);
+            return value / Factor;
         }
     }
 }

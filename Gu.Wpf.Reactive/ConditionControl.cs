@@ -54,13 +54,18 @@
 
         public static readonly DependencyProperty FlatListProperty = FlatListPropertyKey.DependencyProperty;
 
-        private bool _disposed = false;
+        private bool _disposed;
 
         private FilteredView<ICondition> _filteredView;
 
         static ConditionControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ConditionControl), new FrameworkPropertyMetadata(typeof(ConditionControl)));
+        }
+
+        public ConditionControl()
+        {
+            _disposed = false;
         }
 
         public ICondition Condition
@@ -171,10 +176,7 @@
 
             if (disposing)
             {
-                if (_filteredView != null)
-                {
-                    _filteredView.Dispose();
-                }
+                _filteredView?.Dispose();
                 // Free any other managed objects here. 
             }
 

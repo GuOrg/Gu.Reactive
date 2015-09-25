@@ -42,7 +42,7 @@
 
         private class Maybe<NotifyCollectionChangedEventArgs> : IMaybe<NotifyCollectionChangedEventArgs>
         {
-            public bool HasValue { get { return Value != null; } }
+            public bool HasValue => Value != null;
             public NotifyCollectionChangedEventArgs Value { get; set; }
         }
     }

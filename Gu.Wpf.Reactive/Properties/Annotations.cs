@@ -1,4 +1,6 @@
 ﻿using System;
+// ReSharper disable NotNullMemberIsNotInitialized
+// ReSharper disable All
 
 #pragma warning disable 1591
 // ReSharper disable UnusedMember.Global
@@ -9,6 +11,7 @@
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
 
+// ReSharper disable once CheckNamespace
 namespace Gu.Wpf.Reactive.Annotations
 {
   /// <summary>

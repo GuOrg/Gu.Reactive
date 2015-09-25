@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
+﻿// ReSharper disable All
+namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
 

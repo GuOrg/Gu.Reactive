@@ -158,8 +158,8 @@
             bool signalInitial = true)
             where TNotifier : INotifyPropertyChanged
         {
-            Ensure.NotNull(source, "source");
-            Ensure.NotNull(property, "property");
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
             var propertyPath = PropertyPath.Create(property);
             return source.ObservePropertyChangedWithValue(propertyPath, signalInitial);
         }
@@ -201,7 +201,7 @@
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(
             this INotifyPropertyChanged source)
         {
-            Ensure.NotNull(source, "source");
+            Ensure.NotNull(source, nameof(source));
             var wr = new WeakReference<INotifyPropertyChanged>(source);
             IObservable<EventPattern<PropertyChangedEventArgs>> observable =
                 Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
@@ -226,7 +226,7 @@
 
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source)
         {
-            Ensure.NotNull(source, "source");
+            Ensure.NotNull(source, nameof(source));
 
             var observable = Observable.Create<PropertyChangedEventArgs>(
                 o =>
