@@ -22,9 +22,7 @@ namespace Gu.Wpf.Reactive
         {
         }
 
-        public AsyncCommand(
-            Func<Task> action,
-            bool disableMultipleRequests = true)
+        public AsyncCommand(Func<Task> action, bool disableMultipleRequests = true)
             : this(action, () => true, disableMultipleRequests)
         {
         }

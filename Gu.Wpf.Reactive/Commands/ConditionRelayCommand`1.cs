@@ -9,28 +9,43 @@
     /// Signals CanExecuteChanged when conditions changes
     /// CanExcecute() returns condition.IsSatisfied == true 
     /// </summary>
-    public class ConditionRelayCommand<T> : ObservingRelayCommand<T>, IConditionRelayCommand
+    public class ConditionRelayCommand<T> : ManualRelayCommand<T>, IConditionRelayCommand
     {
+        private readonly IDisposable _subscription;
+        private bool _disposed;
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="action">o => CallSomeMethod()</param>
+        /// <param name="action">SomeMethod</param>
         /// <param name="condition"></param>
         public ConditionRelayCommand(Action<T> action, ICondition condition)
-            : base(action, _ => condition.IsSatisfied == true, condition.AsObservable())
+            : base(action, _ => condition.IsSatisfied == true)
         {
             Condition = condition;
+            _subscription = Condition.AsObservable()
+                                     .Subscribe(_ => RaiseCanExecuteChanged());
         }
 
         public ICondition Condition { get; }
 
-        protected override void Dispose(bool disposing)
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                Condition?.Dispose();
+                _subscription.Dispose();
             }
-            base.Dispose(disposing);
         }
     }
 }

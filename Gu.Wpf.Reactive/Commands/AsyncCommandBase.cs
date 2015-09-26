@@ -11,7 +11,6 @@ namespace Gu.Wpf.Reactive
         where TTask : Task
     {
         private readonly Func<TTask> _action;
-
         private readonly Func<TTask, NotifyTaskCompletionBase<TTask>> _creator;
 
         private readonly bool _disableMultipleRequests;

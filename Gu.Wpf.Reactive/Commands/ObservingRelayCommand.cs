@@ -10,6 +10,8 @@ namespace Gu.Wpf.Reactive
     {
         private IDisposable _subscription;
 
+        private bool _disposed;
+
         public ObservingRelayCommand(
             Action action,
             Func<bool> condition,
@@ -17,11 +19,16 @@ namespace Gu.Wpf.Reactive
             : base(action, condition)
         {
             _subscription = observable.Merge()
-                                      .Subscribe(x => RaiseCanExecuteChanged());
+                                      .Subscribe(_ => RaiseCanExecuteChanged());
         }
 
         public void Dispose()
         {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
             Dispose(true);
             GC.SuppressFinalize(this);
         }

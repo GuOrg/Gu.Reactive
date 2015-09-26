@@ -2,6 +2,8 @@
 {
     using System;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// A command with CommandParameter of type <typeparam name="T"></typeparam>
     /// </summary>
@@ -10,6 +12,8 @@
         private readonly Action<T> _action;
         private readonly Func<T, bool> _condition;
 
+        private static readonly Func<T, bool> AlwaysTrue = _ => true;
+
         /// <summary>
         /// 
         /// </summary>
@@ -17,8 +21,9 @@
         /// <param name="condition"></param>
         public ManualRelayCommand(Action<T> action, Func<T, bool> condition)
         {
+            Ensure.NotNull(action, nameof(action));
             _action = action;
-            _condition = condition ?? (_ => true);
+            _condition = condition ?? AlwaysTrue;
         }
 
         /// <summary>
@@ -26,7 +31,7 @@
         /// </summary>
         /// <param name="action"></param>
         public ManualRelayCommand(Action<T> action)
-            : this(action, _ => true)
+            : this(action, null)
         {
         }
 

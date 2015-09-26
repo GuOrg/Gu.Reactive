@@ -7,6 +7,7 @@ namespace Gu.Wpf.Reactive
     /// </summary>
     public class ManualRelayCommand : CommandBase<object>
     {
+        private static readonly Func<bool> AlwaysTrue = () => true;
         private readonly Action _action;
         private readonly Func<bool> _condition;
 
@@ -26,7 +27,7 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         /// <param name="action"></param>
         public ManualRelayCommand(Action action)
-            : this(action, () => true)
+            : this(action, AlwaysTrue)
         {
         }
 

@@ -4,13 +4,12 @@
     using System.ComponentModel;
     using System.Threading.Tasks;
 
-    using Gu.Reactive;
-
     public abstract class NotifyTaskCompletionBase<T> : INotifyPropertyChanged
         where T : Task
     {
         private readonly string _resultProp;
-        private readonly TaskCompletionSource<int> _completionSource = new TaskCompletionSource<int>();
+        private readonly TaskCompletionSource<VoidTypeStruct> _completionSource = new TaskCompletionSource<VoidTypeStruct>();
+
         protected NotifyTaskCompletionBase(T task, string resultProp) // Not nice at all with string like this.
         {
             Completed = _completionSource.Task;
@@ -21,7 +20,7 @@
             }
             else
             {
-                _completionSource.SetResult(1); // 1 is not important here
+                _completionSource.SetResult(new VoidTypeStruct());
             }
             Task = task;
         }
@@ -60,7 +59,7 @@
             catch
             {
             }
-            _completionSource.SetResult(1); // 1 is not important here
+            _completionSource.SetResult(new VoidTypeStruct());
             var handler = PropertyChanged;
             if (handler == null)
             {
