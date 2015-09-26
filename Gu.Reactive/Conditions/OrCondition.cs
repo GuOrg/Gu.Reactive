@@ -1,10 +1,13 @@
 namespace Gu.Reactive
 {
+    using Gu.Reactive.Internals;
+
     public class OrCondition : Condition
     {
         public OrCondition(params ICondition[] prerequisites)
             : base(new OrConditionCollection(prerequisites))
         {
+            Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
         }
 
         /// <summary>

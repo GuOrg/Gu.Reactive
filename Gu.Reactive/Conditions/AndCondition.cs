@@ -1,5 +1,7 @@
 namespace Gu.Reactive
 {
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// Creates an AndConditionCollection
     /// </summary>
@@ -8,6 +10,7 @@ namespace Gu.Reactive
         public AndCondition(params ICondition[] prerequisites)
             : base(new AndConditionCollection(prerequisites))
         {
+            Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
         }
 
         /// <summary>

@@ -40,39 +40,40 @@ namespace Gu.Reactive.Tests.Conditions
         [Test]
         public void Notifies()
         {
-            var argses = new List<string>();
-            var fake1 = new Fake { IsTrueOrNull = false };
-            var fake2 = new Fake { IsTrueOrNull = false };
-            var fake3 = new Fake { IsTrueOrNull = false };
-            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake1.IsTrueOrNull);
-            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake2.IsTrueOrNull);
-            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake3.IsTrueOrNull);
+            var count = 0;
+            var fake1 = new Fake { IsTrue = false };
+            var fake2 = new Fake { IsTrue = false };
+            var fake3 = new Fake { IsTrue = false };
+            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrue), () => fake1.IsTrue);
+            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrue), () => fake2.IsTrue);
+            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrue), () => fake3.IsTrue);
             var collection = new OrCondition(condition1, condition2, condition3);
-            collection.PropertyChanged += (sender, args) => argses.Add(args.PropertyName);
+            collection.AsObservable()
+                      .Subscribe(_ => count++);
             Assert.AreEqual(false, collection.IsSatisfied);
-            fake1.IsTrueOrNull = true;
+            fake1.IsTrue = !fake1.IsTrue;
             Assert.AreEqual(true, collection.IsSatisfied);
-            Assert.AreEqual(1, argses.Count);
+            Assert.AreEqual(1, count);
 
-            fake2.IsTrueOrNull = true;
+            fake2.IsTrue = !fake2.IsTrue;
             Assert.AreEqual(true, collection.IsSatisfied);
-            Assert.AreEqual(1, argses.Count);
+            Assert.AreEqual(1, count);
 
-            fake3.IsTrueOrNull = true;
+            fake3.IsTrue = !fake3.IsTrue;
             Assert.AreEqual(true, collection.IsSatisfied);
-            Assert.AreEqual(1, argses.Count);
+            Assert.AreEqual(1, count);
 
-            fake1.IsTrueOrNull = false;
+            fake1.IsTrue = !fake1.IsTrue;
             Assert.AreEqual(true, collection.IsSatisfied);
-            Assert.AreEqual(1, argses.Count);
+            Assert.AreEqual(1, count);
 
-            fake2.IsTrueOrNull = false;
+            fake2.IsTrue = !fake2.IsTrue;
             Assert.AreEqual(true, collection.IsSatisfied);
-            Assert.AreEqual(1, argses.Count);
+            Assert.AreEqual(1, count);
 
-            fake3.IsTrueOrNull = false;
+            fake3.IsTrue = !fake3.IsTrue;
             Assert.AreEqual(false, collection.IsSatisfied);
-            Assert.AreEqual(2, argses.Count);
+            Assert.AreEqual(2, count);
         }
 
         [Test]
