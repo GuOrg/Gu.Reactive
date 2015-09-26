@@ -20,7 +20,6 @@
     {
         internal readonly PropertyChangedEventArgs PropertyChangedEventArgs;
         private readonly WeakReference _sourceReference = new WeakReference(null);
-        private bool _disposed;
         private readonly PropertyPath<TClass, TProp> _propertyPath;
 
         /// <summary>
@@ -49,7 +48,6 @@
 
         protected override IDisposable SubscribeCore(IObserver<EventPattern<PropertyChangedEventArgs>> observer)
         {
-            VerifyDisposed();
             var rootItem = new RootItem((INotifyPropertyChanged)_sourceReference.Target);
             var path = new NotifyingPath(rootItem, _propertyPath);
 
@@ -93,16 +91,6 @@
                         path);
                     throw new ArgumentException(message, nameof(path));
                 }
-            }
-        }
-
-        private void VerifyDisposed()
-        {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException(
-                    GetType()
-                        .FullName);
             }
         }
     }

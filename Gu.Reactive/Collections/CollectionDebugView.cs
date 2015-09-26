@@ -1,8 +1,8 @@
 namespace Gu.Reactive
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
 
     /// <summary>
     /// http://www.codeproject.com/Articles/28405/Make-the-debugger-show-the-contents-of-your-custom
@@ -10,14 +10,12 @@ namespace Gu.Reactive
     /// <typeparam name="T"></typeparam>
     public class CollectionDebugView<T>
     {
-        private readonly IReadOnlyList<T> _collection;
+        private readonly IEnumerable<T> _collection;
 
-        public CollectionDebugView(IReadOnlyList<T> collection)
+        private static readonly T[] Empty = new T[0];
+
+        public CollectionDebugView(IEnumerable<T> collection)
         {
-            if (collection == null)
-            {
-                throw new ArgumentNullException(nameof(collection));
-            }
             _collection = collection;
         }
 
@@ -26,12 +24,12 @@ namespace Gu.Reactive
         {
             get
             {
-                T[] array = new T[_collection.Count];
-                for (int i = 0; i < _collection.Count; i++)
+                var array = _collection as T[];
+                if (array != null)
                 {
-                    array[i] = _collection[i];
+                    return array;
                 }
-                return array;
+                return _collection?.ToArray()?? Empty;
             }
         }
     }

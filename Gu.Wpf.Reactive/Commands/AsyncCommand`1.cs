@@ -5,14 +5,14 @@ namespace Gu.Wpf.Reactive
 
     /// <summary>
     /// http://msdn.microsoft.com/en-us/magazine/dn630647.aspx
-    /// An async command that does not use commandparameter
+    /// An async command that uses command parameter
     /// Returns a Task
     /// </summary>
-    public class AsyncCommand : AsyncCommandBase<Task>
+    public class AsyncCommand<T> : AsyncParameterCommandBase<T, Task>
     {
         public AsyncCommand(
-            Func<Task> action,
-            Func<bool> condition,
+            Func<T, Task> action,
+            Func<T,bool> condition,
             bool disableMultipleRequests = true)
             : base(
                 action,
@@ -23,9 +23,9 @@ namespace Gu.Wpf.Reactive
         }
 
         public AsyncCommand(
-            Func<Task> action,
+            Func<T, Task> action,
             bool disableMultipleRequests = true)
-            : this(action, () => true, disableMultipleRequests)
+            : this(action, _ => true, disableMultipleRequests)
         {
         }
     }

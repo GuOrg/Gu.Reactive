@@ -3,15 +3,15 @@ namespace Gu.Wpf.Reactive
     using System;
     using System.Windows.Input;
 
-    public class RelayCommand : ManualRelayCommand
+    public class RelayCommand<T> : ManualRelayCommand<T>
     {
-        public RelayCommand(Action action, Func<bool> condition)
+        public RelayCommand(Action<T> action, Func<T, bool> condition)
             : base(action, condition)
         {
         }
 
-        public RelayCommand(Action action)
-            : this(action, () => true)
+        public RelayCommand(Action<T> action)
+            : this(action, o => true)
         {
         }
 

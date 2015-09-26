@@ -62,8 +62,8 @@
             var observables = new IObservable<object>[]
                                             {
                                                 this.Triggers.ObserveCollectionChanged(false),
-                                                this.ObservePropertyChanged(x => x.Filter, false),
-                                                this.ObservePropertyChanged(x => x.BufferTime, false)
+                                                this.ObservePropertyChangedSlim(nameof(Filter), false),
+                                                this.ObservePropertyChangedSlim(nameof(BufferTime), false)
                                             };
             observables.Merge()
                        .ThrottleOrDefault(bufferTime, scheduler)

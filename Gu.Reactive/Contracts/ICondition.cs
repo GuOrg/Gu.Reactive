@@ -2,12 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
 
-    public interface ICondition : IDisposable, INotifyPropertyChanged
+    public interface ICondition : ISatisfied, IDisposable
     {
-        bool? IsSatisfied { get; }
-
         /// <summary>
         /// Gets the name. The default name is .GetType().PrettyName()
         /// </summary>

@@ -19,12 +19,12 @@
         {
             _condition = condition;
             _innerNegated = negated;
-            _subscription = condition.ObservePropertyChanged(x => x.IsSatisfied, false)
+            _subscription = condition.AsObservable()
                                           .Subscribe(
                                               x =>
                                                   {
                                                       _history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, IsSatisfied));
-                                                      OnPropertyChanged(x.EventArgs.PropertyName);
+                                                      OnPropertyChanged(nameof(IsSatisfied));
                                                   });
             Name = $"Not_{_condition.Name}";
         }
@@ -33,7 +33,7 @@
             : this(
                 (ICondition)condition,
                 new Condition(
-                    condition.ObservePropertyChanged(x => x.IsSatisfied),
+                    condition.AsObservable(),
                     () => condition.IsSatisfied == null
                               ? (bool?)null
                               : !condition.IsSatisfied.Value))

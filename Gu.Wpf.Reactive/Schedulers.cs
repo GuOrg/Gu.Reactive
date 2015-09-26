@@ -4,7 +4,6 @@
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
     using System.Windows;
-    using System.Windows.Threading;
 
     public static class Schedulers
     {
@@ -13,7 +12,6 @@
         /// Falls back to DispatcherScheduler.Current (for tests)
         /// </summary>
         /// <returns>The scheduler</returns>
-        [Obsolete("Use IWpfScedulers instead")]
         public static IScheduler DispatcherOrCurrentThread
         {
             get
@@ -34,7 +32,6 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="observable"></param>
         /// <returns></returns>
-        [Obsolete("Use IWpfScedulers instead")]
         public static IObservable<T> ObserveOnDispatcherOrCurrentThread<T>(this IObservable<T> observable)
         {
             return observable.ObserveOn(DispatcherOrCurrentThread);

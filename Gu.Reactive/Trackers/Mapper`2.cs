@@ -24,7 +24,7 @@
             _selector = selector;
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            _subscription = source.ObservePropertyChanged(x => x.Value)
+            _subscription = source.ObservePropertyChangedSlim(nameof(source.Value))
                                   .Subscribe(_ => { Value = _selector(_source.Value); });
         }
 

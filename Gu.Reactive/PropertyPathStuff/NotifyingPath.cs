@@ -55,23 +55,6 @@ namespace Gu.Reactive.PropertyPathStuff
 
         internal object LastSource => ((NotifyingPathItem)_parts.Last()).Previous.Value;
 
-        public static NotifyingPath Create<TSource, TValue>(Expression<Func<TSource, TValue>> propertyExpression)
-        {
-            throw new NotImplementedException("Change to create from propertypath");
-
-            //var path = PropertyPath.Create(propertyExpression);
-            //var items = new INotifyingPathItem[path.Count];
-            //items[0] = (RootItem)path[0];
-            //INotifyingPathItem previous = items[0];
-            //for (int i = 1; i < path.Count; i++)
-            //{
-            //    var item = new NotifyingPathItem(previous, (PathProperty)path[i]);
-            //    items[i] = item;
-            //    previous = item;
-            //}
-            //return new NotifyingPath(items);
-        }
-
         public IEnumerator<INotifyingPathItem> GetEnumerator()
         {
             VerifyDisposed();

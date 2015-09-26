@@ -1,18 +1,19 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Reactive.Linq;
 
     /// <summary>
-    /// A command that does not use the CommandParameter
+    /// A command with CommandParameter of type <typeparam name="T"></typeparam>
+    /// Signals CanExecuteChanged when observable signals
     /// </summary>
-    public class ObservingRelayCommand : ManualRelayCommand, IDisposable
+    public class ObservingRelayCommand<T> : ManualRelayCommand<T>, IDisposable
     {
         private IDisposable _subscription;
 
         public ObservingRelayCommand(
-            Action action,
-            Func<bool> condition,
+            Action<T> action,
+            Func<T, bool> condition,
             params IObservable<object>[] observable)
             : base(action, condition)
         {

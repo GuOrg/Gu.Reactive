@@ -14,7 +14,7 @@
     /// <summary>
     /// Base class for collections
     /// </summary>
-    public abstract class ConditionCollection : IReadOnlyList<ICondition>, INotifyPropertyChanged, IDisposable
+    public abstract class ConditionCollection : ISatisfied, IReadOnlyList<ICondition>, INotifyPropertyChanged, IDisposable
     {
         private readonly IReadOnlyList<ICondition> _innerConditions;
         private readonly IDisposable _subscription;
@@ -33,8 +33,8 @@
             }
 
             _isSatisfied = isSatisfied;
-            _innerConditions = conditions.ToArray();
-            _subscription = conditions.Select(x => x.ObservePropertyChanged(y => y.IsSatisfied, false))
+            _innerConditions = conditions;
+            _subscription = conditions.Select(x => x.AsObservable())
                                        .Merge()
                                        .Subscribe(
                                            x =>
@@ -66,7 +66,6 @@
                 OnPropertyChanged();
             }
         }
-
 
         public int Count => _innerConditions.Count;
 

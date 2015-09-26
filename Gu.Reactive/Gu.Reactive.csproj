@@ -208,7 +208,9 @@
     <Compile Include="Collections\ListExt.cs" />
     <Compile Include="Collections\ReadonlySerialViewBase.cs" />
     <Compile Include="Collections\ThrowHelper.cs" />
+    <Compile Include="Conditions\ConditionExt.cs" />
     <Compile Include="Contracts\IRefreshAble.cs" />
+    <Compile Include="Contracts\ISatisfied.cs" />
     <Compile Include="Contracts\ISchedulers.cs" />
     <Compile Include="Collections\CollectionDebugView.cs" />
     <Compile Include="Collections\FilteredView.generated.cs">
@@ -289,14 +291,14 @@
     <Compile Include="Internals\ItemsObservable`2.cs" />
     <Compile Include="Internals\ValueAndSender`1.cs" />
     <Compile Include="NotifyCollectionChangedExt.cs" />
-    <Compile Include="Conditions\IConditionService.cs" />
+    <Compile Include="Contracts\IConditionService.cs" />
     <Compile Include="NameOf.cs" />
     <Compile Include="Conditions\AndCondition.cs" />
     <Compile Include="Conditions\AndConditionCollection.cs" />
     <Compile Include="Conditions\Condition.cs" />
     <Compile Include="Conditions\ConditionCollection.cs" />
     <Compile Include="Conditions\ConditionHistoryPoint.cs" />
-    <Compile Include="Conditions\ICondition.cs" />
+    <Compile Include="Contracts\ICondition.cs" />
     <Compile Include="Conditions\NegatedCondition.cs" />
     <Compile Include="Conditions\OrCondition.cs" />
     <Compile Include="Conditions\OrConditionCollection.cs" />

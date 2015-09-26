@@ -12,6 +12,7 @@
         private CanExecuteChangedEventManager()
         {
         }
+
         public static CanExecuteChangedEventManager CurrentManager
         {
             get

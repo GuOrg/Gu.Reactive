@@ -7,7 +7,7 @@
     using System.Windows;
     using System.Windows.Input;
 
-    public abstract class ManualCommandBase<T> : IToolTipCommand
+    public abstract class CommandBase<T> : IToolTipCommand
     {
         private string _toolTipText;
 
@@ -80,11 +80,11 @@
             {
                 SetCurrentManager(typeof(InternalCanExecuteChangedEventManager), Manager);
             }
-            internal static void AddHandler(ManualCommandBase<T> source, EventHandler handler)
+            internal static void AddHandler(CommandBase<T> source, EventHandler handler)
             {
                 Manager.ProtectedAddHandler(source, handler);
             }
-            internal static void RemoveHandler(ManualCommandBase<T> source, EventHandler handler)
+            internal static void RemoveHandler(CommandBase<T> source, EventHandler handler)
             {
                 Manager.ProtectedRemoveHandler(source, handler);
             }
@@ -94,11 +94,11 @@
             ////}
             protected override void StartListening(object source)
             {
-                ((ManualCommandBase<T>)source).InternalCanExecuteChanged += DeliverEvent;
+                ((CommandBase<T>)source).InternalCanExecuteChanged += DeliverEvent;
             }
             protected override void StopListening(object source)
             {
-                ((ManualCommandBase<T>)source).InternalCanExecuteChanged -= DeliverEvent;
+                ((CommandBase<T>)source).InternalCanExecuteChanged -= DeliverEvent;
             }
         }
     }
