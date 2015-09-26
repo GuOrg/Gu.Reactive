@@ -3,12 +3,14 @@ namespace Gu.Wpf.Reactive
     using System;
     using System.Reactive.Linq;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// A command that does not use the CommandParameter
     /// </summary>
     public class ObservingRelayCommand : ManualRelayCommand, IDisposable
     {
-        private IDisposable _subscription;
+        private readonly IDisposable _subscription;
 
         private bool _disposed;
 
@@ -18,8 +20,21 @@ namespace Gu.Wpf.Reactive
             params IObservable<object>[] observable)
             : base(action, condition)
         {
+            Ensure.NotNullOrEmpty(observable, nameof(observable));
             _subscription = observable.Merge()
                                       .Subscribe(_ => RaiseCanExecuteChanged());
+        }
+
+        protected override bool InternalCanExecute(object parameter)
+        {
+            VerifyDisposed();
+            return base.InternalCanExecute(parameter);
+        }
+
+        protected override void InternalExecute(object parameter)
+        {
+            VerifyDisposed();
+            base.InternalExecute(parameter);
         }
 
         public void Dispose()
@@ -35,10 +50,17 @@ namespace Gu.Wpf.Reactive
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && _subscription != null)
+            if (disposing)
             {
                 _subscription.Dispose();
-                _subscription = null;
+            }
+        }
+
+        protected void VerifyDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
             }
         }
     }

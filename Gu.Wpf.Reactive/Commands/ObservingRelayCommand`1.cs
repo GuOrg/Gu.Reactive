@@ -3,13 +3,17 @@
     using System;
     using System.Reactive.Linq;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// A command with CommandParameter of type <typeparam name="T"></typeparam>
     /// Signals CanExecuteChanged when observable signals
     /// </summary>
     public class ObservingRelayCommand<T> : ManualRelayCommand<T>, IDisposable
     {
-        private IDisposable _subscription;
+        private readonly IDisposable _subscription;
+
+        private bool _disposed;
 
         public ObservingRelayCommand(
             Action<T> action,
@@ -17,22 +21,47 @@
             params IObservable<object>[] observable)
             : base(action, condition)
         {
+            Ensure.NotNullOrEmpty(observable, nameof(observable));
             _subscription = observable.Merge()
                                       .Subscribe(x => RaiseCanExecuteChanged());
         }
 
         public void Dispose()
         {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        protected override bool InternalCanExecute(T parameter)
+        {
+            VerifyDisposed();
+            return base.InternalCanExecute(parameter);
+        }
+
+        protected override void InternalExecute(T parameter)
+        {
+            VerifyDisposed();
+            base.InternalExecute(parameter);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && _subscription != null)
+            if (disposing)
             {
                 _subscription.Dispose();
-                _subscription = null;
+            }
+        }
+
+        protected void VerifyDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
             }
         }
     }

@@ -38,11 +38,31 @@ namespace Gu.Wpf.Reactive
             GC.SuppressFinalize(this);
         }
 
+        protected override bool InternalCanExecute(object parameter)
+        {
+            VerifyDisposed();
+            return base.InternalCanExecute(parameter);
+        }
+
+        protected override void InternalExecute(object parameter)
+        {
+            VerifyDisposed();
+            base.InternalExecute(parameter);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
                 _subscription.Dispose();
+            }
+        }
+
+        protected void VerifyDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
             }
         }
     }

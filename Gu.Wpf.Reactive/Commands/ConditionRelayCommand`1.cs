@@ -40,11 +40,31 @@
             GC.SuppressFinalize(this);
         }
 
+        protected override bool InternalCanExecute(T parameter)
+        {
+            VerifyDisposed();
+            return base.InternalCanExecute(parameter);
+        }
+
+        protected override void InternalExecute(T parameter)
+        {
+            VerifyDisposed();
+            base.InternalExecute(parameter);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
                 _subscription.Dispose();
+            }
+        }
+
+        protected void VerifyDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
             }
         }
     }
