@@ -1,6 +1,8 @@
 ﻿namespace Gu.Wpf.Reactive.Tests
 {
     using System;
+    using System.Reactive.Linq;
+    using System.Reactive.Threading.Tasks;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -17,6 +19,20 @@
         {
             var command = new AsyncCommand(() => Task.FromResult(1));
             Assert.IsTrue(command.CanExecute());
+            Assert.IsFalse(command.CancelCommand.CanExecute());
+            Assert.IsInstanceOf<Condition>(command.Condition);
+        }
+
+        [Test]
+        public void CanCancel()
+        {
+            var command = new AsyncCommand(x => x.AsObservable().FirstAsync().ToTask());
+            Assert.IsTrue(command.CanExecute());
+            Assert.IsFalse(command.CancelCommand.CanExecute());
+            command.Execute();
+            Assert.IsTrue(command.CancelCommand.CanExecute());
+            command.CancelCommand.Execute();
+            Assert.IsFalse(command.CancelCommand.CanExecute());
             Assert.IsInstanceOf<Condition>(command.Condition);
         }
 
@@ -37,7 +53,9 @@
             var tcs = new TaskCompletionSource<int>();
             var command = new AsyncCommand(() => tcs.Task);
             command.CanExecuteChanged += (_, __) => count++;
+            Assert.IsFalse(command.CancelCommand.CanExecute());
             command.Execute();
+            Assert.IsFalse(command.CancelCommand.CanExecute());
             Assert.AreEqual(1, count);
             tcs.SetResult(1);
             await command.Execution.Task;
