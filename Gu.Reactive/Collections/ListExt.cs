@@ -59,9 +59,9 @@
             Ensure.That(index >= 0, nameof(index), "Index must be greater than or equal to 0");
             Ensure.That(index < array.Length, nameof(index), "Index must be less than array.Length");
 
-            for (int i = index; i < source.Count; i++)
+            for (int i = 0; i < source.Count; i++)
             {
-                array.SetValue(source[i], i);
+                array.SetValue(source[i], i + index);
             }
         }
     }

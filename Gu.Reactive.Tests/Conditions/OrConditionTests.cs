@@ -48,7 +48,7 @@ namespace Gu.Reactive.Tests.Conditions
             var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrue), () => fake2.IsTrue);
             var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrue), () => fake3.IsTrue);
             var collection = new OrCondition(condition1, condition2, condition3);
-            collection.AsObservable()
+            collection.ObserveIsSatisfied()
                       .Subscribe(_ => count++);
             Assert.AreEqual(false, collection.IsSatisfied);
             fake1.IsTrue = !fake1.IsTrue;

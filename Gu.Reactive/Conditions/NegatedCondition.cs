@@ -19,7 +19,7 @@
         {
             _condition = condition;
             _innerNegated = negated;
-            _subscription = condition.AsObservable()
+            _subscription = condition.ObserveIsSatisfied()
                                           .Subscribe(
                                               x =>
                                                   {
@@ -33,7 +33,7 @@
             : this(
                 (ICondition)condition,
                 new Condition(
-                    condition.AsObservable(),
+                    condition.ObserveIsSatisfied(),
                     () => condition.IsSatisfied == null
                               ? (bool?)null
                               : !condition.IsSatisfied.Value))

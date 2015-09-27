@@ -207,7 +207,7 @@
                 x => x.IsSatisfied == false,
                 TimeSpan.FromMilliseconds(10),
                 Schedulers.DispatcherOrCurrentThread,
-                flatList.Select(x => x.AsObservable())
+                flatList.Select(x => x.ObserveIsSatisfied())
                         .Merge());
         }
 

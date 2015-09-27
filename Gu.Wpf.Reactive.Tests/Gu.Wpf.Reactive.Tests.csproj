@@ -51,6 +51,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Moq, Version=4.2.1502.911, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1502.0911\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -104,8 +108,6 @@
     <Compile Include="CollectionViews\ObservableCollectionExtensionsTests.cs" />
     <Compile Include="Commands\AsyncCommandTests.cs" />
     <Compile Include="Commands\AsyncParameterCommandTests.cs" />
-    <Compile Include="Commands\AsyncParameterResultCommandTests.cs" />
-    <Compile Include="Commands\AsyncResultCommandTests.cs" />
     <Compile Include="Commands\ConditionParameterRelayCommandTests.cs" />
     <Compile Include="Commands\ConditionRelayCommandTests.cs" />
     <Compile Include="Commands\ManualParameterRelayCommandTests.cs" />

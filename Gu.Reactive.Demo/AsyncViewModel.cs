@@ -17,14 +17,7 @@
 
             AsyncParameterCommand = new AsyncCommand<string>(VoidTaskMethod) { ToolTipText = "AsyncParameterCommand" };
 
-            AsyncResultCommand = new AsyncResultCommand<int>(ResultTaskMethod) { ToolTipText = "AsyncResultCommand" };
-
             AsyncThrowCommand = new AsyncCommand(VoidTaskThrowMethod) { ToolTipText = "AsyncThrowCommand" };
-
-            AsyncResultThrowCommand = new AsyncResultCommand<int>(ResultTaskThrowMethod)
-                                          {
-                                              ToolTipText = "AsyncResultThrowCommand"
-                                          };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -33,12 +26,8 @@
        
         public AsyncCommand<string> AsyncParameterCommand { get; private set; }
         
-        public AsyncResultCommand<int> AsyncResultCommand { get; private set; }
-
         public AsyncCommand AsyncThrowCommand { get; private set; }
         
-        public AsyncResultCommand<int> AsyncResultThrowCommand { get; private set; }
-
         public int Delay
         {
             get

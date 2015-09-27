@@ -98,6 +98,9 @@
     <Compile Include="Commands\ManualRelayCommand.cs" />
     <Compile Include="Commands\ObservingRelayCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\TaskRunner.cs" />
+    <Compile Include="Commands\TaskRunner`1.cs" />
+    <Compile Include="Commands\TaskRunnerBase.cs" />
     <Compile Include="Converters\TypeConverters\ITypeConverter`1.cs" />
     <Compile Include="Converters\TypeConverters\NullableEnumConverter`1.cs" />
     <Compile Include="Collections\DispatchingView`1.cs" />
@@ -141,13 +144,10 @@
     <Compile Include="NinjaBinding.cs" />
     <Compile Include="Schedulers.cs" />
     <Compile Include="Commands\AsyncCommand`1.cs" />
-    <Compile Include="Commands\AsyncResultCommand`1.cs" />
-    <Compile Include="Commands\AsyncCommandBase.cs" />
-    <Compile Include="Commands\AsyncParameterCommandBase`2.cs" />
     <Compile Include="Commands\CanExecuteChangedEventManager.cs" />
     <Compile Include="Commands\IAsyncCommand.cs" />
     <Compile Include="Commands\IConditionRelayCommand.cs" />
-    <Compile Include="Commands\ManualCommandBase`1.cs" />
+    <Compile Include="Commands\CommandBase`1.cs" />
     <Compile Include="Commands\VoidTypeStruct.cs" />
     <Compile Include="NotifyTaskCompletion`1.cs" />
     <Compile Include="CommandToolTip.cs" />

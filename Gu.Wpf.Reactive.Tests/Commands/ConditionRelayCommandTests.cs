@@ -32,9 +32,17 @@
         public void NotifiesOnConditionChanged()
         {
             int count = 0;
-            _command.CanExecuteChanged += (sender, args) => count++;
-            _fake.IsTrueOrNull = true;
+            var fake = new Fake { IsTrue = false };
+            var observable = fake.ObservePropertyChanged(x => x.IsTrue);
+            var condition = new Condition(observable, () => fake.IsTrue);
+            var command = new ConditionRelayCommand(() => { }, condition);
+            command.CanExecuteChanged += (sender, args) => count++;
+            Assert.AreEqual(0, count);
+            Assert.IsFalse(command.CanExecute());
+
+            fake.IsTrue = true;
             Assert.AreEqual(1, count);
+            Assert.IsTrue(command.CanExecute());
         }
 
         [TestCase(false)]

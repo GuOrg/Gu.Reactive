@@ -1,79 +1,105 @@
 ﻿namespace Gu.Wpf.Reactive.Tests
 {
     using System;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Reactive;
+    using System.Reactive.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
+
+    using Gu.Reactive;
+
+    using Moq;
 
     using NUnit.Framework;
 
     public class AsyncCommandTests
     {
-        private TaskCompletionSource<int> _tcs;
-        private Task<int> _task;
-        private AsyncCommand _command;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _tcs = new TaskCompletionSource<int>();
-            _task = _tcs.Task;
-            _command = new AsyncCommand(() => _task);
-        }
-
         [Test]
         public void CanExecuteNoCondition()
         {
-            Assert.IsTrue(_command.CanExecute());
+            var command = new AsyncCommand(() => Task.FromResult(1));
+            Assert.IsTrue(command.CanExecute());
+            Assert.IsInstanceOf<Condition>(command.Condition);
         }
 
-        [TestCase(1, 1, true)]
-        [TestCase(1, 2, false)]
-        public void CanExecuteCondition(int i, int value, bool expected)
+        [TestCase(true)]
+        [TestCase(false)]
+        public void CanExecuteCondition(bool expected)
         {
-            var command = new AsyncCommand(() => _task, () => value == i);
+            var condition = Mock.Of<ICondition>(x => x.IsSatisfied == expected);
+            var command = new AsyncCommand(() => Task.FromResult(1), condition);
+            Assert.AreEqual(2, ((AndCondition)command.Condition).Prerequisites.Count);
             Assert.AreEqual(expected, command.CanExecute());
         }
 
         [Test]
-        public void ExecuteNotifiesCanExecuteChanged()
+        public async Task ExecuteNotifiesCanExecuteChanged()
         {
-            var n = 0;
-            _command.CanExecuteChanged += (_, __) => n++;
-            _command.Execute();
-            Assert.AreEqual(1, n);
-            _tcs.SetResult(1);
-            Assert.AreEqual(2, n);
+            var count = 0;
+            var tcs = new TaskCompletionSource<int>();
+            var command = new AsyncCommand(() => tcs.Task);
+            command.CanExecuteChanged += (_, __) => count++;
+            command.Execute();
+            Assert.AreEqual(1, count);
+            tcs.SetResult(1);
+            await command.Execution.Task;
+            Assert.AreEqual(2, count);
         }
 
         [Test]
-        public void ExecuteFinished()
+        public async Task ExecuteFinished()
         {
-            _command.Execute();
-            AssertCompletion.AreEqual(_task, _command.Execution);
+            var finished = Task.FromResult(1);
+            var command = new AsyncCommand(() => finished);
+            Assert.IsTrue(command.CanExecute());
+            command.Execute();
+            await command.Execution.Task;
+            Assert.IsTrue(command.CanExecute());
+            Assert.AreSame(finished, command.Execution.Task);
+            Assert.AreSame(finished, command.Execution.Completed);
         }
 
         [Test]
         public void ExecuteCanceled()
         {
-            _tcs.SetCanceled();
-            _command.Execute();
-            AssertCompletion.AreEqual(_task, _command.Execution);
+            var tcs = new TaskCompletionSource<int>();
+            tcs.SetCanceled();
+            var command = new AsyncCommand(() => tcs.Task);
+            command.Execute();
+            Assert.AreSame(tcs.Task, command.Execution.Task);
         }
 
         [Test]
-        public void ExecuteThrow()
+        public async Task ExecuteThrows()
         {
-            _tcs.SetException(new Exception());
-            _command.Execute();
-            AssertCompletion.AreEqual(_task, _command.Execution);
+            var exception = new Exception();
+            var command = new AsyncCommand(() => Task.Run(() => { throw exception; }));
+            command.Execute();
+            try
+            {
+                await command.Execution.Task;
+            }
+            catch
+            {
+            }
+            Assert.AreEqual(exception, command.Execution.InnerException);
+            Assert.AreEqual(TaskStatus.Faulted, command.Execution.Status);
+            Assert.AreEqual(true, command.CanExecute());
         }
 
         [Test]
-        public void BlocksMultiple()
+        public async Task CannotExecuteWhileRunning()
         {
-            Assert.IsTrue(_command.CanExecute());
-            _command.Execute();
-            Assert.IsFalse(_command.CanExecute());
-            _tcs.SetResult(0);
+            var resetEvent = new ManualResetEventSlim();
+            var command = new AsyncCommand(() => Task.Run(() => resetEvent.Wait()));
+            Assert.IsTrue(command.CanExecute());
+            command.Execute();
+            Assert.IsFalse(command.CanExecute());
+            resetEvent.Set();
+            await command.Execution.Task;
+            Assert.IsTrue(command.CanExecute());
         }
     }
 }

@@ -2,34 +2,44 @@
 {
     using System;
     using System.ComponentModel;
+    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
     public abstract class NotifyTaskCompletionBase<T> : INotifyPropertyChanged
         where T : Task
     {
-        private readonly string _resultProp;
-        private readonly TaskCompletionSource<VoidTypeStruct> _completionSource = new TaskCompletionSource<VoidTypeStruct>();
+        private T _completed;
 
-        protected NotifyTaskCompletionBase(T task, string resultProp) // Not nice at all with string like this.
+        protected NotifyTaskCompletionBase(T task)
         {
-            Completed = _completionSource.Task;
-            _resultProp = resultProp;
-            if (!task.IsCompleted)
+            Task = task;
+            if (task.IsCompleted)
             {
-                var _ = WatchTaskAsync(task);
+                Completed = task;
             }
             else
             {
-                _completionSource.SetResult(new VoidTypeStruct());
+                AwaitTask(task);
             }
-            Task = task;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public T Task { get; }
 
-        public Task Completed { get; }
+        public T Completed
+        {
+            get { return _completed; }
+            private set
+            {
+                if (_completed == value)
+                {
+                    return;
+                }
+                _completed = value;
+                OnPropertyChanged();
+            }
+        }
 
         public TaskStatus Status => Task.Status;
 
@@ -49,7 +59,17 @@
 
         public string ErrorMessage => InnerException?.Message;
 
-        private async Task WatchTaskAsync(T task)
+        protected virtual void OnCompleted()
+        {
+            Completed = Task;
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private async void AwaitTask(T task)
         {
             try
             {
@@ -59,7 +79,10 @@
             catch
             {
             }
-            _completionSource.SetResult(new VoidTypeStruct());
+            if (task.Status == TaskStatus.RanToCompletion)
+            {
+                OnCompleted();
+            }
             var handler = PropertyChanged;
             if (handler == null)
             {
@@ -80,14 +103,6 @@
                 handler(this,
                     new PropertyChangedEventArgs(nameof(InnerException)));
                 handler(this, new PropertyChangedEventArgs(nameof(ErrorMessage)));
-            }
-            else
-            {
-                handler(this, new PropertyChangedEventArgs(nameof(IsSuccessfullyCompleted)));
-                if (_resultProp != null)
-                {
-                    handler(this, new PropertyChangedEventArgs(_resultProp));
-                }
             }
         }
     }

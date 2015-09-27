@@ -11,7 +11,6 @@ namespace Gu.Wpf.Reactive
     public class ObservingRelayCommand : ManualRelayCommand, IDisposable
     {
         private readonly IDisposable _subscription;
-
         private bool _disposed;
 
         public ObservingRelayCommand(

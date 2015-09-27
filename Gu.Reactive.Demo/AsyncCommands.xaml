@@ -19,7 +19,5 @@
         <ContentPresenter Content="{Binding AsyncParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
         <!--  <ContentPresenter Content="{Binding AsyncThrowCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />  -->
 
-        <ContentPresenter Content="{Binding AsyncResultCommand}" ContentTemplate="{StaticResource AsyncResultCommandTemplate}" />
-        <ContentPresenter Content="{Binding AsyncResultThrowCommand}" ContentTemplate="{StaticResource AsyncResultCommandTemplate}" />
     </StackPanel>
 </UserControl>

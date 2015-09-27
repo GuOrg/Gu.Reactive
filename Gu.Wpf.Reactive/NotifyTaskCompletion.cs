@@ -5,7 +5,7 @@ namespace Gu.Wpf.Reactive
     public sealed class NotifyTaskCompletion : NotifyTaskCompletionBase<Task>
     {
         public NotifyTaskCompletion(Task task)
-            : base(task, null)
+            : base(task)
         {
         }
     }

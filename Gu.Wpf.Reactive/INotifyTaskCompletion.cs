@@ -6,7 +6,6 @@
 
     public interface INotifyTaskCompletion : INotifyPropertyChanged
     {
-        object Result { get; }
         Task Task { get; }
         Task Completed { get; }
         TaskStatus Status { get; }

@@ -26,7 +26,7 @@
         {
             Ensure.NotNull(isSatisfied, nameof(isSatisfied));
             Ensure.NotNullOrEmpty(conditions, "conditions");
-            
+
             if (conditions.Distinct().Count() != conditions.Length)
             {
                 throw new ArgumentException("conditions must be distinct");
@@ -34,7 +34,7 @@
 
             _isSatisfied = isSatisfied;
             _innerConditions = conditions;
-            _subscription = conditions.Select(x => x.AsObservable())
+            _subscription = conditions.Select(x => x.ObserveIsSatisfied())
                                        .Merge()
                                        .Subscribe(
                                            x =>
@@ -89,6 +89,15 @@
         {
             VerifyDisposed();
             return GetEnumerator();
+        }
+
+        internal static ICondition[] Prepend(ICondition condition, ICondition[] conditions)
+        {
+            Ensure.NotNullOrEmpty(conditions, nameof(conditions));
+            var result = new ICondition[conditions.Length + 1];
+            result[0] = condition;
+            conditions.CopyTo(result, 1);
+            return result;
         }
 
         protected virtual void Dispose(bool disposing)

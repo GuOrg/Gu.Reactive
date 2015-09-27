@@ -9,10 +9,9 @@
     /// </summary>
     public class ManualRelayCommand<T> : CommandBase<T>
     {
+        private static readonly Func<T, bool> AlwaysTrue = _ => true;
         private readonly Action<T> _action;
         private readonly Func<T, bool> _condition;
-
-        private static readonly Func<T, bool> AlwaysTrue = _ => true;
 
         /// <summary>
         /// 
@@ -48,7 +47,6 @@
         protected override void InternalExecute(T parameter)
         {
             _action(parameter);
-            RaiseCanExecuteChanged();
         }
 
         protected override bool InternalCanExecute(T parameter)

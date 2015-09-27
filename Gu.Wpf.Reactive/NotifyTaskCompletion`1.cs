@@ -10,16 +10,12 @@
     public sealed class NotifyTaskCompletion<TResult> : NotifyTaskCompletionBase<Task<TResult>>, INotifyTaskCompletion
     {
         public NotifyTaskCompletion(Task<TResult> task)
-            : base(task, nameof(Result))
+            : base(task)
         {
         }
 
-        public TResult Result => (Task.Status == TaskStatus.RanToCompletion)
-                                     ? Task.Result
-                                     : default(TResult);
-
-        object INotifyTaskCompletion.Result => Result;
-
         Task INotifyTaskCompletion.Task => Task;
+
+        Task INotifyTaskCompletion.Completed => Completed;
     }
 }

@@ -12,18 +12,19 @@
         {
             var fromResult = Task.FromResult(1);
             var completion = new NotifyTaskCompletion<int>(fromResult);
-            Assert.AreEqual(fromResult.Result, completion.Result);
+            Assert.AreEqual(fromResult.Result, completion.Completed.Result);
             AssertCompletion.AreEqual(fromResult, completion);
         }
 
         [Test]
-        public void AwaitTypedTask()
+        public async Task AwaitTypedTask()
         {
             var tcs = new TaskCompletionSource<int>();
             var task = tcs.Task;
             var completion = new NotifyTaskCompletion<int>(task);
             tcs.SetResult(1);
-            Assert.AreEqual(task.Result, completion.Result);
+            await completion.Task;
+            Assert.AreEqual(task.Result, completion.Completed.Result);
             AssertCompletion.AreEqual(task, completion);
         }
 

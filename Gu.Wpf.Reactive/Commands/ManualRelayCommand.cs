@@ -2,6 +2,8 @@ namespace Gu.Wpf.Reactive
 {
     using System;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// A command that does not use the CommandParameter
     /// </summary>
@@ -18,8 +20,9 @@ namespace Gu.Wpf.Reactive
         /// <param name="condition"></param>
         public ManualRelayCommand(Action action, Func<bool> condition)
         {
+            Ensure.NotNull(action, nameof(action));
             _action = action;
-            _condition = condition;
+            _condition = condition ?? AlwaysTrue;
         }
 
         /// <summary>
@@ -27,7 +30,7 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         /// <param name="action"></param>
         public ManualRelayCommand(Action action)
-            : this(action, AlwaysTrue)
+            : this(action, null)
         {
         }
 

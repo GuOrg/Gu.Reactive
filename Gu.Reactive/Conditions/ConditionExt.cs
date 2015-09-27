@@ -9,7 +9,7 @@
     {
         //private static readonly ConditionalWeakTable<ISatisfied, IObservable<ISatisfied>> Cache = new ConditionalWeakTable<ISatisfied, IObservable<ISatisfied>>();
 
-        public static IObservable<T> AsObservable<T>(this T condition) where T: class, ISatisfied
+        public static IObservable<T> ObserveIsSatisfied<T>(this T condition) where T: class, ISatisfied
         {
             var observable = Observable.Create<T>(
                 o =>

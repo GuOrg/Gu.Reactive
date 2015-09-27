@@ -13,6 +13,13 @@ namespace Gu.Reactive
             Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
         }
 
+        public AndCondition(Condition condition, ICondition[] prerequisites)
+            : this(ConditionCollection.Prepend(condition,prerequisites))
+        {
+            Ensure.NotNull(condition, nameof(condition));
+            Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
+        }
+
         /// <summary>
         /// Negates the condition. Calling Negate does not mutate the condition it is called on.
         /// Calling Negate on a negated condition returns the original condition.

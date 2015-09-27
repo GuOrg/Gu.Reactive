@@ -12,8 +12,8 @@ namespace Gu.Reactive.Tests.Conditions
         {
             var observable = new Subject<object>();
             var condition = new Condition(observable, () => true);
-            var o1 = condition.AsObservable();
-            var o2 = condition.AsObservable();
+            var o1 = condition.ObserveIsSatisfied();
+            var o2 = condition.ObserveIsSatisfied();
             Assert.AreSame(o1, o2);
         }
 
@@ -24,7 +24,7 @@ namespace Gu.Reactive.Tests.Conditions
             var isSatisfied = false;
             var condition = new Condition(source, () => isSatisfied);
             ICondition result = null;
-            var o1 = condition.AsObservable()
+            var o1 = condition.ObserveIsSatisfied()
                               .Subscribe(x => result = x);
             isSatisfied = true;
             source.OnNext(null);
