@@ -146,19 +146,32 @@
                           DataType="reactive:AsyncCommand"
                           >
                 <GroupBox Header="{Binding ToolTipText}">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Width="100"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <Button Width="100"
                                 Height="50"
                                 VerticalAlignment="Top"
-                                Command="{Binding }"
-                                Content="Click"
+                                Command="{Binding}"
+                                Content="Run"
                                 />
-                        <Expander Header="Task">
+                            <Button Width="100"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                Command="{Binding CancelCommand}"
+                                Content="Run"
+                                />
+                        </StackPanel>
+
+                        <Expander Grid.Column="1" Header="Task">
                             <ContentPresenter Content="{Binding Execution}"
                                               ContentTemplate="{StaticResource CompletionNoResultTemplate}"
                                               />
                         </Expander>
-                    </StackPanel>
+                    </Grid>
                 </GroupBox>
             </DataTemplate>
 
@@ -166,20 +179,33 @@
                           DataType="reactive:AsyncCommand"
                           >
                 <GroupBox Header="{Binding ToolTipText}">
-                    <StackPanel Orientation="Horizontal">
-                        <Button Width="100"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <Button Width="100"
                                 Height="50"
                                 VerticalAlignment="Top"
-                                Command="{Binding }"
-                                CommandParameter="1"
-                                Content="Click"
+                                Command="{Binding}"
+                                CommandParameter="4"
+                                Content="Run"
                                 />
-                        <Expander Header="Task">
+                            <Button Width="100"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                Command="{Binding CancelCommand}"
+                                Content="Run"
+                                />
+                        </StackPanel>
+
+                        <Expander Grid.Column="1" Header="Task">
                             <ContentPresenter Content="{Binding Execution}"
                                               ContentTemplate="{StaticResource CompletionNoResultTemplate}"
                                               />
                         </Expander>
-                    </StackPanel>
+                    </Grid>
                 </GroupBox>
             </DataTemplate>
 

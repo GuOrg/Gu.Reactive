@@ -1,6 +1,7 @@
 namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using Gu.Reactive;
@@ -12,7 +13,7 @@ namespace Gu.Wpf.Reactive
     /// </summary>
     public class AsyncCommand : ConditionRelayCommand
     {
-        private readonly TaskRunner _runner;
+        private readonly ITaskRunner _runner;
 
         public AsyncCommand(Func<Task> action, params ICondition[] conditions)
             : this(new TaskRunner(action), conditions)
@@ -20,26 +21,40 @@ namespace Gu.Wpf.Reactive
         }
 
         public AsyncCommand(Func<Task> action)
-            : this(new TaskRunner(action), (ICondition[])null)
+            : this(new TaskRunner(action))
         {
         }
 
-        private AsyncCommand(TaskRunner runner, ICondition[] conditions)
-            : this(runner, runner.CreateCondition(conditions))
+        public AsyncCommand(Func<CancellationToken,Task> action, params ICondition[] conditions)
+            : this(new TaskRunnerCancelable(action), conditions)
+        {
+        }
+
+        public AsyncCommand(Func<CancellationToken, Task> action)
+            : this(new TaskRunnerCancelable(action))
+        {
+        }
+
+        private AsyncCommand(ITaskRunner runner, ICondition[] conditions)
+            : this(runner, new AndCondition(runner.CanRunCondition, conditions))
+        {
+        }
+
+        private AsyncCommand(ITaskRunner runner)
+            : this(runner, runner.CanRunCondition)
         {
 
         }
-
-        private AsyncCommand(TaskRunner runner, ICondition condition)
+        private AsyncCommand(ITaskRunner runner, ICondition condition)
             : base(runner.Run, condition)
         {
-            Condition = condition;
+            CancelCommand = new ConditionRelayCommand(runner.Cancel, runner.CanCancelCondition);
             _runner = runner;
             _runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
                    .Subscribe(_ => OnPropertyChanged(nameof(Execution)));
         }
 
-        public ICondition Condition { get; }
+        public ConditionRelayCommand CancelCommand { get; }
 
         public NotifyTaskCompletion Execution => _runner.TaskCompletion;
     }

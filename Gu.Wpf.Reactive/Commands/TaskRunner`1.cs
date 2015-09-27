@@ -5,7 +5,7 @@
 
     using Gu.Reactive.Internals;
 
-    public class TaskRunner<TParameter> : TaskRunnerBase
+    public class TaskRunner<TParameter> : TaskRunnerBase, ITaskRunner<TParameter>
     {
         private readonly Func<TParameter,Task> _action;
 

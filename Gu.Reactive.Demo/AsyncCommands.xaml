@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DataContext="{d:DesignInstance demo:AsyncViewModel}"
+             d:DataContext="{d:DesignInstance demo:AsyncCommandsViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
@@ -17,6 +17,11 @@
         <ContentPresenter Content="{Binding AsyncThrowCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
 
         <ContentPresenter Content="{Binding AsyncParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
+
+        <TextBlock MinWidth="50" Text="{Binding Count,StringFormat='Count: {0}'}" />
+
+        <ContentPresenter Content="{Binding AsyncCancelableCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
+        <ContentPresenter Content="{Binding AsyncCancelableParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
         <!--  <ContentPresenter Content="{Binding AsyncThrowCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />  -->
 
     </StackPanel>

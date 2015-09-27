@@ -95,7 +95,7 @@
     <Compile Include="AsyncCommands.xaml.cs">
       <DependentUpon>AsyncCommands.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AsyncViewModel.cs">
+    <Compile Include="AsyncCommandsViewModel.cs">
       <DependentUpon>AsyncCommands.xaml</DependentUpon>
     </Compile>
     <Compile Include="CollectionViewDemo.xaml.cs">

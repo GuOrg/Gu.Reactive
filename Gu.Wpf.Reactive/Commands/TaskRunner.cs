@@ -5,7 +5,7 @@ namespace Gu.Wpf.Reactive
 
     using Gu.Reactive.Internals;
 
-    public class TaskRunner : TaskRunnerBase
+    public class TaskRunner : TaskRunnerBase, ITaskRunner
     {
         private readonly Func<Task> _action;
 

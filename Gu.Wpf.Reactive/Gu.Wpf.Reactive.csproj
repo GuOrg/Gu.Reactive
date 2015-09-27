@@ -94,6 +94,10 @@
     <Compile Include="Collections\NotifyPropertyChangedEventHandlerExt.cs" />
     <Compile Include="Collections\ReadOnlyDispatchingView`1.cs" />
     <Compile Include="Commands\AsyncCommand.cs" />
+    <Compile Include="Commands\ITaskRunner.cs" />
+    <Compile Include="Commands\ITaskRunner`1.cs" />
+    <Compile Include="Commands\TaskRunnerCancelable.cs" />
+    <Compile Include="Commands\TaskRunnerCancelable`1.cs" />
     <Compile Include="Commands\ConditionRelayCommand.cs" />
     <Compile Include="Commands\ManualRelayCommand.cs" />
     <Compile Include="Commands\ObservingRelayCommand.cs" />

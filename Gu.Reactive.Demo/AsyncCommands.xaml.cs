@@ -10,7 +10,7 @@ namespace Gu.Reactive.Demo
         public AsyncCommands()
         {
             InitializeComponent();
-            DataContext = new AsyncViewModel();
+            DataContext = new AsyncCommandsViewModel();
         }
     }
 }

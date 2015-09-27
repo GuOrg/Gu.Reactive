@@ -13,8 +13,8 @@ namespace Gu.Reactive
             Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
         }
 
-        public AndCondition(Condition condition, ICondition[] prerequisites)
-            : this(ConditionCollection.Prepend(condition,prerequisites))
+        public AndCondition(ICondition condition, ICondition[] prerequisites)
+            : this(ConditionCollection.Prepend(condition, prerequisites))
         {
             Ensure.NotNull(condition, nameof(condition));
             Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
