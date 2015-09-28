@@ -66,6 +66,7 @@ namespace Gu.Reactive
             VerifyDisposed();
             try
             {
+                (Source as IRefreshAble)?.Refresh();
                 var source = Source.AsReadOnly();
                 _tracker.Reset(this, source, null, PropertyChanged, CollectionChanged);
             }

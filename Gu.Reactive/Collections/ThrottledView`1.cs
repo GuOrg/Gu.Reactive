@@ -58,6 +58,7 @@
         public override void Refresh()
         {
             VerifyDisposed();
+            (Source as IRefreshAble)?.Refresh();
             var updated = Source.AsReadOnly();
             Synchronized.Reset(this, updated, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }

@@ -70,6 +70,7 @@
 
         public new void Refresh()
         {
+            (_source as IRefreshAble)?.Refresh();
             SetSource(Filtered());
         }
 
