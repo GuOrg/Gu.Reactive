@@ -162,7 +162,7 @@
                                 Height="50"
                                 VerticalAlignment="Top"
                                 Command="{Binding CancelCommand}"
-                                Content="Run"
+                                Content="Cancel"
                                 />
                         </StackPanel>
 
@@ -196,7 +196,7 @@
                                 Height="50"
                                 VerticalAlignment="Top"
                                 Command="{Binding CancelCommand}"
-                                Content="Run"
+                                Content="Cancel"
                                 />
                         </StackPanel>
 

@@ -18,10 +18,23 @@
 
         <ContentPresenter Content="{Binding AsyncParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
 
-        <TextBlock MinWidth="50" Text="{Binding Count,StringFormat='Count: {0}'}" />
+        <TextBlock MinWidth="50" Text="{Binding Count, StringFormat='Count: {0}'}" />
 
         <ContentPresenter Content="{Binding AsyncCancelableCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
         <ContentPresenter Content="{Binding AsyncCancelableParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
+
+        <StackPanel>
+            <Button Width="100"
+                    Height="50"
+                    VerticalAlignment="Top"
+                    Command="{Binding AsyncCancelableCommand}"
+                    Content="Run" />
+            <Button Width="100"
+                    Height="50"
+                    VerticalAlignment="Top"
+                    Command="{Binding AsyncCancelableCommand.CancelCommand}"
+                    Content="Cancel" />
+        </StackPanel>
         <!--  <ContentPresenter Content="{Binding AsyncThrowCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />  -->
 
     </StackPanel>

@@ -14,16 +14,11 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+        <UniformGrid Columns="4">
             <GroupBox Grid.Column="0" Header="NumberOfItems">
                 <TextBox Text="{Binding NumberOfItems}" />
             </GroupBox>
+            <Button Command="{Binding AddOneOnOtherThread}" Content="AddOnThread" />
 
             <GroupBox Grid.Column="1" Header="Tags">
                 <ListBox x:Name="TagBox"
@@ -64,7 +59,7 @@
             <!--<Button Grid.Column="3"
                     Command="{Binding ClearEventsCommand}"
                     Content="ClearEvents" />-->
-        </Grid>
+        </UniformGrid>
 
         <UniformGrid Grid.Row="1" Columns="3">
             <demo:DataGridAndEventsView Header="Filtered" Source="{Binding Filtered}" />

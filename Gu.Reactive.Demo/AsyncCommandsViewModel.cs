@@ -82,7 +82,7 @@
             {
                 token.ThrowIfCancellationRequested();
                 Count++;
-                await Task.Delay(Delay);
+                await Task.Delay(Delay, token);
             }
         }
 

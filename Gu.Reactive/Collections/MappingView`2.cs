@@ -103,11 +103,12 @@
             _factory = factory;
             _mapped.AddRange(source.Select(GetOrCreateValue));
             _updateSubscription.Add(ThrottledRefresher.Create(this, source, TimeSpan.Zero, scheduler, false)
+                                                      .ObserveOn(scheduler ?? Scheduler.Immediate)
                                                       .Subscribe(OnSourceCollectionChanged));
             if (triggers != null && triggers.Any(t => t != null))
             {
                 var triggerSubscription = triggers.Merge()
-                                                  .ObserveOn(scheduler ?? Scheduler.Default)
+                                                  .ObserveOn(scheduler ?? Scheduler.Immediate)
                                                   .Subscribe(_ => Refresh());
                 _updateSubscription.Add(triggerSubscription);
             }

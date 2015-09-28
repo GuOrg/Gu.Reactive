@@ -138,9 +138,6 @@
       <DependentUpon>DispatchingViewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DummyItem.cs" />
-    <Compile Include="DummyReadonlyCollection.cs">
-      <DependentUpon>FilteredViewView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="FilteredViewView.xaml.cs">
       <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>

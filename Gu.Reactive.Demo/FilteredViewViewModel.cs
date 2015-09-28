@@ -7,12 +7,15 @@
     using System.Globalization;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
 
     using Gu.Reactive.Demo.Annotations;
     using Gu.Wpf.Reactive;
 
     public class FilteredViewViewModel : INotifyPropertyChanged
     {
+        private static readonly IReadOnlyList<string> FirstNames = new[] { "Erik", "Johan", "Max", "Lynn", "Markus" };
+        private static readonly IReadOnlyList<string> LastNames = new[] { "Larsson", "Svensson", "Skeet", "Andersson" };
         private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
         private readonly ObservableCollection<Person> _peopleRaw;
         private readonly Random _random = new Random();
@@ -42,13 +45,13 @@
                  WpfSchedulers.Dispatcher,
                 this.ObservePropertyChanged(x => x.SearchText),
                 this.ObservePropertyChanged(x => x.SelectedTags));
-
-            PeopleReadonly = new ReadOnlyObservableCollection<Person>(_peopleRaw);
-            DummyReadonlyCollection = new DummyReadonlyCollection<Person>(_peopleRaw);
+            PeopleRaw = _peopleRaw.AsDispatchingView();
             this.ObservePropertyChanged(x => x.SearchText)
                 .Subscribe(_ => HasSearchText = !string.IsNullOrEmpty(SearchText));
-
+            AddOneOnOtherThread = new AsyncCommand(() => Task.Run(() => AddOne()));
         }
+
+        public AsyncCommand AddOneOnOtherThread { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -80,7 +83,7 @@
             }
         }
 
-        public ObservableCollection<Person> PeopleRaw => _peopleRaw;
+        public IReadOnlyObservableCollection<Person> PeopleRaw { get; }
 
         public IEnumerable<int> Tags { get; private set; }
 
@@ -95,13 +98,9 @@
             }
         }
 
-        public ReadOnlyObservableCollection<Person> PeopleReadonly { get; private set; }
+        public FilteredView<Person> Filtered { get; }
 
-        public FilteredView<Person> Filtered { get; private set; }
-
-        public IReadOnlyObservableCollection<Person> ReadOnlyFiltered { get; private set; }
-
-        public DummyReadonlyCollection<Person> DummyReadonlyCollection { get; private set; }
+        public IReadOnlyObservableCollection<Person> ReadOnlyFiltered { get; }
 
         public int NumberOfItems
         {
@@ -189,19 +188,19 @@
             _peopleRaw.Clear();
             for (int i = 0; i < NumberOfItems; i++)
             {
-                if (i % 3 == 0)
-                {
-                    _peopleRaw.Add(new Person { FirstName = "Johan", LastName = "Larsson", TagsValues = CreateTags() });
-                }
-                else if (i % 3 == 1)
-                {
-                    _peopleRaw.Add(new Person { FirstName = "Max", LastName = "Andersson", TagsValues = CreateTags() });
-                }
-                else
-                {
-                    _peopleRaw.Add(new Person { FirstName = "Erik", LastName = "Svensson", TagsValues = CreateTags() });
-                }
+                AddOne();
             }
+        }
+
+        private void AddOne()
+        {
+            _peopleRaw.Add(
+                new Person
+                {
+                    FirstName = FirstNames[_peopleRaw.Count % FirstNames.Count],
+                    LastName = LastNames[_peopleRaw.Count % LastNames.Count],
+                    TagsValues = CreateTags()
+                });
         }
     }
 }

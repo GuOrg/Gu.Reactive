@@ -58,6 +58,7 @@
             }
 
             _refreshSubscription.Disposable = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, false)
+                                                               .ObserveOn(scheduler ?? Scheduler.Immediate)
                                                                .Subscribe(Refresh);
             var observables = new IObservable<object>[]
                                             {
@@ -68,6 +69,7 @@
             observables.Merge()
                        .ThrottleOrDefault(bufferTime, scheduler)
                        .Subscribe(_ => _refreshSubscription.Disposable = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, true)
+                                                                                          .ObserveOn(scheduler ?? Scheduler.Immediate)
                                                                                           .Subscribe(Refresh));
         }
 
