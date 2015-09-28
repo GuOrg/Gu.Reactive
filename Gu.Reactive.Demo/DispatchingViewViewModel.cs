@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive.Demo
 {
     using System;
+    using System.Collections;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Reactive.Linq;
@@ -48,7 +49,7 @@
         public TimeSpan DeferTime { get; private set; }
 
         public ICommand AddOneCommand { get; private set; }
-    
+
         public ICommand AddOneToViewCommand { get; private set; }
 
         public ICommand AddTenCommand { get; private set; }
@@ -59,7 +60,10 @@
 
         private void AddOne()
         {
-            _observableCollection.Add(new DummyItem(_observableCollection.Count + 1));
+            lock (((ICollection)_observableCollection).SyncRoot)
+            {
+                _observableCollection.Add(new DummyItem(_observableCollection.Count + 1));
+            }
         }
 
         private void AddOneToView()

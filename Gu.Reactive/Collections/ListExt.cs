@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -63,6 +64,16 @@
             {
                 array.SetValue(source[i], i + index);
             }
+        }
+
+        internal static object SyncRootOrDefault(this IEnumerable source, object @default)
+        {
+            return (source as ICollection)?.SyncRoot ?? @default;
+        }
+
+        internal static object SyncRoot<T>(this T source) where T : ICollection
+        {
+            return source.SyncRoot;
         }
     }
 }

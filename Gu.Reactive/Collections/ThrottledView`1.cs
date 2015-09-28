@@ -60,20 +60,20 @@
             VerifyDisposed();
             (Source as IRefreshAble)?.Refresh();
             var updated = Source.AsReadOnly();
-            Synchronized.Reset(this, updated, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            Tracker.Reset(this, updated, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
         protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
         {
             var updated = Source.AsReadOnly();
-            Synchronized.Refresh(this, updated, new[] { e }, null, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            Tracker.Refresh(this, updated, new[] { e }, null, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             VerifyDisposed();
             var updated = Source as IReadOnlyList<T> ?? Source.ToArray();
-            Synchronized.Refresh(this, updated, changes, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            Tracker.Refresh(this, updated, changes, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
         }
 
         /// <summary>

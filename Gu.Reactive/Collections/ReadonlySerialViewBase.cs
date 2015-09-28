@@ -64,15 +64,14 @@ namespace Gu.Reactive
         public virtual void Refresh()
         {
             VerifyDisposed();
-            try
+            lock (Source.SyncRootOrDefault(_tracker.SyncRoot))
             {
-                (Source as IRefreshAble)?.Refresh();
-                var source = Source.AsReadOnly();
-                _tracker.Reset(this, source, null, PropertyChanged, CollectionChanged);
-            }
-            catch (InvalidOperationException) // when (e.Message == Environment.GetCollectionWasModifiedText())
-            {
-                Refresh();
+                lock (_tracker.SyncRoot)
+                {
+                    (Source as IRefreshAble)?.Refresh();
+                    var source = Source.AsReadOnly();
+                    _tracker.Reset(this, source, null, PropertyChanged, CollectionChanged);
+                }
             }
         }
 
@@ -131,14 +130,13 @@ namespace Gu.Reactive
 
         protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            try
+            lock (Source.SyncRootOrDefault(_tracker.SyncRoot))
             {
-                var source = Source.AsReadOnly();
-                _tracker.Refresh(this, source, changes, null, PropertyChanged, CollectionChanged);
-            }
-            catch (InvalidOperationException) // when (e.Message == Environment.GetCollectionWasModifiedText())
-            {
-                Refresh(changes);
+                lock (_tracker.SyncRoot)
+                {
+                    var source = Source.AsReadOnly();
+                    _tracker.Refresh(this, source, changes, null, PropertyChanged, CollectionChanged);
+                }
             }
         }
 

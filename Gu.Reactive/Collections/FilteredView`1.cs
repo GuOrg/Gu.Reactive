@@ -121,8 +121,15 @@
         public override void Refresh()
         {
             VerifyDisposed();
-            var updated = Filtered().ToArray();
-            Synchronized.Reset(this, updated, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            lock (Source.SyncRootOrDefault(Tracker.SyncRoot))
+            {
+                lock (Tracker.SyncRoot)
+                {
+                    (Source as IRefreshAble)?.Refresh();
+                    var updated = Filtered().ToArray();
+                    Tracker.Reset(this, updated, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+                }
+            }
         }
 
         protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
@@ -191,13 +198,31 @@
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            Synchronized.Refresh(this, Filtered().ToArray(), CollectionSynchronizer<T>.ResetArgs, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            lock (Source.SyncRootOrDefault(Tracker.SyncRoot))
+            {
+                lock (Tracker.SyncRoot)
+                {
+                    Tracker.Refresh(this, Filtered().ToArray(), CollectionSynchronizer<T>.ResetArgs, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+                }
+            }
         }
 
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            var updated = Filtered().ToArray();
-            Synchronized.Refresh(this, updated, null, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+            lock (Source.SyncRootOrDefault(Tracker.SyncRoot))
+            {
+                lock (Tracker.SyncRoot)
+                {
+                    var updated = Filtered().ToArray();
+                    Tracker.Refresh(
+                        this,
+                        updated,
+                        null,
+                        _scheduler,
+                        PropertyChangedEventHandler,
+                        NotifyCollectionChangedEventHandler);
+                }
+            }
         }
 
         protected IEnumerable<T> Filtered()

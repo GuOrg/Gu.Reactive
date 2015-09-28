@@ -12,11 +12,11 @@
     using Gu.Reactive.Internals;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")] 
+    [DebuggerDisplay("Count = {Count}")]
     public abstract class SynchronizedEditableView<T> : IList, IUpdater, IRefreshAble, IDisposable
     {
         protected readonly IList<T> Source;
-        protected readonly CollectionSynchronizer<T> Synchronized;
+        protected readonly CollectionSynchronizer<T> Tracker;
         private bool _disposed;
         private object _isUpdatingSourceItem;
 
@@ -25,14 +25,14 @@
         {
             Ensure.NotNull(source, nameof(source));
             Source = source;
-            Synchronized = new CollectionSynchronizer<T>(source);
+            Tracker = new CollectionSynchronizer<T>(source);
         }
 
-        protected SynchronizedEditableView(IList<T> source, IEnumerable<T> sourceItems )
+        protected SynchronizedEditableView(IList<T> source, IEnumerable<T> sourceItems)
         {
             Ensure.NotNull(source, nameof(source));
             Source = source;
-            Synchronized = new CollectionSynchronizer<T>(sourceItems);
+            Tracker = new CollectionSynchronizer<T>(sourceItems);
         }
 
         public virtual event PropertyChangedEventHandler PropertyChanged;
@@ -94,21 +94,21 @@
 
         #region IList<TItem>
 
-        public int Count => Synchronized.Current.Count;
+        public int Count => Tracker.Current.Count;
 
         public bool IsReadOnly => false;
 
         public T this[int index]
         {
-            get { return Synchronized.Current[index]; }
+            get { return Tracker.Current[index]; }
             set
             {
-                var sourceIndex = Source.IndexOf(Synchronized.Current[index]);
+                var sourceIndex = Source.IndexOf(Tracker.Current[index]);
                 Source[sourceIndex] = value;
             }
         }
 
-        public IEnumerator<T> GetEnumerator() => Synchronized.Current.GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => Tracker.Current.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
@@ -116,15 +116,15 @@
 
         public void Clear() => Source.Clear();
 
-        public bool Contains(T item) => Synchronized.Contains(item);
+        public bool Contains(T item) => Tracker.Contains(item);
 
-        public int IndexOf(T value) => Synchronized.IndexOf(value);
+        public int IndexOf(T value) => Tracker.IndexOf(value);
 
         public void Insert(int index, T value) => InsertCore(index, value);
 
         private void InsertCore(int index, T value)
         {
-            var i = Source.IndexOf(Synchronized.Current[index]);
+            var i = Source.IndexOf(Tracker.Current[index]);
             Source.Insert(i, value);
         }
 
@@ -141,10 +141,10 @@
 
         private void RemoveAtCore(int index)
         {
-            Source.Remove(Synchronized.Current[index]);
+            Source.Remove(Tracker.Current[index]);
         }
 
-        public void CopyTo(T[] array, int arrayIndex) => Synchronized.CopyTo(array, arrayIndex);
+        public void CopyTo(T[] array, int arrayIndex) => Tracker.CopyTo(array, arrayIndex);
 
         #endregion  IList<TItem>
 
@@ -172,13 +172,13 @@
             ((IList)Source).Add(value); // Adding to inner
             RefreshNow(Diff.CreateAddEventArgs(value, Count));
             _isUpdatingSourceItem = null;
-            var index = Synchronized.LastIndexOf((T)value);
+            var index = Tracker.LastIndexOf((T)value);
             return index;
         }
 
-        bool IList.Contains(object value) => Synchronized.Contains(value);
+        bool IList.Contains(object value) => Tracker.Contains(value);
 
-        int IList.IndexOf(object value) => Synchronized.IndexOf(value);
+        int IList.IndexOf(object value) => Tracker.IndexOf(value);
 
         void IList.Insert(int index, object value)
         {
@@ -205,11 +205,11 @@
 
         #region ICollection
 
-        void ICollection.CopyTo(Array array, int index) => Synchronized.CopyTo(array, index);
+        void ICollection.CopyTo(Array array, int index) => Tracker.CopyTo(array, index);
 
-        object ICollection.SyncRoot => ((ICollection)Source).SyncRoot;
+        object ICollection.SyncRoot => (Source as ICollection)?.SyncRoot;
 
-        bool ICollection.IsSynchronized => ((ICollection)Source).IsSynchronized;
+        bool ICollection.IsSynchronized => (Source as ICollection)?.IsSynchronized == true;
 
         #endregion ICollection
     }

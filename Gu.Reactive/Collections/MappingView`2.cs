@@ -118,9 +118,16 @@
 
         public override void Refresh()
         {
-            _mapped.Clear();
-            _mapped.AddRange(_source.Select(GetOrCreateValue));
-            base.Refresh();
+            lock (Source.SyncRootOrDefault(_mapped.SyncRoot()))
+            {
+                lock (_mapped.SyncRoot())
+                {
+                    (Source as IRefreshAble)?.Refresh();
+                    _mapped.Clear();
+                    _mapped.AddRange(_source.Select(GetOrCreateValue));
+                    base.Refresh();
+                }
+            }
         }
 
         protected virtual TResult GetOrCreateValue(TSource key, int index)
