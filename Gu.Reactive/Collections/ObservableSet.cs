@@ -1,16 +1,16 @@
 ﻿namespace Gu.Reactive
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Runtime.InteropServices;
 
-    public class ObservableSet<T> : IObservableSet<T>
+    [Serializable()]
+    public class ObservableSet<T> : IObservableSet<T>, IReadOnlyCollection<T>
     {
         private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Count));
         private static readonly NotifyCollectionChangedEventArgs ResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-
         private readonly HashSet<T> _inner;
 
         public ObservableSet()
@@ -33,8 +33,10 @@
             _inner = new HashSet<T>(collection, comparer);
         }
 
+        [field:NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
+        [field: NonSerialized]
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public int Count => _inner.Count;
