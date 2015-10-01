@@ -204,6 +204,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\EditableListView.cs" />
+    <Compile Include="Contracts\IObservableSet.cs" />
+    <Compile Include="Collections\ObservableSet.cs" />
     <Compile Include="Collections\ReadonlyIListView.cs" />
     <Compile Include="Collections\ListExt.cs" />
     <Compile Include="Collections\ReadonlySerialViewBase.cs" />
