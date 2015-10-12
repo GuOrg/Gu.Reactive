@@ -16,14 +16,14 @@
 
         public AsyncCommandsViewModel()
         {
-            AsyncCommand = new AsyncCommand(SimpleTask) { ToolTipText = "AsyncCommand" };
+            AsyncCommand = new AsyncCommand(SimpleTask);
 
-            AsyncCancelableCommand = new AsyncCommand(CancelableTask) { ToolTipText = "AsyncCancelableCommand" };
+            AsyncCancelableCommand = new AsyncCommand(CancelableTask);
 
-            AsyncParameterCommand = new AsyncCommand<string>(ParameterTask) { ToolTipText = "AsyncParameterCommand" };
-            AsyncCancelableParameterCommand = new AsyncCommand<string>(CancelableParameterTask) { ToolTipText = "AsyncCancelableParameterCommand" };
+            AsyncParameterCommand = new AsyncCommand<string>(ParameterTask);
+            AsyncCancelableParameterCommand = new AsyncCommand<string>(CancelableParameterTask);
 
-            AsyncThrowCommand = new AsyncCommand(VoidTaskThrowMethod) { ToolTipText = "AsyncThrowCommand" };
+            AsyncThrowCommand = new AsyncCommand(VoidTaskThrowMethod);
         }
 
 

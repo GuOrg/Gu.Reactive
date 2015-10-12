@@ -1,7 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:Gu.Wpf.Reactive"
-                    >
+                    xmlns:local="clr-namespace:Gu.Wpf.Reactive">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Gu.Wpf.ToolTips;component/Themes/Generic.xaml" />
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Assets.xaml" />

@@ -7,10 +7,8 @@
     using System.Windows;
     using System.Windows.Input;
 
-    public abstract class CommandBase<T> : IToolTipCommand
+    public abstract class CommandBase<T> : ICommand
     {
-        private string _toolTipText;
-
         public virtual event EventHandler CanExecuteChanged
         {
             add
@@ -26,20 +24,6 @@
         public event PropertyChangedEventHandler PropertyChanged;
 
         private event EventHandler InternalCanExecuteChanged;
-
-        public string ToolTipText
-        {
-            get { return _toolTipText; }
-            set
-            {
-                if (Equals(value, _toolTipText))
-                {
-                    return;
-                }
-                _toolTipText = value;
-                OnPropertyChanged();
-            }
-        }
 
         protected abstract bool InternalCanExecute(T parameter);
         

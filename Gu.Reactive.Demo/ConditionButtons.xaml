@@ -11,14 +11,15 @@
              d:DesignWidth="300"
              mc:Ignorable="d">
     <AdornerDecorator>
-        <UniformGrid Rows="2">
+        <StackPanel>
+            <TextBlock HorizontalAlignment="Center" Text="Mouseover and touch" />
             <Button Command="{Binding OtherCommand}"
                     CommandParameter="{Binding Content,
                                                RelativeSource={RelativeSource Self}}"
                     Content="Other"
                     Style="{StaticResource LocalInfoButtonStyle}"
-                    toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip="True"
-                    ToolTipService.ShowOnDisabled="True">
+                    ToolTipService.ShowOnDisabled="True"
+                    toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip="True">
                 <toolTips:TouchToolTipService.ToolTip>
                     <reactive:CommandToolTip>
                         <TextBlock Text="Tool tip text" />
@@ -26,6 +27,38 @@
                 </toolTips:TouchToolTipService.ToolTip>
             </Button>
 
+            <TextBlock HorizontalAlignment="Center" Text="Mouseover" />
+            <Ellipse Width="50"
+                     Height="50"
+                     Fill="{Binding OtherCommand.Condition.IsSatisfied,
+                                    Converter={reactive:BooleanToBrushConverter WhenTrue=GreenYellow,
+                                                                                WhenFalse=Red,
+                                                                                WhenNull=Gray}}"
+                     toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip="True">
+                <toolTips:TouchToolTipService.ToolTip>
+                    <reactive:CommandToolTip Condition="{reactive:NinjaBinding {Binding OtherCommand.Condition}}">
+                        <TextBlock Text="Tool tip text" />
+                    </reactive:CommandToolTip>
+                </toolTips:TouchToolTipService.ToolTip>
+            </Ellipse>
+
+            <TextBlock HorizontalAlignment="Center" Text="Mouseover and touch" />
+            <Ellipse Width="50"
+                     Height="50"
+                     Fill="{Binding OtherCommand.Condition.IsSatisfied,
+                                    Converter={reactive:BooleanToBrushConverter WhenTrue=GreenYellow,
+                                                                                WhenFalse=Red,
+                                                                                WhenNull=Gray}}"
+                     toolTips:TouchToolTipService.IsVisible="True"
+                     toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip="True">
+                <toolTips:TouchToolTipService.ToolTip>
+                    <reactive:CommandToolTip Condition="{reactive:NinjaBinding {Binding OtherCommand.Condition}}">
+                        <TextBlock Text="Tool tip text" />
+                    </reactive:CommandToolTip>
+                </toolTips:TouchToolTipService.ToolTip>
+            </Ellipse>
+
+            <TextBlock HorizontalAlignment="Center" Text="Touch only" />
             <Button Command="{Binding StartCommand}"
                     CommandParameter="{Binding Content,
                                                RelativeSource={RelativeSource Self}}"
@@ -37,6 +70,6 @@
                     </reactive:CommandToolTip>
                 </toolTips:TouchToolTipService.ToolTip>
             </Button>
-        </UniformGrid>
+        </StackPanel>
     </AdornerDecorator>
 </UserControl>

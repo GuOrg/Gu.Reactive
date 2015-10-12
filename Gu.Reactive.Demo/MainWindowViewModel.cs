@@ -41,19 +41,11 @@
                 NegatedCondition
             };
 
-            StartCommand = new ConditionRelayCommand<string>(
-                o => MessageBox.Show("Clicked " + o),
-                AndCondition)
-            {
-                ToolTipText = "Start the thing"
-            };
+            StartCommand = new ConditionRelayCommand<string>(o => MessageBox.Show("Clicked " + o), AndCondition);
 
             OtherCommand = new ConditionRelayCommand<string>(
                 o => MessageBox.Show("Clicked " + o),
-                IsDoorClosedCondition)
-            {
-                ToolTipText = "Another command"
-            };
+                IsDoorClosedCondition);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

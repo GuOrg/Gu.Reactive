@@ -16,6 +16,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" />
+        <Setter Property="toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CommandToolTip}">
@@ -25,33 +26,12 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <!--
-                            <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <LinearGradientBrush.GradientStops>
-                            <GradientStopCollection>
-                            <GradientStop Offset="0.0" Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}" />
-                            <GradientStop Offset="1.0" Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
-                            </GradientStopCollection>
-                            </LinearGradientBrush.GradientStops>
-                            </LinearGradientBrush>
-                            </Border.Background>
-                        -->
-                        <!--
-                            <Border.BorderBrush>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlDarkBrush}}" />
-                            </Border.BorderBrush>
-                        -->
                         <Grid Margin="4">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-
-                            <TextBlock Grid.Row="0"
-                                       HorizontalAlignment="Left"
-                                       Text="{TemplateBinding ToolTipText}" />
 
                             <local:ConditionControl Grid.Row="1"
                                                     HorizontalAlignment="Left"

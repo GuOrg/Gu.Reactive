@@ -1,10 +1,14 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.Globalization;
+    using System.Linq;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Data;
     using System.Windows.Input;
+    using System.Xaml;
 
     using Gu.Reactive;
     using Gu.Wpf.ToolTips;
@@ -20,33 +24,34 @@
             typeof(CommandToolTip),
             new PropertyMetadata(default(ICommand), OnCommandChanged));
 
-        public static readonly DependencyProperty ToolTipTextProperty = DependencyProperty.Register(
-            "ToolTipText",
-            typeof(string),
-            typeof(CommandToolTip),
-            new PropertyMetadata(default(string)));
+        private static readonly DependencyProperty UseAsMouseOverToolTipProperty =
+            DependencyProperty.Register(
+                "UseAsMouseOverToolTip",
+                typeof(bool),
+                typeof(CommandToolTip),
+                new PropertyMetadata(false, OnUseAsMouseOverToolTipChanged));
 
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
             "Condition",
             typeof(ICondition),
             typeof(CommandToolTip),
-            new PropertyMetadata(default(ICondition)));
+            new PropertyMetadata(default(ICondition), OnConditionChanged));
 
-        public static readonly DependencyProperty CommandTypeProperty = DependencyProperty.Register(
+        private static readonly DependencyPropertyKey CommandTypePropertyKey = DependencyProperty.RegisterReadOnly(
             "CommandType",
             typeof(Type),
             typeof(CommandToolTip),
             new PropertyMetadata(default(Type)));
 
+        public static readonly DependencyProperty CommandTypeProperty = CommandTypePropertyKey.DependencyProperty;
+
+        private Binding _adornedElementUseTouchToolTipAsMouseOverTooltipBinding;
+
+        private static readonly PropertyPath UseTouchTooltipAsMouseOverPropertyPath = new PropertyPath(TouchToolTipService.UseTouchToolTipAsMouseOverToolTipProperty);
+
         static CommandToolTip()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CommandToolTip), new FrameworkPropertyMetadata(typeof(CommandToolTip)));
-        }
-
-        public string ToolTipText
-        {
-            get { return (string)GetValue(ToolTipTextProperty); }
-            set { SetValue(ToolTipTextProperty, value); }
         }
 
         /// <summary>
@@ -58,22 +63,10 @@
             set { SetValue(ConditionProperty, value); }
         }
 
-        /// <summary>
-        /// The type of command
-        /// </summary>
         public Type CommandType
         {
             get { return (Type)GetValue(CommandTypeProperty); }
-            set { SetValue(CommandTypeProperty, value); }
-        }
-
-        /// <summary>
-        /// This is used for binding the command
-        /// </summary>
-        private ICommand CommandProxy
-        {
-            get { return (ICommand)GetValue(CommandProxyProperty); }
-            set { SetValue(CommandProxyProperty, value); }
+            protected set { SetValue(CommandTypePropertyKey, value); }
         }
 
         public override void OnToolTipChanged(UIElement adornedElement)
@@ -85,39 +78,85 @@
                 Mode = BindingMode.OneWay
             };
             BindingOperations.SetBinding(this, CommandProxyProperty, commandBinding);
+            _adornedElementUseTouchToolTipAsMouseOverTooltipBinding = new Binding
+            {
+                Path = UseTouchTooltipAsMouseOverPropertyPath,
+                Source = adornedElement,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
         }
 
         private static void OnCommandChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var commandToolTip = (CommandToolTip)o;
-            var command = e.NewValue as ICommand;
+            var command = e.NewValue as IConditionRelayCommand;
             if (command == null)
             {
-                BindingOperations.ClearBinding(commandToolTip, ToolTipTextProperty);
-                commandToolTip.ClearValue(ToolTipTextProperty);;
                 commandToolTip.Condition = null;
                 commandToolTip.CommandType = null;
+                BindingOperations.ClearBinding(o, UseAsMouseOverToolTipProperty);
                 return;
             }
-            var toolTipCommand = command as IToolTipCommand;
-            if (toolTipCommand != null)
-            {
-                var prop = nameof(ToolTipText);
-                var binding = new Binding(prop)
-                                  {
-                                      Source = toolTipCommand, 
-                                      Mode = BindingMode.OneWay
-                                  };
 
-                BindingOperations.SetBinding(commandToolTip, ToolTipTextProperty, binding);
-            }
-
-            var conditionCommand = command as IConditionRelayCommand;
-            if (conditionCommand != null)
-            {
-                commandToolTip.Condition = conditionCommand.Condition;
-            }
+            commandToolTip.Condition = command.Condition;
             commandToolTip.CommandType = command.GetType();
+        }
+
+        private static void OnConditionChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            var commandToolTip = (CommandToolTip)o;
+            var multiBinding = new MultiBinding
+            {
+                Converter = UseTouchToolTipAsMouseOverToolConverter.Default,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            if (commandToolTip._adornedElementUseTouchToolTipAsMouseOverTooltipBinding != null)
+            {
+                multiBinding.Bindings.Add(commandToolTip._adornedElementUseTouchToolTipAsMouseOverTooltipBinding);
+            }
+
+            var binding = new Binding
+            {
+                Path = UseTouchTooltipAsMouseOverPropertyPath,
+                Source = commandToolTip,
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+            };
+            multiBinding.Bindings.Add(binding);
+            BindingOperations.SetBinding(commandToolTip, UseAsMouseOverToolTipProperty, multiBinding);
+        }
+
+        private static void OnUseAsMouseOverToolTipChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if ((e.NewValue as bool?) == true)
+            {
+                var commandToolTip = (CommandToolTip)d;
+                var source = (DependencyObject)commandToolTip._adornedElementUseTouchToolTipAsMouseOverTooltipBinding.Source;
+                ToolTipService.SetShowOnDisabled(source, true);
+                ToolTipService.SetToolTip(source, commandToolTip);
+            }
+        }
+
+        private class UseTouchToolTipAsMouseOverToolConverter : IMultiValueConverter
+        {
+            public static UseTouchToolTipAsMouseOverToolConverter Default = new UseTouchToolTipAsMouseOverToolConverter();
+
+            private UseTouchToolTipAsMouseOverToolConverter()
+            {
+            }
+
+            public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+            {
+                var any = values.OfType<bool>().Any(x => x == true);
+                return any;
+            }
+
+            public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

@@ -105,6 +105,8 @@
     <Compile Include="Commands\TaskRunner.cs" />
     <Compile Include="Commands\TaskRunner`1.cs" />
     <Compile Include="Commands\TaskRunnerBase.cs" />
+    <Compile Include="Converters\BooleanToBrushConverter.cs" />
+    <Compile Include="Converters\NullableBooleanToBooleanConverter.cs" />
     <Compile Include="Converters\TypeConverters\ITypeConverter`1.cs" />
     <Compile Include="Converters\TypeConverters\NullableEnumConverter`1.cs" />
     <Compile Include="Collections\DispatchingView`1.cs" />
@@ -156,7 +158,6 @@
     <Compile Include="NotifyTaskCompletion`1.cs" />
     <Compile Include="CommandToolTip.cs" />
     <Compile Include="Commands\ConditionRelayCommand`1.cs" />
-    <Compile Include="Commands\IToolTipCommand.cs" />
     <Compile Include="Commands\RelayCommand`1.cs" />
     <Compile Include="Commands\ManualRelayCommand`1.cs" />
     <Compile Include="ConditionControl.cs">
