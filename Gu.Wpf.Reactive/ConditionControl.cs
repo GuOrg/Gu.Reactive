@@ -1,9 +1,6 @@
 ﻿namespace Gu.Wpf.Reactive
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Reactive.Linq;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -12,51 +9,47 @@
     /// <summary>
     /// A control for displaying conditions
     /// </summary>
-    public class ConditionControl : Control, IDisposable
+    public class ConditionControl : Control
     {
+        private static IEnumerable<ICondition> Empty = new ICondition[0];
+
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
             "Condition",
             typeof(ICondition),
             typeof(ConditionControl),
             new PropertyMetadata(default(ICondition), OnConditionChanged));
 
-        public static readonly DependencyProperty PrerequisitesProperty = DependencyProperty.Register(
-            "Prerequisites",
+        private static readonly DependencyPropertyKey RootPropertyKey = DependencyProperty.RegisterReadOnly(
+            "Root",
             typeof(IEnumerable<ICondition>),
             typeof(ConditionControl),
-            new PropertyMetadata(default(IEnumerable<ICondition>)));
+            new PropertyMetadata(Empty));
 
-        public static readonly DependencyProperty RootConditionProperty = DependencyProperty.Register(
-            "RootCondition",
+        public static readonly DependencyProperty RootProperty = RootPropertyKey.DependencyProperty;
+
+        private static readonly DependencyPropertyKey FlattenedPrerequisitesPropertyKey = DependencyProperty.RegisterReadOnly(
+            "FlattenedPrerequisites",
             typeof(IEnumerable<ICondition>),
             typeof(ConditionControl),
-            new PropertyMetadata(default(IEnumerable<ICondition>)));
+            new PropertyMetadata(Empty));
 
-        private static readonly DependencyPropertyKey FlatListPropertyKey = DependencyProperty.RegisterReadOnly(
-            "FlatList",
-            typeof(IEnumerable<ICondition>),
+        private static readonly DependencyPropertyKey IsInSyncPropertyKey = DependencyProperty.RegisterReadOnly(
+            "IsInSync",
+            typeof(bool),
             typeof(ConditionControl),
-            new PropertyMetadata(default(IEnumerable<ICondition>)));
+            new PropertyMetadata(true));
 
-        private static readonly DependencyPropertyKey NotSatisfiedOnlyPropertyKey = DependencyProperty.RegisterReadOnly(
-            "NotSatisfiedOnly",
-            typeof(FilteredView<ICondition>),
-            typeof(ConditionControl),
-            new PropertyMetadata(default(FilteredView<ICondition>)));
-
-        public static readonly DependencyProperty NotSatisfiedOnlyProperty = NotSatisfiedOnlyPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty IsInSyncProperty = IsInSyncPropertyKey.DependencyProperty;
 
         public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
             "ItemTemplate",
             typeof(DataTemplate),
             typeof(ConditionControl),
-            new PropertyMetadata(default(DataTemplate)));
+            new FrameworkPropertyMetadata(
+                default(DataTemplate),
+                FrameworkPropertyMetadataOptions.Inherits));
 
-        public static readonly DependencyProperty FlatListProperty = FlatListPropertyKey.DependencyProperty;
-
-        private bool _disposed;
-
-        private FilteredView<ICondition> _filteredView;
+        public static readonly DependencyProperty FlattenedPrerequisitesProperty = FlattenedPrerequisitesPropertyKey.DependencyProperty;
 
         static ConditionControl()
         {
@@ -65,7 +58,7 @@
 
         public ConditionControl()
         {
-            _disposed = false;
+            this.IsVisibleChanged += OnIsVisibleChanged;
         }
 
         public ICondition Condition
@@ -80,65 +73,31 @@
             }
         }
 
-        /// <summary>
-        /// The conditions that must be met for the root condition to be satisfied
-        /// </summary>
-        public IEnumerable<ICondition> Prerequisites
+        public IEnumerable<ICondition> Root
         {
-            get
-            {
-                return (IEnumerable<ICondition>)GetValue(PrerequisitesProperty);
-            }
-            protected set
-            {
-                SetValue(PrerequisitesProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// The root condition :)
-        /// </summary>
-        public IEnumerable<ICondition> RootCondition
-        {
-            get
-            {
-                return (IEnumerable<ICondition>)GetValue(RootConditionProperty);
-            }
-            protected set
-            {
-                SetValue(RootConditionProperty, value);
-            }
+            get { return (IEnumerable<ICondition>)GetValue(RootProperty); }
+            protected set { SetValue(RootPropertyKey, value); }
         }
 
         /// <summary>
         /// A flat list of all conditions
         /// </summary>
-        public IEnumerable<ICondition> FlatList
+        public IEnumerable<ICondition> FlattenedPrerequisites
         {
             get
             {
-                return (IEnumerable<ICondition>)GetValue(FlatListProperty);
+                return (IEnumerable<ICondition>)GetValue(FlattenedPrerequisitesProperty);
             }
             protected set
             {
-                SetValue(FlatListPropertyKey, value);
+                SetValue(FlattenedPrerequisitesPropertyKey, value);
             }
         }
 
-        /// <summary>
-        /// A filtered view with all conditions where .IsSatisfied != true 
-        /// and not due top a prerequisite.
-        /// </summary>
-        public IReadOnlyObservableCollection<ICondition> NotSatisfiedOnly
+        public bool IsInSync
         {
-            get
-            {
-                return (IReadOnlyObservableCollection<ICondition>)GetValue(NotSatisfiedOnlyProperty);
-            }
-            protected set
-            {
-                SetValue(NotSatisfiedOnlyPropertyKey, value);
-            }
+            get { return (bool)GetValue(IsInSyncProperty); }
+            protected set { SetValue(IsInSyncPropertyKey, value); }
         }
 
         public DataTemplate ItemTemplate
@@ -153,65 +112,27 @@
             }
         }
 
-        /// <summary>
-        /// Dispose(true); //I am calling you from Dispose, it's safe
-        /// GC.SuppressFinalize(this); //Hey, GC: don't bother calling finalize later
-        /// </summary>
-        public void Dispose()
+        protected virtual void OnConditionChanged(ICondition oldCondition, ICondition newCondition)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Protected implementation of Dispose pattern. 
-        /// </summary>
-        /// <param name="disposing">true: safe to free managed resources</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_disposed)
+            if (newCondition == null)
             {
+                Root = Empty;
+                FlattenedPrerequisites = Empty;
                 return;
             }
 
-            if (disposing)
-            {
-                _filteredView?.Dispose();
-                // Free any other managed objects here. 
-            }
-
-            // Free any unmanaged objects here. 
-            _disposed = true;
+            Root = new[] { newCondition };
+            FlattenedPrerequisites = FlattenPrerequisites(newCondition);
+            IsInSync = Condition.IsInSync();
         }
 
         private static void OnConditionChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var conditionControl = (ConditionControl)o;
-            var condition = e.NewValue as ICondition;
-            if (condition == null)
-            {
-                conditionControl.Prerequisites = null;
-                conditionControl.RootCondition = Enumerable.Empty<ICondition>();
-                conditionControl.FlatList = Enumerable.Empty<ICondition>();
-                conditionControl.NotSatisfiedOnly = null;
-                return;
-            }
-
-            conditionControl.Prerequisites = condition.Prerequisites;
-            conditionControl.RootCondition = Enumerable.Repeat<ICondition>(condition, 1);
-            var flatList = Flatten(condition);
-            conditionControl.FlatList = flatList;
-
-            conditionControl.NotSatisfiedOnly = new FilteredView<ICondition>(
-                flatList,
-                x => x.IsSatisfied == false,
-                TimeSpan.FromMilliseconds(10),
-                Schedulers.DispatcherOrCurrentThread,
-                flatList.Select(x => x.ObserveIsSatisfied())
-                        .Merge());
+            conditionControl.OnConditionChanged((ICondition)e.OldValue, (ICondition)e.NewValue);
         }
 
-        private static List<ICondition> Flatten(ICondition condition, List<ICondition> list = null)
+        private static IReadOnlyList<ICondition> FlattenPrerequisites(ICondition condition, List<ICondition> list = null)
         {
             if (list == null)
             {
@@ -224,18 +145,19 @@
             list.Add(condition);
             foreach (var pre in condition.Prerequisites)
             {
-                Flatten(pre, list);
+                FlattenPrerequisites(pre, list);
             }
             return list;
         }
 
-        private static bool IsNotSatisfied(ICondition condition)
+        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            if (condition.Prerequisites.Any(x => x.IsSatisfied != true))
+            if (Condition != null &&
+                Visibility == Visibility.Visible &&
+                IsInSync)
             {
-                return false;
+                IsInSync = Condition.IsInSync();
             }
-            return condition.IsSatisfied != true;
         }
     }
 }

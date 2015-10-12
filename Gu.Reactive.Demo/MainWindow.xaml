@@ -50,10 +50,6 @@
             </AdornerDecorator>
         </TabItem>
 
-        <TabItem Header="Overlay condition buttons">
-            <demo:ConditionButtons />
-        </TabItem>
-
         <TabItem Header="Async commands">
             <demo:AsyncCommands />
         </TabItem>

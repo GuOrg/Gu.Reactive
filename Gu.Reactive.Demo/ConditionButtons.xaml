@@ -11,17 +11,14 @@
              d:DesignWidth="300"
              mc:Ignorable="d">
     <AdornerDecorator>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Button Grid.Row="0"
-                    Command="{Binding OtherCommand}"
+        <UniformGrid Rows="2">
+            <Button Command="{Binding OtherCommand}"
                     CommandParameter="{Binding Content,
                                                RelativeSource={RelativeSource Self}}"
                     Content="Other"
-                    Style="{StaticResource LocalInfoButtonStyle}">
+                    Style="{StaticResource LocalInfoButtonStyle}"
+                    toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip="True"
+                    ToolTipService.ShowOnDisabled="True">
                 <toolTips:TouchToolTipService.ToolTip>
                     <reactive:CommandToolTip>
                         <TextBlock Text="Tool tip text" />
@@ -29,24 +26,17 @@
                 </toolTips:TouchToolTipService.ToolTip>
             </Button>
 
-            <Button Grid.Row="1"
-                    Command="{Binding StartCommand}"
+            <Button Command="{Binding StartCommand}"
                     CommandParameter="{Binding Content,
                                                RelativeSource={RelativeSource Self}}"
                     Content="Start"
                     Style="{StaticResource LocalInfoButtonStyle}">
-                <!--
-                    <ToolTipService.ToolTip>
-                    <ToolTip>Tool tip text</ToolTip>
-                    </ToolTipService.ToolTip>
-                -->
                 <toolTips:TouchToolTipService.ToolTip>
                     <reactive:CommandToolTip>
                         <TextBlock Text="Tool tip text" />
                     </reactive:CommandToolTip>
                 </toolTips:TouchToolTipService.ToolTip>
             </Button>
-
-        </Grid>
+        </UniformGrid>
     </AdornerDecorator>
 </UserControl>

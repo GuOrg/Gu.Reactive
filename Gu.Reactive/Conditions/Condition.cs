@@ -7,6 +7,7 @@
     using System.Linq.Expressions;
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
+    using System.Security.Cryptography.X509Certificates;
 
     using Gu.Reactive.Annotations;
     using Gu.Reactive.Internals;
@@ -57,6 +58,8 @@
             _name = GetType().PrettyName();
             _subscription = observable.Subscribe(x => UpdateIsSatisfied());
             UpdateIsSatisfied();
+            this.ObservePropertyChangedSlim(nameof(IsSatisfied), true)
+                .Subscribe(_ => _history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, _isSatisfied)));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -82,7 +85,6 @@
                 }
 
                 _isSatisfied = value;
-                _history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, _isSatisfied));
                 OnPropertyChanged(IsSatisfiedChangedEventArgs);
             }
         }

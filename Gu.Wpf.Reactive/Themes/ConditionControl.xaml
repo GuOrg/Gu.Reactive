@@ -28,6 +28,7 @@
                 <TextBlock Text="" />
             </DataTemplate>
         </DataTemplate.Resources>
+
         <Border Background="Transparent" BorderBrush="{x:Null}">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -81,7 +82,22 @@
     <HierarchicalDataTemplate x:Key="ConditionHierarchicalDataTemplate"
                               DataType="{x:Type reactive:ICondition}"
                               ItemsSource="{Binding Prerequisites}">
-        <ContentPresenter Content="{Binding}" ContentTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" />
+        <local:ConditionControl Condition="{Binding}">
+            <local:ConditionControl.Template>
+                <ControlTemplate TargetType="{x:Type local:ConditionControl}">
+                    <Border x:Name="ErrorBorder"
+                            BorderBrush="Red"
+                            BorderThickness="0">
+                        <ContentPresenter Content="{TemplateBinding Condition}" ContentTemplate="{TemplateBinding ItemTemplate}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsInSync" Value="False">
+                            <Setter TargetName="ErrorBorder" Property="BorderThickness" Value="2" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </local:ConditionControl.Template>
+        </local:ConditionControl>
     </HierarchicalDataTemplate>
 
     <Style TargetType="{x:Type local:ConditionControl}">
@@ -96,13 +112,19 @@
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
                               ItemTemplate="{StaticResource ConditionHierarchicalDataTemplate}"
-                              ItemsSource="{TemplateBinding RootCondition}">
+                              ItemsSource="{TemplateBinding Root}">
                         <TreeView.ItemContainerStyle>
                             <Style TargetType="TreeViewItem">
                                 <Setter Property="IsExpanded" Value="False" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="False">
                                         <Setter Property="IsExpanded" Value="True" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="{x:Null}">
+                                        <Setter Property="IsExpanded" Value="True" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="True">
+                                        <Setter Property="IsExpanded" Value="False" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -125,7 +147,7 @@
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="{TemplateBinding BorderThickness}"
                                   ItemTemplate="{StaticResource ConditionItemTemplate}"
-                                  ItemsSource="{TemplateBinding NotSatisfiedOnly}" />
+                                  ItemsSource="{TemplateBinding FlattenedPrerequisites}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

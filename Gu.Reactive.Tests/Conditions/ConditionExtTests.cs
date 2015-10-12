@@ -2,6 +2,9 @@ namespace Gu.Reactive.Tests.Conditions
 {
     using System;
     using System.Reactive.Subjects;
+    using System.Security.Cryptography.X509Certificates;
+
+    using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
 
@@ -29,6 +32,37 @@ namespace Gu.Reactive.Tests.Conditions
             isSatisfied = true;
             source.OnNext(null);
             Assert.AreSame(condition, result);
+        }
+
+        [Test]
+        public void IsInSyncWhenSetupCorrectly()
+        {
+            var source = new Fake();
+            var condition = new Condition(source.ObservePropertyChangedSlim(nameof(source.IsTrueOrNull)), () => source.IsTrueOrNull);
+            Assert.IsTrue(condition.IsInSync());
+            source.IsTrueOrNull = true;
+            Assert.IsTrue(condition.IsInSync());
+        }
+
+        [Test]
+        public void IsInSyncWhenSetupCorrectlyNagated()
+        {
+            var source = new Fake();
+            var condition = new Condition(source.ObservePropertyChangedSlim(nameof(source.IsTrueOrNull)), () => source.IsTrueOrNull);
+            var negated = condition.Negate();
+            Assert.IsTrue(negated.IsInSync());
+            source.IsTrueOrNull = true;
+            Assert.IsTrue(negated.IsInSync());
+        }
+
+        [Test]
+        public void IsInSyncWhenError()
+        {
+            var source = new Fake();
+            var condition = new Condition(source.ObservePropertyChangedSlim(nameof(source.Name)), () => source.IsTrueOrNull);
+            Assert.IsTrue(condition.IsInSync());
+            source.IsTrueOrNull = true;
+            Assert.IsFalse(condition.IsInSync());
         }
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Reactive.Linq;
 
     /// <summary>
     /// The negated condition. Calling Negate on it returns the original condition.
@@ -11,38 +12,37 @@
     {
         private readonly FixedSizedQueue<ConditionHistoryPoint> _history = new FixedSizedQueue<ConditionHistoryPoint>(100);
         private readonly ICondition _condition;
-        private readonly ICondition _innerNegated;
         private readonly IDisposable _subscription;
         private string _name;
 
-        private NegatedCondition(ICondition condition, ICondition negated)
-        {
-            _condition = condition;
-            _innerNegated = negated;
-            _subscription = condition.ObserveIsSatisfied()
-                                          .Subscribe(
-                                              x =>
-                                                  {
-                                                      _history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, IsSatisfied));
-                                                      OnPropertyChanged(nameof(IsSatisfied));
-                                                  });
-            Name = $"Not_{_condition.Name}";
-        }
+        private bool _disposed;
 
         public NegatedCondition(Condition condition)
-            : this(
-                (ICondition)condition,
-                new Condition(
-                    condition.ObserveIsSatisfied(),
-                    () => condition.IsSatisfied == null
-                              ? (bool?)null
-                              : !condition.IsSatisfied.Value))
         {
+            _condition = condition;
+            Name = $"Not_{_condition.Name}";
+
+            _subscription = condition.ObserveIsSatisfied()
+                                     .Subscribe(_ => OnPropertyChanged(nameof(IsSatisfied)));
+
+            this.ObservePropertyChangedSlim(nameof(IsSatisfied), true)
+                .Subscribe(_ => _history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, IsSatisfied)));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public bool? IsSatisfied => _innerNegated.IsSatisfied;
+        public bool? IsSatisfied
+        {
+            get
+            {
+                var isSatisfied = _condition.IsSatisfied;
+                if (isSatisfied == null)
+                {
+                    return null;
+                }
+                return isSatisfied != true;
+            }
+        }
 
         public string Name
         {
@@ -73,23 +73,22 @@
         /// </summary>
         public IEnumerable<ConditionHistoryPoint> History => _history;
 
-        public ICondition Negate()
-        {
-            return _condition;
-        }
+        public ICondition Negate() => _condition;
 
+        /// <summary>
+        /// Dispose(true); //I am calling you from Dispose, it's safe
+        /// GC.SuppressFinalize(this); //Hey, GC: don't bother calling finalize later
+        /// </summary>
         public void Dispose()
         {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (disposing)
+            if (_disposed)
             {
-                _innerNegated.Dispose();
-                _subscription.Dispose();
+                return;
             }
+
+            _disposed = true;
+            _subscription.Dispose();
+            // GC.SuppressFinalize(this);           
         }
 
         private void OnPropertyChanged(string propertyName = null)
