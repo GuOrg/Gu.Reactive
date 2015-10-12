@@ -10,6 +10,18 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="ButtonWithCommandToolTipStyle"
+               BasedOn="{StaticResource LocalInfoButtonStyle}"
+               TargetType="{x:Type Button}">
+            <Setter Property="toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip" Value="True" />
+            <Setter Property="toolTips:TouchToolTipService.ToolTip">
+                <Setter.Value>
+                    <reactive:CommandToolTip />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <AdornerDecorator>
         <StackPanel>
             <TextBlock HorizontalAlignment="Center" Text="Mouseover and touch" />
@@ -70,6 +82,20 @@
                     </reactive:CommandToolTip>
                 </toolTips:TouchToolTipService.ToolTip>
             </Button>
+
+            <TextBlock HorizontalAlignment="Center" Text="From style 1" />
+            <Button Command="{Binding OtherCommand}"
+                    CommandParameter="{Binding Content,
+                                               RelativeSource={RelativeSource Self}}"
+                    Content="Other"
+                    Style="{StaticResource ButtonWithCommandToolTipStyle}" />
+
+            <TextBlock HorizontalAlignment="Center" Text="From style 2" />
+            <Button Command="{Binding StartCommand}"
+                    CommandParameter="{Binding Content,
+                                               RelativeSource={RelativeSource Self}}"
+                    Content="Start"
+                    Style="{StaticResource ButtonWithCommandToolTipStyle}" />
         </StackPanel>
     </AdornerDecorator>
 </UserControl>

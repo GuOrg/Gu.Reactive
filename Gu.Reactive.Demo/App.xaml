@@ -4,8 +4,7 @@
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System"
              xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips"
-             StartupUri="MainWindow.xaml"
-             >
+             StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,14 +12,8 @@
                 <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <reactive:CommandToolTip x:Key="CommandToolTip"
-                                     x:Shared="False"
-                                     />
-
             <!--  Must have x:Shared="False" or else the same instance of tooltip is used.  -->
-            <Style x:Key="LocalInfoButtonStyle"
-                   TargetType="{x:Type Button}"
-                   >
+            <Style x:Key="LocalInfoButtonStyle" TargetType="{x:Type Button}">
                 <!--  x:Shared="False">  -->
                 <Setter Property="Width" Value="100" />
                 <Setter Property="Height" Value="100" />
@@ -32,9 +25,7 @@
                 <TextBlock Text="{Binding Action}" />
             </DataTemplate>
 
-            <DataTemplate x:Key="CompletionNoResultTemplate"
-                          DataType="{x:Type reactive:NotifyTaskCompletion}"
-                          >
+            <DataTemplate x:Key="CompletionNoResultTemplate" DataType="{x:Type reactive:NotifyTaskCompletion}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -54,176 +45,137 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0"
                                Grid.Column="0"
-                               Text="Status:"
-                               />
+                               Text="Status:" />
                     <TextBlock Grid.Row="0"
                                Grid.Column="1"
-                               Text="{Binding Status}"
-                               />
+                               Text="{Binding Status}" />
 
                     <TextBlock Grid.Row="1"
                                Grid.Column="0"
-                               Text="IsCompleted:"
-                               />
+                               Text="IsCompleted:" />
                     <TextBlock Grid.Row="1"
                                Grid.Column="1"
-                               Text="{Binding IsCompleted}"
-                               />
+                               Text="{Binding IsCompleted}" />
 
                     <TextBlock Grid.Row="2"
                                Grid.Column="0"
-                               Text="IsNotCompleted:) "
-                               />
+                               Text="IsNotCompleted:) " />
                     <TextBlock Grid.Row="2"
                                Grid.Column="1"
-                               Text="{Binding IsNotCompleted}"
-                               />
+                               Text="{Binding IsNotCompleted}" />
 
                     <TextBlock Grid.Row="3"
                                Grid.Column="0"
-                               Text="IsSuccessfullyCompleted:) "
-                               />
+                               Text="IsSuccessfullyCompleted:) " />
                     <TextBlock Grid.Row="3"
                                Grid.Column="1"
-                               Text="{Binding IsSuccessfullyCompleted}"
-                               />
+                               Text="{Binding IsSuccessfullyCompleted}" />
 
                     <TextBlock Grid.Row="4"
                                Grid.Column="0"
-                               Text="IsCanceled: "
-                               />
+                               Text="IsCanceled: " />
                     <TextBlock Grid.Row="4"
                                Grid.Column="1"
-                               Text="{Binding IsCanceled}"
-                               />
+                               Text="{Binding IsCanceled}" />
 
                     <TextBlock Grid.Row="5"
                                Grid.Column="0"
-                               Text="IsFaulted: "
-                               />
+                               Text="IsFaulted: " />
                     <TextBlock Grid.Row="5"
                                Grid.Column="1"
-                               Text="{Binding IsFaulted}"
-                               />
+                               Text="{Binding IsFaulted}" />
 
                     <TextBlock Grid.Row="6"
                                Grid.Column="0"
-                               Text="Exception: "
-                               />
+                               Text="Exception: " />
                     <TextBlock Grid.Row="6"
                                Grid.Column="1"
-                               Text="{Binding Exception}"
-                               />
+                               Text="{Binding Exception}" />
 
                     <TextBlock Grid.Row="8"
                                Grid.Column="0"
-                               Text="InnerException: "
-                               />
+                               Text="InnerException: " />
                     <TextBlock Grid.Row="8"
                                Grid.Column="1"
-                               Text="{Binding InnerException}"
-                               />
+                               Text="{Binding InnerException}" />
                 </Grid>
             </DataTemplate>
 
-            <DataTemplate x:Key="ResultCompletionTemplate"
-                          DataType="{x:Type reactive:INotifyTaskCompletion}"
-                          >
+            <DataTemplate x:Key="ResultCompletionTemplate" DataType="{x:Type reactive:INotifyTaskCompletion}">
                 <StackPanel>
-                    <ContentPresenter Content="{Binding }"
-                                      ContentTemplate="{StaticResource CompletionNoResultTemplate}"
-                                      />
+                    <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CompletionNoResultTemplate}" />
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Width="150"
-                                   Text="Result: "
-                                   />
+                        <TextBlock Width="150" Text="Result: " />
                         <TextBlock Text="{Binding Result}" />
                     </StackPanel>
                 </StackPanel>
             </DataTemplate>
 
-            <DataTemplate x:Key="AsyncCommandTemplate"
-                          DataType="reactive:AsyncCommand"
-                          >
+            <DataTemplate x:Key="AsyncCommandTemplate" DataType="reactive:AsyncCommand">
                 <GroupBox Header="{Binding ToolTipText}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <StackPanel>
                             <Button Width="100"
-                                Height="50"
-                                VerticalAlignment="Top"
-                                Command="{Binding}"
-                                Content="Run"
-                                />
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    Command="{Binding}"
+                                    Content="Run" />
                             <Button Width="100"
-                                Height="50"
-                                VerticalAlignment="Top"
-                                Command="{Binding CancelCommand}"
-                                Content="Cancel"
-                                />
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    Command="{Binding CancelCommand}"
+                                    Content="Cancel" />
                         </StackPanel>
 
                         <Expander Grid.Column="1" Header="Task">
-                            <ContentPresenter Content="{Binding Execution}"
-                                              ContentTemplate="{StaticResource CompletionNoResultTemplate}"
-                                              />
+                            <ContentPresenter Content="{Binding Execution}" ContentTemplate="{StaticResource CompletionNoResultTemplate}" />
                         </Expander>
                     </Grid>
                 </GroupBox>
             </DataTemplate>
 
-            <DataTemplate x:Key="AsyncParameterCommandTemplate"
-                          DataType="reactive:AsyncCommand"
-                          >
+            <DataTemplate x:Key="AsyncParameterCommandTemplate" DataType="reactive:AsyncCommand">
                 <GroupBox Header="{Binding ToolTipText}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <StackPanel>
                             <Button Width="100"
-                                Height="50"
-                                VerticalAlignment="Top"
-                                Command="{Binding}"
-                                CommandParameter="4"
-                                Content="Run"
-                                />
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    Command="{Binding}"
+                                    CommandParameter="4"
+                                    Content="Run" />
                             <Button Width="100"
-                                Height="50"
-                                VerticalAlignment="Top"
-                                Command="{Binding CancelCommand}"
-                                Content="Cancel"
-                                />
+                                    Height="50"
+                                    VerticalAlignment="Top"
+                                    Command="{Binding CancelCommand}"
+                                    Content="Cancel" />
                         </StackPanel>
 
                         <Expander Grid.Column="1" Header="Task">
-                            <ContentPresenter Content="{Binding Execution}"
-                                              ContentTemplate="{StaticResource CompletionNoResultTemplate}"
-                                              />
+                            <ContentPresenter Content="{Binding Execution}" ContentTemplate="{StaticResource CompletionNoResultTemplate}" />
                         </Expander>
                     </Grid>
                 </GroupBox>
             </DataTemplate>
 
-            <DataTemplate x:Key="AsyncResultCommandTemplate"
-                          DataType="{x:Type reactive:AsyncCommand}"
-                          >
+            <DataTemplate x:Key="AsyncResultCommandTemplate" DataType="{x:Type reactive:AsyncCommand}">
                 <GroupBox Header="{Binding ToolTipText}">
                     <StackPanel Orientation="Horizontal">
                         <Button Width="100"
                                 Height="50"
                                 VerticalAlignment="Top"
                                 Command="{Binding }"
-                                Content="Click"
-                                />
+                                Content="Click" />
                         <Expander Header="Task">
-                            <ContentPresenter Content="{Binding Execution}"
-                                              ContentTemplate="{StaticResource ResultCompletionTemplate}"
-                                              />
+                            <ContentPresenter Content="{Binding Execution}" ContentTemplate="{StaticResource ResultCompletionTemplate}" />
                         </Expander>
                     </StackPanel>
                 </GroupBox>

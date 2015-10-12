@@ -38,7 +38,7 @@
                     Grid.Column="2"
                     Command="{Binding RaiseCanExecuteOnOtherThread}"
                     Content="RaiseCanExecuteOnOtherTrhread" />
-            
+
             <Button Grid.Row="0"
                     Grid.Column="3"
                     Command="{Binding DelayedToggleCanExecute}"
