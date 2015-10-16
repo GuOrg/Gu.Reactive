@@ -57,7 +57,7 @@
                     var rootObjectProvider = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
                     if (rootObjectProvider == null)
                     {
-                        throw new ArgumentException(string.Format("Could not resolve element: {0}", Binding.ElementName));
+                        throw new ArgumentException($"Could not resolve element: {Binding.ElementName}");
                     }
                     var root = rootObjectProvider.RootObject as FrameworkElement;
                     if (root != null && root.Name == Binding.ElementName)
@@ -66,7 +66,7 @@
                     }
                     else
                     {
-                        throw new ArgumentException(string.Format("Could not resolve element: {0}", Binding.ElementName));
+                        throw new ArgumentException($"Could not resolve element: {Binding.ElementName}");
                     }
                 }
                 binding = CreateElementNameBinding(Binding, source);

@@ -12,14 +12,13 @@
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Assets.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style BasedOn="{StaticResource {x:Type toolTips:TouchToolTip}}" TargetType="{x:Type local:CommandToolTip}">
+    <Style BasedOn="{StaticResource {x:Type ToolTip}}" TargetType="{x:Type local:ConditionToolTip}">
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlLightLightBrushKey}}" />
-        <Setter Property="toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:CommandToolTip}">
+                <ControlTemplate TargetType="{x:Type local:ConditionToolTip}">
                     <Border x:Name="Border"
                             Width="{TemplateBinding Width}"
                             Height="{TemplateBinding Height}"
@@ -36,6 +35,11 @@
                             <local:ConditionControl Grid.Row="1"
                                                     HorizontalAlignment="Left"
                                                     Condition="{TemplateBinding Condition}" />
+                            
+                            <!--<local:ConditionControl Grid.Row="1"
+                                                    HorizontalAlignment="Left"
+                                                    Condition="{Binding PlacementTarget.Command.Condition,
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type local:CommandToolTip}}}" />-->
                             <ContentPresenter Grid.Row="2"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Top" />
@@ -63,15 +67,15 @@
     <Style x:Key="ConditionInfoStyle"
            TargetType="{x:Type Button}"
            x:Shared="False">
-        <Setter Property="toolTips:TouchToolTipService.IsVisible" Value="False" />
+        <Setter Property="toolTips:TouchToolTipService.IsOverlayVisible" Value="False" />
         <Setter Property="toolTips:TouchToolTipService.ToolTip">
             <Setter.Value>
-                <local:CommandToolTip />
+                <local:ConditionToolTip />
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="toolTips:TouchToolTipService.IsVisible" Value="True" />
+                <Setter Property="toolTips:TouchToolTipService.IsOverlayVisible" Value="True" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -82,12 +86,12 @@
            x:Shared="False">
         <Setter Property="ToolTipService.ToolTip">
             <Setter.Value>
-                <local:CommandToolTip />
+                <local:ConditionToolTip />
             </Setter.Value>
         </Setter>
         <Setter Property="toolTips:TouchToolTipService.ToolTip">
             <Setter.Value>
-                <local:CommandToolTip />
+                <local:ConditionToolTip />
             </Setter.Value>
         </Setter>
     </Style>

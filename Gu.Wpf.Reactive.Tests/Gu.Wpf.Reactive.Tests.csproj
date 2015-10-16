@@ -42,9 +42,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Gu.Wpf.ToolTips, Version=0.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Gu.Wpf.ToolTips.0.1.4.0\lib\net45\Gu.Wpf.ToolTips.dll</HintPath>
+    <Reference Include="Gu.Wpf.ToolTips, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gu.Wpf.ToolTips.0.2.0.0\lib\net45\Gu.Wpf.ToolTips.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Reactive.Testing, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Rx-Testing.2.2.5\lib\net45\Microsoft.Reactive.Testing.dll</HintPath>

@@ -13,22 +13,25 @@
     <AdornerDecorator>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-           
-            <TextBlock HorizontalAlignment="Left" Text="Text with TouchTooltip" toolTips:TouchToolTipService.IsVisible="{Binding IsChecked, ElementName=Visible}">
+
+            <TextBlock HorizontalAlignment="Left"
+                       Text="Text with TouchTooltip"
+                       toolTips:TouchToolTipService.IsOverlayVisible="{Binding IsChecked,
+                                                                               ElementName=Visible}">
                 <toolTips:TouchToolTipService.ToolTip>
-                    <toolTips:TouchToolTip>Tooltip text</toolTips:TouchToolTip>
+                    <ToolTip>Tooltip text</ToolTip>
                 </toolTips:TouchToolTipService.ToolTip>
             </TextBlock>
 
             <TextBlock Grid.Row="2"
                        HorizontalAlignment="Left"
                        Text="Text with ConditionToolTip"
-                       toolTips:TouchToolTipService.IsVisible="{Binding IsChecked,
-                                                                        ElementName=Visible}">
+                       toolTips:TouchToolTipService.IsOverlayVisible="{Binding IsChecked,
+                                                                               ElementName=Visible}">
                 <toolTips:TouchToolTipService.ToolTip>
                     <ToolTip>
                         <reactive:ConditionControl Condition="{Binding AndCondition}" />

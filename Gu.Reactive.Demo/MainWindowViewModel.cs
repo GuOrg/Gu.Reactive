@@ -43,9 +43,7 @@
 
             StartCommand = new ConditionRelayCommand<string>(o => MessageBox.Show("Clicked " + o), AndCondition);
 
-            OtherCommand = new ConditionRelayCommand<string>(
-                o => MessageBox.Show("Clicked " + o),
-                IsDoorClosedCondition);
+            OtherCommand = new ConditionRelayCommand<string>(o => MessageBox.Show("Clicked " + o), IsDoorClosedCondition);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

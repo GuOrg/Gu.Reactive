@@ -14,10 +14,9 @@
         <Style x:Key="ButtonWithCommandToolTipStyle"
                BasedOn="{StaticResource LocalInfoButtonStyle}"
                TargetType="{x:Type Button}">
-            <Setter Property="toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip" Value="True" />
             <Setter Property="toolTips:TouchToolTipService.ToolTip">
                 <Setter.Value>
-                    <reactive:CommandToolTip />
+                    <reactive:ConditionToolTip />
                 </Setter.Value>
             </Setter>
         </Style>
@@ -30,12 +29,9 @@
                                                RelativeSource={RelativeSource Self}}"
                     Content="Other"
                     Style="{StaticResource LocalInfoButtonStyle}"
-                    ToolTipService.ShowOnDisabled="True"
-                    toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip="True">
+                    ToolTipService.ShowOnDisabled="True">
                 <toolTips:TouchToolTipService.ToolTip>
-                    <reactive:CommandToolTip>
-                        <TextBlock Text="Tool tip text" />
-                    </reactive:CommandToolTip>
+                    <reactive:ConditionToolTip />
                 </toolTips:TouchToolTipService.ToolTip>
             </Button>
 
@@ -46,11 +42,11 @@
                                     Converter={reactive:BooleanToBrushConverter WhenTrue=GreenYellow,
                                                                                 WhenFalse=Red,
                                                                                 WhenNull=Gray}}"
-                     toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip="True">
+                     toolTips:TouchToolTipService.IsOverlayVisible="False">
                 <toolTips:TouchToolTipService.ToolTip>
-                    <reactive:CommandToolTip Condition="{reactive:NinjaBinding {Binding OtherCommand.Condition}}">
+                    <reactive:ConditionToolTip Condition="{reactive:NinjaBinding {Binding OtherCommand.Condition}}" InferConditionFromCommand="False">
                         <TextBlock Text="Tool tip text" />
-                    </reactive:CommandToolTip>
+                    </reactive:ConditionToolTip>
                 </toolTips:TouchToolTipService.ToolTip>
             </Ellipse>
 
@@ -61,12 +57,11 @@
                                     Converter={reactive:BooleanToBrushConverter WhenTrue=GreenYellow,
                                                                                 WhenFalse=Red,
                                                                                 WhenNull=Gray}}"
-                     toolTips:TouchToolTipService.IsVisible="True"
-                     toolTips:TouchToolTipService.UseTouchToolTipAsMouseOverToolTip="True">
+                     toolTips:TouchToolTipService.IsOverlayVisible="True">
                 <toolTips:TouchToolTipService.ToolTip>
-                    <reactive:CommandToolTip Condition="{reactive:NinjaBinding {Binding OtherCommand.Condition}}">
+                    <reactive:ConditionToolTip Condition="{reactive:NinjaBinding {Binding OtherCommand.Condition}}">
                         <TextBlock Text="Tool tip text" />
-                    </reactive:CommandToolTip>
+                    </reactive:ConditionToolTip>
                 </toolTips:TouchToolTipService.ToolTip>
             </Ellipse>
 
@@ -77,9 +72,9 @@
                     Content="Start"
                     Style="{StaticResource LocalInfoButtonStyle}">
                 <toolTips:TouchToolTipService.ToolTip>
-                    <reactive:CommandToolTip>
+                    <reactive:ConditionToolTip>
                         <TextBlock Text="Tool tip text" />
-                    </reactive:CommandToolTip>
+                    </reactive:ConditionToolTip>
                 </toolTips:TouchToolTipService.ToolTip>
             </Button>
 
