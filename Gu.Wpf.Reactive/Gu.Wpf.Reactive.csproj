@@ -105,6 +105,8 @@
     <Compile Include="Commands\TaskRunner.cs" />
     <Compile Include="Commands\TaskRunner`1.cs" />
     <Compile Include="Commands\TaskRunnerBase.cs" />
+    <Compile Include="ConditionControl.Keys.cs" />
+    <Compile Include="ConditionTypeTemplateSelector.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
     <Compile Include="Converters\NullableBooleanToBooleanConverter.cs" />
     <Compile Include="Converters\TypeConverters\ITypeConverter`1.cs" />

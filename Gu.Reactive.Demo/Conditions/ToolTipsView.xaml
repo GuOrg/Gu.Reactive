@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="Gu.Reactive.Demo.ToolTipsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:demo="clr-namespace:Gu.Reactive.Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
+             xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips"
+             DataContext="{x:Static demo:ConditionsViewModel.Instance}"
+             mc:Ignorable="d">
+    <AdornerDecorator>
+        <StackPanel>
+            <TextBlock HorizontalAlignment="Center" Text="Mouseover" />
+            <Ellipse Width="50"
+                     Height="50"
+                     Fill="{Binding StopCommand.Condition.IsSatisfied,
+                                    Converter={reactive:BooleanToBrushConverter WhenTrue=GreenYellow,
+                                                                                WhenFalse=Red,
+                                                                                WhenNull=Gray}}"
+                     toolTips:TouchToolTipService.IsOverlayVisible="False">
+                <toolTips:TouchToolTipService.ToolTip>
+                    <reactive:ConditionToolTip Condition="{reactive:NinjaBinding {Binding StopCommand.Condition}}" InferConditionFromCommand="False">
+                        <TextBlock Text="Tool tip text" />
+                    </reactive:ConditionToolTip>
+                </toolTips:TouchToolTipService.ToolTip>
+            </Ellipse>
+
+            <TextBlock HorizontalAlignment="Center" Text="Mouseover and touch" />
+            <Ellipse Width="50"
+                     Height="50"
+                     Fill="{Binding StopCommand.Condition.IsSatisfied,
+                                    Converter={reactive:BooleanToBrushConverter WhenTrue=GreenYellow,
+                                                                                WhenFalse=Red,
+                                                                                WhenNull=Gray}}"
+                     toolTips:TouchToolTipService.IsOverlayVisible="True">
+                <toolTips:TouchToolTipService.ToolTip>
+                    <reactive:ConditionToolTip Condition="{reactive:NinjaBinding {Binding StopCommand.Condition}}">
+                        <TextBlock Text="Tool tip text" />
+                    </reactive:ConditionToolTip>
+                </toolTips:TouchToolTipService.ToolTip>
+            </Ellipse>
+
+            <TextBlock HorizontalAlignment="Left"
+                       Text="Text with TouchTooltip"
+                       toolTips:TouchToolTipService.IsOverlayVisible="{Binding IsChecked,
+                                                                               ElementName=Visible}">
+                <toolTips:TouchToolTipService.ToolTip>
+                    <ToolTip>Tooltip text</ToolTip>
+                </toolTips:TouchToolTipService.ToolTip>
+            </TextBlock>
+
+            <TextBlock HorizontalAlignment="Left"
+                       Text="Text with ConditionToolTip"
+                       toolTips:TouchToolTipService.IsOverlayVisible="{Binding IsChecked,
+                                                                               ElementName=Visible}">
+                <toolTips:TouchToolTipService.ToolTip>
+                    <ToolTip>
+                        <reactive:ConditionControl Condition="{Binding CanStartCondition}" />
+
+                    </ToolTip>
+                </toolTips:TouchToolTipService.ToolTip>
+            </TextBlock>
+        </StackPanel>
+    </AdornerDecorator>
+</UserControl>

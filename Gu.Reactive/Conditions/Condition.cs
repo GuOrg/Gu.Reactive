@@ -33,7 +33,7 @@
         }
 
         protected Condition(ConditionCollection conditionCollection)
-            : this(conditionCollection.ObserveIsSatisfied(), () => conditionCollection.IsSatisfied)
+            : this(conditionCollection.ObserveIsSatisfiedChanged(), () => conditionCollection.IsSatisfied)
         {
             Ensure.NotNullOrEmpty(conditionCollection, nameof(conditionCollection));
             _prerequisites = conditionCollection;

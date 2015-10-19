@@ -9,67 +9,75 @@
                   ItemsSource="{Binding History}" />
     </DataTemplate>
 
-    <DataTemplate x:Key="ConditionItemTemplate" DataType="{x:Type reactive:ICondition}">
-        <DataTemplate.Resources>
-            <DataTemplate DataType="{x:Type reactive:AndCondition}">
-                <TextBlock FontSize="10"
-                           FontWeight="Bold"
-                           Text="&amp;" />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type reactive:OrCondition}">
-                <TextBlock FontSize="10"
-                           FontWeight="Bold"
-                           Text="|" />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type reactive:Condition}">
-                <TextBlock Text="" />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type reactive:NegatedCondition}">
-                <TextBlock Text="" />
-            </DataTemplate>
-        </DataTemplate.Resources>
+    <ControlTemplate x:Key="{x:Static local:ConditionControl.ConditionTemplateKey}" TargetType="{x:Type local:ConditionControl}">
+        <ControlTemplate.Resources>
+            <local:ConditionTypeTemplateSelector x:Key="IconTemplateSelector">
+                <local:ConditionTypeTemplateSelector.AndConditionTemplate>
+                    <DataTemplate DataType="{x:Type reactive:AndCondition}">
+                        <TextBlock Text="&amp;" />
+                    </DataTemplate>
+                </local:ConditionTypeTemplateSelector.AndConditionTemplate>
 
-        <Border Background="Transparent" BorderBrush="{x:Null}">
+                <local:ConditionTypeTemplateSelector.OrConditionTemplate>
+                    <DataTemplate DataType="{x:Type reactive:OrCondition}">
+                        <TextBlock Text="|" />
+                    </DataTemplate>
+                </local:ConditionTypeTemplateSelector.OrConditionTemplate>
+
+                <local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
+                    <DataTemplate DataType="{x:Type reactive:NegatedCondition}">
+                        <TextBlock Text="!" />
+                    </DataTemplate>
+                </local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
+
+                <local:ConditionTypeTemplateSelector.NodeConditionTemplate>
+                    <DataTemplate DataType="{x:Type reactive:Condition}">
+                        <TextBlock Text="" />
+                    </DataTemplate>
+                </local:ConditionTypeTemplateSelector.NodeConditionTemplate>
+            </local:ConditionTypeTemplateSelector>
+        </ControlTemplate.Resources>
+        <Border x:Name="Border"
+                Background="Transparent"
+                BorderBrush="{x:Null}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Ellipse Grid.Column="0"
-                         Width="{Binding ActualHeight,
-                                         ElementName=TextBlock}"
-                         Height="{Binding ActualHeight,
-                                          ElementName=TextBlock}"
-                         HorizontalAlignment="Center"
-                         VerticalAlignment="Center"
-                         StrokeThickness="2">
-                    <Ellipse.Style>
-                        <Style TargetType="{x:Type Ellipse}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsSatisfied}" Value="True">
-                                    <Setter Property="Stroke" Value="Green" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsSatisfied}" Value="False">
-                                    <Setter Property="Stroke" Value="Red" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsSatisfied}" Value="{x:Null}">
-                                    <Setter Property="Stroke" Value="Gray" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Ellipse.Style>
-                </Ellipse>
-                <ContentPresenter Grid.Column="0"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  Content="{Binding}"
-                                  Focusable="False" />
+                <Grid Grid.Column="0" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                    <Ellipse Stretch="Fill" StrokeThickness="2">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="True">
+                                        <Setter Property="Stroke" Value="Green" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="False">
+                                        <Setter Property="Stroke" Value="Red" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="{x:Null}">
+                                        <Setter Property="Stroke" Value="Gray" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                    <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Content="{TemplateBinding Condition}"
+                                      ContentTemplateSelector="{StaticResource IconTemplateSelector}"
+                                      Focusable="False" />
+                </Grid>
+
                 <TextBlock x:Name="TextBlock"
                            Grid.Column="1"
                            Margin="5,0,0,0"
                            VerticalAlignment="Center"
                            Focusable="False"
-                           Text="{Binding Name}" />
+                           Text="{Binding Condition.Name,
+                                          RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}},
+                                          Mode=OneTime}" />
             </Grid>
             <Border.ToolTip>
                 <GroupBox Header="History">
@@ -77,77 +85,59 @@
                 </GroupBox>
             </Border.ToolTip>
         </Border>
-    </DataTemplate>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsInSync" Value="False">
+                <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="Red" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 
-    <HierarchicalDataTemplate x:Key="ConditionHierarchicalDataTemplate"
-                              DataType="{x:Type reactive:ICondition}"
-                              ItemsSource="{Binding Prerequisites}">
-        <local:ConditionControl Condition="{Binding}">
-            <local:ConditionControl.Template>
-                <ControlTemplate TargetType="{x:Type local:ConditionControl}">
-                    <Border x:Name="ErrorBorder"
-                            BorderBrush="Red"
-                            BorderThickness="0">
-                        <ContentPresenter Content="{TemplateBinding Condition}" ContentTemplate="{TemplateBinding ItemTemplate}" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsInSync" Value="False">
-                            <Setter TargetName="ErrorBorder" Property="BorderThickness" Value="2" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </local:ConditionControl.Template>
-        </local:ConditionControl>
-    </HierarchicalDataTemplate>
+    <Style x:Key="{x:Static local:ConditionControl.AllExpandedTreeViewItemStyleKey}" TargetType="{x:Type TreeViewItem}">
+        <Setter Property="IsExpanded" Value="True" />
+    </Style>
+
+    <Style x:Key="{x:Static local:ConditionControl.CollapseSatisfiedTreeViewItemStyleKey}" TargetType="{x:Type TreeViewItem}">
+        <Setter Property="IsExpanded" Value="False" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSatisfied}" Value="False">
+                <Setter Property="IsExpanded" Value="True" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsSatisfied}" Value="{x:Null}">
+                <Setter Property="IsExpanded" Value="True" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsSatisfied}" Value="True">
+                <Setter Property="IsExpanded" Value="False" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{x:Static local:ConditionControl.TreeviewItemStyleKey}"
+           BasedOn="{StaticResource {x:Static local:ConditionControl.CollapseSatisfiedTreeViewItemStyleKey}}"
+           TargetType="{x:Type TreeViewItem}" />
+
+    <Style x:Key="{x:Static local:ConditionControl.SingleConditionControlStyleKey}" TargetType="{x:Type local:ConditionControl}">
+        <Setter Property="Template" Value="{DynamicResource {x:Static local:ConditionControl.ConditionTemplateKey}}" />
+    </Style>
 
     <Style TargetType="{x:Type local:ConditionControl}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="ItemTemplate" Value="{StaticResource ConditionItemTemplate}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ConditionControl}">
                     <TreeView Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
-                              ItemTemplate="{StaticResource ConditionHierarchicalDataTemplate}"
+                              ItemContainerStyle="{DynamicResource {x:Static local:ConditionControl.TreeviewItemStyleKey}}"
                               ItemsSource="{TemplateBinding Root}">
-                        <TreeView.ItemContainerStyle>
-                            <Style TargetType="TreeViewItem">
-                                <Setter Property="IsExpanded" Value="False" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="False">
-                                        <Setter Property="IsExpanded" Value="True" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="{x:Null}">
-                                        <Setter Property="IsExpanded" Value="True" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="True">
-                                        <Setter Property="IsExpanded" Value="False" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TreeView.ItemContainerStyle>
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type reactive:ICondition}" ItemsSource="{Binding Prerequisites}">
+                                <local:ConditionControl Condition="{Binding}" Template="{DynamicResource {x:Static local:ConditionControl.ConditionTemplateKey}}" />
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
                     </TreeView>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ErrorOnlyStyle" TargetType="{x:Type local:ConditionControl}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="{x:Null}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="ItemTemplate" Value="{StaticResource ConditionItemTemplate}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:ConditionControl}">
-                    <ItemsControl Background="{TemplateBinding Background}"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                  ItemTemplate="{StaticResource ConditionItemTemplate}"
-                                  ItemsSource="{TemplateBinding FlattenedPrerequisites}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

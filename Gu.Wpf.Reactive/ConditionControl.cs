@@ -9,7 +9,7 @@
     /// <summary>
     /// A control for displaying conditions
     /// </summary>
-    public class ConditionControl : Control
+    public partial class ConditionControl : Control
     {
         private static IEnumerable<ICondition> Empty = new ICondition[0];
 
@@ -41,14 +41,6 @@
 
         public static readonly DependencyProperty IsInSyncProperty = IsInSyncPropertyKey.DependencyProperty;
 
-        public static readonly DependencyProperty ItemTemplateProperty = DependencyProperty.Register(
-            "ItemTemplate",
-            typeof(DataTemplate),
-            typeof(ConditionControl),
-            new FrameworkPropertyMetadata(
-                default(DataTemplate),
-                FrameworkPropertyMetadataOptions.Inherits));
-
         public static readonly DependencyProperty FlattenedPrerequisitesProperty = FlattenedPrerequisitesPropertyKey.DependencyProperty;
 
         static ConditionControl()
@@ -58,19 +50,13 @@
 
         public ConditionControl()
         {
-            this.IsVisibleChanged += OnIsVisibleChanged;
+            this.IsVisibleChanged += (_, __) => OnIsVisibleChanged();
         }
 
         public ICondition Condition
         {
-            get
-            {
-                return (ICondition)GetValue(ConditionProperty);
-            }
-            set
-            {
-                SetValue(ConditionProperty, value);
-            }
+            get { return (ICondition)GetValue(ConditionProperty); }
+            set { SetValue(ConditionProperty, value); }
         }
 
         public IEnumerable<ICondition> Root
@@ -84,32 +70,14 @@
         /// </summary>
         public IEnumerable<ICondition> FlattenedPrerequisites
         {
-            get
-            {
-                return (IEnumerable<ICondition>)GetValue(FlattenedPrerequisitesProperty);
-            }
-            protected set
-            {
-                SetValue(FlattenedPrerequisitesPropertyKey, value);
-            }
+            get { return (IEnumerable<ICondition>)GetValue(FlattenedPrerequisitesProperty); }
+            protected set { SetValue(FlattenedPrerequisitesPropertyKey, value); }
         }
 
         public bool IsInSync
         {
             get { return (bool)GetValue(IsInSyncProperty); }
             protected set { SetValue(IsInSyncPropertyKey, value); }
-        }
-
-        public DataTemplate ItemTemplate
-        {
-            get
-            {
-                return (DataTemplate)GetValue(ItemTemplateProperty);
-            }
-            set
-            {
-                SetValue(ItemTemplateProperty, value);
-            }
         }
 
         protected virtual void OnConditionChanged(ICondition oldCondition, ICondition newCondition)
@@ -150,7 +118,7 @@
             return list;
         }
 
-        private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        private void OnIsVisibleChanged()
         {
             if (Condition != null &&
                 Visibility == Visibility.Visible &&

@@ -34,7 +34,7 @@
 
             _isSatisfied = isSatisfied;
             _innerConditions = conditions;
-            _subscription = conditions.Select(x => x.ObserveIsSatisfied())
+            _subscription = conditions.Select(x => x.ObserveIsSatisfiedChanged())
                                        .Merge()
                                        .Subscribe(
                                            x =>

@@ -21,7 +21,7 @@ namespace Gu.Wpf.Reactive
             : base(action, () => condition.IsSatisfied == true)
         {
             Condition = condition;
-            _subscription = Condition.ObserveIsSatisfied()
+            _subscription = Condition.ObserveIsSatisfiedChanged()
                                      .Subscribe(_ => RaiseCanExecuteChanged());
         }
 

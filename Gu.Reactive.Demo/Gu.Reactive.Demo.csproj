@@ -98,10 +98,10 @@
     <Compile Include="AsyncCommandsViewModel.cs">
       <DependentUpon>AsyncCommands.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CollectionViewDemo.xaml.cs">
+    <Compile Include="Collections\CollectionViewDemo.xaml.cs">
       <DependentUpon>CollectionViewDemo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CollectionViewDemoViewModel.cs">
+    <Compile Include="Collections\CollectionViewDemoViewModel.cs">
       <DependentUpon>CollectionViewDemo.xaml</DependentUpon>
     </Compile>
     <Compile Include="CommandsView.xaml.cs">
@@ -110,12 +110,22 @@
     <Compile Include="CommandsViewModel.cs">
       <DependentUpon>CommandsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ConditionButtons.xaml.cs">
-      <DependentUpon>ConditionButtons.xaml</DependentUpon>
+    <Compile Include="Conditions\CanStart.cs" />
+    <Compile Include="Conditions\ConditionButtonsView.xaml.cs">
+      <DependentUpon>ConditionButtonsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Conditions.xaml.cs">
-      <DependentUpon>Conditions.xaml</DependentUpon>
+    <Compile Include="Conditions\ConditionState.cs" />
+    <Compile Include="Conditions\ConditionsView.xaml.cs">
+      <DependentUpon>ConditionsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Conditions\ConditionsViewModel.cs" />
+    <Compile Include="Conditions\IsAnyDoorOpen.cs" />
+    <Compile Include="Conditions\IsBackDoorOpen.cs" />
+    <Compile Include="Conditions\IsLeftDoorOpen.cs" />
+    <Compile Include="Conditions\HasFuel.cs" />
+    <Compile Include="Conditions\IsMotorRunning.cs" />
+    <Compile Include="Conditions\IsRightDoorOpen.cs" />
+    <Compile Include="Conditions\SyncErrorCondition.cs" />
     <Compile Include="ConverterDemoViewmodel.cs">
       <DependentUpon>ConvertersDemoView.xaml</DependentUpon>
     </Compile>
@@ -125,35 +135,38 @@
     <Compile Include="DataGridAndEventsView.xaml.cs">
       <DependentUpon>DataGridAndEventsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ThrottledViewView.xaml.cs">
+    <Compile Include="Conditions\EditConditionStateView.xaml.cs">
+      <DependentUpon>EditConditionStateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\ThrottledViewView.xaml.cs">
       <DependentUpon>ThrottledViewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ThrottledViewViewModel.cs">
+    <Compile Include="Collections\ThrottledViewViewModel.cs">
       <DependentUpon>ThrottledViewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DispatchingViewView.xaml.cs">
+    <Compile Include="Collections\DispatchingViewView.xaml.cs">
       <DependentUpon>DispatchingViewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DispatchingViewViewModel.cs">
+    <Compile Include="Collections\DispatchingViewViewModel.cs">
       <DependentUpon>DispatchingViewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DummyItem.cs" />
-    <Compile Include="FilteredViewView.xaml.cs">
+    <Compile Include="Collections\FilteredViewView.xaml.cs">
       <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FilteredViewViewModel.cs">
+    <Compile Include="Collections\FilteredViewViewModel.cs">
       <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindowViewModel.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MappedVm.cs">
+    <Compile Include="Collections\MappedVm.cs">
       <DependentUpon>MappingViewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MappingViewView.xaml.cs">
+    <Compile Include="Collections\MappingViewView.xaml.cs">
       <DependentUpon>MappingViewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MappingViewViewModel.cs">
+    <Compile Include="Collections\MappingViewViewModel.cs">
       <DependentUpon>MappingViewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="NamedFilter.cs" />
@@ -163,27 +176,27 @@
     <Compile Include="NinjaBindingViewModel.cs">
       <DependentUpon>NinjaBindingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObservableFixedSizeQueueView.xaml.cs">
+    <Compile Include="Collections\ObservableFixedSizeQueueView.xaml.cs">
       <DependentUpon>ObservableFixedSizeQueueView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObservableFixedSizeQueueViewModel.cs">
+    <Compile Include="Collections\ObservableFixedSizeQueueViewModel.cs">
       <DependentUpon>ObservableFixedSizeQueueView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Person.cs">
+    <Compile Include="Collections\Person.cs">
       <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="StringComparisonToBoolConverter.cs">
       <DependentUpon>ConvertersDemoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ToolTipsView.xaml.cs">
+    <Compile Include="Conditions\ToolTipsView.xaml.cs">
       <DependentUpon>ToolTipsView.xaml</DependentUpon>
     </Compile>
     <Page Include="AsyncCommands.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CollectionViewDemo.xaml">
+    <Page Include="Collections\CollectionViewDemo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -191,11 +204,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ConditionButtons.xaml">
+    <Page Include="Conditions\ConditionButtonsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Conditions.xaml">
+    <Page Include="Conditions\ConditionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,15 +220,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ThrottledViewView.xaml">
+    <Page Include="Conditions\EditConditionStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DispatchingViewView.xaml">
+    <Page Include="Collections\ThrottledViewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FilteredViewView.xaml">
+    <Page Include="Collections\DispatchingViewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Collections\FilteredViewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -231,7 +248,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MappingViewView.xaml">
+    <Page Include="Collections\MappingViewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -239,11 +256,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ObservableFixedSizeQueueView.xaml">
+    <Page Include="Collections\ObservableFixedSizeQueueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ToolTipsView.xaml">
+    <Page Include="Conditions\ToolTipsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -290,6 +307,7 @@
       <Name>Gu.Wpf.Reactive</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

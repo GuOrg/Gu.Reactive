@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="Gu.Reactive.Demo.ConditionButtonsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:demo="clr-namespace:Gu.Reactive.Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
+             xmlns:toolTips="http://Gu.com/ToolTips"
+             DataContext="{x:Static demo:ConditionsViewModel.Instance}"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="ButtonWithCommandToolTipStyle"
+               BasedOn="{StaticResource LocalInfoButtonStyle}"
+               TargetType="{x:Type Button}">
+            <Setter Property="toolTips:TouchToolTipService.ToolTip">
+                <Setter.Value>
+                    <reactive:ConditionToolTip />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <AdornerDecorator>
+        <StackPanel>
+            <TextBlock HorizontalAlignment="Center" Text="Touch only" />
+            <Button Command="{Binding StartCommand}"
+                    Content="Start"
+                    Style="{StaticResource LocalInfoButtonStyle}">
+                <toolTips:TouchToolTipService.ToolTip>
+                    <reactive:ConditionToolTip>
+                        <TextBlock Text="Tool tip text" />
+                    </reactive:ConditionToolTip>
+                </toolTips:TouchToolTipService.ToolTip>
+            </Button>
+
+            <TextBlock HorizontalAlignment="Center" Text="Mouseover and touch" />
+            <Button Command="{Binding StopCommand}"
+                    Content="Stop"
+                    Style="{StaticResource LocalInfoButtonStyle}"
+                    ToolTipService.ShowOnDisabled="True">
+                <toolTips:TouchToolTipService.ToolTip>
+                    <reactive:ConditionToolTip />
+                </toolTips:TouchToolTipService.ToolTip>
+            </Button>
+
+            <TextBlock HorizontalAlignment="Center" Text="Tooltip from style" />
+            <Button Command="{Binding StartCommand}"
+                    Content="Start"
+                    Style="{StaticResource ButtonWithCommandToolTipStyle}" />
+            <Button Command="{Binding StopCommand}"
+                    Content="STop"
+                    Style="{StaticResource ButtonWithCommandToolTipStyle}" />            
+        </StackPanel>
+    </AdornerDecorator>
+</UserControl>

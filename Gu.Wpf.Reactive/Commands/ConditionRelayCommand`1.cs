@@ -23,7 +23,7 @@
             : base(action, _ => condition.IsSatisfied == true)
         {
             Condition = condition;
-            _subscription = Condition.ObserveIsSatisfied()
+            _subscription = Condition.ObserveIsSatisfiedChanged()
                                      .Subscribe(_ => RaiseCanExecuteChanged());
         }
 

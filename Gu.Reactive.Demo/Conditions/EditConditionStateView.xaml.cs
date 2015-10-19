@@ -3,11 +3,11 @@
 namespace Gu.Reactive.Demo
 {
     /// <summary>
-    /// Interaction logic for ConditionButtons.xaml
+    /// Interaction logic for EditConditionStateView.xaml
     /// </summary>
-    public partial class ConditionButtons : UserControl
+    public partial class EditConditionStateView : UserControl
     {
-        public ConditionButtons()
+        public EditConditionStateView()
         {
             InitializeComponent();
         }

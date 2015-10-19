@@ -7,10 +7,10 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
+            <!--<ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Gu.Wpf.ToolTips;component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Generic.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary.MergedDictionaries>-->
 
             <!--  Must have x:Shared="False" or else the same instance of tooltip is used.  -->
             <Style x:Key="LocalInfoButtonStyle" TargetType="{x:Type Button}">

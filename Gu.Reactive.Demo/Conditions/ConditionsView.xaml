@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Gu.Reactive.Demo.Conditions"
+﻿<UserControl x:Class="Gu.Reactive.Demo.ConditionsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,11 +6,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive"
              xmlns:wpf="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
-             d:DataContext="{d:DesignInstance demo:MainWindowViewModel}"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
+             DataContext="{x:Static demo:ConditionsViewModel.Instance}"
              mc:Ignorable="d">
     <StackPanel>
+        <UniformGrid Rows="1">
+            <Button Command="{x:Static wpf:ConditionControl.SetAllExpanded}" Content="AllExpenaded" />
+            <Button Command="{x:Static wpf:ConditionControl.SetCollapseSatisfied}" Content="Collapse satisfied" />
+        </UniformGrid>
         <ItemsControl ItemsSource="{Binding Conditions}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type reactive:ICondition}">
@@ -18,6 +20,11 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <wpf:ConditionControl Condition="{Binding OtherCommand.Condition}" />
+
+        <TextBlock Text="Default style" />
+        <wpf:ConditionControl Condition="{Binding StartCommand.Condition}" />
+
+        <TextBlock Text="Single Template" />
+        <wpf:ConditionControl Condition="{Binding StartCommand.Condition}" Template="{StaticResource {x:Static wpf:ConditionControl.ConditionTemplateKey}}" />
     </StackPanel>
 </UserControl>

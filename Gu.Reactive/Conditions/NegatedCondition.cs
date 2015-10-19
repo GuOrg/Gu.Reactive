@@ -22,7 +22,7 @@
             _condition = condition;
             Name = $"Not_{_condition.Name}";
 
-            _subscription = condition.ObserveIsSatisfied()
+            _subscription = condition.ObserveIsSatisfiedChanged()
                                      .Subscribe(_ => OnPropertyChanged(nameof(IsSatisfied)));
 
             this.ObservePropertyChangedSlim(nameof(IsSatisfied), true)

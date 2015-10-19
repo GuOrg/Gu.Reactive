@@ -5,9 +5,9 @@
     /// <summary>
     /// Interaction logic for Conditions.xaml
     /// </summary>
-    public partial class Conditions : UserControl
+    public partial class ConditionsView : UserControl
     {
-        public Conditions()
+        public ConditionsView()
         {
             InitializeComponent();
         }

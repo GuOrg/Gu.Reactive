@@ -21,7 +21,7 @@ namespace Gu.Wpf.Reactive
             _action = action;
 
             var observable = Observable.Merge<object>(this.ObservePropertyChangedSlim(nameof(CanCancel)),
-                                                      this.CanRunCondition.ObserveIsSatisfied());
+                                                      this.CanRunCondition.ObserveIsSatisfiedChanged());
             CanCancelCondition = new Condition(observable, () => CanCancel) { Name = "CanCancel" };
         }
 

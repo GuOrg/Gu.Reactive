@@ -7,7 +7,6 @@
                     mc:Ignorable="d">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Gu.Wpf.ToolTips;component/Themes/Generic.xaml" />
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/ConditionControl.xaml" />
         <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Assets.xaml" />
     </ResourceDictionary.MergedDictionaries>
