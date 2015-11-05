@@ -4,7 +4,7 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Annotations;
+    using JetBrains.Annotations;
     using Gu.Reactive.Internals;
 
     public sealed class Mapper<TSource, TResult> : ITracker<TResult>

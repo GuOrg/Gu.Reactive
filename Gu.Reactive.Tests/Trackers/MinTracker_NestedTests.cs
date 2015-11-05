@@ -6,7 +6,7 @@
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Annotations;
+    using JetBrains.Annotations;
 
     using NUnit.Framework;
 

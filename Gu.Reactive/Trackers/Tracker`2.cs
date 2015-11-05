@@ -5,7 +5,7 @@ namespace Gu.Reactive
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using Gu.Reactive.Annotations;
+    using JetBrains.Annotations;
     using Gu.Reactive.Internals;
 
     public abstract class Tracker<TValue> : ITracker<TValue?> where TValue : struct 

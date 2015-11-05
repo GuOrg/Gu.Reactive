@@ -6,7 +6,7 @@
     using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Annotations;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// This is a baseclass when you want to have a nonstatic Criteria method

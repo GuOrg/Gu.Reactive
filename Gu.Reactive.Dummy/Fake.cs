@@ -3,7 +3,7 @@ namespace Gu.Reactive.Dummy
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Annotations;
+    using JetBrains.Annotations;
 
     internal sealed class Fake : INotifyPropertyChanged
     {

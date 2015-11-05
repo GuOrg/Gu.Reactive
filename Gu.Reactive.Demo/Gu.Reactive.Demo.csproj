@@ -57,6 +57,10 @@
       <HintPath>..\packages\Gu.Wpf.ToolTips.0.2.0.0\lib\net45\Gu.Wpf.ToolTips.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=10.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.0.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Reactive.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -185,7 +189,6 @@
     <Compile Include="Collections\Person.cs">
       <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="StringComparisonToBoolConverter.cs">
       <DependentUpon>ConvertersDemoView.xaml</DependentUpon>
     </Compile>

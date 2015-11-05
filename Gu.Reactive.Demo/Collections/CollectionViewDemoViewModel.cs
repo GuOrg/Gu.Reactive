@@ -8,7 +8,7 @@
     using System.Runtime.CompilerServices;
     using System.Windows.Data;
 
-    using Annotations;
+    using JetBrains.Annotations;
 
     using Wpf.Reactive;
 

@@ -4,7 +4,7 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Demo.Annotations;
+    using JetBrains.Annotations;
     using Gu.Wpf.Reactive;
 
     public class ConditionsViewModel : INotifyPropertyChanged

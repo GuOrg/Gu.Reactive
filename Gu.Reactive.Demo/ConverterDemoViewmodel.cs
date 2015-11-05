@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using Annotations;
+    using JetBrains.Annotations;
 
     public class ConverterDemoViewmodel : INotifyPropertyChanged
     {

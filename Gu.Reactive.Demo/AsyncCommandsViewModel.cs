@@ -5,7 +5,7 @@
     using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
-    using Annotations;
+    using JetBrains.Annotations;
     using Wpf.Reactive;
 
     public class AsyncCommandsViewModel : INotifyPropertyChanged

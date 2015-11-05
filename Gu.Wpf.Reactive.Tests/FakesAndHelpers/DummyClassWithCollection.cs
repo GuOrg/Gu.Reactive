@@ -4,7 +4,7 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using Gu.Wpf.Reactive.Tests.Annotations;
+    using JetBrains.Annotations;
 
     public class DummyClassWithCollection : INotifyPropertyChanged
     {

@@ -4,7 +4,7 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Tests.Annotations;
+    using JetBrains.Annotations;
 
     public class FakeWithCollection : INotifyPropertyChanged
     {

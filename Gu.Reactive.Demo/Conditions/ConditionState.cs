@@ -3,7 +3,7 @@ namespace Gu.Reactive.Demo
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Demo.Annotations;
+    using JetBrains.Annotations;
 
     public class ConditionState : INotifyPropertyChanged
     {

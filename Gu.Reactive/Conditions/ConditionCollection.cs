@@ -8,7 +8,7 @@
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Annotations;
+    using JetBrains.Annotations;
     using Gu.Reactive.Internals;
 
     /// <summary>

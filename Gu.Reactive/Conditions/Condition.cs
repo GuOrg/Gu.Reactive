@@ -7,9 +7,8 @@
     using System.Linq.Expressions;
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
-    using System.Security.Cryptography.X509Certificates;
 
-    using Gu.Reactive.Annotations;
+    using JetBrains.Annotations;
     using Gu.Reactive.Internals;
 
     /// <summary>

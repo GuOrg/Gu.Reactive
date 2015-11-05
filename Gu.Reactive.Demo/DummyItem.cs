@@ -3,7 +3,7 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Demo.Annotations;
+    using JetBrains.Annotations;
 
     public class DummyItem : INotifyPropertyChanged
     {

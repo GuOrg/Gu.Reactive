@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
     using System.Windows.Input;
 
-    using Gu.Reactive.Demo.Annotations;
+    using JetBrains.Annotations;
     using Gu.Wpf.Reactive;
 
     public class MappingViewViewModel : INotifyPropertyChanged

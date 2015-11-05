@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
 
     using Gu.Reactive;
-    using Gu.Wpf.Reactive.Annotations;
+    using JetBrains.Annotations;
 
     public abstract class TaskRunnerBase : INotifyPropertyChanged, IDisposable
     {

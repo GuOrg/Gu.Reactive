@@ -4,7 +4,7 @@ namespace Gu.Reactive.Demo
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Demo.Annotations;
+    using JetBrains.Annotations;
 
     [DebuggerDisplay("{GetType().Name} Value: {Value} Index: {Index}")]
     public class MappedVm : INotifyPropertyChanged

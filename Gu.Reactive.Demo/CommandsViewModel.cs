@@ -4,7 +4,7 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    using Annotations;
+    using JetBrains.Annotations;
     using Wpf.Reactive;
 
     public class CommandsViewModel : INotifyPropertyChanged

@@ -4,7 +4,7 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using Annotations;
+    using JetBrains.Annotations;
 
     public class NinjaBindingViewModel : INotifyPropertyChanged
     {

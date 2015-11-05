@@ -9,7 +9,7 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    using Gu.Reactive.Demo.Annotations;
+    using JetBrains.Annotations;
     using Gu.Wpf.Reactive;
 
     public class FilteredViewViewModel : INotifyPropertyChanged
