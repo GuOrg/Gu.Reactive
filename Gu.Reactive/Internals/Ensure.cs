@@ -29,5 +29,34 @@
                 }
             }
         }
+
+        internal static void Equal<T>(T value, T expected, string parameterName)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
+            if (!Equals(value, expected))
+            {
+                var message = $"Expected {parameterName} to be: {expected.ToStringOrNull()}, was: {value.ToStringOrNull()}";
+                throw new ArgumentException(message, parameterName);
+            }
+        }
+
+        internal static void NotEqual<T>(T value, T expected, string parameterName)
+        {
+            Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
+            if (Equals(value, expected))
+            {
+                var message = $"Expected {parameterName} to not be: {expected.ToStringOrNull()}";
+                throw new ArgumentException(message, parameterName);
+            }
+        }
+
+        private static string ToStringOrNull<T>(this T value)
+        {
+            if (value == null)
+            {
+                return "null";
+            }
+            return value.ToString();
+        }
     }
 }
