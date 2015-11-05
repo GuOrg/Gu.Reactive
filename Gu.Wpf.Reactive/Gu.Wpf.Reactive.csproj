@@ -107,29 +107,31 @@
     <Compile Include="Commands\TaskRunnerBase.cs" />
     <Compile Include="ConditionControl.Keys.cs" />
     <Compile Include="ConditionTypeTemplateSelector.cs" />
-    <Compile Include="Converters\BooleanToBrushConverter.cs" />
-    <Compile Include="Converters\NullableBooleanToBooleanConverter.cs" />
-    <Compile Include="Converters\TypeConverters\ITypeConverter`1.cs" />
-    <Compile Include="Converters\TypeConverters\NullableEnumConverter`1.cs" />
+    <Compile Include="MarkupExtensions\Converters\BooleanToBrushConverter.cs" />
+    <Compile Include="MarkupExtensions\Converters\NullableBooleanToBooleanConverter.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\ITypeConverter`1.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\NullableEnumConverter`1.cs" />
     <Compile Include="Collections\DispatchingView`1.cs" />
     <Compile Include="INotifyTaskCompletion.cs" />
     <Compile Include="Internals\BoolBoxes.cs" />
     <Compile Include="Internals\BindingHelper.cs" />
     <Compile Include="Internals\RoutedEventHandlerExt.cs" />
+    <Compile Include="MarkupExtensions\EnumValuesForExtension.cs" />
+    <Compile Include="MarkupExtensions\RootObjectExtension.cs" />
     <Compile Include="NotifyTaskCompletion.cs" />
     <Compile Include="ServiceProviderExt.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Converters\BooleanToXConverter.cs" />
-    <Compile Include="Converters\TypeConverters\CastingConverter`1.cs" />
-    <Compile Include="Converters\TypeConverters\DefaultTypeConverter`1.cs" />
-    <Compile Include="Converters\TypeConverters\DefaultTypeConverter.cs" />
-    <Compile Include="Converters\TypeConverters\ITypeConverter.cs" />
-    <Compile Include="Converters\MarkupConverter.cs" />
-    <Compile Include="Converters\MultiplyConverter.cs" />
-    <Compile Include="Converters\TypeConverters\NullableBoolConverter.cs" />
-    <Compile Include="Converters\TypeConverters\NullableDoubleConverter.cs" />
-    <Compile Include="Converters\TypeConverters\NullableEnumConverter.cs" />
-    <Compile Include="Converters\TypeConverters\TypeConverterFactory.cs" />
+    <Compile Include="MarkupExtensions\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="MarkupExtensions\Converters\BooleanToXConverter.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\CastingConverter`1.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\DefaultTypeConverter`1.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\DefaultTypeConverter.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\ITypeConverter.cs" />
+    <Compile Include="MarkupExtensions\Converters\MarkupConverter.cs" />
+    <Compile Include="MarkupExtensions\Converters\MultiplyConverter.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\NullableBoolConverter.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\NullableDoubleConverter.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\NullableEnumConverter.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\TypeConverterFactory.cs" />
     <Compile Include="DesignMode.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Maybe`1.cs" />
@@ -152,7 +154,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="NinjaBinding.cs" />
+    <Compile Include="MarkupExtensions\NinjaBinding.cs" />
     <Compile Include="Schedulers.cs" />
     <Compile Include="Commands\AsyncCommand`1.cs" />
     <Compile Include="Commands\CanExecuteChangedEventManager.cs" />

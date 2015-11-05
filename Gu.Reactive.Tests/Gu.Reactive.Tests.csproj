@@ -120,6 +120,8 @@
     <Compile Include="Helpers\NotInpc.cs" />
     <Compile Include="Helpers\StructLevel.cs" />
     <Compile Include="Helpers\TestExtensions.cs" />
+    <Compile Include="Internals\Ensure.Compare.Tests.cs" />
+    <Compile Include="Internals\EnsureTests.cs" />
     <Compile Include="Internals\NotifyingPathItemTests.cs" />
     <Compile Include="Internals\PathItemTests.cs" />
     <Compile Include="Internals\PropertyPathTests.cs" />

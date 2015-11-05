@@ -87,17 +87,7 @@ namespace Gu.Reactive
 
         public void CopyTo(T[] array, int arrayIndex) => _source.CopyTo(array, arrayIndex);
 
-        void ICollection.CopyTo(Array array, int index)
-        {
-            Ensure.NotNull(array, nameof(array));
-            Ensure.That(index >= 0, nameof(index), "Index must be greater than or equal to 0");
-            Ensure.That(index < array.Length, nameof(index), "Index must be less than array.Length");
-
-            for (int i = index; i < _source.Count; i++)
-            {
-                array.SetValue(_source[i], i);
-            }
-        }
+        void ICollection.CopyTo(Array array, int index) => ListExt.CopyTo(this, array, index);
 
         public bool Contains(T item) => _source.Contains(item);
 

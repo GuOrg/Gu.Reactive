@@ -79,7 +79,7 @@ namespace Gu.Reactive.Tests.Conditions
         [Test]
         public void ThrowsIfEmpty()
         {
-            Assert.Throws<ArgumentException>(() => new OrCondition());
+            Assert.Throws<ArgumentNullException>(() => new OrCondition());
         }
 
         [Test]

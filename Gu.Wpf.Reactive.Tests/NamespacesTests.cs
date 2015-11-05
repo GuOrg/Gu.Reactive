@@ -4,6 +4,8 @@
     using System.Linq;
     using System.Windows.Markup;
 
+    using Gu.Reactive;
+
     using NUnit.Framework;
 
     public class NamespacesTests
@@ -13,15 +15,15 @@
         [Test]
         public void XmlnsDefinitions()
         {
-            string[] skip = { "Annotations", "Properties", "XamlGeneratedNamespace", "Internals", "TypeConverters" };
-            var assembly = typeof(ConditionControl).Assembly;
-            var strings = assembly.GetTypes()
+            string[] skip = { "Annotations", "Properties", "XamlGeneratedNamespace", "Internals", "TypeConverters", "PropertyPathStuff" };
+            var assemblies = new[] { typeof(ConditionControl).Assembly, typeof(ICondition).Assembly};
+            var strings = assemblies.SelectMany(x=>x.GetTypes())
                                   .Select(x => x.Namespace)
                                   .Distinct()
                                   .Where(x => !skip.Any(x.EndsWith))
                                   .OrderBy(x => x)
                                   .ToArray();
-            var attributes = assembly.CustomAttributes.Where(x => x.AttributeType == typeof(XmlnsDefinitionAttribute))
+            var attributes = typeof(ConditionControl).Assembly.CustomAttributes.Where(x => x.AttributeType == typeof(XmlnsDefinitionAttribute))
                                      .ToArray();
             var actuals = attributes.Select(a => a.ConstructorArguments[1].Value)
                                                              .OrderBy(x => x);

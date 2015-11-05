@@ -80,7 +80,7 @@ namespace Gu.Reactive.Tests.Conditions
         [Test]
         public void ThrowsIfEmpty()
         {
-            Assert.Throws<ArgumentException>(() => new AndCondition());
+            Assert.Throws<ArgumentNullException>(() => new AndCondition());
         }
 
         [Test]

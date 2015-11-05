@@ -266,9 +266,13 @@
     <Compile Include="ForegroundScheduler.cs" />
     <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />
+    <Compile Include="Internals\Ensure.Collection.cs" />
+    <Compile Include="Internals\Ensure.Compare.cs" />
     <Compile Include="Internals\Ensure.cs" />
     <Compile Include="Internals\ConstantVisitor.cs" />
     <Compile Include="Contracts\IWpfSchedulers.cs" />
+    <Compile Include="Internals\Ensure.Singleton.cs" />
+    <Compile Include="Internals\Ensure.String.cs" />
     <Compile Include="NotifyCollectionChangedEventArgs.cs" />
     <Compile Include="NotifyCollectionChangedEventArgsExt.cs" />
     <Compile Include="NotifyCollectionChangedExt.generated.cs">

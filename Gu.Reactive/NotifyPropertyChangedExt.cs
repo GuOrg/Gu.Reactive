@@ -156,7 +156,7 @@
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
             bool signalInitial = true)
-            where TNotifier : INotifyPropertyChanged
+            where TNotifier : class, INotifyPropertyChanged
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));

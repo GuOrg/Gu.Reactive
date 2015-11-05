@@ -99,12 +99,12 @@
     <Compile Include="AssertCompletion.cs" />
     <Compile Include="CollectionViews\BenchmarkTests.cs" />
     <Compile Include="CollectionViews\FilteredViewWpfTests.cs" />
-    <Compile Include="Converters\TypeConverters\DefaultTypeConverter`1Tests.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\DefaultTypeConverter`1Tests.cs" />
     <Compile Include="CollectionViews\DispatchingViewTests.cs" />
     <Compile Include="FakesAndHelpers\EventArgsComparer.cs" />
     <Compile Include="NamespacesTests.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverterTests.cs" />
-    <Compile Include="Converters\MultiplyConverterTests.cs" />
+    <Compile Include="MarkupExtensions\Converters\BooleanToVisibilityConverterTests.cs" />
+    <Compile Include="MarkupExtensions\Converters\MultiplyConverterTests.cs" />
     <Compile Include="CollectionViews\ObservableCollectionExtensionsTests.cs" />
     <Compile Include="Commands\AsyncCommandTests.cs" />
     <Compile Include="Commands\AsyncParameterCommandTests.cs" />
