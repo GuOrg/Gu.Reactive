@@ -3,23 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{E9C570CF-F85E-4A34-B54B-86B6801E9B19}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+		paket.lock = paket.lock
+		.paket\paket.targets = .paket\paket.targets
+		.paket\Readme.paket.md = .paket\Readme.paket.md
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive", "Gu.Reactive\Gu.Reactive.csproj", "{2230088E-F6DC-4C79-9983-D9654274D689}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Tests", "Gu.Reactive.Tests\Gu.Reactive.Tests.csproj", "{F0E0A5A6-1FE8-4996-8A37-F00F690613F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Demo", "Gu.Reactive.Demo\Gu.Reactive.Demo.csproj", "{E82B1D44-E08C-4D56-8F7A-D203315E6F46}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{24478258-C77E-4556-B69E-4903089398D9}"
-	ProjectSection(SolutionItems) = preProject
-		Gu.Reactive\Gu.Reactive.nuspec = Gu.Reactive\Gu.Reactive.nuspec
-		Gu.Wpf.Reactive\Gu.Wpf.Reactive.nuspec = Gu.Wpf.Reactive\Gu.Wpf.Reactive.nuspec
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-		.nuget\nuspec.2010.7.xsd = .nuget\nuspec.2010.7.xsd
-		.nuget\nuspec.2011.8.xsd = .nuget\nuspec.2011.8.xsd
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive", "Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj", "{4C0610EE-96A2-4E34-BCE1-17B06A64556B}"
 EndProject

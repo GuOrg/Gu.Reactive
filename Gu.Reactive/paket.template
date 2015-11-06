@@ -1,0 +1,8 @@
+﻿type project
+title Gu.Reactive
+tags reactive notifypropertychanged
+projectUrl https://github.com/JohanLarsson/Gu.Reactive
+licenseUrl http://opensource.org/licenses/MIT
+
+excludeddependencies
+  JetBrains.Annotations

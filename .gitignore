@@ -29,3 +29,6 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 packages/*
 !packages/*ToolTips*
+publish/*
+packages/*
+.vs/*

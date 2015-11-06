@@ -1,0 +1,30 @@
+NUGET
+  remote: C:\Tfs\Coromatic\Common\GuGet
+  specs:
+    Gu.Wpf.ToolTips (0.2.0.0)
+  remote: http://packages.nuget.org/v1/FeedService.svc
+  specs:
+    JetBrains.Annotations (10.0.0)
+    Moq (4.2.1507.0118) - framework: >= net451
+    NuGet.CommandLine (2.8.6)
+    NUnit (2.6.4) - framework: >= net451
+    Rx-Core (2.2.5) - framework: >= net45
+      Rx-Interfaces (>= 2.2.5)
+    Rx-Interfaces (2.2.5) - framework: >= net45
+    Rx-Linq (2.2.5) - framework: >= net45
+      Rx-Core (>= 2.2.5)
+      Rx-Interfaces (>= 2.2.5)
+    Rx-Main (2.2.5) - framework: >= net45
+      Rx-Core (>= 2.2.5)
+      Rx-Interfaces (>= 2.2.5)
+      Rx-Linq (>= 2.2.5)
+      Rx-PlatformServices (>= 2.2.5)
+    Rx-PlatformServices (2.2.5) - framework: >= net45
+      Rx-Core (>= 2.2.5)
+      Rx-Interfaces (>= 2.2.5)
+    Rx-Testing (2.2.5) - framework: >= net451
+      Rx-Main (>= 2.2.5)
+    Rx-WPF (2.2.5) - framework: >= net45
+      Rx-Xaml (>= 2.2.5)
+    Rx-Xaml (2.2.5) - framework: >= net45
+      Rx-Main (>= 2.2.5)

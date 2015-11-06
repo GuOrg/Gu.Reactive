@@ -1,0 +1,8 @@
+﻿type project
+title Gu.Wpf.Reactive
+tags reactive notifypropertychanged ICommand
+projectUrl https://github.com/JohanLarsson/Gu.Reactive
+licenseUrl http://opensource.org/licenses/MIT
+
+excludeddependencies
+  JetBrains.Annotations
