@@ -48,7 +48,7 @@
             CollectionAssert.IsEmpty(secondResults);
         }
 
-        [Test]
+        [Test, Explicit("Not sure what is right here")]
         public void Filters()
         {
             var ints = new ObservableCollection<int>();

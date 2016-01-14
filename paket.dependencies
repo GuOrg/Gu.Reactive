@@ -1,10 +1,8 @@
-source C:\Tfs\Coromatic\Common\GuGet
-source http://packages.nuget.org/v1/FeedService.svc/
+source http://www.nuget.org/api/v2/
 
-nuget Gu.Wpf.ToolTips ~> 0.2
+nuget Gu.Wpf.ToolTips
 nuget JetBrains.Annotations
-nuget Moq ~> 4.2 framework: >= net451
-nuget NUnit ~> 2 framework: >= net451
-nuget Rx-Main ~> 2 framework: >= net45
-nuget Rx-Testing ~> 2 framework: >= net451
-nuget Rx-WPF ~> 2 framework: >= net45
+nuget Moq ~> 4.2
+nuget NUnit ~> 2
+nuget Rx-Testing ~> 2
+nuget Rx-WPF ~> 2
