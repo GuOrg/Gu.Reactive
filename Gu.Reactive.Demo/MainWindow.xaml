@@ -33,6 +33,10 @@
             <demo:CommandsView />
         </TabItem>
 
+        <TabItem Header="Either Commands">
+            <demo:EitherCommandsView />
+        </TabItem>
+
         <TabItem Header="FilteredView">
             <demo:FilteredViewView />
         </TabItem>

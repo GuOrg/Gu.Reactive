@@ -68,17 +68,17 @@
     <Compile Include="Collections\NotifyPropertyChangedEventHandlerExt.cs" />
     <Compile Include="Collections\ReadOnlyDispatchingView`1.cs" />
     <Compile Include="Commands\AsyncCommand.cs" />
-    <Compile Include="Commands\ITaskRunner.cs" />
-    <Compile Include="Commands\ITaskRunner`1.cs" />
-    <Compile Include="Commands\TaskRunnerCancelable.cs" />
-    <Compile Include="Commands\TaskRunnerCancelable`1.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\ITaskRunner.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\ITaskRunner`1.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\TaskRunnerCancelable.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\TaskRunnerCancelable`1.cs" />
     <Compile Include="Commands\ConditionRelayCommand.cs" />
     <Compile Include="Commands\ManualRelayCommand.cs" />
     <Compile Include="Commands\ObservingRelayCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="Commands\TaskRunner.cs" />
-    <Compile Include="Commands\TaskRunner`1.cs" />
-    <Compile Include="Commands\TaskRunnerBase.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\TaskRunner.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\TaskRunner`1.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\TaskRunnerBase.cs" />
     <Compile Include="ConditionControl.Keys.cs" />
     <Compile Include="ConditionTypeTemplateSelector.cs" />
     <Compile Include="MarkupExtensions\Converters\BooleanToBrushConverter.cs" />
@@ -86,13 +86,13 @@
     <Compile Include="MarkupExtensions\Converters\TypeConverters\ITypeConverter`1.cs" />
     <Compile Include="MarkupExtensions\Converters\TypeConverters\NullableEnumConverter`1.cs" />
     <Compile Include="Collections\DispatchingView`1.cs" />
-    <Compile Include="INotifyTaskCompletion.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\INotifyTaskCompletion.cs" />
     <Compile Include="Internals\BoolBoxes.cs" />
     <Compile Include="Internals\BindingHelper.cs" />
     <Compile Include="Internals\RoutedEventHandlerExt.cs" />
     <Compile Include="MarkupExtensions\EnumValuesForExtension.cs" />
     <Compile Include="MarkupExtensions\RootObjectExtension.cs" />
-    <Compile Include="NotifyTaskCompletion.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\NotifyTaskCompletion.cs" />
     <Compile Include="ServiceProviderExt.cs" />
     <Compile Include="MarkupExtensions\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="MarkupExtensions\Converters\BooleanToXConverter.cs" />
@@ -134,8 +134,8 @@
     <Compile Include="Commands\IAsyncCommand.cs" />
     <Compile Include="Commands\IConditionRelayCommand.cs" />
     <Compile Include="Commands\CommandBase`1.cs" />
-    <Compile Include="Commands\VoidTypeStruct.cs" />
-    <Compile Include="NotifyTaskCompletion`1.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\VoidTypeStruct.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\NotifyTaskCompletion`1.cs" />
     <Compile Include="ConditionToolTip.cs" />
     <Compile Include="Commands\ConditionRelayCommand`1.cs" />
     <Compile Include="Commands\RelayCommand`1.cs" />
@@ -146,7 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ObservingRelayCommand`1.cs" />
-    <Compile Include="NotifyTaskCompletionBase.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\NotifyTaskCompletionBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -185,6 +185,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -6,9 +6,12 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Input;
+    using JetBrains.Annotations;
 
-    public abstract class CommandBase<T> : ICommand
+    public abstract class CommandBase<T> : ICommand, INotifyPropertyChanged
     {
+        private bool _isExecuting;
+
         public virtual event EventHandler CanExecuteChanged
         {
             add
@@ -25,14 +28,21 @@
 
         private event EventHandler InternalCanExecuteChanged;
 
-        protected abstract bool InternalCanExecute(T parameter);
-        
+        public bool IsExecuting
+        {
+            get { return _isExecuting; }
+            protected set
+            {
+                if (value == _isExecuting) return;
+                _isExecuting = value;
+                OnPropertyChanged();
+            }
+        }
+
         bool ICommand.CanExecute(object parameter)
         {
             return InternalCanExecute((T)parameter);
         }
-
-        protected abstract void InternalExecute(T parameter);
 
         void ICommand.Execute(object parameter)
         {
@@ -48,10 +58,29 @@
             if (handler != null)
             {
                 var scheduler = Schedulers.DispatcherOrCurrentThread;
-                scheduler.Schedule(() => handler(this, new EventArgs()));
+                scheduler.Schedule(() => handler(this, EventArgs.Empty));
             }
         }
 
+        protected abstract bool InternalCanExecute(T parameter);
+
+        /// <summary>
+        /// Note to inheritors:
+        /// This method must signal IsExecuting when starting/stopping
+        /// IsExecuting = true;
+        /// try
+        /// {
+        ///     action(...);
+        /// }
+        /// finally
+        /// {
+        ///     IsExecuting = false;
+        /// }
+        /// </summary>
+        /// <param name="parameter">The command parameter</param>
+        protected abstract void InternalExecute(T parameter);
+
+        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

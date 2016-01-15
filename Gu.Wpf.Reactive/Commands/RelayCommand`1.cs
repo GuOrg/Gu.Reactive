@@ -5,8 +5,8 @@ namespace Gu.Wpf.Reactive
 
     public class RelayCommand<T> : ManualRelayCommand<T>
     {
-        public RelayCommand(Action<T> action, Func<T, bool> condition)
-            : base(action, condition)
+        public RelayCommand(Action<T> action, Func<T, bool> criteria)
+            : base(action, criteria)
         {
         }
 

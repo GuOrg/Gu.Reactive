@@ -8,7 +8,7 @@
     public static class Schedulers
     {
         /// <summary>
-        /// Observs on DispatcherScheduler.Current id not null
+        /// Observes on DispatcherScheduler.Current id not null
         /// Falls back to DispatcherScheduler.Current (for tests)
         /// </summary>
         /// <returns>The scheduler</returns>
@@ -21,6 +21,7 @@
                 {
                     return Scheduler.CurrentThread;
                 }
+
                 return WpfSchedulers.Dispatcher;
             }
         }

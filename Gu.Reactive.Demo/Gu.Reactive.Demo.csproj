@@ -94,6 +94,12 @@
       <DependentUpon>ConditionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Conditions\ConditionsViewModel.cs" />
+    <Compile Include="Conditions\EitherCommandsView.xaml.cs">
+      <DependentUpon>EitherCommandsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Conditions\EitherCommandsVm.cs">
+      <DependentUpon>EitherCommandsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Conditions\IsAnyDoorOpen.cs" />
     <Compile Include="Conditions\IsBackDoorOpen.cs" />
     <Compile Include="Conditions\IsLeftDoorOpen.cs" />
@@ -183,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Conditions\ConditionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Conditions\EitherCommandsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

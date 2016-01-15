@@ -40,7 +40,7 @@
             if (type.IsGenericType)
             {
                 var arguments = string.Join(", ", type.GenericTypeArguments.Select(PrettyName));
-                return string.Format("{0}<{1}>", type.Name.Split('`').First(), arguments);
+                return $"{type.Name.Split('`') .First()}<{arguments}>";
             }
 
             return type.Name;

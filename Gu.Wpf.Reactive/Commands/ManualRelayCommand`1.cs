@@ -10,19 +10,17 @@
     public class ManualRelayCommand<T> : CommandBase<T>
     {
         private static readonly Func<T, bool> AlwaysTrue = _ => true;
-        private readonly Action<T> _action;
-        private readonly Func<T, bool> _condition;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="action"></param>
-        /// <param name="condition"></param>
-        public ManualRelayCommand(Action<T> action, Func<T, bool> condition)
+        /// <param name="criteria"></param>
+        public ManualRelayCommand(Action<T> action, Func<T, bool> criteria)
         {
             Ensure.NotNull(action, nameof(action));
-            _action = action;
-            _condition = condition ?? AlwaysTrue;
+            Action = action;
+            Criteria = criteria ?? AlwaysTrue;
         }
 
         /// <summary>
@@ -34,6 +32,10 @@
         {
         }
 
+        protected Action<T> Action { get; }
+
+        protected Func<T, bool> Criteria { get; }
+
         public bool CanExecute(T parameter)
         {
             return InternalCanExecute(parameter);
@@ -44,14 +46,22 @@
             InternalExecute(parameter);
         }
 
-        protected override void InternalExecute(T parameter)
-        {
-            _action(parameter);
-        }
-
         protected override bool InternalCanExecute(T parameter)
         {
-            return _condition(parameter);
+            return Criteria(parameter);
+        }
+
+        protected override void InternalExecute(T parameter)
+        {
+            IsExecuting = true;
+            try
+            {
+                Action(parameter);
+            }
+            finally
+            {
+                IsExecuting = false;
+            }
         }
     }
 }

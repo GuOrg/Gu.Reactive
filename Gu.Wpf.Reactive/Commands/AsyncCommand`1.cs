@@ -1,6 +1,7 @@
 namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.Reactive.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -57,5 +58,20 @@ namespace Gu.Wpf.Reactive
         public ConditionRelayCommand CancelCommand { get; }
 
         public NotifyTaskCompletion Execution => _runner.TaskCompletion;
+
+        protected override async void InternalExecute(TParameter parameter)
+        {
+            IsExecuting = true;
+            try
+            {
+                Action(parameter);
+                await Execution.ObservePropertyChangedSlim(nameof(Execution.IsCompleted))
+                               .FirstAsync(_ => Execution?.IsCompleted == true);
+            }
+            finally
+            {
+                IsExecuting = false;
+            }
+        }
     }
 }

@@ -17,9 +17,9 @@
 
         public ObservingRelayCommand(
             Action<T> action,
-            Func<T, bool> condition,
+            Func<T, bool> criteria,
             params IObservable<object>[] observable)
-            : base(action, condition)
+            : base(action, criteria)
         {
             Ensure.NotNullOrEmpty(observable, nameof(observable));
             _subscription = observable.Merge()

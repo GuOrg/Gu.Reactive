@@ -1,6 +1,7 @@
 namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.Reactive.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace Gu.Wpf.Reactive
         {
         }
 
-        public AsyncCommand(Func<CancellationToken,Task> action, params ICondition[] conditions)
+        public AsyncCommand(Func<CancellationToken, Task> action, params ICondition[] conditions)
             : this(new TaskRunnerCancelable(action), conditions)
         {
         }
@@ -45,6 +46,7 @@ namespace Gu.Wpf.Reactive
         {
 
         }
+
         private AsyncCommand(ITaskRunner runner, ICondition condition)
             : base(runner.Run, condition)
         {
@@ -57,5 +59,20 @@ namespace Gu.Wpf.Reactive
         public ConditionRelayCommand CancelCommand { get; }
 
         public NotifyTaskCompletion Execution => _runner.TaskCompletion;
+
+        protected override async void InternalExecute(object parameter)
+        {
+            IsExecuting = true;
+            try
+            {
+                Action();
+                await Execution.ObservePropertyChangedSlim(nameof(Execution.IsCompleted))
+                               .FirstAsync(_ => Execution?.IsCompleted == true);
+            }
+            finally
+            {
+                IsExecuting = false;
+            }
+        }
     }
 }

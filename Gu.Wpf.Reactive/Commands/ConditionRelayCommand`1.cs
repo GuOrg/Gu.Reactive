@@ -7,7 +7,7 @@
     /// <summary>
     /// A command with CommandParameter of type <typeparam name="T"></typeparam>
     /// Signals CanExecuteChanged when conditions changes
-    /// CanExcecute() returns condition.IsSatisfied == true 
+    /// CanExecute() returns condition.IsSatisfied == true 
     /// </summary>
     public class ConditionRelayCommand<T> : ManualRelayCommand<T>, IConditionRelayCommand
     {

@@ -15,9 +15,9 @@ namespace Gu.Wpf.Reactive
 
         public ObservingRelayCommand(
             Action action,
-            Func<bool> condition,
+            Func<bool> criteria,
             params IObservable<object>[] observable)
-            : base(action, condition)
+            : base(action, criteria)
         {
             Ensure.NotNullOrEmpty(observable, nameof(observable));
             _subscription = observable.Merge()

@@ -41,7 +41,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -78,7 +77,7 @@
     <Compile Include="Commands\ManualRelayCommandTests.cs" />
     <Compile Include="Commands\ObservingRelayCommandTests.cs" />
     <Compile Include="FakesAndHelpers\DumpXamlTests.cs" />
-    <Compile Include="NotifyTaskCompletionTests.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\NotifyTaskCompletionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sandbox\Misc.cs" />
   </ItemGroup>

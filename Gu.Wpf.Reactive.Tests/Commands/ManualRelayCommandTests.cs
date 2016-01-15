@@ -2,6 +2,7 @@
 
 namespace Gu.Wpf.Reactive.Tests
 {
+    using Gu.Reactive;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
 
     using NUnit.Framework;
@@ -35,10 +36,18 @@ namespace Gu.Wpf.Reactive.Tests
         [Test]
         public void ExecuteNotifies()
         {
-            int invokeCount = 0;
+            var invokeCount = 0;
+            var isExecutingCount = 0;
             var command = new ManualRelayCommand(() => invokeCount++, () => true);
+            command.ObservePropertyChangedSlim(nameof(command.IsExecuting), false)
+                   .Subscribe(_ => isExecutingCount++);
+            Assert.IsFalse(command.IsExecuting);
+            Assert.True(command.CanExecute());
             command.Execute();
+            Assert.IsFalse(command.IsExecuting);
+            Assert.True(command.CanExecute());
             Assert.AreEqual(1, invokeCount);
+            Assert.AreEqual(2, isExecutingCount);
         }
 
         [TestCase(true)]
