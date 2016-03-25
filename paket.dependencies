@@ -2,7 +2,7 @@ source http://www.nuget.org/api/v2/
 
 nuget Gu.Wpf.ToolTips
 nuget JetBrains.Annotations
-nuget Moq ~> 4.2
+nuget Moq
 nuget NUnit ~> 2
-nuget Rx-Testing ~> 2
-nuget Rx-WPF ~> 2
+nuget Rx-Testing
+nuget Rx-WPF
