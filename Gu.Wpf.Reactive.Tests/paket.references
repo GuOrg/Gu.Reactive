@@ -1,6 +1,8 @@
 Gu.Wpf.ToolTips
 JetBrains.Annotations
-Moq
-NUnit
-Rx-Testing
-Rx-WPF
+System.Reactive
+
+group Test
+  Moq
+  NUnit
+  Microsoft.Reactive.Testing

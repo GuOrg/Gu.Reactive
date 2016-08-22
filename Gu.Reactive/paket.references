@@ -1,2 +1,5 @@
-Rx-Main
+System.Reactive.Linq
+System.Reactive.PlatformServices
+
 JetBrains.Annotations
+StyleCop.Analyzers

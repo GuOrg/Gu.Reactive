@@ -1,8 +1,18 @@
 source http://www.nuget.org/api/v2/
+framework: >= net45
+
+nuget System.Reactive
+nuget System.Reactive.Linq
+nuget System.Reactive.PlatformServices
 
 nuget Gu.Wpf.ToolTips
+
+nuget StyleCop.Analyzers
 nuget JetBrains.Annotations
-nuget Moq
-nuget NUnit ~> 2
-nuget Rx-Testing
-nuget Rx-WPF
+
+group Test
+  source http://nuget.org/api/v2
+  framework: >= net45
+  nuget Moq
+  nuget NUnit
+  nuget Microsoft.Reactive.Testing

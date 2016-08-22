@@ -1,8 +1,8 @@
 ﻿type project
-title Gu.Reactive
-tags reactive notifypropertychanged
+tags reactive rx notifypropertychanged
 projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
 excludeddependencies
   JetBrains.Annotations
+  StyleCop.Analyzers

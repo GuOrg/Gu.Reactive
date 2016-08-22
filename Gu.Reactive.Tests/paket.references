@@ -1,4 +1,6 @@
 JetBrains.Annotations
-Moq
-NUnit
-Rx-Testing
+
+group Test
+  Moq
+  NUnit
+  Microsoft.Reactive.Testing
