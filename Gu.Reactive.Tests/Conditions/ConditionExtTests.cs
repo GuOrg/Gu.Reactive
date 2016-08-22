@@ -2,7 +2,6 @@ namespace Gu.Reactive.Tests.Conditions
 {
     using System;
     using System.Reactive.Subjects;
-    using System.Security.Cryptography.X509Certificates;
 
     using Gu.Reactive.Tests.Helpers;
 
@@ -27,11 +26,13 @@ namespace Gu.Reactive.Tests.Conditions
             var isSatisfied = false;
             var condition = new Condition(source, () => isSatisfied);
             ICondition result = null;
-            var o1 = condition.ObserveIsSatisfiedChanged()
-                              .Subscribe(x => result = x);
-            isSatisfied = true;
-            source.OnNext(null);
-            Assert.AreSame(condition, result);
+            using (condition.ObserveIsSatisfiedChanged()
+                                     .Subscribe(x => result = x))
+            {
+                isSatisfied = true;
+                source.OnNext(null);
+                Assert.AreSame(condition, result);
+            }
         }
 
         [Test]

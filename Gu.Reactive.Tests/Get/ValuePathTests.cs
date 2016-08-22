@@ -45,7 +45,8 @@
             var path = Get.ValuePath<ValuePathTests, string>(x => x.Fake.Next.Name);
             var value = path.GetValue(this);
             Assert.IsFalse(value.HasValue);
-            Assert.Throws<InvalidOperationException>(()=> { var v = value.Value; });
+            // ReSharper disable once UnusedVariable
+            Assert.Throws<InvalidOperationException>(()=> { var temp = value.Value; });
         }
     }
 }

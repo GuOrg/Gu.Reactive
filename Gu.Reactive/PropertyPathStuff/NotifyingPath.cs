@@ -5,7 +5,6 @@ namespace Gu.Reactive.PropertyPathStuff
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
-    using System.Linq.Expressions;
 
     internal sealed class NotifyingPath : IReadOnlyList<INotifyingPathItem>, IDisposable
     {

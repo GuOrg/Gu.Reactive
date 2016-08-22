@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Reactive.Linq;
 
     /// <summary>
     /// The negated condition. Calling Negate on it returns the original condition.

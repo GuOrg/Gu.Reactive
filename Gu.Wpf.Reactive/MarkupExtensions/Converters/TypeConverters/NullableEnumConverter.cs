@@ -2,7 +2,6 @@ namespace Gu.Wpf.Reactive.TypeConverters
 {
     using System;
     using System.Globalization;
-    using System.Linq;
 
     internal class NullableEnumConverter : ITypeConverter<object>
     {

@@ -69,7 +69,7 @@
             timer.Change(10, -1);
             timer.Change(10, -1);
             timer.Change(10, -1);
-            await Task.Delay(50);
+            await Task.Delay(50).ConfigureAwait(false);
         }
 
         [TestCase(1000)]

@@ -1,7 +1,6 @@
 namespace Gu.Reactive.Tests.Conditions
 {
     using System;
-    using System.Collections.Generic;
 
     using Gu.Reactive.Tests.Helpers;
 

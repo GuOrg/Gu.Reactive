@@ -5,8 +5,6 @@
     using System.ComponentModel;
     using System.Reactive;
 
-    using Gu.Reactive.Internals;
-
     using NUnit.Framework;
     using PropertyPathStuff;
 

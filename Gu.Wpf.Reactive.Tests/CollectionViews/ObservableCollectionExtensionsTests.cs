@@ -64,7 +64,7 @@
         public async Task AddAsync()
         {
             var ints = new ObservableCollection<int> { 1 };
-            await ints.AddAsync(2);
+            await ints.AddAsync(2).ConfigureAwait(false);
             CollectionAssert.AreEqual(new[] { 1, 2 }, ints);
         }
 
@@ -72,7 +72,7 @@
         public async Task AddRangeAsync()
         {
             var ints = new ObservableCollection<int> { 1 };
-            await ints.AddRangeAsync(new[] { 2, 3 });
+            await ints.AddRangeAsync(new[] { 2, 3 }).ConfigureAwait(false);
             CollectionAssert.AreEqual(new[] { 1, 2, 3 }, ints);
         }
 
@@ -80,9 +80,9 @@
         public async Task RemoveAsyncTest()
         {
             var ints = new ObservableCollection<int> { 1 };
-            Assert.IsFalse(await ints.RemoveAsync(2));
+            Assert.IsFalse(await ints.RemoveAsync(2).ConfigureAwait(false));
             CollectionAssert.AreEqual(new[] { 1 }, ints);
-            Assert.IsTrue(await ints.RemoveAsync(1));
+            Assert.IsTrue(await ints.RemoveAsync(1).ConfigureAwait(false));
             CollectionAssert.IsEmpty(ints);
         }
 
@@ -90,7 +90,7 @@
         public async Task ClearAsync()
         {
             var ints = new ObservableCollection<int> { 1 };
-            await ints.ClearAsync();
+            await ints.ClearAsync().ConfigureAwait(false);
             CollectionAssert.IsEmpty(ints);
         }
     }

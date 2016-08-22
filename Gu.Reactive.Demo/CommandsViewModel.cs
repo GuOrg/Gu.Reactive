@@ -33,7 +33,7 @@
             RaiseCanExecuteOnOtherThread = new RelayCommand(() => Task.Run(() => RaiseCanExecute()));
             DelayedToggleCanExecute = new RelayCommand(async () =>
                     {
-                        await Task.Delay(500);
+                        await Task.Delay(500).ConfigureAwait(false);
                         CanExecute = !CanExecute;
                     });
         }

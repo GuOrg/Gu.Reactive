@@ -94,14 +94,16 @@
         {
             int count = 0;
             var fake = new Fake { IsTrueOrNull = false, IsTrue = true };
-            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false).Subscribe(x => count++);
-            var stopwatch = Stopwatch.StartNew();
-            for (int i = 0; i < n; i++)
+            using (fake.ObservePropertyChanged(x => x.IsTrueOrNull, false).Subscribe(x => count++))
             {
-                fake.IsTrueOrNull = !fake.IsTrueOrNull;
+                var stopwatch = Stopwatch.StartNew();
+                for (int i = 0; i < n; i++)
+                {
+                    fake.IsTrueOrNull = !fake.IsTrueOrNull;
+                }
+                Console.WriteLine("Reacting to {0} events took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
+                Assert.AreEqual(n, count);
             }
-            Console.WriteLine("Reacting to {0} events took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
-            Assert.AreEqual(n, count);
         }
 
         [Test]
@@ -109,14 +111,17 @@
         {
             int count = 0;
             var fake = new Fake { Next = new Level() };
-            var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false).Subscribe(x => count++);
-            var stopwatch = Stopwatch.StartNew();
-            for (int i = 0; i < n; i++)
+            using (fake.ObservePropertyChanged(x => x.Next.IsTrue, false)
+                       .Subscribe(x => count++))
             {
-                fake.Next.IsTrue = !fake.Next.IsTrue;
+                var stopwatch = Stopwatch.StartNew();
+                for (int i = 0; i < n; i++)
+                {
+                    fake.Next.IsTrue = !fake.Next.IsTrue;
+                }
+                Console.WriteLine("Reacting to {0} events took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
+                Assert.AreEqual(n, count);
             }
-            Console.WriteLine("Reacting to {0} events took {1} ms ({2:F4} ms each)", n, stopwatch.ElapsedMilliseconds, (double)stopwatch.ElapsedMilliseconds / n);
-            Assert.AreEqual(n, count);
         }
 
         [Test]

@@ -76,7 +76,6 @@
     <Compile Include="FakesAndHelpers\CommandListener.cs" />
     <Compile Include="Commands\ManualRelayCommandTests.cs" />
     <Compile Include="Commands\ObservingRelayCommandTests.cs" />
-    <Compile Include="FakesAndHelpers\DumpXamlTests.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\NotifyTaskCompletionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sandbox\Misc.cs" />

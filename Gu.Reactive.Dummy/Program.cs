@@ -2,12 +2,11 @@
 {
     using System;
     using System.Collections.ObjectModel;
-    using System.Reactive.Linq;
 
     // ReSharper disable once ClassNeverInstantiated.Global
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             PauseWith("Starting");
             ObserveItemPropertyChanged();
@@ -37,7 +36,8 @@
             Console.WriteLine("IsAlive: {0}: ", wr.IsAlive);
             PauseWith("After GC.Collect()");
 
-            var s = subscription.ToString(); // touching it after GC.Collect for no optimizations
+            // ReSharper disable once UnusedVariable
+            var text = subscription.ToString(); // touching it after GC.Collect for no optimizations
         }
 
         private static void ObservePropertyChanged()
@@ -50,9 +50,8 @@
                 var subscription = fake.ObservePropertyChanged(x => x.Next.Value)
                                        .Subscribe();
                 subscription.Dispose();
-
-                fake = null;
             }
+
             PauseWith("After loop");
             GC.Collect();
             PauseWith("After GC.Collect()");

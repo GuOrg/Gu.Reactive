@@ -72,7 +72,7 @@
 
         private async Task SimpleTask()
         {
-            await Task.Delay(Delay);
+            await Task.Delay(Delay).ConfigureAwait(false);
         }
 
         private async Task CancelableTask(CancellationToken token)
@@ -82,7 +82,7 @@
             {
                 token.ThrowIfCancellationRequested();
                 Count++;
-                await Task.Delay(Delay, token);
+                await Task.Delay(Delay, token).ConfigureAwait(false);
             }
         }
 
@@ -98,7 +98,7 @@
 
         public async Task VoidTaskThrowMethod()
         {
-            await Task.Delay(Delay);
+            await Task.Delay(Delay).ConfigureAwait(false);
             throw new Exception("Something went wrong");
         }
 

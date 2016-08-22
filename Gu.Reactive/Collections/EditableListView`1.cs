@@ -7,8 +7,6 @@ namespace Gu.Reactive
     using System.ComponentModel;
     using System.Reactive.Disposables;
 
-    using Gu.Reactive.Internals;
-
     public class EditableListView<T> : IObservableCollection<T>, IList, IDisposable
     {
         private readonly IObservableCollection<T> _source;

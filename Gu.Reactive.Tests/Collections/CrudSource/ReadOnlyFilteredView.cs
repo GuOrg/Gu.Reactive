@@ -3,7 +3,6 @@ namespace Gu.Reactive.Tests.Collections
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.ComponentModel;
 
     using Gu.Reactive.Tests.Helpers;
 

@@ -1,7 +1,6 @@
 ﻿namespace Gu.Wpf.Reactive.Tests.Converters
 {
     using System;
-    using System.Globalization;
     using System.Windows;
     using System.Windows.Data;
     using NUnit.Framework;

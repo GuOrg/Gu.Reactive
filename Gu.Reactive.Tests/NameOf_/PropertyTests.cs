@@ -72,6 +72,7 @@ namespace Gu.Reactive.Tests.NameOf_
         public void ThrowsOnNestedProperty()
         {
             var exception = Assert.Throws<ArgumentException>(() => NameOf.Property(() => StringProp.Length));
+            Assert.AreEqual("Trying to get the name of a nested property: StringProp.Length", exception.Message);
         }
 
         [Test]

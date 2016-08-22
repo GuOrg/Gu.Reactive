@@ -27,7 +27,7 @@
         private async void FilterOnOtherThreadOnClick(object sender, RoutedEventArgs e)
         {
             var isChecked = ((ToggleButton)sender).IsChecked == true;
-            await Task.Run(() => ToggleFilter(isChecked));
+            await Task.Run(() => ToggleFilter(isChecked)).ConfigureAwait(false);
         }
 
         private void ToggleFilter(bool isChecked)
