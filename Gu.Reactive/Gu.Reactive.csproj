@@ -337,9 +337,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>NotifyCollectionChangedExt.generated.cs</LastGenOutput>
     </None>
-    <None Include="paket.references">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="paket.references" />
     <None Include="paket.template" />
     <None Include="Trackers\MaxTracker.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
