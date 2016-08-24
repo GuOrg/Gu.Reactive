@@ -128,14 +128,15 @@
                       Grid.Column="1"
                       Header="EnumToBool">
                 <StackPanel>
-                    <RadioButton Content="CurrentCulture"
-                                 GroupName="1"
+                    <RadioButton Content="{x:Static system:StringComparison.CurrentCulture}"
+                                 GroupName="{x:Static demo:StringComparisonToBoolConverter.GroupName}"
                                  IsChecked="{Binding StringComparison,
                                                      Converter={demo:StringComparisonToBoolConverter TrueWhen=CurrentCulture}}" />
-                    <RadioButton Content="OrdinalIgnoreCase"
-                                 GroupName="1"
+                    <RadioButton Content="{x:Static system:StringComparison.OrdinalIgnoreCase}"
+                                 GroupName="{x:Static demo:StringComparisonToBoolConverter.GroupName}"
                                  IsChecked="{Binding StringComparison,
                                                      Converter={demo:StringComparisonToBoolConverter TrueWhen=OrdinalIgnoreCase}}" />
+                    <TextBlock x:Name="StringComparison" Text="{Binding StringComparison}" />
                 </StackPanel>
             </GroupBox>
         </Grid>

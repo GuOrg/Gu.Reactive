@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C15ED745-9
 		RELEASE_NOTES.md = RELEASE_NOTES.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive.UiTests", "Gu.Wpf.Reactive.UiTests\Gu.Wpf.Reactive.UiTests.csproj", "{57060616-3F95-494C-9F2F-312422E24E00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CreateNugetPackage|Any CPU = CreateNugetPackage|Any CPU
@@ -82,6 +84,12 @@ Global
 		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57060616-3F95-494C-9F2F-312422E24E00}.CreateNugetPackage|Any CPU.ActiveCfg = Release|Any CPU
+		{57060616-3F95-494C-9F2F-312422E24E00}.CreateNugetPackage|Any CPU.Build.0 = Release|Any CPU
+		{57060616-3F95-494C-9F2F-312422E24E00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57060616-3F95-494C-9F2F-312422E24E00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57060616-3F95-494C-9F2F-312422E24E00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57060616-3F95-494C-9F2F-312422E24E00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

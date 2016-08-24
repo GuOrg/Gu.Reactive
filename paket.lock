@@ -63,4 +63,6 @@ NUGET
       System.Collections.Immutable (>= 1.1.37)
     System.Threading.Tasks (4.0.11)
     System.Threading.Tasks.Extensions (4.0)
+    TestStack.White (0.13.3)
+      Castle.Core (>= 3.3)
     xunit.assert (2.1)

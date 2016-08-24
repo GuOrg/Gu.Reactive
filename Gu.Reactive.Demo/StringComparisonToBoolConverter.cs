@@ -6,19 +6,17 @@
 
     public class StringComparisonToBoolConverter : MarkupConverter<StringComparison?, bool?>
     {
-        // ReSharper disable once EmptyConstructor
+        public static readonly string GroupName = "StringComparison";
+
         public StringComparisonToBoolConverter()
         {
         }
 
         public StringComparison TrueWhen { get; set; }
+
         protected override bool? Convert(StringComparison? value, CultureInfo culture)
         {
-            if (value == TrueWhen)
-            {
-                return true;
-            }
-            return false;
+            return value == TrueWhen;
         }
 
         protected override StringComparison? ConvertBack(bool? value, CultureInfo culture)
@@ -27,6 +25,7 @@
             {
                 return TrueWhen;
             }
+
             return null;
         }
     }

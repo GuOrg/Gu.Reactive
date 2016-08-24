@@ -5,6 +5,7 @@
 
     internal static class DesignMode
     {
+        // referencing tooltips here so it gets copied
         private static readonly DependencyObject _dependencyObject = new DependencyObject();
         internal static bool? OverrideIsDesignTime = null;
         internal static bool IsDesignTime

@@ -61,3 +61,10 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://Gu.com/Reactive", "Gu.Reactive")]
 [assembly: XmlnsDefinition("http://Gu.com/Reactive", "Gu.Wpf.Reactive")]
 [assembly: XmlnsPrefix("http://Gu.com/Reactive", "reactive")]
+
+internal class References
+{
+    // Touching Gu.Wpf.ToolTips so that it gets copied to output dir
+    // http://stackoverflow.com/a/24828522/1069200
+    public static readonly Gu.Wpf.ToolTips.PopupButton ToolTipsReference;
+}
