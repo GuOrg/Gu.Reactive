@@ -25,6 +25,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Dummy", "Gu.Rea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Benchmarks", "Gu.Reactive.Benchmarks\Gu.Reactive.Benchmarks.csproj", "{DF62EBA0-B27F-464B-976B-2E0F41F2421E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C15ED745-9164-4E28-A40F-8BCE39D116AF}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+		.paket\Readme.paket.md = .paket\Readme.paket.md
+		RELEASE_NOTES.md = RELEASE_NOTES.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CreateNugetPackage|Any CPU = CreateNugetPackage|Any CPU

@@ -3,5 +3,8 @@ tags reactive rx notifypropertychanged ICommand
 projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
+releasenotes
+  BREAKING: Use rx 3.0 packages.
+
 excludeddependencies
   JetBrains.Annotations
