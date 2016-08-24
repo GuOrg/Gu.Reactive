@@ -6,13 +6,14 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Threading;
 
     using FakesAndHelpers;
     using Gu.Reactive;
 
     using NUnit.Framework;
 
-    [RequiresSTA, Explicit("Not testable as it uses the dispatcher")]
+    [Apartment(ApartmentState.STA), Explicit("Not testable as it uses the dispatcher")]
     public class DispatchingViewTests
     {
         [Test]

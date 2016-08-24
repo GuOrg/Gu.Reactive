@@ -3,6 +3,7 @@ namespace Gu.Wpf.Reactive.Tests.CollectionViews
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Reactive.Subjects;
+    using System.Threading;
     using System.Windows.Controls;
     using System.Windows.Data;
 
@@ -10,7 +11,7 @@ namespace Gu.Wpf.Reactive.Tests.CollectionViews
 
     using NUnit.Framework;
 
-    [RequiresSTA]
+    [Apartment(ApartmentState.STA)]
     public class FilteredViewWpfTests
     {
         [Test]

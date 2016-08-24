@@ -52,9 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssertRx.cs" />
-    <Compile Include="Benchmarks\DiffTests.cs" />
-    <Compile Include="Benchmarks\MinTrackerTests.cs" />
-    <Compile Include="Benchmarks\ObserveItemPropertyChanged.cs" />
     <Compile Include="Collections\CollectionSynchronizerTests.cs" />
     <Compile Include="Collections\CrudSource\FilteredMappedView.cs" />
     <Compile Include="Collections\CrudSource\ThrottledView.cs" />
@@ -90,7 +87,6 @@
     <Compile Include="Helpers\FakeWithCollection.cs" />
     <Compile Include="Helpers\IFake.cs" />
     <Compile Include="Get\ValuePathTests.cs" />
-    <Compile Include="Benchmarks\GetTests.cs" />
     <Compile Include="Get\ValueOrDefaultTests.cs" />
     <Compile Include="Helpers\NotInpc.cs" />
     <Compile Include="Helpers\StructLevel.cs" />
@@ -104,7 +100,6 @@
     <Compile Include="Internals\RootItemTests.cs" />
     <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
     <Compile Include="NameOf_\MethodTests.cs" />
-    <Compile Include="Benchmarks\NameOfTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveCollectionChangedSlimTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveCollectionChangedTests.cs" />
     <Compile Include="Collections\FixedSizedQueueTests.cs" />
@@ -122,7 +117,6 @@
     <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedSlimTests.cs" />
     <Compile Include="ObservableExtTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Benchmarks\ObservePropertyChangedTests.cs" />
     <Compile Include="Sandbox\CacheExpressionsTests.cs" />
     <Compile Include="Sandbox\CreateBoxTests.cs" />
     <Compile Include="Sandbox\GC_BoxTests.cs" />
@@ -148,6 +142,7 @@
       <Name>Gu.Reactive</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -156,7 +151,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="..\.paket\paket.targets" />
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
@@ -303,4 +297,5 @@
       </ItemGroup>
     </When>
   </Choose>
+  <Import Project="..\.paket\paket.targets" />
 </Project>

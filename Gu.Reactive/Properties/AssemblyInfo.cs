@@ -38,6 +38,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.11.0.0")]
 [assembly: InternalsVisibleTo("Gu.Wpf.Reactive", AllInternalsVisible = true)]
 [assembly: InternalsVisibleTo("Gu.Reactive.Tests", AllInternalsVisible = true)]
+[assembly: InternalsVisibleTo("Gu.Reactive.Benchmarks", AllInternalsVisible = true)]
 [assembly: InternalsVisibleTo("Gu.Wpf.Reactive.Tests", AllInternalsVisible = true)]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2", AllInternalsVisible = true)]
 [assembly: NeutralResourcesLanguage("en")]

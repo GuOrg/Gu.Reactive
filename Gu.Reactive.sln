@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{E9C570CF-F85E-4A34-B54B-86B6801E9B19}"
 	ProjectSection(SolutionItems) = preProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive.Tests", "Gu.Wpf.Reactive.Tests\Gu.Wpf.Reactive.Tests.csproj", "{F94EA890-7658-47C9-A033-8967F626360A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Dummy", "Gu.Reactive.Dummy\Gu.Reactive.Dummy.csproj", "{675922EC-879E-4C49-A96F-F59CE94C12FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Benchmarks", "Gu.Reactive.Benchmarks\Gu.Reactive.Benchmarks.csproj", "{DF62EBA0-B27F-464B-976B-2E0F41F2421E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,12 @@ Global
 		{675922EC-879E-4C49-A96F-F59CE94C12FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{675922EC-879E-4C49-A96F-F59CE94C12FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{675922EC-879E-4C49-A96F-F59CE94C12FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.CreateNugetPackage|Any CPU.ActiveCfg = Release|Any CPU
+		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.CreateNugetPackage|Any CPU.Build.0 = Release|Any CPU
+		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

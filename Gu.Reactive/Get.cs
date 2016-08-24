@@ -7,6 +7,7 @@
 
     public static class Get
     {
+        [Obsolete("Use C#6 ?.")]
         public static TValue ValueOrDefault<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,
@@ -18,9 +19,11 @@
             {
                 return maybe.Value;
             }
+
             return @default;
         }
 
+        [Obsolete("Use C#6 ?.")]
         public static TValue ValueOrDefault<TValue>(Expression<Func<TValue>> path, TValue @default = default (TValue))
         {
             var valuePath = PropertyPath.Create(path);
@@ -28,6 +31,7 @@
             {
                 return valuePath.Value;
             }
+
             return @default;
         }
 

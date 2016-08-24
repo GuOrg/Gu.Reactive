@@ -16,3 +16,6 @@ group Test
   nuget Moq
   nuget NUnit
   nuget Microsoft.Reactive.Testing
+  nuget System.Reflection.Metadata = 1.2.0
+  nuget BenchmarkDotNet
+  nuget BenchmarkDotNet.Diagnostics.Windows
