@@ -12,8 +12,8 @@ namespace Gu.Reactive.PropertyPathStuff
         private readonly WeakReference sourceRef = new WeakReference(null);
         private readonly Action<EventPattern<PropertyChangedEventArgs>> onNext;
         private readonly Action<Exception> onError;
-        private bool disposed;
         private readonly SerialDisposable subscription = new SerialDisposable();
+        private bool disposed;
 
         public NotifyingPathItem(INotifyingPathItem previous, PathProperty pathProperty)
         {

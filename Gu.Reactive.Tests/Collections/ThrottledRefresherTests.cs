@@ -120,14 +120,14 @@
 
             public static string ToString(IReadOnlyList<IReadOnlyList<int>> values)
             {
-                return string.Join(",", values.Select(x => string.Format(@"{{{0}}}", string.Join(", ", x))));
+                return string.Join(",", values.Select(x => $@"{{{string.Join(", ", x)}}}"));
             }
 
             public override string ToString()
             {
                 var times = string.Join(", ", Times);
                 var results = ToString(Results);
-                return string.Format("SignalInitial: {0} Times: {1}, Results: {2}", SignalInitial, times, results);
+                return $"SignalInitial: {SignalInitial} Times: {times}, Results: {results}";
             }
         }
     }

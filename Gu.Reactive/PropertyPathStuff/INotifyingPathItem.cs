@@ -11,9 +11,6 @@ namespace Gu.Reactive.PropertyPathStuff
 
         object Value { get; }
 
-        /// <summary>
-        /// Gets or sets the source.
-        /// </summary>
         INotifyPropertyChanged Source { get; }
     }
 }

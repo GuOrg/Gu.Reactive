@@ -25,7 +25,7 @@
 
         public override string ToString()
         {
-            return string.Format("TimeStamp: {0}, State: {1}", this.TimeStamp, this.State);
+            return $"TimeStamp: {this.TimeStamp}, State: {this.State}";
         }
     }
 }

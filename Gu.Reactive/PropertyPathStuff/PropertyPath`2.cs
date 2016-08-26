@@ -74,7 +74,7 @@
 
         public override string ToString()
         {
-            return string.Format("x => x.{0}", string.Join(".", this.propertyPath.Select(x => x.PropertyInfo.Name)));
+            return $"x => x.{string.Join(".", this.propertyPath.Select(x => x.PropertyInfo.Name))}";
         }
     }
 }

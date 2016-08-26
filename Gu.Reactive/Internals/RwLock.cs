@@ -52,12 +52,7 @@
 
         public override string ToString()
         {
-            return string.Format(
-                "RwLock RecursionPolicy: {0}, IsReadLockHeld:{1}, IsWriteLockHeld: {2}, IsUpgradeableReadLockHeld: {3}",
-                this.innerLock.RecursionPolicy,
-                this.innerLock.IsReadLockHeld,
-                this.innerLock.IsWriteLockHeld,
-                this.innerLock.IsUpgradeableReadLockHeld);
+            return $"RwLock RecursionPolicy: {this.innerLock.RecursionPolicy}, IsReadLockHeld:{this.innerLock.IsReadLockHeld}, IsWriteLockHeld: {this.innerLock.IsWriteLockHeld}, IsUpgradeableReadLockHeld: {this.innerLock.IsUpgradeableReadLockHeld}";
         }
 
         private void VerifyDisposed()
@@ -90,12 +85,7 @@
 
             public override string ToString()
             {
-                return string.Format(
-                    "RwLock.Writer RecursionPolicy: {0}, IsReadLockHeld:{1}, IsWriteLockHeld: {2}, IsUpgradeableReadLockHeld: {3}",
-                    this.rwLock.RecursionPolicy,
-                    this.rwLock.IsReadLockHeld,
-                    this.rwLock.IsWriteLockHeld,
-                    this.rwLock.IsUpgradeableReadLockHeld);
+                return $"RwLock.Writer RecursionPolicy: {this.rwLock.RecursionPolicy}, IsReadLockHeld:{this.rwLock.IsReadLockHeld}, IsWriteLockHeld: {this.rwLock.IsWriteLockHeld}, IsUpgradeableReadLockHeld: {this.rwLock.IsUpgradeableReadLockHeld}";
             }
         }
 
@@ -121,12 +111,7 @@
 
             public override string ToString()
             {
-                return string.Format(
-                    "RwLock.Writer RecursionPolicy: {0}, IsReadLockHeld:{1}, IsWriteLockHeld: {2}, IsUpgradeableReadLockHeld: {3}",
-                    this.rwLock.RecursionPolicy,
-                    this.rwLock.IsReadLockHeld,
-                    this.rwLock.IsWriteLockHeld,
-                    this.rwLock.IsUpgradeableReadLockHeld);
+                return $"RwLock.Writer RecursionPolicy: {this.rwLock.RecursionPolicy}, IsReadLockHeld:{this.rwLock.IsReadLockHeld}, IsWriteLockHeld: {this.rwLock.IsWriteLockHeld}, IsUpgradeableReadLockHeld: {this.rwLock.IsUpgradeableReadLockHeld}";
             }
         }
 
@@ -152,12 +137,7 @@
 
             public override string ToString()
             {
-                return string.Format(
-                    "RwLock.Writer RecursionPolicy: {0}, IsReadLockHeld:{1}, IsWriteLockHeld: {2}, IsUpgradeableReadLockHeld: {3}",
-                    this.rwLock.RecursionPolicy,
-                    this.rwLock.IsReadLockHeld,
-                    this.rwLock.IsWriteLockHeld,
-                    this.rwLock.IsUpgradeableReadLockHeld);
+                return $"RwLock.Writer RecursionPolicy: {this.rwLock.RecursionPolicy}, IsReadLockHeld:{this.rwLock.IsReadLockHeld}, IsWriteLockHeld: {this.rwLock.IsWriteLockHeld}, IsUpgradeableReadLockHeld: {this.rwLock.IsUpgradeableReadLockHeld}";
             }
         }
     }

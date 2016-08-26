@@ -81,7 +81,7 @@
 
             public override string ToString()
             {
-                var pattern = string.Format("{0}", String.Join(", ", Pattern));
+                var pattern = $"{String.Join(", ", Pattern)}";
                 var expected = new StringBuilder();
                 expected.Append("{");
                 for (int i = 0; i < ExpectedTimes.Count; i++)
@@ -94,7 +94,7 @@
                 }
                 expected.Append("}");
 
-                return string.Format("{0} -> {1}", pattern, expected);
+                return $"{pattern} -> {expected}";
             }
         }
     }

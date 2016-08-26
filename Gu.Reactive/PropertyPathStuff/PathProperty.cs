@@ -84,7 +84,7 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public override string ToString()
         {
-            return string.Format("PathItem for: {0}.{1}", this.PropertyInfo.DeclaringType.PrettyName(), this.PropertyInfo.Name);
+            return $"PathItem for: {this.PropertyInfo.DeclaringType.PrettyName()}.{this.PropertyInfo.Name}";
         }
     }
 }
