@@ -8,9 +8,11 @@
 
     public class Program
     {
+        private static readonly string DesinationDirectory = System.IO.Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "Results");
+
         public static void Main()
         {
-            foreach (var summary in RunSingle<ThrottledView>())
+            foreach (var summary in RunAll())
             {
                 CopyResult(summary.Title);
             }
@@ -18,6 +20,7 @@
 
         private static IEnumerable<Summary> RunAll()
         {
+            ClearAllResults();
             var switcher = new BenchmarkSwitcher(typeof(Program).Assembly);
             var summaries = switcher.Run(new[] { "*" });
             return summaries;
@@ -34,11 +37,21 @@
 #if DEBUG
 #else
             var sourceFileName = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "BenchmarkDotNet.Artifacts", "results", name + "-report-github.md");
-            var destinationDirectory = System.IO.Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "Results");
-            System.IO.Directory.CreateDirectory(destinationDirectory);
-            var destinationFileName = System.IO.Path.Combine(destinationDirectory, name + ".md");
+            System.IO.Directory.CreateDirectory(DesinationDirectory);
+            var destinationFileName = System.IO.Path.Combine(DesinationDirectory, name + ".md");
             File.Copy(sourceFileName, destinationFileName, true);
 #endif
+        }
+
+        private static void ClearAllResults()
+        {
+            if (Directory.Exists(DesinationDirectory))
+            {
+                foreach (var resultFile in Directory.EnumerateFiles(DesinationDirectory, "*.md"))
+                {
+                    File.Delete(resultFile);
+                }
+            }
         }
     }
 }

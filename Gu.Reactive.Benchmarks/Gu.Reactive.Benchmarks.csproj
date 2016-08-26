@@ -79,6 +79,18 @@
     <Compile Include="Benchmarks\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Benchmarks\Diff.md" />
+    <None Include="Benchmarks\Get.md" />
+    <None Include="Benchmarks\MinTrackerProperty.md" />
+    <None Include="Benchmarks\MinTrackerSimple.md" />
+    <None Include="Benchmarks\NameOf.md" />
+    <None Include="Benchmarks\ObserveItemPropertyChanged.md" />
+    <None Include="Benchmarks\ObservePropertyChanged.md" />
+    <None Include="Benchmarks\ObservePropertyChangedReact.md" />
+    <None Include="Benchmarks\ObservePropertyChangedThenSubscribe.md" />
+    <None Include="Benchmarks\ObservePropertyChangedThenSubscribeThenReact.md" />
+    <None Include="Benchmarks\ThrottledView.md" />
+    <None Include="Benchmarks\Timer.md" />
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
