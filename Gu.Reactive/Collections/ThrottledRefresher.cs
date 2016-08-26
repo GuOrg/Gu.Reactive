@@ -91,6 +91,7 @@
             {
                 return observable.StartWith(scheduler, toPrepend);
             }
+
             return observable.StartWith(toPrepend);
         }
 

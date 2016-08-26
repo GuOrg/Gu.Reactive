@@ -21,6 +21,7 @@
             {
                 throw new InvalidOperationException($"Valuepath type does not match. Expected: {typeof(TValue).FullName} was: {last.PropertyInfo.PropertyType.FullName}");
             }
+
             _propertyPath = propertyPath;
         }
 
@@ -43,6 +44,7 @@
             {
                 return EmptyValueAndSender;
             }
+
             var value = _propertyPath.Last.PropertyInfo.GetValue(sender);
             return new ValueAndSender<TValue>(sender, new Maybe<TValue>(true, (TValue)value));
         }
@@ -53,6 +55,7 @@
             {
                 return source;
             }
+
             var maybe = _propertyPath[_propertyPath.Count - 2].GetValue<object>(source);
             return maybe.HasValue
                        ? maybe.Value

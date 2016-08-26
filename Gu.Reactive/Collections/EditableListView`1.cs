@@ -101,6 +101,7 @@ namespace Gu.Reactive
             {
                 return;
             }
+
             _disposed = true;
             _subscriptions.Dispose();
         }

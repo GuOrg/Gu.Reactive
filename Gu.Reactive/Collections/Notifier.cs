@@ -14,16 +14,18 @@ namespace Gu.Reactive
         internal static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(CountName);
         internal static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs(IndexerName);
 
-        internal static void NotifyReset(object sender,
-                                    IScheduler scheduler,
-                                    PropertyChangedEventHandler propertyChangedEventHandler,
-                                    NotifyCollectionChangedEventHandler collectionChangeEventHandler)
+        internal static void NotifyReset(
+            object sender,
+            IScheduler scheduler,
+            PropertyChangedEventHandler propertyChangedEventHandler,
+            NotifyCollectionChangedEventHandler collectionChangeEventHandler)
         {
-            Notify(sender,
-                   Diff.NotifyCollectionResetEventArgs,
-                   scheduler,
-                   propertyChangedEventHandler,
-                   collectionChangeEventHandler);
+            Notify(
+                sender,
+                Diff.NotifyCollectionResetEventArgs,
+                scheduler,
+                propertyChangedEventHandler,
+                collectionChangeEventHandler);
         }
 
         public static void Notify(
@@ -37,15 +39,18 @@ namespace Gu.Reactive
             {
                 return;
             }
+
             if (changes.Count == 1)
             {
                 Notify(sender, changes[0], scheduler, propHandler, colHandler);
                 return;
             }
+
             NotifyReset(sender, scheduler, propHandler, colHandler);
         }
 
-        internal static void Notify(object sender,
+        internal static void Notify(
+            object sender,
                                    NotifyCollectionChangedEventArgs change,
                                    IScheduler scheduler,
                                    PropertyChangedEventHandler propHandler,
@@ -55,6 +60,7 @@ namespace Gu.Reactive
             {
                 return;
             }
+
             switch (change.Action)
             {
                 case NotifyCollectionChangedAction.Add:
@@ -89,6 +95,7 @@ namespace Gu.Reactive
             {
                 return;
             }
+
             if (scheduler != null)
             {
                 scheduler.Schedule(() => handler(sender, e));
@@ -110,6 +117,7 @@ namespace Gu.Reactive
             {
                 throw new InvalidOperationException("Expected single new item");
             }
+
             return (T)e.NewItems[0];
         }
 
@@ -124,6 +132,7 @@ namespace Gu.Reactive
             {
                 throw new InvalidOperationException("Expected single old item");
             }
+
             return (T)e.OldItems[0];
         }
     }

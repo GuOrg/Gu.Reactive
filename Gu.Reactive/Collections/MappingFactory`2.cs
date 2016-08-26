@@ -33,11 +33,13 @@
             {
                 mapped = _selector(key);
             }
+
             var disposable = mapped as IDisposable;
             if (disposable != null)
             {
                 _itemDisposables.Add(disposable);
             }
+
             return mapped;
         }
 
@@ -56,6 +58,7 @@
             {
                 return;
             }
+
             _disposed = true;
             // Dispose some stuff now
         }

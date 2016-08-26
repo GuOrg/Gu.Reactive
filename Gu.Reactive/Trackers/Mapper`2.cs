@@ -3,9 +3,8 @@
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-
-    using JetBrains.Annotations;
     using Gu.Reactive.Internals;
+    using JetBrains.Annotations;
 
     public sealed class Mapper<TSource, TResult> : ITracker<TResult>
     {
@@ -39,6 +38,7 @@
                 {
                     return;
                 }
+
                 _value = value;
                 OnPropertyChanged();
             }
@@ -54,6 +54,7 @@
             {
                 return;
             }
+
             _disposed = true;
             _subscription.Dispose();
         }

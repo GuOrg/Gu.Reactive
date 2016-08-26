@@ -112,6 +112,7 @@
                                                   .Subscribe(_ => Refresh());
                 _updateSubscription.Add(triggerSubscription);
             }
+
             SetSource(_mapped);
         }
 
@@ -142,6 +143,7 @@
             {
                 return null;
             }
+
             var key = _source.ElementAt(index);
             var updated = _factory.UpdateIndex(key, index);
             var old = _mapped[index];
@@ -149,6 +151,7 @@
             {
                 return null;
             }
+
             _mapped[index] = updated;
             return Diff.CreateReplaceEventArgs(updated, old, index);
         }
@@ -175,6 +178,7 @@
                     changes.Add(change);
                 }
             }
+
             return changes;
         }
 
@@ -184,11 +188,13 @@
             {
                 return;
             }
+
             if (changeCollection.Count > 1)
             {
                 Refresh();
                 return;
             }
+
             var singleChange = changeCollection[0];
             try
             {
@@ -205,6 +211,7 @@
                             base.Refresh(changes);
                             break;
                         }
+
                     case NotifyCollectionChangedAction.Remove:
                         {
                             var index = singleChange.OldStartingIndex;
@@ -216,6 +223,7 @@
                             base.Refresh(changes);
                             break;
                         }
+
                     case NotifyCollectionChangedAction.Replace:
                         {
                             var index = singleChange.NewStartingIndex;

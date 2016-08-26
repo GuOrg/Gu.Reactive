@@ -17,11 +17,13 @@
             {
                 return readOnlyList;
             }
+
             var list = source as IList<T>;
             if (list != null)
             {
                 return new ReadOnlyCollection<T>(list);
             }
+
             return source.ToArray();
         }
 
@@ -39,6 +41,7 @@
                     return i;
                 }
             }
+
             return -1;
         }
 
@@ -51,6 +54,7 @@
                     return i;
                 }
             }
+
             return -1;
         }
 

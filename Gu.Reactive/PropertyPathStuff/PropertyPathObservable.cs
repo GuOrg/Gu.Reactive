@@ -79,6 +79,7 @@
                             path);
                     throw new ArgumentException(message, nameof(path));
                 }
+
                 if (!typeof(INotifyPropertyChanged).IsAssignableFrom(propertyInfo.PropertyType))
                 {
                     var message = string.Format(

@@ -45,6 +45,7 @@
             {
                 filter = x => true;
             }
+
             _scheduler = scheduler;
             _bufferTime = bufferTime;
             _filter = filter;
@@ -87,6 +88,7 @@
                 {
                     return;
                 }
+
                 _filter = value;
                 OnPropertyChanged();
             }
@@ -115,6 +117,7 @@
                 {
                     return;
                 }
+
                 _bufferTime = value;
                 OnPropertyChanged();
             }
@@ -147,59 +150,72 @@
                             {
                                 break;
                             }
+
                             var newItem = e.NewItem<T>();
                             if (!filter(newItem))
                             {
                                 return; // added item that is not visible
                             }
+
                             break;
                         }
+
                     case NotifyCollectionChangedAction.Remove:
                         {
                             if (!e.IsSingleOldItem())
                             {
                                 break;
                             }
+
                             var item = e.OldItem<T>();
                             if (!filter(item))
                             {
                                 return; // removed item that is not visible
                             }
+
                             break;
                         }
+
                     case NotifyCollectionChangedAction.Replace:
                         {
                             if (!(e.IsSingleNewItem() && e.IsSingleOldItem()))
                             {
                                 break;
                             }
+
                             var newItem = e.NewItem<T>();
                             var oldItem = e.OldItem<T>();
                             if (!(filter(newItem) || filter(oldItem)))
                             {
                                 return; // replaced item that is not visible
                             }
+
                             break;
                         }
+
                     case NotifyCollectionChangedAction.Move:
                         {
                             if (!e.IsSingleNewItem())
                             {
                                 break;
                             }
+
                             var newItem = e.NewItem<T>();
                             if (!filter(newItem))
                             {
                                 return; // moved item that is not visible
                             }
+
                             break;
                         }
+
                     case NotifyCollectionChangedAction.Reset:
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
             }
+
             lock (Source.SyncRootOrDefault(Tracker.SyncRoot))
             {
                 lock (Tracker.SyncRoot)
@@ -233,6 +249,7 @@
             {
                 return Source;
             }
+
             return Source.Where(_filter);
         }
 
@@ -242,10 +259,12 @@
             {
                 return Enumerable.Empty<T>();
             }
+
             if (filter == null)
             {
                 return source;
             }
+
             return source.Where(filter);
         }
 
@@ -259,6 +278,7 @@
             {
                 return;
             }
+
             _disposed = true;
 
             if (disposing)

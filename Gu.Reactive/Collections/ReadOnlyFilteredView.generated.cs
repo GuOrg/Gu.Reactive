@@ -192,6 +192,7 @@
 			Ensure.NotNull(triggers, nameof(triggers));
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, scheduler, triggers);
         }
+
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IEnumerable<T> collection,
             Func<T, bool> filter,

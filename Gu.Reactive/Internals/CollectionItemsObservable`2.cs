@@ -76,12 +76,14 @@ namespace Gu.Reactive.Internals
             {
                 return;
             }
+
             _disposed = true;
             _collectionChangedSubscription.Dispose();
             foreach (var disposable in _map.Values.ToArray())
             {
                 disposable?.Dispose();
             }
+
             _map.Clear();
             _wr.Target = null;
         }
@@ -103,6 +105,7 @@ namespace Gu.Reactive.Internals
             {
                 throw new InvalidOperationException("Nothing to subscribe on");
             }
+
             _intialized = true;
             return this;
         }
@@ -159,9 +162,11 @@ namespace Gu.Reactive.Internals
                 {
                     disposable.Dispose();
                 }
+
                 _map.Clear();
                 return;
             }
+
             var old = _map.Keys.Except(collection, IdentityComparer).ToArray();
             RemoveRange(old);
             var newItems = collection.Except(_map.Keys, IdentityComparer).ToArray();
@@ -174,12 +179,14 @@ namespace Gu.Reactive.Internals
             {
                 return;
             }
+
             foreach (var item in items)
             {
                 if (item == null)
                 {
                     continue;
                 }
+
                 IDisposable subscription;
                 if (_map.TryRemove((TItem)item, out subscription))
                 {
@@ -194,12 +201,14 @@ namespace Gu.Reactive.Internals
             {
                 return;
             }
+
             foreach (var item in items)
             {
                 if (item == null)
                 {
                     continue;
                 }
+
                 _map.GetOrAdd((TItem)item, ObserveItem);
             }
         }

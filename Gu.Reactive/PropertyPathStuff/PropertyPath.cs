@@ -37,6 +37,7 @@ namespace Gu.Reactive.PropertyPathStuff
                 parts[i] = item;
                 previous = item;
             }
+
             return new PropertyPath<TSource, TValue>(new PropertyPath(parts));
         }
 
@@ -53,11 +54,13 @@ namespace Gu.Reactive.PropertyPathStuff
                 parts[i] = item;
                 previous = item;
             }
+
             var constants = ConstantVisitor.GetConstants(propertyExpression);
             if (!constants.Any())
             {
                 throw new ArgumentException("Expression contains no constants", nameof(propertyExpression));
             }
+
             //valuePath.Source = source;
             var source = constants.Last().Value;
             var propertyPath = new PropertyPath(parts);
@@ -83,7 +86,7 @@ namespace Gu.Reactive.PropertyPathStuff
         {
             var first = _parts.First().PropertyInfo;
             var path = string.Join(".", _parts.Skip(1).Select(x => x.PropertyInfo.Name));
-            return $"{first.DeclaringType?.FullName}.{first.Name}{(!string.IsNullOrEmpty(path) ? "." : "")}{path}";
+            return $"{first.DeclaringType?.FullName}.{first.Name}{(!string.IsNullOrEmpty(path) ? "." : string.Empty)}{path}";
         }
     }
 }

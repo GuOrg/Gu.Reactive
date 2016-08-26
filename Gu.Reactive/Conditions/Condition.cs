@@ -7,9 +7,8 @@
     using System.Linq.Expressions;
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
-
-    using JetBrains.Annotations;
     using Gu.Reactive.Internals;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// To be used standalone or derived from. Conditions really starts to sing when you subclass them and use an IoC container to build trees.
@@ -156,6 +155,7 @@
             {
                 return;
             }
+
             _disposed = true;
             if (disposing)
             {

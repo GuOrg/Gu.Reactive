@@ -55,6 +55,7 @@ namespace Gu.Reactive
             {
                 return;
             }
+
             _disposed = true;
             Dispose(true);
             // Dispose some stuff now
@@ -91,6 +92,7 @@ namespace Gu.Reactive
             {
                 return;
             }
+
             _disposed = true;
             if (disposing)
             {

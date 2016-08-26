@@ -7,9 +7,8 @@
     using System.Linq;
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
-
-    using JetBrains.Annotations;
     using Gu.Reactive.Internals;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Base class for collections

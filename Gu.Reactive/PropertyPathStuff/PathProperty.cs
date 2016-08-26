@@ -19,15 +19,18 @@ namespace Gu.Reactive.PropertyPathStuff
             {
                 throw new ArgumentNullException(nameof(propertyInfo));
             }
+
             if (!propertyInfo.CanRead)
             {
                 throw new ArgumentException("Propert must be readable");
             }
+
             Previous = previous;
             if (previous != null)
             {
                 previous.Next = this;
             }
+
             PropertyInfo = propertyInfo;
         }
 
@@ -57,20 +60,24 @@ namespace Gu.Reactive.PropertyPathStuff
             {
                 return new Maybe<T>(false, default(T));
             }
+
             if (Previous == null)
             {
                 var o = PropertyInfo.GetValue(source);
                 return new Maybe<T>(true, (T)o);
             }
+
             var maybe = Previous.GetValue<object>(source);
             if (!maybe.HasValue)
             {
                 return maybe.As<T>();
             }
+
             if (maybe.Value == null)
             {
                 return new Maybe<T>(false, default(T));
             }
+
             var value = (T)PropertyInfo.GetValue(maybe.Value);
             return new Maybe<T>(true, value);
         }

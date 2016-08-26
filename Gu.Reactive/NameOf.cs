@@ -42,6 +42,7 @@
             {
                 throw new ArgumentException("The expression is for a method", nameof(propertyExpression));
             }
+
             return memberInfo.Name;
         }
 
@@ -69,6 +70,7 @@
             {
                 throw new ArgumentException("The expression is for a method", nameof(propertyExpression));
             }
+
             return memberInfo.Name;
         }
 
@@ -96,6 +98,7 @@
             {
                 throw new ArgumentException("The expression is for a method", nameof(propertyExpression));
             }
+
             return memberInfo.Name;
         }
 

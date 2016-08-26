@@ -129,6 +129,7 @@
             {
                 observable = observable.StartWith(new PropertyChangedEventArgs(name));
             }
+
             return observable;
         }
 

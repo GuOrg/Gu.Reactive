@@ -24,6 +24,7 @@ namespace Gu.Reactive.PropertyPathStuff
                 items[i + 1] = item;
                 previous = item;
             }
+
             _parts = items;
         }
 
@@ -76,6 +77,7 @@ namespace Gu.Reactive.PropertyPathStuff
             {
                 return;
             }
+
             _disposed = true;
             foreach (var part in _parts)
             {

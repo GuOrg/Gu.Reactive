@@ -35,16 +35,19 @@
             {
                 while (Count >= Size && TryDequeue(out overflow)) { }
             }
+
             base.Enqueue(item);
             if (Count != count)
             {
                 OnPropertyChanged(Notifier.CountPropertyChangedEventArgs);
             }
+
             OnPropertyChanged(Notifier.IndexerPropertyChangedEventArgs);
             if (count >= Size)
             {
                 CollectionChanged.Notify(this, Diff.CreateRemoveEventArgs(overflow, 0), _scheduler);
             }
+
             CollectionChanged.Notify(this, Diff.CreateAddEventArgs(item, Count - 1), _scheduler);
         }
 

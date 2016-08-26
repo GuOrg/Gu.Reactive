@@ -23,6 +23,7 @@
                         return;
                     }
                 }
+
                 _disposables.Add(new WeakReference<IDisposable>(disposable));
             }
         }
@@ -54,12 +55,14 @@
             {
                 return;
             }
+
             lock (_gate)
             {
                 if (_disposed)
                 {
                     return;
                 }
+
                 _disposed = true;
                 foreach (var weakReference in _disposables)
                 {

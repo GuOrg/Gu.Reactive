@@ -5,9 +5,9 @@ namespace Gu.Reactive.Demo
     /// <summary>
     /// Interaction logic for AsyncCommands.xaml
     /// </summary>
-    public partial class AsyncCommands : UserControl
+    public partial class AsyncCommandsView : UserControl
     {
-        public AsyncCommands()
+        public AsyncCommandsView()
         {
             InitializeComponent();
             DataContext = new AsyncCommandsViewModel();

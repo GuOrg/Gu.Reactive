@@ -45,6 +45,7 @@
             {
                 return;
             }
+
             _disposed = true;
             _innerLock.Dispose();
         }
@@ -82,6 +83,7 @@
                 {
                     return;
                 }
+
                 _rwLock.ExitReadLock();
             }
 
@@ -111,6 +113,7 @@
                 {
                     return;
                 }
+
                 _rwLock.ExitUpgradeableReadLock();
             }
 
@@ -140,6 +143,7 @@
                 {
                     return;
                 }
+
                 _rwLock.ExitWriteLock();
             }
 

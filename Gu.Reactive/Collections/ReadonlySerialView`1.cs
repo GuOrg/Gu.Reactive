@@ -44,6 +44,7 @@ namespace Gu.Reactive
             {
                 _refreshSubscription.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

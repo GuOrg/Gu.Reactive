@@ -10,6 +10,7 @@ namespace Gu.Reactive
             {
                 return new MappingCache<TSource, TResult>(selector);
             }
+
             return new MappingFactory<TSource, TResult>(selector);
         }
 
@@ -19,6 +20,7 @@ namespace Gu.Reactive
             {
                 return new MappingCache<TSource, TResult>(indexSelector, indexUpdater);
             }
+
             return new MappingFactory<TSource, TResult>(indexSelector); // no caching so indexUpdater is omitted
         }
     }

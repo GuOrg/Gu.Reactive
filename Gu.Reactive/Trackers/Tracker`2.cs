@@ -5,8 +5,8 @@ namespace Gu.Reactive
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using JetBrains.Annotations;
     using Gu.Reactive.Internals;
+    using JetBrains.Annotations;
 
     public abstract class Tracker<TValue> : ITracker<TValue?> where TValue : struct 
     {
@@ -17,7 +17,8 @@ namespace Gu.Reactive
         private TValue? _value;
         private bool _disposed;
 
-        protected Tracker(IReadOnlyList<TValue> source,
+        protected Tracker(
+            IReadOnlyList<TValue> source,
                           IObservable<NotifyCollectionChangedEventArgs> onRefresh,
                           TValue? whenEmpty)
         {
@@ -38,6 +39,7 @@ namespace Gu.Reactive
                 Value = WhenEmpty;
                 return;
             }
+
             Value = GetValue(Source);
         }
 
@@ -48,12 +50,14 @@ namespace Gu.Reactive
                 VerifyDisposed();
                 return _value;
             }
+
             protected set
             {
                 if (Equals(value, _value))
                 {
                     return;
                 }
+
                 _value = value;
                 OnPropertyChanged();
             }
@@ -79,6 +83,7 @@ namespace Gu.Reactive
             {
                 return;
             }
+
             _disposed = true;
             if (disposing)
             {
@@ -103,8 +108,10 @@ namespace Gu.Reactive
                         {
                             Reset();
                         }
+
                         break;
                     }
+
                 case NotifyCollectionChangedAction.Remove:
                     {
                         if (e.IsSingleOldItem())
@@ -116,8 +123,10 @@ namespace Gu.Reactive
                         {
                             Reset();
                         }
+
                         break;
                     }
+
                 case NotifyCollectionChangedAction.Replace:
                     {
                         if (e.IsSingleOldItem() && e.IsSingleOldItem())
@@ -130,8 +139,10 @@ namespace Gu.Reactive
                         {
                             Reset();
                         }
+
                         break;
                     }
+
                 case NotifyCollectionChangedAction.Move:
                     break;
                 case NotifyCollectionChangedAction.Reset:
@@ -139,6 +150,7 @@ namespace Gu.Reactive
                         Reset();
                         break;
                     }
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }

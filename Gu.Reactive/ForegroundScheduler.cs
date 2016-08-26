@@ -53,6 +53,7 @@ namespace Gu.Reactive
                 Interlocked.Decrement(ref _count);
                 _thread.IsBackground = _count == 0;
             }
+
             return disposable;
         }
 

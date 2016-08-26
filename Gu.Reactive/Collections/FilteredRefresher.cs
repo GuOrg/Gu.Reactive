@@ -37,10 +37,12 @@
             {
                 return observable;
             }
+
             if (scheduler == null)
             {
                 return observable.Throttle(dueTime);
             }
+
             return observable.Throttle(dueTime, scheduler);
         }
     }

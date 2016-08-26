@@ -83,6 +83,7 @@
             {
                 return;
             }
+
             _disposed = true;
             if (disposing)
             {

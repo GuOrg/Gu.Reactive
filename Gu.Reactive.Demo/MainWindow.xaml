@@ -26,7 +26,7 @@
         </TabItem>
 
         <TabItem Header="Async commands">
-            <demo:AsyncCommands />
+            <demo:AsyncCommandsView />
         </TabItem>
 
         <TabItem Header="Commands">

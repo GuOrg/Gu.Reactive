@@ -38,6 +38,7 @@ namespace Gu.Reactive.PropertyPathStuff
                 {
                     return;
                 }
+
                 _sourceRef.Target = value;
                 OnPropertyChanged(ValueChangedEventArgs);
                 OnPropertyChanged(SourceChangedEventArgs);

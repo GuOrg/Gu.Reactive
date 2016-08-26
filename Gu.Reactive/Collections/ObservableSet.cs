@@ -54,6 +54,7 @@
             {
                 RaiseReset();
             }
+
             return changed;
         }
 
@@ -132,6 +133,7 @@
             {
                 RaiseReset();
             }
+
             return removed;
         }
 

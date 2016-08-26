@@ -37,8 +37,10 @@ namespace Gu.Reactive
                 {
                     return UpdateIndex(key, index);
                 }
+
                 return (TResult)mapped;
             }
+
             if (_indexSelector != null)
             {
                 mapped = _indexSelector(key, index);
@@ -47,12 +49,14 @@ namespace Gu.Reactive
             {
                 mapped = _selector(key);
             }
+
             _cache.Add(key, mapped);
             var disposable = mapped as IDisposable;
             if (disposable != null)
             {
                 _itemDisposables.Add(disposable);
             }
+
             return (TResult)mapped;
         }
 
@@ -62,6 +66,7 @@ namespace Gu.Reactive
             {
                 return default(TResult);
             }
+
             object mapped;
             if (_cache.TryGetValue(key, out mapped))
             {
@@ -71,8 +76,10 @@ namespace Gu.Reactive
                     _cache.Remove(key);
                     _cache.Add(key, updated);
                 }
+
                 return updated;
             }
+
             return default(TResult);
         }
 
@@ -86,6 +93,7 @@ namespace Gu.Reactive
             {
                 return;
             }
+
             _disposed = true;
             _itemDisposables.Dispose();
         }

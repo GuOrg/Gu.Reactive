@@ -31,6 +31,7 @@ namespace Gu.Reactive.PropertyPathStuff
                         pathProperty.PropertyInfo.Name);
                     throw new ArgumentException(message, nameof(pathProperty));
                 }
+
                 if (!typeof(INotifyPropertyChanged).IsAssignableFrom(type))
                 {
                     var message = string.Format(
@@ -53,6 +54,7 @@ namespace Gu.Reactive.PropertyPathStuff
             {
                 notifyingPathItem.Next = this;
             }
+
             if (previous != null)
             {
                 Source = (INotifyPropertyChanged)previous.Value;
@@ -80,6 +82,7 @@ namespace Gu.Reactive.PropertyPathStuff
                 {
                     return null;
                 }
+
                 return PathProperty.PropertyInfo.GetValue(source);
             }
         }
@@ -140,6 +143,7 @@ namespace Gu.Reactive.PropertyPathStuff
             {
                 return;
             }
+
             _disposed = true;
             Subscription.Dispose();
         }
@@ -171,6 +175,7 @@ namespace Gu.Reactive.PropertyPathStuff
                     next.Source = value; // Let event bubble up this way.
                 }
             }
+
             PropertyChanged?.Invoke(sender, e);
         }
 

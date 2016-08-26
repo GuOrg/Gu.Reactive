@@ -67,11 +67,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AsyncCommands.xaml.cs">
-      <DependentUpon>AsyncCommands.xaml</DependentUpon>
+    <Compile Include="AsyncCommandsView.xaml.cs">
+      <DependentUpon>AsyncCommandsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="AsyncCommandsViewModel.cs">
-      <DependentUpon>AsyncCommands.xaml</DependentUpon>
+      <DependentUpon>AsyncCommandsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Collections\CollectionViewDemo.xaml.cs">
       <DependentUpon>CollectionViewDemo.xaml</DependentUpon>
@@ -172,10 +172,13 @@
     <Compile Include="Conditions\ToolTipsView.xaml.cs">
       <DependentUpon>ToolTipsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UiTestWindows\AsyncCommandsWindow.xaml.cs">
+      <DependentUpon>AsyncCommandsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UiTestWindows\ConvertersDemoWindow.xaml.cs">
       <DependentUpon>ConvertersDemoWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="AsyncCommands.xaml">
+    <Page Include="AsyncCommandsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -251,6 +254,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UiTestWindows\AsyncCommandsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UiTestWindows\ConvertersDemoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -304,6 +311,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Import Project="..\.paket\paket.targets" />
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
@@ -408,5 +416,4 @@
       </ItemGroup>
     </When>
   </Choose>
-  <Import Project="..\.paket\paket.targets" />
 </Project>

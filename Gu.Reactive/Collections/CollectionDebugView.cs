@@ -29,6 +29,7 @@ namespace Gu.Reactive
                 {
                     return array;
                 }
+
                 return _collection?.ToArray()?? Empty;
             }
         }

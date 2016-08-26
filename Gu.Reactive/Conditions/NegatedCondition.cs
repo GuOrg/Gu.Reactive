@@ -39,6 +39,7 @@
                 {
                     return null;
                 }
+
                 return isSatisfied != true;
             }
         }

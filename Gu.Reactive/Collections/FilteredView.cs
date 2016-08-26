@@ -72,6 +72,7 @@
             {
                 return new[] { item };
             }
+
             var result = new IObservable<object>[items.Length + 1];
             items[0] = item;
             Array.Copy(items, 0, result, 1, items.Length);

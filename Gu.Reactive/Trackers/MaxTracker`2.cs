@@ -25,6 +25,7 @@ namespace Gu.Reactive
                 Value = value;
                 return;
             }
+
             if (Comparer<TValue>.Default.Compare(value, current.Value) > 0)
             {
                 Value = value;
@@ -38,6 +39,7 @@ namespace Gu.Reactive
             {
                 throw new InvalidOperationException();
             }
+
             if (Comparer<TValue>.Default.Compare(value, current.Value) == 0)
             {
                 Reset();
@@ -51,6 +53,7 @@ namespace Gu.Reactive
             {
                 throw new InvalidOperationException();
             }
+
             if (Comparer<TValue>.Default.Compare(oldValue, current.Value) == 0)
             {
                 Reset();

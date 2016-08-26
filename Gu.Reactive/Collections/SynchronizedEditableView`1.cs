@@ -7,9 +7,8 @@
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
-
-    using JetBrains.Annotations;
     using Gu.Reactive.Internals;
+    using JetBrains.Annotations;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
@@ -55,6 +54,7 @@
             {
                 return;
             }
+
             _disposed = true;
             Dispose(true);
             GC.SuppressFinalize(this);
@@ -195,6 +195,7 @@
             {
                 return;
             }
+
             _isUpdatingSourceItem = value;
             RemoveAtCore(index);
             RefreshNow(Diff.CreateRemoveEventArgs(value, index));

@@ -69,7 +69,8 @@
             }
 
             // Set up a timer to complete after the specified timeout period
-            var timer = new Timer(state =>
+            var timer = new Timer(
+                state =>
             {
                 // Recover your state information
                 var myTcs = (TaskCompletionSource<VoidTypeStruct>)state;
@@ -79,7 +80,8 @@
             }, tcs, millisecondsTimeout, Timeout.Infinite);
 
             // Wire up the logic for what happens when source task completes
-            task.ContinueWith((antecedent, state) =>
+            task.ContinueWith(
+                (antecedent, state) =>
             {
                 // Recover our state data
                 var tuple =
@@ -136,7 +138,8 @@
             }
 
             // Set up a timer to complete after the specified timeout period
-            var timer = new Timer(state =>
+            var timer = new Timer(
+                state =>
             {
                 // Recover your state information
                 var myTcs = (TaskCompletionSource<T>)state;
@@ -146,7 +149,8 @@
             }, tcs, millisecondsTimeout, Timeout.Infinite);
 
             // Wire up the logic for what happens when source task completes
-            task.ContinueWith((antecedent, state) =>
+            task.ContinueWith(
+                (antecedent, state) =>
             {
                 // Recover our state data
                 var tuple =

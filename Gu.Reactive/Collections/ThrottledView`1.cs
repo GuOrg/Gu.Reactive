@@ -48,6 +48,7 @@
                 {
                     return;
                 }
+
                 _bufferTime = value;
                 _refreshSubscription.Disposable = ThrottledRefresher.Create(this, Source, _bufferTime, _scheduler, true)
                                                                     .Subscribe(Refresh);

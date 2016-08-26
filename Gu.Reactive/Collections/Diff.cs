@@ -32,6 +32,7 @@
                         throw new ArgumentOutOfRangeException();
                 }
             }
+
             return CollectionChange(before, after);
         }
 
@@ -42,6 +43,7 @@
             {
                 return NotifyCollectionResetEventArgs;
             }
+
             IComparer<T> comparer;
             if (typeof(T).IsValueType)
             {
@@ -51,6 +53,7 @@
             {
                 comparer = RefComparer<T>.Default;
             }
+
             if (diff == -1)
             {
                 return AddOrReset(before, after, comparer);
@@ -96,11 +99,13 @@
                     {
                         return NotifyCollectionResetEventArgs;
                     }
+
                     newIndex = i;
                     offset = 1;
                     i--;
                 }
             }
+
             return CreateAddEventArgs(after[newIndex], newIndex);
         }
 
@@ -116,10 +121,12 @@
                     {
                         return NotifyCollectionResetEventArgs;
                     }
+
                     oldIndex = i;
                     offset = -1;
                 }
             }
+
             return CreateRemoveEventArgs(before[oldIndex], oldIndex);
         }
 

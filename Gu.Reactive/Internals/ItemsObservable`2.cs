@@ -57,6 +57,7 @@ namespace Gu.Reactive.Internals
             {
                 throw new InvalidOperationException();
             }
+
             return observable.Subscribe(observer);
         }
 
@@ -70,6 +71,7 @@ namespace Gu.Reactive.Internals
             {
                 return;
             }
+
             _disposed = true;
         }
 

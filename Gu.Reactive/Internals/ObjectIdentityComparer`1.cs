@@ -9,6 +9,7 @@ namespace Gu.Reactive.Internals
         {
             return ReferenceEquals(x, y);
         }
+
         public int GetHashCode(T obj)
         {
             return RuntimeHelpers.GetHashCode(obj);

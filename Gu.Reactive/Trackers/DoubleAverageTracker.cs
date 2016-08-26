@@ -31,6 +31,7 @@ namespace Gu.Reactive
                 Value = WhenEmpty;
                 return;
             }
+
             _sum -= value;
             Value = _sum / Source.Count;
         }

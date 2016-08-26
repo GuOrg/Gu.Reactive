@@ -22,6 +22,7 @@ namespace Gu.Reactive.Internals
                 {
                     throw new InvalidOperationException("Check HasValue before calling. This instance has no value.");
                 }
+
                 return _value;
             }
         }

@@ -16,9 +16,11 @@
         public void XmlnsDefinitions()
         {
             string[] skip = { "Annotations", "Properties", "XamlGeneratedNamespace", "Internals", "TypeConverters", "PropertyPathStuff" };
-            var assemblies = new[] { typeof(ConditionControl).Assembly, typeof(ICondition).Assembly};
-            var strings = assemblies.SelectMany(x=>x.GetTypes())
+            var assemblies = new[] { typeof(ConditionControl).Assembly, typeof(ICondition).Assembly };
+
+            var strings = assemblies.SelectMany(x => x.GetTypes())
                                   .Select(x => x.Namespace)
+                                  .Where(x => x != null)
                                   .Distinct()
                                   .Where(x => !skip.Any(x.EndsWith))
                                   .OrderBy(x => x)

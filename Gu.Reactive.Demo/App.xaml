@@ -3,15 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System"
-             xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips"
-             StartupUri="MainWindow.xaml">
+             xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips">
+    <Application.StartupUri>UiTestWindows/AsyncCommandsWindow.xaml</Application.StartupUri>
+    <!--<Application.StartupUri>MainWindow.xaml</Application.StartupUri>-->
     <Application.Resources>
         <ResourceDictionary>
-            <!--<ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Gu.Wpf.ToolTips;component/Themes/Generic.xaml" />
-                <ResourceDictionary Source="/Gu.Wpf.Reactive;component/Themes/Generic.xaml" />
-            </ResourceDictionary.MergedDictionaries>-->
-
             <!--  Must have x:Shared="False" or else the same instance of tooltip is used.  -->
             <Style x:Key="LocalInfoButtonStyle" TargetType="{x:Type Button}">
                 <!--  x:Shared="False">  -->

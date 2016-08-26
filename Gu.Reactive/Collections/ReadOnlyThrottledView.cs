@@ -55,11 +55,13 @@
             {
                 return;
             }
+
             _disposed = true;
             if (disposing)
             {
                 _refreshSubscription.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }
