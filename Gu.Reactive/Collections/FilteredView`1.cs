@@ -18,15 +18,15 @@
     [DebuggerDisplay("Count = {Count}")]
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
-        private readonly ObservableCollection<IObservable<object>> _triggers;
-        private readonly IScheduler _scheduler;
-        private readonly SerialDisposable _refreshSubscription = new SerialDisposable();
-        private Func<T, bool> _filter;
-        private bool _disposed;
-        private TimeSpan _bufferTime;
+        private readonly ObservableCollection<IObservable<object>> triggers;
+        private readonly IScheduler scheduler;
+        private readonly SerialDisposable refreshSubscription = new SerialDisposable();
+        private Func<T, bool> filter;
+        private bool disposed;
+        private TimeSpan bufferTime;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="source">The collection to wrap</param>
         /// <param name="filter"></param>
@@ -46,51 +46,52 @@
                 filter = x => true;
             }
 
-            _scheduler = scheduler;
-            _bufferTime = bufferTime;
-            _filter = filter;
+            this.scheduler = scheduler;
+            this.bufferTime = bufferTime;
+            this.filter = filter;
             if (triggers == null || triggers.Length == 0)
             {
-                _triggers = new ObservableCollection<IObservable<object>>();
+                this.triggers = new ObservableCollection<IObservable<object>>();
             }
             else
             {
-                _triggers = new ObservableCollection<IObservable<object>>(triggers);
+                this.triggers = new ObservableCollection<IObservable<object>>(triggers);
             }
 
-            _refreshSubscription.Disposable = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, false)
+            this.refreshSubscription.Disposable = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, false)
                                                                .ObserveOn(scheduler ?? Scheduler.Immediate)
-                                                               .Subscribe(Refresh);
+                                                               .Subscribe(this.Refresh);
             var observables = new IObservable<object>[]
                                             {
                                                 this.Triggers.ObserveCollectionChanged(false),
-                                                this.ObservePropertyChangedSlim(nameof(Filter), false),
-                                                this.ObservePropertyChangedSlim(nameof(BufferTime), false)
+                                                this.ObservePropertyChangedSlim(nameof(this.Filter), false),
+                                                this.ObservePropertyChangedSlim(nameof(this.BufferTime), false)
                                             };
             observables.Merge()
                        .ThrottleOrDefault(bufferTime, scheduler)
-                       .Subscribe(_ => _refreshSubscription.Disposable = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, true)
+                       .Subscribe(_ => this.refreshSubscription.Disposable = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, true)
                                                                                           .ObserveOn(scheduler ?? Scheduler.Immediate)
-                                                                                          .Subscribe(Refresh));
+                                                                                          .Subscribe(this.Refresh));
         }
 
         public Func<T, bool> Filter
         {
             get
             {
-                VerifyDisposed();
-                return _filter;
+                this.VerifyDisposed();
+                return this.filter;
             }
+
             set
             {
-                VerifyDisposed();
-                if (Equals(value, _filter))
+                this.VerifyDisposed();
+                if (Equals(value, this.filter))
                 {
                     return;
                 }
 
-                _filter = value;
-                OnPropertyChanged();
+                this.filter = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -98,8 +99,8 @@
         {
             get
             {
-                VerifyDisposed();
-                return _triggers;
+                this.VerifyDisposed();
+                return this.triggers;
             }
         }
 
@@ -107,39 +108,40 @@
         {
             get
             {
-                VerifyDisposed();
-                return _bufferTime;
+                this.VerifyDisposed();
+                return this.bufferTime;
             }
+
             set
             {
-                VerifyDisposed();
-                if (value.Equals(_bufferTime))
+                this.VerifyDisposed();
+                if (value.Equals(this.bufferTime))
                 {
                     return;
                 }
 
-                _bufferTime = value;
-                OnPropertyChanged();
+                this.bufferTime = value;
+                this.OnPropertyChanged();
             }
         }
 
         public override void Refresh()
         {
-            VerifyDisposed();
-            lock (Source.SyncRootOrDefault(Tracker.SyncRoot))
+            this.VerifyDisposed();
+            lock (this.Source.SyncRootOrDefault(this.Tracker.SyncRoot))
             {
-                lock (Tracker.SyncRoot)
+                lock (this.Tracker.SyncRoot)
                 {
-                    (Source as IRefreshAble)?.Refresh();
-                    var updated = Filtered().ToArray();
-                    Tracker.Reset(this, updated, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+                    (this.Source as IRefreshAble)?.Refresh();
+                    var updated = this.Filtered().ToArray();
+                    this.Tracker.Reset(this, updated, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
                 }
             }
         }
 
         protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
         {
-            var filter = Filter;
+            var filter = this.Filter;
             if (filter != null)
             {
                 switch (e.Action)
@@ -216,41 +218,41 @@
                 }
             }
 
-            lock (Source.SyncRootOrDefault(Tracker.SyncRoot))
+            lock (this.Source.SyncRootOrDefault(this.Tracker.SyncRoot))
             {
-                lock (Tracker.SyncRoot)
+                lock (this.Tracker.SyncRoot)
                 {
-                    Tracker.Refresh(this, Filtered().ToArray(), CollectionSynchronizer<T>.ResetArgs, _scheduler, PropertyChangedEventHandler, NotifyCollectionChangedEventHandler);
+                    this.Tracker.Refresh(this, this.Filtered().ToArray(), CollectionSynchronizer<T>.ResetArgs, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
                 }
             }
         }
 
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            lock (Source.SyncRootOrDefault(Tracker.SyncRoot))
+            lock (this.Source.SyncRootOrDefault(this.Tracker.SyncRoot))
             {
-                lock (Tracker.SyncRoot)
+                lock (this.Tracker.SyncRoot)
                 {
-                    var updated = Filtered().ToArray();
-                    Tracker.Refresh(
+                    var updated = this.Filtered().ToArray();
+                    this.Tracker.Refresh(
                         this,
                         updated,
                         null,
-                        _scheduler,
-                        PropertyChangedEventHandler,
-                        NotifyCollectionChangedEventHandler);
+                        this.scheduler,
+                        this.PropertyChangedEventHandler,
+                        this.NotifyCollectionChangedEventHandler);
                 }
             }
         }
 
         protected IEnumerable<T> Filtered()
         {
-            if (Filter == null)
+            if (this.Filter == null)
             {
-                return Source;
+                return this.Source;
             }
 
-            return Source.Where(_filter);
+            return this.Source.Where(this.filter);
         }
 
         protected static IEnumerable<T> Filtered(IEnumerable<T> source, Func<T, bool> filter)
@@ -269,21 +271,21 @@
         }
 
         /// <summary>
-        /// Protected implementation of Dispose pattern. 
+        /// Protected implementation of Dispose pattern.
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
         protected override void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
+            this.disposed = true;
 
             if (disposing)
             {
-                _refreshSubscription.Dispose();
+                this.refreshSubscription.Dispose();
             }
 
             base.Dispose(disposing);

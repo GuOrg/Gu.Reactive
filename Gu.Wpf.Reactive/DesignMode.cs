@@ -6,8 +6,9 @@
     internal static class DesignMode
     {
         // referencing tooltips here so it gets copied
-        private static readonly DependencyObject _dependencyObject = new DependencyObject();
+        private static readonly DependencyObject dependencyObject = new DependencyObject();
         internal static bool? OverrideIsDesignTime = null;
+
         internal static bool IsDesignTime
         {
             get
@@ -16,7 +17,7 @@
                 {
                     return OverrideIsDesignTime.Value;
                 }
-                return DesignerProperties.GetIsInDesignMode(_dependencyObject);
+                return DesignerProperties.GetIsInDesignMode(dependencyObject);
             }
         }
     }

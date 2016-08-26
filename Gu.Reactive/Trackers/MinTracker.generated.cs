@@ -8,7 +8,7 @@
     public static partial class MinTracker
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="TItem"></typeparam>
         /// <typeparam name="TValue"></typeparam>
@@ -38,7 +38,7 @@
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="TItem"></typeparam>
         /// <typeparam name="TValue"></typeparam>
@@ -69,7 +69,7 @@
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="TItem"></typeparam>
         /// <typeparam name="TValue"></typeparam>

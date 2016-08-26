@@ -4,40 +4,40 @@
 
     internal class MappingFactory<TSource, TResult> : IMappingFactory<TSource, TResult>
     {
-        private readonly Func<TSource, int, TResult> _indexSelector;
-        private readonly Func<TSource, TResult> _selector;
-        private readonly WeakCompositeDisposable _itemDisposables = new WeakCompositeDisposable();
-        private bool _disposed;
+        private readonly Func<TSource, int, TResult> indexSelector;
+        private readonly Func<TSource, TResult> selector;
+        private readonly WeakCompositeDisposable itemDisposables = new WeakCompositeDisposable();
+        private bool disposed;
 
         internal MappingFactory(Func<TSource, TResult> selector)
         {
-            _selector = selector;
+            this.selector = selector;
         }
 
         internal MappingFactory(Func<TSource, int, TResult> indexSelector)
         {
-            _indexSelector = indexSelector;
+            this.indexSelector = indexSelector;
         }
 
-        public bool CanUpdateIndex => _indexSelector != null;
+        public bool CanUpdateIndex => this.indexSelector != null;
 
         public TResult GetOrCreateValue(TSource key, int index)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             TResult mapped;
-            if (_indexSelector != null)
+            if (this.indexSelector != null)
             {
-                mapped = _indexSelector(key, index);
+                mapped = this.indexSelector(key, index);
             }
             else
             {
-                mapped = _selector(key);
+                mapped = this.selector(key);
             }
 
             var disposable = mapped as IDisposable;
             if (disposable != null)
             {
-                _itemDisposables.Add(disposable);
+                this.itemDisposables.Add(disposable);
             }
 
             return mapped;
@@ -45,30 +45,30 @@
 
         public TResult UpdateIndex(TSource key, int index)
         {
-            return GetOrCreateValue(key, index);
+            return this.GetOrCreateValue(key, index);
         }
 
         /// <summary>
-        /// Make the class sealed when using this. 
+        /// Make the class sealed when using this.
         /// Call VerifyDisposed at the start of all public methods
         /// </summary>
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
+            this.disposed = true;
             // Dispose some stuff now
         }
 
         private void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 throw new ObjectDisposedException(
-                    GetType()
+                    this.GetType()
                         .FullName);
             }
         }

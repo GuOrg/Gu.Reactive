@@ -5,20 +5,20 @@ namespace Gu.Wpf.Reactive.TypeConverters
 
     internal class NullableEnumConverter : ITypeConverter<object>
     {
-        private readonly Type _type;
+        private readonly Type type;
 
         public NullableEnumConverter(Type type)
         {
             if (type.IsEnum)
             {
-                _type = type;
+                this.type = type;
             }
             else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 var genericArgument = type.GetGenericArguments()[0];
                 if (genericArgument.IsEnum)
                 {
-                    _type = genericArgument;
+                    this.type = genericArgument;
                 }
                 else
                 {
@@ -37,7 +37,7 @@ namespace Gu.Wpf.Reactive.TypeConverters
             {
                 return true;
             }
-            if (_type == value.GetType())
+            if (this.type == value.GetType())
             {
                 return true;
             }
@@ -50,14 +50,14 @@ namespace Gu.Wpf.Reactive.TypeConverters
             {
                 return true;
             }
-            if (_type == value.GetType())
+            if (this.type == value.GetType())
             {
                 return true;
             }
             var s = value as string;
             if (s != null)
             {
-                return Enum.IsDefined(_type, s);
+                return Enum.IsDefined(this.type, s);
             }
             return false;
         }
@@ -68,15 +68,15 @@ namespace Gu.Wpf.Reactive.TypeConverters
             {
                 return null;
             }
-            if (_type == value.GetType())
+            if (this.type == value.GetType())
             {
-                return Convert.ChangeType(value, _type);
+                return Convert.ChangeType(value, this.type);
 
             }
             var s = value as string;
             if (s != null)
             {
-                return Enum.Parse(_type, s);
+                return Enum.Parse(this.type, s);
             }
             throw new ArgumentException("value");
         }

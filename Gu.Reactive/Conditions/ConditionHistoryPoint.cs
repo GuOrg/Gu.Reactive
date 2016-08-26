@@ -15,8 +15,8 @@
         public ConditionHistoryPoint(DateTime timeStamp, bool? state)
             :this()
         {
-            TimeStamp = timeStamp;
-            State = state;
+            this.TimeStamp = timeStamp;
+            this.State = state;
         }
 
         public DateTime TimeStamp { get; }
@@ -25,7 +25,7 @@
 
         public override string ToString()
         {
-            return string.Format("TimeStamp: {0}, State: {1}", TimeStamp, State);
+            return string.Format("TimeStamp: {0}, State: {1}", this.TimeStamp, this.State);
         }
     }
 }

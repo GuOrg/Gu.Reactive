@@ -5,8 +5,8 @@
 
     public sealed class RwLock : IDisposable
     {
-        private readonly ReaderWriterLockSlim _innerLock;
-        private bool _disposed;
+        private readonly ReaderWriterLockSlim innerLock;
+        private bool disposed;
 
         /// <summary>
         /// Creates a RwLock with LockRecursionPolicy.NoRecursion
@@ -18,143 +18,146 @@
 
         public RwLock(LockRecursionPolicy recursionPolicy)
         {
-            _innerLock = new ReaderWriterLockSlim(recursionPolicy);
+            this.innerLock = new ReaderWriterLockSlim(recursionPolicy);
         }
 
         public IDisposable Read()
         {
-            VerifyDisposed();
-            return new Reader(_innerLock);
+            this.VerifyDisposed();
+            return new Reader(this.innerLock);
         }
 
         public IDisposable UpgradeableRead()
         {
-            VerifyDisposed();
-            return new UpgradeableReader(_innerLock);
+            this.VerifyDisposed();
+            return new UpgradeableReader(this.innerLock);
         }
 
         public IDisposable Write()
         {
-            VerifyDisposed();
-            return new Writer(_innerLock);
+            this.VerifyDisposed();
+            return new Writer(this.innerLock);
         }
 
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
-            _innerLock.Dispose();
+            this.disposed = true;
+            this.innerLock.Dispose();
         }
 
         public override string ToString()
         {
             return string.Format(
                 "RwLock RecursionPolicy: {0}, IsReadLockHeld:{1}, IsWriteLockHeld: {2}, IsUpgradeableReadLockHeld: {3}",
-                _innerLock.RecursionPolicy,
-                _innerLock.IsReadLockHeld,
-                _innerLock.IsWriteLockHeld,
-                _innerLock.IsUpgradeableReadLockHeld);
+                this.innerLock.RecursionPolicy,
+                this.innerLock.IsReadLockHeld,
+                this.innerLock.IsWriteLockHeld,
+                this.innerLock.IsUpgradeableReadLockHeld);
         }
 
         private void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
 
         private class Reader : IDisposable
         {
-            private readonly ReaderWriterLockSlim _rwLock;
+            private readonly ReaderWriterLockSlim rwLock;
+
             public Reader(ReaderWriterLockSlim rwLock)
             {
-                _rwLock = rwLock;
-                _rwLock.EnterReadLock();
+                this.rwLock = rwLock;
+                this.rwLock.EnterReadLock();
             }
 
             public void Dispose()
             {
-                if (!_rwLock.IsReadLockHeld)
+                if (!this.rwLock.IsReadLockHeld)
                 {
                     return;
                 }
 
-                _rwLock.ExitReadLock();
+                this.rwLock.ExitReadLock();
             }
 
             public override string ToString()
             {
                 return string.Format(
                     "RwLock.Writer RecursionPolicy: {0}, IsReadLockHeld:{1}, IsWriteLockHeld: {2}, IsUpgradeableReadLockHeld: {3}",
-                    _rwLock.RecursionPolicy,
-                    _rwLock.IsReadLockHeld,
-                    _rwLock.IsWriteLockHeld,
-                    _rwLock.IsUpgradeableReadLockHeld);
+                    this.rwLock.RecursionPolicy,
+                    this.rwLock.IsReadLockHeld,
+                    this.rwLock.IsWriteLockHeld,
+                    this.rwLock.IsUpgradeableReadLockHeld);
             }
         }
 
         private class UpgradeableReader : IDisposable
         {
-            private readonly ReaderWriterLockSlim _rwLock;
+            private readonly ReaderWriterLockSlim rwLock;
+
             public UpgradeableReader(ReaderWriterLockSlim rwLock)
             {
-                _rwLock = rwLock;
-                _rwLock.EnterUpgradeableReadLock();
+                this.rwLock = rwLock;
+                this.rwLock.EnterUpgradeableReadLock();
             }
 
             public void Dispose()
             {
-                if (!_rwLock.IsUpgradeableReadLockHeld)
+                if (!this.rwLock.IsUpgradeableReadLockHeld)
                 {
                     return;
                 }
 
-                _rwLock.ExitUpgradeableReadLock();
+                this.rwLock.ExitUpgradeableReadLock();
             }
 
             public override string ToString()
             {
                 return string.Format(
                     "RwLock.Writer RecursionPolicy: {0}, IsReadLockHeld:{1}, IsWriteLockHeld: {2}, IsUpgradeableReadLockHeld: {3}",
-                    _rwLock.RecursionPolicy,
-                    _rwLock.IsReadLockHeld,
-                    _rwLock.IsWriteLockHeld,
-                    _rwLock.IsUpgradeableReadLockHeld);
+                    this.rwLock.RecursionPolicy,
+                    this.rwLock.IsReadLockHeld,
+                    this.rwLock.IsWriteLockHeld,
+                    this.rwLock.IsUpgradeableReadLockHeld);
             }
         }
 
         private class Writer : IDisposable
         {
-            private readonly ReaderWriterLockSlim _rwLock;
+            private readonly ReaderWriterLockSlim rwLock;
+
             public Writer(ReaderWriterLockSlim rwLock)
             {
-                _rwLock = rwLock;
-                _rwLock.EnterWriteLock();
+                this.rwLock = rwLock;
+                this.rwLock.EnterWriteLock();
             }
 
             public void Dispose()
             {
-                if (!_rwLock.IsWriteLockHeld)
+                if (!this.rwLock.IsWriteLockHeld)
                 {
                     return;
                 }
 
-                _rwLock.ExitWriteLock();
+                this.rwLock.ExitWriteLock();
             }
 
             public override string ToString()
             {
                 return string.Format(
                     "RwLock.Writer RecursionPolicy: {0}, IsReadLockHeld:{1}, IsWriteLockHeld: {2}, IsUpgradeableReadLockHeld: {3}",
-                    _rwLock.RecursionPolicy,
-                    _rwLock.IsReadLockHeld,
-                    _rwLock.IsWriteLockHeld,
-                    _rwLock.IsUpgradeableReadLockHeld);
+                    this.rwLock.RecursionPolicy,
+                    this.rwLock.IsReadLockHeld,
+                    this.rwLock.IsWriteLockHeld,
+                    this.rwLock.IsUpgradeableReadLockHeld);
             }
         }
     }

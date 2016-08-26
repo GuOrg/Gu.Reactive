@@ -13,8 +13,8 @@
         {
         }
 
-        Task INotifyTaskCompletion.Task => Task;
+        Task INotifyTaskCompletion.Task => this.Task;
 
-        Task INotifyTaskCompletion.Completed => Completed;
+        Task INotifyTaskCompletion.Completed => this.Completed;
     }
 }

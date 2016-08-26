@@ -14,27 +14,27 @@ namespace Gu.Reactive
             TValue? whenEmpty)
             : base(source, onRefresh, whenEmpty)
         {
-            Reset();
+            this.Reset();
         }
 
         protected override void OnAdd(TValue value)
         {
-            var current = Value;
+            var current = this.Value;
             if (current == null)
             {
-                Value = value;
+                this.Value = value;
                 return;
             }
 
             if (Comparer<TValue>.Default.Compare(value, current.Value) > 0)
             {
-                Value = value;
+                this.Value = value;
             }
         }
 
         protected override void OnRemove(TValue value)
         {
-            var current = Value;
+            var current = this.Value;
             if (current == null)
             {
                 throw new InvalidOperationException();
@@ -42,13 +42,13 @@ namespace Gu.Reactive
 
             if (Comparer<TValue>.Default.Compare(value, current.Value) == 0)
             {
-                Reset();
+                this.Reset();
             }
         }
 
         protected override void OnReplace(TValue oldValue, TValue newValue)
         {
-            var current = Value;
+            var current = this.Value;
             if (current == null)
             {
                 throw new InvalidOperationException();
@@ -56,11 +56,11 @@ namespace Gu.Reactive
 
             if (Comparer<TValue>.Default.Compare(oldValue, current.Value) == 0)
             {
-                Reset();
+                this.Reset();
             }
             else
             {
-                OnAdd(newValue);
+                this.OnAdd(newValue);
             }
         }
 

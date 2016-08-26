@@ -12,12 +12,12 @@
     /// </typeparam>
     public class ItemPropertyChangedEventArgs<TItem, TValue> : PropertyChangedEventArgs
     {
-        public ItemPropertyChangedEventArgs(TItem item, EventPattern<PropertyChangedAndValueEventArgs<TValue>> e) 
+        public ItemPropertyChangedEventArgs(TItem item, EventPattern<PropertyChangedAndValueEventArgs<TValue>> e)
             : base(e.EventArgs.PropertyName)
         {
-            Item =  item;
-            Value = e.EventArgs.Value;
-            Sender = e.Sender;
+            this.Item =  item;
+            this.Value = e.EventArgs.Value;
+            this.Sender = e.Sender;
         }
 
         /// <summary>

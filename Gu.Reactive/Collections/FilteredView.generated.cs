@@ -38,7 +38,7 @@
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
         }
-       
+
         public static FilteredView<T> AsFilteredView<T>(
             this ObservableCollection<T> collection,
             Func<T, bool> filter,
@@ -83,7 +83,7 @@
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
         }
-       
+
         public static FilteredView<T> AsFilteredView<T>(
             this IObservableCollection<T> collection,
             Func<T, bool> filter,

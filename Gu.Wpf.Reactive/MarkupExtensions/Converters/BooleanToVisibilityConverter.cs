@@ -15,9 +15,9 @@
         public BooleanToVisibilityConverter()
             : base()
         {
-            WhenTrue = Visibility.Visible;
-            WhenFalse = Visibility.Collapsed;
-            WhenNull = Visibility.Collapsed;
+            this.WhenTrue = Visibility.Visible;
+            this.WhenFalse = Visibility.Collapsed;
+            this.WhenNull = Visibility.Collapsed;
         }
     }
 }

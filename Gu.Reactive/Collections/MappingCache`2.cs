@@ -5,56 +5,56 @@ namespace Gu.Reactive
 
     internal sealed class MappingCache<TSource, TResult> : IMappingFactory<TSource, TResult>
     {
-        private readonly Func<TSource, int, TResult> _indexSelector;
-        private readonly Func<TResult, int, TResult> _indexUpdater;
-        private readonly Func<TSource, TResult> _selector;
-        private readonly ConditionalWeakTable<object, object> _cache;
-        private readonly WeakCompositeDisposable _itemDisposables = new WeakCompositeDisposable();
-        private bool _disposed;
+        private readonly Func<TSource, int, TResult> indexSelector;
+        private readonly Func<TResult, int, TResult> indexUpdater;
+        private readonly Func<TSource, TResult> selector;
+        private readonly ConditionalWeakTable<object, object> cache;
+        private readonly WeakCompositeDisposable itemDisposables = new WeakCompositeDisposable();
+        private bool disposed;
 
         public MappingCache(Func<TSource, TResult> selector)
         {
-            _selector = selector;
-            _cache = new ConditionalWeakTable<object, object>();
+            this.selector = selector;
+            this.cache = new ConditionalWeakTable<object, object>();
         }
 
         public MappingCache(Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater)
         {
-            _indexSelector = indexSelector;
-            _indexUpdater = indexUpdater;
-            _cache = new ConditionalWeakTable<object, object>();
+            this.indexSelector = indexSelector;
+            this.indexUpdater = indexUpdater;
+            this.cache = new ConditionalWeakTable<object, object>();
         }
 
-        public bool CanUpdateIndex => _indexSelector != null && _indexUpdater != null;
+        public bool CanUpdateIndex => this.indexSelector != null && this.indexUpdater != null;
 
         public TResult GetOrCreateValue(TSource key, int index)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             object mapped;
-            if (_cache.TryGetValue(key, out mapped))
+            if (this.cache.TryGetValue(key, out mapped))
             {
-                if (CanUpdateIndex)
+                if (this.CanUpdateIndex)
                 {
-                    return UpdateIndex(key, index);
+                    return this.UpdateIndex(key, index);
                 }
 
                 return (TResult)mapped;
             }
 
-            if (_indexSelector != null)
+            if (this.indexSelector != null)
             {
-                mapped = _indexSelector(key, index);
+                mapped = this.indexSelector(key, index);
             }
             else
             {
-                mapped = _selector(key);
+                mapped = this.selector(key);
             }
 
-            _cache.Add(key, mapped);
+            this.cache.Add(key, mapped);
             var disposable = mapped as IDisposable;
             if (disposable != null)
             {
-                _itemDisposables.Add(disposable);
+                this.itemDisposables.Add(disposable);
             }
 
             return (TResult)mapped;
@@ -62,19 +62,19 @@ namespace Gu.Reactive
 
         public TResult UpdateIndex(TSource key, int index)
         {
-            if (_indexUpdater == null)
+            if (this.indexUpdater == null)
             {
                 return default(TResult);
             }
 
             object mapped;
-            if (_cache.TryGetValue(key, out mapped))
+            if (this.cache.TryGetValue(key, out mapped))
             {
-                var updated = _indexUpdater((TResult)mapped, index);
+                var updated = this.indexUpdater((TResult)mapped, index);
                 if (!ReferenceEquals(mapped, updated))
                 {
-                    _cache.Remove(key);
-                    _cache.Add(key, updated);
+                    this.cache.Remove(key);
+                    this.cache.Add(key, updated);
                 }
 
                 return updated;
@@ -84,26 +84,26 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Make the class sealed when using this. 
+        /// Make the class sealed when using this.
         /// Call VerifyDisposed at the start of all public methods
         /// </summary>
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
-            _itemDisposables.Dispose();
+            this.disposed = true;
+            this.itemDisposables.Dispose();
         }
 
         private void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 throw new ObjectDisposedException(
-                    GetType()
+                    this.GetType()
                         .FullName);
             }
         }

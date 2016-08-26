@@ -12,19 +12,19 @@ namespace Gu.Wpf.Reactive
         private static readonly Func<bool> AlwaysTrue = () => true;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="action"></param>
         /// <param name="criteria"></param>
         public ManualRelayCommand(Action action, Func<bool> criteria)
         {
             Ensure.NotNull(action, nameof(action));
-            Action = action;
-            Criteria = criteria ?? AlwaysTrue;
+            this.Action = action;
+            this.Criteria = criteria ?? AlwaysTrue;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="action"></param>
         public ManualRelayCommand(Action action)
@@ -39,30 +39,30 @@ namespace Gu.Wpf.Reactive
         public bool CanExecute()
         {
             // Override InternalCanExecute
-            return InternalCanExecute(null);
+            return this.InternalCanExecute(null);
         }
 
         public void Execute()
         {
             // Override InternalExecute
-            InternalExecute(null);
+            this.InternalExecute(null);
         }
 
         protected override bool InternalCanExecute(object parameter)
         {
-            return Criteria();
+            return this.Criteria();
         }
 
         protected override void InternalExecute(object parameter)
         {
-            IsExecuting = true;
+            this.IsExecuting = true;
             try
             {
-                Action();
+                this.Action();
             }
             finally
             {
-                IsExecuting = false;
+                this.IsExecuting = false;
             }
         }
     }

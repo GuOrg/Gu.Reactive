@@ -50,19 +50,19 @@
 
         public ConditionControl()
         {
-            this.IsVisibleChanged += (_, __) => OnIsVisibleChanged();
+            this.IsVisibleChanged += (_, __) => this.OnIsVisibleChanged();
         }
 
         public ICondition Condition
         {
-            get { return (ICondition)GetValue(ConditionProperty); }
-            set { SetValue(ConditionProperty, value); }
+            get { return (ICondition)this.GetValue(ConditionProperty); }
+            set { this.SetValue(ConditionProperty, value); }
         }
 
         public IEnumerable<ICondition> Root
         {
-            get { return (IEnumerable<ICondition>)GetValue(RootProperty); }
-            protected set { SetValue(RootPropertyKey, value); }
+            get { return (IEnumerable<ICondition>)this.GetValue(RootProperty); }
+            protected set { this.SetValue(RootPropertyKey, value); }
         }
 
         /// <summary>
@@ -70,28 +70,28 @@
         /// </summary>
         public IEnumerable<ICondition> FlattenedPrerequisites
         {
-            get { return (IEnumerable<ICondition>)GetValue(FlattenedPrerequisitesProperty); }
-            protected set { SetValue(FlattenedPrerequisitesPropertyKey, value); }
+            get { return (IEnumerable<ICondition>)this.GetValue(FlattenedPrerequisitesProperty); }
+            protected set { this.SetValue(FlattenedPrerequisitesPropertyKey, value); }
         }
 
         public bool IsInSync
         {
-            get { return (bool)GetValue(IsInSyncProperty); }
-            protected set { SetValue(IsInSyncPropertyKey, value); }
+            get { return (bool)this.GetValue(IsInSyncProperty); }
+            protected set { this.SetValue(IsInSyncPropertyKey, value); }
         }
 
         protected virtual void OnConditionChanged(ICondition oldCondition, ICondition newCondition)
         {
             if (newCondition == null)
             {
-                Root = Empty;
-                FlattenedPrerequisites = Empty;
+                this.Root = Empty;
+                this.FlattenedPrerequisites = Empty;
                 return;
             }
 
-            Root = new[] { newCondition };
-            FlattenedPrerequisites = FlattenPrerequisites(newCondition);
-            IsInSync = Condition.IsInSync();
+            this.Root = new[] { newCondition };
+            this.FlattenedPrerequisites = FlattenPrerequisites(newCondition);
+            this.IsInSync = this.Condition.IsInSync();
         }
 
         private static void OnConditionChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
@@ -120,11 +120,11 @@
 
         private void OnIsVisibleChanged()
         {
-            if (Condition != null &&
-                Visibility == Visibility.Visible &&
-                IsInSync)
+            if (this.Condition != null &&
+                this.Visibility == Visibility.Visible &&
+                this.IsInSync)
             {
-                IsInSync = Condition.IsInSync();
+                this.IsInSync = this.Condition.IsInSync();
             }
         }
     }

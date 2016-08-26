@@ -7,7 +7,7 @@ namespace Gu.Wpf.Reactive
     using Gu.Reactive;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")] 
+    [DebuggerDisplay("Count = {Count}")]
     public class ReadOnlyDispatchingView<T> : ReadOnlyThrottledView<T>
     {
         public ReadOnlyDispatchingView(ObservableCollection<T> inner, TimeSpan bufferTime)

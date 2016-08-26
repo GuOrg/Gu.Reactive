@@ -16,33 +16,33 @@
     {
         protected readonly IList<T> Source;
         protected readonly CollectionSynchronizer<T> Tracker;
-        private bool _disposed;
-        private object _isUpdatingSourceItem;
+        private bool disposed;
+        private object isUpdatingSourceItem;
 
         protected SynchronizedEditableView(IList<T> source)
             : this(source, source)
         {
             Ensure.NotNull(source, nameof(source));
-            Source = source;
-            Tracker = new CollectionSynchronizer<T>(source);
+            this.Source = source;
+            this.Tracker = new CollectionSynchronizer<T>(source);
         }
 
         protected SynchronizedEditableView(IList<T> source, IEnumerable<T> sourceItems)
         {
             Ensure.NotNull(source, nameof(source));
-            Source = source;
-            Tracker = new CollectionSynchronizer<T>(sourceItems);
+            this.Source = source;
+            this.Tracker = new CollectionSynchronizer<T>(sourceItems);
         }
 
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        object IUpdater.IsUpdatingSourceItem => _isUpdatingSourceItem;
+        object IUpdater.IsUpdatingSourceItem => this.isUpdatingSourceItem;
 
-        protected PropertyChangedEventHandler PropertyChangedEventHandler => PropertyChanged;
+        protected PropertyChangedEventHandler PropertyChangedEventHandler => this.PropertyChanged;
 
-        protected NotifyCollectionChangedEventHandler NotifyCollectionChangedEventHandler => CollectionChanged;
+        protected NotifyCollectionChangedEventHandler NotifyCollectionChangedEventHandler => this.CollectionChanged;
 
         /// <summary>
         /// Dispose(true); //I am calling you from Dispose, it's safe
@@ -50,13 +50,13 @@
         /// </summary>
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
-            Dispose(true);
+            this.disposed = true;
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -75,76 +75,77 @@
 
         protected void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, e);
+            this.PropertyChanged?.Invoke(this, e);
         }
 
         #region IList<TItem>
 
-        public int Count => Tracker.Current.Count;
+        public int Count => this.Tracker.Current.Count;
 
         public bool IsReadOnly => false;
 
         public T this[int index]
         {
-            get { return Tracker.Current[index]; }
+            get { return this.Tracker.Current[index]; }
+
             set
             {
-                var sourceIndex = Source.IndexOf(Tracker.Current[index]);
-                Source[sourceIndex] = value;
+                var sourceIndex = this.Source.IndexOf(this.Tracker.Current[index]);
+                this.Source[sourceIndex] = value;
             }
         }
 
-        public IEnumerator<T> GetEnumerator() => Tracker.Current.GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => this.Tracker.Current.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        public void Add(T item) => Source.Add(item);
+        public void Add(T item) => this.Source.Add(item);
 
-        public void Clear() => Source.Clear();
+        public void Clear() => this.Source.Clear();
 
-        public bool Contains(T item) => Tracker.Contains(item);
+        public bool Contains(T item) => this.Tracker.Contains(item);
 
-        public int IndexOf(T value) => Tracker.IndexOf(value);
+        public int IndexOf(T value) => this.Tracker.IndexOf(value);
 
-        public void Insert(int index, T value) => InsertCore(index, value);
+        public void Insert(int index, T value) => this.InsertCore(index, value);
 
         private void InsertCore(int index, T value)
         {
-            var i = Source.IndexOf(Tracker.Current[index]);
-            Source.Insert(i, value);
+            var i = this.Source.IndexOf(this.Tracker.Current[index]);
+            this.Source.Insert(i, value);
         }
 
         public bool Remove(T item)
         {
-            var result = Source.Remove(item);
+            var result = this.Source.Remove(item);
             return result;
         }
 
         public void RemoveAt(int index)
         {
-            RemoveAtCore(index);
+            this.RemoveAtCore(index);
         }
 
         private void RemoveAtCore(int index)
         {
-            Source.Remove(Tracker.Current[index]);
+            this.Source.Remove(this.Tracker.Current[index]);
         }
 
-        public void CopyTo(T[] array, int arrayIndex) => Tracker.CopyTo(array, arrayIndex);
+        public void CopyTo(T[] array, int arrayIndex) => this.Tracker.CopyTo(array, arrayIndex);
 
         #endregion  IList<TItem>
 
@@ -153,13 +154,14 @@
         object IList.this[int index]
         {
             get { return this[index]; }
+
             set
             {
                 var old = this[index];
-                _isUpdatingSourceItem = old;
+                this.isUpdatingSourceItem = old;
                 this[index] = (T)value;
-                RefreshNow(Diff.CreateReplaceEventArgs(value, old, index));
-                _isUpdatingSourceItem = null;
+                this.RefreshNow(Diff.CreateReplaceEventArgs(value, old, index));
+                this.isUpdatingSourceItem = null;
             }
         }
 
@@ -168,49 +170,49 @@
         int IList.Add(object value)
         {
             // IList.Add happens when a new row is added in DataGrid, we need to notify here to avoid out of sync exception.
-            _isUpdatingSourceItem = value;
-            ((IList)Source).Add(value); // Adding to inner
-            RefreshNow(Diff.CreateAddEventArgs(value, Count));
-            _isUpdatingSourceItem = null;
-            var index = Tracker.LastIndexOf((T)value);
+            this.isUpdatingSourceItem = value;
+            ((IList)this.Source).Add(value); // Adding to inner
+            this.RefreshNow(Diff.CreateAddEventArgs(value, this.Count));
+            this.isUpdatingSourceItem = null;
+            var index = this.Tracker.LastIndexOf((T)value);
             return index;
         }
 
-        bool IList.Contains(object value) => Tracker.Contains(value);
+        bool IList.Contains(object value) => this.Tracker.Contains(value);
 
-        int IList.IndexOf(object value) => Tracker.IndexOf(value);
+        int IList.IndexOf(object value) => this.Tracker.IndexOf(value);
 
         void IList.Insert(int index, object value)
         {
-            _isUpdatingSourceItem = value;
-            Insert(index, (T)value);
-            RefreshNow(Diff.CreateAddEventArgs(value, index));
-            _isUpdatingSourceItem = null;
+            this.isUpdatingSourceItem = value;
+            this.Insert(index, (T)value);
+            this.RefreshNow(Diff.CreateAddEventArgs(value, index));
+            this.isUpdatingSourceItem = null;
         }
 
         void IList.Remove(object value)
         {
-            var index = IndexOf((T)value);
+            var index = this.IndexOf((T)value);
             if (index < 0)
             {
                 return;
             }
 
-            _isUpdatingSourceItem = value;
-            RemoveAtCore(index);
-            RefreshNow(Diff.CreateRemoveEventArgs(value, index));
-            _isUpdatingSourceItem = null;
+            this.isUpdatingSourceItem = value;
+            this.RemoveAtCore(index);
+            this.RefreshNow(Diff.CreateRemoveEventArgs(value, index));
+            this.isUpdatingSourceItem = null;
         }
 
         #endregion IList
 
         #region ICollection
 
-        void ICollection.CopyTo(Array array, int index) => Tracker.CopyTo(array, index);
+        void ICollection.CopyTo(Array array, int index) => this.Tracker.CopyTo(array, index);
 
-        object ICollection.SyncRoot => (Source as ICollection)?.SyncRoot;
+        object ICollection.SyncRoot => (this.Source as ICollection)?.SyncRoot;
 
-        bool ICollection.IsSynchronized => (Source as ICollection)?.IsSynchronized == true;
+        bool ICollection.IsSynchronized => (this.Source as ICollection)?.IsSynchronized == true;
 
         #endregion ICollection
     }

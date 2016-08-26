@@ -14,7 +14,7 @@ namespace Gu.Wpf.Reactive
     /// </summary>
     public class AsyncCommand : ConditionRelayCommand
     {
-        private readonly ITaskRunner _runner;
+        private readonly ITaskRunner runner;
 
         public AsyncCommand(Func<Task> action, params ICondition[] conditions)
             : this(new TaskRunner(action), conditions)
@@ -50,28 +50,28 @@ namespace Gu.Wpf.Reactive
         private AsyncCommand(ITaskRunner runner, ICondition condition)
             : base(runner.Run, condition)
         {
-            CancelCommand = new ConditionRelayCommand(runner.Cancel, runner.CanCancelCondition);
-            _runner = runner;
-            _runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
-                   .Subscribe(_ => OnPropertyChanged(nameof(Execution)));
+            this.CancelCommand = new ConditionRelayCommand(runner.Cancel, runner.CanCancelCondition);
+            this.runner = runner;
+            runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
+                   .Subscribe(_ => this.OnPropertyChanged(nameof(this.Execution)));
         }
 
         public ConditionRelayCommand CancelCommand { get; }
 
-        public NotifyTaskCompletion Execution => _runner.TaskCompletion;
+        public NotifyTaskCompletion Execution => this.runner.TaskCompletion;
 
         protected override async void InternalExecute(object parameter)
         {
-            IsExecuting = true;
+            this.IsExecuting = true;
             try
             {
-                Action();
-                await Execution.ObservePropertyChangedSlim(nameof(Execution.IsCompleted))
-                               .FirstAsync(_ => Execution?.IsCompleted == true);
+                this.Action();
+                await this.Execution.ObservePropertyChangedSlim(nameof(this.Execution.IsCompleted))
+                               .FirstAsync(_ => this.Execution?.IsCompleted == true);
             }
             finally
             {
-                IsExecuting = false;
+                this.IsExecuting = false;
             }
         }
     }

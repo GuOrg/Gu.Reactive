@@ -9,7 +9,7 @@
         public MultiplyConverter()
             : base()
         {
-            Factor = 1;
+            this.Factor = 1;
         }
 
         public double Factor { get; set; }
@@ -32,12 +32,12 @@
 
         protected override double? Convert(double? value, CultureInfo culture)
         {
-            return value * Factor;
+            return value * this.Factor;
         }
 
         protected override double? ConvertBack(double? value, CultureInfo culture)
         {
-            return value / Factor;
+            return value / this.Factor;
         }
     }
 }

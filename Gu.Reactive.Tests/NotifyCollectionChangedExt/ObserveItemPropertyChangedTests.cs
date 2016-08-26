@@ -234,6 +234,9 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test(Description = "Works in release build. Debug extends scope of variables.")]
         public void MemoryLeakNoDisposeTest()
         {
+#if DEBUG
+            Assert.Inconclusive();
+#endif
             var collectionRef = new WeakReference(null);
             var item1Ref = new WeakReference(null);
             IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = null;

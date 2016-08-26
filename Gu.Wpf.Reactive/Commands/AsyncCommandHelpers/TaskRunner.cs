@@ -7,17 +7,17 @@ namespace Gu.Wpf.Reactive
 
     public class TaskRunner : TaskRunnerBase, ITaskRunner
     {
-        private readonly Func<Task> _action;
+        private readonly Func<Task> action;
 
         public TaskRunner(Func<Task> action)
         {
             Ensure.NotNull(action, nameof(action));
-            _action = action;
+            this.action = action;
         }
 
         public void Run()
         {
-            TaskCompletion = new NotifyTaskCompletion(_action());
+            this.TaskCompletion = new NotifyTaskCompletion(this.action());
         }
     }
 }

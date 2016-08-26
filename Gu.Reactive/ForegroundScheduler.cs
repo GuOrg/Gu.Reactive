@@ -11,38 +11,38 @@ namespace Gu.Reactive
     public class ForegroundScheduler : IScheduler
     {
         public static readonly ForegroundScheduler Default = new ForegroundScheduler();
-        private readonly EventLoopScheduler _inner;
-        private Thread _thread;
-        private int _count;
+        private readonly EventLoopScheduler inner;
+        private Thread thread;
+        private int count;
 
         private ForegroundScheduler()
         {
-            _inner = new EventLoopScheduler(CreateThread);
+            this.inner = new EventLoopScheduler(this.CreateThread);
         }
 
-        public DateTimeOffset Now => _inner.Now;
+        public DateTimeOffset Now => this.inner.Now;
 
         public IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
         {
-            Interlocked.Increment(ref _count);
-            return _inner.Schedule(state, (sc, st) => Invoke(sc, st, action));
+            Interlocked.Increment(ref this.count);
+            return this.inner.Schedule(state, (sc, st) => this.Invoke(sc, st, action));
         }
 
         public IDisposable Schedule<TState>(TState state, TimeSpan dueTime, Func<IScheduler, TState, IDisposable> action)
         {
-            Interlocked.Increment(ref _count);
-            return _inner.Schedule(state, dueTime, (sc, st) => Invoke(sc, st, action));
+            Interlocked.Increment(ref this.count);
+            return this.inner.Schedule(state, dueTime, (sc, st) => this.Invoke(sc, st, action));
         }
 
         public IDisposable Schedule<TState>(TState state, DateTimeOffset dueTime, Func<IScheduler, TState, IDisposable> action)
         {
-            Interlocked.Increment(ref _count);
-            return _inner.Schedule(state, dueTime, (sc, st) => Invoke(sc, st, action));
+            Interlocked.Increment(ref this.count);
+            return this.inner.Schedule(state, dueTime, (sc, st) => this.Invoke(sc, st, action));
         }
 
         private IDisposable Invoke<TState>(IScheduler scheduler, TState state, Func<IScheduler, TState, IDisposable> action)
         {
-            _thread.IsBackground = false;
+            this.thread.IsBackground = false;
             IDisposable disposable;
             try
             {
@@ -50,8 +50,8 @@ namespace Gu.Reactive
             }
             finally
             {
-                Interlocked.Decrement(ref _count);
-                _thread.IsBackground = _count == 0;
+                Interlocked.Decrement(ref this.count);
+                this.thread.IsBackground = this.count == 0;
             }
 
             return disposable;
@@ -59,12 +59,12 @@ namespace Gu.Reactive
 
         private Thread CreateThread(ThreadStart arg)
         {
-            _thread = new Thread(arg)
+            this.thread = new Thread(arg)
                           {
                               Name = "ForegroundScheduler",
                               IsBackground = true // maybe we want it as foreground when saving?
                           };
-            return _thread;
+            return this.thread;
         }
     }
 }

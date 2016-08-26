@@ -10,7 +10,7 @@
 
     public abstract class CommandBase<T> : ICommand, INotifyPropertyChanged
     {
-        private bool _isExecuting;
+        private bool isExecuting;
 
         public virtual event EventHandler CanExecuteChanged
         {
@@ -18,6 +18,7 @@
             {
                 InternalCanExecuteChangedEventManager.AddHandler(this, value);
             }
+
             remove
             {
                 InternalCanExecuteChangedEventManager.RemoveHandler(this, value);
@@ -30,23 +31,24 @@
 
         public bool IsExecuting
         {
-            get { return _isExecuting; }
+            get { return this.isExecuting; }
+
             protected set
             {
-                if (value == _isExecuting) return;
-                _isExecuting = value;
-                OnPropertyChanged();
+                if (value == this.isExecuting) return;
+                this.isExecuting = value;
+                this.OnPropertyChanged();
             }
         }
 
         bool ICommand.CanExecute(object parameter)
         {
-            return InternalCanExecute((T)parameter);
+            return this.InternalCanExecute((T)parameter);
         }
 
         void ICommand.Execute(object parameter)
         {
-            InternalExecute((T)parameter);
+            this.InternalExecute((T)parameter);
         }
 
         /// <summary>
@@ -54,7 +56,7 @@
         /// </summary>
         public virtual void RaiseCanExecuteChanged()
         {
-            var handler = InternalCanExecuteChanged;
+            var handler = this.InternalCanExecuteChanged;
             if (handler != null)
             {
                 var scheduler = Schedulers.DispatcherOrCurrentThread;
@@ -83,35 +85,40 @@
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private class InternalCanExecuteChangedEventManager : WeakEventManager
         {
             private static readonly InternalCanExecuteChangedEventManager Manager = new InternalCanExecuteChangedEventManager();
+
             static InternalCanExecuteChangedEventManager()
             {
                 SetCurrentManager(typeof(InternalCanExecuteChangedEventManager), Manager);
             }
+
             internal static void AddHandler(CommandBase<T> source, EventHandler handler)
             {
                 Manager.ProtectedAddHandler(source, handler);
             }
+
             internal static void RemoveHandler(CommandBase<T> source, EventHandler handler)
             {
                 Manager.ProtectedRemoveHandler(source, handler);
             }
+
             ////protected override ListenerList NewListenerList()
             ////{
             ////    return new ListenerList();
             ////}
             protected override void StartListening(object source)
             {
-                ((CommandBase<T>)source).InternalCanExecuteChanged += DeliverEvent;
+                ((CommandBase<T>)source).InternalCanExecuteChanged += this.DeliverEvent;
             }
+
             protected override void StopListening(object source)
             {
-                ((CommandBase<T>)source).InternalCanExecuteChanged -= DeliverEvent;
+                ((CommandBase<T>)source).InternalCanExecuteChanged -= this.DeliverEvent;
             }
         }
     }

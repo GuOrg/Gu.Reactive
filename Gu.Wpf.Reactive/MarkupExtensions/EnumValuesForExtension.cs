@@ -9,29 +9,30 @@
     [MarkupExtensionReturnType(typeof(IEnumerable))]
     public class EnumValuesForExtension : MarkupExtension
     {
-        private Type _type;
+        private Type type;
 
         public EnumValuesForExtension(Type type)
         {
-            Type = type;
+            this.Type = type;
         }
 
         [ConstructorArgument("type")]
         public Type Type
         {
-            get { return _type; }
+            get { return this.type; }
+
             set
             {
                 Ensure.NotNull(value, nameof(value));
-                Ensure.IsTrue(value.IsEnum, nameof(value),$"Expected {Type} to be an enum.");
-                _type = value;
+                Ensure.IsTrue(value.IsEnum, nameof(value),$"Expected {this.Type} to be an enum.");
+                this.type = value;
             }
         }
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            Ensure.NotNull(Type, nameof(Type));
-            return Enum.GetValues(Type);
+            Ensure.NotNull(this.Type, nameof(this.Type));
+            return Enum.GetValues(this.Type);
         }
     }
 }

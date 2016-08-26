@@ -20,23 +20,23 @@ namespace Gu.Reactive.Internals
     {
         private static readonly ObjectIdentityComparer<TItem> IdentityComparer = new ObjectIdentityComparer<TItem>();
 
-        private readonly IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> _sourceObservable;
+        private readonly IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> sourceObservable;
 
-        private readonly bool _signalInitial;
-        private readonly PropertyPath<TItem, TValue> _propertyPath;
-        private readonly WeakReference _wr = new WeakReference(null);
-        private readonly ConcurrentDictionary<TItem, IDisposable> _map = new ConcurrentDictionary<TItem, IDisposable>(IdentityComparer);
-        private readonly object _lock = new object();
-        private readonly SerialDisposable _collectionChangedSubscription = new SerialDisposable();
+        private readonly bool signalInitial;
+        private readonly PropertyPath<TItem, TValue> propertyPath;
+        private readonly WeakReference wr = new WeakReference(null);
+        private readonly ConcurrentDictionary<TItem, IDisposable> map = new ConcurrentDictionary<TItem, IDisposable>(IdentityComparer);
+        private readonly object @lock = new object();
+        private readonly SerialDisposable collectionChangedSubscription = new SerialDisposable();
         private IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>> _observer;
-        private bool _disposed;
-        private bool _intialized;
+        private bool disposed;
+        private bool intialized;
 
         public CollectionItemsObservable(TCollection collection, bool signalInitial, PropertyPath<TItem, TValue> propertyPath)
         {
-            _signalInitial = signalInitial;
-            _propertyPath = propertyPath;
-            _wr.Target = collection;
+            this.signalInitial = signalInitial;
+            this.propertyPath = propertyPath;
+            this.wr.Target = collection;
         }
 
         public CollectionItemsObservable(
@@ -44,109 +44,109 @@ namespace Gu.Reactive.Internals
             bool signalInitial,
             PropertyPath<TItem, TValue> propertyPath)
         {
-            _sourceObservable = sourceObservable;
-            _signalInitial = signalInitial;
-            _propertyPath = propertyPath;
+            this.sourceObservable = sourceObservable;
+            this.signalInitial = signalInitial;
+            this.propertyPath = propertyPath;
         }
 
         public IEnumerable<TItem> Collection
         {
             get
             {
-                VerifyDisposed();
-                var collection = (IEnumerable<TItem>)_wr.Target;
+                this.VerifyDisposed();
+                var collection = (IEnumerable<TItem>)this.wr.Target;
                 return collection ?? Enumerable.Empty<TItem>();
             }
         }
 
         public IEnumerator<TItem> GetEnumerator()
         {
-            return Collection.GetEnumerator();
+            return this.Collection.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            VerifyDisposed();
-            return GetEnumerator();
+            this.VerifyDisposed();
+            return this.GetEnumerator();
         }
 
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
-            _collectionChangedSubscription.Dispose();
-            foreach (var disposable in _map.Values.ToArray())
+            this.disposed = true;
+            this.collectionChangedSubscription.Dispose();
+            foreach (var disposable in this.map.Values.ToArray())
             {
                 disposable?.Dispose();
             }
 
-            _map.Clear();
-            _wr.Target = null;
+            this.map.Clear();
+            this.wr.Target = null;
         }
 
         protected override IDisposable SubscribeCore(IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>> observer)
         {
-            _observer = observer;
-            var observableCollection = _wr.Target as TCollection;
+            this._observer = observer;
+            var observableCollection = this.wr.Target as TCollection;
             if (observableCollection != null)
             {
-                _collectionChangedSubscription.Disposable = observableCollection.ObserveCollectionChanged(true)
-                                                                                .Subscribe(Update);
+                this.collectionChangedSubscription.Disposable = observableCollection.ObserveCollectionChanged(true)
+                                                                                .Subscribe(this.Update);
             }
-            else if (_sourceObservable != null)
+            else if (this.sourceObservable != null)
             {
-                _sourceObservable.Subscribe(UpdateCollectionSubscription);
+                this.sourceObservable.Subscribe(this.UpdateCollectionSubscription);
             }
             else
             {
                 throw new InvalidOperationException("Nothing to subscribe on");
             }
 
-            _intialized = true;
+            this.intialized = true;
             return this;
         }
 
         private void UpdateCollectionSubscription(EventPattern<PropertyChangedAndValueEventArgs<TCollection>> eventPattern)
         {
-            _wr.Target = null;
-            Reset(null);
-            _collectionChangedSubscription.Disposable = null;
+            this.wr.Target = null;
+            this.Reset(null);
+            this.collectionChangedSubscription.Disposable = null;
             if (eventPattern.EventArgs.HasValue)
             {
-                _intialized = false;
+                this.intialized = false;
                 var collection = eventPattern.EventArgs.Value;
-                _wr.Target = collection;
-                _collectionChangedSubscription.Disposable = collection.ObserveCollectionChanged(true)
-                                                           .Subscribe(Update);
-                _intialized = true;
+                this.wr.Target = collection;
+                this.collectionChangedSubscription.Disposable = collection.ObserveCollectionChanged(true)
+                                                           .Subscribe(this.Update);
+                this.intialized = true;
             }
         }
 
         private void Update(EventPattern<NotifyCollectionChangedEventArgs> e)
         {
-            VerifyDisposed();
-            lock (_lock)
+            this.VerifyDisposed();
+            lock (this.@lock)
             {
                 switch (e.EventArgs.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        AddRange(e.EventArgs.NewItems);
+                        this.AddRange(e.EventArgs.NewItems);
                         break;
                     case NotifyCollectionChangedAction.Remove:
-                        RemoveRange(e.EventArgs.OldItems);
+                        this.RemoveRange(e.EventArgs.OldItems);
                         break;
                     case NotifyCollectionChangedAction.Replace:
-                        AddRange(e.EventArgs.NewItems);
-                        RemoveRange(e.EventArgs.OldItems);
+                        this.AddRange(e.EventArgs.NewItems);
+                        this.RemoveRange(e.EventArgs.OldItems);
                         break;
                     case NotifyCollectionChangedAction.Move:
                         break;
                     case NotifyCollectionChangedAction.Reset:
-                        Reset(Collection);
+                        this.Reset(this.Collection);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -158,19 +158,19 @@ namespace Gu.Reactive.Internals
         {
             if (collection == null)
             {
-                foreach (var disposable in _map.Values)
+                foreach (var disposable in this.map.Values)
                 {
                     disposable.Dispose();
                 }
 
-                _map.Clear();
+                this.map.Clear();
                 return;
             }
 
-            var old = _map.Keys.Except(collection, IdentityComparer).ToArray();
-            RemoveRange(old);
-            var newItems = collection.Except(_map.Keys, IdentityComparer).ToArray();
-            AddRange(newItems);
+            var old = this.map.Keys.Except(collection, IdentityComparer).ToArray();
+            this.RemoveRange(old);
+            var newItems = collection.Except(this.map.Keys, IdentityComparer).ToArray();
+            this.AddRange(newItems);
         }
 
         private void RemoveRange(IList items)
@@ -188,7 +188,7 @@ namespace Gu.Reactive.Internals
                 }
 
                 IDisposable subscription;
-                if (_map.TryRemove((TItem)item, out subscription))
+                if (this.map.TryRemove((TItem)item, out subscription))
                 {
                     subscription.Dispose();
                 }
@@ -209,27 +209,27 @@ namespace Gu.Reactive.Internals
                     continue;
                 }
 
-                _map.GetOrAdd((TItem)item, ObserveItem);
+                this.map.GetOrAdd((TItem)item, this.ObserveItem);
             }
         }
 
         private IDisposable ObserveItem(TItem item)
         {
-            var itemSubscription = item.ObservePropertyChangedWithValue(_propertyPath, _intialized || _signalInitial)
-                                       .Subscribe(x => OnItemPropertyChanged(item, x));
+            var itemSubscription = item.ObservePropertyChangedWithValue(this.propertyPath, this.intialized || this.signalInitial)
+                                       .Subscribe(x => this.OnItemPropertyChanged(item, x));
             return itemSubscription;
         }
 
         private void OnItemPropertyChanged(TItem item, EventPattern<PropertyChangedAndValueEventArgs<TValue>> x)
         {
-            _observer?.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>(x.Sender, new ItemPropertyChangedEventArgs<TItem, TValue>(item, x)));
+            this._observer?.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>(x.Sender, new ItemPropertyChangedEventArgs<TItem, TValue>(item, x)));
         }
 
         private void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
     }

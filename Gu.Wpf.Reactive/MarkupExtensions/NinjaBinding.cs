@@ -19,13 +19,14 @@
         private static readonly DependencyObject DependencyObject = new DependencyObject();
         private static readonly string[] DoNotCopy = { "Path", "Source", "ElementName", "RelativeSource", "ValidationRules" };
         private static readonly PropertyInfo[] CopyProperties = typeof(Binding).GetProperties().Where(x => !DoNotCopy.Contains(x.Name)).ToArray();
+
         public NinjaBinding()
         {
         }
 
         public NinjaBinding(Binding binding)
         {
-            Binding = binding;
+            this.Binding = binding;
         }
 
         [ConstructorArgument("binding")]
@@ -35,43 +36,43 @@
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (Binding == null)
+            if (this.Binding == null)
             {
                 throw new ArgumentException("Binding == null");
             }
-            if (IsInDesignMode)
+            if (this.IsInDesignMode)
             {
-                if (Binding.RelativeSource != null)
+                if (this.Binding.RelativeSource != null)
                 {
                     throw new NotSupportedException("NinjaBinding does not support Binding with RelativeSource, try using ElementName instead.");
                 }
                 return DefaultValue(serviceProvider);
             }
             Binding binding = null;
-            if (Binding.ElementName != null)
+            if (this.Binding.ElementName != null)
             {
-                var reference = new Reference(Binding.ElementName);
+                var reference = new Reference(this.Binding.ElementName);
                 var source = reference.ProvideValue(serviceProvider) as FrameworkElement;
                 if (source == null)
                 {
                     var rootObjectProvider = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
                     if (rootObjectProvider == null)
                     {
-                        throw new ArgumentException($"Could not resolve element: {Binding.ElementName}");
+                        throw new ArgumentException($"Could not resolve element: {this.Binding.ElementName}");
                     }
                     var root = rootObjectProvider.RootObject as FrameworkElement;
-                    if (root != null && root.Name == Binding.ElementName)
+                    if (root != null && root.Name == this.Binding.ElementName)
                     {
                         source = root;
                     }
                     else
                     {
-                        throw new ArgumentException($"Could not resolve element: {Binding.ElementName}");
+                        throw new ArgumentException($"Could not resolve element: {this.Binding.ElementName}");
                     }
                 }
-                binding = CreateElementNameBinding(Binding, source);
+                binding = CreateElementNameBinding(this.Binding, source);
             }
-            else if (Binding.RelativeSource != null)
+            else if (this.Binding.RelativeSource != null)
             {
                 return null;
             }
@@ -82,7 +83,7 @@
                 {
                     throw new ArgumentException("rootObjectProvider == null");
                 }
-                binding = CreateDataContextBinding((FrameworkElement)rootObjectProvider.RootObject, Binding);
+                binding = CreateDataContextBinding((FrameworkElement)rootObjectProvider.RootObject, this.Binding);
             }
 
             var provideValue = binding.ProvideValue(serviceProvider);

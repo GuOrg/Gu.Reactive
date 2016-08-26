@@ -10,13 +10,13 @@ namespace Gu.Reactive
     /// <typeparam name="T"></typeparam>
     public class CollectionDebugView<T>
     {
-        private readonly IEnumerable<T> _collection;
+        private readonly IEnumerable<T> collection;
 
         private static readonly T[] Empty = new T[0];
 
         public CollectionDebugView(IEnumerable<T> collection)
         {
-            _collection = collection;
+            this.collection = collection;
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
@@ -24,13 +24,13 @@ namespace Gu.Reactive
         {
             get
             {
-                var array = _collection as T[];
+                var array = this.collection as T[];
                 if (array != null)
                 {
                     return array;
                 }
 
-                return _collection?.ToArray()?? Empty;
+                return this.collection?.ToArray()?? Empty;
             }
         }
     }

@@ -5,7 +5,7 @@
     using System.Windows.Input;
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class CanExecuteChangedEventManager : WeakEventManager
     {
@@ -92,7 +92,7 @@
         /// <param name="source">The object on which to start listening to.</param>
         protected override void StartListening(object source)
         {
-            ((ICommand)source).CanExecuteChanged += DeliverEvent;
+            ((ICommand)source).CanExecuteChanged += this.DeliverEvent;
         }
 
         /// <summary>
@@ -101,7 +101,7 @@
         /// <param name="source">The source object on which to stop listening to.</param>
         protected override void StopListening(object source)
         {
-            ((ICommand)source).CanExecuteChanged -= DeliverEvent;
+            ((ICommand)source).CanExecuteChanged -= this.DeliverEvent;
         }
     }
 }

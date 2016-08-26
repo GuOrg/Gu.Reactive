@@ -14,19 +14,20 @@ namespace Gu.Reactive
     {
         public static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];
         public static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgs = new[] { Diff.NotifyCollectionResetEventArgs };
-        private readonly List<T> _inner = new List<T>();
+        private readonly List<T> inner = new List<T>();
+
         public CollectionSynchronizer(IEnumerable<T> source)
         {
-            _inner.AddRange(source ?? Enumerable.Empty<T>());
+            this.inner.AddRange(source ?? Enumerable.Empty<T>());
         }
 
         public IReadOnlyList<T> Current
         {
             get
             {
-                lock (_inner)
+                lock (this.inner)
                 {
-                    return _inner;
+                    return this.inner;
                 }
             }
         }
@@ -38,7 +39,7 @@ namespace Gu.Reactive
             PropertyChangedEventHandler propertyChanged,
             NotifyCollectionChangedEventHandler collectionChanged)
         {
-            Refresh(sender, updated, EmptyArgs, scheduler, propertyChanged, collectionChanged);
+            this.Refresh(sender, updated, EmptyArgs, scheduler, propertyChanged, collectionChanged);
         }
 
         public void Refresh(
@@ -49,11 +50,11 @@ namespace Gu.Reactive
             PropertyChangedEventHandler propertyChanged,
             NotifyCollectionChangedEventHandler collectionChanged)
         {
-            lock (SyncRoot)
+            lock (this.SyncRoot)
             {
-                lock (updated.SyncRootOrDefault(SyncRoot))
+                lock (updated.SyncRootOrDefault(this.SyncRoot))
                 {
-                    var change = Update(updated, collectionChanges, propertyChanged != null || collectionChanged != null);
+                    var change = this.Update(updated, collectionChanges, propertyChanged != null || collectionChanged != null);
                     Notifier.Notify(sender, change, scheduler, propertyChanged, collectionChanged);
                 }
             }
@@ -62,12 +63,12 @@ namespace Gu.Reactive
         private NotifyCollectionChangedEventArgs Update(IReadOnlyList<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges, bool calculateDiff)
         {
             NotifyCollectionChangedEventArgs change = calculateDiff
-                                                          ? Diff.CollectionChange(_inner, updated, collectionChanges)
+                                                          ? Diff.CollectionChange(this.inner, updated, collectionChanges)
                                                           : null;
             if (!calculateDiff || change != null)
             {
-                _inner.Clear();
-                _inner.AddRange(updated);
+                this.inner.Clear();
+                this.inner.AddRange(updated);
             }
 
             return change;
@@ -75,71 +76,71 @@ namespace Gu.Reactive
 
         #region IList & IList<T>
 
-        public int Count => _inner.Count;
+        public int Count => this.inner.Count;
 
-        public object SyncRoot => ((IList)_inner).SyncRoot;
+        public object SyncRoot => ((IList)this.inner).SyncRoot;
 
-        public bool IsSynchronized => ((IList)_inner).IsSynchronized;
+        public bool IsSynchronized => ((IList)this.inner).IsSynchronized;
 
-        public T this[int index] => _inner[index];
+        public T this[int index] => this.inner[index];
 
-        public IEnumerator<T> GetEnumerator() => _inner.GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => this.inner.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         public int IndexOf(T value)
         {
-            lock (_inner)
+            lock (this.inner)
             {
-                return _inner.IndexOf(value);
+                return this.inner.IndexOf(value);
             }
         }
 
         public int IndexOf(object value)
         {
-            lock (_inner)
+            lock (this.inner)
             {
-                return ((IList)_inner).IndexOf(value);
+                return ((IList)this.inner).IndexOf(value);
             }
         }
 
         public int LastIndexOf(T value)
         {
-            lock (_inner)
+            lock (this.inner)
             {
-                return _inner.LastIndexOf(value);
+                return this.inner.LastIndexOf(value);
             }
         }
 
         public bool Contains(T value)
         {
-            lock (_inner)
+            lock (this.inner)
             {
-                return _inner.Contains(value);
+                return this.inner.Contains(value);
             }
         }
 
         public bool Contains(object value)
         {
-            lock (_inner)
+            lock (this.inner)
             {
-                return ((IList)_inner).Contains(value);
+                return ((IList)this.inner).Contains(value);
             }
         }
 
         public void CopyTo(T[] array, int index)
         {
-            lock (_inner)
+            lock (this.inner)
             {
-                _inner.CopyTo(array, index);
+                this.inner.CopyTo(array, index);
             }
         }
 
         public void CopyTo(Array array, int index)
         {
-            lock (_inner)
+            lock (this.inner)
             {
-                ((IList)_inner).CopyTo(array, index);
+                ((IList)this.inner).CopyTo(array, index);
             }
         }
 

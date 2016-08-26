@@ -8,14 +8,14 @@ namespace Gu.Reactive
     using Gu.Reactive.Internals;
     using JetBrains.Annotations;
 
-    public abstract class Tracker<TValue> : ITracker<TValue?> where TValue : struct 
+    public abstract class Tracker<TValue> : ITracker<TValue?> where TValue : struct
     {
         protected readonly TValue? WhenEmpty;
         protected readonly IReadOnlyList<TValue> Source;
-        private readonly IDisposable _subscription;
+        private readonly IDisposable subscription;
 
-        private TValue? _value;
-        private bool _disposed;
+        private TValue? value;
+        private bool disposed;
 
         protected Tracker(
             IReadOnlyList<TValue> source,
@@ -24,42 +24,42 @@ namespace Gu.Reactive
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(onRefresh, nameof(onRefresh));
-            Source = source;
-            WhenEmpty = whenEmpty;
-            _subscription = onRefresh.Subscribe(Refresh);
+            this.Source = source;
+            this.WhenEmpty = whenEmpty;
+            this.subscription = onRefresh.Subscribe(this.Refresh);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void Reset()
         {
-            VerifyDisposed();
-            if (Source.Count == 0)
+            this.VerifyDisposed();
+            if (this.Source.Count == 0)
             {
-                Value = WhenEmpty;
+                this.Value = this.WhenEmpty;
                 return;
             }
 
-            Value = GetValue(Source);
+            this.Value = this.GetValue(this.Source);
         }
 
         public TValue? Value
         {
             get
             {
-                VerifyDisposed();
-                return _value;
+                this.VerifyDisposed();
+                return this.value;
             }
 
             protected set
             {
-                if (Equals(value, _value))
+                if (Equals(value, this.value))
                 {
                     return;
                 }
 
-                _value = value;
-                OnPropertyChanged();
+                this.value = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -69,28 +69,28 @@ namespace Gu.Reactive
         /// </summary>
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Protected implementation of Dispose pattern. 
+        /// Protected implementation of Dispose pattern.
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
+            this.disposed = true;
             if (disposing)
             {
-                _subscription.Dispose();
+                this.subscription.Dispose();
             }
 
-            // Free any unmanaged objects here. 
+            // Free any unmanaged objects here.
         }
 
         protected virtual void Refresh(NotifyCollectionChangedEventArgs e)
@@ -99,14 +99,14 @@ namespace Gu.Reactive
             {
                 case NotifyCollectionChangedAction.Add:
                     {
-                        if (Source.Count > 1 && e.IsSingleNewItem())
+                        if (this.Source.Count > 1 && e.IsSingleNewItem())
                         {
                             var value = e.NewItem<TValue>();
-                            OnAdd(value);
+                            this.OnAdd(value);
                         }
                         else
                         {
-                            Reset();
+                            this.Reset();
                         }
 
                         break;
@@ -117,11 +117,11 @@ namespace Gu.Reactive
                         if (e.IsSingleOldItem())
                         {
                             var value = e.OldItem<TValue>();
-                            OnRemove(value);
+                            this.OnRemove(value);
                         }
                         else
                         {
-                            Reset();
+                            this.Reset();
                         }
 
                         break;
@@ -133,11 +133,11 @@ namespace Gu.Reactive
                         {
                             var oldValue = e.OldItem<TValue>();
                             var newValue = e.NewItem<TValue>();
-                            OnReplace(oldValue, newValue);
+                            this.OnReplace(oldValue, newValue);
                         }
                         else
                         {
-                            Reset();
+                            this.Reset();
                         }
 
                         break;
@@ -147,7 +147,7 @@ namespace Gu.Reactive
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     {
-                        Reset();
+                        this.Reset();
                         break;
                     }
 
@@ -166,10 +166,10 @@ namespace Gu.Reactive
 
         protected void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 throw new ObjectDisposedException(
-                    GetType()
+                    this.GetType()
                         .FullName);
             }
         }
@@ -177,7 +177,7 @@ namespace Gu.Reactive
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

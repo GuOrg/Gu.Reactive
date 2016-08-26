@@ -8,18 +8,18 @@
     public abstract class NotifyTaskCompletionBase<T> : INotifyPropertyChanged
         where T : Task
     {
-        private T _completed;
+        private T completed;
 
         protected NotifyTaskCompletionBase(T task)
         {
-            Task = task;
+            this.Task = task;
             if (task.IsCompleted)
             {
-                Completed = task;
+                this.Completed = task;
             }
             else
             {
-                AwaitTask(task);
+                this.AwaitTask(task);
             }
         }
 
@@ -29,44 +29,45 @@
 
         public T Completed
         {
-            get { return _completed; }
+            get { return this.completed; }
+
             private set
             {
-                if (_completed == value)
+                if (this.completed == value)
                 {
                     return;
                 }
-                _completed = value;
-                OnPropertyChanged();
+                this.completed = value;
+                this.OnPropertyChanged();
             }
         }
 
-        public TaskStatus Status => Task.Status;
+        public TaskStatus Status => this.Task.Status;
 
-        public bool IsCompleted => Task.IsCompleted;
+        public bool IsCompleted => this.Task.IsCompleted;
 
-        public bool IsNotCompleted => !Task.IsCompleted;
+        public bool IsNotCompleted => !this.Task.IsCompleted;
 
-        public bool IsSuccessfullyCompleted => Task.Status == TaskStatus.RanToCompletion;
+        public bool IsSuccessfullyCompleted => this.Task.Status == TaskStatus.RanToCompletion;
 
-        public bool IsCanceled => Task.IsCanceled;
+        public bool IsCanceled => this.Task.IsCanceled;
 
-        public bool IsFaulted => Task.IsFaulted;
+        public bool IsFaulted => this.Task.IsFaulted;
 
-        public AggregateException Exception => Task.Exception;
+        public AggregateException Exception => this.Task.Exception;
 
-        public Exception InnerException => Exception?.InnerException;
+        public Exception InnerException => this.Exception?.InnerException;
 
-        public string ErrorMessage => InnerException?.Message;
+        public string ErrorMessage => this.InnerException?.Message;
 
         protected virtual void OnCompleted()
         {
-            Completed = Task;
+            this.Completed = this.Task;
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private async void AwaitTask(T task)
@@ -82,29 +83,29 @@
 
             if (task.Status == TaskStatus.RanToCompletion)
             {
-                OnCompleted();
+                this.OnCompleted();
             }
 
-            var handler = PropertyChanged;
+            var handler = this.PropertyChanged;
             if (handler == null)
             {
                 return;
             }
 
-            handler(this, new PropertyChangedEventArgs(nameof(Status)));
-            handler(this, new PropertyChangedEventArgs(nameof(IsCompleted)));
-            handler(this, new PropertyChangedEventArgs(nameof(IsNotCompleted)));
+            handler(this, new PropertyChangedEventArgs(nameof(this.Status)));
+            handler(this, new PropertyChangedEventArgs(nameof(this.IsCompleted)));
+            handler(this, new PropertyChangedEventArgs(nameof(this.IsNotCompleted)));
             if (task.IsCanceled)
             {
-                handler(this, new PropertyChangedEventArgs(nameof(IsCanceled)));
+                handler(this, new PropertyChangedEventArgs(nameof(this.IsCanceled)));
             }
             else if (task.IsFaulted)
             {
-                handler(this, new PropertyChangedEventArgs(nameof(IsFaulted)));
-                handler(this, new PropertyChangedEventArgs(nameof(Exception)));
+                handler(this, new PropertyChangedEventArgs(nameof(this.IsFaulted)));
+                handler(this, new PropertyChangedEventArgs(nameof(this.Exception)));
                 handler(this,
-                    new PropertyChangedEventArgs(nameof(InnerException)));
-                handler(this, new PropertyChangedEventArgs(nameof(ErrorMessage)));
+                    new PropertyChangedEventArgs(nameof(this.InnerException)));
+                handler(this, new PropertyChangedEventArgs(nameof(this.ErrorMessage)));
             }
         }
     }

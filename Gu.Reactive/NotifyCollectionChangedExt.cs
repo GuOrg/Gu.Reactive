@@ -25,13 +25,13 @@ namespace Gu.Reactive
                 }
                 NotifyCollectionChangedEventHandler fsHandler = (_, e) =>
                 {
-                    o.OnNext(e); 
+                    o.OnNext(e);
                 };
                 source.CollectionChanged += fsHandler;
                 return Disposable.Create(() => source.CollectionChanged -= fsHandler);
             });
             return observable;
-        } 
+        }
 
         /// <summary>
         /// Observes collectionchanged events for source.

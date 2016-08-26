@@ -8,11 +8,11 @@ namespace Gu.Reactive.PropertyPathStuff
         private static readonly PropertyChangedEventArgs PropertyChangedEventArgs = new PropertyChangedEventArgs(null);
         private static readonly PropertyChangedEventArgs ValueChangedEventArgs = new PropertyChangedEventArgs(nameof(Value));
         private static readonly PropertyChangedEventArgs SourceChangedEventArgs = new PropertyChangedEventArgs(nameof(Source));
-        private readonly WeakReference _sourceRef = new WeakReference(null);
+        private readonly WeakReference sourceRef = new WeakReference(null);
 
         public RootItem(INotifyPropertyChanged value)
         {
-            _sourceRef.Target = value;
+            this.sourceRef.Target = value;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -21,7 +21,7 @@ namespace Gu.Reactive.PropertyPathStuff
 
         PathProperty INotifyingPathItem.PathProperty => null;
 
-        public INotifyPropertyChanged Source => Value as INotifyPropertyChanged;
+        public INotifyPropertyChanged Source => this.Value as INotifyPropertyChanged;
 
         public bool IsLast => false;
 
@@ -29,27 +29,28 @@ namespace Gu.Reactive.PropertyPathStuff
         {
             get
             {
-                return _sourceRef.Target;
+                return this.sourceRef.Target;
 
             }
+
             set
             {
-                if (ReferenceEquals(_sourceRef.Target, value))
+                if (ReferenceEquals(this.sourceRef.Target, value))
                 {
                     return;
                 }
 
-                _sourceRef.Target = value;
-                OnPropertyChanged(ValueChangedEventArgs);
-                OnPropertyChanged(SourceChangedEventArgs);
+                this.sourceRef.Target = value;
+                this.OnPropertyChanged(ValueChangedEventArgs);
+                this.OnPropertyChanged(SourceChangedEventArgs);
             }
         }
 
         public void Dispose()
         {
-            // NOP 
+            // NOP
         }
 
-        private void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+        private void OnPropertyChanged(PropertyChangedEventArgs e) => this.PropertyChanged?.Invoke(this, e);
     }
 }

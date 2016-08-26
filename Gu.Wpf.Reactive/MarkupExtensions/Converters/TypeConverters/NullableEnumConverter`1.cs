@@ -67,7 +67,7 @@
 
         object ITypeConverter.ConvertTo(object value, CultureInfo culture)
         {
-            return ConvertTo(value, culture);
+            return this.ConvertTo(value, culture);
         }
     }
 }

@@ -7,7 +7,7 @@
     using Gu.Reactive;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")] 
+    [DebuggerDisplay("Count = {Count}")]
     public class DispatchingView<T> : ThrottledView<T>
     {
         public DispatchingView(ObservableCollection<T> source)

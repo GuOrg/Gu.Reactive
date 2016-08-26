@@ -177,6 +177,7 @@
         private class RefComparer<T> : IComparer<T>
         {
             internal static readonly RefComparer<T> Default = new RefComparer<T>();
+
             public int Compare(T x, T y)
             {
                 return ReferenceEquals(x, y)

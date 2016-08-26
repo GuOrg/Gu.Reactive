@@ -7,46 +7,47 @@ namespace Gu.Reactive
 
     public sealed class DoubleAverageTracker : Tracker<double>
     {
-        private double _sum;
+        private double sum;
+
         public DoubleAverageTracker(
             IReadOnlyList<double> source,
             IObservable<NotifyCollectionChangedEventArgs> onRefresh,
             double whenEmpty)
             : base(source, onRefresh, whenEmpty)
         {
-            Reset();
+            this.Reset();
         }
 
         protected override void OnAdd(double value)
         {
-            _sum += value;
-            Value = _sum / Source.Count;
+            this.sum += value;
+            this.Value = this.sum / this.Source.Count;
         }
 
         protected override void OnRemove(double value)
         {
-            if (Source.Count == 0)
+            if (this.Source.Count == 0)
             {
-                _sum = 0;
-                Value = WhenEmpty;
+                this.sum = 0;
+                this.Value = this.WhenEmpty;
                 return;
             }
 
-            _sum -= value;
-            Value = _sum / Source.Count;
+            this.sum -= value;
+            this.Value = this.sum / this.Source.Count;
         }
 
         protected override void OnReplace(double oldValue, double newValue)
         {
-            _sum -= oldValue;
-            _sum += newValue;
-            Value = _sum / Source.Count;
+            this.sum -= oldValue;
+            this.sum += newValue;
+            this.Value = this.sum / this.Source.Count;
         }
 
         protected override double GetValue(IReadOnlyList<double> source)
         {
-            _sum = source.Sum();
-            return _sum / source.Count;
+            this.sum = source.Sum();
+            return this.sum / source.Count;
         }
     }
 }

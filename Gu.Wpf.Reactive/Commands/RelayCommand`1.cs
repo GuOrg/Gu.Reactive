@@ -25,6 +25,7 @@ namespace Gu.Wpf.Reactive
                 CommandManager.RequerySuggested += value;
                 base.CanExecuteChanged += value;
             }
+
             remove
             {
                 CommandManager.RequerySuggested -= value;

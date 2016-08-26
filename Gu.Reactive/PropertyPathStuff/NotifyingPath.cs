@@ -8,13 +8,13 @@ namespace Gu.Reactive.PropertyPathStuff
 
     internal sealed class NotifyingPath : IReadOnlyList<INotifyingPathItem>, IDisposable
     {
-        private readonly IReadOnlyList<INotifyingPathItem> _parts;
-        private readonly RootItem _root;
-        private bool _disposed;
+        private readonly IReadOnlyList<INotifyingPathItem> parts;
+        private readonly RootItem root;
+        private bool disposed;
 
         internal NotifyingPath(RootItem root, IPropertyPath path)
         {
-            _root = root;
+            this.root = root;
             var items = new INotifyingPathItem[path.Count + 1];
             items[0] = root;
             INotifyingPathItem previous = root;
@@ -25,61 +25,62 @@ namespace Gu.Reactive.PropertyPathStuff
                 previous = item;
             }
 
-            _parts = items;
+            this.parts = items;
         }
 
-        public int Count => _parts.Count;
-
-        public INotifyingPathItem this[int index]
-        {
-            get
-            {
-                VerifyDisposed();
-                return _parts[index];
-            }
-        }
+        public int Count => this.parts.Count;
 
         internal INotifyPropertyChanged Source
         {
             get
             {
-                VerifyDisposed();
-                return (INotifyPropertyChanged)((RootItem)_parts[0]).Value;
+                this.VerifyDisposed();
+                return (INotifyPropertyChanged)((RootItem)this.parts[0]).Value;
             }
+
             set
             {
-                VerifyDisposed();
-                _root.Value = value;
+                this.VerifyDisposed();
+                this.root.Value = value;
             }
         }
 
-        internal object LastSource => ((NotifyingPathItem)_parts.Last()).Previous.Value;
+        internal object LastSource => ((NotifyingPathItem)this.parts.Last()).Previous.Value;
+
+        public INotifyingPathItem this[int index]
+        {
+            get
+            {
+                this.VerifyDisposed();
+                return this.parts[index];
+            }
+        }
 
         public IEnumerator<INotifyingPathItem> GetEnumerator()
         {
-            VerifyDisposed();
-            return _parts.GetEnumerator();
+            this.VerifyDisposed();
+            return this.parts.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            VerifyDisposed();
-            return GetEnumerator();
+            this.VerifyDisposed();
+            return this.GetEnumerator();
         }
 
         /// <summary>
-        /// Make the class sealed when using this. 
+        /// Make the class sealed when using this.
         /// Call VerifyDisposed at the start of all public methods
         /// </summary>
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
-            foreach (var part in _parts)
+            this.disposed = true;
+            foreach (var part in this.parts)
             {
                 part.Dispose();
             }
@@ -87,10 +88,10 @@ namespace Gu.Reactive.PropertyPathStuff
 
         private void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 throw new ObjectDisposedException(
-                    GetType()
+                    this.GetType()
                         .FullName);
             }
         }

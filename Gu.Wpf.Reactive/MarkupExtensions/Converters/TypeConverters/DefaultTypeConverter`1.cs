@@ -39,7 +39,7 @@
 
         public bool CanConvertTo(object value, CultureInfo culture)
         {
-            return IsValid(value);
+            return this.IsValid(value);
         }
 
         public T ConvertTo(object value, CultureInfo culture)
@@ -49,7 +49,7 @@
 
         object ITypeConverter.ConvertTo(object value, CultureInfo culture)
         {
-            return ConvertTo(value, culture);
+            return this.ConvertTo(value, culture);
         }
     }
 }

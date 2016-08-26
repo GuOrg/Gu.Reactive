@@ -55,13 +55,13 @@
 
         public ConditionToolTip()
         {
-            UpdateInferConditionFromCommand(InferConditionFromCommand);
+            this.UpdateInferConditionFromCommand(this.InferConditionFromCommand);
         }
 
         public bool InferConditionFromCommand
         {
-            get { return (bool)GetValue(InferConditionFromCommandProperty); }
-            set { SetValue(InferConditionFromCommandProperty, value); }
+            get { return (bool)this.GetValue(InferConditionFromCommandProperty); }
+            set { this.SetValue(InferConditionFromCommandProperty, value); }
         }
 
         /// <summary>
@@ -69,14 +69,14 @@
         /// </summary>
         public ICondition Condition
         {
-            get { return (ICondition)GetValue(ConditionProperty); }
-            set { SetValue(ConditionProperty, value); }
+            get { return (ICondition)this.GetValue(ConditionProperty); }
+            set { this.SetValue(ConditionProperty, value); }
         }
 
         public Type CommandType
         {
-            get { return (Type)GetValue(CommandTypeProperty); }
-            protected set { SetValue(CommandTypePropertyKey, value); }
+            get { return (Type)this.GetValue(CommandTypeProperty); }
+            protected set { this.SetValue(CommandTypePropertyKey, value); }
         }
 
         private static void OnPlacementTargetChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)

@@ -26,24 +26,24 @@
 
         object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            VerifyValue(value, parameter);
+            this.VerifyValue(value, parameter);
             if (InputTypeConverter.IsValid(value))
             {
                 var convertTo = InputTypeConverter.ConvertTo(value, culture);
-                return Convert(convertTo, culture);
+                return this.Convert(convertTo, culture);
             }
-            return ConvertDefault();
+            return this.ConvertDefault();
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            VerifyValue(value, parameter);
+            this.VerifyValue(value, parameter);
             if (ResultTypeConverter.CanConvertTo(value, culture))
             {
                 var convertTo = ResultTypeConverter.ConvertTo(value, culture);
-                return ConvertBack(convertTo, culture);
+                return this.ConvertBack(convertTo, culture);
             }
-            return ConvertBackDefault();
+            return this.ConvertBackDefault();
         }
 
         public override object ProvideValue(IServiceProvider serviceProvider)
@@ -71,7 +71,7 @@
             {
                 if (parameter != null)
                 {
-                    throw new ArgumentException(string.Format("ConverterParameter makes no sense for MarkupConverter. Parameter was: {0} for converter of type {1}", parameter, GetType().Name));
+                    throw new ArgumentException(string.Format("ConverterParameter makes no sense for MarkupConverter. Parameter was: {0} for converter of type {1}", parameter, this.GetType().Name));
                 }
                 if (!InputTypeConverter.IsValid(value))
                 {
@@ -80,7 +80,7 @@
                             caller,
                             value,
                             value != null ? "of type: " + value.GetType().Name : "",
-                            GetType().Name,
+                            this.GetType().Name,
                             typeof(TInput).PrettyName(),
                             typeof(TResult).PrettyName());
                     throw new ArgumentException(message, nameof(value));

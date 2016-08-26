@@ -10,8 +10,8 @@ namespace Gu.Wpf.Reactive
     /// </summary>
     public class ObservingRelayCommand : ManualRelayCommand, IDisposable
     {
-        private readonly IDisposable _subscription;
-        private bool _disposed;
+        private readonly IDisposable subscription;
+        private bool disposed;
 
         public ObservingRelayCommand(
             Action action,
@@ -20,30 +20,30 @@ namespace Gu.Wpf.Reactive
             : base(action, criteria)
         {
             Ensure.NotNullOrEmpty(observable, nameof(observable));
-            _subscription = observable.Merge()
-                                      .Subscribe(_ => RaiseCanExecuteChanged());
+            this.subscription = observable.Merge()
+                                      .Subscribe(_ => this.RaiseCanExecuteChanged());
         }
 
         protected override bool InternalCanExecute(object parameter)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             return base.InternalCanExecute(parameter);
         }
 
         protected override void InternalExecute(object parameter)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             base.InternalExecute(parameter);
         }
 
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
-            _disposed = true;
-            Dispose(true);
+            this.disposed = true;
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
@@ -51,15 +51,15 @@ namespace Gu.Wpf.Reactive
         {
             if (disposing)
             {
-                _subscription.Dispose();
+                this.subscription.Dispose();
             }
         }
 
         protected void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
     }

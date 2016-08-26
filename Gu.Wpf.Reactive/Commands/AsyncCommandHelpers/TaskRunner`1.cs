@@ -7,17 +7,17 @@
 
     public class TaskRunner<TParameter> : TaskRunnerBase, ITaskRunner<TParameter>
     {
-        private readonly Func<TParameter,Task> _action;
+        private readonly Func<TParameter,Task> action;
 
         public TaskRunner(Func<TParameter,Task> action)
         {
             Ensure.NotNull(action, nameof(action));
-            _action = action;
+            this.action = action;
         }
 
         public void Run(TParameter parameter)
         {
-            TaskCompletion = new NotifyTaskCompletion(_action(parameter));
+            this.TaskCompletion = new NotifyTaskCompletion(this.action(parameter));
         }
     }
 }

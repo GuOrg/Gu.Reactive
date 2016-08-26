@@ -11,30 +11,31 @@
 
     public abstract class TaskRunnerBase : INotifyPropertyChanged, IDisposable
     {
-        private NotifyTaskCompletion _taskCompletion;
+        private NotifyTaskCompletion taskCompletion;
 
-        private bool _disposed;
+        private bool disposed;
 
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
         protected TaskRunnerBase()
         {
             var observable = this.ObservePropertyChanged(x => x.TaskCompletion.Status);
-            CanRunCondition = new Condition(observable, CanRun) { Name = "CanRun" };
-            CanCancelCondition = new Condition(Observable.Empty<object>(), () => false) { Name = "CanCancel" };
+            this.CanRunCondition = new Condition(observable, this.CanRun) { Name = "CanRun" };
+            this.CanCancelCondition = new Condition(Observable.Empty<object>(), () => false) { Name = "CanCancel" };
         }
 
         public NotifyTaskCompletion TaskCompletion
         {
-            get { return _taskCompletion; }
+            get { return this.taskCompletion; }
+
             protected set
             {
-                if (Equals(value, _taskCompletion))
+                if (Equals(value, this.taskCompletion))
                 {
                     return;
                 }
-                _taskCompletion = value;
-                OnPropertyChanged();
+                this.taskCompletion = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -44,7 +45,7 @@
 
         public bool? CanRun()
         {
-            var completion = TaskCompletion;
+            var completion = this.TaskCompletion;
             if (completion == null)
             {
                 return true;
@@ -77,36 +78,36 @@
         /// </summary>
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
-            _disposed = true;
-            Dispose(true);
+            this.disposed = true;
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Protected implementation of Dispose pattern. 
+        /// Protected implementation of Dispose pattern.
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                TaskCompletion?.Task.Dispose();
-                // Free any other managed objects here. 
+                this.TaskCompletion?.Task.Dispose();
+                // Free any other managed objects here.
             }
 
-            // Free any unmanaged objects here. 
+            // Free any unmanaged objects here.
         }
 
         protected void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 throw new ObjectDisposedException(
-                    GetType()
+                    this.GetType()
                         .FullName);
             }
         }
@@ -114,7 +115,7 @@
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

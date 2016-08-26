@@ -12,19 +12,19 @@
         private static readonly Func<T, bool> AlwaysTrue = _ => true;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="action"></param>
         /// <param name="criteria"></param>
         public ManualRelayCommand(Action<T> action, Func<T, bool> criteria)
         {
             Ensure.NotNull(action, nameof(action));
-            Action = action;
-            Criteria = criteria ?? AlwaysTrue;
+            this.Action = action;
+            this.Criteria = criteria ?? AlwaysTrue;
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="action"></param>
         public ManualRelayCommand(Action<T> action)
@@ -38,29 +38,29 @@
 
         public bool CanExecute(T parameter)
         {
-            return InternalCanExecute(parameter);
+            return this.InternalCanExecute(parameter);
         }
 
         public void Execute(T parameter)
         {
-            InternalExecute(parameter);
+            this.InternalExecute(parameter);
         }
 
         protected override bool InternalCanExecute(T parameter)
         {
-            return Criteria(parameter);
+            return this.Criteria(parameter);
         }
 
         protected override void InternalExecute(T parameter)
         {
-            IsExecuting = true;
+            this.IsExecuting = true;
             try
             {
-                Action(parameter);
+                this.Action(parameter);
             }
             finally
             {
-                IsExecuting = false;
+                this.IsExecuting = false;
             }
         }
     }

@@ -7,48 +7,48 @@
     /// <summary>
     /// A command with CommandParameter of type <typeparam name="T"></typeparam>
     /// Signals CanExecuteChanged when conditions changes
-    /// CanExecute() returns condition.IsSatisfied == true 
+    /// CanExecute() returns condition.IsSatisfied == true
     /// </summary>
     public class ConditionRelayCommand<T> : ManualRelayCommand<T>, IConditionRelayCommand
     {
-        private readonly IDisposable _subscription;
-        private bool _disposed;
+        private readonly IDisposable subscription;
+        private bool disposed;
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="action">SomeMethod</param>
         /// <param name="condition"></param>
         public ConditionRelayCommand(Action<T> action, ICondition condition)
             : base(action, _ => condition.IsSatisfied == true)
         {
-            Condition = condition;
-            _subscription = Condition.ObserveIsSatisfiedChanged()
-                                     .Subscribe(_ => RaiseCanExecuteChanged());
+            this.Condition = condition;
+            this.subscription = this.Condition.ObserveIsSatisfiedChanged()
+                                     .Subscribe(_ => this.RaiseCanExecuteChanged());
         }
 
         public ICondition Condition { get; }
 
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
-            _disposed = true;
-            Dispose(true);
+            this.disposed = true;
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected override bool InternalCanExecute(T parameter)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             return base.InternalCanExecute(parameter);
         }
 
         protected override void InternalExecute(T parameter)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             base.InternalExecute(parameter);
         }
 
@@ -56,15 +56,15 @@
         {
             if (disposing)
             {
-                _subscription.Dispose();
+                this.subscription.Dispose();
             }
         }
 
         protected void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
     }

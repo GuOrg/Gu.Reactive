@@ -39,7 +39,7 @@
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
         }
-       
+
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this ObservableCollection<T> collection,
             Func<T, bool> filter,
@@ -84,7 +84,7 @@
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
         }
-       
+
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this ReadOnlyObservableCollection<T> collection,
             Func<T, bool> filter,
@@ -129,7 +129,7 @@
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
         }
-       
+
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IReadOnlyObservableCollection<T> collection,
             Func<T, bool> filter,
@@ -178,7 +178,7 @@
 			Ensure.NotNull(triggers, nameof(triggers));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
         }
-       
+
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IEnumerable<T> collection,
             Func<T, bool> filter,
@@ -228,7 +228,7 @@
 			Ensure.NotNull(trigger, nameof(trigger));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, trigger);
         }
-       
+
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IEnumerable<T> collection,
             Func<T, bool> filter,

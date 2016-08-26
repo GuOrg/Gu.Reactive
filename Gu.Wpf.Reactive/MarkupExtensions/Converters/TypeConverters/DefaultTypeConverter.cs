@@ -5,21 +5,21 @@
 
     internal class DefaultTypeConverter : ITypeConverter<object>
     {
-        private readonly Type _type;
+        private readonly Type type;
 
         public DefaultTypeConverter(Type type)
         {
-            _type = type;
+            this.type = type;
         }
 
         public bool IsValid(object value)
         {
-            return _type.IsInstanceOfType(value);
+            return this.type.IsInstanceOfType(value);
         }
 
         public bool CanConvertTo(object value, CultureInfo culture)
         {
-            return IsValid(value);
+            return this.IsValid(value);
         }
 
         public object ConvertTo(object value, CultureInfo culture)

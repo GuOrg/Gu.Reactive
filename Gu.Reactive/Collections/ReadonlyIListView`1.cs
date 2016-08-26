@@ -9,34 +9,34 @@ namespace Gu.Reactive
 
     public class ReadOnlyIListView<T> : IReadOnlyObservableCollection<T>, IList, IDisposable
     {
-        private readonly IReadOnlyList<T> _source;
-        private readonly IDisposable _subscriptions;
+        private readonly IReadOnlyList<T> source;
+        private readonly IDisposable subscriptions;
 
-        private bool _disposed;
+        private bool disposed;
 
         public ReadOnlyIListView(IObservableCollection<T> source)
         {
-            _source = source.AsReadOnly();
-            _subscriptions = Subscribe(source);
+            this.source = source.AsReadOnly();
+            this.subscriptions = this.Subscribe(source);
         }
 
         public ReadOnlyIListView(IReadOnlyObservableCollection<T> source)
         {
-            _source = source;
-            _subscriptions = Subscribe(source);
+            this.source = source;
+            this.subscriptions = this.Subscribe(source);
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Count => VerifyDisposed(_source.Count);
+        public int Count => this.VerifyDisposed(this.source.Count);
 
-        public T this[int index] => VerifyDisposed(_source[index]);
+        public T this[int index] => this.VerifyDisposed(this.source[index]);
 
-        bool IList.IsReadOnly => VerifyDisposed(true);
+        bool IList.IsReadOnly => this.VerifyDisposed(true);
 
-        bool IList.IsFixedSize => VerifyDisposed(true);
+        bool IList.IsFixedSize => this.VerifyDisposed(true);
 
         object IList.this[int index]
         {
@@ -44,23 +44,23 @@ namespace Gu.Reactive
             set { ThrowHelper.ThrowCollectionIsReadonly(); }
         }
 
-        object ICollection.SyncRoot => VerifyDisposed(((ICollection)_source).SyncRoot);
+        object ICollection.SyncRoot => this.VerifyDisposed(((ICollection)this.source).SyncRoot);
 
-        bool ICollection.IsSynchronized => VerifyDisposed(((ICollection)_source).IsSynchronized);
+        bool ICollection.IsSynchronized => this.VerifyDisposed(((ICollection)this.source).IsSynchronized);
 
-        public IEnumerator<T> GetEnumerator() => VerifyDisposed(_source.GetEnumerator());
+        public IEnumerator<T> GetEnumerator() => this.VerifyDisposed(this.source.GetEnumerator());
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        void ICollection.CopyTo(Array array, int index) => _source.CopyTo(array, index);
+        void ICollection.CopyTo(Array array, int index) => this.source.CopyTo(array, index);
 
         int IList.Add(object value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
 
-        bool IList.Contains(object value) => _source.Contains(value);
+        bool IList.Contains(object value) => this.source.Contains(value);
 
         void IList.Clear() => ThrowHelper.ThrowCollectionIsReadonly();
 
-        int IList.IndexOf(object value) => _source.IndexOf(value);
+        int IList.IndexOf(object value) => this.source.IndexOf(value);
 
         void IList.Insert(int index, object value) => ThrowHelper.ThrowCollectionIsReadonly();
 
@@ -70,45 +70,45 @@ namespace Gu.Reactive
 
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
-            _subscriptions.Dispose();
+            this.disposed = true;
+            this.subscriptions.Dispose();
         }
 
-        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e) => CollectionChanged?.Invoke(this, e);
+        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e) => this.CollectionChanged?.Invoke(this, e);
 
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => this.PropertyChanged?.Invoke(this, e);
 
         protected void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
 
         protected void VerifyDisposed(Action action)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             action();
         }
 
         protected TResult VerifyDisposed<TResult>(TResult result)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             return result;
         }
 
         private IDisposable Subscribe<TCol>(TCol col) where TCol : INotifyCollectionChanged, INotifyPropertyChanged
         {
             var subscriptions = new CompositeDisposable(2) { col.ObservePropertyChangedSlim()
-                                                                .Subscribe(OnPropertyChanged),
+                                                                .Subscribe(this.OnPropertyChanged),
                                                              col.ObserveCollectionChangedSlim(false)
-                                                                .Subscribe(OnCollectionChanged) };
+                                                                .Subscribe(this.OnCollectionChanged) };
             return subscriptions;
         }
     }

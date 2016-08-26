@@ -6,21 +6,21 @@
 
     public class NotifyCollectionChangedEventArgs<T>
     {
-        private readonly NotifyCollectionChangedEventArgs _args;
+        private readonly NotifyCollectionChangedEventArgs args;
 
         public NotifyCollectionChangedEventArgs(NotifyCollectionChangedEventArgs args)
         {
-            _args = args;
+            this.args = args;
         }
 
-        public IEnumerable<T> NewItems => _args.NewItems?.Cast<T>() ?? Enumerable.Empty<T>();
+        public IEnumerable<T> NewItems => this.args.NewItems?.Cast<T>() ?? Enumerable.Empty<T>();
 
-        public int NewStartingIndex => _args.NewStartingIndex;
+        public int NewStartingIndex => this.args.NewStartingIndex;
 
-        public IEnumerable<T> OldItems => _args.OldItems?.Cast<T>() ?? Enumerable.Empty<T>();
+        public IEnumerable<T> OldItems => this.args.OldItems?.Cast<T>() ?? Enumerable.Empty<T>();
 
-        public int OldStartingIndex => _args.OldStartingIndex;
+        public int OldStartingIndex => this.args.OldStartingIndex;
 
-        public NotifyCollectionChangedAction Action => _args.Action;
+        public NotifyCollectionChangedAction Action => this.args.Action;
     }
 }

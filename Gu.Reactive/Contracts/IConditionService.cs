@@ -1,7 +1,7 @@
 ﻿namespace Gu.Reactive
 {
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public interface IConditionsService
     {

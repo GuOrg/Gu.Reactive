@@ -8,63 +8,64 @@
 
     public sealed class Mapper<TSource, TResult> : ITracker<TResult>
     {
-        private readonly ITracker<TSource> _source;
-        private readonly Func<TSource, TResult> _selector;
-        private readonly IDisposable _subscription;
+        private readonly ITracker<TSource> source;
+        private readonly Func<TSource, TResult> selector;
+        private readonly IDisposable subscription;
 
-        private bool _disposed;
+        private bool disposed;
 
-        private TResult _value;
+        private TResult value;
 
 
         public Mapper(ITracker<TSource> source, Func<TSource, TResult> selector)
         {
-            _source = source;
-            _selector = selector;
+            this.source = source;
+            this.selector = selector;
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            _subscription = source.ObservePropertyChangedSlim(nameof(source.Value))
-                                  .Subscribe(_ => { Value = _selector(_source.Value); });
+            this.subscription = source.ObservePropertyChangedSlim(nameof(source.Value))
+                                  .Subscribe(_ => { this.Value = this.selector(this.source.Value); });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public TResult Value
         {
-            get { return _value; }
+            get { return this.value; }
+
             private set
             {
-                if (Equals(value, _value))
+                if (Equals(value, this.value))
                 {
                     return;
                 }
 
-                _value = value;
-                OnPropertyChanged();
+                this.value = value;
+                this.OnPropertyChanged();
             }
         }
 
         /// <summary>
-        /// Make the class sealed when using this. 
+        /// Make the class sealed when using this.
         /// Call VerifyDisposed at the start of all public methods
         /// </summary>
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
-            _subscription.Dispose();
+            this.disposed = true;
+            this.subscription.Dispose();
         }
 
         private void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 throw new ObjectDisposedException(
-                    GetType()
+                    this.GetType()
                         .FullName);
             }
         }
@@ -72,7 +73,7 @@
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

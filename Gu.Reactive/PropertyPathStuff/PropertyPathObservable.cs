@@ -19,8 +19,8 @@
         where TClass : INotifyPropertyChanged
     {
         internal readonly PropertyChangedEventArgs PropertyChangedEventArgs;
-        private readonly WeakReference _sourceReference = new WeakReference(null);
-        private readonly PropertyPath<TClass, TProp> _propertyPath;
+        private readonly WeakReference sourceReference = new WeakReference(null);
+        private readonly PropertyPath<TClass, TProp> propertyPath;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyPathObservable{TClass,TProp}"/> class.
@@ -38,18 +38,18 @@
 
         public PropertyPathObservable(TClass source, PropertyPath<TClass, TProp> propertyPath)
         {
-            _sourceReference.Target = source;
-            _propertyPath = propertyPath;
-            VerifyPath(_propertyPath);
-            PropertyChangedEventArgs = new PropertyChangedEventArgs(_propertyPath.Last.PropertyInfo.Name);
+            this.sourceReference.Target = source;
+            this.propertyPath = propertyPath;
+            VerifyPath(this.propertyPath);
+            this.PropertyChangedEventArgs = new PropertyChangedEventArgs(this.propertyPath.Last.PropertyInfo.Name);
         }
 
-        public object Sender => _propertyPath.GetSender((TClass)_sourceReference.Target);
+        public object Sender => this.propertyPath.GetSender((TClass)this.sourceReference.Target);
 
         protected override IDisposable SubscribeCore(IObserver<EventPattern<PropertyChangedEventArgs>> observer)
         {
-            var rootItem = new RootItem((INotifyPropertyChanged)_sourceReference.Target);
-            var path = new NotifyingPath(rootItem, _propertyPath);
+            var rootItem = new RootItem((INotifyPropertyChanged)this.sourceReference.Target);
+            var path = new NotifyingPath(rootItem, this.propertyPath);
 
             var subscription = path.Last()
                                    .ObservePropertyChanged()

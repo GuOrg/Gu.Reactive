@@ -6,7 +6,7 @@
 
     internal class PropertyPath<TValue> : IMaybe<TValue>
     {
-        private readonly Maybe<TValue> _maybe;
+        private readonly Maybe<TValue> maybe;
 
         internal PropertyPath(PropertyPath propertyPath, object source)
         {
@@ -20,11 +20,11 @@
                         last.PropertyInfo.PropertyType.FullName));
             }
 
-            _maybe = propertyPath.GetValue<TValue>(source);
+            this.maybe = propertyPath.GetValue<TValue>(source);
         }
 
-        public bool HasValue => _maybe.HasValue;
+        public bool HasValue => this.maybe.HasValue;
 
-        public TValue Value => _maybe.Value;
+        public TValue Value => this.maybe.Value;
     }
 }

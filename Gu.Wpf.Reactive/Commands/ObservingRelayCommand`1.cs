@@ -11,9 +11,9 @@
     /// </summary>
     public class ObservingRelayCommand<T> : ManualRelayCommand<T>, IDisposable
     {
-        private readonly IDisposable _subscription;
+        private readonly IDisposable subscription;
 
-        private bool _disposed;
+        private bool disposed;
 
         public ObservingRelayCommand(
             Action<T> action,
@@ -22,30 +22,30 @@
             : base(action, criteria)
         {
             Ensure.NotNullOrEmpty(observable, nameof(observable));
-            _subscription = observable.Merge()
-                                      .Subscribe(x => RaiseCanExecuteChanged());
+            this.subscription = observable.Merge()
+                                      .Subscribe(x => this.RaiseCanExecuteChanged());
         }
 
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
-            _disposed = true;
-            Dispose(true);
+            this.disposed = true;
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected override bool InternalCanExecute(T parameter)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             return base.InternalCanExecute(parameter);
         }
 
         protected override void InternalExecute(T parameter)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             base.InternalExecute(parameter);
         }
 
@@ -53,15 +53,15 @@
         {
             if (disposing)
             {
-                _subscription.Dispose();
+                this.subscription.Dispose();
             }
         }
 
         protected void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
     }

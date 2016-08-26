@@ -10,7 +10,7 @@
     public static partial class MaxTracker
     {
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="TItem"></typeparam>
         /// <typeparam name="TValue"></typeparam>
@@ -37,7 +37,7 @@
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="TItem"></typeparam>
         /// <typeparam name="TValue"></typeparam>
@@ -64,7 +64,7 @@
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <typeparam name="TItem"></typeparam>
         /// <typeparam name="TValue"></typeparam>

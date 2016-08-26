@@ -8,7 +8,7 @@
     [Serializable]
     public class ObservableFixedSizeQueue<T> : FixedSizedQueue<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        private readonly IScheduler _scheduler;
+        private readonly IScheduler scheduler;
 
         public ObservableFixedSizeQueue(int size)
             : base(size)
@@ -18,7 +18,7 @@
         public ObservableFixedSizeQueue(int size, IScheduler scheduler)
             : base(size)
         {
-            _scheduler = scheduler;
+            this.scheduler = scheduler;
         }
 
         [field: NonSerialized]
@@ -29,31 +29,31 @@
 
         public override void Enqueue(T item)
         {
-            var count = Count;
+            var count = this.Count;
             T overflow = default(T);
-            if (Count >= Size)
+            if (this.Count >= this.Size)
             {
-                while (Count >= Size && TryDequeue(out overflow)) { }
+                while (this.Count >= this.Size && this.TryDequeue(out overflow)) { }
             }
 
             base.Enqueue(item);
-            if (Count != count)
+            if (this.Count != count)
             {
-                OnPropertyChanged(Notifier.CountPropertyChangedEventArgs);
+                this.OnPropertyChanged(Notifier.CountPropertyChangedEventArgs);
             }
 
-            OnPropertyChanged(Notifier.IndexerPropertyChangedEventArgs);
-            if (count >= Size)
+            this.OnPropertyChanged(Notifier.IndexerPropertyChangedEventArgs);
+            if (count >= this.Size)
             {
-                CollectionChanged.Notify(this, Diff.CreateRemoveEventArgs(overflow, 0), _scheduler);
+                this.CollectionChanged.Notify(this, Diff.CreateRemoveEventArgs(overflow, 0), this.scheduler);
             }
 
-            CollectionChanged.Notify(this, Diff.CreateAddEventArgs(item, Count - 1), _scheduler);
+            this.CollectionChanged.Notify(this, Diff.CreateAddEventArgs(item, this.Count - 1), this.scheduler);
         }
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, e);
+            this.PropertyChanged?.Invoke(this, e);
         }
     }
 }

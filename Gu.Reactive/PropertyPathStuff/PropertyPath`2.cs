@@ -10,7 +10,7 @@
     //[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     internal class PropertyPath<TSource, TValue> : IValuePath<TSource, TValue>, IPropertyPath
     {
-        private readonly PropertyPath _propertyPath;
+        private readonly PropertyPath propertyPath;
 
         private static readonly ValueAndSender<TValue> EmptyValueAndSender = new ValueAndSender<TValue>(null, new Maybe<TValue>(false, default(TValue)));
 
@@ -22,41 +22,41 @@
                 throw new InvalidOperationException($"Valuepath type does not match. Expected: {typeof(TValue).FullName} was: {last.PropertyInfo.PropertyType.FullName}");
             }
 
-            _propertyPath = propertyPath;
+            this.propertyPath = propertyPath;
         }
 
-        public int Count => _propertyPath.Count;
+        public int Count => this.propertyPath.Count;
 
-        public PathProperty Last => _propertyPath.Last;
+        public PathProperty Last => this.propertyPath.Last;
 
-        public PathProperty this[int index] => _propertyPath[index];
+        public PathProperty this[int index] => this.propertyPath[index];
 
         public IMaybe<TValue> GetValue(TSource source)
         {
-            var maybe = _propertyPath.GetValue<TValue>(source);
+            var maybe = this.propertyPath.GetValue<TValue>(source);
             return maybe;
         }
 
         public ValueAndSender<TValue> GetValueAndSender(TSource source)
         {
-            var sender = GetSender(source);
+            var sender = this.GetSender(source);
             if (sender == null)
             {
                 return EmptyValueAndSender;
             }
 
-            var value = _propertyPath.Last.PropertyInfo.GetValue(sender);
+            var value = this.propertyPath.Last.PropertyInfo.GetValue(sender);
             return new ValueAndSender<TValue>(sender, new Maybe<TValue>(true, (TValue)value));
         }
 
         public object GetSender(TSource source)
         {
-            if (Count == 1)
+            if (this.Count == 1)
             {
                 return source;
             }
 
-            var maybe = _propertyPath[_propertyPath.Count - 2].GetValue<object>(source);
+            var maybe = this.propertyPath[this.propertyPath.Count - 2].GetValue<object>(source);
             return maybe.HasValue
                        ? maybe.Value
                        : null;
@@ -64,17 +64,17 @@
 
         public IEnumerator<PathProperty> GetEnumerator()
         {
-            return _propertyPath.GetEnumerator();
+            return this.propertyPath.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
 
         public override string ToString()
         {
-            return string.Format("x => x.{0}", string.Join(".", _propertyPath.Select(x => x.PropertyInfo.Name)));
+            return string.Format("x => x.{0}", string.Join(".", this.propertyPath.Select(x => x.PropertyInfo.Name)));
         }
     }
 }

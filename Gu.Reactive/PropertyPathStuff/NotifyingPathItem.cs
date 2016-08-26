@@ -9,11 +9,11 @@ namespace Gu.Reactive.PropertyPathStuff
 
     internal sealed class NotifyingPathItem : INotifyingPathItem
     {
-        private readonly WeakReference _sourceRef = new WeakReference(null);
-        private readonly Action<EventPattern<PropertyChangedEventArgs>> _onNext;
-        private readonly Action<Exception> _onError;
-        private bool _disposed;
-        private readonly SerialDisposable _subscription = new SerialDisposable();
+        private readonly WeakReference sourceRef = new WeakReference(null);
+        private readonly Action<EventPattern<PropertyChangedEventArgs>> onNext;
+        private readonly Action<Exception> onError;
+        private bool disposed;
+        private readonly SerialDisposable subscription = new SerialDisposable();
 
         public NotifyingPathItem(INotifyingPathItem previous, PathProperty pathProperty)
         {
@@ -44,11 +44,11 @@ namespace Gu.Reactive.PropertyPathStuff
                 }
             }
 
-            PathProperty = pathProperty;
-            _onNext = x => OnPropertyChanged(x.Sender, x.EventArgs);
-            _onError = OnError;
-            PropertyChangedEventArgs = new PropertyChangedEventArgs(PathProperty.PropertyInfo.Name);
-            Previous = previous;
+            this.PathProperty = pathProperty;
+            this.onNext = x => this.OnPropertyChanged(x.Sender, x.EventArgs);
+            this.onError = this.OnError;
+            this.PropertyChangedEventArgs = new PropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
+            this.Previous = previous;
             var notifyingPathItem = previous as NotifyingPathItem;
             if (notifyingPathItem != null)
             {
@@ -57,7 +57,7 @@ namespace Gu.Reactive.PropertyPathStuff
 
             if (previous != null)
             {
-                Source = (INotifyPropertyChanged)previous.Value;
+                this.Source = (INotifyPropertyChanged)previous.Value;
             }
         }
 
@@ -71,19 +71,19 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public PropertyChangedEventArgs PropertyChangedEventArgs { get; }
 
-        public bool IsLast => PathProperty.IsLast;
+        public bool IsLast => this.PathProperty.IsLast;
 
         public object Value
         {
             get
             {
-                var source = Source;
+                var source = this.Source;
                 if (source == null)
                 {
                     return null;
                 }
 
-                return PathProperty.PropertyInfo.GetValue(source);
+                return this.PathProperty.PropertyInfo.GetValue(source);
             }
         }
 
@@ -94,29 +94,30 @@ namespace Gu.Reactive.PropertyPathStuff
         {
             get
             {
-                return (INotifyPropertyChanged)_sourceRef.Target;
+                return (INotifyPropertyChanged)this.sourceRef.Target;
             }
+
             set
             {
-                var oldSource = _sourceRef.Target;
-                _sourceRef.Target = value;
+                var oldSource = this.sourceRef.Target;
+                this.sourceRef.Target = value;
                 var inpc = value;
 
-                var isNullToNull = IsNullToNull(oldSource, value);
+                var isNullToNull = this.IsNullToNull(oldSource, value);
                 if (inpc != null)
                 {
                     if (!ReferenceEquals(oldSource, value))
                     {
-                        Subscription = inpc.ObservePropertyChanged(PathProperty.PropertyInfo.Name, !isNullToNull)
-                                           .Subscribe(_onNext, _onError);
+                        this.Subscription = inpc.ObservePropertyChanged(this.PathProperty.PropertyInfo.Name, !isNullToNull)
+                                           .Subscribe(this.onNext, this.onError);
                     }
                 }
                 else
                 {
-                    Subscription = null;
+                    this.Subscription = null;
                     if (!isNullToNull)
                     {
-                        OnPropertyChanged(value, PropertyChangedEventArgs);
+                        this.OnPropertyChanged(value, this.PropertyChangedEventArgs);
                     }
                 }
             }
@@ -127,10 +128,11 @@ namespace Gu.Reactive.PropertyPathStuff
         /// </summary>
         public IDisposable Subscription
         {
-            get { return _subscription; }
+            get { return this.subscription; }
+
             private set
             {
-                _subscription.Disposable = value;
+                this.subscription.Disposable = value;
             }
         }
 
@@ -139,13 +141,13 @@ namespace Gu.Reactive.PropertyPathStuff
         /// </summary>
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
-            Subscription.Dispose();
+            this.disposed = true;
+            this.Subscription.Dispose();
         }
 
         private void OnError(Exception obj)
@@ -155,12 +157,12 @@ namespace Gu.Reactive.PropertyPathStuff
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var next = Next;
+            var next = this.Next;
             if (next != null)
             {
-                var source = Source;
+                var source = this.Source;
                 var value = source != null
-                                ? (INotifyPropertyChanged)PathProperty.PropertyInfo.GetValue(Source)
+                                ? (INotifyPropertyChanged)this.PathProperty.PropertyInfo.GetValue(this.Source)
                                 : null;
                 if (ReferenceEquals(value, next.Source) && value != null) // The source signaled event without changing value. We still bubble up since it is not our job to filter.
                 {
@@ -176,12 +178,12 @@ namespace Gu.Reactive.PropertyPathStuff
                 }
             }
 
-            PropertyChanged?.Invoke(sender, e);
+            this.PropertyChanged?.Invoke(sender, e);
         }
 
         private bool IsNullToNull(object oldSource, object newSource)
         {
-            var propertyInfo = PathProperty.PropertyInfo;
+            var propertyInfo = this.PathProperty.PropertyInfo;
             var oldValue = oldSource != null ? propertyInfo.GetValue(oldSource) : null;
             var newValue = newSource != null ? propertyInfo.GetValue(newSource) : null;
             return oldValue == null && newValue == null;

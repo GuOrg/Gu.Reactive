@@ -4,12 +4,12 @@ namespace Gu.Reactive.Internals
 
     internal class Maybe<T> : IMaybe<T>
     {
-        private readonly T _value;
+        private readonly T value;
 
         public Maybe(bool hasValue, T value)
         {
-            HasValue = hasValue;
-            _value = value;
+            this.HasValue = hasValue;
+            this.value = value;
         }
 
         public bool HasValue { get; }
@@ -18,12 +18,12 @@ namespace Gu.Reactive.Internals
         {
             get
             {
-                if (!HasValue)
+                if (!this.HasValue)
                 {
                     throw new InvalidOperationException("Check HasValue before calling. This instance has no value.");
                 }
 
-                return _value;
+                return this.value;
             }
         }
     }

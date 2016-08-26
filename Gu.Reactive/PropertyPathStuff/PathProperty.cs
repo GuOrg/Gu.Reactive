@@ -25,13 +25,13 @@ namespace Gu.Reactive.PropertyPathStuff
                 throw new ArgumentException("Propert must be readable");
             }
 
-            Previous = previous;
+            this.Previous = previous;
             if (previous != null)
             {
                 previous.Next = this;
             }
 
-            PropertyInfo = propertyInfo;
+            this.PropertyInfo = propertyInfo;
         }
 
         public PathProperty Next { get; private set; }
@@ -46,7 +46,7 @@ namespace Gu.Reactive.PropertyPathStuff
         /// <summary>
         /// Gets or sets a value indicating whether is last.
         /// </summary>
-        public bool IsLast => Next == null;
+        public bool IsLast => this.Next == null;
 
         /// <summary>
         /// Gets value all the way from the root recursively.
@@ -61,13 +61,13 @@ namespace Gu.Reactive.PropertyPathStuff
                 return new Maybe<T>(false, default(T));
             }
 
-            if (Previous == null)
+            if (this.Previous == null)
             {
-                var o = PropertyInfo.GetValue(source);
+                var o = this.PropertyInfo.GetValue(source);
                 return new Maybe<T>(true, (T)o);
             }
 
-            var maybe = Previous.GetValue<object>(source);
+            var maybe = this.Previous.GetValue<object>(source);
             if (!maybe.HasValue)
             {
                 return maybe.As<T>();
@@ -78,13 +78,13 @@ namespace Gu.Reactive.PropertyPathStuff
                 return new Maybe<T>(false, default(T));
             }
 
-            var value = (T)PropertyInfo.GetValue(maybe.Value);
+            var value = (T)this.PropertyInfo.GetValue(maybe.Value);
             return new Maybe<T>(true, value);
         }
 
         public override string ToString()
         {
-            return string.Format("PathItem for: {0}.{1}", PropertyInfo.DeclaringType.PrettyName(), PropertyInfo.Name);
+            return string.Format("PathItem for: {0}.{1}", this.PropertyInfo.DeclaringType.PrettyName(), this.PropertyInfo.Name);
         }
     }
 }

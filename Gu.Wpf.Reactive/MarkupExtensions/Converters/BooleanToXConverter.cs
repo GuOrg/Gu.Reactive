@@ -27,18 +27,18 @@ namespace Gu.Wpf.Reactive
         {
             if (value == null)
             {
-                return WhenNull;
+                return this.WhenNull;
             }
-            return value == true ? WhenTrue : WhenFalse;
+            return value == true ? this.WhenTrue : this.WhenFalse;
         }
 
         protected override bool? ConvertBack(T value, CultureInfo culture)
         {
-            if (Equals(value, WhenTrue))
+            if (Equals(value, this.WhenTrue))
             {
                 return true;
             }
-            if (Equals(value, WhenFalse))
+            if (Equals(value, this.WhenFalse))
             {
                 return false;
             }

@@ -9,7 +9,7 @@ namespace Gu.Reactive.Internals
         /// <summary>
         /// The _path.
         /// </summary>
-        private readonly List<ConstantExpression> _constants = new List<ConstantExpression>();
+        private readonly List<ConstantExpression> constants = new List<ConstantExpression>();
 
         private ConstantVisitor()
         {
@@ -19,13 +19,13 @@ namespace Gu.Reactive.Internals
         {
             var visitor = new ConstantVisitor();
             visitor.Visit(e);
-            var constants = visitor._constants;
+            var constants = visitor.constants;
             return constants;
         }
 
         protected override Expression VisitConstant(ConstantExpression node)
         {
-            _constants.Add(node);
+            this.constants.Add(node);
             return base.VisitConstant(node);
         }
     }

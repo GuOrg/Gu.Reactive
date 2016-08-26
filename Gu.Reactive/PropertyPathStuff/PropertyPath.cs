@@ -10,19 +10,19 @@ namespace Gu.Reactive.PropertyPathStuff
 
     internal class PropertyPath : IPropertyPath
     {
-        private readonly IReadOnlyList<PathProperty> _parts;
+        private readonly IReadOnlyList<PathProperty> parts;
 
         private PropertyPath(IReadOnlyList<PathProperty> parts)
         {
-            _parts = parts;
-            Last = parts[parts.Count - 1];
+            this.parts = parts;
+            this.Last = parts[parts.Count - 1];
         }
 
         public PathProperty Last { get; }
 
-        public int Count => _parts.Count;
+        public int Count => this.parts.Count;
 
-        public PathProperty this[int index] => _parts[index];
+        public PathProperty this[int index] => this.parts[index];
 
         public static PropertyPath<TSource, TValue> Create<TSource, TValue>(Expression<Func<TSource, TValue>> propertyExpression)
         {
@@ -69,23 +69,23 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public Maybe<T> GetValue<T>(object source)
         {
-            return Last.GetValue<T>(source);
+            return this.Last.GetValue<T>(source);
         }
 
         public IEnumerator<PathProperty> GetEnumerator()
         {
-            return _parts.GetEnumerator();
+            return this.parts.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _parts.GetEnumerator();
+            return this.parts.GetEnumerator();
         }
 
         public override string ToString()
         {
-            var first = _parts.First().PropertyInfo;
-            var path = string.Join(".", _parts.Skip(1).Select(x => x.PropertyInfo.Name));
+            var first = this.parts.First().PropertyInfo;
+            var path = string.Join(".", this.parts.Skip(1).Select(x => x.PropertyInfo.Name));
             return $"{first.DeclaringType?.FullName}.{first.Name}{(!string.IsNullOrEmpty(path) ? "." : string.Empty)}{path}";
         }
     }

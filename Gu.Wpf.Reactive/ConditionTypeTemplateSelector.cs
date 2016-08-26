@@ -21,20 +21,20 @@
             {
                 if (item is AndCondition)
                 {
-                    return AndConditionTemplate;
+                    return this.AndConditionTemplate;
                 }
 
                 if (item is OrCondition)
                 {
-                    return OrConditionTemplate;
+                    return this.OrConditionTemplate;
                 }
 
                 if (item is NegatedCondition)
                 {
-                    return NegatedConditionTemplate;
+                    return this.NegatedConditionTemplate;
                 }
 
-                return NodeConditionTemplate;
+                return this.NodeConditionTemplate;
             }
 
             return base.SelectTemplate(item, container);

@@ -13,9 +13,9 @@
         public NullableBooleanToBooleanConverter()
             : base()
         {
-            WhenTrue = true;
-            WhenFalse = false;
-            WhenNull = false;
+            this.WhenTrue = true;
+            this.WhenFalse = false;
+            this.WhenNull = false;
         }
     }
 }

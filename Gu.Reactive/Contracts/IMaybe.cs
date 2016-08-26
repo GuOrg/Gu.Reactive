@@ -7,7 +7,7 @@ namespace Gu.Reactive
         /// Note that null can be the value. If source is null HasValue returns false.
         /// </summary>
         bool HasValue { get; }
-      
+
         /// <summary>
         /// Check HasValue before getting.
         /// </summary>

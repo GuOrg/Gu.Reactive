@@ -9,7 +9,7 @@ namespace Gu.Reactive
     [DebuggerDisplay("Count = {Count}")]
     public sealed class ReadOnlySerialView<T> : ReadonlySerialViewBase<T>, IReadOnlyObservableCollection<T>, IUpdater
     {
-        private readonly SerialDisposable _refreshSubscription = new SerialDisposable();
+        private readonly SerialDisposable refreshSubscription = new SerialDisposable();
 
         public ReadOnlySerialView()
             : this(null)
@@ -19,8 +19,8 @@ namespace Gu.Reactive
         public ReadOnlySerialView(IEnumerable<T> source)
             : base(source, true, true)
         {
-            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, TimeSpan.Zero, null, false)
-                                                                .Subscribe(Refresh);
+            this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, TimeSpan.Zero, null, false)
+                                                                .Subscribe(this.Refresh);
         }
 
         object IUpdater.IsUpdatingSourceItem => null;
@@ -28,21 +28,21 @@ namespace Gu.Reactive
         public new void SetSource(IEnumerable<T> source)
         {
             base.SetSource(source);
-            _refreshSubscription.Disposable = ThrottledRefresher.Create(this, Source, TimeSpan.Zero, null, false)
-                                                                .Subscribe(Refresh);
+            this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, this.Source, TimeSpan.Zero, null, false)
+                                                                .Subscribe(this.Refresh);
         }
 
         public new void ClearSource()
         {
             base.ClearSource();
-            _refreshSubscription.Disposable = null;
+            this.refreshSubscription.Disposable = null;
         }
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                _refreshSubscription.Dispose();
+                this.refreshSubscription.Dispose();
             }
 
             base.Dispose(disposing);

@@ -5,28 +5,28 @@ namespace Gu.Wpf.Reactive
     internal class Maybe<T>
     {
         public static readonly Maybe<T> Empty = new Maybe<T>();
-        private readonly T _value;
+        private readonly T value;
 
         public Maybe(T value)
         {
-            _value = value;
-            HasValue = true;
+            this.value = value;
+            this.HasValue = true;
         }
 
         private Maybe()
         {
-            HasValue = false;
+            this.HasValue = false;
         }
 
         public T Value
         {
             get
             {
-                if (!HasValue)
+                if (!this.HasValue)
                 {
                     throw new InvalidOperationException("Cannot get Value when HasValue == false. Check before");
                 }
-                return _value;
+                return this.value;
             }
         }
 

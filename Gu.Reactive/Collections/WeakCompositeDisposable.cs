@@ -5,16 +5,16 @@
 
     public sealed class WeakCompositeDisposable : IDisposable
     {
-        private readonly object _gate = new object();
-        private readonly List<WeakReference<IDisposable>> _disposables = new List<WeakReference<IDisposable>>();
-        private bool _disposed;
+        private readonly object gate = new object();
+        private readonly List<WeakReference<IDisposable>> disposables = new List<WeakReference<IDisposable>>();
+        private bool disposed;
 
         public void Add(IDisposable disposable)
         {
-            VerifyDisposed();
-            lock (_gate)
+            this.VerifyDisposed();
+            lock (this.gate)
             {
-                foreach (var wr in _disposables)
+                foreach (var wr in this.disposables)
                 {
                     IDisposable temp;
                     if (!wr.TryGetTarget(out temp))
@@ -24,47 +24,47 @@
                     }
                 }
 
-                _disposables.Add(new WeakReference<IDisposable>(disposable));
+                this.disposables.Add(new WeakReference<IDisposable>(disposable));
             }
         }
 
         public void Purge()
         {
-            VerifyDisposed();
-            lock (_gate)
+            this.VerifyDisposed();
+            lock (this.gate)
             {
-                for (int i = 0; i < _disposables.Count; i++)
+                for (int i = 0; i < this.disposables.Count; i++)
                 {
-                    var wr = _disposables[i];
+                    var wr = this.disposables[i];
                     IDisposable temp;
                     if (!wr.TryGetTarget(out temp))
                     {
-                        _disposables.RemoveAt(i);
+                        this.disposables.RemoveAt(i);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Make the class sealed when using this. 
+        /// Make the class sealed when using this.
         /// Call VerifyDisposed at the start of all public methods
         /// </summary>
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            lock (_gate)
+            lock (this.gate)
             {
-                if (_disposed)
+                if (this.disposed)
                 {
                     return;
                 }
 
-                _disposed = true;
-                foreach (var weakReference in _disposables)
+                this.disposed = true;
+                foreach (var weakReference in this.disposables)
                 {
                     IDisposable disposable;
                     if (weakReference.TryGetTarget(out disposable))
@@ -80,9 +80,9 @@
 
         private void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
     }

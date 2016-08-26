@@ -17,13 +17,13 @@
     {
         private static readonly IReadOnlyList<ICondition> Empty = new ICondition[0];
         private static readonly PropertyChangedEventArgs IsSatisfiedChangedEventArgs = new PropertyChangedEventArgs(nameof(IsSatisfied));
-        private readonly Func<bool?> _criteria;
-        private readonly IDisposable _subscription;
-        private readonly IReadOnlyList<ICondition> _prerequisites;
-        private readonly FixedSizedQueue<ConditionHistoryPoint> _history = new FixedSizedQueue<ConditionHistoryPoint>(100);
-        private bool? _isSatisfied;
-        private string _name;
-        private bool _disposed;
+        private readonly Func<bool?> criteria;
+        private readonly IDisposable subscription;
+        private readonly IReadOnlyList<ICondition> prerequisites;
+        private readonly FixedSizedQueue<ConditionHistoryPoint> history = new FixedSizedQueue<ConditionHistoryPoint>(100);
+        private bool? isSatisfied;
+        private string name;
+        private bool disposed;
 
         public Condition(Func<bool?> criteria, IObservable<object> observable, params IObservable<object>[] observables)
             : this(Observable.Merge(observables.Concat(new[] { observable })), criteria)
@@ -34,7 +34,7 @@
             : this(conditionCollection.ObserveIsSatisfiedChanged(), () => conditionCollection.IsSatisfied)
         {
             Ensure.NotNullOrEmpty(conditionCollection, nameof(conditionCollection));
-            _prerequisites = conditionCollection;
+            this.prerequisites = conditionCollection;
         }
 
         /// <summary>
@@ -51,39 +51,39 @@
             Ensure.NotNull(observable, nameof(observable));
             Ensure.NotNull(criteria, nameof(criteria));
 
-            _criteria = criteria;
-            _prerequisites = Empty;
-            _name = GetType().PrettyName();
-            _subscription = observable.Subscribe(x => UpdateIsSatisfied());
-            UpdateIsSatisfied();
-            this.ObservePropertyChangedSlim(nameof(IsSatisfied), true)
-                .Subscribe(_ => _history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, _isSatisfied)));
+            this.criteria = criteria;
+            this.prerequisites = Empty;
+            this.name = this.GetType().PrettyName();
+            this.subscription = observable.Subscribe(x => this.UpdateIsSatisfied());
+            this.UpdateIsSatisfied();
+            this.ObservePropertyChangedSlim(nameof(this.IsSatisfied), true)
+                .Subscribe(_ => this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.isSatisfied)));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Evaluates the criteria and returns if it is satisfied. 
+        /// Evaluates the criteria and returns if it is satisfied.
         /// Notifies via PropertyChanged when it changes.
         /// </summary>
         public bool? IsSatisfied
         {
             get
             {
-                VerifyDisposed();
-                return _criteria(); // No caching
+                this.VerifyDisposed();
+                return this.criteria(); // No caching
             }
 
             private set
             {
                 // This is only to raise inpc, value is always calculated
-                if (_isSatisfied == value)
+                if (this.isSatisfied == value)
                 {
                     return;
                 }
 
-                _isSatisfied = value;
-                OnPropertyChanged(IsSatisfiedChangedEventArgs);
+                this.isSatisfied = value;
+                this.OnPropertyChanged(IsSatisfiedChangedEventArgs);
             }
         }
 
@@ -94,27 +94,27 @@
         {
             get
             {
-                VerifyDisposed();
-                return _name;
+                this.VerifyDisposed();
+                return this.name;
             }
 
             set
             {
-                VerifyDisposed();
-                if (value == _name)
+                this.VerifyDisposed();
+                if (value == this.name)
                 {
                     return;
                 }
 
-                _name = value;
-                OnPropertyChanged();
+                this.name = value;
+                this.OnPropertyChanged();
             }
         }
 
         /// <summary>
         /// A log of the last 100 times the condition has signaled. Use for debugging.
         /// </summary>
-        public IEnumerable<ConditionHistoryPoint> History => _history;
+        public IEnumerable<ConditionHistoryPoint> History => this.history;
 
         /// <summary>
         /// The subconditions for this condition
@@ -123,8 +123,8 @@
         {
             get
             {
-                VerifyDisposed();
-                return _prerequisites;
+                this.VerifyDisposed();
+                return this.prerequisites;
             }
         }
 
@@ -137,54 +137,54 @@
         /// </returns>
         public virtual ICondition Negate()
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             return new NegatedCondition(this);
         }
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        public override string ToString() => $"Name: {(string.IsNullOrEmpty(Name) ? GetType() .PrettyName() : Name)}, IsSatisfied: {IsSatisfied?.ToString() ?? "null"}";
+        public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType() .PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString() ?? "null"}";
 
         protected virtual void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
+            this.disposed = true;
             if (disposing)
             {
-                _subscription.Dispose();
+                this.subscription.Dispose();
             }
         }
 
         protected void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
 
         protected void UpdateIsSatisfied()
         {
-            IsSatisfied = _criteria();
+            this.IsSatisfied = this.criteria();
         }
 
         [NotifyPropertyChangedInvocator]
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, e);
+            this.PropertyChanged?.Invoke(this, e);
         }
 
         /// <summary>
@@ -194,7 +194,7 @@
         [Obsolete("Use nameof")]
         protected void OnPropertyChanged<T>(Expression<Func<T>> propety)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(NameOf.Property(propety)));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(NameOf.Property(propety)));
         }
     }
 }

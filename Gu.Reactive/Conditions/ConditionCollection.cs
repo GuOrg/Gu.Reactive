@@ -15,11 +15,11 @@
     /// </summary>
     public abstract class ConditionCollection : ISatisfied, IReadOnlyList<ICondition>, INotifyPropertyChanged, IDisposable
     {
-        private readonly IReadOnlyList<ICondition> _innerConditions;
-        private readonly IDisposable _subscription;
-        private readonly Func<IReadOnlyList<ICondition>, bool?> _isSatisfied;
-        private bool? _previousIsSatisfied;
-        private bool _disposed;
+        private readonly IReadOnlyList<ICondition> innerConditions;
+        private readonly IDisposable subscription;
+        private readonly Func<IReadOnlyList<ICondition>, bool?> isSatisfied;
+        private bool? previousIsSatisfied;
+        private bool disposed;
 
         protected ConditionCollection(Func<IReadOnlyList<ICondition>, bool?> isSatisfied, params ICondition[] conditions)
         {
@@ -31,16 +31,16 @@
                 throw new ArgumentException("conditions must be distinct");
             }
 
-            _isSatisfied = isSatisfied;
-            _innerConditions = conditions;
-            _subscription = conditions.Select(x => x.ObserveIsSatisfiedChanged())
+            this.isSatisfied = isSatisfied;
+            this.innerConditions = conditions;
+            this.subscription = conditions.Select(x => x.ObserveIsSatisfiedChanged())
                                        .Merge()
                                        .Subscribe(
                                            x =>
                                            {
-                                               IsSatisfied = isSatisfied(_innerConditions);
+                                               this.IsSatisfied = isSatisfied(this.innerConditions);
                                            });
-            _previousIsSatisfied = isSatisfied(_innerConditions);
+            this.previousIsSatisfied = isSatisfied(this.innerConditions);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -49,45 +49,45 @@
         {
             get
             {
-                VerifyDisposed();
-                return _isSatisfied(_innerConditions); // No caching
+                this.VerifyDisposed();
+                return this.isSatisfied(this.innerConditions); // No caching
             }
 
             private set
             {
                 // This is only to raise inpc, value is always calculated
-                if (_previousIsSatisfied == value)
+                if (this.previousIsSatisfied == value)
                 {
                     return;
                 }
 
-                _previousIsSatisfied = value;
-                OnPropertyChanged();
+                this.previousIsSatisfied = value;
+                this.OnPropertyChanged();
             }
         }
 
-        public int Count => _innerConditions.Count;
+        public int Count => this.innerConditions.Count;
 
-        public ICondition this[int index] => _innerConditions[index];
+        public ICondition this[int index] => this.innerConditions[index];
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        public override string ToString() => $"IsSatisfied: {IsSatisfied} {{{string.Join(", ", _innerConditions.Select(x => x.Name))}}}";
+        public override string ToString() => $"IsSatisfied: {this.IsSatisfied} {{{string.Join(", ", this.innerConditions.Select(x => x.Name))}}}";
 
         public IEnumerator<ICondition> GetEnumerator()
         {
-            VerifyDisposed();
-            return _innerConditions.GetEnumerator();
+            this.VerifyDisposed();
+            return this.innerConditions.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            VerifyDisposed();
-            return GetEnumerator();
+            this.VerifyDisposed();
+            return this.GetEnumerator();
         }
 
         internal static ICondition[] Prepend(ICondition condition, ICondition[] conditions)
@@ -101,25 +101,25 @@
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && !_disposed)
+            if (disposing && !this.disposed)
             {
-                _subscription.Dispose();
+                this.subscription.Dispose();
             }
 
-            _disposed = true;
+            this.disposed = true;
         }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
     }

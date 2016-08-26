@@ -6,7 +6,7 @@ namespace Gu.Reactive.PropertyPathStuff
     internal interface INotifyingPathItem : IDisposable, INotifyPropertyChanged
     {
         PropertyChangedEventArgs PropertyChangedEventArgs { get; }
-        
+
         PathProperty PathProperty { get; }
 
         object Value { get; }

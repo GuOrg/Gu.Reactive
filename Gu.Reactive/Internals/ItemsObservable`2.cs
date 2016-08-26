@@ -15,43 +15,43 @@ namespace Gu.Reactive.Internals
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
-        private readonly IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> _sourceObservable;
-        private readonly bool _signalInitial;
-        private readonly PropertyPath<TItem, TProperty> _propertyPath;
-        private readonly WeakReference _collectionRef = new WeakReference(null);
-        private bool _disposed;
+        private readonly IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> sourceObservable;
+        private readonly bool signalInitial;
+        private readonly PropertyPath<TItem, TProperty> propertyPath;
+        private readonly WeakReference collectionRef = new WeakReference(null);
+        private bool disposed;
 
         public ItemsObservable(
             TCollection source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
         {
-            _collectionRef.Target = source;
-            _signalInitial = signalInitial;
-            _propertyPath = PropertyPath.Create(property);
+            this.collectionRef.Target = source;
+            this.signalInitial = signalInitial;
+            this.propertyPath = PropertyPath.Create(property);
         }
 
         public ItemsObservable(
             IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
             Expression<Func<TItem, TProperty>> property)
         {
-            _sourceObservable = source;
-            _signalInitial = true;
-            _propertyPath = PropertyPath.Create(property);
+            this.sourceObservable = source;
+            this.signalInitial = true;
+            this.propertyPath = PropertyPath.Create(property);
         }
 
         protected override IDisposable SubscribeCore(IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
 
             CollectionItemsObservable<TCollection, TItem, TProperty> observable;
-            if (_collectionRef.Target != null)
+            if (this.collectionRef.Target != null)
             {
-                observable = new CollectionItemsObservable<TCollection, TItem, TProperty>((TCollection)_collectionRef.Target, _signalInitial, _propertyPath);
+                observable = new CollectionItemsObservable<TCollection, TItem, TProperty>((TCollection)this.collectionRef.Target, this.signalInitial, this.propertyPath);
             }
-            else if(_sourceObservable != null)
+            else if(this.sourceObservable != null)
             {
-                observable = new CollectionItemsObservable<TCollection, TItem, TProperty>(_sourceObservable, _signalInitial, _propertyPath);
+                observable = new CollectionItemsObservable<TCollection, TItem, TProperty>(this.sourceObservable, this.signalInitial, this.propertyPath);
             }
             else
             {
@@ -62,25 +62,25 @@ namespace Gu.Reactive.Internals
         }
 
         /// <summary>
-        /// Make the class sealed when using this. 
+        /// Make the class sealed when using this.
         /// Call VerifyDisposed at the start of all public methods
         /// </summary>
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
+            this.disposed = true;
         }
 
         private void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 throw new ObjectDisposedException(
-                    GetType()
+                    this.GetType()
                         .FullName);
             }
         }

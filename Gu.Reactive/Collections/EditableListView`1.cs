@@ -9,31 +9,31 @@ namespace Gu.Reactive
 
     public class EditableListView<T> : IObservableCollection<T>, IList, IDisposable
     {
-        private readonly IObservableCollection<T> _source;
-        private readonly IDisposable _subscriptions;
+        private readonly IObservableCollection<T> source;
+        private readonly IDisposable subscriptions;
 
-        private bool _disposed;
+        private bool disposed;
 
         public EditableListView(IObservableCollection<T> source)
         {
-            _source = source;
-            _subscriptions = Subscribe(source);
+            this.source = source;
+            this.subscriptions = this.Subscribe(source);
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Count => VerifyDisposed(_source.Count);
+        public int Count => this.VerifyDisposed(this.source.Count);
 
-        public bool IsReadOnly => VerifyDisposed(false);
+        public bool IsReadOnly => this.VerifyDisposed(false);
 
-        bool IList.IsFixedSize => VerifyDisposed(false);
+        bool IList.IsFixedSize => this.VerifyDisposed(false);
 
         public T this[int index]
         {
-            get { return _source[index]; }
-            set { _source[index] = value; }
+            get { return this.source[index]; }
+            set { this.source[index] = value; }
         }
 
         object IList.this[int index]
@@ -42,100 +42,100 @@ namespace Gu.Reactive
             set { throw new NotImplementedException("we must notify immediately here"); }
         }
 
-        public IEnumerator<T> GetEnumerator() => VerifyDisposed(_source.GetEnumerator());
+        public IEnumerator<T> GetEnumerator() => this.VerifyDisposed(this.source.GetEnumerator());
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        public void Add(T item) => VerifyDisposed(() => _source.Add(item));
+        public void Add(T item) => this.VerifyDisposed(() => this.source.Add(item));
 
         int IList.Add(object value)
         {
-            var count = _source.Count;
-            _source.Add((T)value);
-            (_source as IRefreshAble)?.Refresh();
+            var count = this.source.Count;
+            this.source.Add((T)value);
+            (this.source as IRefreshAble)?.Refresh();
             return count;
         }
 
-        public bool Remove(T item) => _source.Remove(item);
+        public bool Remove(T item) => this.source.Remove(item);
 
         void IList.Remove(object value)
         {
-            Remove((T)value);
-            (_source as IRefreshAble)?.Refresh();
+            this.Remove((T)value);
+            (this.source as IRefreshAble)?.Refresh();
         }
 
-        public void RemoveAt(int index) => _source.RemoveAt(index);
+        public void RemoveAt(int index) => this.source.RemoveAt(index);
 
         public void Clear()
         {
-            _source.Clear();
+            this.source.Clear();
         }
 
-        public void Insert(int index, T item) => _source.Insert(index, item);
+        public void Insert(int index, T item) => this.source.Insert(index, item);
 
         void IList.Insert(int index, object value)
         {
-            Insert(index, (T)value);
-            (_source as IRefreshAble)?.Refresh();
+            this.Insert(index, (T)value);
+            (this.source as IRefreshAble)?.Refresh();
         }
 
-        object ICollection.SyncRoot => VerifyDisposed(((ICollection)_source).SyncRoot);
+        object ICollection.SyncRoot => this.VerifyDisposed(((ICollection)this.source).SyncRoot);
 
-        bool ICollection.IsSynchronized => VerifyDisposed(((ICollection)_source).IsSynchronized);
+        bool ICollection.IsSynchronized => this.VerifyDisposed(((ICollection)this.source).IsSynchronized);
 
-        public void CopyTo(T[] array, int arrayIndex) => _source.CopyTo(array, arrayIndex);
+        public void CopyTo(T[] array, int arrayIndex) => this.source.CopyTo(array, arrayIndex);
 
         void ICollection.CopyTo(Array array, int index) => ListExt.CopyTo(this, array, index);
 
-        public bool Contains(T item) => _source.Contains(item);
+        public bool Contains(T item) => this.source.Contains(item);
 
-        bool IList.Contains(object value) => Contains((T)value);
+        bool IList.Contains(object value) => this.Contains((T)value);
 
-        public int IndexOf(T item) => _source.IndexOf(item);
+        public int IndexOf(T item) => this.source.IndexOf(item);
 
-        int IList.IndexOf(object value) => IndexOf((T)value);
+        int IList.IndexOf(object value) => this.IndexOf((T)value);
 
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
-            _subscriptions.Dispose();
+            this.disposed = true;
+            this.subscriptions.Dispose();
         }
 
-        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e) => CollectionChanged?.Invoke(this, e);
+        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e) => this.CollectionChanged?.Invoke(this, e);
 
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => PropertyChanged?.Invoke(this, e);
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => this.PropertyChanged?.Invoke(this, e);
 
         protected void VerifyDisposed()
         {
-            if (_disposed)
+            if (this.disposed)
             {
-                throw new ObjectDisposedException(GetType().FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
 
         protected void VerifyDisposed(Action action)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             action();
         }
 
         protected TResult VerifyDisposed<TResult>(TResult result)
         {
-            VerifyDisposed();
+            this.VerifyDisposed();
             return result;
         }
 
         private IDisposable Subscribe<TCol>(TCol col) where TCol : INotifyCollectionChanged, INotifyPropertyChanged
         {
             var subscriptions = new CompositeDisposable(2) { col.ObservePropertyChangedSlim()
-                                                                .Subscribe(OnPropertyChanged),
+                                                                .Subscribe(this.OnPropertyChanged),
                                                              col.ObserveCollectionChangedSlim(false)
-                                                                .Subscribe(OnCollectionChanged) };
+                                                                .Subscribe(this.OnCollectionChanged) };
             return subscriptions;
         }
     }

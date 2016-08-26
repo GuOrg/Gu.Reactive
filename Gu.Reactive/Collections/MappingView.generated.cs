@@ -52,7 +52,7 @@
             this ObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            params IObservable<object>[] triggers) 
+            params IObservable<object>[] triggers)
             where TSource : class
             where TResult : class
         {
@@ -121,7 +121,7 @@
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            params IObservable<object>[] triggers) 
+            params IObservable<object>[] triggers)
             where TSource : class
             where TResult : class
         {
@@ -190,7 +190,7 @@
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            params IObservable<object>[] triggers) 
+            params IObservable<object>[] triggers)
             where TSource : class
             where TResult : class
         {

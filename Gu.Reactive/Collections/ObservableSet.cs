@@ -11,7 +11,7 @@
     {
         private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Count));
         private static readonly NotifyCollectionChangedEventArgs ResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-        private readonly HashSet<T> _inner;
+        private readonly HashSet<T> inner;
 
         public ObservableSet()
             : this(EqualityComparer<T>.Default)
@@ -20,7 +20,7 @@
 
         public ObservableSet(IEqualityComparer<T> comparer)
         {
-            _inner = new HashSet<T>(comparer);
+            this.inner = new HashSet<T>(comparer);
         }
 
         public ObservableSet(IEnumerable<T> collection)
@@ -30,7 +30,7 @@
 
         public ObservableSet(IEnumerable<T> collection, IEqualityComparer<T> comparer)
         {
-            _inner = new HashSet<T>(collection, comparer);
+            this.inner = new HashSet<T>(collection, comparer);
         }
 
         [field:NonSerialized]
@@ -39,99 +39,99 @@
         [field: NonSerialized]
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        public int Count => _inner.Count;
+        public int Count => this.inner.Count;
 
-        bool ICollection<T>.IsReadOnly => ((ICollection<T>)_inner).IsReadOnly;
+        bool ICollection<T>.IsReadOnly => ((ICollection<T>)this.inner).IsReadOnly;
 
-        public IEnumerator<T> GetEnumerator() => _inner.GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => this.inner.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         public bool Add(T item)
         {
-            var changed = _inner.Add(item);
+            var changed = this.inner.Add(item);
             if (changed)
             {
-                RaiseReset();
+                this.RaiseReset();
             }
 
             return changed;
         }
 
-        void ICollection<T>.Add(T item) => Add(item);
+        void ICollection<T>.Add(T item) => this.Add(item);
 
         public void UnionWith(IEnumerable<T> other)
         {
-            var count = _inner.Count;
-            _inner.UnionWith(other);
-            if (count != _inner.Count)
+            var count = this.inner.Count;
+            this.inner.UnionWith(other);
+            if (count != this.inner.Count)
             {
-                RaiseReset();
+                this.RaiseReset();
             }
         }
 
         public void IntersectWith(IEnumerable<T> other)
         {
-            var count = _inner.Count;
-            _inner.IntersectWith(other);
-            if (count != _inner.Count)
+            var count = this.inner.Count;
+            this.inner.IntersectWith(other);
+            if (count != this.inner.Count)
             {
-                RaiseReset();
+                this.RaiseReset();
             }
         }
 
         public void ExceptWith(IEnumerable<T> other)
         {
-            var count = _inner.Count;
-            _inner.ExceptWith(other);
-            if (count != _inner.Count)
+            var count = this.inner.Count;
+            this.inner.ExceptWith(other);
+            if (count != this.inner.Count)
             {
-                RaiseReset();
+                this.RaiseReset();
             }
         }
 
         public void SymmetricExceptWith(IEnumerable<T> other)
         {
-            var count = _inner.Count;
-            _inner.SymmetricExceptWith(other);
-            if (count != _inner.Count)
+            var count = this.inner.Count;
+            this.inner.SymmetricExceptWith(other);
+            if (count != this.inner.Count)
             {
-                RaiseReset();
+                this.RaiseReset();
             }
         }
 
-        public bool IsSubsetOf(IEnumerable<T> other) => _inner.IsSubsetOf(other);
+        public bool IsSubsetOf(IEnumerable<T> other) => this.inner.IsSubsetOf(other);
 
-        public bool IsSupersetOf(IEnumerable<T> other) => _inner.IsSupersetOf(other);
+        public bool IsSupersetOf(IEnumerable<T> other) => this.inner.IsSupersetOf(other);
 
-        public bool IsProperSupersetOf(IEnumerable<T> other) => _inner.IsProperSupersetOf(other);
+        public bool IsProperSupersetOf(IEnumerable<T> other) => this.inner.IsProperSupersetOf(other);
 
-        public bool IsProperSubsetOf(IEnumerable<T> other) => _inner.IsProperSubsetOf(other);
+        public bool IsProperSubsetOf(IEnumerable<T> other) => this.inner.IsProperSubsetOf(other);
 
-        public bool Overlaps(IEnumerable<T> other) => _inner.Overlaps(other);
+        public bool Overlaps(IEnumerable<T> other) => this.inner.Overlaps(other);
 
-        public bool SetEquals(IEnumerable<T> other) => _inner.SetEquals(other);
+        public bool SetEquals(IEnumerable<T> other) => this.inner.SetEquals(other);
 
         public void Clear()
         {
-            var count = _inner.Count;
-            _inner.Clear();
+            var count = this.inner.Count;
+            this.inner.Clear();
             if (count > 0)
             {
-                RaiseReset();
+                this.RaiseReset();
             }
         }
 
-        public bool Contains(T item) => _inner.Contains(item);
+        public bool Contains(T item) => this.inner.Contains(item);
 
-        public void CopyTo(T[] array, int arrayIndex) => _inner.CopyTo(array, arrayIndex);
+        public void CopyTo(T[] array, int arrayIndex) => this.inner.CopyTo(array, arrayIndex);
 
         public bool Remove(T item)
         {
-            var removed = _inner.Remove(item);
+            var removed = this.inner.Remove(item);
             if (removed)
             {
-                RaiseReset();
+                this.RaiseReset();
             }
 
             return removed;
@@ -139,18 +139,18 @@
 
         private void RaiseReset()
         {
-            OnPropertyChanged(CountPropertyChangedEventArgs);
-            OnCollectionChanged(ResetEventArgs);
+            this.OnPropertyChanged(CountPropertyChangedEventArgs);
+            this.OnCollectionChanged(ResetEventArgs);
         }
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(this, e);
+            this.PropertyChanged?.Invoke(this, e);
         }
 
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            CollectionChanged?.Invoke(this, e);
+            this.CollectionChanged?.Invoke(this, e);
         }
     }
 }

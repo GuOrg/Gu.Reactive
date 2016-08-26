@@ -7,15 +7,15 @@
         public PropertyChangedAndValueEventArgs(string propertyName, TProperty value, bool hasValue)
             : base(propertyName)
         {
-            Value = value;
-            HasValue = hasValue;
+            this.Value = value;
+            this.HasValue = hasValue;
         }
 
         public PropertyChangedAndValueEventArgs(string propertyName, IMaybe<TProperty> maybe)
             : base(propertyName)
         {
-            HasValue = maybe.HasValue;
-            Value = maybe.HasValue
+            this.HasValue = maybe.HasValue;
+            this.Value = maybe.HasValue
                         ? maybe.Value
                         : default(TProperty);
         }

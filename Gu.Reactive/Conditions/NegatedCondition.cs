@@ -9,23 +9,23 @@
     /// </summary>
     public sealed class NegatedCondition : ICondition
     {
-        private readonly FixedSizedQueue<ConditionHistoryPoint> _history = new FixedSizedQueue<ConditionHistoryPoint>(100);
-        private readonly ICondition _condition;
-        private readonly IDisposable _subscription;
-        private string _name;
+        private readonly FixedSizedQueue<ConditionHistoryPoint> history = new FixedSizedQueue<ConditionHistoryPoint>(100);
+        private readonly ICondition condition;
+        private readonly IDisposable subscription;
+        private string name;
 
-        private bool _disposed;
+        private bool disposed;
 
         public NegatedCondition(Condition condition)
         {
-            _condition = condition;
-            Name = $"Not_{_condition.Name}";
+            this.condition = condition;
+            this.Name = $"Not_{this.condition.Name}";
 
-            _subscription = condition.ObserveIsSatisfiedChanged()
-                                     .Subscribe(_ => OnPropertyChanged(nameof(IsSatisfied)));
+            this.subscription = condition.ObserveIsSatisfiedChanged()
+                                     .Subscribe(_ => this.OnPropertyChanged(nameof(this.IsSatisfied)));
 
-            this.ObservePropertyChangedSlim(nameof(IsSatisfied), true)
-                .Subscribe(_ => _history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, IsSatisfied)));
+            this.ObservePropertyChangedSlim(nameof(this.IsSatisfied), true)
+                .Subscribe(_ => this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.IsSatisfied)));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -34,7 +34,7 @@
         {
             get
             {
-                var isSatisfied = _condition.IsSatisfied;
+                var isSatisfied = this.condition.IsSatisfied;
                 if (isSatisfied == null)
                 {
                     return null;
@@ -48,32 +48,32 @@
         {
             get
             {
-                return _name;
+                return this.name;
             }
 
             set
             {
-                if (value == _name)
+                if (value == this.name)
                 {
                     return;
                 }
 
-                _name = value;
-                OnPropertyChanged();
+                this.name = value;
+                this.OnPropertyChanged();
             }
         }
 
         /// <summary>
         /// Gets the prerequisites.
         /// </summary>
-        public IReadOnlyList<ICondition> Prerequisites => _condition.Prerequisites;
+        public IReadOnlyList<ICondition> Prerequisites => this.condition.Prerequisites;
 
         /// <summary>
         /// Gets the history.
         /// </summary>
-        public IEnumerable<ConditionHistoryPoint> History => _history;
+        public IEnumerable<ConditionHistoryPoint> History => this.history;
 
-        public ICondition Negate() => _condition;
+        public ICondition Negate() => this.condition;
 
         /// <summary>
         /// Dispose(true); //I am calling you from Dispose, it's safe
@@ -81,19 +81,19 @@
         /// </summary>
         public void Dispose()
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
-            _subscription.Dispose();
-            // GC.SuppressFinalize(this);           
+            this.disposed = true;
+            this.subscription.Dispose();
+            // GC.SuppressFinalize(this);
         }
 
         private void OnPropertyChanged(string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

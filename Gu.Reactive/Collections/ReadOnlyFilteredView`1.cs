@@ -11,12 +11,12 @@
     using Gu.Reactive.Internals;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")] 
+    [DebuggerDisplay("Count = {Count}")]
     public class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T>, IReadOnlyFilteredView<T>, IUpdater
     {
-        private readonly IEnumerable<T> _source;
-        private readonly IDisposable _refreshSubscription;
-        private bool _disposed;
+        private readonly IEnumerable<T> source;
+        private readonly IDisposable refreshSubscription;
+        private bool disposed;
 
         public ReadOnlyFilteredView(ObservableCollection<T> collection, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
             : this((IReadOnlyList<T>)collection, filter, bufferTime, scheduler, triggers)
@@ -54,12 +54,12 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
-            _source = source;
-            Filter = filter;
-            BufferTime = bufferTime;
-            SetSource(Filtered());
-            _refreshSubscription = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, false)
-                                                    .Subscribe(Refresh);
+            this.source = source;
+            this.Filter = filter;
+            this.BufferTime = bufferTime;
+            this.SetSource(this.Filtered());
+            this.refreshSubscription = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, false)
+                                                    .Subscribe(this.Refresh);
         }
 
         public TimeSpan BufferTime { get; }
@@ -70,35 +70,35 @@
 
         public new void Refresh()
         {
-            (_source as IRefreshAble)?.Refresh();
-            SetSource(Filtered());
+            (this.source as IRefreshAble)?.Refresh();
+            this.SetSource(this.Filtered());
         }
 
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            SetSource(Filtered());
+            this.SetSource(this.Filtered());
         }
 
         protected IEnumerable<T> Filtered()
         {
-            return _source.Where(Filter);
+            return this.source.Where(this.Filter);
         }
 
         /// <summary>
-        /// Protected implementation of Dispose pattern. 
+        /// Protected implementation of Dispose pattern.
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
         protected override void Dispose(bool disposing)
         {
-            if (_disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            _disposed = true;
+            this.disposed = true;
             if (disposing)
             {
-                _refreshSubscription.Dispose();
+                this.refreshSubscription.Dispose();
             }
 
             base.Dispose(disposing);

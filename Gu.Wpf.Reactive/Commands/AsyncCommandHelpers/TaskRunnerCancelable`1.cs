@@ -11,38 +11,39 @@ namespace Gu.Wpf.Reactive
 
     public class TaskRunnerCancelable<TParameter> : TaskRunnerBase, ITaskRunner<TParameter>
     {
-        private readonly Func<TParameter, CancellationToken, Task> _action;
-        private readonly SerialDisposable _cancellationSubscription = new SerialDisposable();
+        private readonly Func<TParameter, CancellationToken, Task> action;
+        private readonly SerialDisposable cancellationSubscription = new SerialDisposable();
 
-        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource cancellationTokenSource;
+
         public TaskRunnerCancelable(Func<TParameter, CancellationToken, Task> action)
         {
             Ensure.NotNull(action, nameof(action));
-            _action = action;
+            this.action = action;
 
-            var observable = Observable.Merge<object>(this.ObservePropertyChangedSlim(nameof(CanCancel)),
+            var observable = Observable.Merge<object>(this.ObservePropertyChangedSlim(nameof(this.CanCancel)),
                                                       this.CanRunCondition.ObserveIsSatisfiedChanged());
-            CanCancelCondition = new Condition(observable, () => CanCancel) { Name = "CanCancel" };
+            this.CanCancelCondition = new Condition(observable, () => this.CanCancel) { Name = "CanCancel" };
         }
 
         public void Run(TParameter paramater)
         {
-            _cancellationTokenSource?.Dispose();
-            _cancellationTokenSource = new CancellationTokenSource();
-            _cancellationSubscription.Disposable = _cancellationTokenSource.Token.AsObservable()
-                                                                           .Subscribe(_ => OnPropertyChanged(nameof(CanCancel)));
-            TaskCompletion = new NotifyTaskCompletion(_action(paramater, _cancellationTokenSource.Token));
+            this.cancellationTokenSource?.Dispose();
+            this.cancellationTokenSource = new CancellationTokenSource();
+            this.cancellationSubscription.Disposable = this.cancellationTokenSource.Token.AsObservable()
+                                                                           .Subscribe(_ => this.OnPropertyChanged(nameof(this.CanCancel)));
+            this.TaskCompletion = new NotifyTaskCompletion(this.action(paramater, this.cancellationTokenSource.Token));
         }
 
         public bool? CanCancel
         {
             get
             {
-                if (CanRun() == true)
+                if (this.CanRun() == true)
                 {
                     return false;
                 }
-                var cts = _cancellationTokenSource;
+                var cts = this.cancellationTokenSource;
                 if (cts == null)
                 {
                     return false;
@@ -53,7 +54,7 @@ namespace Gu.Wpf.Reactive
 
         public void Cancel()
         {
-            _cancellationTokenSource?.Cancel();
+            this.cancellationTokenSource?.Cancel();
         }
 
         public override ICondition CanCancelCondition { get; }
@@ -62,8 +63,8 @@ namespace Gu.Wpf.Reactive
         {
             if (disposing)
             {
-                _cancellationTokenSource.Dispose();
-                _cancellationSubscription.Dispose();
+                this.cancellationTokenSource.Dispose();
+                this.cancellationSubscription.Dispose();
             }
             base.Dispose(disposing);
         }
