@@ -7,8 +7,9 @@ nuget System.Reactive.PlatformServices
 
 nuget Gu.Wpf.ToolTips
 
-nuget StyleCop.Analyzers
-nuget JetBrains.Annotations
+group Analyzers
+  nuget StyleCop.Analyzers
+  nuget JetBrains.Annotations
 
 group Test
   source http://nuget.org/api/v2

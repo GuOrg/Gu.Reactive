@@ -1,3 +1,7 @@
+group Analyzers
+  JetBrains.Annotations
+  StyleCop.Analyzers
+
 group Test
   NUnit
   TestStack.White

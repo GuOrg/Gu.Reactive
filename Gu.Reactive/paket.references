@@ -1,5 +1,6 @@
 System.Reactive.Linq
 System.Reactive.PlatformServices
 
-JetBrains.Annotations
-StyleCop.Analyzers
+group Analyzers
+  JetBrains.Annotations
+  StyleCop.Analyzers

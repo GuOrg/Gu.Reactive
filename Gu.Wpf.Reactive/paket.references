@@ -1,4 +1,6 @@
 System.Reactive
 Gu.Wpf.ToolTips
-JetBrains.Annotations
-StyleCop.Analyzers
+
+group Analyzers
+  JetBrains.Annotations
+  StyleCop.Analyzers

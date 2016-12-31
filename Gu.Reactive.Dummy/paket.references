@@ -1,2 +1,5 @@
 System.Reactive
-JetBrains.Annotations
+
+group Analyzers
+  JetBrains.Annotations
+  StyleCop.Analyzers

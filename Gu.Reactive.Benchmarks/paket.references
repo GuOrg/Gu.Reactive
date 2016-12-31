@@ -1,6 +1,9 @@
 System.Reactive
 Gu.Wpf.ToolTips
-JetBrains.Annotations
+
+group Analyzers
+  JetBrains.Annotations
+  StyleCop.Analyzers
 
 group Test
   System.Reflection.Metadata
