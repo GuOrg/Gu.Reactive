@@ -208,7 +208,7 @@
                             var changes = this.UpdateIndicesFrom(index + 1);
                             var change = Diff.CreateAddEventArgs(value, index);
                             changes.Add(change);
-                            base.Refresh(changes);
+                            this.Refresh(changes);
                             break;
                         }
 
@@ -220,7 +220,7 @@
                             var changes = this.UpdateIndicesFrom(index);
                             var change = Diff.CreateRemoveEventArgs(value, index);
                             changes.Add(change);
-                            base.Refresh(changes);
+                            this.Refresh(changes);
                             break;
                         }
 
@@ -231,7 +231,7 @@
                             var oldValue = this.mapped[singleChange.OldStartingIndex];
                             this.mapped[index] = value;
                             var change = Diff.CreateReplaceEventArgs(value, oldValue, index);
-                            base.Refresh(new[] { change });
+                            this.Refresh(new[] { change });
                             break;
                         }
 
@@ -243,7 +243,7 @@
                             this.UpdateIndex(singleChange.OldStartingIndex);
                             this.UpdateIndex(singleChange.NewStartingIndex);
                             var change = Diff.CreateMoveEventArgs(this.mapped[singleChange.NewStartingIndex], singleChange.NewStartingIndex, singleChange.OldStartingIndex);
-                            base.Refresh(new[] { change });
+                            this.Refresh(new[] { change });
                             break;
                         }
 

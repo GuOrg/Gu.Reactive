@@ -6,7 +6,8 @@
 
     public static class AssertCompletion
     {
-        public static void AreEqual<T>(Task expected, NotifyTaskCompletionBase<T> actual) where T : Task
+        public static void AreEqual<T>(Task expected, NotifyTaskCompletionBase<T> actual)
+            where T : Task
         {
             Assert.AreSame(expected, actual.Task);
             Assert.AreEqual(expected.Status, actual.Status);

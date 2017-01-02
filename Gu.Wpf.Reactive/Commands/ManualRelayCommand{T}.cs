@@ -33,25 +33,47 @@
         {
         }
 
+        /// <summary>
+        /// The action to invoke when the command is executed.
+        /// </summary>
         protected Action<T> Action { get; }
 
+        /// <summary>
+        /// The criteria for <see cref="CanExecute"/>
+        /// </summary>
         protected Func<T, bool> Criteria { get; }
 
+        /// <summary>
+        /// Calls <see cref="InternalCanExecute"/> to see if the command can execute.
+        /// </summary>
+        /// <param name="parameter">The command parameter.</param>
+        /// <returns>True if the command can execute.</returns>
         public bool CanExecute(T parameter)
         {
             return this.InternalCanExecute(parameter);
         }
 
+        /// <summary>
+        /// Calls <see cref="InternalExecute"/>.
+        /// </summary>
+        /// <param name="parameter">The command parameter.</param>
         public void Execute(T parameter)
         {
             this.InternalExecute(parameter);
         }
 
+        /// <inheritdoc/>
         protected override bool InternalCanExecute(T parameter)
         {
             return this.Criteria(parameter);
         }
 
+        /// <summary>
+        /// Sets IsExecuting to true.
+        /// Invokes <see cref="Action"/>
+        /// Sets IsExecuting to false.
+        /// </summary>
+        /// <param name="parameter">The command parameter is passed as argument to the Action invocation.</param>
         protected override void InternalExecute(T parameter)
         {
             this.IsExecuting = true;

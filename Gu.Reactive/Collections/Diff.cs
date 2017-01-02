@@ -8,11 +8,12 @@
     {
         internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 
-
         internal static readonly IReadOnlyList<EventArgs> ResetEventArgsCollection = new EventArgs[]
-                                                                              { Notifier.CountPropertyChangedEventArgs, Notifier.IndexerPropertyChangedEventArgs,
-                                                                                  NotifyCollectionResetEventArgs
-                                                                              };
+                                                                                         {
+                                                                                             Notifier.CountPropertyChangedEventArgs,
+                                                                                             Notifier.IndexerPropertyChangedEventArgs,
+                                                                                             NotifyCollectionResetEventArgs
+                                                                                         };
 
         public static NotifyCollectionChangedEventArgs CollectionChange<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges)
         {

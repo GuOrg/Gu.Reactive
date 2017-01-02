@@ -82,7 +82,7 @@
 
             public override string ToString()
             {
-                var pattern = $"{String.Join(", ", this.Pattern)}";
+                var pattern = $"{string.Join(", ", this.Pattern)}";
                 var expected = new StringBuilder();
                 expected.Append("{");
                 for (int i = 0; i < this.ExpectedTimes.Count; i++)

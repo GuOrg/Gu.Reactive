@@ -5,7 +5,7 @@
     using System.Windows.Input;
 
     /// <summary>
-    ///
+    /// A WeakEventManager for the <see cref="ICommand.CanExecuteChanged"/> event.
     /// </summary>
     public class CanExecuteChangedEventManager : WeakEventManager
     {
@@ -13,6 +13,9 @@
         {
         }
 
+        /// <summary>
+        /// The singleton instance.
+        /// </summary>
         public static CanExecuteChangedEventManager CurrentManager
         {
             get

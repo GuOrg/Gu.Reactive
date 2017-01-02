@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Gu.Wpf.Reactive.Tests
+﻿namespace Gu.Wpf.Reactive.Tests
 {
+    using System;
     using Gu.Reactive;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
-
     using NUnit.Framework;
 
     public class ManualRelayCommandTests

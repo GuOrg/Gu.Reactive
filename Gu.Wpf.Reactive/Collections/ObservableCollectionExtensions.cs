@@ -9,8 +9,6 @@
 
     public static class ObservableCollectionExtensions
     {
-        private struct VoidTypeStruct { }
-
         private static readonly Task CompletedTask = Task.FromResult(default(VoidTypeStruct)); // Task.CompletedTask is internal
         private static readonly Task<bool> CompletedTrueTask = Task.FromResult(true);
         private static readonly Task<bool> CompletedFalseTask = Task.FromResult(false);
@@ -144,6 +142,10 @@
             return result ?
                 CompletedTrueTask :
                 CompletedFalseTask;
+        }
+
+        private struct VoidTypeStruct
+        {
         }
     }
 }

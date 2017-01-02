@@ -24,11 +24,11 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Count => this.VerifyDisposed(this.source.Count);
+        public int Count => this.ThwrowIfDisposed(this.source.Count);
 
-        public bool IsReadOnly => this.VerifyDisposed(false);
+        public bool IsReadOnly => this.ThwrowIfDisposed(false);
 
-        bool IList.IsFixedSize => this.VerifyDisposed(false);
+        bool IList.IsFixedSize => this.ThwrowIfDisposed(false);
 
         public T this[int index]
         {
@@ -42,11 +42,11 @@
             set { throw new NotImplementedException("we must notify immediately here"); }
         }
 
-        public IEnumerator<T> GetEnumerator() => this.VerifyDisposed(this.source.GetEnumerator());
+        public IEnumerator<T> GetEnumerator() => this.ThwrowIfDisposed(this.source.GetEnumerator());
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        public void Add(T item) => this.VerifyDisposed(() => this.source.Add(item));
+        public void Add(T item) => this.ThwrowIfDisposed(() => this.source.Add(item));
 
         int IList.Add(object value)
         {
@@ -79,9 +79,9 @@
             (this.source as IRefreshAble)?.Refresh();
         }
 
-        object ICollection.SyncRoot => this.VerifyDisposed(((ICollection)this.source).SyncRoot);
+        object ICollection.SyncRoot => this.ThwrowIfDisposed(((ICollection)this.source).SyncRoot);
 
-        bool ICollection.IsSynchronized => this.VerifyDisposed(((ICollection)this.source).IsSynchronized);
+        bool ICollection.IsSynchronized => this.ThwrowIfDisposed(((ICollection)this.source).IsSynchronized);
 
         public void CopyTo(T[] array, int arrayIndex) => this.source.CopyTo(array, arrayIndex);
 
@@ -110,7 +110,7 @@
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => this.PropertyChanged?.Invoke(this, e);
 
-        protected void VerifyDisposed()
+        protected void ThwrowIfDisposed()
         {
             if (this.disposed)
             {
@@ -118,26 +118,28 @@
             }
         }
 
-        protected void VerifyDisposed(Action action)
+        protected void ThwrowIfDisposed(Action action)
         {
-            this.VerifyDisposed();
+            this.ThwrowIfDisposed();
             action();
         }
 
-        protected TResult VerifyDisposed<TResult>(TResult result)
+        protected TResult ThwrowIfDisposed<TResult>(TResult result)
         {
-            this.VerifyDisposed();
+            this.ThwrowIfDisposed();
             return result;
         }
 
         private IDisposable Subscribe<TCol>(TCol col)
             where TCol : INotifyCollectionChanged, INotifyPropertyChanged
         {
-            var subscriptions = new CompositeDisposable(2) { col.ObservePropertyChangedSlim()
-                                                                .Subscribe(this.OnPropertyChanged),
-                                                             col.ObserveCollectionChangedSlim(false)
-                                                                .Subscribe(this.OnCollectionChanged) };
-            return subscriptions;
+            return new CompositeDisposable(2)
+            {
+                col.ObservePropertyChangedSlim()
+                   .Subscribe(this.OnPropertyChanged),
+                col.ObserveCollectionChangedSlim(false)
+                    .Subscribe(this.OnCollectionChanged)
+            };
         }
     }
 }

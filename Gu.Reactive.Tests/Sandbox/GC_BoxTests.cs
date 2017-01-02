@@ -1,4 +1,5 @@
 ﻿// ReSharper disable All
+#pragma warning disable SA1402 // File may only contain a single class
 namespace Gu.Reactive.Tests.Sandbox
 {
     using System;

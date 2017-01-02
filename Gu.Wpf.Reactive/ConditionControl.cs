@@ -11,7 +11,9 @@
     /// </summary>
     public partial class ConditionControl : Control
     {
-        private static IEnumerable<ICondition> Empty = new ICondition[0];
+#pragma warning disable SA1202 // Elements must be ordered by access
+
+        private static readonly IEnumerable<ICondition> Empty = new ICondition[0];
 
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
             "Condition",
@@ -42,6 +44,8 @@
         public static readonly DependencyProperty IsInSyncProperty = IsInSyncPropertyKey.DependencyProperty;
 
         public static readonly DependencyProperty FlattenedPrerequisitesProperty = FlattenedPrerequisitesPropertyKey.DependencyProperty;
+
+#pragma warning restore SA1202 // Elements must be ordered by access
 
         static ConditionControl()
         {

@@ -11,10 +11,10 @@
 
     public class ThrottledViewTests
     {
+        private readonly List<NotifyCollectionChangedEventArgs> changes = new List<NotifyCollectionChangedEventArgs>();
         private ObservableCollection<int> source;
         private TimeSpan deferTime;
         private IThrottledView<int> throttledView;
-        private readonly List<NotifyCollectionChangedEventArgs> changes = new List<NotifyCollectionChangedEventArgs>();
 
         [SetUp]
         public void SetUp()

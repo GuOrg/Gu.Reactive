@@ -6,7 +6,6 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Input;
-    using JetBrains.Annotations;
 
     /// <summary>
     /// A base class for commands.
@@ -14,6 +13,9 @@
     /// <typeparam name="T">The type of the command parameter.</typeparam>
     public abstract class CommandBase<T> : ICommand, INotifyPropertyChanged
     {
+        /// <summary>Cached <see cref="PropertyChangedEventArgs"/> for the <see cref="IsExecuting"/> property.</summary>
+        protected static readonly PropertyChangedEventArgs IsExecutingChangedEventArgs = new PropertyChangedEventArgs(nameof(IsExecuting));
+
         private bool isExecuting;
 
         /// <inheritdoc/>
@@ -53,7 +55,7 @@
                 }
 
                 this.isExecuting = value;
-                this.OnPropertyChanged();
+                this.PropertyChanged?.Invoke(this, IsExecutingChangedEventArgs);
             }
         }
 
@@ -82,6 +84,11 @@
             }
         }
 
+        /// <summary>
+        /// Evaluates the criteria to see if the command can execute.
+        /// </summary>
+        /// <param name="parameter">The command parameter is passed as argument to the Criteria invocation.</param>
+        /// <returns>A value indicating if the command can execute.</returns>
         protected abstract bool InternalCanExecute(T parameter);
 
         /// <summary>
@@ -100,7 +107,10 @@
         /// <param name="parameter">The command parameter</param>
         protected abstract void InternalExecute(T parameter);
 
-        [NotifyPropertyChangedInvocator]
+        /// <summary>
+        /// Raise the <see cref="PropertyChanged"/> event for <paramref name="propertyName"/>
+        /// </summary>
+        /// <param name="propertyName">The name of the property to notify</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -125,10 +135,6 @@
                 Manager.ProtectedRemoveHandler(source, handler);
             }
 
-            ////protected override ListenerList NewListenerList()
-            ////{
-            ////    return new ListenerList();
-            ////}
             protected override void StartListening(object source)
             {
                 ((CommandBase<T>)source).InternalCanExecuteChanged += this.DeliverEvent;

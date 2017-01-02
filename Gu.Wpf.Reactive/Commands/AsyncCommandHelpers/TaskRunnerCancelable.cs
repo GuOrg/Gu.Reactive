@@ -21,8 +21,9 @@ namespace Gu.Wpf.Reactive
             Ensure.NotNull(action, nameof(action));
             this.action = action;
 
-            var observable = Observable.Merge<object>(this.ObservePropertyChangedSlim(nameof(this.CanCancel)),
-                                                      this.CanRunCondition.ObserveIsSatisfiedChanged());
+            var observable = Observable.Merge<object>(
+                this.ObservePropertyChangedSlim(nameof(this.CanCancel)),
+                this.CanRunCondition.ObserveIsSatisfiedChanged());
             this.CanCancelCondition = new Condition(observable, () => this.CanCancel) { Name = "CanCancel" };
         }
 

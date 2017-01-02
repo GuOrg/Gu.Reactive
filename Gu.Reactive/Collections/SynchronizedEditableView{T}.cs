@@ -18,6 +18,7 @@
         protected readonly CollectionSynchronizer<T> Tracker;
         private bool disposed;
         private object isUpdatingSourceItem;
+        private readonly object syncRoot;
 
         protected SynchronizedEditableView(IList<T> source)
             : this(source, source)
@@ -31,11 +32,14 @@
         {
             Ensure.NotNull(source, nameof(source));
             this.Source = source;
+            this.syncRoot = (this.Source as ICollection)?.SyncRoot ?? new object();
             this.Tracker = new CollectionSynchronizer<T>(sourceItems);
         }
 
+        /// <inheritdoc/>
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
+        /// <inheritdoc/>
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
 
         object IUpdater.IsUpdatingSourceItem => this.isUpdatingSourceItem;
@@ -73,7 +77,7 @@
         {
         }
 
-        protected void VerifyDisposed()
+        protected void ThworIfDisposed()
         {
             if (this.disposed)
             {
@@ -210,7 +214,7 @@
 
         void ICollection.CopyTo(Array array, int index) => this.Tracker.CopyTo(array, index);
 
-        object ICollection.SyncRoot => (this.Source as ICollection)?.SyncRoot;
+        object ICollection.SyncRoot => this.syncRoot;
 
         bool ICollection.IsSynchronized => (this.Source as ICollection)?.IsSynchronized == true;
 

@@ -165,41 +165,6 @@
             return source.ObservePropertyChangedWithValue(propertyPath, signalInitial);
         }
 
-        internal static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(
-            this TNotifier source,
-            PropertyPath<TNotifier, TProperty> propertyPath,
-            bool signalInitial = true)
-            where TNotifier : INotifyPropertyChanged
-        {
-            var wr = new WeakReference(source);
-            var observable = source.ObservePropertyChanged(propertyPath, false);
-            return Observable.Defer(
-                () =>
-                    {
-                        var withValues =
-                            observable.Select(
-                                x =>
-                                    new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
-                                        x.Sender,
-                                        new PropertyChangedAndValueEventArgs<TProperty>(
-                                            x.EventArgs.PropertyName,
-                                            propertyPath.GetValue((TNotifier)wr.Target))));
-                        if (signalInitial)
-                        {
-                            var valueAndSource = propertyPath.GetValueAndSender((TNotifier)wr.Target);
-                            var current =
-                                new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
-                                    valueAndSource.Source,
-                                    new PropertyChangedAndValueEventArgs<TProperty>(
-                                        propertyPath.Last.PropertyInfo.Name,
-                                        valueAndSource.Value));
-                            return Observable.Return(current).Concat(withValues);
-                        }
-
-                        return withValues;
-                    });
-        }
-
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(
             this INotifyPropertyChanged source)
         {
@@ -241,6 +206,41 @@
                         return Disposable.Create(() => source.PropertyChanged -= handler);
                     });
             return observable;
+        }
+
+        internal static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(
+            this TNotifier source,
+            PropertyPath<TNotifier, TProperty> propertyPath,
+            bool signalInitial = true)
+            where TNotifier : INotifyPropertyChanged
+        {
+            var wr = new WeakReference(source);
+            var observable = source.ObservePropertyChanged(propertyPath, false);
+            return Observable.Defer(
+                () =>
+                {
+                    var withValues =
+                        observable.Select(
+                            x =>
+                                new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
+                                    x.Sender,
+                                    new PropertyChangedAndValueEventArgs<TProperty>(
+                                        x.EventArgs.PropertyName,
+                                        propertyPath.GetValue((TNotifier)wr.Target))));
+                    if (signalInitial)
+                    {
+                        var valueAndSource = propertyPath.GetValueAndSender((TNotifier)wr.Target);
+                        var current =
+                            new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
+                                valueAndSource.Source,
+                                new PropertyChangedAndValueEventArgs<TProperty>(
+                                    propertyPath.Last.PropertyInfo.Name,
+                                    valueAndSource.Value));
+                        return Observable.Return(current).Concat(withValues);
+                    }
+
+                    return withValues;
+                });
         }
 
         private static bool IsPropertyName(this PropertyChangedEventArgs e, string propertyName)

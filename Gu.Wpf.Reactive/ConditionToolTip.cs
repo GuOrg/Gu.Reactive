@@ -14,6 +14,8 @@
     /// </summary>
     public class ConditionToolTip : ToolTip
     {
+#pragma warning disable SA1202 // Elements must be ordered by access
+
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
             "Condition",
             typeof(ICondition),
@@ -47,6 +49,8 @@
             typeof(ICommand),
             typeof(ConditionToolTip),
             new PropertyMetadata(default(ICommand), OnCommandProxyChanged));
+
+#pragma warning restore SA1202 // Elements must be ordered by access
 
         static ConditionToolTip()
         {

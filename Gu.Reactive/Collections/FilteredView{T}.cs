@@ -78,13 +78,13 @@
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThworIfDisposed();
                 return this.filter;
             }
 
             set
             {
-                this.VerifyDisposed();
+                this.ThworIfDisposed();
                 if (Equals(value, this.filter))
                 {
                     return;
@@ -99,7 +99,7 @@
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThworIfDisposed();
                 return this.triggers;
             }
         }
@@ -108,13 +108,13 @@
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThworIfDisposed();
                 return this.bufferTime;
             }
 
             set
             {
-                this.VerifyDisposed();
+                this.ThworIfDisposed();
                 if (value.Equals(this.bufferTime))
                 {
                     return;
@@ -127,7 +127,7 @@
 
         public override void Refresh()
         {
-            this.VerifyDisposed();
+            this.ThworIfDisposed();
             lock (this.Source.SyncRootOrDefault(this.Tracker.SyncRoot))
             {
                 lock (this.Tracker.SyncRoot)

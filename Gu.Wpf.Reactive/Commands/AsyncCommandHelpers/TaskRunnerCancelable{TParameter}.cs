@@ -21,19 +21,13 @@
             Ensure.NotNull(action, nameof(action));
             this.action = action;
 
-            var observable = Observable.Merge<object>(this.ObservePropertyChangedSlim(nameof(this.CanCancel)),
-                                                      this.CanRunCondition.ObserveIsSatisfiedChanged());
+            var observable = Observable.Merge<object>(
+                this.ObservePropertyChangedSlim(nameof(this.CanCancel)),
+                this.CanRunCondition.ObserveIsSatisfiedChanged());
             this.CanCancelCondition = new Condition(observable, () => this.CanCancel) { Name = "CanCancel" };
         }
 
-        public void Run(TParameter paramater)
-        {
-            this.cancellationTokenSource?.Dispose();
-            this.cancellationTokenSource = new CancellationTokenSource();
-            this.cancellationSubscription.Disposable = this.cancellationTokenSource.Token.AsObservable()
-                                                                           .Subscribe(_ => this.OnPropertyChanged(nameof(this.CanCancel)));
-            this.TaskCompletion = new NotifyTaskCompletion(this.action(paramater, this.cancellationTokenSource.Token));
-        }
+        public override ICondition CanCancelCondition { get; }
 
         public bool? CanCancel
         {
@@ -54,12 +48,19 @@
             }
         }
 
+        public void Run(TParameter paramater)
+        {
+            this.cancellationTokenSource?.Dispose();
+            this.cancellationTokenSource = new CancellationTokenSource();
+            this.cancellationSubscription.Disposable = this.cancellationTokenSource.Token.AsObservable()
+                                                                           .Subscribe(_ => this.OnPropertyChanged(nameof(this.CanCancel)));
+            this.TaskCompletion = new NotifyTaskCompletion(this.action(paramater, this.cancellationTokenSource.Token));
+        }
+
         public override void Cancel()
         {
             this.cancellationTokenSource?.Cancel();
         }
-
-        public override ICondition CanCancelCondition { get; }
 
         protected override void Dispose(bool disposing)
         {

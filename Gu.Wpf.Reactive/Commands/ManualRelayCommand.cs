@@ -6,6 +6,7 @@ namespace Gu.Wpf.Reactive
 
     /// <summary>
     /// A command that does not use the CommandParameter
+    /// The command parameter is ignored when using this command.
     /// </summary>
     public class ManualRelayCommand : CommandBase<object>
     {
@@ -32,27 +33,51 @@ namespace Gu.Wpf.Reactive
         {
         }
 
+        /// <summary>
+        /// The action to invoke when the command is executed.
+        /// </summary>
         protected Action Action { get; }
 
+        /// <summary>
+        /// The criteria for <see cref="CanExecute"/>
+        /// </summary>
         protected Func<bool> Criteria { get; }
 
+        /// <summary>
+        /// Calls <see cref="InternalCanExecute"/> to see if the command can execute.
+        /// </summary>
+        /// <returns>True if the command can execute.</returns>
         public bool CanExecute()
         {
             // Override InternalCanExecute
             return this.InternalCanExecute(null);
         }
 
+        /// <summary>
+        /// Calls <see cref="InternalExecute"/>.
+        /// </summary>
         public void Execute()
         {
             // Override InternalExecute
             this.InternalExecute(null);
         }
 
+        /// <summary>
+        /// Evaluates <see cref="Criteria"/> to see if the command can execute.
+        /// </summary>
+        /// <param name="parameter">The command parameter is ignored by this implementation.</param>
+        /// <returns>A value indicating if the command can execute.</returns>
         protected override bool InternalCanExecute(object parameter)
         {
             return this.Criteria();
         }
 
+        /// <summary>
+        /// Sets IsExecuting to true.
+        /// Invokes <see cref="Action"/>
+        /// Sets IsExecuting to false.
+        /// </summary>
+        /// <param name="parameter">The command parameter is ignored by this implementation.</param>
         protected override void InternalExecute(object parameter)
         {
             this.IsExecuting = true;

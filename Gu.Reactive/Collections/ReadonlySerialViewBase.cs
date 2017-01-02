@@ -40,16 +40,15 @@ namespace Gu.Reactive
             this.tracker = new CollectionSynchronizer<T>(source ?? Empty);
         }
 
+        /// <inheritdoc/>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
+        /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected IEnumerable<T> Source { get; private set; }
 
-        /// <summary>
-        /// Make the class sealed when using this.
-        /// Call VerifyDisposed at the start of all public methods
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (this.disposed)
@@ -59,7 +58,6 @@ namespace Gu.Reactive
 
             this.disposed = true;
             this.Dispose(true);
-            // Dispose some stuff now
         }
 
         public virtual void Refresh()

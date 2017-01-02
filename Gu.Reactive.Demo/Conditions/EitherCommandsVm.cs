@@ -12,10 +12,12 @@
 
         public EitherCommandsVm()
         {
-            var isAddingOne = new Condition(this.ObservePropertyChanged(x => x.AddOneCommand.IsExecuting),
-                                            () => this.AddOneCommand?.IsExecuting);
-            var isAddingTwo = new Condition(this.ObservePropertyChanged(x => x.AddTwoCommand.IsExecuting),
-                                            () => this.AddTwoCommand?.IsExecuting);
+            var isAddingOne = new Condition(
+                this.ObservePropertyChanged(x => x.AddOneCommand.IsExecuting),
+                () => this.AddOneCommand?.IsExecuting);
+            var isAddingTwo = new Condition(
+                this.ObservePropertyChanged(x => x.AddTwoCommand.IsExecuting),
+                () => this.AddTwoCommand?.IsExecuting);
 
             var isnotAddingAny = new OrCondition(isAddingOne, isAddingTwo).Negate();
             this.AddOneCommand = new AsyncCommand(this.AddOne, isnotAddingAny);

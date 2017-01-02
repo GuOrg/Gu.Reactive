@@ -25,8 +25,10 @@ namespace Gu.Wpf.Reactive
                                     .Subscribe(_ => this.RaiseCanExecuteChanged());
         }
 
+        /// <inheritdoc/>
         public ICondition Condition { get; }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (this.disposed)
@@ -39,26 +41,47 @@ namespace Gu.Wpf.Reactive
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
         protected override bool InternalCanExecute(object parameter)
         {
             this.VerifyDisposed();
             return base.InternalCanExecute(parameter);
         }
 
+        /// <inheritdoc/>
         protected override void InternalExecute(object parameter)
         {
             this.VerifyDisposed();
             base.InternalExecute(parameter);
         }
 
+        /// <summary>
+        /// Disposes of a <see cref="ConditionRelayCommand"/>.
+        /// </summary>
+        /// <remarks>
+        /// Called from Dispose() with disposing=true, and from the finalizer (~ConditionRelayCommand) with disposing=false.
+        /// Guidelines:
+        /// 1. We may be called more than once: do nothing after the first call.
+        /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.
+        /// </remarks>
+        /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
         protected virtual void Dispose(bool disposing)
         {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
             if (disposing)
             {
                 this.subscription.Dispose();
             }
         }
 
+        /// <summary>
+        /// Throws if the instance has been disposed
+        /// </summary>
         protected void VerifyDisposed()
         {
             if (this.disposed)

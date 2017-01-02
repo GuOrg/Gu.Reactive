@@ -19,7 +19,7 @@ namespace Gu.Reactive
         if(i > 0)
         {#>
 
-<#        }	
+<#        }
 #>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this <#= typeName #><T> collection,
@@ -76,6 +76,7 @@ namespace Gu.Reactive
     for(int i = 0; i < triggers.Length; i++)
     {
         var trigger = triggers[i];#>
+
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IEnumerable<T> collection,
             Func<T, bool> filter,
@@ -105,13 +106,13 @@ namespace Gu.Reactive
             IScheduler scheduler,
             <#= trigger[0] #> <#= trigger[1] #>)
         {
-		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
             Ensure.NotNull(<#= trigger[1] #>, "<#= trigger[1] #>");
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, <#= trigger[1] #>);
         }
-       
+
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IEnumerable<T> collection,
             Func<T, bool> filter,
@@ -119,7 +120,7 @@ namespace Gu.Reactive
             IScheduler scheduler,
             <#= trigger[0] #> <#= trigger[1] #>)
         {
-		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
             Ensure.NotNull(<#= trigger[1] #>, "<#= trigger[1] #>");
