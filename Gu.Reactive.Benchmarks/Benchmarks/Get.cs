@@ -9,12 +9,12 @@ namespace Gu.Reactive.Benchmarks
         private static readonly IValuePath<Get, string> Path = Reactive.Get.ValuePath<Get, string>(x => x.Fake.Next.Name);
         private static readonly Func<Get, string> Getter = x => x?.Fake?.Next?.Name;
 
-        public Fake Fake { get; } = new Fake { Next = new Level { Name = "Johan" } };
-
         public Get()
         {
             this.Fake = null;
         }
+
+        public Fake Fake { get; } = new Fake { Next = new Level { Name = "Johan" } };
 
         [Benchmark(Baseline = true)]
         public string Func()

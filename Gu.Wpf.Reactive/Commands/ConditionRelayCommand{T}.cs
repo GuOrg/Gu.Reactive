@@ -5,7 +5,7 @@
     using Gu.Reactive;
 
     /// <summary>
-    /// A command with CommandParameter of type <typeparam name="T"></typeparam>
+    /// A command with CommandParameter of type <typeparamref name="T"/>.
     /// Signals CanExecuteChanged when conditions changes
     /// CanExecute() returns condition.IsSatisfied == true
     /// </summary>
@@ -15,7 +15,7 @@
         private bool disposed;
 
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="ConditionRelayCommand{T}"/> class.
         /// </summary>
         /// <param name="action">SomeMethod</param>
         /// <param name="condition"></param>

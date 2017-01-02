@@ -70,9 +70,9 @@ namespace Gu.Reactive
         /// <summary>
         /// Observes propertychanges for items of the collection.
         /// </summary>
-        /// <typeparam name="TProperty"></typeparam>
         /// <typeparam name="TCollection"></typeparam>
         /// <typeparam name="TItem"></typeparam>
+        /// <typeparam name="TProperty"></typeparam>
         /// <param name="source"></param>
         /// <param name="property"></param>
         /// <param name="signalInitial"></param>

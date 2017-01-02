@@ -5,17 +5,18 @@
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// A command with CommandParameter of type <typeparam name="T"></typeparam>
+    /// A command with CommandParameter of type <typeparamref name="T"/>
     /// </summary>
+    /// <typeparam name="T">The type of the command parameter.</typeparam>
     public class ManualRelayCommand<T> : CommandBase<T>
     {
         private static readonly Func<T, bool> AlwaysTrue = _ => true;
 
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="ManualRelayCommand{T}"/> class.
         /// </summary>
-        /// <param name="action"></param>
-        /// <param name="criteria"></param>
+        /// <param name="action">The action to invoke when the command is executed.</param>
+        /// <param name="criteria">The criteria for <see cref="CanExecute"/></param>
         public ManualRelayCommand(Action<T> action, Func<T, bool> criteria)
         {
             Ensure.NotNull(action, nameof(action));
@@ -24,9 +25,9 @@
         }
 
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="ManualRelayCommand{T}"/> class.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="action">The action to invoke when the command is executed.</param>
         public ManualRelayCommand(Action<T> action)
             : this(action, null)
         {

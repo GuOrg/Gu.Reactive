@@ -12,10 +12,10 @@ namespace Gu.Reactive.Tests.Collections.Filter
         public override void SetUp()
         {
             base.SetUp();
-            this._scheduler = new TestScheduler();
+            this.scheduler = new TestScheduler();
 
-            this._view = this._ints.AsFilteredView(x => true, this._scheduler);
-            this._actual = this._view.SubscribeAll();
+            this.view = this.ints.AsFilteredView(x => true, this.scheduler);
+            this.actual = this.view.SubscribeAll();
         }
     }
 }

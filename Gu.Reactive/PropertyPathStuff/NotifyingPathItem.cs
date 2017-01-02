@@ -124,7 +124,7 @@ namespace Gu.Reactive.PropertyPathStuff
         }
 
         /// <summary>
-        /// Gets or sets the subscription.
+        /// Gets or the subscription.
         /// </summary>
         public IDisposable Subscription
         {

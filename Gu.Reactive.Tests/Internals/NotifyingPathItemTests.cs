@@ -16,12 +16,12 @@ namespace Gu.Reactive.Tests.Internals
 
     public class NotifyingPathItemTests
     {
-        private List<EventPattern<PropertyChangedEventArgs>> _changes;
+        private List<EventPattern<PropertyChangedEventArgs>> changes;
 
         [SetUp]
         public void SetUp()
         {
-            this._changes = new List<EventPattern<PropertyChangedEventArgs>>();
+            this.changes = new List<EventPattern<PropertyChangedEventArgs>>();
         }
 
         [Test]
@@ -92,14 +92,14 @@ namespace Gu.Reactive.Tests.Internals
             var propertyInfo = typeof(Fake).GetProperty(propertyName);
             var fakeInpc = new Fake();
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
-            pathItem.ObservePropertyChanged().Subscribe(this._changes.Add);
-            Assert.AreEqual(0, this._changes.Count);
+            pathItem.ObservePropertyChanged().Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
 
             pathItem.Source = fakeInpc;
 
-            Assert.AreEqual(1, this._changes.Count);
-            Assert.AreEqual(propertyName, this._changes.Single().EventArgs.PropertyName);
-            Assert.AreSame(fakeInpc, this._changes.Single().Sender);
+            Assert.AreEqual(1, this.changes.Count);
+            Assert.AreEqual(propertyName, this.changes.Single().EventArgs.PropertyName);
+            Assert.AreSame(fakeInpc, this.changes.Single().Sender);
         }
 
         [Test]
@@ -110,12 +110,12 @@ namespace Gu.Reactive.Tests.Internals
             var fakeInpc = new Fake();
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
             pathItem.Source = fakeInpc;
-            pathItem.ObservePropertyChanged().Subscribe(this._changes.Add);
-            Assert.AreEqual(0, this._changes.Count);
+            pathItem.ObservePropertyChanged().Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             pathItem.Source = null;
-            Assert.AreEqual(1, this._changes.Count);
-            Assert.AreEqual(propertyName, this._changes.Single().EventArgs.PropertyName);
-            Assert.AreSame(null, this._changes.Single().Sender);
+            Assert.AreEqual(1, this.changes.Count);
+            Assert.AreEqual(propertyName, this.changes.Single().EventArgs.PropertyName);
+            Assert.AreSame(null, this.changes.Single().Sender);
         }
 
         [Test]
@@ -125,10 +125,10 @@ namespace Gu.Reactive.Tests.Internals
             var propertyInfo = typeof(Fake).GetProperty(propertyName);
             var fakeInpc = new Fake();
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
-            pathItem.ObservePropertyChanged().Subscribe(this._changes.Add);
-            Assert.AreEqual(0, this._changes.Count);
+            pathItem.ObservePropertyChanged().Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             pathItem.Source = fakeInpc;
-            Assert.AreEqual(0, this._changes.Count);
+            Assert.AreEqual(0, this.changes.Count);
         }
 
         [Test]
@@ -138,10 +138,10 @@ namespace Gu.Reactive.Tests.Internals
             var propertyInfo = typeof(Fake).GetProperty(propertyName);
             var fakeInpc = new Fake();
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
-            pathItem.ObservePropertyChanged().Subscribe(this._changes.Add);
-            Assert.AreEqual(0, this._changes.Count);
+            pathItem.ObservePropertyChanged().Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             pathItem.Source = null;
-            Assert.AreEqual(0, this._changes.Count);
+            Assert.AreEqual(0, this.changes.Count);
         }
 
         [Test]
@@ -151,12 +151,12 @@ namespace Gu.Reactive.Tests.Internals
             var propertyInfo = typeof(Fake).GetProperty(propertyName);
             var fakeInpc = new Fake { IsTrue = true };
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
-            pathItem.ObservePropertyChanged().Subscribe(this._changes.Add);
-            Assert.AreEqual(0, this._changes.Count);
+            pathItem.ObservePropertyChanged().Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             pathItem.Source = fakeInpc;
-            Assert.AreEqual(1, this._changes.Count);
+            Assert.AreEqual(1, this.changes.Count);
             pathItem.Source = new Fake { IsTrue = true };
-            Assert.AreEqual(2, this._changes.Count);
+            Assert.AreEqual(2, this.changes.Count);
         }
 
         [Test]
@@ -167,12 +167,12 @@ namespace Gu.Reactive.Tests.Internals
             var fakeInpc = new Fake();
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
             pathItem.Source = fakeInpc;
-            pathItem.ObservePropertyChanged().Subscribe(this._changes.Add);
-            Assert.AreEqual(0, this._changes.Count);
+            pathItem.ObservePropertyChanged().Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             fakeInpc.IsTrue = !fakeInpc.IsTrue;
-            Assert.AreEqual(1, this._changes.Count);
-            Assert.AreEqual(propertyName, this._changes.Single().EventArgs.PropertyName);
-            Assert.AreSame(fakeInpc, this._changes.Single().Sender);
+            Assert.AreEqual(1, this.changes.Count);
+            Assert.AreEqual(propertyName, this.changes.Single().EventArgs.PropertyName);
+            Assert.AreSame(fakeInpc, this.changes.Single().Sender);
         }
 
         [TestCase("", Description = "Wpf uses string.empty or null to mean all properties changed")]
@@ -185,12 +185,12 @@ namespace Gu.Reactive.Tests.Internals
             var fakeInpc = new Fake();
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
             pathItem.Source = fakeInpc;
-            pathItem.ObservePropertyChanged().Subscribe(this._changes.Add);
-            Assert.AreEqual(0, this._changes.Count);
+            pathItem.ObservePropertyChanged().Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             fakeInpc.OnPropertyChanged(eventArgsPropName);
-            Assert.AreEqual(1, this._changes.Count);
-            Assert.AreEqual(eventArgsPropName, this._changes.Single().EventArgs.PropertyName);
-            Assert.AreSame(fakeInpc, this._changes.Single().Sender);
+            Assert.AreEqual(1, this.changes.Count);
+            Assert.AreEqual(eventArgsPropName, this.changes.Single().EventArgs.PropertyName);
+            Assert.AreSame(fakeInpc, this.changes.Single().Sender);
         }
 
         [Test]

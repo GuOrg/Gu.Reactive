@@ -26,10 +26,10 @@
         private TimeSpan bufferTime;
 
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="FilteredView{T}"/> class.
         /// </summary>
-        /// <param name="source">The collection to wrap</param>
-        /// <param name="filter"></param>
+        /// <param name="source">The source collection.</param>
+        /// <param name="filter">The predicate used when filtering.</param>
         /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset</param>
         /// <param name="scheduler">The scheduler used when throttling. The collection changed events are raised on this scheduler</param>
         /// <param name="triggers">Triggers when to re evaluate the filter</param>

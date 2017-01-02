@@ -7,9 +7,8 @@ namespace Gu.Reactive.Dummy
 
     internal sealed class Fake : INotifyPropertyChanged
     {
-        private string _name;
-
-        private Level _next;
+        private string name;
+        private Level next;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -17,13 +16,13 @@ namespace Gu.Reactive.Dummy
         {
             get
             {
-                return _name;
+                return this.name;
             }
 
             set
             {
-                _name = value;
-                OnPropertyChanged();
+                this.name = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -31,20 +30,20 @@ namespace Gu.Reactive.Dummy
         {
             get
             {
-                return _next;
+                return this.next;
             }
 
             set
             {
-                _next = value;
-                OnPropertyChanged();
+                this.next = value;
+                this.OnPropertyChanged();
             }
         }
 
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

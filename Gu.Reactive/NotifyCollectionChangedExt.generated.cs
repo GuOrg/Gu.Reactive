@@ -1,14 +1,10 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq.Expressions;
     using System.Reactive;
-    using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
 
@@ -37,11 +33,11 @@
         /// source.ObservePropertyChangedWithValue(x => x.Collection, true)
         ///       .ItemPropertyChanged(x => x.Name)
         /// </summary>
-        /// <typeparam name="TItem"></typeparam>
-        /// <typeparam name="TProperty"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="property"></param>
-        /// <returns></returns>
+        /// <typeparam name="TItem">The type of <paramref name="source"/></typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The source instance.</param>
+        /// <param name="property">An expression with the property path.</param>
+        /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
              this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> source,
              Expression<Func<TItem, TProperty>> property)
@@ -54,8 +50,8 @@
         /// <summary>
         /// Observes propertychanges for items in the collection.
         /// </summary>
-        /// <typeparam name="TProperty"></typeparam>
         /// <typeparam name="TItem">The type of the items in the collection</typeparam>
+        /// <typeparam name="TProperty"></typeparam>
         /// <param name="source"></param>
         /// <param name="property">Sample: item => item.SomeProp.SomeNestedProp</param>
         /// <param name="signalInitial">When true a reset is singaled on subscribe.</param>
@@ -74,11 +70,11 @@
         /// source.ObservePropertyChangedWithValue(x => x.Collection, true)
         ///       .ItemPropertyChanged(x => x.Name)
         /// </summary>
-        /// <typeparam name="TItem"></typeparam>
-        /// <typeparam name="TProperty"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="property"></param>
-        /// <returns></returns>
+        /// <typeparam name="TItem">The type of <paramref name="source"/></typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The source instance.</param>
+        /// <param name="property">An expression with the property path.</param>
+        /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
              this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ReadOnlyObservableCollection<TItem>>>> source,
              Expression<Func<TItem, TProperty>> property)
@@ -111,11 +107,11 @@
         /// source.ObservePropertyChangedWithValue(x => x.Collection, true)
         ///       .ItemPropertyChanged(x => x.Name)
         /// </summary>
-        /// <typeparam name="TItem"></typeparam>
-        /// <typeparam name="TProperty"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="property"></param>
-        /// <returns></returns>
+        /// <typeparam name="TItem">The type of <paramref name="source"/></typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The source instance.</param>
+        /// <param name="property">An expression with the property path.</param>
+        /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
              this IObservable<EventPattern<PropertyChangedAndValueEventArgs<IReadOnlyObservableCollection<TItem>>>> source,
              Expression<Func<TItem, TProperty>> property)

@@ -40,7 +40,7 @@
             typeof(ConditionToolTip),
             new PropertyMetadata(
                 default(UIElement),
-                OnPlacementTargetChanged));
+                OnPlacementTargetProxyChanged));
 
         private static readonly DependencyProperty CommandProxyProperty = DependencyProperty.Register(
             "CommandProxy",
@@ -79,7 +79,7 @@
             protected set { this.SetValue(CommandTypePropertyKey, value); }
         }
 
-        private static void OnPlacementTargetChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        private static void OnPlacementTargetProxyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var commandToolTip = (ConditionToolTip)o;
             var target = commandToolTip.PlacementTarget as ButtonBase;

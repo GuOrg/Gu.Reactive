@@ -13,12 +13,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     // ReSharper disable once InconsistentNaming
     public class ObservePropertyChangedAndValue_NestedTests
     {
-        private List<EventPattern<PropertyChangedAndValueEventArgs<string>>> _changes;
+        private List<EventPattern<PropertyChangedAndValueEventArgs<string>>> changes;
 
         [SetUp]
         public void SetUp()
         {
-            this._changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            this.changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
         }
 
         [Test]
@@ -33,10 +33,10 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var fake = new Fake();
             fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
-                .Subscribe(this._changes.Add);
-            Assert.AreEqual(0, this._changes.Count);
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
-            Assert.AreEqual(0, this._changes.Count);
+            Assert.AreEqual(0, this.changes.Count);
         }
 
         [TestCase("")]
@@ -45,14 +45,14 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var fake = new Fake { Next = new Level { Next = new Level { Name = "Johan" } } };
             fake.ObservePropertyChangedWithValue(x => x.Next.Next.Name, false)
-                .Subscribe(this._changes.Add);
-            Assert.AreEqual(0, this._changes.Count);
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
-            Assert.AreEqual(1, this._changes.Count);
-            Assert.IsTrue(this._changes.Single().EventArgs.HasValue);
-            Assert.AreEqual("Johan", this._changes.Single().EventArgs.Value);
-            Assert.AreSame(fake.Next.Next, this._changes.Single().Sender);
-            Assert.AreEqual(prop, this._changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(1, this.changes.Count);
+            Assert.IsTrue(this.changes.Single().EventArgs.HasValue);
+            Assert.AreEqual("Johan", this.changes.Single().EventArgs.Value);
+            Assert.AreSame(fake.Next.Next, this.changes.Single().Sender);
+            Assert.AreEqual(prop, this.changes.Last().EventArgs.PropertyName);
         }
 
         [TestCase("")]
@@ -62,14 +62,14 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var fake = new Fake { Next = new Level { Next = new Level { Name = "Johan" } } };
             fake.ObservePropertyChangedWithValue(x => x.Next.Next.Name, false)
-                .Subscribe(this._changes.Add);
-            Assert.AreEqual(0, this._changes.Count);
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             fake.Next.Next.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
-            Assert.AreEqual(1, this._changes.Count);
-            Assert.IsTrue(this._changes.Single().EventArgs.HasValue);
-            Assert.AreEqual("Johan", this._changes.Single().EventArgs.Value);
-            Assert.AreSame(fake.Next.Next, this._changes.Single().Sender);
-            Assert.AreEqual(prop, this._changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(1, this.changes.Count);
+            Assert.IsTrue(this.changes.Single().EventArgs.HasValue);
+            Assert.AreEqual("Johan", this.changes.Single().EventArgs.Value);
+            Assert.AreSame(fake.Next.Next, this.changes.Single().Sender);
+            Assert.AreEqual(prop, this.changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
@@ -77,12 +77,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var fake = new Fake();
             fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
-                .Subscribe(this._changes.Add);
-            Assert.AreEqual(1, this._changes.Count);
-            Assert.AreEqual(null, this._changes.Single().EventArgs.Value);
-            Assert.AreSame(null, this._changes.Single().Sender);
-            Assert.IsFalse(this._changes.Single().EventArgs.HasValue);
-            Assert.AreEqual("Name", this._changes.Last().EventArgs.PropertyName);
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(1, this.changes.Count);
+            Assert.AreEqual(null, this.changes.Single().EventArgs.Value);
+            Assert.AreSame(null, this.changes.Single().Sender);
+            Assert.IsFalse(this.changes.Single().EventArgs.HasValue);
+            Assert.AreEqual("Name", this.changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
@@ -90,12 +90,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var fake = new Fake { Next = new Level { Name = "Johan" } };
             fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
-                .Subscribe(this._changes.Add);
-            Assert.AreEqual(1, this._changes.Count);
-            Assert.AreEqual("Johan", this._changes.Last().EventArgs.Value);
-            Assert.AreEqual("Name", this._changes.Last().EventArgs.PropertyName);
-            Assert.AreSame(fake.Next, this._changes.Last().Sender);
-            Assert.IsTrue(this._changes.Single().EventArgs.HasValue);
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(1, this.changes.Count);
+            Assert.AreEqual("Johan", this.changes.Last().EventArgs.Value);
+            Assert.AreEqual("Name", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreSame(fake.Next, this.changes.Last().Sender);
+            Assert.IsTrue(this.changes.Single().EventArgs.HasValue);
         }
 
         [Test]
@@ -103,8 +103,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var fake = new Fake { Next = new Level { Name = "Johan" } };
             fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
-                .Subscribe(this._changes.Add);
-            CollectionAssert.IsEmpty(this._changes);
+                .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
         }
 
         [Test]
@@ -112,13 +112,13 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var fake = new Fake();
             fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
-                .Subscribe(this._changes.Add);
-            CollectionAssert.IsEmpty(this._changes);
+                .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
             fake.Next = new Level();
-            CollectionAssert.IsEmpty(this._changes);
+            CollectionAssert.IsEmpty(this.changes);
             fake.Next.Name = "El Kurro";
-            Assert.AreEqual("El Kurro", this._changes.Single().EventArgs.Value);
-            Assert.IsTrue(this._changes.Single().EventArgs.HasValue);
+            Assert.AreEqual("El Kurro", this.changes.Single().EventArgs.Value);
+            Assert.IsTrue(this.changes.Single().EventArgs.HasValue);
         }
 
         [Test]

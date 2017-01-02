@@ -13,16 +13,16 @@ namespace Gu.Wpf.Reactive
         private bool disposed;
 
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="ConditionRelayCommand"/> class.
         /// </summary>
-        /// <param name="action">SomeMethod</param>
-        /// <param name="condition"></param>
+        /// <param name="action">The action to invoke when the command is executed.</param>
+        /// <param name="condition">The criteria by CanExecute</param>
         public ConditionRelayCommand(Action action, ICondition condition)
             : base(action, () => condition.IsSatisfied == true)
         {
             this.Condition = condition;
             this.subscription = this.Condition.ObserveIsSatisfiedChanged()
-                                     .Subscribe(_ => this.RaiseCanExecuteChanged());
+                                    .Subscribe(_ => this.RaiseCanExecuteChanged());
         }
 
         public ICondition Condition { get; }

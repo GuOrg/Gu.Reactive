@@ -7,10 +7,11 @@ namespace Gu.Reactive
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq.Expressions;
-    using System.Reactive.Concurrency;
-    using System.Reactive.Linq;
 
-    public static partial class MinTracker
+    /// <summary>
+    /// Factory methods for creating trackers for min value.
+    /// </summary>
+    public static class MinTracker
     {
 <#
     var typeNames = new[] {"ObservableCollection", "ReadOnlyObservableCollection", "IReadOnlyObservableCollection"};
@@ -23,13 +24,13 @@ namespace Gu.Reactive
 <#      }	
 #>
         /// <summary>
-        /// 
+        /// Creates a <see cref="MinTracker{TValue}"/> for <paramref name="source"/>
         /// </summary>
-        /// <typeparam name="TItem"></typeparam>
-        /// <typeparam name="TValue"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="selector"></param>
-        /// <param name="whenEmpty"></param>
+        /// <typeparam name="TItem">The type of the items in <paramref name="source"/></typeparam>
+        /// <typeparam name="TValue">The type of the min value.</typeparam>
+        /// <param name="source">The source collection.</param>
+        /// <param name="selector">The function used when producing a value from an item.</param>
+        /// <param name="whenEmpty">The value to return <paramref name="source"/> is empty.</param>
         /// <param name="trackItemChanges">If true we subscribe to property changes for each item. This is much slower.</param>
         /// <returns>A tracker with Value synced with source.Min()</returns>
         public static MinTracker<TValue> TrackMin<TItem, TValue>(this <#= typeName #><TItem> source, Expression<Func<TItem, TValue>> selector, TValue? whenEmpty, bool trackItemChanges)
@@ -43,6 +44,13 @@ namespace Gu.Reactive
             return new MinTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
         }
 
+        /// <summary>
+        /// Creates a <see cref="MinTracker{TValue}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TValue">The type of the min value.</typeparam>
+        /// <param name="source">The source collection.</param>
+        /// <param name="whenEmpty">The value to return <paramref name="source"/> is empty.</param>
+        /// <returns>A tracker with Value synced with source.Min()</returns>
         public static MinTracker<TValue> TrackMin<TValue>(this <#= typeName #><TValue> source, TValue? whenEmpty)
             where TValue : struct, IComparable<TValue>
         {

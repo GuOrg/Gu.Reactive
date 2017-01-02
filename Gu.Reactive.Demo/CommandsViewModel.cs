@@ -126,6 +126,5 @@
             this.ConditionRelayCommand.RaiseCanExecuteChanged();
             this.ConditionRelayCommandWithParameter.RaiseCanExecuteChanged();
         }
-
     }
 }

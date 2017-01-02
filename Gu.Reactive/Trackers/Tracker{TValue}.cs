@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -8,11 +9,16 @@
     using Gu.Reactive.Internals;
     using JetBrains.Annotations;
 
+    /// <summary>
+    /// A base class for trackers of aggretages of the values in a collection.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
     public abstract class Tracker<TValue> : ITracker<TValue?>
         where TValue : struct
     {
-        protected readonly TValue? WhenEmpty;
         protected readonly IReadOnlyList<TValue> Source;
+        protected readonly object Gate;
+        protected readonly TValue? WhenEmpty;
         private readonly IDisposable subscription;
 
         private TValue? value;
@@ -20,35 +26,26 @@
 
         protected Tracker(
             IReadOnlyList<TValue> source,
-                          IObservable<NotifyCollectionChangedEventArgs> onRefresh,
-                          TValue? whenEmpty)
+            IObservable<NotifyCollectionChangedEventArgs> onChanged,
+            TValue? whenEmpty)
         {
             Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(onRefresh, nameof(onRefresh));
+            Ensure.NotNull(onChanged, nameof(onChanged));
             this.Source = source;
+            this.Gate = (source as ICollection)?.SyncRoot ?? new object();
             this.WhenEmpty = whenEmpty;
-            this.subscription = onRefresh.Subscribe(this.Refresh);
+            this.subscription = onChanged.Subscribe(this.Refresh);
         }
 
+        /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public void Reset()
-        {
-            this.VerifyDisposed();
-            if (this.Source.Count == 0)
-            {
-                this.Value = this.WhenEmpty;
-                return;
-            }
-
-            this.Value = this.GetValue(this.Source);
-        }
-
+        /// <inheritdoc/>
         public TValue? Value
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 return this.value;
             }
 
@@ -65,9 +62,21 @@
         }
 
         /// <summary>
-        /// Dispose(true); //I am calling you from Dispose, it's safe
-        /// GC.SuppressFinalize(this); //Hey, GC: don't bother calling finalize later
+        /// Reset calculation of <see cref="Value"/>
         /// </summary>
+        public void Reset()
+        {
+            this.ThrowIfDisposed();
+            if (this.Source.Count == 0)
+            {
+                this.Value = this.WhenEmpty;
+                return;
+            }
+
+            this.Value = this.GetValue(this.Source);
+        }
+
+        /// <inheritdoc/>
         public void Dispose()
         {
             this.Dispose(true);
@@ -90,10 +99,12 @@
             {
                 this.subscription.Dispose();
             }
-
-            // Free any unmanaged objects here.
         }
 
+        /// <summary>
+        /// Called when the source collection notifies about collection changes.
+        /// </summary>
+        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/></param>
         protected virtual void Refresh(NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -102,8 +113,8 @@
                     {
                         if (this.Source.Count > 1 && e.IsSingleNewItem())
                         {
-                            var value = e.NewItem<TValue>();
-                            this.OnAdd(value);
+                            var newValue = e.NewItem<TValue>();
+                            this.OnAdd(newValue);
                         }
                         else
                         {
@@ -117,8 +128,8 @@
                     {
                         if (e.IsSingleOldItem())
                         {
-                            var value = e.OldItem<TValue>();
-                            this.OnRemove(value);
+                            var oldValue = e.OldItem<TValue>();
+                            this.OnRemove(oldValue);
                         }
                         else
                         {
@@ -157,21 +168,40 @@
             }
         }
 
+        /// <summary>
+        /// Called when a value is added to the source collection.
+        /// </summary>
+        /// <param name="value">The new value.</param>
         protected abstract void OnAdd(TValue value);
 
+        /// <summary>
+        /// Called when a value is removed from the source collection.
+        /// </summary>
+        /// <param name="value">The removed value.</param>
         protected abstract void OnRemove(TValue value);
 
+        /// <summary>
+        /// Called when a value is replaced in the source collection.
+        /// </summary>
+        /// <param name="oldValue">The new value.</param>
+        /// <param name="newValue">The removed value.</param>
         protected abstract void OnReplace(TValue oldValue, TValue newValue);
 
+        /// <summary>
+        /// Produce a <see cref="Value"/> from the source collection.
+        /// </summary>
+        /// <param name="source">The source collection.</param>
+        /// <returns>The value.</returns>
         protected abstract TValue GetValue(IReadOnlyList<TValue> source);
 
-        protected void VerifyDisposed()
+        /// <summary>
+        /// Check if the instance is disposed and throw ObjectDisposedException if it is.
+        /// </summary>
+        protected void ThrowIfDisposed()
         {
             if (this.disposed)
             {
-                throw new ObjectDisposedException(
-                    this.GetType()
-                        .FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
 

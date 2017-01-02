@@ -308,7 +308,6 @@
       <DependentUpon>MaxTracker.tt</DependentUpon>
     </Compile>
     <Compile Include="Trackers\MaxTracker{TValue}.cs" />
-    <Compile Include="Trackers\MinTracker.cs" />
     <Compile Include="Trackers\MinTracker.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

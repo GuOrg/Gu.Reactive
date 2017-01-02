@@ -12,8 +12,8 @@ namespace Gu.Reactive.Tests.Collections.Filter
         public override void SetUp()
         {
             base.SetUp();
-            this._view = this._ints.AsFilteredView(x => true, TimeSpan.Zero);
-            this._actual = this._view.SubscribeAll();
+            this.view = this.ints.AsFilteredView(x => true, TimeSpan.Zero);
+            this.actual = this.view.SubscribeAll();
         }
     }
 }

@@ -12,10 +12,10 @@ namespace Gu.Wpf.Reactive
         private static readonly Func<bool> AlwaysTrue = () => true;
 
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="ManualRelayCommand"/> class.
         /// </summary>
-        /// <param name="action"></param>
-        /// <param name="criteria"></param>
+        /// <param name="action">The action to invoke when the command is executed.</param>
+        /// <param name="criteria">The criteria for <see cref="CanExecute"/></param>
         public ManualRelayCommand(Action action, Func<bool> criteria)
         {
             Ensure.NotNull(action, nameof(action));
@@ -24,9 +24,9 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="ManualRelayCommand"/> class.
         /// </summary>
-        /// <param name="action"></param>
+        /// <param name="action">The action to invoke when the command is executed.</param>
         public ManualRelayCommand(Action action)
             : this(action, null)
         {

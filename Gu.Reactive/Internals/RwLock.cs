@@ -9,6 +9,7 @@
         private bool disposed;
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="RwLock"/> class.
         /// Creates a RwLock with LockRecursionPolicy.NoRecursion
         /// </summary>
         public RwLock()

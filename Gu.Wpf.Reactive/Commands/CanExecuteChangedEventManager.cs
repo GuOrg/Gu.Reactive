@@ -87,7 +87,10 @@
         public static void RemoveHandler(ICommand source, EventHandler handler)
         {
             if (handler == null)
+            {
                 throw new ArgumentNullException(nameof(handler));
+            }
+
             CurrentManager.ProtectedRemoveHandler(source, handler);
         }
 

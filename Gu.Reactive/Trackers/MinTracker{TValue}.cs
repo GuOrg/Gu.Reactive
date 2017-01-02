@@ -5,18 +5,29 @@
     using System.Collections.Specialized;
     using System.Linq;
 
+    /// <summary>
+    /// A tracker for minimum value in a collection.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
     public sealed class MinTracker<TValue> : Tracker<TValue>
         where TValue : struct, IComparable<TValue>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MinTracker{TValue}"/> class.
+        /// </summary>
+        /// <param name="source">The source collection.</param>
+        /// <param name="onChanged">The </param>
+        /// <param name="whenEmpty">The Value to use when <paramref name="source"/> is empty.</param>
         public MinTracker(
             IReadOnlyList<TValue> source,
-            IObservable<NotifyCollectionChangedEventArgs> onRefresh,
+            IObservable<NotifyCollectionChangedEventArgs> onChanged,
             TValue? whenEmpty)
-            : base(source, onRefresh, whenEmpty)
+            : base(source, onChanged, whenEmpty)
         {
             this.Reset();
         }
 
+        /// <inheritdoc/>
         protected override void OnAdd(TValue value)
         {
             var current = this.Value;
@@ -32,6 +43,7 @@
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnRemove(TValue value)
         {
             var current = this.Value;
@@ -46,6 +58,7 @@
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnReplace(TValue oldValue, TValue newValue)
         {
             var current = this.Value;
@@ -64,9 +77,13 @@
             }
         }
 
+        /// <inheritdoc/>
         protected override TValue GetValue(IReadOnlyList<TValue> source)
         {
-            return source.Min();
+            lock (this.Gate)
+            {
+                return source.Min();
+            }
         }
     }
 }

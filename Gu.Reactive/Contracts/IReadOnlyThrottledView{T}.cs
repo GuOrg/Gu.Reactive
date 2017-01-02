@@ -7,7 +7,7 @@
     /// Example ten adds during BufferTime results in one Reset notification.
     /// This is useful if the view has expensive Layout
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public interface IReadOnlyThrottledView<out T> : IReadOnlyObservableCollection<T>, IDisposable
     {
         /// <summary>

@@ -9,12 +9,9 @@
         /// <summary>
         /// http://blogs.msdn.com/b/pfxteam/archive/2012/10/05/how-do-i-cancel-non-cancelable-async-operations.aspx
         /// </summary>
-        /// <typeparam name="T">
-        /// </typeparam>
-        /// <param name="task">
-        /// </param>
-        /// <param name="cancellationToken">
-        /// </param>
+        /// <typeparam name="T">The type of the task.</typeparam>
+        /// <param name="task">The task.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>

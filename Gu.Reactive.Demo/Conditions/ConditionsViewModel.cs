@@ -6,10 +6,11 @@
     using Gu.Wpf.Reactive;
     using JetBrains.Annotations;
 
-    public class ConditionsViewModel : INotifyPropertyChanged
+    public sealed class ConditionsViewModel : INotifyPropertyChanged
     {
-        private readonly List<ICondition> conditions;
         public static readonly ConditionsViewModel Instance = new ConditionsViewModel();
+
+        private readonly List<ICondition> conditions;
 
         private ConditionsViewModel()
         {
@@ -52,8 +53,8 @@
 
         public IEnumerable<ICondition> Conditions => this.conditions;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        // ReSharper disable once UnusedMember.Local
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -8,23 +8,23 @@
 
     public class Diff
     {
-        private static List<Fake> _x;
-        private static List<Fake> _y;
+        private static List<Fake> x;
+        private static List<Fake> y;
 
         [Params(10, 100, 1000)]
         public int N
         {
             set
             {
-                _x = CreateFakes(value);
-                _y = CreateFakes(value);
+                x = CreateFakes(value);
+                y = CreateFakes(value);
             }
         }
 
         [Benchmark]
         public NotifyCollectionChangedEventArgs CollectionChange()
         {
-            return Reactive.Diff.CollectionChange(_x, _y);
+            return Reactive.Diff.CollectionChange(x, y);
         }
 
         private static List<Fake> CreateFakes(int n)

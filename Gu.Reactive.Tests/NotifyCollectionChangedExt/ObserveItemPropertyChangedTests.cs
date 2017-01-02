@@ -13,12 +13,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
     // ReSharper disable once InconsistentNaming
     public class ObserveItemPropertyChangedTests
     {
-        private List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> _changes;
+        private List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> changes;
 
         [SetUp]
         public void SetUp()
         {
-            this._changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+            this.changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
         }
 
         [Test]
@@ -28,11 +28,11 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var item2 = new Fake { Name = "2" };
             var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, true)
-                                         .Subscribe(this._changes.Add);
+                                         .Subscribe(this.changes.Add);
 
-            Assert.AreEqual(2, this._changes.Count);
-            AssertRx.AreEqual(item1, "Name", item1, "1", this._changes[0]);
-            AssertRx.AreEqual(item2, "Name", item2, "2", this._changes[1]);
+            Assert.AreEqual(2, this.changes.Count);
+            AssertRx.AreEqual(item1, "Name", item1, "1", this.changes[0]);
+            AssertRx.AreEqual(item2, "Name", item2, "2", this.changes[1]);
         }
 
         [Test]
@@ -42,8 +42,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var item2 = new Fake { Name = "2" };
             var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
-                                         .Subscribe(this._changes.Add);
-            CollectionAssert.IsEmpty(this._changes);
+                                         .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
         }
 
         [Test]
@@ -53,15 +53,15 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var item2 = new Fake { Name = "2" };
             var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
-                                         .Subscribe(this._changes.Add);
-            CollectionAssert.IsEmpty(this._changes);
+                                         .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
             item1.Name = "new1";
-            Assert.AreEqual(1, this._changes.Count);
-            AssertRx.AreEqual(item1, "Name", item1, "new1", this._changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(item1, "Name", item1, "new1", this.changes.Last());
 
             item2.Name = "new2";
-            Assert.AreEqual(2, this._changes.Count);
-            AssertRx.AreEqual(item2, "Name", item2, "new2", this._changes.Last());
+            Assert.AreEqual(2, this.changes.Count);
+            AssertRx.AreEqual(item2, "Name", item2, "new2", this.changes.Last());
         }
 
         [Test]
@@ -72,15 +72,15 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var collection = new ObservableCollection<Fake> { item1, item2 };
             var view = collection.AsReadOnlyFilteredView(x => true);
             view.ObserveItemPropertyChanged(x => x.Name, false)
-                .Subscribe(this._changes.Add);
-            CollectionAssert.IsEmpty(this._changes);
+                .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
             item1.Name = "new1";
-            Assert.AreEqual(1, this._changes.Count);
-            AssertRx.AreEqual(item1, "Name", item1, "new1", this._changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(item1, "Name", item1, "new1", this.changes.Last());
 
             item2.Name = "new2";
-            Assert.AreEqual(2, this._changes.Count);
-            AssertRx.AreEqual(item2, "Name", item2, "new2", this._changes.Last());
+            Assert.AreEqual(2, this.changes.Count);
+            AssertRx.AreEqual(item2, "Name", item2, "new2", this.changes.Last());
         }
 
         [Test]
@@ -90,15 +90,15 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var item2 = new Fake();
             var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Next.Name, false)
-                                         .Subscribe(this._changes.Add);
-            CollectionAssert.IsEmpty(this._changes);
+                                         .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
             item1.Next.Name = "new1";
-            Assert.AreEqual(1, this._changes.Count);
-            AssertRx.AreEqual(item1.Next, "Name", item1, "new1", this._changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(item1.Next, "Name", item1, "new1", this.changes.Last());
 
             item2.Next = new Level { Name = "new2" };
-            Assert.AreEqual(2, this._changes.Count);
-            AssertRx.AreEqual(item2.Next, "Name", item2, "new2", this._changes.Last());
+            Assert.AreEqual(2, this.changes.Count);
+            AssertRx.AreEqual(item2.Next, "Name", item2, "new2", this.changes.Last());
         }
 
         [Test]
@@ -107,11 +107,11 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var item = new Fake { Name = "1" };
             var collection = new ObservableCollection<Fake> { item, item };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
-                                         .Subscribe(this._changes.Add);
-            CollectionAssert.IsEmpty(this._changes);
+                                         .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
             item.Name = "new";
-            Assert.AreEqual(1, this._changes.Count);
-            AssertRx.AreEqual(item, "Name", item, "new", this._changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(item, "Name", item, "new", this.changes.Last());
         }
 
         [Test]
@@ -120,21 +120,21 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var item = new Fake { Name = "1" };
             var collection = new ObservableCollection<Fake> { item, null };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
-                                         .Subscribe(this._changes.Add);
-            CollectionAssert.IsEmpty(this._changes);
+                                         .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
 
             collection.Add(null);
             Assert.AreEqual(3, collection.Count);
-            Assert.AreEqual(0, this._changes.Count);
+            Assert.AreEqual(0, this.changes.Count);
 
             item.Name = "new";
-            Assert.AreEqual(1, this._changes.Count);
-            AssertRx.AreEqual(item, "Name", item, "new", this._changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(item, "Name", item, "new", this.changes.Last());
 
             var item2 = new Fake { Name = "2" };
             collection[1] = item2;
-            Assert.AreEqual(2, this._changes.Count);
-            AssertRx.AreEqual(item2, "Name", item2, "2", this._changes.Last());
+            Assert.AreEqual(2, this.changes.Count);
+            AssertRx.AreEqual(item2, "Name", item2, "2", this.changes.Last());
         }
 
         [Test]
@@ -144,15 +144,15 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var item2 = new Fake { Name = "2" };
             var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
-                                         .Subscribe(this._changes.Add);
-            CollectionAssert.IsEmpty(this._changes);
+                                         .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
             var item3 = new Fake { Name = "3" };
             collection.Add(item3);
-            Assert.AreEqual(1, this._changes.Count);
-            AssertRx.AreEqual(item3, "Name", item3, "3", this._changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(item3, "Name", item3, "3", this.changes.Last());
 
             item3.Name = "new";
-            AssertRx.AreEqual(item3, "Name", item3, "new", this._changes.Last());
+            AssertRx.AreEqual(item3, "Name", item3, "new", this.changes.Last());
         }
 
         [Test]
@@ -162,15 +162,15 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var item2 = new Fake { Name = "2" };
             var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
-                                         .Subscribe(this._changes.Add);
-            CollectionAssert.IsEmpty(this._changes);
+                                         .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
             var item3 = new Fake() { Name = "3" };
             collection[0] = item3;
-            Assert.AreEqual(1, this._changes.Count);
-            AssertRx.AreEqual(item3, "Name", item3, "3", this._changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(item3, "Name", item3, "3", this.changes.Last());
 
             item1.Name = "new";
-            Assert.AreEqual(1, this._changes.Count); // Stopped subscribing
+            Assert.AreEqual(1, this.changes.Count); // Stopped subscribing
         }
 
         [Test]
@@ -180,13 +180,13 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var item2 = new Fake { Name = "2" };
             var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
-                                         .Subscribe(this._changes.Add);
-            CollectionAssert.IsEmpty(this._changes);
+                                         .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
 
             collection.Remove(item2);
             item2.Name = "new";
 
-            CollectionAssert.IsEmpty(this._changes);
+            CollectionAssert.IsEmpty(this.changes);
         }
 
         [Test]
@@ -196,10 +196,10 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var item2 = new Fake { Name = "2" };
             var collection = new ObservableCollection<Fake> { item1, item2 };
             var subscription = collection.ObserveItemPropertyChanged(x => x.Name, false)
-                                         .Subscribe(this._changes.Add);
+                                         .Subscribe(this.changes.Add);
             subscription.Dispose();
             collection.Add(new Fake() { Name = "3" });
-            CollectionAssert.IsEmpty(this._changes);
+            CollectionAssert.IsEmpty(this.changes);
         }
 
         [Test]
@@ -221,7 +221,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var subscription = observable.Subscribe();
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);
-            CollectionAssert.IsEmpty(this._changes);
+            CollectionAssert.IsEmpty(this.changes);
 
             subscription.Dispose();
 
@@ -252,7 +252,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var subscription = observable.Subscribe();
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);
-            CollectionAssert.IsEmpty(this._changes);
+            CollectionAssert.IsEmpty(this.changes);
 
             GC.Collect();
 

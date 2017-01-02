@@ -1,11 +1,8 @@
 ﻿namespace Gu.Reactive.Demo
 {
-    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-
-    using JetBrains.Annotations;
 
     public class Person : INotifyPropertyChanged
     {
@@ -88,12 +85,11 @@
                 }
 
                 this.tagsValues = value;
-                this.tags = String.Join(", ", this.tagsValues);
+                this.tags = string.Join(", ", this.tagsValues);
                 this.OnPropertyChanged();
             }
         }
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

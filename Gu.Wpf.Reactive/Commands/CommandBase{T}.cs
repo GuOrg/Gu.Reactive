@@ -8,10 +8,15 @@
     using System.Windows.Input;
     using JetBrains.Annotations;
 
+    /// <summary>
+    /// A base class for commands.
+    /// </summary>
+    /// <typeparam name="T">The type of the command parameter.</typeparam>
     public abstract class CommandBase<T> : ICommand, INotifyPropertyChanged
     {
         private bool isExecuting;
 
+        /// <inheritdoc/>
         public virtual event EventHandler CanExecuteChanged
         {
             add
@@ -25,10 +30,14 @@
             }
         }
 
+        /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
         private event EventHandler InternalCanExecuteChanged;
 
+        /// <summary>
+        /// Gets a value indicating if the command is currently executing.
+        /// </summary>
         public bool IsExecuting
         {
             get
@@ -38,17 +47,23 @@
 
             protected set
             {
-                if (value == this.isExecuting) return;
+                if (value == this.isExecuting)
+                {
+                    return;
+                }
+
                 this.isExecuting = value;
                 this.OnPropertyChanged();
             }
         }
 
+        /// <inheritdoc/>
         bool ICommand.CanExecute(object parameter)
         {
             return this.InternalCanExecute((T)parameter);
         }
 
+        /// <inheritdoc/>
         void ICommand.Execute(object parameter)
         {
             this.InternalExecute((T)parameter);

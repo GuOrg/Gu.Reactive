@@ -10,10 +10,8 @@
     /// <summary>
     /// The nested observable.
     /// </summary>
-    /// <typeparam name="TClass">
-    /// </typeparam>
-    /// <typeparam name="TProp">
-    /// </typeparam>
+    /// <typeparam name="TClass">The type of the source.</typeparam>
+    /// <typeparam name="TProp">The type of the property.</typeparam>
     internal sealed class PropertyPathObservable<TClass, TProp> :
         ObservableBase<EventPattern<PropertyChangedEventArgs>>
         where TClass : INotifyPropertyChanged
@@ -25,17 +23,18 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyPathObservable{TClass,TProp}"/> class.
         /// </summary>
-        /// <param name="source">
-        /// The source.
-        /// </param>
-        /// <param name="propertyExpression">
-        /// The property expression.
-        /// </param>
+        /// <param name="source"> The source.</param>
+        /// <param name="propertyExpression">The property expression.</param>
         public PropertyPathObservable(TClass source, Expression<Func<TClass, TProp>> propertyExpression)
             : this(source, PropertyPath.Create(propertyExpression))
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyPathObservable{TClass,TProp}"/> class.
+        /// </summary>
+        /// <param name="source"> The source.</param>
+        /// <param name="propertyPath">The path to track changes for.</param>
         public PropertyPathObservable(TClass source, PropertyPath<TClass, TProp> propertyPath)
         {
             this.sourceReference.Target = source;

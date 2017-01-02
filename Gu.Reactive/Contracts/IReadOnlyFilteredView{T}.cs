@@ -5,7 +5,7 @@
     /// <summary>
     /// A typed filtered view
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public interface IReadOnlyFilteredView<T> : IReadOnlyThrottledView<T>
     {
         Func<T, bool> Filter { get; }
