@@ -49,10 +49,7 @@
         /// <summary>
         /// Returns the name of a property provided as a property expression.
         /// </summary>
-        /// <typeparam name="TItem">
-        /// Type of the property.
-        /// </typeparam>
-        /// <typeparam name="TItem">
+        /// <typeparam name="TSource">
         /// Type of the item
         /// </typeparam>
         /// <param name="propertyExpression">
@@ -62,7 +59,7 @@
         /// Returns the simple name of the property.
         /// </returns>
         [Obsolete("Use nameof instead")]
-        public static string Property<TItem>(Expression<Func<TItem, object>> propertyExpression)
+        public static string Property<TSource>(Expression<Func<TSource, object>> propertyExpression)
         {
             var path = PropertyPathVisitor.GetPath(propertyExpression);
             var memberInfo = path.Last();
@@ -77,11 +74,11 @@
         /// <summary>
         /// Returns the name of a property provided as a property expression.
         /// </summary>
-        /// <typeparam name="TValue">
-        /// Type of the property.
-        /// </typeparam>
         /// <typeparam name="TItem">
         /// Type of the item
+        /// </typeparam>
+        /// <typeparam name="TValue">
+        /// Type of the property.
         /// </typeparam>
         /// <param name="propertyExpression">
         /// Property expression on the the form () =&gt; Instance.Property.
@@ -123,13 +120,12 @@
         /// <param name="action">
         /// The action.
         /// </param>
-        /// <typeparam name="T">
-        /// </typeparam>
+        /// <typeparam name="TSource">The source type.</typeparam>
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
         [Obsolete("Use nameof instead")]
-        public static string Method<T>(Expression<Action<T>> action)
+        public static string Method<TSource>(Expression<Action<TSource>> action)
         {
             return ((MethodCallExpression)action.Body).Method.Name;
         }
@@ -140,13 +136,12 @@
         /// <param name="func">
         /// The func.
         /// </param>
-        /// <typeparam name="T">
-        /// </typeparam>
+        /// <typeparam name="TResult">The return type.</typeparam>
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
         [Obsolete("Use nameof instead")]
-        public static string Method<T>(Expression<Func<T>> func)
+        public static string Method<TResult>(Expression<Func<TResult>> func)
         {
             return ((MethodCallExpression)func.Body).Method.Name;
         }
@@ -154,20 +149,18 @@
         /// <summary>
         /// The method.
         /// </summary>
-        /// <param name="func">
-        /// The func.
+        /// <param name="method">
+        /// An expression pointing to a method.
         /// </param>
-        /// <typeparam name="TClass">
-        /// </typeparam>
-        /// <typeparam name="TReturnValue">
-        /// </typeparam>
+        /// <typeparam name="TClass">The source type.</typeparam>
+        /// <typeparam name="TReturnValue">The return type.</typeparam>
         /// <returns>
         /// The <see cref="string"/>.
         /// </returns>
         [Obsolete("Use nameof instead")]
-        public static string Method<TClass, TReturnValue>(Expression<Func<TClass, TReturnValue>> func)
+        public static string Method<TClass, TReturnValue>(Expression<Func<TClass, TReturnValue>> method)
         {
-            return ((MethodCallExpression)func.Body).Method.Name;
+            return ((MethodCallExpression)method.Body).Method.Name;
         }
 
         /// <summary>

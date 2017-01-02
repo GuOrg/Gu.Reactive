@@ -88,7 +88,7 @@
         /// If true OnNext is called immediately on subscribe
         /// </param>
         /// <returns>
-        /// The <see cref="IObservable"/>.
+        /// The <see cref="IObservable{EventPattern{PropertyChangedEventArgs}}"/>.
         /// </returns>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(
             this INotifyPropertyChanged source,
@@ -167,7 +167,8 @@
         internal static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(
             this TNotifier source,
             PropertyPath<TNotifier, TProperty> propertyPath,
-            bool signalInitial = true) where TNotifier : INotifyPropertyChanged
+            bool signalInitial = true) 
+            where TNotifier : INotifyPropertyChanged
         {
             var wr = new WeakReference(source);
             var observable = source.ObservePropertyChanged(propertyPath, false);
@@ -177,11 +178,11 @@
                         var withValues =
                             observable.Select(
                                 x =>
-                                new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
-                                    x.Sender,
-                                    new PropertyChangedAndValueEventArgs<TProperty>(
-                                    x.EventArgs.PropertyName,
-                                    propertyPath.GetValue((TNotifier)wr.Target))));
+                                    new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
+                                        x.Sender,
+                                        new PropertyChangedAndValueEventArgs<TProperty>(
+                                            x.EventArgs.PropertyName,
+                                            propertyPath.GetValue((TNotifier)wr.Target))));
                         if (signalInitial)
                         {
                             var valueAndSource = propertyPath.GetValueAndSender((TNotifier)wr.Target);

@@ -8,6 +8,8 @@ nuget System.Reactive.PlatformServices
 nuget Gu.Wpf.ToolTips
 
 group Analyzers
+  source http://nuget.org/api/v2
+  framework: >= net45
   nuget StyleCop.Analyzers
   nuget JetBrains.Annotations
 

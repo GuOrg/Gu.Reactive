@@ -6,7 +6,7 @@
     {
         public MemoryDiagnoserConfig()
         {
-            this.Add(new BenchmarkDotNet.Diagnostics.Windows.MemoryDiagnoser());
+            this.Add(new BenchmarkDotNet.Diagnosers.MemoryDiagnoser());
         }
     }
 }

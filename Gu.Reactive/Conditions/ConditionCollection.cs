@@ -49,7 +49,7 @@
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 return this.isSatisfied(this.innerConditions); // No caching
             }
 
@@ -80,13 +80,13 @@
 
         public IEnumerator<ICondition> GetEnumerator()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             return this.innerConditions.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             return this.GetEnumerator();
         }
 
@@ -115,7 +115,7 @@
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected void VerifyDisposed()
+        protected void ThrowIfDisposed()
         {
             if (this.disposed)
             {

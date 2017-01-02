@@ -51,7 +51,7 @@
         /// <typeparam name="T">
         /// </typeparam>
         /// <returns>
-        /// The <see cref="MemberExpression[]"/>.
+        /// The <see cref="IReadOnlyList{MemberExpression}"/>.
         /// </returns>
         public static IReadOnlyList<MemberInfo> GetPath<T>(Expression<Func<T>> expression)
         {

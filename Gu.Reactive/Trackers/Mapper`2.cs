@@ -16,7 +16,6 @@
 
         private TResult value;
 
-
         public Mapper(ITracker<TSource> source, Func<TSource, TResult> selector)
         {
             this.source = source;
@@ -60,13 +59,11 @@
             this.subscription.Dispose();
         }
 
-        private void VerifyDisposed()
+        private void ThrowIfDisposed()
         {
             if (this.disposed)
             {
-                throw new ObjectDisposedException(
-                    this.GetType()
-                        .FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
 

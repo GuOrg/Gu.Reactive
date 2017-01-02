@@ -9,11 +9,11 @@
     internal class AndConditionCollection : ConditionCollection
     {
         public AndConditionCollection(params ICondition[] conditions)
-            : base(IsSatisfied, conditions)
+            : base(GetIsSatisfied, conditions)
         {
         }
 
-        private static bool? IsSatisfied(IReadOnlyList<ICondition> conditions)
+        private static bool? GetIsSatisfied(IReadOnlyList<ICondition> conditions)
         {
             if (conditions.All(x => x.IsSatisfied == true))
             {

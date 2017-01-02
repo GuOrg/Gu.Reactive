@@ -6,11 +6,11 @@
     internal class OrConditionCollection : ConditionCollection
     {
         public OrConditionCollection(params ICondition[] conditions)
-            : base(IsSatisfied, conditions)
+            : base(GetIsSatisfied, conditions)
         {
         }
 
-        private static bool? IsSatisfied(IReadOnlyList<ICondition> conditions)
+        private static bool? GetIsSatisfied(IReadOnlyList<ICondition> conditions)
         {
             if (conditions.Any(x => x.IsSatisfied == true))
             {

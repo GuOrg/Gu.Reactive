@@ -26,14 +26,7 @@ namespace Gu.Wpf.Reactive
             this.CanCancelCondition = new Condition(observable, () => this.CanCancel) { Name = "CanCancel" };
         }
 
-        public void Run()
-        {
-            this.cancellationTokenSource?.Dispose();
-            this.cancellationTokenSource = new CancellationTokenSource();
-            this.cancellationSubscription.Disposable = this.cancellationTokenSource.Token.AsObservable()
-                                                                           .Subscribe(_ => this.OnPropertyChanged(nameof(this.CanCancel)));
-            this.TaskCompletion = new NotifyTaskCompletion(this.action(this.cancellationTokenSource.Token));
-        }
+        public override ICondition CanCancelCondition { get; }
 
         public bool? CanCancel
         {
@@ -52,12 +45,19 @@ namespace Gu.Wpf.Reactive
             }
         }
 
-        public void Cancel()
+        public void Run()
+        {
+            this.cancellationTokenSource?.Dispose();
+            this.cancellationTokenSource = new CancellationTokenSource();
+            this.cancellationSubscription.Disposable = this.cancellationTokenSource.Token.AsObservable()
+                                                                           .Subscribe(_ => this.OnPropertyChanged(nameof(this.CanCancel)));
+            this.TaskCompletion = new NotifyTaskCompletion(this.action(this.cancellationTokenSource.Token));
+        }
+
+        public override void Cancel()
         {
             this.cancellationTokenSource?.Cancel();
         }
-
-        public override ICondition CanCancelCondition { get; }
 
         protected override void Dispose(bool disposing)
         {
@@ -66,6 +66,7 @@ namespace Gu.Wpf.Reactive
                 this.cancellationTokenSource.Dispose();
                 this.cancellationSubscription.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

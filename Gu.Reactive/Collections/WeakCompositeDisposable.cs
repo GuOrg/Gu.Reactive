@@ -69,10 +69,7 @@
                     IDisposable disposable;
                     if (weakReference.TryGetTarget(out disposable))
                     {
-                        if (disposable != null)
-                        {
-                            disposable.Dispose();
-                        }
+                        disposable.Dispose();
                     }
                 }
             }
