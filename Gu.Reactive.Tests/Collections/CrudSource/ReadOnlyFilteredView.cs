@@ -40,7 +40,7 @@ namespace Gu.Reactive.Tests.Collections
             ints.Add(1);
             var expected = new[]
                                {
-                                   Notifier.CountPropertyChangedEventArgs, 
+                                   Notifier.CountPropertyChangedEventArgs,
                                    Notifier.IndexerPropertyChangedEventArgs
                                };
             CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);

@@ -33,6 +33,7 @@ namespace Gu.Wpf.Reactive
             {
                 return;
             }
+
             this.disposed = true;
             this.Dispose(true);
             GC.SuppressFinalize(this);

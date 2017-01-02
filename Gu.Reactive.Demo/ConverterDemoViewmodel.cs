@@ -19,12 +19,14 @@
         public bool? IsVisible
         {
             get { return _isVisible; }
+
             set
             {
                 if (Equals(value, _isVisible))
                 {
                     return;
                 }
+
                 _isVisible = value;
                 OnPropertyChanged();
             }
@@ -33,12 +35,14 @@
         public double DoubleValue
         {
             get { return _doubleValue; }
+
             set
             {
                 if (value == _doubleValue)
                 {
                     return;
                 }
+
                 _doubleValue = value;
                 OnPropertyChanged();
             }
@@ -47,12 +51,14 @@
         public double Factor
         {
             get { return _factor; }
+
             set
             {
                 if (value.Equals(_factor))
                 {
                     return;
                 }
+
                 _factor = value;
                 OnPropertyChanged();
             }
@@ -61,12 +67,14 @@
         public int IntValue
         {
             get { return _intValue; }
+
             set
             {
                 if (value == _intValue)
                 {
                     return;
                 }
+
                 _intValue = value;
                 OnPropertyChanged();
             }
@@ -75,12 +83,14 @@
         public StringComparison StringComparison
         {
             get { return _stringComparison; }
+
             set
             {
                 if (value == _stringComparison)
                 {
                     return;
                 }
+
                 _stringComparison = value;
                 OnPropertyChanged();
             }

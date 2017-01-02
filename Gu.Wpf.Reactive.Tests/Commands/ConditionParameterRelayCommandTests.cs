@@ -24,6 +24,7 @@
             _condition = new Condition(_observable, () => _fake.IsTrueOrNull);
             _command = new ConditionRelayCommand<int>(x => { }, _condition);
         }
+
         [Test]
         public void NotifiesOnConditionChanged()
         {

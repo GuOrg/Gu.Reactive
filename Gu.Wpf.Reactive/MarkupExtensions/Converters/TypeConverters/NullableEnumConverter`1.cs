@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.TypeConverters
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Globalization;
@@ -20,10 +20,12 @@
             {
                 return true;
             }
+
             if (ValidTypes.Contains(value.GetType()))
             {
                 return true;
             }
+
             return false;
         }
 
@@ -33,16 +35,19 @@
             {
                 return true;
             }
+
             if (ValidTypes.Contains(value.GetType()))
             {
                 return true;
             }
+
             var s = value as string;
             if (s != null)
             {
                 T temp;
                 return Enum.TryParse(s, true, out temp);
             }
+
             return false;
         }
 
@@ -52,16 +57,19 @@
             {
                 return null;
             }
+
             if (ValidTypes.Contains(value.GetType()))
             {
                 return (T)Convert.ChangeType(value, typeof(T));
 
             }
+
             var s = value as string;
             if (s != null)
             {
                 return (T)Enum.Parse(typeof(T), s);
             }
+
             throw new ArgumentException("value");
         }
 

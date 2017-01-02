@@ -70,6 +70,7 @@ namespace Gu.Reactive.Tests.Sandbox
         {
             A = a;
         }
+
         public A A { get; set; }
     }
 }

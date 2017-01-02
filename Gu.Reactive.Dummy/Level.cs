@@ -18,12 +18,14 @@
             {
                 return _value;
             }
+
             set
             {
                 if (value == _value)
                 {
                     return;
                 }
+
                 _value = value;
                 OnPropertyChanged();
             }
@@ -35,12 +37,14 @@
             {
                 return _next;
             }
+
             set
             {
                 if (Equals(value, _next))
                 {
                     return;
                 }
+
                 _next = value;
                 OnPropertyChanged();
             }

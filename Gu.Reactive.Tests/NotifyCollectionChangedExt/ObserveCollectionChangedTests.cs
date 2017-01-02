@@ -77,7 +77,7 @@
 
             ints = null;
             subscription.Dispose();
-            
+
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
         }

@@ -114,7 +114,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             fake = null;
             subscription.Dispose();
             GC.Collect();
-            
+
             Assert.IsFalse(wr.IsAlive);
         }
     }

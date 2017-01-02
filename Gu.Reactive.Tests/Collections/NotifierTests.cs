@@ -176,6 +176,7 @@
         private class DummyNotifier : INotifyPropertyChanged, INotifyCollectionChanged, IEnumerable
         {
             public event PropertyChangedEventHandler PropertyChanged;
+
             public event NotifyCollectionChangedEventHandler CollectionChanged;
 
             public PropertyChangedEventHandler PropertyChangedEventHandler => PropertyChanged;

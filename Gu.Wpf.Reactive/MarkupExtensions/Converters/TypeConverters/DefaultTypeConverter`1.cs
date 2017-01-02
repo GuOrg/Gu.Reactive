@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.TypeConverters
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Globalization;
@@ -23,17 +23,21 @@
                 {
                     return typeof(T).IsNullable();
                 }
+
                 return true;
             }
+
             var name = value.GetType().Name;
             if (Regex.IsMatch(name, @"_\.di\d+\..+"))
             {
                 return true;
             }
+
             if (typeof(T).IsValueType)
             {
                 return value is T || (value.GetType() == Nullable.GetUnderlyingType(typeof(T)));
             }
+
             return value is T;
         }
 

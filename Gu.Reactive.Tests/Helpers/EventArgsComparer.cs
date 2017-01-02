@@ -19,11 +19,13 @@
             {
                 return 0;
             }
+
             var collectionChangedEventArgs = x as NotifyCollectionChangedEventArgs;
             if (collectionChangedEventArgs != null)
             {
                 return Compare(collectionChangedEventArgs, y);
             }
+
             return Compare((PropertyChangedEventArgs)x, y);
         }
 
@@ -45,14 +47,17 @@
             {
                 return true;
             }
+
             if (newItems == null || oldItems == null)
             {
                 return false;
             }
+
             if (newItems.Count != oldItems.Count)
             {
                 return false;
             }
+
             return !newItems.Cast<object>()
                             .Where((t, i) => !Equals(t, oldItems[i]))
                             .Any();

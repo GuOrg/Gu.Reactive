@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive.TypeConverters
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Globalization;
@@ -18,10 +18,12 @@ namespace Gu.Wpf.Reactive.TypeConverters
             {
                 return true;
             }
+
             if (ValidTypes.Contains(value.GetType()))
             {
                 return true;
             }
+
             return false;
         }
 
@@ -31,16 +33,19 @@ namespace Gu.Wpf.Reactive.TypeConverters
             {
                 return true;
             }
+
             if (ValidTypes.Contains(value.GetType()))
             {
                 return true;
             }
+
             var s = value as string;
             if (s != null)
             {
                 bool temp;
                 return bool.TryParse(s, out temp);
             }
+
             return false;
         }
 
@@ -50,16 +55,19 @@ namespace Gu.Wpf.Reactive.TypeConverters
             {
                 return null;
             }
+
             if (ValidTypes.Contains(value.GetType()))
             {
                 return (bool)Convert.ChangeType(value, typeof(bool));
 
             }
+
             var s = value as string;
             if (s != null)
             {
                 return bool.Parse(s);
             }
+
             throw new ArgumentException("value");
         }
 

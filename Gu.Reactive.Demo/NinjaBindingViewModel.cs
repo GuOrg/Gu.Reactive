@@ -20,12 +20,14 @@
             {
                 return _visible;
             }
+
             set
             {
                 if (value.Equals(_visible))
                 {
                     return;
                 }
+
                 _visible = value;
                 OnPropertyChanged();
                 Visibility = _visible ? Visibility.Visible : Visibility.Collapsed;
@@ -38,12 +40,14 @@
             {
                 return _visibility;
             }
+
             set
             {
                 if (value == _visibility)
                 {
                     return;
                 }
+
                 _visibility = value;
                 OnPropertyChanged();
             }

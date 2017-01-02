@@ -37,6 +37,7 @@
                 {
                     return;
                 }
+
                 this.completed = value;
                 this.OnPropertyChanged();
             }
@@ -76,6 +77,7 @@
             {
                 await task.ConfigureAwait(false);
             }
+
             // ReSharper disable once EmptyGeneralCatchClause We don't want to propagate errors here. Just make them bindable.
             catch
             {

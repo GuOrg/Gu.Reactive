@@ -20,12 +20,14 @@
             {
                 return _isTrue;
             }
+
             set
             {
                 if (value.Equals(_isTrue))
                 {
                     return;
                 }
+
                 _isTrue = value;
                 OnPropertyChanged();
             }
@@ -37,12 +39,14 @@
             {
                 return _value;
             }
+
             set
             {
                 if (value == _value)
                 {
                     return;
                 }
+
                 _value = value;
                 OnPropertyChanged();
             }
@@ -54,12 +58,14 @@
             {
                 return _name;
             }
+
             set
             {
                 if (value == _name)
                 {
                     return;
                 }
+
                 _name = value;
                 OnPropertyChanged();
             }
@@ -71,12 +77,14 @@
             {
                 return _next;
             }
+
             set
             {
                 if (Equals(value, _next))
                 {
                     return;
                 }
+
                 _next = value;
                 OnPropertyChanged();
             }

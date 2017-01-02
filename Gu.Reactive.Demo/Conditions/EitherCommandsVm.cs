@@ -33,6 +33,7 @@
         public int Value
         {
             get { return _value; }
+
             set
             {
                 if (value == _value) return;

@@ -15,13 +15,13 @@ namespace Gu.Reactive.Demo
     public partial class DataGridAndEventsView : UserControl
     {
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            "Source", 
+            "Source",
             typeof(IEnumerable),
-            typeof(DataGridAndEventsView), 
+            typeof(DataGridAndEventsView),
             new PropertyMetadata(default(IEnumerable), OnSourceChanged));
 
         public static readonly DependencyProperty ChangesProperty = DependencyProperty.Register(
-            "Changes", 
+            "Changes",
             typeof(ObservableCollection<NotifyCollectionChangedEventArgs>),
             typeof(DataGridAndEventsView),
             new PropertyMetadata(default(ObservableCollection<NotifyCollectionChangedEventArgs>)));
@@ -29,7 +29,7 @@ namespace Gu.Reactive.Demo
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
             "Header",
             typeof(string),
-            typeof(DataGridAndEventsView), 
+            typeof(DataGridAndEventsView),
             new PropertyMetadata(default(string)));
 
 

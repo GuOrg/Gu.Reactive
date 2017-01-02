@@ -38,6 +38,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
             {
                 _scheduler.Start();
             }
+
             CollectionAssert.AreEqual(new[] { 1, 2 }, _view);
             var expected = new EventArgs[]
                                {

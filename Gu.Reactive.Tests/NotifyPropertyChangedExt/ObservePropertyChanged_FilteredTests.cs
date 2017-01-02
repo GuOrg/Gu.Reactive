@@ -154,6 +154,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 AssertEventPattern(fake, "Value", _changes.Last());
             }
+
             fake.Value++;
             Assert.AreEqual(expected + 1, _changes.Count); // Double check that we are subscribing
         }

@@ -32,6 +32,7 @@
             {
                 AddOrUpdate(x => Fake.Next.Name, i);
             }
+
             Assert.AreEqual(1, _dictionary.Count);
         }
 
@@ -46,11 +47,13 @@
             {
                 var h = HashVisitor.GetHash(x => Fake.Next.Name); // Warming things up
             }
+
             sw.Restart();
             for (int i = 0; i < n; i++)
             {
                 var h = HashVisitor.GetHash(x => Fake.Next.Name);
             }
+
             sw.Stop();
             var t1 = sw.Elapsed;
             Console.WriteLine(
@@ -65,6 +68,7 @@
                 Expression<Func<object, string>> expression = x => Fake.Next.Name;
                 var h = expression.ToString();
             }
+
             sw.Stop();
             Console.WriteLine(
                 "expression.ToString() {0} times took: {1:F1} ms {2:F4} ms per call",

@@ -34,6 +34,7 @@
                 {
                     return;
                 }
+
                 this.taskCompletion = value;
                 this.OnPropertyChanged();
             }
@@ -50,6 +51,7 @@
             {
                 return true;
             }
+
             switch (completion.Task.Status)
             {
                 case TaskStatus.Created:
@@ -82,6 +84,7 @@
             {
                 return;
             }
+
             this.disposed = true;
             this.Dispose(true);
             GC.SuppressFinalize(this);

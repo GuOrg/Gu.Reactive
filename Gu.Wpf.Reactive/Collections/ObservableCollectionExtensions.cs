@@ -21,6 +21,7 @@
             {
                 comparison = Comparer<T>.Default.Compare;
             }
+
             if (collection.Count == 0)
             {
                 Shedule(() => collection.Add(item));
@@ -38,6 +39,7 @@
                         break;
                     }
                 }
+
                 if (last)
                 {
                     Shedule(() => collection.Add(item));
@@ -125,6 +127,7 @@
             {
                 return application.Dispatcher.InvokeAsync(action).Task;
             }
+
             action();
             return CompletedTask;
         }
@@ -136,6 +139,7 @@
             {
                 return application.Dispatcher.InvokeAsync(action).Task;
             }
+
             var result = action();
             return result ?
                 CompletedTrueTask :

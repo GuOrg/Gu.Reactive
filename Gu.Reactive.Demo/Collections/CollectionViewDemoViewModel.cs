@@ -59,12 +59,14 @@
             {
                 return _filter;
             }
+
             set
             {
                 if (Equals(value, _filter))
                 {
                     return;
                 }
+
                 _filter = value;
                 OnPropertyChanged();
             }

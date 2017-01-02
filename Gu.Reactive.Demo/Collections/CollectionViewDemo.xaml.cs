@@ -12,6 +12,7 @@
     public partial class CollectionViewDemo : UserControl
     {
         private readonly CollectionViewDemoViewModel _viewModel = new CollectionViewDemoViewModel();
+
         public CollectionViewDemo()
         {
             InitializeComponent();

@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive.TypeConverters
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Globalization;
@@ -37,10 +37,12 @@ namespace Gu.Wpf.Reactive.TypeConverters
             {
                 return true;
             }
+
             if (this.type == value.GetType())
             {
                 return true;
             }
+
             return false;
         }
 
@@ -50,15 +52,18 @@ namespace Gu.Wpf.Reactive.TypeConverters
             {
                 return true;
             }
+
             if (this.type == value.GetType())
             {
                 return true;
             }
+
             var s = value as string;
             if (s != null)
             {
                 return Enum.IsDefined(this.type, s);
             }
+
             return false;
         }
 
@@ -68,16 +73,19 @@ namespace Gu.Wpf.Reactive.TypeConverters
             {
                 return null;
             }
+
             if (this.type == value.GetType())
             {
                 return Convert.ChangeType(value, this.type);
 
             }
+
             var s = value as string;
             if (s != null)
             {
                 return Enum.Parse(this.type, s);
             }
+
             throw new ArgumentException("value");
         }
     }

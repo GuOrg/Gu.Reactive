@@ -73,6 +73,7 @@
                     expectedTimes.Add(time);
                     expectedMessages.Add(ReactiveTest.OnNext(time, value));
                 }
+
                 expectedMessages.AddRange(CompletedEvent);
                 ExpectedPattern = expectedPattern;
                 ExpectedTimes = expectedTimes;
@@ -92,6 +93,7 @@
                         expected.Append(", ");
                     }
                 }
+
                 expected.Append("}");
 
                 return $"{pattern} -> {expected}";

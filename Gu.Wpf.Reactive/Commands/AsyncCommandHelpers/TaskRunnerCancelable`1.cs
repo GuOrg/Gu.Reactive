@@ -43,11 +43,13 @@ namespace Gu.Wpf.Reactive
                 {
                     return false;
                 }
+
                 var cts = this.cancellationTokenSource;
                 if (cts == null)
                 {
                     return false;
                 }
+
                 return !cts.IsCancellationRequested;
             }
         }
@@ -66,6 +68,7 @@ namespace Gu.Wpf.Reactive
                 this.cancellationTokenSource.Dispose();
                 this.cancellationSubscription.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }

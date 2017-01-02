@@ -16,7 +16,6 @@ namespace Gu.Wpf.Reactive.UiTests
                 {
                     FileName = fileName,
                     UseShellExecute = false,
-                    //CreateNoWindow = true,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true
                 };
@@ -31,7 +30,6 @@ namespace Gu.Wpf.Reactive.UiTests
                 FileName = GetExeFileName(),
                 Arguments = args,
                 UseShellExecute = false,
-                //CreateNoWindow = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true
             };

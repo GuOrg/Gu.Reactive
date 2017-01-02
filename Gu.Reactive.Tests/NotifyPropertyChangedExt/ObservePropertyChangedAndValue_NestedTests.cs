@@ -140,7 +140,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             GC.KeepAlive(subscription);
 
             GC.Collect();
-          
+
             Assert.IsFalse(wr.IsAlive);
         }
 
@@ -165,7 +165,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
             subscription.Dispose();
             GC.Collect();
-            
+
             Assert.IsFalse(wr.IsAlive);
             Assert.IsNotNull(subscription); // touching it after GC.Collect for no optimizations
         }
@@ -189,7 +189,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             GC.KeepAlive(subscription);
 
             GC.Collect();
-            
+
             Assert.IsFalse(wr.IsAlive);
             Assert.IsNotNull(subscription); // touching it after GC.Collect for no optimizations
         }
@@ -214,7 +214,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
             subscription.Dispose();
             GC.Collect();
-            
+
             Assert.IsFalse(wr.IsAlive);
         }
     }

@@ -131,6 +131,7 @@
             catch
             {
             }
+
             Assert.AreEqual(exception, command.Execution.InnerException);
             Assert.AreEqual(TaskStatus.Faulted, command.Execution.Status);
             Assert.AreEqual(true, command.CanExecute());

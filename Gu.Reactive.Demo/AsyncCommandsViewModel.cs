@@ -42,12 +42,14 @@
         public int Count
         {
             get { return _count; }
+
             private set
             {
                 if (value == _count)
                 {
                     return;
                 }
+
                 _count = value;
                 OnPropertyChanged();
             }
@@ -59,12 +61,14 @@
             {
                 return _delay;
             }
+
             set
             {
                 if (value == _delay)
                 {
                     return;
                 }
+
                 _delay = value;
                 OnPropertyChanged();
             }

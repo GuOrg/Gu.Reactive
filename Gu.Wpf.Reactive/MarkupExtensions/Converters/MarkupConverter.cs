@@ -7,7 +7,6 @@
     using System.Windows.Markup;
 
     using Gu.Reactive;
-    using Gu.Wpf.Reactive.TypeConverters;
 
     /// <summary>
     /// Class implements a base for a typed value converter used as a markup extension. Override the Convert method in the inheriting class
@@ -32,6 +31,7 @@
                 var convertTo = InputTypeConverter.ConvertTo(value, culture);
                 return this.Convert(convertTo, culture);
             }
+
             return this.ConvertDefault();
         }
 
@@ -43,6 +43,7 @@
                 var convertTo = ResultTypeConverter.ConvertTo(value, culture);
                 return this.ConvertBack(convertTo, culture);
             }
+
             return this.ConvertBackDefault();
         }
 

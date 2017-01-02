@@ -19,12 +19,14 @@
         public string FirstName
         {
             get { return _firstName; }
+
             set
             {
                 if (value == _firstName)
                 {
                     return;
                 }
+
                 _firstName = value;
                 OnPropertyChanged();
             }
@@ -33,12 +35,14 @@
         public string LastName
         {
             get { return _lastName; }
+
             set
             {
                 if (value == _lastName)
                 {
                     return;
                 }
+
                 _lastName = value;
                 OnPropertyChanged();
             }
@@ -47,6 +51,7 @@
         public string Tags
         {
             get { return _tags; }
+
             private set
             {
                 if (value == _tags) return;
@@ -58,6 +63,7 @@
         internal IReadOnlyList<int> TagsValues
         {
             get { return _tagsValues; }
+
             set
             {
                 if (Equals(value, _tagsValues)) return;

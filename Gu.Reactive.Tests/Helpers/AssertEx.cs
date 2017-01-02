@@ -14,6 +14,7 @@ namespace Gu.Reactive.Tests.Helpers
             {
                 return;
             }
+
             Assert.NotNull(expected);
             Assert.NotNull(actual);
             var actualChange = actual as PropertyChangedEventArgs;
@@ -28,13 +29,14 @@ namespace Gu.Reactive.Tests.Helpers
             {
                 return;
             }
+
             Assert.NotNull(expected);
             Assert.NotNull(actual);
             var actualChange = actual as NotifyCollectionChangedEventArgs;
             Assert.NotNull(actualChange, "Expected actual to be of type NotifyCollectionChangedEventArgs, was: " + actual.GetType().Name);
-            
+
             Assert.AreEqual(expected.Action, actualChange.Action);
-            
+
             Assert.AreEqual(expected.OldStartingIndex, actualChange.OldStartingIndex);
             CollectionAssert.AreEqual(expected.OldItems, actualChange.OldItems);
 

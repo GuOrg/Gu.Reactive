@@ -18,12 +18,14 @@ namespace Gu.Reactive.Demo
         public int Value
         {
             get { return _value; }
+
             set
             {
                 if (value == _value)
                 {
                     return;
                 }
+
                 _value = value;
                 OnPropertyChanged();
             }
@@ -32,12 +34,14 @@ namespace Gu.Reactive.Demo
         public int? Index
         {
             get { return _index; }
+
             set
             {
                 if (value == _index)
                 {
                     return;
                 }
+
                 _index = value;
                 OnPropertyChanged();
             }

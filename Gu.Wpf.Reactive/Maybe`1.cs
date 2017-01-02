@@ -26,6 +26,7 @@ namespace Gu.Wpf.Reactive
                 {
                     throw new InvalidOperationException("Cannot get Value when HasValue == false. Check before");
                 }
+
                 return this.value;
             }
         }

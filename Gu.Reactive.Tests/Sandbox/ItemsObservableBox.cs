@@ -28,6 +28,7 @@
                 var fake = new Fake();
                 source.Add(fake);
             }
+
             sw.Stop();
             Console.WriteLine("// source.ObserveItemPropertyChanged(x => x.Next.Next.Value): {0} Adds took {1} ms {2:F3} ms each. {3}", n, sw.ElapsedMilliseconds, sw.Elapsed.TotalMilliseconds / n, DateTime.Now.ToShortDateString());
         }
@@ -48,6 +49,7 @@
                 source.Add(fake);
                 subject.OnNext(view.Merge());
             }
+
             sw.Stop();
             Console.WriteLine("// source.ObserveItemPropertyChanged(x => x.Next.Next.Value): {0} Adds took {1} ms {2:F3} ms each. {3}", n, sw.ElapsedMilliseconds, sw.Elapsed.TotalMilliseconds / n, DateTime.Now.ToShortDateString());
         }
@@ -65,6 +67,7 @@
                 source.Add(fake);
                 fake.Next = new Level { Next = new Level { Value = 1 } };
             }
+
             sw.Stop();
             Console.WriteLine("// source.ObserveItemPropertyChanged(x => x.Next.Next.Value): {0} Adds took {1} ms {2:F3} ms each. {3}", n, sw.ElapsedMilliseconds, sw.Elapsed.TotalMilliseconds / n, DateTime.Now.ToShortDateString());
         }

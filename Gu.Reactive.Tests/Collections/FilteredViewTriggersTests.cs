@@ -99,7 +99,7 @@ namespace Gu.Reactive.Tests.Collections
                                               Notifier.CountPropertyChangedEventArgs,
                                               Notifier.IndexerPropertyChangedEventArgs,
                                               Diff.CreateRemoveEventArgs(2, 1),
-                                              new PropertyChangedEventArgs("Filter"), 
+                                              new PropertyChangedEventArgs("Filter"),
                                           };
             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
             CollectionAssert.AreEqual(new[] { 1, 1 }, view);

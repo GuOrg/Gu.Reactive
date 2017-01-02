@@ -93,6 +93,7 @@
             public int Value
             {
                 get { return _value; }
+
                 set
                 {
                     _value = value;

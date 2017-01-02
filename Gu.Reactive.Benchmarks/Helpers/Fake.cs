@@ -16,38 +16,42 @@
         private int _value;
 
         public event PropertyChangedEventHandler PropertyChanged;
-       
+
         public int WriteOnly { set { return; } }
-      
+
         public bool IsTrue
         {
             get
             {
                 return _isTrue;
             }
+
             set
             {
                 if (value.Equals(_isTrue))
                 {
                     return;
                 }
+
                 _isTrue = value;
                 OnPropertyChanged();
             }
         }
-        
+
         public string Name
         {
             get
             {
                 return _name;
             }
+
             set
             {
                 if (value == _name)
                 {
                     return;
                 }
+
                 _name = value;
                 OnPropertyChanged();
             }
@@ -59,12 +63,14 @@
             {
                 return _next;
             }
+
             set
             {
                 if (Equals(value, _next))
                 {
                     return;
                 }
+
                 _next = value;
                 OnPropertyChanged();
             }
@@ -76,6 +82,7 @@
             {
                 return _structLevel;
             }
+
             set
             {
                 _structLevel = value;
@@ -91,6 +98,7 @@
             {
                 return _value;
             }
+
             set
             {
                 _value = value;

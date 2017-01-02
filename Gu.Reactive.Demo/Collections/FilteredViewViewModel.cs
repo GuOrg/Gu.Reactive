@@ -58,12 +58,14 @@
         public string SearchText
         {
             get { return _searchText; }
+
             set
             {
                 if (value == _searchText)
                 {
                     return;
                 }
+
                 _searchText = value;
                 OnPropertyChanged();
             }
@@ -72,12 +74,14 @@
         public bool HasSearchText
         {
             get { return _hasSearchText; }
+
             private set
             {
                 if (value == _hasSearchText)
                 {
                     return;
                 }
+
                 _hasSearchText = value;
                 OnPropertyChanged();
             }
@@ -90,6 +94,7 @@
         public IEnumerable<int> SelectedTags
         {
             get { return _selectedTags; }
+
             set
             {
                 if (Equals(value, _selectedTags)) return;
@@ -105,12 +110,14 @@
         public int NumberOfItems
         {
             get { return _numberOfItems; }
+
             set
             {
                 if (value == _numberOfItems)
                 {
                     return;
                 }
+
                 _numberOfItems = value;
                 OnPropertyChanged();
             }
@@ -153,10 +160,12 @@
             {
                 return true;
             }
+
             if (person.TagsValues == null || !person.TagsValues.Any())
             {
                 return true;
             }
+
             return _selectedTags.Intersect(person.TagsValues).Any();
         }
 
@@ -175,11 +184,13 @@
             {
                 return false;
             }
+
             var indexOf = InvariantCulture.CompareInfo.IndexOf(value, pattern, CompareOptions.OrdinalIgnoreCase);
             if (pattern.Length == 1)
             {
                 return indexOf == 0;
             }
+
             return indexOf >= 0;
         }
 

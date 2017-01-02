@@ -29,6 +29,7 @@ namespace Gu.Wpf.Reactive
             {
                 return this.WhenNull;
             }
+
             return value == true ? this.WhenTrue : this.WhenFalse;
         }
 
@@ -38,10 +39,12 @@ namespace Gu.Wpf.Reactive
             {
                 return true;
             }
+
             if (Equals(value, this.WhenFalse))
             {
                 return false;
             }
+
             return null;
         }
     }

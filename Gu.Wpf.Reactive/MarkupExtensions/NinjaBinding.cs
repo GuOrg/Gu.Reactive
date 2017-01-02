@@ -40,14 +40,17 @@
             {
                 throw new ArgumentException("Binding == null");
             }
+
             if (this.IsInDesignMode)
             {
                 if (this.Binding.RelativeSource != null)
                 {
                     throw new NotSupportedException("NinjaBinding does not support Binding with RelativeSource, try using ElementName instead.");
                 }
+
                 return DefaultValue(serviceProvider);
             }
+
             Binding binding = null;
             if (this.Binding.ElementName != null)
             {
@@ -60,6 +63,7 @@
                     {
                         throw new ArgumentException($"Could not resolve element: {this.Binding.ElementName}");
                     }
+
                     var root = rootObjectProvider.RootObject as FrameworkElement;
                     if (root != null && root.Name == this.Binding.ElementName)
                     {
@@ -70,6 +74,7 @@
                         throw new ArgumentException($"Could not resolve element: {this.Binding.ElementName}");
                     }
                 }
+
                 binding = CreateElementNameBinding(this.Binding, source);
             }
             else if (this.Binding.RelativeSource != null)
@@ -83,6 +88,7 @@
                 {
                     throw new ArgumentException("rootObjectProvider == null");
                 }
+
                 binding = CreateDataContextBinding((FrameworkElement)rootObjectProvider.RootObject, this.Binding);
             }
 
@@ -119,6 +125,7 @@
                 var value = copyProperty.GetValue(source);
                 copyProperty.SetValue(target, value);
             }
+
             foreach (var rule in source.ValidationRules)
             {
                 target.ValidationRules.Add(rule);
@@ -132,6 +139,7 @@
             {
                 throw new ArgumentException("provideValueTarget == null");
             }
+
             var dependencyProperty = (DependencyProperty)provideValueTarget.TargetProperty;
             return dependencyProperty.DefaultMetadata.DefaultValue;
         }

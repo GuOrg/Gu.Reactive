@@ -16,6 +16,7 @@
     public class CollectionSynchronizerTests : INotifyPropertyChanged, INotifyCollectionChanged, IEnumerable
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         [Test]

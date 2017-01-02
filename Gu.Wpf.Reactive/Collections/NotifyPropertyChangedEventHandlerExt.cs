@@ -12,6 +12,7 @@
             {
                 return;
             }
+
             var invocationList = handler.GetInvocationList().OfType<NotifyCollectionChangedEventHandler>();
             foreach (var invocation in invocationList)
             {

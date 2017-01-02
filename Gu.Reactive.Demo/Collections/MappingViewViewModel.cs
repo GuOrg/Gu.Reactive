@@ -63,18 +63,20 @@
         public IReadOnlyObservableCollection<MappedVm> MappedMappedIndexed { get; private set; }
 
         public MappingView<MappedVm, MappedVm> MappedMappedUpdateIndexed { get; private set; }
-        
+
         public MappingView<MappedVm, MappedVm> MappedMappedUpdateNewIndexed { get; private set; }
 
         public int RemoveAt
         {
             get { return _removeAt; }
+
             set
             {
                 if (value == _removeAt)
                 {
                     return;
                 }
+
                 if (value < 0 || value > Ints.Count)
                 {
                     _removeAt = 0;
@@ -83,6 +85,7 @@
                 {
                     _removeAt = value;
                 }
+
                 OnPropertyChanged();
             }
         }

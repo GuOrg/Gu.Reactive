@@ -58,7 +58,11 @@ using System.Windows.Markup;
 [assembly: Guid("1E55FADA-8E21-45DC-B416-224C1956AD39")]
 [assembly: InternalsVisibleTo("Gu.Wpf.Reactive.Tests", AllInternalsVisible = true)]
 
+#pragma warning disable WPF0052 // XmlnsDefinitions does not map all namespaces with public types.
+#pragma warning disable WPF0051 // XmlnsDefinition must map to existing namespace.
 [assembly: XmlnsDefinition("http://Gu.com/Reactive", "Gu.Reactive")]
+#pragma warning restore WPF0051 // XmlnsDefinition must map to existing namespace.
+#pragma warning restore WPF0052 // XmlnsDefinitions does not map all namespaces with public types.
 [assembly: XmlnsDefinition("http://Gu.com/Reactive", "Gu.Wpf.Reactive")]
 [assembly: XmlnsPrefix("http://Gu.com/Reactive", "reactive")]
 

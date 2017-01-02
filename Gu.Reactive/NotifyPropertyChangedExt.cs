@@ -167,7 +167,7 @@
         internal static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(
             this TNotifier source,
             PropertyPath<TNotifier, TProperty> propertyPath,
-            bool signalInitial = true) 
+            bool signalInitial = true)
             where TNotifier : INotifyPropertyChanged
         {
             var wr = new WeakReference(source);

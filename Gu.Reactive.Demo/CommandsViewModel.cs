@@ -46,12 +46,14 @@
             {
                 return _executed;
             }
+
             private set
             {
                 if (value == _executed)
                 {
                     return;
                 }
+
                 _executed = value;
                 OnPropertyChanged();
             }
@@ -63,18 +65,21 @@
             {
                 return _canExecute;
             }
+
             set
             {
                 if (value.Equals(_canExecute))
                 {
                     return;
                 }
+
                 _canExecute = value;
                 OnPropertyChanged();
             }
         }
 
         public RelayCommand RaiseCanExecuteCommand { get; private set; }
+
         public RelayCommand RaiseCanExecuteOnOtherThread { get; private set; }
 
         public RelayCommand DelayedToggleCanExecute { get; private set; }

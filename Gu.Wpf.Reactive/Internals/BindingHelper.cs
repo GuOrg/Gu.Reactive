@@ -44,6 +44,7 @@
                 propertyPath = new PropertyPath(path);
                 PropertyPaths[path] = propertyPath;
             }
+
             return propertyPath;
         }
     }

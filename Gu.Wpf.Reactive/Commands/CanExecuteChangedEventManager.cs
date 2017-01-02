@@ -24,6 +24,7 @@
                     currentManager = new CanExecuteChangedEventManager();
                     SetCurrentManager(managerType, (WeakEventManager)currentManager);
                 }
+
                 return currentManager;
             }
         }
@@ -39,10 +40,12 @@
             {
                 throw new ArgumentNullException(nameof(source));
             }
+
             if (listener == null)
             {
                 throw new ArgumentNullException(nameof(listener));
             }
+
             CurrentManager.ProtectedAddListener(source, listener);
         }
 
@@ -57,6 +60,7 @@
             {
                 throw new ArgumentNullException(nameof(listener));
             }
+
             CurrentManager.ProtectedRemoveListener(source, listener);
         }
 
@@ -71,6 +75,7 @@
             {
                 throw new ArgumentNullException(nameof(handler));
             }
+
             CurrentManager.ProtectedAddHandler(source, handler);
         }
 

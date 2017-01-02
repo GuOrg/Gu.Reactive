@@ -15,12 +15,14 @@
         public ObservableCollection<Fake> Collection
         {
             get { return _collection; }
+
             set
             {
                 if (Equals(value, _collection))
                 {
                     return;
                 }
+
                 _collection = value;
                 OnPropertyChanged();
             }

@@ -26,12 +26,14 @@ namespace Gu.Reactive.Demo
             {
                 return _isLeftDoorOpen;
             }
+
             set
             {
                 if (value.Equals(_isLeftDoorOpen))
                 {
                     return;
                 }
+
                 _isLeftDoorOpen = value;
                 OnPropertyChanged();
             }
@@ -40,12 +42,14 @@ namespace Gu.Reactive.Demo
         public bool IsRightDoorOpen
         {
             get { return _isRightDoorOpen; }
+
             set
             {
                 if (value == _isRightDoorOpen)
                 {
                     return;
                 }
+
                 _isRightDoorOpen = value;
                 OnPropertyChanged();
             }
@@ -54,12 +58,14 @@ namespace Gu.Reactive.Demo
         public bool IsBackDoorOpen
         {
             get { return _isBackDoorOpen; }
+
             set
             {
                 if (value == _isBackDoorOpen)
                 {
                     return;
                 }
+
                 _isBackDoorOpen = value;
                 OnPropertyChanged();
             }
@@ -71,12 +77,14 @@ namespace Gu.Reactive.Demo
             {
                 return _isMotorRunning;
             }
+
             set
             {
                 if (value.Equals(_isMotorRunning))
                 {
                     return;
                 }
+
                 _isMotorRunning = value;
                 OnPropertyChanged();
             }
@@ -85,12 +93,14 @@ namespace Gu.Reactive.Demo
         public double FuelLevel
         {
             get { return _fuelLevel; }
+
             set
             {
                 if (value.Equals(_fuelLevel))
                 {
                     return;
                 }
+
                 _fuelLevel = value;
                 OnPropertyChanged();
             }

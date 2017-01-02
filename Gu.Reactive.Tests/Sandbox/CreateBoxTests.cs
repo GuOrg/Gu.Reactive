@@ -10,6 +10,7 @@
     public class CreateBoxTests
     {
         public event EventHandler Event;
+
         [Test, Explicit]
         public void Stucko()
         {

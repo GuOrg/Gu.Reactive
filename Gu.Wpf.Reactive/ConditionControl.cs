@@ -106,15 +106,18 @@
             {
                 list = new List<ICondition>();
             }
+
             if (list.Contains(condition))
             {
                 return list; // Break recursion
             }
+
             list.Add(condition);
             foreach (var pre in condition.Prerequisites)
             {
                 FlattenPrerequisites(pre, list);
             }
+
             return list;
         }
 

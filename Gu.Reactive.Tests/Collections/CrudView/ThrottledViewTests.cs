@@ -44,6 +44,7 @@
             {
                 _source.Add(i);
             }
+
             _throttledView.Refresh();
             CollectionAssert.AreEqual(_source, _throttledView);
             var expected = new[] { new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset) };
@@ -58,11 +59,13 @@
             {
                 _source.Add(i);
             }
+
             _throttledView.Refresh();
             for (int i = 0; i < 10; i++)
             {
                 _source.Add(i);
             }
+
             _throttledView.Refresh();
             CollectionAssert.AreEqual(_source, _throttledView);
             var expected = new[]

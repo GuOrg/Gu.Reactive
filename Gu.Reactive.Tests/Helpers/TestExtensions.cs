@@ -35,6 +35,7 @@
                     {
                         throw new InvalidOperationException("Expected only one notification");
                     }
+
                     maybe.Value = e;
                 };
             return maybe;
@@ -43,6 +44,7 @@
         private class Maybe<NotifyCollectionChangedEventArgs> : IMaybe<NotifyCollectionChangedEventArgs>
         {
             public bool HasValue => Value != null;
+
             public NotifyCollectionChangedEventArgs Value { get; set; }
         }
     }

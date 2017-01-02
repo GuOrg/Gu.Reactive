@@ -15,11 +15,13 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
             {
                 return 0;
             }
+
             var collectionChangedEventArgs = x as NotifyCollectionChangedEventArgs;
             if (collectionChangedEventArgs != null)
             {
                 return Compare(collectionChangedEventArgs, y);
             }
+
             return Compare((PropertyChangedEventArgs)x, y);
         }
 
@@ -30,6 +32,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
                 Console.WriteLine("NotifyCollectionChangedEventArgs Null");
                 return -1;
             }
+
             var yArgs = y as NotifyCollectionChangedEventArgs;
             if (yArgs == null)
             {
@@ -73,6 +76,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
                 Console.WriteLine("NotifyCollectionChangedEventArgs OldItems, expected: {0} was: {1}", xItems, yItems);
                 return -1;
             }
+
             Console.WriteLine("NotifyCollectionChangedEventArgs Success");
             return 0;
         }
@@ -84,6 +88,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
                 Console.WriteLine("PropertyChangedEventArgs Null");
                 return -1;
             }
+
             var yArgs = y as PropertyChangedEventArgs;
             if (yArgs == null)
             {
@@ -93,11 +98,13 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
                     y.GetType());
                 return -1;
             }
+
             if (x.PropertyName != yArgs.PropertyName)
             {
                 Console.WriteLine("PropertyChangedEventArgs PropertyName, expected: {0} was: {1}", x.PropertyName, yArgs.PropertyName);
                 return -1;
             }
+
             return 0;
         }
 
@@ -107,14 +114,17 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
             {
                 return true;
             }
+
             if (newItems == null || oldItems == null)
             {
                 return false;
             }
+
             if (newItems.Count != oldItems.Count)
             {
                 return false;
             }
+
             for (int i = 0; i < newItems.Count; i++)
             {
                 if (!Equals(newItems[i], oldItems[i]))
@@ -122,6 +132,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
                     return false;
                 }
             }
+
             return true;
         }
     }

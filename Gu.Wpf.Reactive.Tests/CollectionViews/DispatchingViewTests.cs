@@ -24,9 +24,9 @@
 
             var view = ints.AsDispatchingView();
             var viewChanges = SubscribeAll(view);
-            
+
             ints.Add(1);
-            
+
             CollectionAssert.AreEqual(ints, view);
             CollectionAssert.AreEqual(collectionChanges, viewChanges, new EventArgsComparer());
         }
@@ -39,9 +39,9 @@
 
             var view = ints.AsDispatchingView();
             var viewChanges = SubscribeAll(view);
-           
+
             view.Add(1);
-            
+
             CollectionAssert.AreEqual(ints, view);
             CollectionAssert.AreEqual(collectionChanges, viewChanges, new EventArgsComparer());
         }

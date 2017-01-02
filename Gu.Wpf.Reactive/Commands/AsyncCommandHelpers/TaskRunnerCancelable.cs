@@ -36,11 +36,13 @@ namespace Gu.Wpf.Reactive
                 {
                     return false;
                 }
+
                 var cts = this.cancellationTokenSource;
                 if (cts == null)
                 {
                     return false;
                 }
+
                 return !cts.IsCancellationRequested;
             }
         }

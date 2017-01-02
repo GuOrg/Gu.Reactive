@@ -19,18 +19,21 @@ namespace Gu.Reactive.Dummy
             {
                 return _name;
             }
+
             set
             {
                 _name = value;
                 OnPropertyChanged();
             }
         }
+
         public Level Next
         {
             get
             {
                 return _next;
             }
+
             set
             {
                 _next = value;

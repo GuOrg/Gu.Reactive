@@ -17,6 +17,7 @@
                 {
                     return OverrideIsDesignTime.Value;
                 }
+
                 return DesignerProperties.GetIsInDesignMode(dependencyObject);
             }
         }
