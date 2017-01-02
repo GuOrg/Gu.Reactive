@@ -16,14 +16,14 @@
 
         protected override bool? Convert(StringComparison? value, CultureInfo culture)
         {
-            return value == TrueWhen;
+            return value == this.TrueWhen;
         }
 
         protected override StringComparison? ConvertBack(bool? value, CultureInfo culture)
         {
             if (value == true)
             {
-                return TrueWhen;
+                return this.TrueWhen;
             }
 
             return null;

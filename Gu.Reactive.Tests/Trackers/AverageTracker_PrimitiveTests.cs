@@ -6,7 +6,7 @@ namespace Gu.Reactive.Tests.Trackers
 
     using NUnit.Framework;
 
-    public class AverageTracker_PrimitiveTests
+    public class AverageTrackerPrimitiveTests
     {
         [Test]
         public void InitializesWithValues()

@@ -12,35 +12,35 @@
 
     public class DispatchingViewViewModel
     {
-        private readonly ObservableCollection<DummyItem> _observableCollection = new ObservableCollection<DummyItem>();
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _observableCollectionChanges = new ObservableCollection<NotifyCollectionChangedEventArgs>();
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> _dispatchingChanges = new ObservableCollection<NotifyCollectionChangedEventArgs>();
+        private readonly ObservableCollection<DummyItem> observableCollection = new ObservableCollection<DummyItem>();
+        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> observableCollectionChanges = new ObservableCollection<NotifyCollectionChangedEventArgs>();
+        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> dispatchingChanges = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
         public DispatchingViewViewModel()
         {
-            DeferTime = TimeSpan.FromSeconds(0.1);
-            Add(3);
-            ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(_observableCollection);
-            DispatchingView = _observableCollection.AsDispatchingView();
-            AddOneCommand = new RelayCommand(AddOne, () => true);
-            AddOneToViewCommand = new RelayCommand(AddOneToView, () => true);
-            AddTenCommand = new RelayCommand(AddTen, () => true);
-            AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => AddOne()), () => true);
-            ClearCommand = new RelayCommand(() => Clear(), () => true);
-            ObservableCollection.ObserveCollectionChanged()
+            this.DeferTime = TimeSpan.FromSeconds(0.1);
+            this.Add(3);
+            this.ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(this.observableCollection);
+            this.DispatchingView = this.observableCollection.AsDispatchingView();
+            this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
+            this.AddOneToViewCommand = new RelayCommand(this.AddOneToView, () => true);
+            this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
+            this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
+            this.ClearCommand = new RelayCommand(() => this.Clear(), () => true);
+            this.ObservableCollection.ObserveCollectionChanged()
                                 .ObserveOnDispatcher()
-                                .Subscribe(x => _observableCollectionChanges.Add(x.EventArgs));
+                                .Subscribe(x => this.observableCollectionChanges.Add(x.EventArgs));
 
-            DispatchingView.ObserveCollectionChanged()
+            this.DispatchingView.ObserveCollectionChanged()
                     .ObserveOnDispatcher()
-                    .Subscribe(x => _dispatchingChanges.Add(x.EventArgs));
+                    .Subscribe(x => this.dispatchingChanges.Add(x.EventArgs));
         }
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionChanges => _observableCollectionChanges;
+        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionChanges => this.observableCollectionChanges;
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> DispatchingChanges => _dispatchingChanges;
+        public ObservableCollection<NotifyCollectionChangedEventArgs> DispatchingChanges => this.dispatchingChanges;
 
-        public ObservableCollection<DummyItem> ObservableCollection => _observableCollection;
+        public ObservableCollection<DummyItem> ObservableCollection => this.observableCollection;
 
         public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; private set; }
 
@@ -60,35 +60,35 @@
 
         private void AddOne()
         {
-            lock (((ICollection)_observableCollection).SyncRoot)
+            lock (((ICollection)this.observableCollection).SyncRoot)
             {
-                _observableCollection.Add(new DummyItem(_observableCollection.Count + 1));
+                this.observableCollection.Add(new DummyItem(this.observableCollection.Count + 1));
             }
         }
 
         private void AddOneToView()
         {
-            DispatchingView.Add(new DummyItem(_observableCollection.Count + 1));
+            this.DispatchingView.Add(new DummyItem(this.observableCollection.Count + 1));
         }
 
         private void AddTen()
         {
-            Add(10);
+            this.Add(10);
         }
 
         private void Add(int n)
         {
             for (int i = 0; i < n; i++)
             {
-                AddOne();
+                this.AddOne();
             }
         }
 
         private void Clear()
         {
-            _observableCollection.Clear();
-            _observableCollectionChanges.Clear();
-            _dispatchingChanges.Clear();
+            this.observableCollection.Clear();
+            this.observableCollectionChanges.Clear();
+            this.dispatchingChanges.Clear();
         }
     }
 }

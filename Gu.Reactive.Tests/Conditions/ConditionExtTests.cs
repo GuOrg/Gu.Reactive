@@ -9,7 +9,8 @@ namespace Gu.Reactive.Tests.Conditions
 
     public class ConditionExtTests
     {
-        [Test, Explicit("Not sure if we want caching")]
+        [Test]
+        [Explicit("Not sure if we want caching")]
         public void Caches()
         {
             var observable = new Subject<object>();

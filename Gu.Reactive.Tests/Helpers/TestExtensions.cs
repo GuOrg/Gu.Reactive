@@ -41,11 +41,11 @@
             return maybe;
         }
 
-        private class Maybe<NotifyCollectionChangedEventArgs> : IMaybe<NotifyCollectionChangedEventArgs>
+        private class Maybe<TNotifyCollectionChangedEventArgs> : IMaybe<TNotifyCollectionChangedEventArgs>
         {
-            public bool HasValue => Value != null;
+            public bool HasValue => this.Value != null;
 
-            public NotifyCollectionChangedEventArgs Value { get; set; }
+            public TNotifyCollectionChangedEventArgs Value { get; set; }
         }
     }
 }

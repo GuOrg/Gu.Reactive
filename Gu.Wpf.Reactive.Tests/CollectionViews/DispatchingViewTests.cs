@@ -13,17 +13,18 @@
 
     using NUnit.Framework;
 
-    [Apartment(ApartmentState.STA), Explicit("Not testable as it uses the dispatcher")]
+    [Apartment(ApartmentState.STA)]
+    [Explicit("Not testable as it uses the dispatcher")]
     public class DispatchingViewTests
     {
         [Test]
         public void ViewSignalsSameAsCollectionWhenCollectionIsChanged()
         {
             var ints = new ObservableCollection<int>();
-            var collectionChanges = SubscribeAll(ints);
+            var collectionChanges = this.SubscribeAll(ints);
 
             var view = ints.AsDispatchingView();
-            var viewChanges = SubscribeAll(view);
+            var viewChanges = this.SubscribeAll(view);
 
             ints.Add(1);
 
@@ -35,10 +36,10 @@
         public void ViewSignalsSameAsCollectionWhenViewIsChanged()
         {
             var ints = new ObservableCollection<int>();
-            var collectionChanges = SubscribeAll(ints);
+            var collectionChanges = this.SubscribeAll(ints);
 
             var view = ints.AsDispatchingView();
-            var viewChanges = SubscribeAll(view);
+            var viewChanges = this.SubscribeAll(view);
 
             view.Add(1);
 

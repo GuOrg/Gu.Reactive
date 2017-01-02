@@ -10,16 +10,16 @@ namespace Gu.Reactive.Tests.Collections.Filter
 
     public class ReadOnlyFilteredViewTests
     {
-        private Func<int, bool> _filter = x => true;
+        private Func<int, bool> filter = x => true;
 
         [Test]
         public void FilterEnumerable()
         {
             var subject = new Subject<object>();
             var source = Enumerable.Range(1, 3);
-            var view = source.AsReadOnlyFilteredView(Filter, subject);
+            var view = source.AsReadOnlyFilteredView(this.Filter, subject);
             var actual = view.SubscribeAll();
-            _filter = x => x < 3;
+            this.filter = x => x < 3;
             subject.OnNext(null);
             CollectionAssert.AreEqual(new[] { 1, 2 }, view);
             var expected = new EventArgs[]
@@ -33,7 +33,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
 
         private bool Filter(int i)
         {
-            return _filter(i);
+            return this.filter(i);
         }
     }
 }

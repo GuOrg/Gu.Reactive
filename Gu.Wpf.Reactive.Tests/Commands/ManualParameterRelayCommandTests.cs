@@ -32,7 +32,6 @@
             Assert.AreEqual(1, count);
         }
 
-
         [Test]
         public void ExecuteWithParameter()
         {

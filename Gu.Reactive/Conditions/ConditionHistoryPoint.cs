@@ -13,7 +13,7 @@
         }
 
         public ConditionHistoryPoint(DateTime timeStamp, bool? state)
-            :this()
+            : this()
         {
             this.TimeStamp = timeStamp;
             this.State = state;

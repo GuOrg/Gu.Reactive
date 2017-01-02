@@ -12,10 +12,10 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public override void SetUp()
         {
             base.SetUp();
-            _scheduler = new TestScheduler();
+            this.Scheduler = new TestScheduler();
 
-            _view = _ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), _scheduler);
-            _actual = SubscribeAll(_view);
+            this.View = this.Ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
+            this.Actual = this.SubscribeAll(this.View);
         }
     }
 }

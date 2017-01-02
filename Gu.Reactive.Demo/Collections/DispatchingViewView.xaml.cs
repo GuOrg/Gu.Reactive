@@ -1,7 +1,7 @@
-﻿using System.Windows.Controls;
-
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
+    using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for DispatchingViewView.xaml
     /// </summary>
@@ -9,7 +9,7 @@ namespace Gu.Reactive.Demo
     {
         public DispatchingViewView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

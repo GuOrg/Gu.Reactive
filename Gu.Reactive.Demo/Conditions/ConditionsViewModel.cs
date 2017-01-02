@@ -3,32 +3,31 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-
-    using JetBrains.Annotations;
     using Gu.Wpf.Reactive;
+    using JetBrains.Annotations;
 
     public class ConditionsViewModel : INotifyPropertyChanged
     {
-        private readonly List<ICondition> _conditions;
+        private readonly List<ICondition> conditions;
         public static readonly ConditionsViewModel Instance = new ConditionsViewModel();
 
         private ConditionsViewModel()
         {
-            _conditions = new List<ICondition>
+            this.conditions = new List<ICondition>
             {
-                IsLeftDoorOpenCondition,
-                IsLeftDoorClosedCondition,
-                IsMotorRunningCondition,
+                this.IsLeftDoorOpenCondition,
+                this.IsLeftDoorClosedCondition,
+                this.IsMotorRunningCondition,
                 new IsAnyDoorOpen(),
                 new IsAnyDoorOpen().Negate(),
-                CanStartCondition,
-                CanStartCondition.Negate(),
+                this.CanStartCondition,
+                this.CanStartCondition.Negate(),
                 new SyncErrorCondition()
             };
 
-            StartCommand = new ConditionRelayCommand(() => ConditionState.Instance.IsMotorRunning = true, CanStartCondition);
+            this.StartCommand = new ConditionRelayCommand(() => ConditionState.Instance.IsMotorRunning = true, this.CanStartCondition);
 
-            StopCommand = new ConditionRelayCommand(() => ConditionState.Instance.IsMotorRunning = false, CanStopCondition);
+            this.StopCommand = new ConditionRelayCommand(() => ConditionState.Instance.IsMotorRunning = false, this.CanStopCondition);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -51,12 +50,12 @@
 
         public ConditionRelayCommand StopCommand { get;  }
 
-        public IEnumerable<ICondition> Conditions => _conditions;
+        public IEnumerable<ICondition> Conditions => this.conditions;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Gu.Reactive
                     return array;
                 }
 
-                return this.collection?.ToArray()?? Empty;
+                return this.collection?.ToArray() ?? Empty;
             }
         }
     }

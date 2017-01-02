@@ -10,16 +10,16 @@ namespace Gu.Reactive.Tests.Conditions
 
     public class AndConditionTests
     {
-        private Mock<ICondition> _mock1;
-        private Mock<ICondition> _mock2;
-        private Mock<ICondition> _mock3;
+        private Mock<ICondition> mock1;
+        private Mock<ICondition> mock2;
+        private Mock<ICondition> mock3;
 
         [SetUp]
         public void SetUp()
         {
-            _mock1 = new Mock<ICondition>();
-            _mock2 = new Mock<ICondition>();
-            _mock3 = new Mock<ICondition>();
+            this.mock1 = new Mock<ICondition>();
+            this.mock2 = new Mock<ICondition>();
+            this.mock3 = new Mock<ICondition>();
         }
 
         [TestCase(true, true, true, true)]
@@ -30,10 +30,10 @@ namespace Gu.Reactive.Tests.Conditions
         [TestCase(null, null, null, null)]
         public void IsSatisfied(bool? first, bool? second, bool? third, bool? expected)
         {
-            _mock1.SetupGet(x => x.IsSatisfied).Returns(first);
-            _mock2.SetupGet(x => x.IsSatisfied).Returns(second);
-            _mock3.SetupGet(x => x.IsSatisfied).Returns(third);
-            var collection = new AndCondition(_mock1.Object, _mock2.Object, _mock3.Object);
+            this.mock1.SetupGet(x => x.IsSatisfied).Returns(first);
+            this.mock2.SetupGet(x => x.IsSatisfied).Returns(second);
+            this.mock3.SetupGet(x => x.IsSatisfied).Returns(third);
+            var collection = new AndCondition(this.mock1.Object, this.mock2.Object, this.mock3.Object);
             Assert.AreEqual(expected, collection.IsSatisfied);
         }
 
@@ -85,8 +85,8 @@ namespace Gu.Reactive.Tests.Conditions
         [Test]
         public void Prerequisites()
         {
-            var collection = new AndCondition(_mock1.Object, _mock2.Object, _mock3.Object);
-            CollectionAssert.AreEqual(new[] { _mock1.Object, _mock2.Object, _mock3.Object }, collection.Prerequisites);
+            var collection = new AndCondition(this.mock1.Object, this.mock2.Object, this.mock3.Object);
+            CollectionAssert.AreEqual(new[] { this.mock1.Object, this.mock2.Object, this.mock3.Object }, collection.Prerequisites);
         }
     }
 }

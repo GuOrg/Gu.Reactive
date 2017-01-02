@@ -7,9 +7,9 @@
 
     public class TaskRunner<TParameter> : TaskRunnerBase, ITaskRunner<TParameter>
     {
-        private readonly Func<TParameter,Task> action;
+        private readonly Func<TParameter, Task> action;
 
-        public TaskRunner(Func<TParameter,Task> action)
+        public TaskRunner(Func<TParameter, Task> action)
         {
             Ensure.NotNull(action, nameof(action));
             this.action = action;

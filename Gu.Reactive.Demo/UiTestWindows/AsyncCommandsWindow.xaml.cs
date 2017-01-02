@@ -6,7 +6,7 @@
     {
         public AsyncCommandsWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

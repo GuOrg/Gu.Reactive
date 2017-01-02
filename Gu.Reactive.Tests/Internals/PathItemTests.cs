@@ -10,7 +10,6 @@ namespace Gu.Reactive.Tests.Internals
 
     public class PathItemTests
     {
-
         [Test]
         public void ThrowsOnWriteOnly()
         {

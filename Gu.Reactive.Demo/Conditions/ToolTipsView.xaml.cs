@@ -9,7 +9,7 @@
     {
         public ToolTipsView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

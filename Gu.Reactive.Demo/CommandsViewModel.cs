@@ -9,32 +9,32 @@
 
     public class CommandsViewModel : INotifyPropertyChanged
     {
-        private string _executed;
+        private string executed;
 
-        private bool _canExecute;
+        private bool canExecute;
 
         public CommandsViewModel()
         {
-            ManualRelayCommandNoCondition = new ManualRelayCommand(() => Executed = "ManualRelayCommandNoCondition");
-            ManualRelayCommand = new ManualRelayCommand(() => Executed = "ManualRelayCommand", () => CanExecute);
-            ManualRelayCommandWithParameter = new ManualRelayCommand<string>(x => Executed = "ManualRelayCommandWithParameter: " + x, _ => CanExecute);
+            this.ManualRelayCommandNoCondition = new ManualRelayCommand(() => this.Executed = "ManualRelayCommandNoCondition");
+            this.ManualRelayCommand = new ManualRelayCommand(() => this.Executed = "ManualRelayCommand", () => this.CanExecute);
+            this.ManualRelayCommandWithParameter = new ManualRelayCommand<string>(x => this.Executed = "ManualRelayCommandWithParameter: " + x, _ => this.CanExecute);
 
-            RelayCommandNoCondition = new RelayCommand(() => Executed = "RelayCommandNoCondition");
-            RelayCommand = new RelayCommand(() => Executed = "RelayCommand", () => CanExecute);
-            RelayCommandWithParamater = new RelayCommand<string>(x => Executed = "RelayCommandWithParamater: " + x, x => CanExecute);
+            this.RelayCommandNoCondition = new RelayCommand(() => this.Executed = "RelayCommandNoCondition");
+            this.RelayCommand = new RelayCommand(() => this.Executed = "RelayCommand", () => this.CanExecute);
+            this.RelayCommandWithParamater = new RelayCommand<string>(x => this.Executed = "RelayCommandWithParamater: " + x, x => this.CanExecute);
 
-            ObservingRelayCommand = new ObservingRelayCommand(() => Executed = "ObservingRelayCommand", () => CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
-            ObservingRelayCommandWithParameter = new ObservingRelayCommand<string>(x => Executed = "ObservingRelayCommandWithParameter:" + x, x => CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
+            this.ObservingRelayCommand = new ObservingRelayCommand(() => this.Executed = "ObservingRelayCommand", () => this.CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
+            this.ObservingRelayCommandWithParameter = new ObservingRelayCommand<string>(x => this.Executed = "ObservingRelayCommandWithParameter:" + x, x => this.CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
 
-            var condition = new Condition(this.ObservePropertyChanged(x => x.CanExecute), () => CanExecute);
-            ConditionRelayCommand = new ConditionRelayCommand(() => Executed = "ObservingRelayCommand", condition);
-            ConditionRelayCommandWithParameter = new ConditionRelayCommand<string>(x => Executed = "ConditionRelayCommandWithParameter: " + x, condition);
-            RaiseCanExecuteCommand = new RelayCommand(RaiseCanExecute);
-            RaiseCanExecuteOnOtherThread = new RelayCommand(() => Task.Run(() => RaiseCanExecute()));
-            DelayedToggleCanExecute = new RelayCommand(async () =>
+            var condition = new Condition(this.ObservePropertyChanged(x => x.CanExecute), () => this.CanExecute);
+            this.ConditionRelayCommand = new ConditionRelayCommand(() => this.Executed = "ObservingRelayCommand", condition);
+            this.ConditionRelayCommandWithParameter = new ConditionRelayCommand<string>(x => this.Executed = "ConditionRelayCommandWithParameter: " + x, condition);
+            this.RaiseCanExecuteCommand = new RelayCommand(this.RaiseCanExecute);
+            this.RaiseCanExecuteOnOtherThread = new RelayCommand(() => Task.Run(() => this.RaiseCanExecute()));
+            this.DelayedToggleCanExecute = new RelayCommand(async () =>
                     {
                         await Task.Delay(500).ConfigureAwait(false);
-                        CanExecute = !CanExecute;
+                        this.CanExecute = !this.CanExecute;
                     });
         }
 
@@ -44,18 +44,18 @@
         {
             get
             {
-                return _executed;
+                return this.executed;
             }
 
             private set
             {
-                if (value == _executed)
+                if (value == this.executed)
                 {
                     return;
                 }
 
-                _executed = value;
-                OnPropertyChanged();
+                this.executed = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -63,18 +63,18 @@
         {
             get
             {
-                return _canExecute;
+                return this.canExecute;
             }
 
             set
             {
-                if (value.Equals(_canExecute))
+                if (value.Equals(this.canExecute))
                 {
                     return;
                 }
 
-                _canExecute = value;
-                OnPropertyChanged();
+                this.canExecute = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -108,24 +108,24 @@
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private void RaiseCanExecute()
         {
-            ManualRelayCommandNoCondition.RaiseCanExecuteChanged();
-            ManualRelayCommand.RaiseCanExecuteChanged();
-            ManualRelayCommandWithParameter.RaiseCanExecuteChanged();
+            this.ManualRelayCommandNoCondition.RaiseCanExecuteChanged();
+            this.ManualRelayCommand.RaiseCanExecuteChanged();
+            this.ManualRelayCommandWithParameter.RaiseCanExecuteChanged();
 
-            RelayCommandNoCondition.RaiseCanExecuteChanged();
-            RelayCommand.RaiseCanExecuteChanged();
-            RelayCommandWithParamater.RaiseCanExecuteChanged();
+            this.RelayCommandNoCondition.RaiseCanExecuteChanged();
+            this.RelayCommand.RaiseCanExecuteChanged();
+            this.RelayCommandWithParamater.RaiseCanExecuteChanged();
 
-            ObservingRelayCommand.RaiseCanExecuteChanged();
-            ObservingRelayCommandWithParameter.RaiseCanExecuteChanged();
+            this.ObservingRelayCommand.RaiseCanExecuteChanged();
+            this.ObservingRelayCommandWithParameter.RaiseCanExecuteChanged();
 
-            ConditionRelayCommand.RaiseCanExecuteChanged();
-            ConditionRelayCommandWithParameter.RaiseCanExecuteChanged();
+            this.ConditionRelayCommand.RaiseCanExecuteChanged();
+            this.ConditionRelayCommandWithParameter.RaiseCanExecuteChanged();
         }
 
     }

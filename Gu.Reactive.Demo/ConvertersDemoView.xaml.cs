@@ -10,8 +10,8 @@ namespace Gu.Reactive.Demo
     {
         public ConvertersDemoView()
         {
-            InitializeComponent();
-            DataContext = new ConverterDemoViewmodel();
+            this.InitializeComponent();
+            this.DataContext = new ConverterDemoViewmodel();
         }
     }
 }

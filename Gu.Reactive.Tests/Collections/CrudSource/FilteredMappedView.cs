@@ -11,11 +11,11 @@ namespace Gu.Reactive.Tests.Collections
         public override void SetUp()
         {
             base.SetUp();
-            _scheduler = new TestScheduler();
-            _view = _ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), _scheduler)
+            this.Scheduler = new TestScheduler();
+            this.View = this.Ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), this.Scheduler)
                          .AsMappingView(x => x);
-            _scheduler.Start();
-            _actual = _view.SubscribeAll();
+            this.Scheduler.Start();
+            this.Actual = this.View.SubscribeAll();
         }
     }
 }

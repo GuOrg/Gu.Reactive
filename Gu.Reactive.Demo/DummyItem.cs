@@ -7,7 +7,7 @@
 
     public class DummyItem : INotifyPropertyChanged
     {
-        private int _value;
+        private int value;
 
         public DummyItem()
         {
@@ -15,33 +15,33 @@
 
         public DummyItem(int i)
         {
-            Value = i;
+            this.Value = i;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int Value
         {
-            get { return _value; }
+            get { return this.value; }
 
             set
             {
-                if (value == _value)
+                if (value == this.value)
                 {
                     return;
                 }
 
-                _value = value;
-                OnPropertyChanged();
+                this.value = value;
+                this.OnPropertyChanged();
             }
         }
 
         public override string ToString()
         {
-            return Value.ToString();
+            return this.Value.ToString();
         }
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

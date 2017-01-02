@@ -11,10 +11,10 @@ namespace Gu.Reactive.Tests.Collections
         public override void SetUp()
         {
             base.SetUp();
-            _scheduler = new TestScheduler();
-            _view = new ThrottledView<int>(_ints, TimeSpan.FromMilliseconds(10), _scheduler);
-            _scheduler.Start();
-            _actual = _view.SubscribeAll();
+            this.Scheduler = new TestScheduler();
+            this.View = new ThrottledView<int>(this.Ints, TimeSpan.FromMilliseconds(10), this.Scheduler);
+            this.Scheduler.Start();
+            this.Actual = this.View.SubscribeAll();
         }
     }
 }

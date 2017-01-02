@@ -10,20 +10,20 @@
 
     public class AsyncCommandsViewModel : INotifyPropertyChanged
     {
-        private int _delay = 500;
+        private int delay = 500;
 
-        private int _count;
+        private int count;
 
         public AsyncCommandsViewModel()
         {
-            AsyncCommand = new AsyncCommand(SimpleTask);
+            this.AsyncCommand = new AsyncCommand(this.SimpleTask);
 
-            AsyncCancelableCommand = new AsyncCommand(CancelableTask);
+            this.AsyncCancelableCommand = new AsyncCommand(this.CancelableTask);
 
-            AsyncParameterCommand = new AsyncCommand<string>(ParameterTask);
-            AsyncCancelableParameterCommand = new AsyncCommand<string>(CancelableParameterTask);
+            this.AsyncParameterCommand = new AsyncCommand<string>(this.ParameterTask);
+            this.AsyncCancelableParameterCommand = new AsyncCommand<string>(this.CancelableParameterTask);
 
-            AsyncThrowCommand = new AsyncCommand(VoidTaskThrowMethod);
+            this.AsyncThrowCommand = new AsyncCommand(this.VoidTaskThrowMethod);
         }
 
 
@@ -41,17 +41,17 @@
 
         public int Count
         {
-            get { return _count; }
+            get { return this.count; }
 
             private set
             {
-                if (value == _count)
+                if (value == this.count)
                 {
                     return;
                 }
 
-                _count = value;
-                OnPropertyChanged();
+                this.count = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -59,55 +59,55 @@
         {
             get
             {
-                return _delay;
+                return this.delay;
             }
 
             set
             {
-                if (value == _delay)
+                if (value == this.delay)
                 {
                     return;
                 }
 
-                _delay = value;
-                OnPropertyChanged();
+                this.delay = value;
+                this.OnPropertyChanged();
             }
         }
 
         private async Task SimpleTask()
         {
-            await Task.Delay(Delay).ConfigureAwait(false);
+            await Task.Delay(this.Delay).ConfigureAwait(false);
         }
 
         private async Task CancelableTask(CancellationToken token)
         {
-            Count = 0;
+            this.Count = 0;
             for (int i = 0; i < 5; i++)
             {
                 token.ThrowIfCancellationRequested();
-                Count++;
-                await Task.Delay(Delay, token).ConfigureAwait(false);
+                this.Count++;
+                await Task.Delay(this.Delay, token).ConfigureAwait(false);
             }
         }
 
         private Task ParameterTask(string arg)
         {
-            return SimpleTask();
+            return this.SimpleTask();
         }
 
         private Task CancelableParameterTask(string arg, CancellationToken token)
         {
-            return CancelableTask(token);
+            return this.CancelableTask(token);
         }
 
         public async Task VoidTaskThrowMethod()
         {
-            await Task.Delay(Delay).ConfigureAwait(false);
+            await Task.Delay(this.Delay).ConfigureAwait(false);
             throw new Exception("Something went wrong");
         }
 
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

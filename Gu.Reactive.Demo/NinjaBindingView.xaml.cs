@@ -9,8 +9,8 @@
     {
         public NinjaBindingView()
         {
-            InitializeComponent();
-            DataContext = new NinjaBindingViewModel();
+            this.InitializeComponent();
+            this.DataContext = new NinjaBindingViewModel();
         }
     }
 }

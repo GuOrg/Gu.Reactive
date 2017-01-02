@@ -108,7 +108,7 @@ namespace Gu.Reactive
 
         public static bool IsSingleNewItem(this NotifyCollectionChangedEventArgs e)
         {
-            return e?.NewItems?.Count ==1;
+            return e?.NewItems?.Count == 1;
         }
 
         public static T NewItem<T>(this NotifyCollectionChangedEventArgs e)

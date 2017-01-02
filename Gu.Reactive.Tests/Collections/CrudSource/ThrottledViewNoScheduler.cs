@@ -9,8 +9,8 @@ namespace Gu.Reactive.Tests.Collections
         public override void SetUp()
         {
             base.SetUp();
-            _view = new ThrottledView<int>(_ints, TimeSpan.Zero, null);
-            _actual = _view.SubscribeAll();
+            this.View = new ThrottledView<int>(this.Ints, TimeSpan.Zero, null);
+            this.Actual = this.View.SubscribeAll();
         }
     }
 }

@@ -9,7 +9,7 @@
     {
         public EitherCommandsView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

@@ -26,77 +26,77 @@ namespace Gu.Reactive.Tests.Collections.Filter
         [SetUp]
         public virtual void SetUp()
         {
-            _ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            _expected.Clear();
+            this._ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            this._expected.Clear();
         }
 
         [Test]
         public void FilterRemoveOne()
         {
-            _view.Filter = x => x < 3;
-            if (_scheduler != null)
+            this._view.Filter = x => x < 3;
+            if (this._scheduler != null)
             {
-                _scheduler.Start();
+                this._scheduler.Start();
             }
 
-            CollectionAssert.AreEqual(new[] { 1, 2 }, _view);
+            CollectionAssert.AreEqual(new[] { 1, 2 }, this._view);
             var expected = new EventArgs[]
                                {
                                    Notifier.CountPropertyChangedEventArgs,
                                    Notifier.IndexerPropertyChangedEventArgs,
                                    Diff.CreateRemoveEventArgs(3, 2),
                                };
-            _actual.RemoveAll(
+            this._actual.RemoveAll(
                 x =>
                 x is PropertyChangedEventArgs
                 && ((PropertyChangedEventArgs)x).PropertyName == FilterChangedEventArgs.PropertyName);
-            CollectionAssert.AreEqual(expected, _actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(expected, this._actual, EventArgsComparer.Default);
         }
 
         [Test]
         public void FilterRemoveOneThenAdd()
         {
-            _view.Filter = x => x < 3;
-            _scheduler?.Start();
-            CollectionAssert.AreEqual(new[] { 1, 2 }, _view);
-            _expected.Add(Notifier.CountPropertyChangedEventArgs);
-            _expected.Add(Notifier.IndexerPropertyChangedEventArgs);
-            _expected.Add(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, 3, 2));
+            this._view.Filter = x => x < 3;
+            this._scheduler?.Start();
+            CollectionAssert.AreEqual(new[] { 1, 2 }, this._view);
+            this._expected.Add(Notifier.CountPropertyChangedEventArgs);
+            this._expected.Add(Notifier.IndexerPropertyChangedEventArgs);
+            this._expected.Add(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, 3, 2));
 
-            _actual.RemoveAll(
+            this._actual.RemoveAll(
                 x =>
                 x is PropertyChangedEventArgs
                 && ((PropertyChangedEventArgs)x).PropertyName == FilterChangedEventArgs.PropertyName);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this._expected, this._actual, EventArgsComparer.Default);
 
-            _view.Filter = x => true;
-            _scheduler?.Start();
-            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, _view);
-            _expected.Add(Notifier.CountPropertyChangedEventArgs);
-            _expected.Add(Notifier.IndexerPropertyChangedEventArgs);
-            _expected.Add(Diff.CreateAddEventArgs(3, 2));
+            this._view.Filter = x => true;
+            this._scheduler?.Start();
+            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, this._view);
+            this._expected.Add(Notifier.CountPropertyChangedEventArgs);
+            this._expected.Add(Notifier.IndexerPropertyChangedEventArgs);
+            this._expected.Add(Diff.CreateAddEventArgs(3, 2));
 
-            _actual.RemoveAll(
+            this._actual.RemoveAll(
                 x =>
                 x is PropertyChangedEventArgs
                 && ((PropertyChangedEventArgs)x).PropertyName == FilterChangedEventArgs.PropertyName);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this._expected, this._actual, EventArgsComparer.Default);
         }
 
         [Test]
         public void FilterReset()
         {
-            _view.Filter = x => x < 0;
+            this._view.Filter = x => x < 0;
 
-            _scheduler?.Start();
-            CollectionAssert.IsEmpty(_view);
-            _expected.AddRange(Diff.ResetEventArgsCollection);
+            this._scheduler?.Start();
+            CollectionAssert.IsEmpty(this._view);
+            this._expected.AddRange(Diff.ResetEventArgsCollection);
 
-            _actual.RemoveAll(
+            this._actual.RemoveAll(
                 x =>
                 x is PropertyChangedEventArgs
                 && ((PropertyChangedEventArgs)x).PropertyName == FilterChangedEventArgs.PropertyName);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this._expected, this._actual, EventArgsComparer.Default);
         }
     }
 }

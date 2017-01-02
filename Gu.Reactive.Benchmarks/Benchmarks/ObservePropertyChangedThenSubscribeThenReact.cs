@@ -10,9 +10,9 @@ namespace Gu.Reactive.Benchmarks
 
     public class ObservePropertyChangedThenSubscribeThenReact
     {
-        private readonly Fake _fake = new Fake { IsTrue = false, Next = new Level { Name = "" } };
+        private readonly Fake fake = new Fake { IsTrue = false, Next = new Level { Name = string.Empty } };
 
-        private readonly PropertyPath<Fake, string> _propertyPath = PropertyPathStuff.PropertyPath.Create<Fake, string>(x => x.Next.Name);
+        private readonly PropertyPath<Fake, string> propertyPath = PropertyPathStuff.PropertyPath.Create<Fake, string>(x => x.Next.Name);
 
         [Benchmark(Baseline = true)]
         public int SubscribeToEventStandard()
@@ -20,15 +20,15 @@ namespace Gu.Reactive.Benchmarks
             int count = 0;
             PropertyChangedEventHandler handler = (sender, args) =>
                 {
-                    if (string.IsNullOrEmpty(args.PropertyName) || args.PropertyName == nameof(_fake.Value))
+                    if (string.IsNullOrEmpty(args.PropertyName) || args.PropertyName == nameof(this.fake.Value))
                     {
                         count++;
                     }
                 };
 
-            _fake.PropertyChanged += handler;
-            _fake.Value++;
-            _fake.PropertyChanged -= handler;
+            this.fake.PropertyChanged += handler;
+            this.fake.Value++;
+            this.fake.PropertyChanged -= handler;
             return count;
         }
 
@@ -36,9 +36,9 @@ namespace Gu.Reactive.Benchmarks
         public int SimpleLambda()
         {
             int count = 0;
-            using (_fake.ObservePropertyChanged(x => x.Value, false).Subscribe(x => count++))
+            using (this.fake.ObservePropertyChanged(x => x.Value, false).Subscribe(x => count++))
             {
-                _fake.Value++;
+                this.fake.Value++;
                 return count;
             }
         }
@@ -47,9 +47,9 @@ namespace Gu.Reactive.Benchmarks
         public int Slim()
         {
             int count = 0;
-            using (_fake.ObservePropertyChangedSlim("Value", false).Subscribe(x => count++))
+            using (this.fake.ObservePropertyChangedSlim("Value", false).Subscribe(x => count++))
             {
-                _fake.Value++;
+                this.fake.Value++;
                 return count;
             }
         }
@@ -58,10 +58,10 @@ namespace Gu.Reactive.Benchmarks
         public int Nested()
         {
             int count = 0;
-            using (_fake.ObservePropertyChanged(x => x.Next.Value, false)
+            using (this.fake.ObservePropertyChanged(x => x.Next.Value, false)
                         .Subscribe(x => count++))
             {
-                _fake.Next.Value++;
+                this.fake.Next.Value++;
                 return count;
             }
         }
@@ -70,10 +70,10 @@ namespace Gu.Reactive.Benchmarks
         public int NestedCachedPath()
         {
             int count = 0;
-            using (_fake.ObservePropertyChanged(_propertyPath, false)
+            using (this.fake.ObservePropertyChanged(this.propertyPath, false)
                         .Subscribe(x => count++))
             {
-                _fake.Next.Value++;
+                this.fake.Next.Value++;
                 return count;
             }
         }
@@ -82,11 +82,11 @@ namespace Gu.Reactive.Benchmarks
         public int Rx()
         {
             int count = 0;
-            using (Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(x => _fake.PropertyChanged += x, x => _fake.PropertyChanged -= x)
-                             .Where(x => string.IsNullOrEmpty(x.EventArgs.PropertyName) || x.EventArgs.PropertyName == nameof(_fake.Value))
+            using (Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(x => this.fake.PropertyChanged += x, x => this.fake.PropertyChanged -= x)
+                             .Where(x => string.IsNullOrEmpty(x.EventArgs.PropertyName) || x.EventArgs.PropertyName == nameof(this.fake.Value))
                              .Subscribe(x => count++))
             {
-                _fake.Value++;
+                this.fake.Value++;
                 return count;
             }
         }
@@ -96,9 +96,9 @@ namespace Gu.Reactive.Benchmarks
         {
             int count = 0;
             EventHandler<PropertyChangedEventArgs> handler = (sender, args) => count++;
-            System.ComponentModel.PropertyChangedEventManager.AddHandler(_fake, handler, nameof(_fake.Value));
-            _fake.Value++;
-            System.ComponentModel.PropertyChangedEventManager.RemoveHandler(_fake, handler, nameof(_fake.Value));
+            System.ComponentModel.PropertyChangedEventManager.AddHandler(this.fake, handler, nameof(this.fake.Value));
+            this.fake.Value++;
+            System.ComponentModel.PropertyChangedEventManager.RemoveHandler(this.fake, handler, nameof(this.fake.Value));
             return count;
         }
     }

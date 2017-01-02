@@ -179,9 +179,9 @@
 
             public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-            public PropertyChangedEventHandler PropertyChangedEventHandler => PropertyChanged;
+            public PropertyChangedEventHandler PropertyChangedEventHandler => this.PropertyChanged;
 
-            public NotifyCollectionChangedEventHandler NotifyCollectionChangedEventHandler => CollectionChanged;
+            public NotifyCollectionChangedEventHandler NotifyCollectionChangedEventHandler => this.CollectionChanged;
 
             public IEnumerator GetEnumerator()
             {

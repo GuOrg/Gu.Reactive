@@ -7,12 +7,12 @@
 
     public class ObservableFixedSizeQueueViewModel
     {
-        private int _count;
+        private int count;
 
         public ObservableFixedSizeQueueViewModel()
         {
-            EnqueueCommand = new RelayCommand(() => Queue.Enqueue(++_count), () => true);
-            EnqueueOnThreadCommand = new RelayCommand(() => Task.Run(() => Queue.Enqueue(++_count)), () => true);
+            this.EnqueueCommand = new RelayCommand(() => this.Queue.Enqueue(++this.count), () => true);
+            this.EnqueueOnThreadCommand = new RelayCommand(() => Task.Run(() => this.Queue.Enqueue(++this.count)), () => true);
         }
 
         public ObservableFixedSizeQueue<int> Queue { get; } = new ObservableFixedSizeQueue<int>(5);

@@ -1,7 +1,7 @@
-﻿using System.Windows.Controls;
-
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
+    using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for ConditionButtons.xaml
     /// </summary>
@@ -9,7 +9,7 @@ namespace Gu.Reactive.Demo
     {
         public ConditionButtonsView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

@@ -9,8 +9,8 @@
     {
         public CommandsView()
         {
-            InitializeComponent();
-            DataContext = new CommandsViewModel();
+            this.InitializeComponent();
+            this.DataContext = new CommandsViewModel();
         }
     }
 }

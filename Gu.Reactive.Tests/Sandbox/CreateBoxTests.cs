@@ -11,7 +11,8 @@
     {
         public event EventHandler Event;
 
-        [Test, Explicit]
+        [Test]
+        [Explicit]
         public void Stucko()
         {
             var scheduler = new TestScheduler();
@@ -36,13 +37,13 @@
                 {
                     x.OnNext(e);
                 };
-                Event += h;
-                return Disposable.Create(() => Event -= h);
+                this.Event += h;
+                return Disposable.Create(() => this.Event -= h);
             });
             var shared = observable.Publish().RefCount();
             var buffering = shared.Buffer(() => shared.Throttle(TimeSpan.FromMilliseconds(15), scheduler));
             buffering.Subscribe(Console.WriteLine);
-            scheduler.Schedule(TimeSpan.Zero, () => Event?.Invoke(this, EventArgs.Empty));
+            scheduler.Schedule(TimeSpan.Zero, () => this.Event?.Invoke(this, EventArgs.Empty));
             scheduler.Start();
         }
     }

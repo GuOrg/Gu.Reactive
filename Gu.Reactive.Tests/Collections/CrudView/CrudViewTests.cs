@@ -17,34 +17,34 @@ namespace Gu.Reactive.Tests.Collections.CrudView
 
     public abstract class CrudViewTests
     {
-        private List<EventArgs> _expected;
-        protected List<EventArgs> _actual;
-        protected TestScheduler _scheduler;
-        protected IFilteredView<int> _view;
-        protected ObservableCollection<int> _ints;
+        private List<EventArgs> expected;
+        protected List<EventArgs> Actual;
+        protected TestScheduler Scheduler;
+        protected IFilteredView<int> View;
+        protected ObservableCollection<int> Ints;
 
         [SetUp]
         public virtual void SetUp()
         {
-            _ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            _expected = SubscribeAll(_ints);
+            this.Ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            this.expected = this.SubscribeAll(this.Ints);
         }
 
         [TearDown]
         public void TearDown()
         {
-            _view.Dispose();
+            this.View.Dispose();
         }
 
         [Test]
         public void NoChangeNoEvent()
         {
-            CollectionAssert.AreEqual(_ints, _view);
+            CollectionAssert.AreEqual(this.Ints, this.View);
 
-            _view.Refresh();
-            _scheduler?.Start();
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.IsEmpty(_actual);
+            this.View.Refresh();
+            this.Scheduler?.Start();
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.IsEmpty(this.Actual);
         }
 
         [Test]
@@ -52,64 +52,64 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         {
             int[] actual = null;
             int[] expected = null;
-            _view.ObserveCollectionChanged(false)
-                 .Subscribe(_ => { actual = _view.ToArray(); });
-            _ints.ObserveCollectionChanged(false)
-                 .Subscribe(_ => { expected = _ints.ToArray(); });
-            _view.Add(5);
-            _scheduler?.Start();
+            this.View.ObserveCollectionChanged(false)
+                 .Subscribe(_ => { actual = this.View.ToArray(); });
+            this.Ints.ObserveCollectionChanged(false)
+                 .Subscribe(_ => { expected = this.Ints.ToArray(); });
+            this.View.Add(5);
+            this.Scheduler?.Start();
             CollectionAssert.AreEqual(expected, actual);
 
-            _view.Clear();
-            _scheduler?.Start();
+            this.View.Clear();
+            this.Scheduler?.Start();
             CollectionAssert.AreEqual(expected, actual);
         }
 
         [Test]
         public void Add()
         {
-            _view.Add(4);
-            _scheduler?.Start();
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            this.View.Add(4);
+            this.Scheduler?.Start();
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
         }
 
         [Test]
-        public void IListAdd()
+        public void ListAdd()
         {
             // DataGrid adds items like this
-            var index = ((IList)_view).Add(4);
-            _scheduler?.Start();
+            var index = ((IList)this.View).Add(4);
+            this.Scheduler?.Start();
             Assert.AreEqual(3, index);
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.IsNotEmpty(_actual);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.IsNotEmpty(this.Actual);
+            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
 
-            var before = _actual.ToArray();
-            _scheduler?.Start(); // Should not signal deferred
+            var before = this.Actual.ToArray();
+            this.Scheduler?.Start(); // Should not signal deferred
 
-            CollectionAssert.AreEqual(before, _actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(before, this.Actual, EventArgsComparer.Default);
         }
 
         [TestCase(1)]
         [TestCase(2)]
         public void Remove(int toRemove)
         {
-            _view.Remove(toRemove);
-            _scheduler?.Start();
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            this.View.Remove(toRemove);
+            this.Scheduler?.Start();
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
         }
 
         [TestCase(2, 5)]
         [TestCase(0, 5)]
         public void ReplaceIndexer(int index, int value)
         {
-            _view[index] = value;
-            _scheduler?.Start();
-            Assert.AreEqual(value, _view[index]);
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            this.View[index] = value;
+            this.Scheduler?.Start();
+            Assert.AreEqual(value, this.View[index]);
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
         }
 
         [TestCase(0, 1)]
@@ -117,21 +117,21 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         {
             Assert.Inconclusive("Do we want move?");
             //_view.Move(fromIndex, toIndex);
-            _scheduler?.Start();
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            this.Scheduler?.Start();
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
         }
 
         [Test]
         public void Count()
         {
-            Assert.AreEqual(3, _view.Count);
+            Assert.AreEqual(3, this.View.Count);
         }
 
         [Test]
         public void ToArrayTest()
         {
-            CollectionAssert.AreEqual(_ints, _view.ToArray());
+            CollectionAssert.AreEqual(this.Ints, this.View.ToArray());
         }
 
         protected List<EventArgs> SubscribeAll<T>(T view)

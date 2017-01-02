@@ -11,14 +11,14 @@
         [Test]
         public void MethodAction()
         {
-            var actual = NameOf.Method(() => DummyMethod(0));
+            var actual = NameOf.Method(() => this.DummyMethod(0));
             Assert.AreEqual("DummyMethod", actual);
         }
 
         [Test]
         public void MethodFunc()
         {
-            var actual = NameOf.Method<MethodTests>(x => DummyMethod(0));
+            var actual = NameOf.Method<MethodTests>(x => this.DummyMethod(0));
             Assert.AreEqual("DummyMethod", actual);
         }
 
@@ -26,7 +26,7 @@
         public void ArgumentsAction()
         {
             int i = 0;
-            var actual = NameOf.Arguments(() => DummyMethodVoid(i));
+            var actual = NameOf.Arguments(() => this.DummyMethodVoid(i));
             CollectionAssert.AreEqual(new[] { "arg" }, actual.Select(x => x.Name));
             CollectionAssert.AreEqual(new[] { 0 }, actual.Select(x => x.Value));
         }
@@ -35,7 +35,7 @@
         public void ArgumentsFunc()
         {
             int i = 0;
-            var actual = NameOf.Arguments(() => DummyMethod(i));
+            var actual = NameOf.Arguments(() => this.DummyMethod(i));
             CollectionAssert.AreEqual(new[] { "arg" }, actual.Select(x => x.Name));
             CollectionAssert.AreEqual(new[] { 0 }, actual.Select(x => x.Value));
         }

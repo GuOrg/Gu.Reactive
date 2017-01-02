@@ -9,74 +9,74 @@
 
     public class Person : INotifyPropertyChanged
     {
-        private string _firstName;
-        private string _lastName;
-        private IReadOnlyList<int> _tagsValues;
-        private string _tags;
+        private string firstName;
+        private string lastName;
+        private IReadOnlyList<int> tagsValues;
+        private string tags;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public string FirstName
         {
-            get { return _firstName; }
+            get { return this.firstName; }
 
             set
             {
-                if (value == _firstName)
+                if (value == this.firstName)
                 {
                     return;
                 }
 
-                _firstName = value;
-                OnPropertyChanged();
+                this.firstName = value;
+                this.OnPropertyChanged();
             }
         }
 
         public string LastName
         {
-            get { return _lastName; }
+            get { return this.lastName; }
 
             set
             {
-                if (value == _lastName)
+                if (value == this.lastName)
                 {
                     return;
                 }
 
-                _lastName = value;
-                OnPropertyChanged();
+                this.lastName = value;
+                this.OnPropertyChanged();
             }
         }
 
         public string Tags
         {
-            get { return _tags; }
+            get { return this.tags; }
 
             private set
             {
-                if (value == _tags) return;
-                _tags = value;
-                OnPropertyChanged();
+                if (value == this.tags) return;
+                this.tags = value;
+                this.OnPropertyChanged();
             }
         }
 
         internal IReadOnlyList<int> TagsValues
         {
-            get { return _tagsValues; }
+            get { return this.tagsValues; }
 
             set
             {
-                if (Equals(value, _tagsValues)) return;
-                _tagsValues = value;
-                _tags = String.Join(", ", _tagsValues);
-                OnPropertyChanged();
+                if (Equals(value, this.tagsValues)) return;
+                this.tagsValues = value;
+                this.tags = String.Join(", ", this.tagsValues);
+                this.OnPropertyChanged();
             }
         }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

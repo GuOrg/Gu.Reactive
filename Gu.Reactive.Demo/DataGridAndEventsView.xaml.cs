@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.Collections;
@@ -8,6 +6,7 @@ namespace Gu.Reactive.Demo
     using System.Collections.Specialized;
     using System.Reactive.Linq;
     using System.Windows;
+    using System.Windows.Controls;
 
     /// <summary>
     /// Interaction logic for DataGridAndEventsView.xaml
@@ -35,26 +34,26 @@ namespace Gu.Reactive.Demo
 
         public DataGridAndEventsView()
         {
-            InitializeComponent();
-            Changes = new ObservableCollection<NotifyCollectionChangedEventArgs>();
+            this.InitializeComponent();
+            this.Changes = new ObservableCollection<NotifyCollectionChangedEventArgs>();
         }
 
         public IEnumerable Source
         {
-            get { return (IEnumerable)GetValue(SourceProperty); }
-            set { SetValue(SourceProperty, value); }
+            get { return (IEnumerable)this.GetValue(SourceProperty); }
+            set { this.SetValue(SourceProperty, value); }
         }
 
         public ObservableCollection<NotifyCollectionChangedEventArgs> Changes
         {
-            get { return (ObservableCollection<NotifyCollectionChangedEventArgs>)GetValue(ChangesProperty); }
-            set { SetValue(ChangesProperty, value); }
+            get { return (ObservableCollection<NotifyCollectionChangedEventArgs>)this.GetValue(ChangesProperty); }
+            set { this.SetValue(ChangesProperty, value); }
         }
 
         public string Header
         {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
+            get { return (string)this.GetValue(HeaderProperty); }
+            set { this.SetValue(HeaderProperty, value); }
         }
 
         private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

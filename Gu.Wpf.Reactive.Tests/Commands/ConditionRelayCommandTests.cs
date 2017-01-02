@@ -11,21 +11,21 @@
 
     public class ConditionRelayCommandTests
     {
-        private Fake _fake;
+        private Fake fake;
 
-        private Condition _condition;
+        private Condition condition;
 
-        private ConditionRelayCommand _command;
+        private ConditionRelayCommand command;
 
-        private IObservable<EventPattern<PropertyChangedEventArgs>> _observable;
+        private IObservable<EventPattern<PropertyChangedEventArgs>> observable;
 
         [SetUp]
         public void SetUp()
         {
-            _fake = new Fake { IsTrueOrNull = false };
-            _observable = _fake.ObservePropertyChanged(x => x.IsTrueOrNull);
-            _condition = new Condition(_observable, () => _fake.IsTrueOrNull);
-            _command = new ConditionRelayCommand(() => { }, _condition);
+            this.fake = new Fake { IsTrueOrNull = false };
+            this.observable = this.fake.ObservePropertyChanged(x => x.IsTrueOrNull);
+            this.condition = new Condition(this.observable, () => this.fake.IsTrueOrNull);
+            this.command = new ConditionRelayCommand(() => { }, this.condition);
         }
 
         [Test]
@@ -49,15 +49,15 @@
         [TestCase(true)]
         public void CanExecute(bool expected)
         {
-            _fake.IsTrueOrNull = expected;
-            Assert.AreEqual(expected, _command.CanExecute());
+            this.fake.IsTrueOrNull = expected;
+            Assert.AreEqual(expected, this.command.CanExecute());
         }
 
         [Test]
         public void Execute()
         {
             var i = 0;
-            var command = new ConditionRelayCommand(() => i++, _condition);
+            var command = new ConditionRelayCommand(() => i++, this.condition);
             command.Execute();
             Assert.AreEqual(1, i);
         }

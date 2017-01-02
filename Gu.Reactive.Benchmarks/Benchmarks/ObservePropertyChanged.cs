@@ -10,9 +10,9 @@
 
     public class ObservePropertyChanged
     {
-        private readonly Fake _fake = new Fake { IsTrue = false, Next = new Level { Name = "" } };
+        private readonly Fake fake = new Fake { IsTrue = false, Next = new Level { Name = string.Empty } };
 
-        private readonly PropertyPath<Fake, string> _propertyPath = PropertyPathStuff.PropertyPath.Create<Fake, string>(x => x.Next.Name);
+        private readonly PropertyPath<Fake, string> propertyPath = PropertyPathStuff.PropertyPath.Create<Fake, string>(x => x.Next.Name);
 
         [Benchmark(Baseline = true)]
         public int SubscribeToEventStandard()
@@ -20,46 +20,46 @@
             int count = 0;
             PropertyChangedEventHandler handler = (sender, args) =>
                 {
-                    if (string.IsNullOrEmpty(args.PropertyName) || args.PropertyName == nameof(_fake.Value))
+                    if (string.IsNullOrEmpty(args.PropertyName) || args.PropertyName == nameof(this.fake.Value))
                     {
                         count++;
                     }
                 };
 
-            _fake.PropertyChanged += handler;
-            _fake.Value++;
-            _fake.PropertyChanged -= handler;
+            this.fake.PropertyChanged += handler;
+            this.fake.Value++;
+            this.fake.PropertyChanged -= handler;
             return count;
         }
 
         [Benchmark]
         public IObservable<EventPattern<PropertyChangedEventArgs>> SimpleLambda()
         {
-            return _fake.ObservePropertyChanged(x => x.Value, false);
+            return this.fake.ObservePropertyChanged(x => x.Value, false);
         }
 
         [Benchmark]
         public IObservable<EventPattern<PropertyChangedEventArgs>> SimpleString()
         {
-            return _fake.ObservePropertyChanged("Value", false);
+            return this.fake.ObservePropertyChanged("Value", false);
         }
 
         [Benchmark]
         public IObservable<PropertyChangedEventArgs> SimpleSlim()
         {
-            return _fake.ObservePropertyChangedSlim("Value", false);
+            return this.fake.ObservePropertyChangedSlim("Value", false);
         }
 
         [Benchmark]
         public IObservable<EventPattern<PropertyChangedEventArgs>> NestedLambda()
         {
-            return _fake.ObservePropertyChanged(x => x.Next.Name, false);
+            return this.fake.ObservePropertyChanged(x => x.Next.Name, false);
         }
 
         [Benchmark]
         public IObservable<EventPattern<PropertyChangedEventArgs>> NestedCachedPath()
         {
-            return _fake.ObservePropertyChanged(_propertyPath, false);
+            return this.fake.ObservePropertyChanged(this.propertyPath, false);
         }
     }
 }

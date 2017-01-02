@@ -9,7 +9,7 @@
     {
         public ThrottledViewView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

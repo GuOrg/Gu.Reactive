@@ -24,7 +24,7 @@
             set
             {
                 Ensure.NotNull(value, nameof(value));
-                Ensure.IsTrue(value.IsEnum, nameof(value),$"Expected {this.Type} to be an enum.");
+                Ensure.IsTrue(value.IsEnum, nameof(value), $"Expected {this.Type} to be an enum.");
                 this.type = value;
             }
         }

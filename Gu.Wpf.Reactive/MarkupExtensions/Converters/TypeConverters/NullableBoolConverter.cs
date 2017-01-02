@@ -9,7 +9,7 @@ namespace Gu.Wpf.Reactive
         internal static readonly NullableBoolConverter Default = new NullableBoolConverter();
         private static readonly Type[] ValidTypes =
         {
-            typeof (bool),
+            typeof(bool),
         };
 
         public bool IsValid(object value)

@@ -8,17 +8,17 @@
     /// </summary>
     public partial class FilteredViewView : UserControl
     {
-        private readonly FilteredViewViewModel _vm;
+        private readonly FilteredViewViewModel vm;
 
         public FilteredViewView()
         {
-            InitializeComponent();
-            DataContext = _vm = new FilteredViewViewModel();
+            this.InitializeComponent();
+            this.DataContext = this.vm = new FilteredViewViewModel();
         }
 
         private void OnTagsSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _vm.SelectedTags = TagBox.SelectedItems.Cast<int>();
+            this.vm.SelectedTags = this.TagBox.SelectedItems.Cast<int>();
         }
     }
 }

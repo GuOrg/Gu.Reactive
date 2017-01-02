@@ -8,20 +8,20 @@
 
     public sealed class EitherCommandsVm : INotifyPropertyChanged
     {
-        private int _value;
+        private int value;
 
         public EitherCommandsVm()
         {
             var isAddingOne = new Condition(this.ObservePropertyChanged(x => x.AddOneCommand.IsExecuting),
-                                            () => AddOneCommand?.IsExecuting);
+                                            () => this.AddOneCommand?.IsExecuting);
             var isAddingTwo = new Condition(this.ObservePropertyChanged(x => x.AddTwoCommand.IsExecuting),
-                                            () => AddTwoCommand?.IsExecuting);
+                                            () => this.AddTwoCommand?.IsExecuting);
 
             var isnotAddingAny = new OrCondition(isAddingOne, isAddingTwo).Negate();
-            AddOneCommand = new AsyncCommand(AddOne, isnotAddingAny);
-            AddTwoCommand = new AsyncCommand(AddTwo, isnotAddingAny);
-            OnPropertyChanged(nameof(AddOneCommand));
-            OnPropertyChanged(nameof(AddTwoCommand));
+            this.AddOneCommand = new AsyncCommand(this.AddOne, isnotAddingAny);
+            this.AddTwoCommand = new AsyncCommand(this.AddTwo, isnotAddingAny);
+            this.OnPropertyChanged(nameof(this.AddOneCommand));
+            this.OnPropertyChanged(nameof(this.AddTwoCommand));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -32,34 +32,34 @@
 
         public int Value
         {
-            get { return _value; }
+            get { return this.value; }
 
             set
             {
-                if (value == _value) return;
-                _value = value;
-                OnPropertyChanged();
+                if (value == this.value) return;
+                this.value = value;
+                this.OnPropertyChanged();
             }
         }
 
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private async Task AddOne()
         {
             await Task.Delay(1000)
                       .ConfigureAwait(false);
-            Value++;
+            this.Value++;
         }
 
         private async Task AddTwo()
         {
             await Task.Delay(1000)
                       .ConfigureAwait(false);
-            Value += 2;
+            this.Value += 2;
         }
     }
 }

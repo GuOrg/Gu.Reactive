@@ -18,20 +18,20 @@ namespace Gu.Reactive.Tests.NameOf_
         [Test]
         public void PropertyHappyPath()
         {
-            var name = NameOf.Property(() => StringProp);
+            var name = NameOf.Property(() => this.StringProp);
             Assert.AreEqual("StringProp", name);
 
-            name = NameOf.Property<PropertyTests>(x => StringProp);
+            name = NameOf.Property<PropertyTests>(x => this.StringProp);
             Assert.AreEqual("StringProp", name);
 
-            name = NameOf.Property<PropertyTests, string>(x => StringProp);
+            name = NameOf.Property<PropertyTests, string>(x => this.StringProp);
             Assert.AreEqual("StringProp", name);
         }
 
         [Test]
         public void PropertyHappyPath2()
         {
-            var name = NameOf.Property(() => StringProp);
+            var name = NameOf.Property(() => this.StringProp);
             Assert.AreEqual("StringProp", name);
 
             name = NameOf.Property<PropertyTests>(x => x.StringProp);
@@ -58,27 +58,27 @@ namespace Gu.Reactive.Tests.NameOf_
         [Test]
         public void NestedPropertyHappyPath()
         {
-            var name = NameOf.Property(() => Fake.Next.Name, true);
+            var name = NameOf.Property(() => this.Fake.Next.Name, true);
             Assert.AreEqual("Name", name);
 
-            name = NameOf.Property<PropertyTests>(x => Fake.Next.Name);
+            name = NameOf.Property<PropertyTests>(x => this.Fake.Next.Name);
             Assert.AreEqual("Name", name);
 
-            name = NameOf.Property<PropertyTests, string>(x => Fake.Next.Name);
+            name = NameOf.Property<PropertyTests, string>(x => this.Fake.Next.Name);
             Assert.AreEqual("Name", name);
         }
 
         [Test]
         public void ThrowsOnNestedProperty()
         {
-            var exception = Assert.Throws<ArgumentException>(() => NameOf.Property(() => StringProp.Length));
+            var exception = Assert.Throws<ArgumentException>(() => NameOf.Property(() => this.StringProp.Length));
             Assert.AreEqual("Trying to get the name of a nested property: StringProp.Length", exception.Message);
         }
 
         [Test]
         public void ThrowsOnMethod()
         {
-            Assert.Throws<ArgumentException>(() => NameOf.Property(() => Fake.Method()));
+            Assert.Throws<ArgumentException>(() => NameOf.Property(() => this.Fake.Method()));
             Assert.Throws<ArgumentException>(() => NameOf.Property<PropertyTests>(x => x.Fake.Method()));
             Assert.Throws<ArgumentException>(() => NameOf.Property<PropertyTests, Level>(x => x.Fake.Method()));
         }
@@ -86,7 +86,7 @@ namespace Gu.Reactive.Tests.NameOf_
         [Test]
         public void ThrowsOnNestedMethod()
         {
-            Assert.Throws<ArgumentException>(() => NameOf.Property(() => Fake.Next.Method()));
+            Assert.Throws<ArgumentException>(() => NameOf.Property(() => this.Fake.Next.Method()));
             Assert.Throws<ArgumentException>(() => NameOf.Property<PropertyTests>(x => x.Fake.Next.Method()));
             Assert.Throws<ArgumentException>(() => NameOf.Property<PropertyTests, Level>(x => x.Fake.Next.Method()));
         }
@@ -94,13 +94,13 @@ namespace Gu.Reactive.Tests.NameOf_
         [Test]
         public void OnNestedMethod()
         {
-            var property = NameOf.Property(() => Fake.Method().Name, true);
+            var property = NameOf.Property(() => this.Fake.Method().Name, true);
             Assert.AreEqual("Name", property);
 
-            property = NameOf.Property<PropertyTests>(x => Fake.Method().Name);
+            property = NameOf.Property<PropertyTests>(x => this.Fake.Method().Name);
             Assert.AreEqual("Name", property);
 
-            property = NameOf.Property<PropertyTests, string>(x => Fake.Method().Name);
+            property = NameOf.Property<PropertyTests, string>(x => this.Fake.Method().Name);
             Assert.AreEqual("Name", property);
         }
     }

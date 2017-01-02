@@ -147,7 +147,7 @@
             GC.SuppressFinalize(this);
         }
 
-        public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType() .PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString() ?? "null"}";
+        public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString() ?? "null"}";
 
         protected virtual void Dispose(bool disposing)
         {

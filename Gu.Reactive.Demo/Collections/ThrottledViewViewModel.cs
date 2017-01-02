@@ -9,23 +9,23 @@
 
     public class ThrottledViewViewModel
     {
-        private readonly ObservableCollection<DummyItem> _observableCollection = new ObservableCollection<DummyItem>();
+        private readonly ObservableCollection<DummyItem> observableCollection = new ObservableCollection<DummyItem>();
 
         public ThrottledViewViewModel()
         {
-            DeferTime = TimeSpan.FromMilliseconds(10);
-            Add(3);
-            ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(_observableCollection);
-            ThrottledView = _observableCollection.AsThrottledView(DeferTime, WpfSchedulers.Dispatcher);
-            ReadOnlyThrottledView = _observableCollection.AsReadOnlyThrottledView(DeferTime, WpfSchedulers.Dispatcher);
-            ReadOnlyIlistThrottledView = ReadOnlyThrottledView.AsReadonlyIListView();
-            AddOneCommand = new RelayCommand(AddOne, () => true);
-            AddOneToViewCommand = new RelayCommand(AddOneToView, () => true);
-            AddTenCommand = new RelayCommand(AddTen, () => true);
-            AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => AddOne()), () => true);
+            this.DeferTime = TimeSpan.FromMilliseconds(10);
+            this.Add(3);
+            this.ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(this.observableCollection);
+            this.ThrottledView = this.observableCollection.AsThrottledView(this.DeferTime, WpfSchedulers.Dispatcher);
+            this.ReadOnlyThrottledView = this.observableCollection.AsReadOnlyThrottledView(this.DeferTime, WpfSchedulers.Dispatcher);
+            this.ReadOnlyIlistThrottledView = this.ReadOnlyThrottledView.AsReadonlyIListView();
+            this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
+            this.AddOneToViewCommand = new RelayCommand(this.AddOneToView, () => true);
+            this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
+            this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
         }
 
-        public ObservableCollection<DummyItem> ObservableCollection => _observableCollection;
+        public ObservableCollection<DummyItem> ObservableCollection => this.observableCollection;
 
         public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; }
 
@@ -47,30 +47,30 @@
 
         private void AddOne()
         {
-            _observableCollection.Add(new DummyItem(_observableCollection.Count + 1));
+            this.observableCollection.Add(new DummyItem(this.observableCollection.Count + 1));
         }
 
         private void AddOneToView()
         {
-            ThrottledView.Add(new DummyItem(_observableCollection.Count + 1));
+            this.ThrottledView.Add(new DummyItem(this.observableCollection.Count + 1));
         }
 
         private void AddTen()
         {
-            Add(10);
+            this.Add(10);
         }
 
         private void Add(int n)
         {
             for (int i = 0; i < n; i++)
             {
-                AddOne();
+                this.AddOne();
             }
         }
 
         private void Clear()
         {
-            _observableCollection.Clear();
+            this.observableCollection.Clear();
         }
     }
 }

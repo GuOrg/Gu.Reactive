@@ -13,34 +13,34 @@
 
     public abstract class CrudSourceTests
     {
-        private List<EventArgs> _expected;
-        protected List<EventArgs> _actual;
-        protected TestScheduler _scheduler;
-        protected IReadOnlyObservableCollection<int> _view;
-        protected ObservableCollection<int> _ints;
+        private List<EventArgs> expected;
+        protected List<EventArgs> Actual;
+        protected TestScheduler Scheduler;
+        protected IReadOnlyObservableCollection<int> View;
+        protected ObservableCollection<int> Ints;
 
         [SetUp]
         public virtual void SetUp()
         {
-            _ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            _expected = _ints.SubscribeAll();
+            this.Ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            this.expected = this.Ints.SubscribeAll();
         }
 
         [Test]
         public void Ctor()
         {
-            CollectionAssert.AreEqual(_ints, _view);
+            CollectionAssert.AreEqual(this.Ints, this.View);
         }
 
         [Test]
         public void NoChangeNoEvent()
         {
-            CollectionAssert.AreEqual(_ints, _view);
-            (_view as IRefreshAble)?.Refresh();
-            _scheduler?.Start();
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            (this.View as IRefreshAble)?.Refresh();
+            this.Scheduler?.Start();
 
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.IsEmpty(_actual);
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.IsEmpty(this.Actual);
         }
 
         [Test]
@@ -48,80 +48,79 @@
         {
             int[] actual = null;
             int[] expected = null;
-            _view.ObserveCollectionChanged(false)
-                 .Subscribe(_ => { actual = _view.ToArray(); });
-            _ints.ObserveCollectionChanged(false)
-                 .Subscribe(_ => { expected = _ints.ToArray(); });
-            _ints.Add(5);
-            _scheduler?.Start();
+            this.View.ObserveCollectionChanged(false)
+                 .Subscribe(_ => { actual = this.View.ToArray(); });
+            this.Ints.ObserveCollectionChanged(false)
+                 .Subscribe(_ => { expected = this.Ints.ToArray(); });
+            this.Ints.Add(5);
+            this.Scheduler?.Start();
             CollectionAssert.AreEqual(expected, actual);
 
-            _ints.Clear();
-            _scheduler?.Start();
+            this.Ints.Clear();
+            this.Scheduler?.Start();
             CollectionAssert.AreEqual(expected, actual);
         }
 
         [Test]
         public void Add()
         {
-            _ints.Add(4);
-            _scheduler?.Start();
+            this.Ints.Add(4);
+            this.Scheduler?.Start();
 
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
         }
-
 
         [Test]
         public void ManyAddsOneReset()
         {
-            if (_scheduler == null)
+            if (this.Scheduler == null)
             {
                 Assert.Inconclusive();
             }
 
             for (int i = 0; i < 10; i++)
             {
-                _ints.Add(i);
+                this.Ints.Add(i);
             }
 
-            _scheduler.Start();
+            this.Scheduler.Start();
 
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, _actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, this.Actual, EventArgsComparer.Default);
         }
 
         [TestCase(1)]
         [TestCase(2)]
         public void Remove(int toRemove)
         {
-            _ints.Remove(toRemove);
-            _scheduler?.Start();
+            this.Ints.Remove(toRemove);
+            this.Scheduler?.Start();
 
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
         }
 
         [TestCase(2, 1)]
         [TestCase(0, 2)]
         public void Replace(int index, int value)
         {
-            _ints[index] = value;
-            _scheduler?.Start();
+            this.Ints[index] = value;
+            this.Scheduler?.Start();
 
-            Assert.AreEqual(value, _view[index]);
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            Assert.AreEqual(value, this.View[index]);
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
         }
 
         [TestCase(0, 1)]
         public void Move(int fromIndex, int toIndex)
         {
-            _ints.Move(fromIndex, toIndex);
-            _scheduler?.Start();
+            this.Ints.Move(fromIndex, toIndex);
+            this.Scheduler?.Start();
 
-            CollectionAssert.AreEqual(_ints, _view);
-            CollectionAssert.AreEqual(_expected, _actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
         }
     }
 }

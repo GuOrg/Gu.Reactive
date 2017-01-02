@@ -14,61 +14,61 @@ namespace Gu.Reactive.Tests.Collections
 
     public class FilteredViewTriggersTests
     {
-        private List<EventArgs> _actualChanges;
-        private TestScheduler _scheduler;
-        private FilteredView<int> _view;
-        private List<int> _ints;
+        private List<EventArgs> actualChanges;
+        private TestScheduler scheduler;
+        private FilteredView<int> view;
+        private List<int> ints;
 
         [SetUp]
         public void SetUp()
         {
-            _actualChanges = new List<EventArgs>();
-            _ints = new List<int>(new[] { 1, 2, 3 });
+            this.actualChanges = new List<EventArgs>();
+            this.ints = new List<int>(new[] { 1, 2, 3 });
 
-            _scheduler = new TestScheduler();
+            this.scheduler = new TestScheduler();
 
-            _view = _ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), _scheduler, new Subject<object>());
-            _actualChanges = _view.SubscribeAll();
+            this.view = this.ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), this.scheduler, new Subject<object>());
+            this.actualChanges = this.view.SubscribeAll();
         }
 
         [Test]
         public void ManyOnNextsOneReset()
         {
             var subject = new Subject<object>();
-            _view.Triggers.Add(subject);
-            _ints.Clear();
+            this.view.Triggers.Add(subject);
+            this.ints.Clear();
             for (int i = 0; i < 10; i++)
             {
                 subject.OnNext(null);
             }
 
-            CollectionAssert.IsEmpty(_actualChanges);
-            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, _view);
-            _scheduler.Start();
+            CollectionAssert.IsEmpty(this.actualChanges);
+            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, this.view);
+            this.scheduler.Start();
 
-            CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, _actualChanges, EventArgsComparer.Default);
-            CollectionAssert.IsEmpty(_view);
+            CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, this.actualChanges, EventArgsComparer.Default);
+            CollectionAssert.IsEmpty(this.view);
         }
 
         [Test]
         public void ManyOnNextsOneAdd()
         {
             var subject = new Subject<object>();
-            _view.Triggers.Add(subject);
-            _ints.Add(4);
+            this.view.Triggers.Add(subject);
+            this.ints.Add(4);
             for (int i = 0; i < 10; i++)
             {
                 subject.OnNext(null);
             }
 
-            CollectionAssert.IsEmpty(_actualChanges);
-            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, _view);
+            CollectionAssert.IsEmpty(this.actualChanges);
+            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, this.view);
 
-            _scheduler.Start();
+            this.scheduler.Start();
 
             var expected = new EventArgs[] { Notifier.CountPropertyChangedEventArgs, Notifier.IndexerPropertyChangedEventArgs, Diff.CreateAddEventArgs(4, 3) };
-            CollectionAssert.AreEqual(expected, _actualChanges, EventArgsComparer.Default);
-            CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, _view);
+            CollectionAssert.AreEqual(expected, this.actualChanges, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, this.view);
         }
 
         [Test]
@@ -76,12 +76,12 @@ namespace Gu.Reactive.Tests.Collections
         {
             var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
             var expected = ints.SubscribeAll();
-            var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), _scheduler);
+            var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), this.scheduler);
             var actual = view.SubscribeAll();
 
             ints.Add(4);
             CollectionAssert.IsEmpty(actual);
-            _scheduler.Start();
+            this.scheduler.Start();
             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 

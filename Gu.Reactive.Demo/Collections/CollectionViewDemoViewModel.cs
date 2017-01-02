@@ -14,26 +14,26 @@
 
     public class CollectionViewDemoViewModel : INotifyPropertyChanged
     {
-        private Func<int, bool> _filter = x => true;
+        private Func<int, bool> filter = x => true;
 
         public CollectionViewDemoViewModel()
         {
-            Enumerable = new[] { 1, 2, 3, 4, 5 };
-            FilteredView1 = Enumerable.AsReadOnlyFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher, this.ObservePropertyChanged(x => x.Filter));
-            FilteredView2 = Enumerable.AsReadOnlyFilteredView(FilterMethod, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher, this.ObservePropertyChanged(x => x.Filter));
+            this.Enumerable = new[] { 1, 2, 3, 4, 5 };
+            this.FilteredView1 = this.Enumerable.AsReadOnlyFilteredView(this.FilterMethod, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher, this.ObservePropertyChanged(x => x.Filter));
+            this.FilteredView2 = this.Enumerable.AsReadOnlyFilteredView(this.FilterMethod, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher, this.ObservePropertyChanged(x => x.Filter));
 
-            ObservableCollection = new ObservableCollection<int>(new[] { 1, 2, 3, 4, 5 });
-            ObservableDefaultView = CollectionViewSource.GetDefaultView(ObservableCollection);
-            ObservableFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.Zero, WpfSchedulers.Dispatcher);
-            ThrottledFilteredView = ObservableCollection.AsFilteredView(Filter, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher);
+            this.ObservableCollection = new ObservableCollection<int>(new[] { 1, 2, 3, 4, 5 });
+            this.ObservableDefaultView = CollectionViewSource.GetDefaultView(this.ObservableCollection);
+            this.ObservableFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.Zero, WpfSchedulers.Dispatcher);
+            this.ThrottledFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher);
 
             this.ObservePropertyChanged(x => x.Filter, false)
                 .Subscribe(
                     x =>
                     {
-                        WpfSchedulers.Dispatcher.Schedule(() => ObservableDefaultView.Filter = o => Filter((int)o));
-                        ObservableFilteredView.Filter = Filter;
-                        ThrottledFilteredView.Filter = Filter;
+                        WpfSchedulers.Dispatcher.Schedule(() => this.ObservableDefaultView.Filter = o => this.Filter((int)o));
+                        this.ObservableFilteredView.Filter = this.Filter;
+                        this.ThrottledFilteredView.Filter = this.Filter;
                     });
         }
 
@@ -57,27 +57,27 @@
         {
             get
             {
-                return _filter;
+                return this.filter;
             }
 
             set
             {
-                if (Equals(value, _filter))
+                if (Equals(value, this.filter))
                 {
                     return;
                 }
 
-                _filter = value;
-                OnPropertyChanged();
+                this.filter = value;
+                this.OnPropertyChanged();
             }
         }
 
         private bool FilterMethod(int value)
         {
-            return Filter(value);
+            return this.Filter(value);
         }
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

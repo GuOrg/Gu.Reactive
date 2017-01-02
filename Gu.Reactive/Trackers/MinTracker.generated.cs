@@ -21,7 +21,8 @@
             this ObservableCollection<TItem> source,
             Expression<Func<TItem, TValue>> selector,
             TValue? whenEmpty,
-            bool trackItemChanges) where TItem : class, INotifyPropertyChanged
+            bool trackItemChanges)
+            where TItem : class, INotifyPropertyChanged
             where TValue : struct, IComparable<TValue>
         {
             var onItemChanged = trackItemChanges
@@ -51,7 +52,8 @@
             this ReadOnlyObservableCollection<TItem> source,
             Expression<Func<TItem, TValue>> selector,
             TValue? whenEmpty,
-            bool trackItemChanges) where TItem : class, INotifyPropertyChanged
+            bool trackItemChanges)
+            where TItem : class, INotifyPropertyChanged
             where TValue : struct, IComparable<TValue>
         {
             var onItemChanged = trackItemChanges
@@ -63,7 +65,8 @@
 
         public static MinTracker<TValue> TrackMin<TValue>(
             this ReadOnlyObservableCollection<TValue> source,
-            TValue? whenEmpty) where TValue : struct, IComparable<TValue>
+            TValue? whenEmpty)
+            where TValue : struct, IComparable<TValue>
         {
             return new MinTracker<TValue>(source, source.ObserveCollectionChangedSlim(false), whenEmpty);
         }
@@ -82,7 +85,8 @@
             this IReadOnlyObservableCollection<TItem> source,
             Expression<Func<TItem, TValue>> selector,
             TValue? whenEmpty,
-            bool trackItemChanges) where TItem : class, INotifyPropertyChanged
+            bool trackItemChanges)
+            where TItem : class, INotifyPropertyChanged
             where TValue : struct, IComparable<TValue>
         {
             var onItemChanged = trackItemChanges
@@ -94,7 +98,8 @@
 
         public static MinTracker<TValue> TrackMin<TValue>(
             this IReadOnlyObservableCollection<TValue> source,
-            TValue? whenEmpty) where TValue : struct, IComparable<TValue>
+            TValue? whenEmpty)
+            where TValue : struct, IComparable<TValue>
         {
             return new MinTracker<TValue>(source, source.ObserveCollectionChangedSlim(false), whenEmpty);
         }

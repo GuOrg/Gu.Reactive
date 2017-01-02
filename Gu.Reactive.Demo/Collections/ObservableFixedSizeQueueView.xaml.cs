@@ -9,8 +9,8 @@
     {
         public ObservableFixedSizeQueueView()
         {
-            InitializeComponent();
-            DataContext = new ObservableFixedSizeQueueViewModel();
+            this.InitializeComponent();
+            this.DataContext = new ObservableFixedSizeQueueViewModel();
         }
     }
 }

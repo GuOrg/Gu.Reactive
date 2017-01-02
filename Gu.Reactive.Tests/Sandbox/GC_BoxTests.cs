@@ -43,7 +43,6 @@ namespace Gu.Reactive.Tests.Sandbox
             Assert.IsFalse(wr.IsAlive);
         }
 
-
         [Test]
         public void GCCollect_B4()
         {
@@ -68,7 +67,7 @@ namespace Gu.Reactive.Tests.Sandbox
 
         public B(A a)
         {
-            A = a;
+            this.A = a;
         }
 
         public A A { get; set; }

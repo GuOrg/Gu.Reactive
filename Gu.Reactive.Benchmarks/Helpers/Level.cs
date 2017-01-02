@@ -7,10 +7,10 @@
 
     public class Level : INotifyPropertyChanged
     {
-        private bool _isTrue;
-        private Level _next;
-        private string _name;
-        private int _value;
+        private bool isTrue;
+        private Level next;
+        private string name;
+        private int value;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -18,18 +18,18 @@
         {
             get
             {
-                return _isTrue;
+                return this.isTrue;
             }
 
             set
             {
-                if (value.Equals(_isTrue))
+                if (value.Equals(this.isTrue))
                 {
                     return;
                 }
 
-                _isTrue = value;
-                OnPropertyChanged();
+                this.isTrue = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -37,18 +37,18 @@
         {
             get
             {
-                return _value;
+                return this.value;
             }
 
             set
             {
-                if (value == _value)
+                if (value == this.value)
                 {
                     return;
                 }
 
-                _value = value;
-                OnPropertyChanged();
+                this.value = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -56,18 +56,18 @@
         {
             get
             {
-                return _name;
+                return this.name;
             }
 
             set
             {
-                if (value == _name)
+                if (value == this.name)
                 {
                     return;
                 }
 
-                _name = value;
-                OnPropertyChanged();
+                this.name = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -75,18 +75,18 @@
         {
             get
             {
-                return _next;
+                return this.next;
             }
 
             set
             {
-                if (Equals(value, _next))
+                if (Equals(value, this.next))
                 {
                     return;
                 }
 
-                _next = value;
-                OnPropertyChanged();
+                this.next = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -94,10 +94,10 @@
 
         public Level Method()
         {
-            return Next;
+            return this.Next;
         }
 
         [NotifyPropertyChangedInvocator]
-        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

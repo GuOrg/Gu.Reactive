@@ -9,7 +9,7 @@
     {
         public ConditionsView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

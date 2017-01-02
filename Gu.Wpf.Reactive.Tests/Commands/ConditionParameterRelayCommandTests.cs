@@ -11,26 +11,26 @@
 
     public class ConditionParameterRelayCommandTests
     {
-        private Fake _fake;
-        private Condition _condition;
-        private ConditionRelayCommand<int> _command;
-        private IObservable<EventPattern<PropertyChangedEventArgs>> _observable;
+        private Fake fake;
+        private Condition condition;
+        private ConditionRelayCommand<int> command;
+        private IObservable<EventPattern<PropertyChangedEventArgs>> observable;
 
         [SetUp]
         public void SetUp()
         {
-            _fake = new Fake { IsTrueOrNull = false };
-            _observable = _fake.ObservePropertyChanged(x => x.IsTrueOrNull);
-            _condition = new Condition(_observable, () => _fake.IsTrueOrNull);
-            _command = new ConditionRelayCommand<int>(x => { }, _condition);
+            this.fake = new Fake { IsTrueOrNull = false };
+            this.observable = this.fake.ObservePropertyChanged(x => x.IsTrueOrNull);
+            this.condition = new Condition(this.observable, () => this.fake.IsTrueOrNull);
+            this.command = new ConditionRelayCommand<int>(x => { }, this.condition);
         }
 
         [Test]
         public void NotifiesOnConditionChanged()
         {
             int count = 0;
-            _command.CanExecuteChanged += (sender, args) => count++;
-            _fake.IsTrueOrNull = true;
+            this.command.CanExecuteChanged += (sender, args) => count++;
+            this.fake.IsTrueOrNull = true;
             Assert.AreEqual(1, count);
         }
 
@@ -38,15 +38,15 @@
         [TestCase(true)]
         public void CanExecute(bool expected)
         {
-            _fake.IsTrueOrNull = expected;
-            Assert.AreEqual(expected, _command.CanExecute(0));
+            this.fake.IsTrueOrNull = expected;
+            Assert.AreEqual(expected, this.command.CanExecute(0));
         }
 
         [Test]
         public void Execute()
         {
             var i = 0;
-            var command = new ConditionRelayCommand<int>(x => i=x, _condition);
+            var command = new ConditionRelayCommand<int>(x => i = x, this.condition);
             command.Execute(1);
             Assert.AreEqual(1, i);
         }

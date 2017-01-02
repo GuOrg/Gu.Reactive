@@ -7,39 +7,39 @@ namespace Gu.Reactive.Benchmarks
 
     public class MinTrackerProperty
     {
-        private ObservableCollection<Fake> _fakes;
-        private MinTracker<int> _tracker;
-        private MinTracker<int> _changeTracker;
+        private ObservableCollection<Fake> fakes;
+        private MinTracker<int> tracker;
+        private MinTracker<int> changeTracker;
 
         [Setup]
         public void SetupData()
         {
-            _fakes = new ObservableCollection<Fake>(Enumerable.Range(-5, 10).Select(x => new Fake { Value = x }));
-            _tracker?.Dispose();
-            _tracker = _fakes.TrackMin(x => x.Value, -1, false);
-            _changeTracker?.Dispose();
-            _changeTracker = _fakes.TrackMin(x => x.Value, -1, true);
+            this.fakes = new ObservableCollection<Fake>(Enumerable.Range(-5, 10).Select(x => new Fake { Value = x }));
+            this.tracker?.Dispose();
+            this.tracker = this.fakes.TrackMin(x => x.Value, -1, false);
+            this.changeTracker?.Dispose();
+            this.changeTracker = this.fakes.TrackMin(x => x.Value, -1, true);
         }
 
         [Benchmark(Baseline = true)]
         public int? Linq()
         {
-            _fakes.Add(new Fake());
-            return _fakes.Min(x => x.Value);
+            this.fakes.Add(new Fake());
+            return this.fakes.Min(x => x.Value);
         }
 
         [Benchmark]
         public int? Tracker()
         {
-            _fakes.Add(new Fake { Value = 5 });
-            return _tracker.Value;
+            this.fakes.Add(new Fake { Value = 5 });
+            return this.tracker.Value;
         }
 
         [Benchmark]
         public int? TrackerChanges()
         {
-            _fakes.Add(new Fake { Value = 5 });
-            return _changeTracker.Value;
+            this.fakes.Add(new Fake { Value = 5 });
+            return this.changeTracker.Value;
         }
     }
 }

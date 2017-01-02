@@ -13,45 +13,45 @@
     [Explicit("Sandbox")]
     public class CacheExpressionsTests
     {
-        private ConcurrentDictionary<Expression, int> _dictionary;
+        private ConcurrentDictionary<Expression, int> dictionary;
 
         public Fake Fake { get; set; }
 
         [SetUp]
         public void SetUp()
         {
-            _dictionary = new ConcurrentDictionary<Expression, int>();
+            this.dictionary = new ConcurrentDictionary<Expression, int>();
         }
 
         [Test]
         public void TestNameTest()
         {
-            Fake = new Fake { Next = new Level { Name = "Johan" } };
+            this.Fake = new Fake { Next = new Level { Name = "Johan" } };
 
             for (int i = 0; i < 100; i++)
             {
-                AddOrUpdate(x => Fake.Next.Name, i);
+                this.AddOrUpdate(x => this.Fake.Next.Name, i);
             }
 
-            Assert.AreEqual(1, _dictionary.Count);
+            Assert.AreEqual(1, this.dictionary.Count);
         }
 
         [Test]
         public void Benchmark()
         {
             int n = 1000;
-            Fake = new Fake { Next = new Level { Name = "Johan" } };
+            this.Fake = new Fake { Next = new Level { Name = "Johan" } };
             var sw = Stopwatch.StartNew();
 
             for (int i = 0; i < n; i++)
             {
-                var h = HashVisitor.GetHash(x => Fake.Next.Name); // Warming things up
+                var h = HashVisitor.GetHash(x => this.Fake.Next.Name); // Warming things up
             }
 
             sw.Restart();
             for (int i = 0; i < n; i++)
             {
-                var h = HashVisitor.GetHash(x => Fake.Next.Name);
+                var h = HashVisitor.GetHash(x => this.Fake.Next.Name);
             }
 
             sw.Stop();
@@ -65,7 +65,7 @@
             sw.Restart();
             for (int i = 0; i < n; i++)
             {
-                Expression<Func<object, string>> expression = x => Fake.Next.Name;
+                Expression<Func<object, string>> expression = x => this.Fake.Next.Name;
                 var h = expression.ToString();
             }
 
@@ -80,14 +80,14 @@
         public void AddOrUpdate(Expression<Func<object, string>> expression, int i)
         {
             var hashCode = expression.GetHashCode();
-            _dictionary.AddOrUpdate(expression, _ => i, (_, __) => i);
+            this.dictionary.AddOrUpdate(expression, _ => i, (_, __) => i);
         }
     }
 
     internal sealed class HashVisitor : ExpressionVisitor
     {
         private const int NullHashCode = 0x61E04917;
-        private int _hash;
+        private int hash;
 
         private HashVisitor()
         {
@@ -105,16 +105,16 @@
             return hashVisitor.Hash;
         }
 
-        private int Hash => _hash;
+        private int Hash => this.hash;
 
         private void Reset()
         {
-            _hash = 0;
+            this.hash = 0;
         }
 
         private void UpdateHash(int value)
         {
-            _hash = (_hash * 397) ^ value;
+            this.hash = (this.hash * 397) ^ value;
         }
 
         private void UpdateHash(object component)
@@ -144,81 +144,81 @@
                 }
             }
 
-            _hash = (_hash * 397) ^ componentHash;
+            this.hash = (this.hash * 397) ^ componentHash;
         }
 
         public override Expression Visit(Expression node)
         {
-            UpdateHash((int)node.NodeType);
+            this.UpdateHash((int)node.NodeType);
             return base.Visit(node);
         }
 
         protected override Expression VisitConstant(ConstantExpression node)
         {
-            UpdateHash(node.Value);
+            this.UpdateHash(node.Value);
             return base.VisitConstant(node);
         }
 
         protected override Expression VisitMember(MemberExpression node)
         {
-            UpdateHash(node.Member);
+            this.UpdateHash(node.Member);
             return base.VisitMember(node);
         }
 
         protected override MemberAssignment VisitMemberAssignment(MemberAssignment node)
         {
-            UpdateHash(node.Member);
+            this.UpdateHash(node.Member);
             return base.VisitMemberAssignment(node);
         }
 
         protected override MemberBinding VisitMemberBinding(MemberBinding node)
         {
-            UpdateHash((int)node.BindingType);
-            UpdateHash(node.Member);
+            this.UpdateHash((int)node.BindingType);
+            this.UpdateHash(node.Member);
             return base.VisitMemberBinding(node);
         }
 
         protected override MemberListBinding VisitMemberListBinding(MemberListBinding node)
         {
-            UpdateHash((int)node.BindingType);
-            UpdateHash(node.Member);
+            this.UpdateHash((int)node.BindingType);
+            this.UpdateHash(node.Member);
             return base.VisitMemberListBinding(node);
         }
 
         protected override MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding node)
         {
-            UpdateHash((int)node.BindingType);
-            UpdateHash(node.Member);
+            this.UpdateHash((int)node.BindingType);
+            this.UpdateHash(node.Member);
             return base.VisitMemberMemberBinding(node);
         }
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            UpdateHash(node.Method);
+            this.UpdateHash(node.Method);
             return base.VisitMethodCall(node);
         }
 
         protected override Expression VisitNew(NewExpression node)
         {
-            UpdateHash(node.Constructor);
+            this.UpdateHash(node.Constructor);
             return base.VisitNew(node);
         }
 
         protected override Expression VisitNewArray(NewArrayExpression node)
         {
-            UpdateHash(node.Type);
+            this.UpdateHash(node.Type);
             return base.VisitNewArray(node);
         }
 
         protected override Expression VisitParameter(ParameterExpression node)
         {
-            UpdateHash(node.Type);
+            this.UpdateHash(node.Type);
             return base.VisitParameter(node);
         }
 
         protected override Expression VisitTypeBinary(TypeBinaryExpression node)
         {
-            UpdateHash(node.Type);
+            this.UpdateHash(node.Type);
             return base.VisitTypeBinary(node);
         }
     }

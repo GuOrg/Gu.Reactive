@@ -8,7 +8,7 @@
         [TestCase(true, true)]
         [TestCase(2, false)]
         [TestCase("", false)]
-        public void IsValidNullable_Bool(object value, bool expected)
+        public void IsValidNullableBool(object value, bool expected)
         {
             var converter = TypeConverterFactory.Create<bool?>();
             var actual = converter.IsValid(value);
@@ -19,7 +19,7 @@
         [TestCase(1.0, true)]
         [TestCase(2, true)]
         [TestCase("", false)]
-        public void IsValidNullable_Double(object value, bool expected)
+        public void IsValidNullableDouble(object value, bool expected)
         {
             var converter = TypeConverterFactory.Create<double?>();
             var actual = converter.IsValid(value);

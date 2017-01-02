@@ -8,47 +8,46 @@
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
-
-    using JetBrains.Annotations;
     using Gu.Wpf.Reactive;
+    using JetBrains.Annotations;
 
     public class FilteredViewViewModel : INotifyPropertyChanged
     {
         private static readonly IReadOnlyList<string> FirstNames = new[] { "Erik", "Johan", "Max", "Lynn", "Markus" };
         private static readonly IReadOnlyList<string> LastNames = new[] { "Larsson", "Svensson", "Skeet", "Andersson" };
         private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
-        private readonly ObservableCollection<Person> _peopleRaw;
-        private readonly Random _random = new Random();
+        private readonly ObservableCollection<Person> peopleRaw;
+        private readonly Random random = new Random();
 
-        private string _searchText;
-        private bool _hasSearchText;
-        private IEnumerable<int> _selectedTags = Enumerable.Empty<int>();
-        private int _numberOfItems = 100;
+        private string searchText;
+        private bool hasSearchText;
+        private IEnumerable<int> selectedTags = Enumerable.Empty<int>();
+        private int numberOfItems = 100;
 
         public FilteredViewViewModel()
         {
-            Tags = new HashSet<int>(Enumerable.Range(0, 10));
-            _peopleRaw = new ObservableCollection<Person>();
+            this.Tags = new HashSet<int>(Enumerable.Range(0, 10));
+            this.peopleRaw = new ObservableCollection<Person>();
             this.ObservePropertyChanged(x => x.NumberOfItems)
-                .Subscribe(_ => UpdateRawCollection());
-            Filtered = _peopleRaw.AsFilteredView(
-                Filter,
+                .Subscribe(_ => this.UpdateRawCollection());
+            this.Filtered = this.peopleRaw.AsFilteredView(
+                this.Filter,
                 TimeSpan.FromMilliseconds(10),
                  WpfSchedulers.Dispatcher,
                 this.ObservePropertyChanged(x => x.SearchText),
                 this.ObservePropertyChanged(x => x.SelectedTags));
 
 
-            ReadOnlyFiltered = _peopleRaw.AsReadOnlyFilteredView(
-                Filter,
+            this.ReadOnlyFiltered = this.peopleRaw.AsReadOnlyFilteredView(
+                this.Filter,
                 TimeSpan.FromMilliseconds(10),
                  WpfSchedulers.Dispatcher,
                 this.ObservePropertyChanged(x => x.SearchText),
                 this.ObservePropertyChanged(x => x.SelectedTags));
-            PeopleRaw = _peopleRaw.AsDispatchingView();
+            this.PeopleRaw = this.peopleRaw.AsDispatchingView();
             this.ObservePropertyChanged(x => x.SearchText)
-                .Subscribe(_ => HasSearchText = !string.IsNullOrEmpty(SearchText));
-            AddOneOnOtherThread = new AsyncCommand(() => Task.Run(() => AddOne()));
+                .Subscribe(_ => this.HasSearchText = !string.IsNullOrEmpty(this.SearchText));
+            this.AddOneOnOtherThread = new AsyncCommand(() => Task.Run(() => this.AddOne()));
         }
 
         public AsyncCommand AddOneOnOtherThread { get; }
@@ -57,33 +56,33 @@
 
         public string SearchText
         {
-            get { return _searchText; }
+            get { return this.searchText; }
 
             set
             {
-                if (value == _searchText)
+                if (value == this.searchText)
                 {
                     return;
                 }
 
-                _searchText = value;
-                OnPropertyChanged();
+                this.searchText = value;
+                this.OnPropertyChanged();
             }
         }
 
         public bool HasSearchText
         {
-            get { return _hasSearchText; }
+            get { return this.hasSearchText; }
 
             private set
             {
-                if (value == _hasSearchText)
+                if (value == this.hasSearchText)
                 {
                     return;
                 }
 
-                _hasSearchText = value;
-                OnPropertyChanged();
+                this.hasSearchText = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -93,13 +92,13 @@
 
         public IEnumerable<int> SelectedTags
         {
-            get { return _selectedTags; }
+            get { return this.selectedTags; }
 
             set
             {
-                if (Equals(value, _selectedTags)) return;
-                _selectedTags = value ?? Enumerable.Empty<int>();
-                OnPropertyChanged();
+                if (Equals(value, this.selectedTags)) return;
+                this.selectedTags = value ?? Enumerable.Empty<int>();
+                this.OnPropertyChanged();
             }
         }
 
@@ -109,44 +108,44 @@
 
         public int NumberOfItems
         {
-            get { return _numberOfItems; }
+            get { return this.numberOfItems; }
 
             set
             {
-                if (value == _numberOfItems)
+                if (value == this.numberOfItems)
                 {
                     return;
                 }
 
-                _numberOfItems = value;
-                OnPropertyChanged();
+                this.numberOfItems = value;
+                this.OnPropertyChanged();
             }
         }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private bool Filter(Person person)
         {
-            return IsTextMatch(person) && IsTagMatch(person);
+            return this.IsTextMatch(person) && this.IsTagMatch(person);
         }
 
         private bool IsTextMatch(Person person)
         {
-            if (string.IsNullOrEmpty(SearchText))
+            if (string.IsNullOrEmpty(this.SearchText))
             {
                 return true;
             }
 
-            if (IsMatch(person.FirstName, SearchText))
+            if (IsMatch(person.FirstName, this.SearchText))
             {
                 return true;
             }
 
-            if (IsMatch(person.LastName, SearchText))
+            if (IsMatch(person.LastName, this.SearchText))
             {
                 return true;
             }
@@ -156,7 +155,7 @@
 
         private bool IsTagMatch(Person person)
         {
-            if (!_selectedTags.Any())
+            if (!this.selectedTags.Any())
             {
                 return true;
             }
@@ -166,13 +165,13 @@
                 return true;
             }
 
-            return _selectedTags.Intersect(person.TagsValues).Any();
+            return this.selectedTags.Intersect(person.TagsValues).Any();
         }
 
         private IReadOnlyList<int> CreateTags()
         {
-            var tags = Enumerable.Repeat(0, _random.Next(0, 3))
-                                 .Select(_ => _random.Next(0, 10))
+            var tags = Enumerable.Repeat(0, this.random.Next(0, 3))
+                                 .Select(_ => this.random.Next(0, 10))
                                  .Distinct()
                                  .ToArray();
             return tags;
@@ -196,21 +195,21 @@
 
         private void UpdateRawCollection()
         {
-            _peopleRaw.Clear();
-            for (int i = 0; i < NumberOfItems; i++)
+            this.peopleRaw.Clear();
+            for (int i = 0; i < this.NumberOfItems; i++)
             {
-                AddOne();
+                this.AddOne();
             }
         }
 
         private void AddOne()
         {
-            _peopleRaw.Add(
+            this.peopleRaw.Add(
                 new Person
                 {
-                    FirstName = FirstNames[_peopleRaw.Count % FirstNames.Count],
-                    LastName = LastNames[_peopleRaw.Count % LastNames.Count],
-                    TagsValues = CreateTags()
+                    FirstName = FirstNames[this.peopleRaw.Count % FirstNames.Count],
+                    LastName = LastNames[this.peopleRaw.Count % LastNames.Count],
+                    TagsValues = this.CreateTags()
                 });
         }
     }

@@ -49,7 +49,7 @@ namespace Gu.Reactive.Internals
             {
                 observable = new CollectionItemsObservable<TCollection, TItem, TProperty>((TCollection)this.collectionRef.Target, this.signalInitial, this.propertyPath);
             }
-            else if(this.sourceObservable != null)
+            else if (this.sourceObservable != null)
             {
                 observable = new CollectionItemsObservable<TCollection, TItem, TProperty>(this.sourceObservable, this.signalInitial, this.propertyPath);
             }

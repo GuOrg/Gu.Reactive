@@ -20,7 +20,7 @@
         [Benchmark(Baseline = true)]
         public IDisposable ResetTimer()
         {
-            using (var timer = new System.Threading.Timer(CallBack, null, TimeSpan.FromSeconds(1), TimeSpan.Zero))
+            using (var timer = new System.Threading.Timer(this.CallBack, null, TimeSpan.FromSeconds(1), TimeSpan.Zero))
             {
                 return timer;
             }
@@ -29,7 +29,7 @@
         [Benchmark]
         public IDisposable ChangeTimer()
         {
-            using (var timer = new System.Threading.Timer(CallBack, null, TimeSpan.FromSeconds(1), TimeSpan.Zero))
+            using (var timer = new System.Threading.Timer(this.CallBack, null, TimeSpan.FromSeconds(1), TimeSpan.Zero))
             {
                 timer.Change(TimeSpan.FromSeconds(2), TimeSpan.Zero);
                 return timer;

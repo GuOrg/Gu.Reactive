@@ -9,7 +9,7 @@
 
     using NUnit.Framework;
 
-    public class MinTracker_NestedTests
+    public class MinTrackerNestedTests
     {
         [TestCase(true)]
         [TestCase(false)]
@@ -56,7 +56,8 @@
             Assert.AreEqual(4, tracker.Value);
         }
 
-        [TestCase(true), Explicit("Rewrite to use scheduler")]
+        [TestCase(true)]
+        [Explicit("Rewrite to use scheduler")]
         [TestCase(false)]
         public void ReactsAndNotifiesOnItemChanges(bool trackItemChanges)
         {
@@ -81,30 +82,30 @@
 
         public class Dummy : INotifyPropertyChanged
         {
-            private int _value;
+            private int value;
 
             public Dummy(int value)
             {
-                _value = value;
+                this.value = value;
             }
 
             public event PropertyChangedEventHandler PropertyChanged;
 
             public int Value
             {
-                get { return _value; }
+                get { return this.value; }
 
                 set
                 {
-                    _value = value;
-                    OnPropertyChanged();
+                    this.value = value;
+                    this.OnPropertyChanged();
                 }
             }
 
             [NotifyPropertyChangedInvocator]
             protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }

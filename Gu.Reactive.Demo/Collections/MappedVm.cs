@@ -9,50 +9,50 @@ namespace Gu.Reactive.Demo
     [DebuggerDisplay("{GetType().Name} Value: {Value} Index: {Index}")]
     public class MappedVm : INotifyPropertyChanged
     {
-        private int _value;
+        private int value;
 
-        private int? _index;
+        private int? index;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int Value
         {
-            get { return _value; }
+            get { return this.value; }
 
             set
             {
-                if (value == _value)
+                if (value == this.value)
                 {
                     return;
                 }
 
-                _value = value;
-                OnPropertyChanged();
+                this.value = value;
+                this.OnPropertyChanged();
             }
         }
 
         public int? Index
         {
-            get { return _index; }
+            get { return this.index; }
 
             set
             {
-                if (value == _index)
+                if (value == this.index)
                 {
                     return;
                 }
 
-                _index = value;
-                OnPropertyChanged();
+                this.index = value;
+                this.OnPropertyChanged();
             }
         }
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public MappedVm UpdateIndex(int i)
         {
-            Index = i;
+            this.Index = i;
             return this;
         }
     }

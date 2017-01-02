@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // Type or member is obsolete
 namespace Gu.Reactive.Benchmarks
 {
     using System;
@@ -12,7 +13,7 @@ namespace Gu.Reactive.Benchmarks
 
         public Get()
         {
-            Fake = null;
+            this.Fake = null;
         }
 
         [Benchmark(Baseline = true)]
@@ -24,7 +25,7 @@ namespace Gu.Reactive.Benchmarks
         [Benchmark]
         public string ValueOrDefault()
         {
-            return Reactive.Get.ValueOrDefault(this, x => Fake.Next.Name);
+            return Reactive.Get.ValueOrDefault(this, x => this.Fake.Next.Name);
         }
 
         [Benchmark]

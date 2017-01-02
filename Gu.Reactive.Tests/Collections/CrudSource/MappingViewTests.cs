@@ -83,8 +83,8 @@ namespace Gu.Reactive.Tests.Collections
         {
             public Model(int value, int index)
             {
-                Value = value;
-                Index = index;
+                this.Value = value;
+                this.Index = index;
             }
 
             public int Value { get; set; }
@@ -102,7 +102,7 @@ namespace Gu.Reactive.Tests.Collections
 
             public Vm UpdateIndex(int i)
             {
-                Index = i;
+                this.Index = i;
                 return this;
             }
         }
@@ -225,7 +225,7 @@ namespace Gu.Reactive.Tests.Collections
         {
             public Model(int value)
             {
-                Value = value;
+                this.Value = value;
             }
 
             public int Value { get; }

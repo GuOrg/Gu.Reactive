@@ -47,7 +47,6 @@ namespace Gu.Wpf.Reactive.Tests
             Assert.AreEqual(expected, command.CanExecute(0));
         }
 
-
         [Test]
         public async Task ExecuteNotifiesCanExecuteChanged()
         {
@@ -73,7 +72,8 @@ namespace Gu.Wpf.Reactive.Tests
             Assert.AreEqual(2, isExecutingCount);
         }
 
-        [Test, Explicit("Not sure this is possible")]
+        [Test]
+        [Explicit("Not sure this is possible")]
         public async Task ExecuteNotifiesTaskStatus()
         {
             // http://stackoverflow.com/questions/34811639/is-there-a-way-to-be-notified-when-task-status-changes-to-running

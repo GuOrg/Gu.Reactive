@@ -27,7 +27,7 @@
             queue.Enqueue(1);
             var actual = queue.SubscribeAll();
             queue.Enqueue(2);
-            CollectionAssert.AreEqual(new[] { 1,2 }, queue);
+            CollectionAssert.AreEqual(new[] { 1, 2 }, queue);
             var expected = CreateAddEventArgsCollection(2, 1);
             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }

@@ -39,14 +39,14 @@
         {
             public ThrottleSource()
             {
-                Add(new[] { 1, 10 }, new[,] { { 10, 10 + DueTime } });
-                Add(new[] { 1, 10, 40, 60 }, new[,] { { 60, 1 + MaxTime } });
-                Add(new[] { 1, 45, 1000, 1040, 1080, 1110 }, new[,] { { 45, 45 + DueTime }, { 1080, 1000 + MaxTime }, { 1110, 1110 + DueTime } });
+                this.Add(new[] { 1, 10 }, new[,] { { 10, 10 + DueTime } });
+                this.Add(new[] { 1, 10, 40, 60 }, new[,] { { 60, 1 + MaxTime } });
+                this.Add(new[] { 1, 45, 1000, 1040, 1080, 1110 }, new[,] { { 45, 45 + DueTime }, { 1080, 1000 + MaxTime }, { 1110, 1110 + DueTime } });
             }
 
             public void Add(int[] pattern, int[,] expected)
             {
-                Add(new ThrottleData(pattern, expected));
+                this.Add(new ThrottleData(pattern, expected));
             }
         }
 
@@ -60,7 +60,7 @@
 
             public ThrottleData(int[] pattern, int[,] expected)
             {
-                Pattern = pattern;
+                this.Pattern = pattern;
                 var expectedPattern = new List<int>();
                 var expectedTimes = new List<int>();
                 var expectedMessages = new List<Recorded<Notification<int>>>();
@@ -74,21 +74,21 @@
                     expectedMessages.Add(ReactiveTest.OnNext(time, value));
                 }
 
-                expectedMessages.AddRange(CompletedEvent);
-                ExpectedPattern = expectedPattern;
-                ExpectedTimes = expectedTimes;
-                ExpectedMessages = expectedMessages;
+                expectedMessages.AddRange(this.CompletedEvent);
+                this.ExpectedPattern = expectedPattern;
+                this.ExpectedTimes = expectedTimes;
+                this.ExpectedMessages = expectedMessages;
             }
 
             public override string ToString()
             {
-                var pattern = $"{String.Join(", ", Pattern)}";
+                var pattern = $"{String.Join(", ", this.Pattern)}";
                 var expected = new StringBuilder();
                 expected.Append("{");
-                for (int i = 0; i < ExpectedTimes.Count; i++)
+                for (int i = 0; i < this.ExpectedTimes.Count; i++)
                 {
-                    expected.AppendFormat(@"({0}, {1})", ExpectedPattern[i], ExpectedTimes[i]);
-                    if (i < ExpectedTimes.Count - 1)
+                    expected.AppendFormat(@"({0}, {1})", this.ExpectedPattern[i], this.ExpectedTimes[i]);
+                    if (i < this.ExpectedTimes.Count - 1)
                     {
                         expected.Append(", ");
                     }

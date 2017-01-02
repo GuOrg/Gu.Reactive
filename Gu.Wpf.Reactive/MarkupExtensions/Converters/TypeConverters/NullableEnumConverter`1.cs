@@ -11,7 +11,7 @@
 
         private static readonly Type[] ValidTypes =
         {
-            typeof (T),
+            typeof(T),
         };
 
         public bool IsValid(object value)

@@ -46,7 +46,7 @@
             var expected = source.SubscribeAll();
             var actual = this.SubscribeAll();
             source.Add(1);
-            synchronizer.Refresh(this, source, null, null, PropertyChanged, CollectionChanged);
+            synchronizer.Refresh(this, source, null, null, this.PropertyChanged, this.CollectionChanged);
             CollectionAssert.AreEqual(source, synchronizer.Current);
             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
@@ -60,7 +60,7 @@
             var actual = this.SubscribeAll();
             source.Add(1);
             var scheduler = new TestScheduler();
-            synchronizer.Refresh(this, source, null, scheduler, PropertyChanged, CollectionChanged);
+            synchronizer.Refresh(this, source, null, scheduler, this.PropertyChanged, this.CollectionChanged);
             CollectionAssert.AreEqual(source, synchronizer.Current);
             CollectionAssert.IsEmpty(actual.OfType<NotifyCollectionChangedEventArgs>());
             scheduler.Start();

@@ -21,7 +21,7 @@
         private readonly IEnumerable<TSource> source;
         private readonly CompositeDisposable updateSubscription = new CompositeDisposable();
         private readonly IMappingFactory<TSource, TResult> factory;
-        private readonly List<TResult> mapped =new List<TResult>();
+        private readonly List<TResult> mapped = new List<TResult>();
 
         public MappingView(ObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, selector, triggers)
@@ -93,7 +93,7 @@
         {
         }
 
-        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, IMappingFactory<TSource,TResult> factory , params IObservable<object>[] triggers)
+        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, IMappingFactory<TSource, TResult> factory, params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(source as INotifyCollectionChanged, "source");
@@ -243,7 +243,7 @@
                             this.UpdateIndex(singleChange.OldStartingIndex);
                             this.UpdateIndex(singleChange.NewStartingIndex);
                             var change = Diff.CreateMoveEventArgs(this.mapped[singleChange.NewStartingIndex], singleChange.NewStartingIndex, singleChange.OldStartingIndex);
-                            base.Refresh(new[] { change});
+                            base.Refresh(new[] { change });
                             break;
                         }
 

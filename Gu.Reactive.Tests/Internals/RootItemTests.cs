@@ -10,12 +10,12 @@
 
     public class RootItemTests
     {
-        private List<EventPattern<PropertyChangedEventArgs>> _changes;
+        private List<EventPattern<PropertyChangedEventArgs>> changes;
 
         [SetUp]
         public void SetUp()
         {
-            _changes = new List<EventPattern<PropertyChangedEventArgs>>();
+            this.changes = new List<EventPattern<PropertyChangedEventArgs>>();
         }
 
         [Test]
@@ -23,10 +23,10 @@
         {
             var item = new RootItem(null);
             item.ObservePropertyChanged(x => x.Value, false)
-                .Subscribe(_changes.Add);
-            Assert.AreEqual(0, _changes.Count);
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             item.Value = new object();
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this.changes.Count);
         }
 
         [Test]

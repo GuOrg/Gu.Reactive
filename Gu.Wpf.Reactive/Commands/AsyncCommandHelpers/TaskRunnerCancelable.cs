@@ -32,7 +32,7 @@ namespace Gu.Wpf.Reactive
         {
             get
             {
-                if (this.CanRun()== true)
+                if (this.CanRun() == true)
                 {
                     return false;
                 }

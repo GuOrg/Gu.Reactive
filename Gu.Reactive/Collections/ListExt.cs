@@ -87,7 +87,8 @@
             return (source as ICollection)?.SyncRoot ?? @default;
         }
 
-        internal static object SyncRoot<T>(this T source) where T : ICollection
+        internal static object SyncRoot<T>(this T source)
+            where T : ICollection
         {
             return source.SyncRoot;
         }

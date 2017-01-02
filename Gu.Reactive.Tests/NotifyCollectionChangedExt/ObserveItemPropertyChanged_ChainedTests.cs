@@ -14,12 +14,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
     [TestFixture]
     public class ObserveItemPropertyChanged_ChainedTests
     {
-        private List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> _changes;
+        private List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> changes;
 
         [SetUp]
         public void SetUp()
         {
-            _changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+            this.changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
         }
 
         [Test]
@@ -28,12 +28,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var fake = new FakeWithCollection();
             fake.ObservePropertyChangedWithValue(x => x.Collection)
                 .ItemPropertyChanged(x => x.Name)
-                .Subscribe(_changes.Add);
-            CollectionAssert.IsEmpty(_changes);
+                .Subscribe(this.changes.Add);
+            CollectionAssert.IsEmpty(this.changes);
             var collection = new ObservableCollection<Fake> { new Fake { Name = "Johan" } };
             fake.Collection = collection;
-            Assert.AreEqual(1, _changes.Count);
-            AssertRx.AreEqual(collection[0], "Name", collection[0], "Johan", _changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(collection[0], "Name", collection[0], "Johan", this.changes.Last());
         }
 
         [Test]
@@ -43,9 +43,9 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var fake = new FakeWithCollection { Collection = collection };
             fake.ObservePropertyChangedWithValue(x => x.Collection, true)
                 .ItemPropertyChanged(x => x.Name)
-                            .Subscribe(_changes.Add);
-            Assert.AreEqual(1, _changes.Count);
-            AssertRx.AreEqual(collection[0], "Name", collection[0], "Johan", _changes.Last());
+                            .Subscribe(this.changes.Add);
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(collection[0], "Name", collection[0], "Johan", this.changes.Last());
         }
 
         [Test]
@@ -55,9 +55,9 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var fake = new FakeWithCollection { Collection = collection };
             fake.ObservePropertyChangedWithValue(x => x.Collection, true)
                 .ItemPropertyChanged(x => x.Next.Name)
-                .Subscribe(_changes.Add);
-            Assert.AreEqual(1, _changes.Count);
-            AssertRx.AreEqual(collection[0].Next, "Name", collection[0], "Johan", _changes.Last());
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(collection[0].Next, "Name", collection[0], "Johan", this.changes.Last());
         }
 
         [Test]
@@ -67,19 +67,19 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var fake = new FakeWithCollection { Collection = collection1 };
             fake.ObservePropertyChangedWithValue(x => x.Collection, true)
                 .ItemPropertyChanged(x => x.Name)
-                .Subscribe(_changes.Add);
-            Assert.AreEqual(1, _changes.Count);
-            AssertRx.AreEqual(collection1[0], "Name", collection1[0], "Johan", _changes.Last());
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(collection1[0], "Name", collection1[0], "Johan", this.changes.Last());
 
             fake.Collection = null;
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this.changes.Count);
             collection1[0].Name = "new";
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this.changes.Count);
 
             var collection2 = new ObservableCollection<Fake> { new Fake { Name = "Kurt" } };
             fake.Collection = collection2;
-            Assert.AreEqual(2, _changes.Count);
-            AssertRx.AreEqual(collection2[0], "Name", collection2[0], "Kurt", _changes.Last());
+            Assert.AreEqual(2, this.changes.Count);
+            AssertRx.AreEqual(collection2[0], "Name", collection2[0], "Kurt", this.changes.Last());
         }
     }
 }

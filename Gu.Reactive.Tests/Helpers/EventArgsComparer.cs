@@ -23,10 +23,10 @@
             var collectionChangedEventArgs = x as NotifyCollectionChangedEventArgs;
             if (collectionChangedEventArgs != null)
             {
-                return Compare(collectionChangedEventArgs, y);
+                return this.Compare(collectionChangedEventArgs, y);
             }
 
-            return Compare((PropertyChangedEventArgs)x, y);
+            return this.Compare((PropertyChangedEventArgs)x, y);
         }
 
         public int Compare(NotifyCollectionChangedEventArgs x, object y)

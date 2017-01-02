@@ -8,9 +8,9 @@
 
     public class NinjaBindingViewModel : INotifyPropertyChanged
     {
-        private bool _visible = true;
+        private bool visible = true;
 
-        private Visibility _visibility;
+        private Visibility visibility;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -18,19 +18,19 @@
         {
             get
             {
-                return _visible;
+                return this.visible;
             }
 
             set
             {
-                if (value.Equals(_visible))
+                if (value.Equals(this.visible))
                 {
                     return;
                 }
 
-                _visible = value;
-                OnPropertyChanged();
-                Visibility = _visible ? Visibility.Visible : Visibility.Collapsed;
+                this.visible = value;
+                this.OnPropertyChanged();
+                this.Visibility = this.visible ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -38,22 +38,22 @@
         {
             get
             {
-                return _visibility;
+                return this.visibility;
             }
 
             set
             {
-                if (value == _visibility)
+                if (value == this.visibility)
                 {
                     return;
                 }
 
-                _visibility = value;
-                OnPropertyChanged();
+                this.visibility = value;
+                this.OnPropertyChanged();
             }
         }
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

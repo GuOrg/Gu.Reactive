@@ -13,7 +13,7 @@
             Func<T, bool> filter,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, null, triggers);
         }
 
@@ -23,7 +23,7 @@
             TimeSpan bufferTime,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, null, triggers);
         }
@@ -34,7 +34,7 @@
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
@@ -47,7 +47,7 @@
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, scheduler, triggers);
@@ -58,7 +58,7 @@
             Func<T, bool> filter,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, null, triggers);
         }
 
@@ -68,7 +68,7 @@
             TimeSpan bufferTime,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, null, triggers);
         }
@@ -79,7 +79,7 @@
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
@@ -92,7 +92,7 @@
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, scheduler, triggers);
@@ -103,7 +103,7 @@
             Func<T, bool> filter,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, null, triggers);
         }
 
@@ -113,7 +113,7 @@
             TimeSpan bufferTime,
             params IObservable<object>[] triggers)
         {
-			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, null, triggers);
         }
@@ -124,7 +124,7 @@
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
@@ -137,7 +137,7 @@
             IScheduler scheduler,
             params IObservable<object>[] triggers)
         {
-		    Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, scheduler, triggers);
@@ -148,9 +148,9 @@
             Func<T, bool> filter,
             IEnumerable<IObservable<object>> triggers)
         {
-			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
-			Ensure.NotNull(triggers, nameof(triggers));
+            Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, null, triggers);
         }
 
@@ -160,9 +160,9 @@
             TimeSpan bufferTime,
             IEnumerable<IObservable<object>> triggers)
         {
-			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
-			Ensure.NotNull(triggers, nameof(triggers));
+            Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, null, triggers);
         }
 
@@ -175,10 +175,10 @@
 		    Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
-			Ensure.NotNull(triggers, nameof(triggers));
+            Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, triggers);
         }
-
+       
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IEnumerable<T> collection,
             Func<T, bool> filter,
@@ -189,18 +189,17 @@
 		    Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
-			Ensure.NotNull(triggers, nameof(triggers));
+            Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, scheduler, triggers);
         }
-
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IEnumerable<T> collection,
             Func<T, bool> filter,
             IObservable<object> trigger)
         {
-			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
-			Ensure.NotNull(trigger, nameof(trigger));
+            Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, null, trigger);
         }
 
@@ -210,9 +209,9 @@
             TimeSpan bufferTime,
             IObservable<object> trigger)
         {
-			Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
-			Ensure.NotNull(trigger, nameof(trigger));
+            Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, null, trigger);
         }
 
@@ -225,10 +224,10 @@
 		    Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
-			Ensure.NotNull(trigger, nameof(trigger));
+            Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(collection, filter, TimeSpan.Zero, scheduler, trigger);
         }
-
+       
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IEnumerable<T> collection,
             Func<T, bool> filter,
@@ -239,7 +238,7 @@
 		    Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
             Ensure.NotNull(scheduler, nameof(scheduler));
-			Ensure.NotNull(trigger, nameof(trigger));
+            Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(collection, filter, bufferTime, scheduler, trigger);
         }
     }

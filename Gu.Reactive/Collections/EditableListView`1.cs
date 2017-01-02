@@ -130,7 +130,8 @@ namespace Gu.Reactive
             return result;
         }
 
-        private IDisposable Subscribe<TCol>(TCol col) where TCol : INotifyCollectionChanged, INotifyPropertyChanged
+        private IDisposable Subscribe<TCol>(TCol col)
+            where TCol : INotifyCollectionChanged, INotifyPropertyChanged
         {
             var subscriptions = new CompositeDisposable(2) { col.ObservePropertyChangedSlim()
                                                                 .Subscribe(this.OnPropertyChanged),

@@ -8,11 +8,11 @@ namespace Gu.Reactive.Demo
     public class ConditionState : INotifyPropertyChanged
     {
         public static readonly ConditionState Instance = new ConditionState();
-        private bool _isLeftDoorOpen;
-        private bool _isRightDoorOpen;
-        private bool _isBackDoorOpen;
-        private bool _isMotorRunning;
-        private double _fuelLevel = 6;
+        private bool isLeftDoorOpen;
+        private bool isRightDoorOpen;
+        private bool isBackDoorOpen;
+        private bool isMotorRunning;
+        private double fuelLevel = 6;
 
         private ConditionState()
         {
@@ -24,50 +24,50 @@ namespace Gu.Reactive.Demo
         {
             get
             {
-                return _isLeftDoorOpen;
+                return this.isLeftDoorOpen;
             }
 
             set
             {
-                if (value.Equals(_isLeftDoorOpen))
+                if (value.Equals(this.isLeftDoorOpen))
                 {
                     return;
                 }
 
-                _isLeftDoorOpen = value;
-                OnPropertyChanged();
+                this.isLeftDoorOpen = value;
+                this.OnPropertyChanged();
             }
         }
 
         public bool IsRightDoorOpen
         {
-            get { return _isRightDoorOpen; }
+            get { return this.isRightDoorOpen; }
 
             set
             {
-                if (value == _isRightDoorOpen)
+                if (value == this.isRightDoorOpen)
                 {
                     return;
                 }
 
-                _isRightDoorOpen = value;
-                OnPropertyChanged();
+                this.isRightDoorOpen = value;
+                this.OnPropertyChanged();
             }
         }
 
         public bool IsBackDoorOpen
         {
-            get { return _isBackDoorOpen; }
+            get { return this.isBackDoorOpen; }
 
             set
             {
-                if (value == _isBackDoorOpen)
+                if (value == this.isBackDoorOpen)
                 {
                     return;
                 }
 
-                _isBackDoorOpen = value;
-                OnPropertyChanged();
+                this.isBackDoorOpen = value;
+                this.OnPropertyChanged();
             }
         }
 
@@ -75,41 +75,41 @@ namespace Gu.Reactive.Demo
         {
             get
             {
-                return _isMotorRunning;
+                return this.isMotorRunning;
             }
 
             set
             {
-                if (value.Equals(_isMotorRunning))
+                if (value.Equals(this.isMotorRunning))
                 {
                     return;
                 }
 
-                _isMotorRunning = value;
-                OnPropertyChanged();
+                this.isMotorRunning = value;
+                this.OnPropertyChanged();
             }
         }
 
         public double FuelLevel
         {
-            get { return _fuelLevel; }
+            get { return this.fuelLevel; }
 
             set
             {
-                if (value.Equals(_fuelLevel))
+                if (value.Equals(this.fuelLevel))
                 {
                     return;
                 }
 
-                _fuelLevel = value;
-                OnPropertyChanged();
+                this.fuelLevel = value;
+                this.OnPropertyChanged();
             }
         }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

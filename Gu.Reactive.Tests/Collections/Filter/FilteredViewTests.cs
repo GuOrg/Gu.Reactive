@@ -23,7 +23,7 @@
             var ints = new List<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
             var view = ints.AsFilteredView(x => true, scheduler, new Subject<object>());
-            var changes = SubscribeAll(view);
+            var changes = this.SubscribeAll(view);
             view.Filter = x => x < 2;
             view.Refresh();
             scheduler.Start();

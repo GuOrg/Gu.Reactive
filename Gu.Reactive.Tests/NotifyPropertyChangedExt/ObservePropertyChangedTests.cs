@@ -12,12 +12,12 @@
 
     public class ObservePropertyChangedTests
     {
-        private List<EventPattern<PropertyChangedEventArgs>> _changes;
+        private List<EventPattern<PropertyChangedEventArgs>> changes;
 
         [SetUp]
         public void SetUp()
         {
-            _changes = new List<EventPattern<PropertyChangedEventArgs>>();
+            this.changes = new List<EventPattern<PropertyChangedEventArgs>>();
         }
 
         [Test]
@@ -25,8 +25,8 @@
         {
             var fake = new Fake { Value = 1 };
             var observable = fake.ObservePropertyChanged();
-            var disposable = observable.Subscribe(_changes.Add);
-            Assert.AreEqual(0, _changes.Count);
+            var disposable = observable.Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
         }
 
         [TestCase("")]
@@ -36,10 +36,10 @@
         {
             var fake = new Fake { Value = 1 };
             fake.ObservePropertyChanged()
-                .Subscribe(_changes.Add);
-            Assert.AreEqual(0, _changes.Count);
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this.changes.Count);
         }
 
         [Test]
@@ -47,11 +47,11 @@
         {
             var fake = new Fake { Value = 1 };
             fake.ObservePropertyChanged()
-                .Subscribe(_changes.Add);
-            Assert.AreEqual(0, _changes.Count);
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             fake.OnPropertyChanged("SomeProp");
-            Assert.AreEqual(1, _changes.Count);
-            AssertRx.AreEqual(fake, "SomeProp", _changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(fake, "SomeProp", this.changes.Last());
         }
 
         [Test]
@@ -59,11 +59,11 @@
         {
             var fake = new DerivedFake { Value = 1 };
             fake.ObservePropertyChanged()
-                .Subscribe(_changes.Add);
-            Assert.AreEqual(0, _changes.Count);
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             fake.OnPropertyChanged("SomeProp");
-            Assert.AreEqual(1, _changes.Count);
-            AssertRx.AreEqual(fake, "SomeProp", _changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(fake, "SomeProp", this.changes.Last());
         }
 
         [Test]
@@ -71,11 +71,11 @@
         {
             var fake = new Fake { Value = 1 };
             fake.ObservePropertyChanged()
-                .Subscribe(_changes.Add);
-            Assert.AreEqual(0, _changes.Count);
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
             fake.Value++;
-            Assert.AreEqual(1, _changes.Count);
-            AssertRx.AreEqual(fake, "Value", _changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(fake, "Value", this.changes.Last());
         }
 
         [Test]
@@ -83,19 +83,19 @@
         {
             var fake1 = new Fake { Value = 1 };
             fake1.ObservePropertyChanged()
-                .Subscribe(_changes.Add);
+                .Subscribe(this.changes.Add);
             var fake2 = new Fake { Value = 1 };
             fake2.ObservePropertyChanged()
-                .Subscribe(_changes.Add);
-            Assert.AreEqual(0, _changes.Count);
+                .Subscribe(this.changes.Add);
+            Assert.AreEqual(0, this.changes.Count);
 
             fake1.Value++;
-            Assert.AreEqual(1, _changes.Count);
-            AssertRx.AreEqual(fake1, "Value", _changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(fake1, "Value", this.changes.Last());
 
             fake2.Value++;
-            Assert.AreEqual(2, _changes.Count);
-            AssertRx.AreEqual(fake2, "Value", _changes.Last());
+            Assert.AreEqual(2, this.changes.Count);
+            AssertRx.AreEqual(fake2, "Value", this.changes.Last());
         }
 
         [Test]
@@ -103,17 +103,17 @@
         {
             var fake = new Fake { IsTrueOrNull = null };
             var observable = fake.ObservePropertyChanged();
-            var disposable = observable.Subscribe(_changes.Add);
+            var disposable = observable.Subscribe(this.changes.Add);
 
-            Assert.AreEqual(0, _changes.Count);
+            Assert.AreEqual(0, this.changes.Count);
 
             fake.IsTrueOrNull = true;
-            Assert.AreEqual(1, _changes.Count);
-            AssertRx.AreEqual(fake, "IsTrueOrNull", _changes.Last());
+            Assert.AreEqual(1, this.changes.Count);
+            AssertRx.AreEqual(fake, "IsTrueOrNull", this.changes.Last());
 
             fake.IsTrueOrNull = null;
-            Assert.AreEqual(2, _changes.Count);
-            AssertRx.AreEqual(fake, "IsTrueOrNull", _changes.Last());
+            Assert.AreEqual(2, this.changes.Count);
+            AssertRx.AreEqual(fake, "IsTrueOrNull", this.changes.Last());
         }
 
         [Test]
@@ -121,14 +121,14 @@
         {
             var fake = new Fake { IsTrue = true };
             var observable = fake.ObservePropertyChanged();
-            var disposable = observable.Subscribe(_changes.Add);
+            var disposable = observable.Subscribe(this.changes.Add);
             fake.IsTrue = !fake.IsTrue;
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this.changes.Count);
 
             disposable.Dispose();
             fake.IsTrue = !fake.IsTrue;
 
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this.changes.Count);
         }
 
         [Test]

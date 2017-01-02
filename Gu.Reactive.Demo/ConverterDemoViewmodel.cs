@@ -7,96 +7,96 @@
 
     public class ConverterDemoViewmodel : INotifyPropertyChanged
     {
-        private double _doubleValue = 10;
-        private int _intValue = 10;
-        private bool? _isVisible;
-        private StringComparison _stringComparison;
+        private double doubleValue = 10;
+        private int intValue = 10;
+        private bool? isVisible;
+        private StringComparison stringComparison;
 
-        private double _factor;
+        private double factor;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public bool? IsVisible
         {
-            get { return _isVisible; }
+            get { return this.isVisible; }
 
             set
             {
-                if (Equals(value, _isVisible))
+                if (Equals(value, this.isVisible))
                 {
                     return;
                 }
 
-                _isVisible = value;
-                OnPropertyChanged();
+                this.isVisible = value;
+                this.OnPropertyChanged();
             }
         }
 
         public double DoubleValue
         {
-            get { return _doubleValue; }
+            get { return this.doubleValue; }
 
             set
             {
-                if (value == _doubleValue)
+                if (value == this.doubleValue)
                 {
                     return;
                 }
 
-                _doubleValue = value;
-                OnPropertyChanged();
+                this.doubleValue = value;
+                this.OnPropertyChanged();
             }
         }
 
         public double Factor
         {
-            get { return _factor; }
+            get { return this.factor; }
 
             set
             {
-                if (value.Equals(_factor))
+                if (value.Equals(this.factor))
                 {
                     return;
                 }
 
-                _factor = value;
-                OnPropertyChanged();
+                this.factor = value;
+                this.OnPropertyChanged();
             }
         }
 
         public int IntValue
         {
-            get { return _intValue; }
+            get { return this.intValue; }
 
             set
             {
-                if (value == _intValue)
+                if (value == this.intValue)
                 {
                     return;
                 }
 
-                _intValue = value;
-                OnPropertyChanged();
+                this.intValue = value;
+                this.OnPropertyChanged();
             }
         }
 
         public StringComparison StringComparison
         {
-            get { return _stringComparison; }
+            get { return this.stringComparison; }
 
             set
             {
-                if (value == _stringComparison)
+                if (value == this.stringComparison)
                 {
                     return;
                 }
 
-                _stringComparison = value;
-                OnPropertyChanged();
+                this.stringComparison = value;
+                this.OnPropertyChanged();
             }
         }
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

@@ -15,10 +15,10 @@ namespace Gu.Reactive.Tests.Collections
         public override void SetUp()
         {
             base.SetUp();
-            _scheduler = new TestScheduler();
-            _view = new ReadOnlyFilteredView<int>(_ints, x => true, TimeSpan.FromMilliseconds(10), _scheduler);
-            _scheduler.Start();
-            _actual = _view.SubscribeAll();
+            this.Scheduler = new TestScheduler();
+            this.View = new ReadOnlyFilteredView<int>(this.Ints, x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
+            this.Scheduler.Start();
+            this.Actual = this.View.SubscribeAll();
         }
 
         [Test]

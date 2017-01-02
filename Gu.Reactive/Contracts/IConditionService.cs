@@ -10,6 +10,7 @@
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        ICondition Get<T>() where T : ICondition;
+        ICondition Get<T>()
+            where T : ICondition;
     }
 }

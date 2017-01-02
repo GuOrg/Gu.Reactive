@@ -22,7 +22,6 @@
             Assert.AreEqual(1, count);
         }
 
-
         [TestCase(true)]
         [TestCase(false)]
         public void CanExecuteCondition(bool expected)

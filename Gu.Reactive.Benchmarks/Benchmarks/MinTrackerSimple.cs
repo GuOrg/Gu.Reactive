@@ -7,29 +7,29 @@ namespace Gu.Reactive.Benchmarks
 
     public class MinTrackerSimple
     {
-        private ObservableCollection<int> _ints;
-        private MinTracker<int> _tracker;
+        private ObservableCollection<int> ints;
+        private MinTracker<int> tracker;
 
         [Setup]
         public void SetupData()
         {
-            _ints = new ObservableCollection<int>(Enumerable.Range(-5, 10));
-            _tracker?.Dispose();
-            _tracker = _ints.TrackMin(-1);
+            this.ints = new ObservableCollection<int>(Enumerable.Range(-5, 10));
+            this.tracker?.Dispose();
+            this.tracker = this.ints.TrackMin(-1);
         }
 
         [Benchmark(Baseline = true)]
         public int? Linq()
         {
-            _ints.Add(5);
-            return _ints.Min(x => x);
+            this.ints.Add(5);
+            return this.ints.Min(x => x);
         }
 
         [Benchmark]
         public int? Tracker()
         {
-            _ints.Add( 5);
-            return _tracker.Value;
+            this.ints.Add(5);
+            return this.tracker.Value;
         }
     }
 }

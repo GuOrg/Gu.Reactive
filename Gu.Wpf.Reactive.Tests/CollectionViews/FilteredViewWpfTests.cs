@@ -27,7 +27,8 @@ namespace Gu.Wpf.Reactive.Tests.CollectionViews
             Assert.AreNotSame(colView1, colView2);
         }
 
-        [Test, Explicit("Not sure this is relevant any more")]
+        [Test]
+        [Explicit("Not sure this is relevant any more")]
         public void IsDefaultView()
         {
             Assert.Inconclusive("Not sure this is relevant any more");

@@ -6,8 +6,8 @@
     {
         public NamedFilter(string name, Predicate<object> filter)
         {
-            Name = name;
-            Filter = filter;
+            this.Name = name;
+            this.Filter = filter;
         }
 
         public string Name { get; private set; }

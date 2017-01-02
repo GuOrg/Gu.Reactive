@@ -11,7 +11,7 @@
         public static TValue ValueOrDefault<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,
-            TValue @default = default (TValue))
+            TValue @default = default(TValue))
         {
             var valuePath = PropertyPath.Create(path);
             var maybe = valuePath.GetValue(source);
@@ -24,7 +24,7 @@
         }
 
         [Obsolete("Use C#6 ?.")]
-        public static TValue ValueOrDefault<TValue>(Expression<Func<TValue>> path, TValue @default = default (TValue))
+        public static TValue ValueOrDefault<TValue>(Expression<Func<TValue>> path, TValue @default = default(TValue))
         {
             var valuePath = PropertyPath.Create(path);
             if (valuePath.HasValue)

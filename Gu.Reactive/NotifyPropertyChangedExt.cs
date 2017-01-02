@@ -38,7 +38,8 @@
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
-            bool signalInitial = true) where TNotifier : INotifyPropertyChanged
+            bool signalInitial = true)
+            where TNotifier : INotifyPropertyChanged
         {
             var me = (MemberExpression)property.Body;
             var pe = me.Expression as ParameterExpression;

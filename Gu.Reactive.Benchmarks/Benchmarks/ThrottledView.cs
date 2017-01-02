@@ -6,13 +6,13 @@
 
     public class ThrottledView
     {
-        private readonly ObservableCollection<int> _reference = new ObservableCollection<int>();
-        private readonly ObservableCollection<int> _ints = new ObservableCollection<int>();
-        private readonly ThrottledView<int> _view;
+        private readonly ObservableCollection<int> reference = new ObservableCollection<int>();
+        private readonly ObservableCollection<int> ints = new ObservableCollection<int>();
+        private readonly ThrottledView<int> view;
 
         public ThrottledView()
         {
-            _view = _ints.AsThrottledView(TimeSpan.FromMilliseconds(10));
+            this.view = this.ints.AsThrottledView(TimeSpan.FromMilliseconds(10));
         }
 
         [Params(1000)]
@@ -21,34 +21,34 @@
         [Setup]
         public void SetupData()
         {
-            _reference.Clear();
-            _ints.Clear();
+            this.reference.Clear();
+            this.ints.Clear();
         }
 
         [Benchmark(Baseline = true)]
         public void AddToReference()
         {
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < this.N; i++)
             {
-                _reference.Add(i);
+                this.reference.Add(i);
             }
         }
 
         [Benchmark]
         public void AddToSource()
         {
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < this.N; i++)
             {
-                _ints.Add(i);
+                this.ints.Add(i);
             }
         }
 
         [Benchmark]
         public void AddToView()
         {
-            for (int i = 0; i < N; i++)
+            for (int i = 0; i < this.N; i++)
             {
-                _view.Add(i);
+                this.view.Add(i);
             }
         }
     }

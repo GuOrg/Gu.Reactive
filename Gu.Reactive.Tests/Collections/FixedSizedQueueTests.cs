@@ -8,25 +8,25 @@
     public class FixedSizedQueueTests
     {
         private const int Size = 2;
-        private FixedSizedQueue<int> _queue;
+        private FixedSizedQueue<int> queue;
 
         [SetUp]
         public void SetUp()
         {
-            _queue = new FixedSizedQueue<int>(Size);
+            this.queue = new FixedSizedQueue<int>(Size);
         }
 
         [Test]
         public void EnqueueTrims()
         {
-            _queue.Enqueue(0);
-            CollectionAssert.AreEqual(new[] { 0 }, _queue);
+            this.queue.Enqueue(0);
+            CollectionAssert.AreEqual(new[] { 0 }, this.queue);
 
-            _queue.Enqueue(1);
-            CollectionAssert.AreEqual(new[] { 0, 1 }, _queue);
+            this.queue.Enqueue(1);
+            CollectionAssert.AreEqual(new[] { 0, 1 }, this.queue);
 
-            _queue.Enqueue(2);
-            CollectionAssert.AreEqual(new[] { 1, 2 }, _queue);
+            this.queue.Enqueue(2);
+            CollectionAssert.AreEqual(new[] { 1, 2 }, this.queue);
         }
 
         [Test]
@@ -34,12 +34,12 @@
         {
             var binaryFormatter = new BinaryFormatter();
             var stream = new MemoryStream();
-            _queue.Enqueue(1);
-            _queue.Enqueue(2);
-            binaryFormatter.Serialize(stream, _queue);
+            this.queue.Enqueue(1);
+            this.queue.Enqueue(2);
+            binaryFormatter.Serialize(stream, this.queue);
             stream.Position = 0;
             var roundtripped = (FixedSizedQueue<int>)binaryFormatter.Deserialize(stream);
-            Assert.AreEqual(_queue, roundtripped);
+            Assert.AreEqual(this.queue, roundtripped);
         }
     }
 }

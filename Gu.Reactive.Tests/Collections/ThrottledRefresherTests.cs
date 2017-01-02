@@ -48,7 +48,8 @@
             CollectionAssert.IsEmpty(secondResults);
         }
 
-        [Test, Explicit("Not sure what is right here")]
+        [Test]
+        [Explicit("Not sure what is right here")]
         public void Filters()
         {
             var ints = new ObservableCollection<int>();
@@ -84,22 +85,22 @@
         {
             public RefresherSource()
             {
-                Add(true, new[] { 1 }, new[] { 0, 1 });
-                Add(false, new[] { 1 }, new[] { 1 });
+                this.Add(true, new[] { 1 }, new[] { 0, 1 });
+                this.Add(false, new[] { 1 }, new[] { 1 });
 
-                Add(true, new[] { 15 }, new[] { 0 }, new[] { 15 });
-                Add(false, new[] { 15 }, new[] { 15 });
+                this.Add(true, new[] { 15 }, new[] { 0 }, new[] { 15 });
+                this.Add(false, new[] { 15 }, new[] { 15 });
 
-                Add(true, new[] { 1, 2, 3 }, new[] { 0, 1, 2, 3 });
-                Add(false, new[] { 1, 2, 3 }, new[] { 1, 2, 3 });
+                this.Add(true, new[] { 1, 2, 3 }, new[] { 0, 1, 2, 3 });
+                this.Add(false, new[] { 1, 2, 3 }, new[] { 1, 2, 3 });
 
-                Add(true, new[] { 1, 2, 3, 15, 16, 35 }, new[] { 0, 1, 2, 3 }, new[] { 15, 16 }, new[] { 35 });
-                Add(false, new[] { 1, 2, 3, 15, 16, 35 }, new[] { 1, 2, 3 }, new[] { 15, 16 }, new[] { 35 });
+                this.Add(true, new[] { 1, 2, 3, 15, 16, 35 }, new[] { 0, 1, 2, 3 }, new[] { 15, 16 }, new[] { 35 });
+                this.Add(false, new[] { 1, 2, 3, 15, 16, 35 }, new[] { 1, 2, 3 }, new[] { 15, 16 }, new[] { 35 });
             }
 
             public void Add(bool signalInitial, int[] times, params int[][] results)
             {
-                Add(new RefresherData(signalInitial, times, results));
+                this.Add(new RefresherData(signalInitial, times, results));
             }
         }
 
@@ -107,9 +108,9 @@
         {
             public RefresherData(bool signalInitial, int[] times, params int[][] results)
             {
-                SignalInitial = signalInitial;
-                Times = times;
-                Results = results;
+                this.SignalInitial = signalInitial;
+                this.Times = times;
+                this.Results = results;
             }
 
             public bool SignalInitial { get; set; }
@@ -125,9 +126,9 @@
 
             public override string ToString()
             {
-                var times = string.Join(", ", Times);
-                var results = ToString(Results);
-                return $"SignalInitial: {SignalInitial} Times: {times}, Results: {results}";
+                var times = string.Join(", ", this.Times);
+                var results = ToString(this.Results);
+                return $"SignalInitial: {this.SignalInitial} Times: {times}, Results: {results}";
             }
         }
     }

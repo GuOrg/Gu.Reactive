@@ -8,7 +8,8 @@ namespace Gu.Reactive
     using Gu.Reactive.Internals;
     using JetBrains.Annotations;
 
-    public abstract class Tracker<TValue> : ITracker<TValue?> where TValue : struct
+    public abstract class Tracker<TValue> : ITracker<TValue?>
+        where TValue : struct
     {
         protected readonly TValue? WhenEmpty;
         protected readonly IReadOnlyList<TValue> Source;

@@ -54,7 +54,7 @@ namespace Gu.Wpf.Reactive
             }
         }
 
-        public void Cancel()
+        public override void Cancel()
         {
             this.cancellationTokenSource?.Cancel();
         }

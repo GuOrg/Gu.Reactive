@@ -8,27 +8,27 @@
 
     public class FakeWithCollection : INotifyPropertyChanged
     {
-        private ObservableCollection<Fake> _collection;
+        private ObservableCollection<Fake> collection;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public ObservableCollection<Fake> Collection
         {
-            get { return _collection; }
+            get { return this.collection; }
 
             set
             {
-                if (Equals(value, _collection))
+                if (Equals(value, this.collection))
                 {
                     return;
                 }
 
-                _collection = value;
-                OnPropertyChanged();
+                this.collection = value;
+                this.OnPropertyChanged();
             }
         }
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

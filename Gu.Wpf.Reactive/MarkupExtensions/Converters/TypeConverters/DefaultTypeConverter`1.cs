@@ -19,7 +19,7 @@
         {
             if (value == null)
             {
-                if(typeof(T).IsValueType)
+                if (typeof(T).IsValueType)
                 {
                     return typeof(T).IsNullable();
                 }

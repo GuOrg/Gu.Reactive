@@ -9,8 +9,8 @@ namespace Gu.Reactive.Tests.Collections
         public override void SetUp()
         {
             base.SetUp();
-            _view = new FilteredView<int>(_ints, x => true, TimeSpan.Zero, null);
-            _actual = _view.SubscribeAll();
+            this.View = new FilteredView<int>(this.Ints, x => true, TimeSpan.Zero, null);
+            this.Actual = this.View.SubscribeAll();
         }
     }
 }

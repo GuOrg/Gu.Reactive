@@ -15,13 +15,13 @@
         [SetUp]
         public void SetUp()
         {
-            Fake = null;
+            this.Fake = null;
         }
 
         [Test]
         public void ValuePathWhenHasValue()
         {
-            Fake = new Fake { Next = new Level { Name = "Johan" } };
+            this.Fake = new Fake { Next = new Level { Name = "Johan" } };
             var path = Get.ValuePath<ValuePathTests, string>(x => x.Fake.Next.Name);
             var value = path.GetValue(this);
             Assert.IsTrue(value.HasValue);
@@ -31,7 +31,7 @@
         [Test]
         public void ValuePathWhenHasNullValue()
         {
-            Fake = new Fake { Next = new Level { Name = null } };
+            this.Fake = new Fake { Next = new Level { Name = null } };
             var path = Get.ValuePath<ValuePathTests, string>(x => x.Fake.Next.Name);
             var value = path.GetValue(this);
             Assert.IsTrue(value.HasValue);
@@ -41,12 +41,12 @@
         [Test]
         public void ValuePathWhenNullInPath()
         {
-            Fake = new Fake();
+            this.Fake = new Fake();
             var path = Get.ValuePath<ValuePathTests, string>(x => x.Fake.Next.Name);
             var value = path.GetValue(this);
             Assert.IsFalse(value.HasValue);
             // ReSharper disable once UnusedVariable
-            Assert.Throws<InvalidOperationException>(()=> { var temp = value.Value; });
+            Assert.Throws<InvalidOperationException>(() => { var temp = value.Value; });
         }
     }
 }

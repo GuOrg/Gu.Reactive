@@ -6,43 +6,42 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows.Input;
-
-    using JetBrains.Annotations;
     using Gu.Wpf.Reactive;
+    using JetBrains.Annotations;
 
     public class MappingViewViewModel : INotifyPropertyChanged
     {
-        private readonly ObservableCollection<int> _ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+        private readonly ObservableCollection<int> ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
 
-        private int _removeAt;
+        private int removeAt;
 
         public MappingViewViewModel()
         {
-            Ints = _ints.AsDispatchingView();
+            this.Ints = this.ints.AsDispatchingView();
 
-            FilteredMappedInts = _ints.AsReadOnlyFilteredView(x=>x%2==0).AsMappingView(x => new MappedVm { Value = x },  WpfSchedulers.Dispatcher);
-            MappedInts = _ints.AsMappingView(x => new MappedVm { Value = x },  WpfSchedulers.Dispatcher);
-            MappedIndexedInts = _ints.AsMappingView((x, i) => new MappedVm { Value = x, Index = i },  WpfSchedulers.Dispatcher);
+            this.FilteredMappedInts = this.ints.AsReadOnlyFilteredView(x => x % 2 == 0).AsMappingView(x => new MappedVm { Value = x },  WpfSchedulers.Dispatcher);
+            this.MappedInts = this.ints.AsMappingView(x => new MappedVm { Value = x },  WpfSchedulers.Dispatcher);
+            this.MappedIndexedInts = this.ints.AsMappingView((x, i) => new MappedVm { Value = x, Index = i },  WpfSchedulers.Dispatcher);
 
-            FilteredMappedMapped = MappedInts.AsReadOnlyFilteredView(x => x.Value % 2 == 0)
+            this.FilteredMappedMapped = this.MappedInts.AsReadOnlyFilteredView(x => x.Value % 2 == 0)
                                              .AsMappingView(x => new MappedVm { Value = x.Value * 2 },  WpfSchedulers.Dispatcher);
 
-            MappedMapped = MappedInts.AsMappingView(x => new MappedVm { Value = x.Value * 2 },  WpfSchedulers.Dispatcher);
-            MappedMappedIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i },  WpfSchedulers.Dispatcher);
-            MappedMappedUpdateIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => x.UpdateIndex(i),  WpfSchedulers.Dispatcher);
-            MappedMappedUpdateNewIndexed = MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => new MappedVm { Value = x.Value * 2, Index = i },  WpfSchedulers.Dispatcher);
+            this.MappedMapped = this.MappedInts.AsMappingView(x => new MappedVm { Value = x.Value * 2 },  WpfSchedulers.Dispatcher);
+            this.MappedMappedIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i },  WpfSchedulers.Dispatcher);
+            this.MappedMappedUpdateIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => x.UpdateIndex(i),  WpfSchedulers.Dispatcher);
+            this.MappedMappedUpdateNewIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => new MappedVm { Value = x.Value * 2, Index = i },  WpfSchedulers.Dispatcher);
 
-            AddOneToSourceCommand = new RelayCommand(() => _ints.Add(_ints.Count + 1));
+            this.AddOneToSourceCommand = new RelayCommand(() => this.ints.Add(this.ints.Count + 1));
 
-            AddOneToSourceOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => _ints.Add(_ints.Count + 1)));
+            this.AddOneToSourceOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.ints.Add(this.ints.Count + 1)));
 
-            ClearCommand = new ConditionRelayCommand(
-                () => _ints.Clear(),
-                new Condition(() => _ints.Any(), _ints.ObserveCollectionChanged()));
+            this.ClearCommand = new ConditionRelayCommand(
+                () => this.ints.Clear(),
+                new Condition(() => this.ints.Any(), this.ints.ObserveCollectionChanged()));
 
-            RemoveAtCommand = new ConditionRelayCommand(
-                () => _ints.RemoveAt(RemoveAt >= _ints.Count ? _ints.Count - 1 : RemoveAt),
-                new Condition(() => _ints.Any(), _ints.ObserveCollectionChanged()));
+            this.RemoveAtCommand = new ConditionRelayCommand(
+                () => this.ints.RemoveAt(this.RemoveAt >= this.ints.Count ? this.ints.Count - 1 : this.RemoveAt),
+                new Condition(() => this.ints.Any(), this.ints.ObserveCollectionChanged()));
         }
 
 
@@ -68,25 +67,25 @@
 
         public int RemoveAt
         {
-            get { return _removeAt; }
+            get { return this.removeAt; }
 
             set
             {
-                if (value == _removeAt)
+                if (value == this.removeAt)
                 {
                     return;
                 }
 
-                if (value < 0 || value > Ints.Count)
+                if (value < 0 || value > this.Ints.Count)
                 {
-                    _removeAt = 0;
+                    this.removeAt = 0;
                 }
                 else
                 {
-                    _removeAt = value;
+                    this.removeAt = value;
                 }
 
-                OnPropertyChanged();
+                this.OnPropertyChanged();
             }
         }
 
@@ -101,7 +100,7 @@
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -6,7 +6,7 @@
     {
         public ConvertersDemoWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

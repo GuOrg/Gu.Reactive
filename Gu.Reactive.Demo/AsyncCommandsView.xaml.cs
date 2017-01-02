@@ -1,7 +1,7 @@
-﻿using System.Windows.Controls;
-
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
+    using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for AsyncCommands.xaml
     /// </summary>
@@ -9,8 +9,8 @@ namespace Gu.Reactive.Demo
     {
         public AsyncCommandsView()
         {
-            InitializeComponent();
-            DataContext = new AsyncCommandsViewModel();
+            this.InitializeComponent();
+            this.DataContext = new AsyncCommandsViewModel();
         }
     }
 }

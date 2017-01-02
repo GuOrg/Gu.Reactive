@@ -23,7 +23,7 @@ namespace Gu.Reactive.Tests.Internals
         [SetUp]
         public void SetUp()
         {
-            _changes = new List<EventPattern<PropertyChangedEventArgs>>();
+            this._changes = new List<EventPattern<PropertyChangedEventArgs>>();
         }
 
         [Test(Description = "All parts of the property path must be INotifyPropertyChanged")]
@@ -53,9 +53,9 @@ namespace Gu.Reactive.Tests.Internals
         {
             var fake = new Fake { Next = new Level() };
             var observable = new PropertyPathObservable<Fake, bool>(fake, x => x.Next.IsTrue);
-            observable.Subscribe(_changes.Add);
+            observable.Subscribe(this._changes.Add);
             fake.Next.IsTrue = !fake.Next.IsTrue;
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this._changes.Count);
         }
 
         [Test]
@@ -63,13 +63,13 @@ namespace Gu.Reactive.Tests.Internals
         {
             var fake = new Fake();
             var observable = new PropertyPathObservable<Fake, bool>(fake, x => x.Next.IsTrue);
-            observable.Subscribe(_changes.Add);
+            observable.Subscribe(this._changes.Add);
             fake.Next = new Level();
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this._changes.Count);
             fake.Next.IsTrue = !fake.Next.IsTrue;
-            Assert.AreEqual(2, _changes.Count);
+            Assert.AreEqual(2, this._changes.Count);
             fake.Next = null;
-            Assert.AreEqual(3, _changes.Count);
+            Assert.AreEqual(3, this._changes.Count);
         }
 
         [Test]
@@ -77,13 +77,13 @@ namespace Gu.Reactive.Tests.Internals
         {
             var fake = new Fake { Next = new Level { Next = new Level() } };
             var observable = new PropertyPathObservable<Fake, Level>(fake, x => x.Next.Next);
-            observable.Subscribe(_changes.Add);
+            observable.Subscribe(this._changes.Add);
             fake.Next.Next = new Level();
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this._changes.Count);
             fake.Next.Next = null;
-            Assert.AreEqual(2, _changes.Count);
+            Assert.AreEqual(2, this._changes.Count);
             fake.Next = null;
-            Assert.AreEqual(2, _changes.Count);
+            Assert.AreEqual(2, this._changes.Count);
         }
 
         [Test]
@@ -91,15 +91,15 @@ namespace Gu.Reactive.Tests.Internals
         {
             var fake = new Fake();
             var observable = new PropertyPathObservable<Fake, Level>(fake, x => x.Next.Next);
-            observable.Subscribe(_changes.Add);
+            observable.Subscribe(this._changes.Add);
             fake.Next = new Level();
-            Assert.AreEqual(0, _changes.Count);
+            Assert.AreEqual(0, this._changes.Count);
             fake.Next.Next = new Level();
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this._changes.Count);
             fake.Next.Next = null;
-            Assert.AreEqual(2, _changes.Count);
+            Assert.AreEqual(2, this._changes.Count);
             fake.Next = null;
-            Assert.AreEqual(2, _changes.Count);
+            Assert.AreEqual(2, this._changes.Count);
         }
 
         [Test]
@@ -107,18 +107,18 @@ namespace Gu.Reactive.Tests.Internals
         {
             var fake = new Fake();
             var observable = new PropertyPathObservable<Fake, bool>(fake, x => x.Next.IsTrue);
-            observable.Subscribe(_changes.Add);
+            observable.Subscribe(this._changes.Add);
             fake.Next = new Level
                         {
                             Next = new Level()
                         };
 
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this._changes.Count);
             var temp = fake.Next;
             fake.Next = null;
-            Assert.AreEqual(2, _changes.Count);
+            Assert.AreEqual(2, this._changes.Count);
             temp.IsTrue = !temp.IsTrue;
-            Assert.AreEqual(2, _changes.Count);
+            Assert.AreEqual(2, this._changes.Count);
         }
 
         [Test]
@@ -126,18 +126,18 @@ namespace Gu.Reactive.Tests.Internals
         {
             var fake = new Fake();
             var observable = new PropertyPathObservable<Fake, bool>(fake, x => x.Next.Next.IsTrue);
-            observable.Subscribe(_changes.Add);
+            observable.Subscribe(this._changes.Add);
             fake.Next = new Level();
-            Assert.AreEqual(0, _changes.Count);
+            Assert.AreEqual(0, this._changes.Count);
             fake.Next.Next = new Level
                              {
                                  Next = new Level()
                              };
-            Assert.AreEqual(1, _changes.Count);
+            Assert.AreEqual(1, this._changes.Count);
             fake.Next.Next = null;
-            Assert.AreEqual(2, _changes.Count);
+            Assert.AreEqual(2, this._changes.Count);
             fake.Next = null;
-            Assert.AreEqual(2, _changes.Count);
+            Assert.AreEqual(2, this._changes.Count);
             fake.Next = new Level
                         {
                             Next = new Level
@@ -145,13 +145,13 @@ namespace Gu.Reactive.Tests.Internals
                                        IsTrue = true
                                    }
                         };
-            Assert.AreEqual(3, _changes.Count);
+            Assert.AreEqual(3, this._changes.Count);
             fake.Next.Next.IsTrue = false;
-            Assert.AreEqual(4, _changes.Count);
+            Assert.AreEqual(4, this._changes.Count);
             fake.Next.Next = null;
-            Assert.AreEqual(5, _changes.Count);
+            Assert.AreEqual(5, this._changes.Count);
             fake.Next = null;
-            Assert.AreEqual(5, _changes.Count);
+            Assert.AreEqual(5, this._changes.Count);
         }
 
         [Test]

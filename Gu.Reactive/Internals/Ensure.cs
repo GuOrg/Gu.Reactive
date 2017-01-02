@@ -1,11 +1,13 @@
-﻿namespace Gu.Reactive.Internals
+﻿// ReSharper disable UnusedParameter.Global
+namespace Gu.Reactive.Internals
 {
     using System;
     using System.Diagnostics;
 
     internal static partial class Ensure
     {
-        internal static void NotNull<T>(T value, string parameterName) where T : class
+        internal static void NotNull<T>(T value, string parameterName)
+            where T : class
         {
             Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
             if (value == null)
