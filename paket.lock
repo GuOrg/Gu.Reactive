@@ -21,6 +21,7 @@ NUGET
   remote: http://www.nuget.org/api/v2
     JetBrains.Annotations (10.2.1)
     StyleCop.Analyzers (1.0)
+    WpfAnalyzers (0.2.7.1-dev)
 
 GROUP Test
 FRAMEWORK: >= NET45

@@ -4,3 +4,4 @@ System.Reactive.PlatformServices
 group Analyzers
   JetBrains.Annotations
   StyleCop.Analyzers
+  WpfAnalyzers
