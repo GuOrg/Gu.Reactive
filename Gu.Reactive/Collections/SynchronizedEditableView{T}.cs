@@ -12,7 +12,7 @@
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
-    public abstract class SynchronizedEditableView<T> : IList, IUpdater, IRefreshAble, IDisposable
+    public abstract class SynchronizedEditableView<T> : IList, IUpdater, IRefreshAble, IDisposable, INotifyPropertyChanged, INotifyCollectionChanged
     {
         protected readonly IList<T> Source;
         protected readonly CollectionSynchronizer<T> Tracker;

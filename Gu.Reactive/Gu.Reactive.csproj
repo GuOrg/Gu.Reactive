@@ -182,7 +182,24 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\CollectionSynchronizer{T}.cs" />
     <Compile Include="Collections\EditableListView.cs" />
+    <Compile Include="Collections\EditableListView{T}.cs" />
+    <Compile Include="Collections\FilteredView{T}.cs" />
+    <Compile Include="Collections\FixedSizedQueue{T}.cs" />
+    <Compile Include="Collections\IMappingFactory{TSource,TResult}.cs" />
+    <Compile Include="Collections\MappingCache{TSource,TResult}.cs" />
+    <Compile Include="Collections\MappingFactory{TSource,TResult}.cs" />
+    <Compile Include="Collections\MappingView{TSource,TResult}.cs" />
+    <Compile Include="Collections\ObservableFixedSizeQueue{T}.cs" />
+    <Compile Include="Collections\ReadOnlyFilteredView{T}.cs" />
+    <Compile Include="Collections\ReadOnlyIListView{T}.cs" />
+    <Compile Include="Collections\ReadOnlySerialView{T}.cs" />
+    <Compile Include="Collections\SynchronizedEditableView{T}.cs" />
+    <Compile Include="Collections\ThrottledView{T}.cs" />
+    <Compile Include="Contracts\IConditionsService.cs" />
+    <Compile Include="Contracts\IFilteredView{T}.cs" />
+    <Compile Include="Contracts\IObservableCollection{T}.cs" />
     <Compile Include="Contracts\IObservableSet.cs" />
     <Compile Include="Collections\ObservableSet.cs" />
     <Compile Include="Collections\ReadonlyIListView.cs" />
@@ -190,6 +207,9 @@
     <Compile Include="Collections\ReadonlySerialViewBase.cs" />
     <Compile Include="Collections\ThrowHelper.cs" />
     <Compile Include="Conditions\ConditionExt.cs" />
+    <Compile Include="Contracts\IReadOnlyFilteredView{T}.cs" />
+    <Compile Include="Contracts\IReadOnlyObservableCollection{T}.cs" />
+    <Compile Include="Contracts\IReadOnlyThrottledView{T}.cs" />
     <Compile Include="Contracts\IRefreshAble.cs" />
     <Compile Include="Contracts\ISatisfied.cs" />
     <Compile Include="Contracts\ISchedulers.cs" />
@@ -199,52 +219,37 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FilteredView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\IMappingFactory`2.cs" />
     <Compile Include="Collections\IUpdater.cs" />
-    <Compile Include="Collections\MappingCache`2.cs" />
     <Compile Include="Collections\MappingFactory.cs" />
-    <Compile Include="Collections\MappingFactory`2.cs" />
     <Compile Include="Collections\MappingView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MappingView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\MappingView`2.cs" />
     <Compile Include="Collections\Notifier.cs" />
     <Compile Include="Collections\ReadOnlyFilteredView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ReadOnlyFilteredView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\ReadOnlyFilteredView`1.cs" />
-    <Compile Include="Collections\ReadonlySerialView`1.cs" />
-    <Compile Include="Collections\SynchronizedEditableView`1.cs" />
-    <Compile Include="Collections\CollectionSynchronizer`1.cs" />
     <Compile Include="Collections\ThrottledRefresher.cs" />
     <Compile Include="Collections\ThrottledView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ThrottledView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\ThrottledView`1.cs" />
     <Compile Include="Collections\Diff.cs" />
     <Compile Include="Collections\FilteredRefresher.cs" />
     <Compile Include="Collections\FilteredView.cs" />
-    <Compile Include="Collections\FilteredView`1.cs" />
-    <Compile Include="Contracts\IDeferredView`1.cs" />
-    <Compile Include="Contracts\IFilteredView`1.cs" />
-    <Compile Include="Contracts\IObservableCollection`1.cs" />
-    <Compile Include="Contracts\IReadOnlyDeferredView`1.cs" />
-    <Compile Include="Contracts\IReadOnlyFilteredView`1.cs" />
-    <Compile Include="Contracts\IReadOnlyObservableCollection`1.cs" />
     <Compile Include="Collections\ReadOnlyThrottledView.cs" />
     <Compile Include="Collections\WeakCompositeDisposable.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
-    <Compile Include="Collections\ReadonlyIListView`1.cs" />
-    <Compile Include="Collections\EditableListView`1.cs" />
+    <Compile Include="Contracts\IThrottledView{T}.cs" />
+    <Compile Include="Contracts\IValuePath{TSource,TValue}.cs" />
     <Compile Include="ForegroundScheduler.cs" />
     <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />
+    <Compile Include="Internals\CollectionItemsObservable{TCollection,TItem,TValue}.cs" />
     <Compile Include="Internals\Ensure.Collection.cs" />
     <Compile Include="Internals\Ensure.Compare.cs" />
     <Compile Include="Internals\Ensure.cs" />
@@ -252,6 +257,11 @@
     <Compile Include="Contracts\IWpfSchedulers.cs" />
     <Compile Include="Internals\Ensure.Singleton.cs" />
     <Compile Include="Internals\Ensure.String.cs" />
+    <Compile Include="Internals\ItemsObservable{TCollection,TItem,TProperty}.cs" />
+    <Compile Include="Internals\Maybe{T}.cs" />
+    <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
+    <Compile Include="Internals\ValueAndSender{TValue}.cs" />
+    <Compile Include="ItemPropertyChangedEventArgs{TItem,TValue}.cs" />
     <Compile Include="NotifyCollectionChangedEventArgs.cs" />
     <Compile Include="NotifyCollectionChangedEventArgsExt.cs" />
     <Compile Include="NotifyCollectionChangedExt.generated.cs">
@@ -260,23 +270,17 @@
       <DependentUpon>NotifyCollectionChangedExt.tt</DependentUpon>
     </Compile>
     <Compile Include="ObservableExt.cs" />
-    <Compile Include="Collections\ObservableFixedSizeQueue`1.cs" />
+    <Compile Include="PropertyChangedAndValueEventArgs{TProperty}.cs" />
     <Compile Include="PropertyPathStuff\IPropertyPath.cs" />
     <Compile Include="Internals\MaybeExt.cs" />
-    <Compile Include="Internals\ObjectIdentityComparer`1.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPath`1.cs" />
     <Compile Include="Internals\RwLock.cs" />
     <Compile Include="PropertyPathStuff\INotifyingPathItem.cs" />
-    <Compile Include="Contracts\IValuePath`2.cs" />
     <Compile Include="PropertyPathStuff\NotifyingPath.cs" />
     <Compile Include="PropertyPathStuff\NotifyingPathItem.cs" />
+    <Compile Include="PropertyPathStuff\PropertyPath{TSource,TValue}.cs" />
+    <Compile Include="PropertyPathStuff\PropertyPath{TValue}.cs" />
     <Compile Include="PropertyPathStuff\RootItem.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPath`2.cs" />
-    <Compile Include="Internals\Maybe`1.cs" />
-    <Compile Include="Internals\ItemsObservable`2.cs" />
-    <Compile Include="Internals\ValueAndSender`1.cs" />
     <Compile Include="NotifyCollectionChangedExt.cs" />
-    <Compile Include="Contracts\IConditionService.cs" />
     <Compile Include="NameOf.cs" />
     <Compile Include="Conditions\AndCondition.cs" />
     <Compile Include="Conditions\AndConditionCollection.cs" />
@@ -287,35 +291,31 @@
     <Compile Include="Conditions\NegatedCondition.cs" />
     <Compile Include="Conditions\OrCondition.cs" />
     <Compile Include="Conditions\OrConditionCollection.cs" />
-    <Compile Include="Collections\FixedSizedQueue`1.cs" />
     <Compile Include="PropertyPathStuff\PropertyPath.cs" />
     <Compile Include="PropertyPathStuff\PathProperty.cs" />
     <Compile Include="PropertyPathStuff\PropertyPathObservable.cs" />
-    <Compile Include="PropertyChangedAndValueEventArgs`1.cs" />
     <Compile Include="PropertyPathStuff\PropertyPathVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ItemPropertyChangedEventArgs`2.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />
     <Compile Include="Schedulers.cs" />
     <Compile Include="TaskExt.cs" />
-    <Compile Include="Internals\CollectionItemsObservable`2.cs" />
     <Compile Include="Trackers\DoubleAverageTracker.cs" />
-    <Compile Include="Trackers\ITracker`1.cs" />
-    <Compile Include="Trackers\Mapper`2.cs" />
+    <Compile Include="Trackers\ITracker{TValue}.cs" />
+    <Compile Include="Trackers\Mapper{TSource,TResult}.cs" />
     <Compile Include="Trackers\MaxTracker.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MaxTracker.tt</DependentUpon>
     </Compile>
-    <Compile Include="Trackers\MaxTracker`2.cs" />
+    <Compile Include="Trackers\MaxTracker{TValue}.cs" />
     <Compile Include="Trackers\MinTracker.cs" />
     <Compile Include="Trackers\MinTracker.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MinTracker.tt</DependentUpon>
     </Compile>
-    <Compile Include="Trackers\MinTracker`2.cs" />
-    <Compile Include="Trackers\Tracker`2.cs" />
+    <Compile Include="Trackers\MinTracker{TValue}.cs" />
+    <Compile Include="Trackers\Tracker{TValue}.cs" />
     <Compile Include="TypeExt.cs" />
   </ItemGroup>
   <ItemGroup>

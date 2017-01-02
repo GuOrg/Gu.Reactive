@@ -303,12 +303,12 @@
             /// <summary>
             /// Gets the name.
             /// </summary>
-            public string Name { get; private set; }
+            public string Name { get; }
 
             /// <summary>
             /// Gets the value.
             /// </summary>
-            public object Value { get; private set; }
+            public object Value { get; }
         }
     }
 }

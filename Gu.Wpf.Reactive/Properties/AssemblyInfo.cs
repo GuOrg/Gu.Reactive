@@ -30,7 +30,9 @@ using System.Windows.Markup;
 [assembly: XmlnsDefinition("http://Gu.com/Reactive", "Gu.Wpf.Reactive")]
 [assembly: XmlnsPrefix("http://Gu.com/Reactive", "reactive")]
 
+#pragma warning disable SA1649 // File name must match first type name
 internal class References
+#pragma warning restore SA1649 // File name must match first type name
 {
     // Touching Gu.Wpf.ToolTips so that it gets copied to output dir
     // http://stackoverflow.com/a/24828522/1069200

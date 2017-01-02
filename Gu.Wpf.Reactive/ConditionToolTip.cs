@@ -46,7 +46,7 @@
             "CommandProxy",
             typeof(ICommand),
             typeof(ConditionToolTip),
-            new PropertyMetadata(default(ICommand), OnCommandChanged));
+            new PropertyMetadata(default(ICommand), OnCommandProxyChanged));
 
         static ConditionToolTip()
         {
@@ -85,27 +85,27 @@
             var target = commandToolTip.PlacementTarget as ButtonBase;
             if (target == null)
             {
-                commandToolTip.SetValue(CommandProxyProperty, null);
+                commandToolTip.SetCurrentValue(CommandProxyProperty, null);
             }
             else
             {
                 var command = target.GetValue(ButtonBase.CommandProperty) as IConditionRelayCommand;
-                commandToolTip.SetValue(CommandProxyProperty, command);
+                commandToolTip.SetCurrentValue(CommandProxyProperty, command);
             }
         }
 
-        private static void OnCommandChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        private static void OnCommandProxyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var commandToolTip = (ConditionToolTip)o;
             var command = e.NewValue as IConditionRelayCommand;
             if (command == null)
             {
-                commandToolTip.Condition = null;
+                commandToolTip.SetCurrentValue(ConditionProperty, null);
                 commandToolTip.CommandType = null;
                 return;
             }
 
-            commandToolTip.Condition = command.Condition;
+            commandToolTip.SetCurrentValue(ConditionProperty, command.Condition);
             commandToolTip.CommandType = command.GetType();
         }
 

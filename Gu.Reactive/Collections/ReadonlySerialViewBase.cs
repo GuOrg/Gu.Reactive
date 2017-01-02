@@ -6,10 +6,11 @@ namespace Gu.Reactive
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Runtime.CompilerServices;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
-    public abstract class ReadonlySerialViewBase<T> : IRefreshAble, IList, IDisposable
+    public abstract class ReadonlySerialViewBase<T> : IRefreshAble, IList, IDisposable, INotifyPropertyChanged
     {
         private static readonly IReadOnlyList<T> Empty = new T[0];
         private readonly CollectionSynchronizer<T> tracker;
@@ -73,6 +74,11 @@ namespace Gu.Reactive
                     this.tracker.Reset(this, source, null, this.PropertyChanged, this.CollectionChanged);
                 }
             }
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected void SetSource(IEnumerable<T> source)

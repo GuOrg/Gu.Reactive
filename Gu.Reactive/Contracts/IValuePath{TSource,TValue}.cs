@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     public interface IValuePath<in TSource, out TValue>
     {

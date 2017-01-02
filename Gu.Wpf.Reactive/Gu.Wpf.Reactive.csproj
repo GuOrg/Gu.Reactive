@@ -27,6 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>Gu.Wpf.Reactive.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,6 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Gu.Wpf.Reactive.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>Gu.Wpf.Reactive.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CreateNugetPackage|AnyCPU'">
     <OutputPath>bin\CreateNugetPackage\</OutputPath>
@@ -44,7 +46,7 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>ExtendedCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Gu.Wpf.Reactive.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\CreateNugetPackage\Gu.Wpf.Reactive.XML</DocumentationFile>
     <BuildPackage>true</BuildPackage>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -65,39 +67,47 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DispatchingView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\NotifyPropertyChangedEventHandlerExt.cs" />
-    <Compile Include="Collections\ReadOnlyDispatchingView`1.cs" />
+    <Compile Include="Collections\DispatchingView{T}.cs" />
+    <Compile Include="Collections\NotifyCollectionChangedEventHandlerExt.cs" />
+    <Compile Include="Collections\ReadOnlyDispatchingView{T}.cs" />
     <Compile Include="Commands\AsyncCommand.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\ITaskRunner.cs" />
-    <Compile Include="Commands\AsyncCommandHelpers\ITaskRunner`1.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\ITaskRunner{TParameter}.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\NotifyTaskCompletion{TResult}.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\TaskRunnerCancelable.cs" />
-    <Compile Include="Commands\AsyncCommandHelpers\TaskRunnerCancelable`1.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\TaskRunnerCancelable{TParameter}.cs" />
+    <Compile Include="Commands\AsyncCommandHelpers\TaskRunner{TParameter}.cs" />
+    <Compile Include="Commands\AsyncCommand{TParameter}.cs" />
+    <Compile Include="Commands\CommandBase{T}.cs" />
     <Compile Include="Commands\ConditionRelayCommand.cs" />
+    <Compile Include="Commands\ConditionRelayCommand{T}.cs" />
     <Compile Include="Commands\ManualRelayCommand.cs" />
+    <Compile Include="Commands\ManualRelayCommand{T}.cs" />
     <Compile Include="Commands\ObservingRelayCommand.cs" />
+    <Compile Include="Commands\ObservingRelayCommand{T}.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\TaskRunner.cs" />
-    <Compile Include="Commands\AsyncCommandHelpers\TaskRunner`1.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\TaskRunnerBase.cs" />
+    <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="ConditionControl.Keys.cs" />
     <Compile Include="ConditionTypeTemplateSelector.cs" />
     <Compile Include="MarkupExtensions\Converters\BooleanToBrushConverter.cs" />
     <Compile Include="MarkupExtensions\Converters\NullableBooleanToBooleanConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\ITypeConverter`1.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\NullableEnumConverter`1.cs" />
-    <Compile Include="Collections\DispatchingView`1.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\CastingConverter{T}.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\INotifyTaskCompletion.cs" />
     <Compile Include="Internals\BoolBoxes.cs" />
     <Compile Include="Internals\BindingHelper.cs" />
     <Compile Include="Internals\RoutedEventHandlerExt.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\DefaultTypeConverter{T}.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\ITypeConverter{T}.cs" />
+    <Compile Include="MarkupExtensions\Converters\TypeConverters\NullableEnumConverter{T}.cs" />
     <Compile Include="MarkupExtensions\EnumValuesForExtension.cs" />
     <Compile Include="MarkupExtensions\RootObjectExtension.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\NotifyTaskCompletion.cs" />
+    <Compile Include="Maybe{T}.cs" />
     <Compile Include="ServiceProviderExt.cs" />
     <Compile Include="MarkupExtensions\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="MarkupExtensions\Converters\BooleanToXConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\CastingConverter`1.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\DefaultTypeConverter`1.cs" />
     <Compile Include="MarkupExtensions\Converters\TypeConverters\DefaultTypeConverter.cs" />
     <Compile Include="MarkupExtensions\Converters\TypeConverters\ITypeConverter.cs" />
     <Compile Include="MarkupExtensions\Converters\MarkupConverter.cs" />
@@ -108,7 +118,6 @@
     <Compile Include="MarkupExtensions\Converters\TypeConverters\TypeConverterFactory.cs" />
     <Compile Include="DesignMode.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Maybe`1.cs" />
     <Compile Include="Collections\ObservableCollectionExtensions.cs" />
     <Compile Include="WpfSchedulers.cs" />
     <Page Include="Themes\Assets.xaml">
@@ -129,23 +138,16 @@
     </Page>
     <Compile Include="MarkupExtensions\NinjaBinding.cs" />
     <Compile Include="Schedulers.cs" />
-    <Compile Include="Commands\AsyncCommand`1.cs" />
     <Compile Include="Commands\CanExecuteChangedEventManager.cs" />
     <Compile Include="Commands\IAsyncCommand.cs" />
     <Compile Include="Commands\IConditionRelayCommand.cs" />
-    <Compile Include="Commands\CommandBase`1.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\VoidTypeStruct.cs" />
-    <Compile Include="Commands\AsyncCommandHelpers\NotifyTaskCompletion`1.cs" />
     <Compile Include="ConditionToolTip.cs" />
-    <Compile Include="Commands\ConditionRelayCommand`1.cs" />
-    <Compile Include="Commands\RelayCommand`1.cs" />
-    <Compile Include="Commands\ManualRelayCommand`1.cs" />
     <Compile Include="ConditionControl.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\ObservingRelayCommand`1.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\NotifyTaskCompletionBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -168,6 +170,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DispatchingView.generated.cs</LastGenOutput>
     </None>
+    <None Include="Gu.Wpf.Reactive.ruleset" />
     <None Include="paket.references" />
     <None Include="paket.template" />
     <None Include="Properties\Settings.settings">

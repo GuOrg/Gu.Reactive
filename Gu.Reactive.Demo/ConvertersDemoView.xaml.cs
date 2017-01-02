@@ -1,5 +1,4 @@
-﻿
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System.Windows.Controls;
 
