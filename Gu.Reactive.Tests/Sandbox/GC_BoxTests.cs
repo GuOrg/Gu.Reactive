@@ -58,7 +58,6 @@ namespace Gu.Reactive.Tests.Sandbox
         }
     }
 
-
     public class A { }
 
     public class B

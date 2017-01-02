@@ -77,7 +77,6 @@ namespace Gu.Wpf.Reactive
             if (this.type == value.GetType())
             {
                 return Convert.ChangeType(value, this.type);
-
             }
 
             var s = value as string;

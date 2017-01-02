@@ -18,7 +18,10 @@
 
         public string FirstName
         {
-            get { return this.firstName; }
+            get
+            {
+                return this.firstName;
+            }
 
             set
             {
@@ -34,7 +37,10 @@
 
         public string LastName
         {
-            get { return this.lastName; }
+            get
+            {
+                return this.lastName;
+            }
 
             set
             {
@@ -50,11 +56,18 @@
 
         public string Tags
         {
-            get { return this.tags; }
+            get
+            {
+                return this.tags;
+            }
 
             private set
             {
-                if (value == this.tags) return;
+                if (value == this.tags)
+                {
+                    return;
+                }
+
                 this.tags = value;
                 this.OnPropertyChanged();
             }
@@ -62,11 +75,18 @@
 
         internal IReadOnlyList<int> TagsValues
         {
-            get { return this.tagsValues; }
+            get
+            {
+                return this.tagsValues;
+            }
 
             set
             {
-                if (Equals(value, this.tagsValues)) return;
+                if (Equals(value, this.tagsValues))
+                {
+                    return;
+                }
+
                 this.tagsValues = value;
                 this.tags = String.Join(", ", this.tagsValues);
                 this.OnPropertyChanged();

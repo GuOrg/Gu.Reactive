@@ -18,7 +18,10 @@
 
         public bool? IsVisible
         {
-            get { return this.isVisible; }
+            get
+            {
+                return this.isVisible;
+            }
 
             set
             {
@@ -34,7 +37,10 @@
 
         public double DoubleValue
         {
-            get { return this.doubleValue; }
+            get
+            {
+                return this.doubleValue;
+            }
 
             set
             {
@@ -50,7 +56,10 @@
 
         public double Factor
         {
-            get { return this.factor; }
+            get
+            {
+                return this.factor;
+            }
 
             set
             {
@@ -66,7 +75,10 @@
 
         public int IntValue
         {
-            get { return this.intValue; }
+            get
+            {
+                return this.intValue;
+            }
 
             set
             {
@@ -82,7 +94,10 @@
 
         public StringComparison StringComparison
         {
-            get { return this.stringComparison; }
+            get
+            {
+                return this.stringComparison;
+            }
 
             set
             {

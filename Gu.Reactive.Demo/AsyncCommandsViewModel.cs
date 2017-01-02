@@ -26,7 +26,6 @@
             this.AsyncThrowCommand = new AsyncCommand(this.VoidTaskThrowMethod);
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public AsyncCommand AsyncCommand { get; }
@@ -41,7 +40,10 @@
 
         public int Count
         {
-            get { return this.count; }
+            get
+            {
+                return this.count;
+            }
 
             private set
             {
@@ -105,7 +107,6 @@
             await Task.Delay(this.Delay).ConfigureAwait(false);
             throw new Exception("Something went wrong");
         }
-
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

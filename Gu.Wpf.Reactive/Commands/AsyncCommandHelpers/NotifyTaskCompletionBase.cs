@@ -29,7 +29,10 @@
 
         public T Completed
         {
-            get { return this.completed; }
+            get
+            {
+                return this.completed;
+            }
 
             private set
             {
@@ -37,7 +40,6 @@
                 {
                     return;
                 }
-
                 this.completed = value;
                 this.OnPropertyChanged();
             }

@@ -26,7 +26,10 @@
 
         public NotifyTaskCompletion TaskCompletion
         {
-            get { return this.taskCompletion; }
+            get
+            {
+                return this.taskCompletion;
+            }
 
             protected set
             {
@@ -34,7 +37,6 @@
                 {
                     return;
                 }
-
                 this.taskCompletion = value;
                 this.OnPropertyChanged();
             }

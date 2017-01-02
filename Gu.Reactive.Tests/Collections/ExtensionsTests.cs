@@ -100,7 +100,6 @@
 
             readonlyInts.AsReadOnlyThrottledView(TimeSpan.Zero)
                         .AsMappingView(x => x.ToString());
-
         }
     }
 }

@@ -37,7 +37,6 @@
                 this.ObservePropertyChanged(x => x.SearchText),
                 this.ObservePropertyChanged(x => x.SelectedTags));
 
-
             this.ReadOnlyFiltered = this.peopleRaw.AsReadOnlyFilteredView(
                 this.Filter,
                 TimeSpan.FromMilliseconds(10),
@@ -56,7 +55,10 @@
 
         public string SearchText
         {
-            get { return this.searchText; }
+            get
+            {
+                return this.searchText;
+            }
 
             set
             {
@@ -72,7 +74,10 @@
 
         public bool HasSearchText
         {
-            get { return this.hasSearchText; }
+            get
+            {
+                return this.hasSearchText;
+            }
 
             private set
             {
@@ -92,11 +97,18 @@
 
         public IEnumerable<int> SelectedTags
         {
-            get { return this.selectedTags; }
+            get
+            {
+                return this.selectedTags;
+            }
 
             set
             {
-                if (Equals(value, this.selectedTags)) return;
+                if (Equals(value, this.selectedTags))
+                {
+                    return;
+                }
+
                 this.selectedTags = value ?? Enumerable.Empty<int>();
                 this.OnPropertyChanged();
             }
@@ -108,7 +120,10 @@
 
         public int NumberOfItems
         {
-            get { return this.numberOfItems; }
+            get
+            {
+                return this.numberOfItems;
+            }
 
             set
             {

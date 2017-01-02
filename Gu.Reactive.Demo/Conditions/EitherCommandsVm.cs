@@ -32,11 +32,18 @@
 
         public int Value
         {
-            get { return this.value; }
+            get
+            {
+                return this.value;
+            }
 
             set
             {
-                if (value == this.value) return;
+                if (value == this.value)
+                {
+                    return;
+                }
+
                 this.value = value;
                 this.OnPropertyChanged();
             }

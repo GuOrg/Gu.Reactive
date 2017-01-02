@@ -31,7 +31,6 @@
             typeof(DataGridAndEventsView),
             new PropertyMetadata(default(string)));
 
-
         public DataGridAndEventsView()
         {
             this.InitializeComponent();

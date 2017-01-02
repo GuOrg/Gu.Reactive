@@ -17,7 +17,10 @@ namespace Gu.Reactive.Demo
 
         public int Value
         {
-            get { return this.value; }
+            get
+            {
+                return this.value;
+            }
 
             set
             {
@@ -33,7 +36,10 @@ namespace Gu.Reactive.Demo
 
         public int? Index
         {
-            get { return this.index; }
+            get
+            {
+                return this.index;
+            }
 
             set
             {

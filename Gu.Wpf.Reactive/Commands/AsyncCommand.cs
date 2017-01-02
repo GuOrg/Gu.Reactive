@@ -44,7 +44,6 @@ namespace Gu.Wpf.Reactive
         private AsyncCommand(ITaskRunner runner)
             : this(runner, runner.CanRunCondition)
         {
-
         }
 
         private AsyncCommand(ITaskRunner runner, ICondition condition)

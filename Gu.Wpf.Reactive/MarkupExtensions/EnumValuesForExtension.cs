@@ -19,7 +19,10 @@
         [ConstructorArgument("type")]
         public Type Type
         {
-            get { return this.type; }
+            get
+            {
+                return this.type;
+            }
 
             set
             {

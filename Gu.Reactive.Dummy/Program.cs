@@ -4,9 +4,9 @@
     using System.Collections.ObjectModel;
 
     // ReSharper disable once ClassNeverInstantiated.Global
-    class Program
+    public class Program
     {
-        static void Main()
+        public static void Main()
         {
             PauseWith("Starting");
             ObserveItemPropertyChanged();

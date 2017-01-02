@@ -104,7 +104,6 @@
 
         public ConditionRelayCommand<string> ConditionRelayCommandWithParameter { get; }
 
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

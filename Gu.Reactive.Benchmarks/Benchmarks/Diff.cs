@@ -11,7 +11,6 @@
         private static List<Fake> _x;
         private static List<Fake> _y;
 
-
         [Params(10, 100, 1000)]
         public int N
         {

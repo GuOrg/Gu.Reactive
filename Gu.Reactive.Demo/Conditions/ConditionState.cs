@@ -41,7 +41,10 @@ namespace Gu.Reactive.Demo
 
         public bool IsRightDoorOpen
         {
-            get { return this.isRightDoorOpen; }
+            get
+            {
+                return this.isRightDoorOpen;
+            }
 
             set
             {
@@ -57,7 +60,10 @@ namespace Gu.Reactive.Demo
 
         public bool IsBackDoorOpen
         {
-            get { return this.isBackDoorOpen; }
+            get
+            {
+                return this.isBackDoorOpen;
+            }
 
             set
             {
@@ -92,7 +98,10 @@ namespace Gu.Reactive.Demo
 
         public double FuelLevel
         {
-            get { return this.fuelLevel; }
+            get
+            {
+                return this.fuelLevel;
+            }
 
             set
             {

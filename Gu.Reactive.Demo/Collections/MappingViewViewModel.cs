@@ -44,7 +44,6 @@
                 new Condition(() => this.ints.Any(), this.ints.ObserveCollectionChanged()));
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public DispatchingView<int> Ints { get; }
@@ -67,7 +66,10 @@
 
         public int RemoveAt
         {
-            get { return this.removeAt; }
+            get
+            {
+                return this.removeAt;
+            }
 
             set
             {

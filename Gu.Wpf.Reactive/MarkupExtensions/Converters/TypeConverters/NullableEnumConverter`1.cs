@@ -61,7 +61,6 @@
             if (ValidTypes.Contains(value.GetType()))
             {
                 return (T)Convert.ChangeType(value, typeof(T));
-
             }
 
             var s = value as string;

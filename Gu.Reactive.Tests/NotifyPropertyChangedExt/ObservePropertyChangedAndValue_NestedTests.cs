@@ -25,7 +25,6 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Explicit("Implement")]
         public void TypedEventargsTest()
         {
-
         }
 
         [TestCase("")]
@@ -157,7 +156,6 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     wr.Target = fake;
                     Assert.IsTrue(wr.IsAlive);
                     observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
-
                 })();
             // http://stackoverflow.com/a/579001/1069200
             var subscription = observable.Subscribe();

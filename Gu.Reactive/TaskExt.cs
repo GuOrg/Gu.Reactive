@@ -200,6 +200,8 @@
             }
         }
 
-        internal struct VoidTypeStruct { }
+        internal struct VoidTypeStruct
+        {
+        }
     }
 }

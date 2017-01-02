@@ -31,7 +31,10 @@
 
         public bool IsExecuting
         {
-            get { return this.isExecuting; }
+            get
+            {
+                return this.isExecuting;
+            }
 
             protected set
             {

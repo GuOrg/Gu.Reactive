@@ -171,7 +171,6 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
             item1.Name = "new";
             Assert.AreEqual(1, this._changes.Count); // Stopped subscribing
-
         }
 
         [Test]

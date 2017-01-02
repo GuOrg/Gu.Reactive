@@ -7,7 +7,6 @@ namespace Gu.Reactive.Tests.NameOf_
 
     using NUnit.Framework;
 
-
     // ReSharper disable once InconsistentNaming
     public class PropertyTests
     {

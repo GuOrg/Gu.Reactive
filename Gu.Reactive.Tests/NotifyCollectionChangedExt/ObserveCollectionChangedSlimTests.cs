@@ -7,7 +7,7 @@
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
-    class ObserveCollectionChangedSlimTests
+    public class ObserveCollectionChangedSlimTests
     {
         [Test]
         public void SignalsInitial()

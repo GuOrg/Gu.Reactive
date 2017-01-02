@@ -108,7 +108,6 @@ namespace Gu.Reactive.Tests.Collections
         }
     }
 
-
     public class MappingViewTests
     {
         [Test]
@@ -144,7 +143,6 @@ namespace Gu.Reactive.Tests.Collections
             CollectionAssert.IsEmpty(view);
             models.Add(model);
             Assert.AreEqual(1, view.Count);
-
         }
 
         [Test]
