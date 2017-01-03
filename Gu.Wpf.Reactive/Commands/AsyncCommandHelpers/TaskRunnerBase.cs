@@ -7,17 +7,19 @@
     using System.Threading.Tasks;
 
     using Gu.Reactive;
-    using JetBrains.Annotations;
 
+    /// <summary>
+    /// A base class for running tasks and notifying about the results.
+    /// </summary>
     public abstract class TaskRunnerBase : INotifyPropertyChanged, IDisposable
     {
         private NotifyTaskCompletion taskCompletion;
 
         private bool disposed;
 
-        /// <inheritdoc/>
-        public virtual event PropertyChangedEventHandler PropertyChanged;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskRunnerBase"/> class.
+        /// </summary>
         protected TaskRunnerBase()
         {
             var observable = this.ObservePropertyChanged(x => x.TaskCompletion.Status);
@@ -25,6 +27,12 @@
             this.CanCancelCondition = new Condition(Observable.Empty<object>(), () => false) { Name = "CanCancel" };
         }
 
+        /// <inheritdoc/>
+        public virtual event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// The status of the current task.
+        /// </summary>
         public NotifyTaskCompletion TaskCompletion
         {
             get
@@ -34,21 +42,33 @@
 
             protected set
             {
-                if (Equals(value, this.taskCompletion))
+                if (ReferenceEquals(value, this.taskCompletion))
                 {
                     return;
                 }
+
                 this.taskCompletion = value;
                 this.OnPropertyChanged();
             }
         }
 
+        /// <summary>
+        /// Condition for if the current run can be canceled.
+        /// </summary>
         public virtual ICondition CanCancelCondition { get; }
 
+        /// <summary>
+        /// Condition for if the task can be executed.
+        /// </summary>
         public ICondition CanRunCondition { get; }
 
+        /// <summary>
+        /// Check if the task is running.
+        /// </summary>
+        /// <returns>True if execution can be started.</returns>
         public bool? CanRun()
         {
+            this.ThrowIfDisposed();
             var completion = this.TaskCompletion;
             if (completion == null)
             {
@@ -72,6 +92,9 @@
             }
         }
 
+        /// <summary>
+        /// Cancel the execution.
+        /// </summary>
         public virtual void Cancel()
         {
             // intentional NOP
@@ -101,17 +124,21 @@
             }
         }
 
-        protected void VerifyDisposed()
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// </summary>
+        protected void ThrowIfDisposed()
         {
             if (this.disposed)
             {
-                throw new ObjectDisposedException(
-                    this.GetType()
-                        .FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
 
-        [NotifyPropertyChangedInvocator]
+        /// <summary>
+        /// Notifies that <paramref name="propertyName"/> changed.
+        /// </summary>
+        /// <param name="propertyName">The name of the property.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

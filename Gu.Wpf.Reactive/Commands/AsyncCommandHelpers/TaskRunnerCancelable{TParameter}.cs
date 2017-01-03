@@ -9,6 +9,10 @@
     using Gu.Reactive;
     using Gu.Reactive.Internals;
 
+    /// <summary>
+    /// A taskrunner for generic tasks.
+    /// </summary>
+    /// <typeparam name="TParameter">The type of the command parameter.</typeparam>
     public class TaskRunnerCancelable<TParameter> : TaskRunnerBase, ITaskRunner<TParameter>
     {
         private readonly Func<TParameter, CancellationToken, Task> action;
@@ -16,6 +20,10 @@
 
         private CancellationTokenSource cancellationTokenSource;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TaskRunnerCancelable{TParameter}"/> class.
+        /// </summary>
+        /// <param name="action">The source of tasks to execute.</param>
         public TaskRunnerCancelable(Func<TParameter, CancellationToken, Task> action)
         {
             Ensure.NotNull(action, nameof(action));
@@ -27,8 +35,13 @@
             this.CanCancelCondition = new Condition(observable, () => this.CanCancel) { Name = "CanCancel" };
         }
 
+        /// <inheritdoc/>
         public override ICondition CanCancelCondition { get; }
 
+        /// <summary>
+        /// Check if execution can be cancellled.
+        /// True if a cancellation token was provided and a task is running.
+        /// </summary>
         public bool? CanCancel
         {
             get
@@ -48,20 +61,25 @@
             }
         }
 
+        /// <inheritdoc/>
         public void Run(TParameter paramater)
         {
+            this.ThrowIfDisposed();
             this.cancellationTokenSource?.Dispose();
             this.cancellationTokenSource = new CancellationTokenSource();
             this.cancellationSubscription.Disposable = this.cancellationTokenSource.Token.AsObservable()
-                                                                           .Subscribe(_ => this.OnPropertyChanged(nameof(this.CanCancel)));
+                                                           .Subscribe(_ => this.OnPropertyChanged(nameof(this.CanCancel)));
             this.TaskCompletion = new NotifyTaskCompletion(this.action(paramater, this.cancellationTokenSource.Token));
         }
 
+        /// <inheritdoc/>
         public override void Cancel()
         {
+            this.ThrowIfDisposed();
             this.cancellationTokenSource?.Cancel();
         }
 
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
