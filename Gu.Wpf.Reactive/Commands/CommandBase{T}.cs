@@ -14,6 +14,7 @@
     public abstract class CommandBase<T> : ICommand, INotifyPropertyChanged
     {
         /// <summary>Cached <see cref="PropertyChangedEventArgs"/> for the <see cref="IsExecuting"/> property.</summary>
+        // ReSharper disable once StaticMemberInGenericType
         protected static readonly PropertyChangedEventArgs IsExecutingChangedEventArgs = new PropertyChangedEventArgs(nameof(IsExecuting));
 
         private bool isExecuting;

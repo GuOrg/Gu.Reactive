@@ -31,14 +31,7 @@ namespace Gu.Wpf.Reactive
         /// <inheritdoc/>
         public void Dispose()
         {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            this.disposed = true;
             this.Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc/>
@@ -59,7 +52,7 @@ namespace Gu.Wpf.Reactive
         /// Disposes of a <see cref="ConditionRelayCommand"/>.
         /// </summary>
         /// <remarks>
-        /// Called from Dispose() with disposing=true, and from the finalizer (~ConditionRelayCommand) with disposing=false.
+        /// Called from Dispose() with disposing=true.
         /// Guidelines:
         /// 1. We may be called more than once: do nothing after the first call.
         /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.

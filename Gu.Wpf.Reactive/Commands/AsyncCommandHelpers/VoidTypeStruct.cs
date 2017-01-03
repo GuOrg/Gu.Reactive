@@ -1,7 +1,9 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     /// <summary>
-    /// Dummy for generics
+    /// Placeholder struct for use in generics
     /// </summary>
-    public struct VoidTypeStruct { }
+    public struct VoidTypeStruct
+    {
+    }
 }

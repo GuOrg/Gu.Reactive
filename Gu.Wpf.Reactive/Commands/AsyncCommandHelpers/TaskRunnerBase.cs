@@ -15,6 +15,7 @@
 
         private bool disposed;
 
+        /// <inheritdoc/>
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
         protected TaskRunnerBase()
@@ -76,20 +77,10 @@
             // intentional NOP
         }
 
-        /// <summary>
-        /// Dispose(true); //I am calling you from Dispose, it's safe
-        /// GC.SuppressFinalize(this); //Hey, GC: don't bother calling finalize later
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            this.disposed = true;
             this.Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -98,13 +89,16 @@
         /// <param name="disposing">true: safe to free managed resources</param>
         protected virtual void Dispose(bool disposing)
         {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
             if (disposing)
             {
                 this.TaskCompletion?.Task.Dispose();
-                // Free any other managed objects here.
             }
-
-            // Free any unmanaged objects here.
         }
 
         protected void VerifyDisposed()

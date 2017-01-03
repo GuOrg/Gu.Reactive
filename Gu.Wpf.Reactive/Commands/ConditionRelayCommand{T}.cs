@@ -9,6 +9,7 @@
     /// Signals CanExecuteChanged when conditions changes
     /// CanExecute() returns condition.IsSatisfied == true
     /// </summary>
+    /// <typeparam name="T">The type of the command parameter.</typeparam>
     public class ConditionRelayCommand<T> : ManualRelayCommand<T>, IConditionRelayCommand
     {
         private readonly IDisposable subscription;
@@ -27,9 +28,40 @@
                                      .Subscribe(_ => this.RaiseCanExecuteChanged());
         }
 
+        /// <inheritdoc/>
         public ICondition Condition { get; }
 
+        /// <inheritdoc/>
         public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        /// <inheritdoc/>
+        protected override bool InternalCanExecute(T parameter)
+        {
+            this.VerifyDisposed();
+            return base.InternalCanExecute(parameter);
+        }
+
+        /// <inheritdoc/>
+        protected override void InternalExecute(T parameter)
+        {
+            this.VerifyDisposed();
+            base.InternalExecute(parameter);
+        }
+
+        /// <summary>
+        /// Disposes of a <see cref="ConditionRelayCommand{T}"/>.
+        /// </summary>
+        /// <remarks>
+        /// Called from Dispose() with disposing=true.
+        /// Guidelines:
+        /// 1. We may be called more than once: do nothing after the first call.
+        /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.
+        /// </remarks>
+        /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
+        protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)
             {
@@ -37,30 +69,15 @@
             }
 
             this.disposed = true;
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected override bool InternalCanExecute(T parameter)
-        {
-            this.VerifyDisposed();
-            return base.InternalCanExecute(parameter);
-        }
-
-        protected override void InternalExecute(T parameter)
-        {
-            this.VerifyDisposed();
-            base.InternalExecute(parameter);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
             if (disposing)
             {
                 this.subscription.Dispose();
             }
         }
 
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// </summary>
         protected void VerifyDisposed()
         {
             if (this.disposed)
