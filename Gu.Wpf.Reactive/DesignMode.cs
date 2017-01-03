@@ -1,13 +1,15 @@
-﻿namespace Gu.Wpf.Reactive
+﻿#pragma warning disable SA1600 // Elements must be documented
+#pragma warning disable SA1401 // Fields must be private
+namespace Gu.Wpf.Reactive
 {
     using System.ComponentModel;
     using System.Windows;
 
     internal static class DesignMode
     {
-        // referencing tooltips here so it gets copied
-        private static readonly DependencyObject dependencyObject = new DependencyObject();
         internal static bool? OverrideIsDesignTime = null;
+
+        private static readonly DependencyObject DependencyObject = new DependencyObject();
 
         internal static bool IsDesignTime
         {
@@ -18,7 +20,7 @@
                     return OverrideIsDesignTime.Value;
                 }
 
-                return DesignerProperties.GetIsInDesignMode(dependencyObject);
+                return DesignerProperties.GetIsInDesignMode(DependencyObject);
             }
         }
     }

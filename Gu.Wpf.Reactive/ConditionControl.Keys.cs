@@ -1,4 +1,7 @@
-﻿namespace Gu.Wpf.Reactive
+﻿#pragma warning disable SA1600 // Elements must be documented
+#pragma warning disable SA1601 // Elements must be documented
+#pragma warning disable 1591
+namespace Gu.Wpf.Reactive
 {
     using System.Runtime.CompilerServices;
     using System.Windows;
@@ -23,6 +26,7 @@
 
         private static ComponentResourceKey CreateKey([CallerMemberName] string caller = null)
         {
+            // ReSharper disable once AssignNullToNotNullAttribute
             return new ComponentResourceKey(typeof(ConditionControl), caller);
         }
 
