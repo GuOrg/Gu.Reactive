@@ -20,20 +20,31 @@
         private static readonly string[] DoNotCopy = { "Path", "Source", "ElementName", "RelativeSource", "ValidationRules" };
         private static readonly PropertyInfo[] CopyProperties = typeof(Binding).GetProperties().Where(x => !DoNotCopy.Contains(x.Name)).ToArray();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NinjaBinding"/> class.
+        /// </summary>
         public NinjaBinding()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NinjaBinding"/> class.
+        /// </summary>
+        /// <param name="binding">The binding to apply.</param>
         public NinjaBinding(Binding binding)
         {
             this.Binding = binding;
         }
 
+        /// <summary>
+        /// The binding to apply.
+        /// </summary>
         [ConstructorArgument("binding")]
         public Binding Binding { get; set; }
 
         private bool IsInDesignMode => DesignerProperties.GetIsInDesignMode(DependencyObject);
 
+        /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             if (this.Binding == null)

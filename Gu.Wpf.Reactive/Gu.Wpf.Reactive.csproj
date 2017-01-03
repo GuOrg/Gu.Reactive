@@ -63,6 +63,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\DispatchingCollection{T}.cs" />
     <Compile Include="Collections\DispatchingView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

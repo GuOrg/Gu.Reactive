@@ -67,7 +67,7 @@
                 </Button.ToolTip>
             </Button>
         </StackPanel>
-        <DataGrid Grid.Row="3">
+        <DataGrid Grid.Row="3" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Not so ninja" Visibility="{Binding Visibility}" />
                 <DataGridTextColumn Header="Not so ninja ElementName" Visibility="{Binding IsChecked, ElementName=CheckBox, Converter={StaticResource BooleanToVisibilityConverter}}" />

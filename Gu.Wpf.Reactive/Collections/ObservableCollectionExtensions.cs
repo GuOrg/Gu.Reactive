@@ -26,10 +26,10 @@
             }
             else
             {
-                bool last = true;
-                for (int i = 0; i < collection.Count; i++)
+                var last = true;
+                for (var i = 0; i < collection.Count; i++)
                 {
-                    int result = comparison.Invoke(collection[i], item);
+                    var result = comparison.Invoke(collection[i], item);
                     if (result >= 1)
                     {
                         Shedule(() => collection.Insert(i, item));

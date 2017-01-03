@@ -181,10 +181,39 @@ public RelayCommand ManualRelayCommandWithParameter { get; }
 
 ### EnumValuesForExtension
 
+Markupextension for getting enum values for a type.
+
+Sample code:
+
 ```xaml
-    xmlns:reactive="http://Gu.com/Reactive"
-	...
-    <ComboBox ItemsSource="{reactive:EnumValuesFor {x:Type Visibility}}" />
+xmlns:reactive="http://Gu.com/Reactive"
+...
+<ComboBox ItemsSource="{reactive:EnumValuesFor {x:Type Visibility}}" />
+```
+
+### NinjaBinding
+
+Markupextension for binding when not in the visual tree.
+
+Sample code:
+
+```xaml
+xmlns:reactive="http://Gu.com/Reactive"
+...
+<CheckBox x:Name="CheckBox" IsChecked="{Binding Visible}" />
+...
+<DataGrid AutoGenerateColumns="False">
+    <DataGrid.Columns>
+	    <!--Here the viewmodel has a Visibility property-->
+        <DataGridTextColumn Header="Binding" 
+		                    Visibility="{reactive:NinjaBinding {Binding Visibility}}" />
+
+        <DataGridTextColumn Header="ElementName" 
+		                    Visibility="{reactive:NinjaBinding Binding={Binding IsChecked, 
+														                        ElementName=CheckBox, 
+																				Converter={StaticResource BooleanToVisibilityConverter}}}" />
+    </DataGrid.Columns>
+</DataGrid>
 ```
 
 

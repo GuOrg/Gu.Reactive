@@ -191,6 +191,7 @@
     <Compile Include="Collections\MappingCache{TSource,TResult}.cs" />
     <Compile Include="Collections\MappingFactory{TSource,TResult}.cs" />
     <Compile Include="Collections\MappingView{TSource,TResult}.cs" />
+    <Compile Include="Collections\ObservableBatchCollection{T}.cs" />
     <Compile Include="Collections\ObservableFixedSizeQueue{T}.cs" />
     <Compile Include="Collections\ReadOnlyFilteredView{T}.cs" />
     <Compile Include="Collections\ReadOnlyIListView{T}.cs" />
