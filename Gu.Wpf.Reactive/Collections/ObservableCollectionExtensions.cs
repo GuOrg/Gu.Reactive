@@ -7,12 +7,22 @@
     using System.Threading.Tasks;
     using System.Windows;
 
+    /// <summary>
+    /// Extension methods for <see cref="ObservableCollection{T}"/>
+    /// </summary>
     public static class ObservableCollectionExtensions
     {
         private static readonly Task CompletedTask = Task.FromResult(default(VoidTypeStruct)); // Task.CompletedTask is internal
         private static readonly Task<bool> CompletedTrueTask = Task.FromResult(true);
         private static readonly Task<bool> CompletedFalseTask = Task.FromResult(false);
 
+        /// <summary>
+        /// Insert <paramref name="item"/> sorted in <paramref name="collection"/>
+        /// </summary>
+        /// <typeparam name="T">The type of elements in <paramref name="collection"/></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="item">The item to add.</param>
+        /// <param name="comparison">The comparison</param>
         public static void InvokeInsertSorted<T>(this ObservableCollection<T> collection, T item, Comparison<T> comparison = null)
         {
             if (comparison == null)
@@ -45,77 +55,125 @@
             }
         }
 
-        public static void InvokeAdd<T>(this ObservableCollection<T> collection, T newItem)
+        /// <summary>
+        /// Add <paramref name="item"/> on the dispatcher.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in <paramref name="collection"/></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="item">The item to add.</param>
+        public static void InvokeAdd<T>(this ObservableCollection<T> collection, T item)
         {
-            Shedule(() => collection.Add(newItem));
+            Shedule(() => collection.Add(item));
         }
 
-        public static void InvokeAddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> newItems)
+        /// <summary>
+        /// Add <paramref name="items"/> on the dispatcher.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in <paramref name="collection"/></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="items">The items to add.</param>
+        public static void InvokeAddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
         {
             Shedule(
                 () =>
                 {
-                    foreach (var newItem in newItems)
+                    foreach (var newItem in items)
                     {
                         collection.Add(newItem);
                     }
                 });
         }
 
-        public static void InvokeRemove<T>(this ObservableCollection<T> collection, T oldItem)
+        /// <summary>
+        /// Remove <paramref name="item"/> on the dispatcher.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in <paramref name="collection"/></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="item">The item to remove.</param>
+        public static void InvokeRemove<T>(this ObservableCollection<T> collection, T item)
         {
-            Shedule(() => collection.Remove(oldItem));
+            Shedule(() => collection.Remove(item));
         }
 
-        public static void InvokeRemove<T>(this ObservableCollection<T> collection, IEnumerable<T> oldItems)
+        /// <summary>
+        /// Remove <paramref name="items"/> on the dispatcher.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in <paramref name="collection"/></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="items">The items to remove.</param>
+        public static void InvokeRemoveRange<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
         {
             Shedule(
                 () =>
                 {
-                    foreach (var oldItem in oldItems)
+                    foreach (var oldItem in items)
                     {
                         collection.Remove(oldItem);
                     }
                 });
         }
 
+        /// <summary>
+        /// Clear <paramref name="collection"/> on the dispatcher.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in <paramref name="collection"/></typeparam>
+        /// <param name="collection">The collection.</param>
         public static void InvokeClear<T>(this ObservableCollection<T> collection)
         {
             Shedule(collection.Clear);
         }
 
-        private static void Shedule(Action action)
+        /// <summary>
+        /// Add <paramref name="item"/> on the dispatcher.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in <paramref name="collection"/></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="item">The item to add.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static Task AddAsync<T>(this ObservableCollection<T> collection, T item)
         {
-            Schedulers.DispatcherOrCurrentThread.Schedule(action);
+            return InvokeAsync(() => collection.Add(item));
         }
 
-        public static Task AddAsync<T>(this ObservableCollection<T> collection, T newItem)
-        {
-            return InvokeAsync(() => collection.Add(newItem));
-        }
-
-        public static Task AddRangeAsync<T>(
-            this ObservableCollection<T> collection,
-            IEnumerable<T> newItems)
+        /// <summary>
+        /// Add <paramref name="items"/> on the dispatcher.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in <paramref name="collection"/></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="items">The items to add.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static Task AddRangeAsync<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
         {
             return InvokeAsync(
                 () =>
                 {
-                    foreach (var newItem in newItems)
+                    foreach (var newItem in items)
                     {
                         collection.Add(newItem);
                     }
                 });
         }
 
-        public static Task<bool> RemoveAsync<T>(this ObservableCollection<T> collection, T oldItem)
+        /// <summary>
+        /// Remove <paramref name="item"/> on the dispatcher.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in <paramref name="collection"/></typeparam>
+        /// <param name="collection">The collection.</param>
+        /// <param name="item">The item to remove.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public static Task<bool> RemoveAsync<T>(this ObservableCollection<T> collection, T item)
         {
-            return InvokeAsyncResult(() => collection.Remove(oldItem));
+            return InvokeAsyncResult(() => collection.Remove(item));
         }
 
         public static Task ClearAsync<T>(this ObservableCollection<T> collection)
         {
             return InvokeAsync(collection.Clear);
+        }
+
+        private static void Shedule(Action action)
+        {
+            Schedulers.DispatcherOrCurrentThread.Schedule(action);
         }
 
         private static Task InvokeAsync(Action action)
@@ -142,10 +200,6 @@
             return result ?
                 CompletedTrueTask :
                 CompletedFalseTask;
-        }
-
-        private struct VoidTypeStruct
-        {
         }
     }
 }

@@ -34,7 +34,6 @@
             var task = tcs.Task;
             var completion = new NotifyTaskCompletion<int>(task);
             tcs.SetCanceled();
-            //Assert.AreEqual(task.Result, completion.Result);
             AssertCompletion.AreEqual(task, completion);
         }
 

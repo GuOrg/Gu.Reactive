@@ -28,17 +28,6 @@ namespace Gu.Wpf.Reactive.Tests.CollectionViews
         }
 
         [Test]
-        [Explicit("Not sure this is relevant any more")]
-        public void IsDefaultView()
-        {
-            Assert.Inconclusive("Not sure this is relevant any more");
-            //var ints = new List<int> { 1, 2, 3 };
-            //var source = ReactiveViewSource.Create(ints);
-            //var view = CollectionViewSource.GetDefaultView(source.View);
-            //Assert.AreSame(view, source.View);
-        }
-
-        [Test]
         public void BindItemsSource()
         {
             var listBox = new ListBox();
@@ -49,6 +38,5 @@ namespace Gu.Wpf.Reactive.Tests.CollectionViews
             view.Refresh();
             CollectionAssert.AreEqual(new[] { 2 }, listBox.Items); // Filtered
         }
-
     }
 }

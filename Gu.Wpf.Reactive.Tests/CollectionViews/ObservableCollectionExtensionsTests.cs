@@ -48,7 +48,7 @@
         public void InvokeRemoveRange()
         {
             var ints = new ObservableCollection<int> { 1, 2, 3 };
-            ints.InvokeRemove(new[] { 2, 3 });
+            ints.InvokeRemoveRange(new[] { 2, 3 });
             CollectionAssert.AreEqual(new[] { 1 }, ints);
         }
 

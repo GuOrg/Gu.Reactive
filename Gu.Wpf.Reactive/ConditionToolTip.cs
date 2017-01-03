@@ -15,7 +15,8 @@
     public class ConditionToolTip : ToolTip
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
-
+#pragma warning disable SA1600 // Elements must be documented
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
             "Condition",
             typeof(ICondition),
@@ -51,17 +52,25 @@
             new PropertyMetadata(default(ICommand), OnCommandProxyChanged));
 
 #pragma warning restore SA1202 // Elements must be ordered by access
+#pragma warning restore SA1600 // Elements must be documented
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         static ConditionToolTip()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ConditionToolTip), new FrameworkPropertyMetadata(typeof(ConditionToolTip)));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConditionToolTip"/> class.
+        /// </summary>
         public ConditionToolTip()
         {
             this.UpdateInferConditionFromCommand(this.InferConditionFromCommand);
         }
 
+        /// <summary>
+        /// Setting this to true binds <see cref="Condition"/> to the Condition of the command if any.
+        /// </summary>
         public bool InferConditionFromCommand
         {
             get { return (bool)this.GetValue(InferConditionFromCommandProperty); }
@@ -77,6 +86,9 @@
             set { this.SetValue(ConditionProperty, value); }
         }
 
+        /// <summary>
+        /// The command type of the PlacementTarget
+        /// </summary>
         public Type CommandType
         {
             get { return (Type)this.GetValue(CommandTypeProperty); }

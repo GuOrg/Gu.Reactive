@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.Reactive.Tests.Converters
+﻿#pragma warning disable 618
+namespace Gu.Wpf.Reactive.Tests.Converters
 {
     using System;
     using System.Globalization;

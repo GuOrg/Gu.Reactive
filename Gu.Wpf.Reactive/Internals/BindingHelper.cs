@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.Reactive
+﻿#pragma warning disable SA1600 // Elements must be documented internal
+namespace Gu.Wpf.Reactive
 {
     using System.Collections.Generic;
     using System.Windows;

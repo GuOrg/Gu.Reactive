@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.Reactive
+﻿#pragma warning disable SA1600 // Elements must be documented internal
+namespace Gu.Wpf.Reactive
 {
     using System;
 
@@ -18,6 +19,8 @@
             this.HasValue = false;
         }
 
+        public bool HasValue { get; }
+
         public T Value
         {
             get
@@ -30,7 +33,5 @@
                 return this.value;
             }
         }
-
-        public bool HasValue { get; }
     }
 }

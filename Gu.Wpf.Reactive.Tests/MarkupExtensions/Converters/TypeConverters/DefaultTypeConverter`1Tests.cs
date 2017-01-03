@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.Reactive.Tests.Converters.TypeConverters
+﻿#pragma warning disable 618
+namespace Gu.Wpf.Reactive.Tests.Converters.TypeConverters
 {
     using NUnit.Framework;
 

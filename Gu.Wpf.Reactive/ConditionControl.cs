@@ -12,7 +12,8 @@
     public partial class ConditionControl : Control
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
-
+#pragma warning disable SA1600 // Elements must be documented
+#pragma warning disable 1591
         private static readonly IEnumerable<ICondition> Empty = new ICondition[0];
 
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
@@ -46,23 +47,34 @@
         public static readonly DependencyProperty FlattenedPrerequisitesProperty = FlattenedPrerequisitesPropertyKey.DependencyProperty;
 
 #pragma warning restore SA1202 // Elements must be ordered by access
+#pragma warning restore 1591
+#pragma warning restore SA1600 // Elements must be documented
 
         static ConditionControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ConditionControl), new FrameworkPropertyMetadata(typeof(ConditionControl)));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConditionControl"/> class.
+        /// </summary>
         public ConditionControl()
         {
             this.IsVisibleChanged += (_, __) => this.OnIsVisibleChanged();
         }
 
+        /// <summary>
+        /// The condition.
+        /// </summary>
         public ICondition Condition
         {
             get { return (ICondition)this.GetValue(ConditionProperty); }
             set { this.SetValue(ConditionProperty, value); }
         }
 
+        /// <summary>
+        /// The condition exposed as an enumerable with one element for binding the root of <see cref="TreeView"/>.
+        /// </summary>
         public IEnumerable<ICondition> Root
         {
             get { return (IEnumerable<ICondition>)this.GetValue(RootProperty); }
@@ -78,12 +90,16 @@
             protected set { this.SetValue(FlattenedPrerequisitesPropertyKey, value); }
         }
 
+        /// <summary>
+        /// True if all detected changes of ICondition.IsSatisfied have been notified.
+        /// </summary>
         public bool IsInSync
         {
             get { return (bool)this.GetValue(IsInSyncProperty); }
             protected set { this.SetValue(IsInSyncPropertyKey, value); }
         }
 
+        // ReSharper disable once UnusedParameter.Global
         protected virtual void OnConditionChanged(ICondition oldCondition, ICondition newCondition)
         {
             if (newCondition == null)
