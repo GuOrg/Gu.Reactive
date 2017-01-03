@@ -10,7 +10,6 @@ namespace Gu.Wpf.Reactive
     public class MultiplyConverter : MarkupConverter<double?, double?>
     {
         public MultiplyConverter()
-            : base()
         {
             this.Factor = 1;
         }

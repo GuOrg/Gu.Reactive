@@ -16,7 +16,6 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="NullableBooleanToBooleanConverter"/> class
         /// </summary>
         public NullableBooleanToBooleanConverter()
-            : base()
         {
             this.WhenTrue = true;
             this.WhenFalse = false;

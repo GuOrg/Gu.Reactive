@@ -17,7 +17,6 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="BooleanToVisibilityConverter"/> class
         /// </summary>
         public BooleanToVisibilityConverter()
-            : base()
         {
             this.WhenTrue = Visibility.Visible;
             this.WhenFalse = Visibility.Collapsed;

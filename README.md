@@ -177,4 +177,14 @@ public RelayCommand ManualRelayCommand { get; }
 public RelayCommand ManualRelayCommandWithParameter { get; }
 ```
 
+## MarkupExtensions
+
+### EnumValuesForExtension
+
+```xaml
+    xmlns:reactive="http://Gu.com/Reactive"
+	...
+    <ComboBox ItemsSource="{reactive:EnumValuesFor {x:Type Visibility}}" />
+```
+
 
