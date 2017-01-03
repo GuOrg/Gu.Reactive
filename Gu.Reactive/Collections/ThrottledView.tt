@@ -15,9 +15,9 @@ namespace Gu.Reactive
     {
         var typeName = typeNames[i];
         if(i > 0)
-		{#>
+        {#>
 
-<#      }	
+<#      }    
 #>
         public static ThrottledView<TItem> AsThrottledView<TItem>(this <#= typeName #><TItem> collection, TimeSpan bufferTime)
         {

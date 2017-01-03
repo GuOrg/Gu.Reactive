@@ -11,14 +11,14 @@
     using JetBrains.Annotations;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
     public abstract class SynchronizedEditableView<T> : IList, IUpdater, IRefreshAble, IDisposable, INotifyPropertyChanged, INotifyCollectionChanged
     {
-        protected readonly IList<T> Source;
-        protected readonly CollectionSynchronizer<T> Tracker;
-        private bool disposed;
         private object isUpdatingSourceItem;
         private readonly object syncRoot;
+
+        private bool disposed;
 
         protected SynchronizedEditableView(IList<T> source)
             : this(source, source)
@@ -43,6 +43,10 @@
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
 
         object IUpdater.IsUpdatingSourceItem => this.isUpdatingSourceItem;
+
+        protected IList<T> Source { get; }
+
+        protected CollectionSynchronizer<T> Tracker { get; }
 
         protected PropertyChangedEventHandler PropertyChangedEventHandler => this.PropertyChanged;
 
@@ -104,7 +108,10 @@
 
         public T this[int index]
         {
-            get { return this.Tracker.Current[index]; }
+            get
+            {
+                return this.Tracker.Current[index];
+            }
 
             set
             {
@@ -157,7 +164,10 @@
 
         object IList.this[int index]
         {
-            get { return this[index]; }
+            get
+            {
+                return this[index];
+            }
 
             set
             {

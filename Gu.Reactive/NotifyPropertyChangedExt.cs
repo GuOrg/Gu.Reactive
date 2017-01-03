@@ -218,15 +218,15 @@
             var observable = source.ObservePropertyChanged(propertyPath, false);
             return Observable.Defer(
                 () =>
-                {
-                    var withValues =
-                        observable.Select(
-                            x =>
-                                new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
-                                    x.Sender,
-                                    new PropertyChangedAndValueEventArgs<TProperty>(
-                                        x.EventArgs.PropertyName,
-                                        propertyPath.GetValue((TNotifier)wr.Target))));
+                    {
+                        var withValues =
+                            observable.Select(
+                                x =>
+                                    new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
+                                        x.Sender,
+                                        new PropertyChangedAndValueEventArgs<TProperty>(
+                                            x.EventArgs.PropertyName,
+                                            propertyPath.GetValue((TNotifier)wr.Target))));
                     if (signalInitial)
                     {
                         var valueAndSource = propertyPath.GetValueAndSender((TNotifier)wr.Target);

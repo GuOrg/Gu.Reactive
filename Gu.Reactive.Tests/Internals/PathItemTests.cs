@@ -15,7 +15,7 @@ namespace Gu.Reactive.Tests.Internals
         {
             var propertyInfo = typeof(Fake).GetProperty("WriteOnly");
             Assert.NotNull(propertyInfo);
-            Assert.Throws<ArgumentException>(() =>  new PathProperty(null, propertyInfo));
+            Assert.Throws<ArgumentException>(() => new PathProperty(null, propertyInfo));
         }
 
         [Test]

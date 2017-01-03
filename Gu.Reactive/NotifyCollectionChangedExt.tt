@@ -19,9 +19,9 @@ namespace Gu.Reactive
     {
         var typeName = typeNames[i];
         if(i > 0)
-		{#>
+        {#>
 
-<#      }	
+<#      }    
 #>
         /// <summary>
         /// Observes propertychanges for items in the collection.

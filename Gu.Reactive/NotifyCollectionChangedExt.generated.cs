@@ -50,8 +50,8 @@
         /// <summary>
         /// Observes propertychanges for items in the collection.
         /// </summary>
-        /// <typeparam name="TItem">The type of the items in the collection</typeparam>
         /// <typeparam name="TProperty"></typeparam>
+        /// <typeparam name="TItem">The type of the items in the collection</typeparam>
         /// <param name="source"></param>
         /// <param name="property">Sample: item => item.SomeProp.SomeNestedProp</param>
         /// <param name="signalInitial">When true a reset is singaled on subscribe.</param>

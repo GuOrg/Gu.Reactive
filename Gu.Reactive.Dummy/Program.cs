@@ -10,7 +10,7 @@
         {
             PauseWith("Starting");
             ObserveItemPropertyChanged();
-            //ObservePropertyChanged();
+            //// ObservePropertyChanged();
             PauseWith("Press key to exit");
         }
 

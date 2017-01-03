@@ -128,7 +128,10 @@ namespace Gu.Reactive.PropertyPathStuff
         /// </summary>
         public IDisposable Subscription
         {
-            get { return this.subscription; }
+            get
+            {
+                return this.subscription;
+            }
 
             private set
             {
@@ -164,11 +167,14 @@ namespace Gu.Reactive.PropertyPathStuff
                 var value = source != null
                                 ? (INotifyPropertyChanged)this.PathProperty.PropertyInfo.GetValue(this.Source)
                                 : null;
-                if (ReferenceEquals(value, next.Source) && value != null) // The source signaled event without changing value. We still bubble up since it is not our job to filter.
+
+                // The source signaled event without changing value. We still bubble up since it is not our job to filter.
+                if (ReferenceEquals(value, next.Source) && value != null)
                 {
                     next.OnPropertyChanged(next.Source, e);
                 }
-                else if (string.IsNullOrEmpty(e.PropertyName) && value != null) // We want eventArgs.PropertyName string.Empty to bubble up
+                //// We want eventArgs.PropertyName string.Empty to bubble up
+                else if (string.IsNullOrEmpty(e.PropertyName) && value != null)
                 {
                     next.OnPropertyChanged(next.Source, e);
                 }

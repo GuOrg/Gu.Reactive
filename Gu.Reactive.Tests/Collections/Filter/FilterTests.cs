@@ -16,12 +16,14 @@ namespace Gu.Reactive.Tests.Collections.Filter
 
     public abstract class FilterTests
     {
-        private static readonly PropertyChangedEventArgs FilterChangedEventArgs = new PropertyChangedEventArgs("Filter");
         protected List<EventArgs> actual;
-        private readonly List<EventArgs> expected = new List<EventArgs>();
         protected TestScheduler scheduler;
         protected IFilteredView<int> view;
         protected ObservableCollection<int> ints;
+
+        private static readonly PropertyChangedEventArgs FilterChangedEventArgs = new PropertyChangedEventArgs("Filter");
+
+        private readonly List<EventArgs> expected = new List<EventArgs>();
 
         [SetUp]
         public virtual void SetUp()

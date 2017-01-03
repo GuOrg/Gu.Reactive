@@ -1,6 +1,5 @@
 namespace Gu.Reactive.Demo
 {
-
     public class HasFuel : Condition
     {
         public HasFuel()

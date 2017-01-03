@@ -19,9 +19,9 @@ namespace Gu.Reactive
     {
         var typeName = typeNames[i];
         if(i > 0)
-		{#>
+        {#>
 
-<#      }	
+<#      }    
 #>
         /// <summary>
         /// Creates a <see cref="MaxTracker{TValue}"/> for <paramref name="source"/>
@@ -56,7 +56,7 @@ namespace Gu.Reactive
         {
             return new MaxTracker<TValue>(source, source.ObserveCollectionChangedSlim(false), whenEmpty);
         }
-<#      }	
+<#      }    
 #>
     }
 }

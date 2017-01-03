@@ -8,12 +8,10 @@
     /// <summary>
     /// The path expression visitor.
     /// </summary>
+    [Obsolete("Don't use this.")]
     internal class PropertyPathVisitor : ExpressionVisitor
     {
         private readonly Expression expression;
-        /// <summary>
-        /// The _path.
-        /// </summary>
         private readonly List<MemberInfo> path = new List<MemberInfo>();
 
         private PropertyPathVisitor(Expression expression)
@@ -21,20 +19,7 @@
             this.expression = expression;
         }
 
-        /// <summary>
-        /// The get path.
-        /// </summary>
-        /// <param name="expression">
-        /// The expression.
-        /// </param>
-        /// <typeparam name="TSource">
-        /// </typeparam>
-        /// <typeparam name="TResult">
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="MemberExpression[]"/>.
-        /// </returns>
-        public static IReadOnlyList<MemberInfo> GetPath<TSource, TResult>(Expression<Func<TSource, TResult>> expression)
+        internal static IReadOnlyList<MemberInfo> GetPath<TSource, TResult>(Expression<Func<TSource, TResult>> expression)
         {
             var visitor = new PropertyPathVisitor(expression);
             visitor.Visit(expression);
@@ -42,18 +27,7 @@
             return visitor.path;
         }
 
-        /// <summary>
-        /// The get path.
-        /// </summary>
-        /// <param name="expression">
-        /// The expression.
-        /// </param>
-        /// <typeparam name="T">
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="IReadOnlyList{MemberExpression}"/>.
-        /// </returns>
-        public static IReadOnlyList<MemberInfo> GetPath<T>(Expression<Func<T>> expression)
+        internal static IReadOnlyList<MemberInfo> GetPath<T>(Expression<Func<T>> expression)
         {
             var visitor = new PropertyPathVisitor(expression);
             visitor.Visit(expression);
@@ -61,15 +35,6 @@
             return visitor.path;
         }
 
-        /// <summary>
-        /// The visit member.
-        /// </summary>
-        /// <param name="node">
-        /// The node.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Expression"/>.
-        /// </returns>
         protected override Expression VisitMember(MemberExpression node)
         {
             this.path.Add(node.Member);

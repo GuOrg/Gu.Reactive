@@ -18,10 +18,14 @@ namespace Gu.Reactive.Tests.Collections.CrudView
     public abstract class CrudViewTests
     {
         private List<EventArgs> expected;
-        protected List<EventArgs> Actual;
-        protected TestScheduler Scheduler;
-        protected IFilteredView<int> View;
-        protected ObservableCollection<int> Ints;
+
+        protected List<EventArgs> Actual { get; set; }
+
+        protected TestScheduler Scheduler { get; set; }
+
+        protected IFilteredView<int> View { get; set; }
+
+        protected ObservableCollection<int> Ints { get; set; }
 
         [SetUp]
         public virtual void SetUp()
@@ -116,7 +120,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public void Move(int fromIndex, int toIndex)
         {
             Assert.Inconclusive("Do we want move?");
-            //_view.Move(fromIndex, toIndex);
+            ////_view.Move(fromIndex, toIndex);
             this.Scheduler?.Start();
             CollectionAssert.AreEqual(this.Ints, this.View);
             CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);

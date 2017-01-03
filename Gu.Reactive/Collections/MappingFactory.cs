@@ -14,7 +14,7 @@ namespace Gu.Reactive
             return new MappingFactory<TSource, TResult>(selector);
         }
 
-        public static IMappingFactory<TSource, TResult> Create<TSource, TResult>(Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater)
+        internal static IMappingFactory<TSource, TResult> Create<TSource, TResult>(Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater)
         {
             if (typeof(TSource).IsClass && typeof(TResult).IsClass)
             {

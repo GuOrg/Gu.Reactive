@@ -217,7 +217,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     Assert.IsTrue(collectionRef.IsAlive);
                     observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
                 })();
-            // http://stackoverflow.com/a/579001/1069200
+            //// http://stackoverflow.com/a/579001/1069200
             var subscription = observable.Subscribe();
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);
@@ -248,7 +248,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     Assert.IsTrue(collectionRef.IsAlive);
                     observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
                 })();
-            // http://stackoverflow.com/a/579001/1069200
+            //// http://stackoverflow.com/a/579001/1069200
             var subscription = observable.Subscribe();
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);

@@ -15,7 +15,7 @@
                                                                                              NotifyCollectionResetEventArgs
                                                                                          };
 
-        public static NotifyCollectionChangedEventArgs CollectionChange<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges)
+        internal static NotifyCollectionChangedEventArgs CollectionChange<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges)
         {
             if (collectionChanges != null && collectionChanges.Count == 1)
             {

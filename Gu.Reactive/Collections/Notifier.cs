@@ -6,13 +6,10 @@ namespace Gu.Reactive
     using System.ComponentModel;
     using System.Reactive.Concurrency;
 
-    public static class Notifier
+    internal static class Notifier
     {
-        private const string CountName = "Count";
-        private const string IndexerName = "Item[]";
-
-        internal static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(CountName);
-        internal static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs(IndexerName);
+        internal static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs("Count");
+        internal static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
 
         internal static void NotifyReset(
             object sender,
@@ -28,7 +25,7 @@ namespace Gu.Reactive
                 collectionChangeEventHandler);
         }
 
-        public static void Notify(
+        internal static void Notify(
             object sender,
             IReadOnlyList<NotifyCollectionChangedEventArgs> changes,
             IScheduler scheduler,
@@ -106,12 +103,12 @@ namespace Gu.Reactive
             }
         }
 
-        public static bool IsSingleNewItem(this NotifyCollectionChangedEventArgs e)
+        internal static bool IsSingleNewItem(this NotifyCollectionChangedEventArgs e)
         {
             return e?.NewItems?.Count == 1;
         }
 
-        public static T NewItem<T>(this NotifyCollectionChangedEventArgs e)
+        internal static T NewItem<T>(this NotifyCollectionChangedEventArgs e)
         {
             if (!e.IsSingleNewItem())
             {
@@ -121,12 +118,12 @@ namespace Gu.Reactive
             return (T)e.NewItems[0];
         }
 
-        public static bool IsSingleOldItem(this NotifyCollectionChangedEventArgs e)
+        internal static bool IsSingleOldItem(this NotifyCollectionChangedEventArgs e)
         {
             return e?.OldItems?.Count == 1;
         }
 
-        public static T OldItem<T>(this NotifyCollectionChangedEventArgs e)
+        internal static T OldItem<T>(this NotifyCollectionChangedEventArgs e)
         {
             if (!e.IsSingleOldItem())
             {

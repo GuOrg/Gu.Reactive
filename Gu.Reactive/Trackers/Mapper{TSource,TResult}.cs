@@ -30,7 +30,10 @@
 
         public TResult Value
         {
-            get { return this.value; }
+            get
+            {
+                return this.value;
+            }
 
             private set
             {
