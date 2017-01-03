@@ -18,8 +18,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionRelayCommand{T}"/> class.
         /// </summary>
-        /// <param name="action">SomeMethod</param>
-        /// <param name="condition"></param>
+        /// <param name="action">The action to invoke when the command is executed.</param>
+        /// <param name="condition">The criteria by CanExecute</param>
         public ConditionRelayCommand(Action<T> action, ICondition condition)
             : base(action, _ => condition.IsSatisfied == true)
         {
