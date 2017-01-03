@@ -1,11 +1,15 @@
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable SA1600 // Elements must be documented
 namespace Gu.Wpf.Reactive
 {
+    using System;
     using System.Globalization;
 
     /// <summary>
     /// Base class for boolean to X converter
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of the value to convert to.</typeparam>
+    [Obsolete("To be removed.")]
     public abstract class BooleanToXConverter<T> : MarkupConverter<bool?, T>
     {
         /// <summary>

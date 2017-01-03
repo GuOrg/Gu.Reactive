@@ -106,7 +106,7 @@
     <Compile Include="MarkupExtensions\RootObjectExtension.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\NotifyTaskCompletion.cs" />
     <Compile Include="Maybe{T}.cs" />
-    <Compile Include="ServiceProviderExt.cs" />
+    <Compile Include="Internals\ServiceProviderExt.cs" />
     <Compile Include="MarkupExtensions\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="MarkupExtensions\Converters\BooleanToXConverter.cs" />
     <Compile Include="MarkupExtensions\Converters\TypeConverters\DefaultTypeConverter.cs" />

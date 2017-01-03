@@ -1,8 +1,11 @@
-﻿namespace Gu.Wpf.Reactive
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable SA1600 // Elements must be documented
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Concurrent;
 
+    [Obsolete("To be removed.")]
     internal static class TypeConverterFactory
     {
         private static readonly ConcurrentDictionary<Type, ITypeConverter> TypeConverterMap = new ConcurrentDictionary<Type, ITypeConverter>();
@@ -31,8 +34,8 @@
         /// <summary>
         /// http://msdn.microsoft.com/en-us/library/ms366789.aspx
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
+        /// <param name="type">The type</param>
+        /// <returns>True if <paramref name="type"/> is of type Nullable{enum}</returns>
         internal static bool IsEnumOrNullableEnum(Type type)
         {
             if (type.IsEnum)

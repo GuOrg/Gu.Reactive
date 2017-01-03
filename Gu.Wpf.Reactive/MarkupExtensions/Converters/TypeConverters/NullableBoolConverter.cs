@@ -1,9 +1,12 @@
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable SA1600 // Elements must be documented
 namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Globalization;
     using System.Linq;
 
+    [Obsolete("To be removed.")]
     internal class NullableBoolConverter : ITypeConverter<bool?>
     {
         internal static readonly NullableBoolConverter Default = new NullableBoolConverter();

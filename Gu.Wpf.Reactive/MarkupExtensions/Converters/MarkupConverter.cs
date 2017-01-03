@@ -1,4 +1,6 @@
-﻿namespace Gu.Wpf.Reactive
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable SA1600 // Elements must be documented
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Globalization;
@@ -14,6 +16,7 @@
     /// <typeparam name="TInput">Type of the expected input - value to be converted</typeparam>
     /// <typeparam name="TResult">Type of the result of the conversion</typeparam>
     [MarkupExtensionReturnType(typeof(IValueConverter))]
+    [Obsolete("To be removed.")]
     public abstract class MarkupConverter<TInput, TResult> : MarkupExtension, IValueConverter
     {
         private static readonly ITypeConverter<TInput> InputTypeConverter = TypeConverterFactory.Create<TInput>();
@@ -23,6 +26,7 @@
         {
         }
 
+        /// <inheritdoc/>
         object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             this.VerifyValue(value, parameter);
@@ -35,6 +39,7 @@
             return this.ConvertDefault();
         }
 
+        /// <inheritdoc/>
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             this.VerifyValue(value, parameter);
@@ -47,11 +52,18 @@
             return this.ConvertBackDefault();
         }
 
+        /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             return this;
         }
 
+        /// <summary>
+        /// Convert <paramref name="value"/>
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="culture">The culture.</param>
+        /// <returns>The converted value.</returns>
         protected abstract TResult Convert(TInput value, CultureInfo culture);
 
         protected virtual TResult ConvertDefault()
@@ -59,6 +71,12 @@
             return default(TResult);
         }
 
+        /// <summary>
+        /// Convert <paramref name="value"/>
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <param name="culture">The culture.</param>
+        /// <returns>The converted value.</returns>
         protected abstract TInput ConvertBack(TResult value, CultureInfo culture);
 
         protected virtual TInput ConvertBackDefault()

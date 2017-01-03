@@ -40,8 +40,6 @@ fake.ObservePropertyChangedWithValue(x => x.Collection)
 ### Conditions:
 Se demo code
 
-
-
 ### FilteredView<T>
 * No more CollectionViewSource in code.
 * Typed so you get intellisense in xaml.
@@ -178,4 +176,5 @@ public RelayCommand ManualRelayCommand { get; }
 
 public RelayCommand ManualRelayCommandWithParameter { get; }
 ```
+
 
