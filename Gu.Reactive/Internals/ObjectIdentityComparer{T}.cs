@@ -3,14 +3,20 @@
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
 
-    internal class ObjectIdentityComparer<T> : IEqualityComparer<T>
+    internal sealed class ObjectIdentityComparer<T> : IEqualityComparer<T>
     {
-        public bool Equals(T x, T y)
+        internal static readonly ObjectIdentityComparer<T> Default = new ObjectIdentityComparer<T>();
+
+        private ObjectIdentityComparer()
+        {
+        }
+
+        bool IEqualityComparer<T>.Equals(T x, T y)
         {
             return ReferenceEquals(x, y);
         }
 
-        public int GetHashCode(T obj)
+        int IEqualityComparer<T>.GetHashCode(T obj)
         {
             return RuntimeHelpers.GetHashCode(obj);
         }

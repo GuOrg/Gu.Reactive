@@ -30,7 +30,6 @@ namespace Gu.Reactive.PropertyPathStuff
             get
             {
                 return this.sourceRef.Target;
-
             }
 
             set

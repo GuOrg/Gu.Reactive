@@ -2,7 +2,7 @@
 {
     using System;
 
-    internal class Maybe<T> : IMaybe<T>
+    internal struct Maybe<T> : IMaybe<T>
     {
         private readonly T value;
 
@@ -12,8 +12,10 @@
             this.value = value;
         }
 
+        /// <inheritdoc/>
         public bool HasValue { get; }
 
+        /// <inheritdoc/>
         public T Value
         {
             get

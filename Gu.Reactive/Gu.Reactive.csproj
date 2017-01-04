@@ -257,7 +257,6 @@
     <Compile Include="Internals\Ensure.cs" />
     <Compile Include="Internals\ConstantVisitor.cs" />
     <Compile Include="Contracts\IWpfSchedulers.cs" />
-    <Compile Include="Internals\Ensure.Singleton.cs" />
     <Compile Include="Internals\Ensure.String.cs" />
     <Compile Include="Internals\ItemsObservable{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\Maybe{T}.cs" />

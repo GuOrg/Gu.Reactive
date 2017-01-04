@@ -9,7 +9,7 @@ namespace Gu.Reactive.PropertyPathStuff
         /// <summary>
         /// Initializes a new instance of the <see cref="PathProperty"/> class.
         /// </summary>
-        /// <param name="previous"></param>
+        /// <param name="previous">The preivous property in the <see cref="PropertyPath"/></param>
         /// <param name="propertyInfo">
         /// The property info.
         /// </param>
@@ -52,8 +52,8 @@ namespace Gu.Reactive.PropertyPathStuff
         /// Gets value all the way from the root recursively.
         /// Checks for null along the way.
         /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
+        /// <param name="source">The source object</param>
+        /// <returns>The value of the property.</returns>
         internal Maybe<T> GetValue<T>(object source)
         {
             if (source == null)

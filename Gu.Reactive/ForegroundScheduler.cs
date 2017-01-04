@@ -8,8 +8,11 @@ namespace Gu.Reactive
     /// Sets thread to foreground while there are items in the queue.
     /// Useful for save operations that should keep the app alive until finished.
     /// </summary>
-    public class ForegroundScheduler : IScheduler
+    public sealed class ForegroundScheduler : IScheduler
     {
+        /// <summary>
+        /// The default instance.
+        /// </summary>
         public static readonly ForegroundScheduler Default = new ForegroundScheduler();
         private readonly EventLoopScheduler inner;
         private Thread thread;
@@ -20,20 +23,24 @@ namespace Gu.Reactive
             this.inner = new EventLoopScheduler(this.CreateThread);
         }
 
+        /// <inheritdoc/>
         public DateTimeOffset Now => this.inner.Now;
 
+        /// <inheritdoc/>
         public IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
         {
             Interlocked.Increment(ref this.count);
             return this.inner.Schedule(state, (sc, st) => this.Invoke(sc, st, action));
         }
 
+        /// <inheritdoc/>
         public IDisposable Schedule<TState>(TState state, TimeSpan dueTime, Func<IScheduler, TState, IDisposable> action)
         {
             Interlocked.Increment(ref this.count);
             return this.inner.Schedule(state, dueTime, (sc, st) => this.Invoke(sc, st, action));
         }
 
+        /// <inheritdoc/>
         public IDisposable Schedule<TState>(TState state, DateTimeOffset dueTime, Func<IScheduler, TState, IDisposable> action)
         {
             Interlocked.Increment(ref this.count);
