@@ -15,17 +15,14 @@
     [DebuggerDisplay("Count = {Count}")]
     public abstract class SynchronizedEditableView<T> : IList, IUpdater, IRefreshAble, IDisposable, INotifyPropertyChanged, INotifyCollectionChanged
     {
-        private object isUpdatingSourceItem;
         private readonly object syncRoot;
 
+        private object isUpdatingSourceItem;
         private bool disposed;
 
         protected SynchronizedEditableView(IList<T> source)
             : this(source, source)
         {
-            Ensure.NotNull(source, nameof(source));
-            this.Source = source;
-            this.Tracker = new CollectionSynchronizer<T>(source);
         }
 
         protected SynchronizedEditableView(IList<T> source, IEnumerable<T> sourceItems)

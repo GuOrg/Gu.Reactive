@@ -3,10 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
-
-    using JetBrains.Annotations;
 
     /// <summary>
     /// This is a baseclass when you want to have a nonstatic Criteria method
@@ -20,26 +17,29 @@
         protected AbstractCondition(IObservable<object> observable)
         {
             this.condition = new Condition(observable, this.Criteria);
-            this.condition.ObservePropertyChanged()
-                      .Subscribe(x => this.OnPropertyChanged(x.EventArgs));
+            this.condition.ObservePropertyChangedSlim()
+                          .Subscribe(this.OnPropertyChanged);
             this.Name = this.condition.Name;
         }
 
+        /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <inheritdoc/>
         public bool? IsSatisfied => this.condition.IsSatisfied;
 
+        /// <inheritdoc/>
         public string Name
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 return this.name;
             }
 
             set
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 if (value == this.name)
                 {
                     return;
@@ -50,23 +50,27 @@
             }
         }
 
+        /// <inheritdoc/>
         public IReadOnlyList<ICondition> Prerequisites
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 return this.condition.Prerequisites;
             }
         }
 
+        /// <inheritdoc/>
         public IEnumerable<ConditionHistoryPoint> History => this.condition.History;
 
+        /// <inheritdoc/>
         public ICondition Negate()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             return this.condition.Negate();
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             this.Dispose(true);
@@ -91,7 +95,10 @@
             }
         }
 
-        protected void VerifyDisposed()
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// </summary>
+        protected void ThrowIfDisposed()
         {
             if (this.disposed)
             {
@@ -99,27 +106,27 @@
             }
         }
 
+        /// <summary>
+        /// The criteria for <see cref="IsSatisfied"/>
+        /// </summary>
         protected abstract bool? Criteria();
 
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="AbstractCondition"/> will raise
+        /// a property changed event through this virtual method.
+        /// </summary>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
         }
 
-        [NotifyPropertyChangedInvocator]
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// </summary>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Calls nameof internally
-        /// </summary>
-        /// <param name="propety"></param>
-        [Obsolete("Use nameof")]
-        protected virtual void OnPropertyChanged<T>(Expression<Func<T>> propety)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(NameOf.Property(propety)));
+            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -3,6 +3,9 @@
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// A condition is a reactive if-statement.
+    /// </summary>
     public interface ICondition : ISatisfied, IDisposable
     {
         /// <summary>
@@ -25,7 +28,7 @@
         /// Calling Negate on a negated condition returns the original condition.
         /// </summary>
         /// <returns>
-        /// A new condition.
+        /// A <see cref="NegatedCondition"/> condition warpping this.
         /// </returns>
         ICondition Negate();
     }

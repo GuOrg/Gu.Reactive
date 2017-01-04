@@ -36,12 +36,19 @@
         bool IList.IsFixedSize => this.ThwrowIfDisposed(false);
 
         /// <inheritdoc/>
+        object ICollection.SyncRoot => this.ThwrowIfDisposed(((ICollection)this.source).SyncRoot);
+
+        /// <inheritdoc/>
+        bool ICollection.IsSynchronized => this.ThwrowIfDisposed(((ICollection)this.source).IsSynchronized);
+
+        /// <inheritdoc/>
         public T this[int index]
         {
             get { return this.source[index]; }
             set { this.source[index] = value; }
         }
 
+        /// <inheritdoc/>
         object IList.this[int index]
         {
             get { return this[index]; }
@@ -94,12 +101,6 @@
             this.Insert(index, (T)value);
             (this.source as IRefreshAble)?.Refresh();
         }
-
-        /// <inheritdoc/>
-        object ICollection.SyncRoot => this.ThwrowIfDisposed(((ICollection)this.source).SyncRoot);
-
-        /// <inheritdoc/>
-        bool ICollection.IsSynchronized => this.ThwrowIfDisposed(((ICollection)this.source).IsSynchronized);
 
         /// <inheritdoc/>
         public void CopyTo(T[] array, int arrayIndex) => this.source.CopyTo(array, arrayIndex);

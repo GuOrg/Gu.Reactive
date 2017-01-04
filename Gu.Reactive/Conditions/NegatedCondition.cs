@@ -5,7 +5,8 @@
     using System.ComponentModel;
 
     /// <summary>
-    /// The negated condition. Calling Negate on it returns the original condition.
+    /// A negated condition wraps a <see cref="ICondition"/> and negates <see cref="IsSatisfied"/>.
+    /// Calling Negate on it returns the original condition.
     /// </summary>
     public sealed class NegatedCondition : ICondition
     {
@@ -22,14 +23,16 @@
             this.Name = $"Not_{this.condition.Name}";
 
             this.subscription = condition.ObserveIsSatisfiedChanged()
-                                     .Subscribe(_ => this.OnPropertyChanged(nameof(this.IsSatisfied)));
+                                         .Subscribe(_ => this.OnPropertyChanged(nameof(this.IsSatisfied)));
 
             this.ObservePropertyChangedSlim(nameof(this.IsSatisfied), true)
                 .Subscribe(_ => this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.IsSatisfied)));
         }
 
+        /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <inheritdoc/>
         public bool? IsSatisfied
         {
             get
@@ -44,6 +47,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public string Name
         {
             get
@@ -63,22 +67,18 @@
             }
         }
 
-        /// <summary>
-        /// Gets the prerequisites.
-        /// </summary>
+        /// <inheritdoc/>
         public IReadOnlyList<ICondition> Prerequisites => this.condition.Prerequisites;
 
-        /// <summary>
-        /// Gets the history.
-        /// </summary>
+        /// <inheritdoc/>
         public IEnumerable<ConditionHistoryPoint> History => this.history;
 
+        /// <summary>
+        /// Returns the negated (original) condition.
+        /// </summary>
         public ICondition Negate() => this.condition;
 
-        /// <summary>
-        /// Dispose(true); //I am calling you from Dispose, it's safe
-        /// GC.SuppressFinalize(this); //Hey, GC: don't bother calling finalize later
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (this.disposed)
@@ -88,7 +88,6 @@
 
             this.disposed = true;
             this.subscription.Dispose();
-            // GC.SuppressFinalize(this);
         }
 
         private void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)

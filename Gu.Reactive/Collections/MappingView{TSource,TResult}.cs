@@ -15,6 +15,7 @@
 
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "We need the reference")]
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
     public class MappingView<TSource, TResult> : ReadonlySerialViewBase<TResult>, IReadOnlyObservableCollection<TResult>, IUpdater, IRefreshAble
     {
@@ -40,11 +41,6 @@
 
         public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, selector, triggers)
-        {
-        }
-
-        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, TResult> selector, params IObservable<object>[] triggers)
-            : this(source, scheduler, MappingFactory.Create(selector), triggers)
         {
         }
 
@@ -88,6 +84,11 @@
         {
         }
 
+        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, TResult> selector, params IObservable<object>[] triggers)
+           : this(source, scheduler, MappingFactory.Create(selector), triggers)
+        {
+        }
+
         private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, params IObservable<object>[] triggers)
             : this(source, scheduler, MappingFactory.Create(indexSelector, indexUpdater), triggers)
         {
@@ -103,8 +104,8 @@
             this.factory = factory;
             this.mapped.AddRange(source.Select(this.GetOrCreateValue));
             this.updateSubscription.Add(ThrottledRefresher.Create(this, source, TimeSpan.Zero, scheduler, false)
-                                                      .ObserveOn(scheduler ?? Scheduler.Immediate)
-                                                      .Subscribe(this.OnSourceCollectionChanged));
+                                                          .ObserveOn(scheduler ?? Scheduler.Immediate)
+                                                          .Subscribe(this.OnSourceCollectionChanged));
             if (triggers != null && triggers.Any(t => t != null))
             {
                 var triggerSubscription = triggers.Merge()

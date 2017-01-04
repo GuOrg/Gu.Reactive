@@ -3,7 +3,10 @@ namespace Gu.Reactive
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Creates an AndConditionCollection
+    /// Creates an <see cref="ICondition"/> from a collection of condtions.
+    /// It is Satisfied when all prerequisites are staisfied.
+    /// If any prerequisite IsSatisfied returns false.
+    /// If no prerequisite is IsSatisFied == false and any prerequisite is null the result is null
     /// </summary>
     public class AndCondition : Condition
     {
@@ -18,18 +21,6 @@ namespace Gu.Reactive
         {
             Ensure.NotNull(condition, nameof(condition));
             Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
-        }
-
-        /// <summary>
-        /// Negates the condition. Calling Negate does not mutate the condition it is called on.
-        /// Calling Negate on a negated condition returns the original condition.
-        /// </summary>
-        /// <returns>
-        /// A new condition.
-        /// </returns>
-        public override ICondition Negate()
-        {
-            return new NegatedCondition(this);
         }
     }
 }

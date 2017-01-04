@@ -38,6 +38,16 @@
             this.refreshSubscription.Disposable = null;
         }
 
+        /// <summary>
+        /// Disposes of a <see cref="ReadOnlySerialView{T}"/>.
+        /// </summary>
+        /// <remarks>
+        /// Called from Dispose() with disposing=true.
+        /// Guidelines:
+        /// 1. We may be called more than once: do nothing after the first call.
+        /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.
+        /// </remarks>
+        /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

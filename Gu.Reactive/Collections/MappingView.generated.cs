@@ -18,7 +18,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
@@ -37,7 +37,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
@@ -58,7 +58,7 @@
         /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// The second parameter is the index of the element.
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -79,7 +79,7 @@
         /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// The second parameter is the index of the element.
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -90,6 +90,22 @@
             return new MappingView<TSource, TResult>(source, selector, scheduler, null);
         }
 
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">
+        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="updater">
+        /// The function updating an element for which the index changed.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -104,6 +120,22 @@
             return new MappingView<TSource, TResult>(source, selector, updater, null, triggers);
         }
 
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">
+        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="updater">
+        /// The function updating an element for which the index changed.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -126,7 +158,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
@@ -145,7 +177,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
@@ -166,7 +198,7 @@
         /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// The second parameter is the index of the element.
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -187,7 +219,7 @@
         /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// The second parameter is the index of the element.
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -198,6 +230,22 @@
             return new MappingView<TSource, TResult>(source, selector, scheduler, null);
         }
 
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">
+        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="updater">
+        /// The function updating an element for which the index changed.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -212,6 +260,22 @@
             return new MappingView<TSource, TResult>(source, selector, updater, null, triggers);
         }
 
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">
+        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="updater">
+        /// The function updating an element for which the index changed.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -234,7 +298,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
@@ -253,7 +317,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
@@ -274,7 +338,7 @@
         /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// The second parameter is the index of the element.
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -295,7 +359,7 @@
         /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// The second parameter is the index of the element.
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -306,6 +370,22 @@
             return new MappingView<TSource, TResult>(source, selector, scheduler, null);
         }
 
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">
+        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="updater">
+        /// The function updating an element for which the index changed.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -320,6 +400,22 @@
             return new MappingView<TSource, TResult>(source, selector, updater, null, triggers);
         }
 
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">
+        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="updater">
+        /// The function updating an element for which the index changed.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,

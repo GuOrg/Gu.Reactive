@@ -8,10 +8,13 @@ namespace Gu.Reactive
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
 
+    /// <summary>
+    /// A base class for swapping out an <see cref="IEnumerable{T}"/> source and get notifications.
+    /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
-    public abstract class ReadonlySerialViewBase<T> : IRefreshAble, IList, IDisposable, INotifyPropertyChanged
+    public abstract class ReadonlySerialViewBase<T> : IRefreshAble, IList, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
     {
         private static readonly IReadOnlyList<T> Empty = new T[0];
         private readonly CollectionSynchronizer<T> tracker;
@@ -47,6 +50,9 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// The source collection.
+        /// </summary>
         protected IEnumerable<T> Source { get; private set; }
 
         /// <inheritdoc/>
@@ -61,9 +67,12 @@ namespace Gu.Reactive
             this.Dispose(true);
         }
 
+        /// <summary>
+        /// Refresh this collection from <see cref="Source"/> and notify changes.
+        /// </summary>
         public virtual void Refresh()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             lock (this.Source.SyncRootOrDefault(this.tracker.SyncRoot))
             {
                 lock (this.tracker.SyncRoot)
@@ -75,14 +84,22 @@ namespace Gu.Reactive
             }
         }
 
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="ReadonlySerialViewBase{T}"/> will raise
+        /// a property changed event through this virtual method.
+        /// </summary>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Update the source collection and notify about changes.
+        /// </summary>
         protected void SetSource(IEnumerable<T> source)
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             this.Source = source ?? Empty;
             this.Refresh();
         }
@@ -107,14 +124,20 @@ namespace Gu.Reactive
             // Free any unmanaged objects here.
         }
 
+        /// <summary>
+        /// Set <see cref="Source"/> to empty and notify about changes.
+        /// </summary>
         protected void ClearSource()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             this.Source = Empty;
             this.Refresh();
         }
 
-        protected void VerifyDisposed()
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// </summary>
+        protected void ThrowIfDisposed()
         {
             if (this.disposed)
             {
@@ -122,18 +145,31 @@ namespace Gu.Reactive
             }
         }
 
-        protected void VerifyDisposed(Action action)
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// Invokes <paramref name="action"/> if not disposed.
+        /// </summary>
+        /// <param name="action">The action to invoke.</param>
+        protected void ThrowIfDisposed(Action action)
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             action();
         }
 
-        protected TResult VerifyDisposed<TResult>(Func<TResult> action)
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// Returns <paramref name="result"/> if not disposed.
+        /// </summary>
+        /// <param name="result">The action to invoke.</param>
+        protected TResult ThrowIfDisposed<TResult>(Func<TResult> result)
         {
-            this.VerifyDisposed();
-            return action();
+            this.ThrowIfDisposed();
+            return result();
         }
 
+        /// <summary>
+        /// Syncronize with source and notify about changes.
+        /// </summary>
         protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             lock (this.Source.SyncRootOrDefault(this.tracker.SyncRoot))
@@ -146,11 +182,21 @@ namespace Gu.Reactive
             }
         }
 
+        /// <summary>
+        /// Raise CollectionChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="EditableListView{T}"/> will raise
+        /// a collection changed event through this virtual method.
+        /// </summary>
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             this.CollectionChanged?.Invoke(this, e);
         }
 
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="EditableListView{T}"/> will raise
+        /// a property changed event through this virtual method.
+        /// </summary>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
@@ -158,7 +204,7 @@ namespace Gu.Reactive
 
         #region IReadOnlyList<T> & IList
 
-        public int Count => this.VerifyDisposed(() => this.tracker.Count);
+        public int Count => this.ThrowIfDisposed(() => this.tracker.Count);
 
         public bool IsReadOnly { get; }
 
@@ -174,9 +220,9 @@ namespace Gu.Reactive
             set { ThrowHelper.ThrowCollectionIsReadonly(); }
         }
 
-        public T this[int index] => this.VerifyDisposed(() => this.tracker.Current[index]);
+        public T this[int index] => this.ThrowIfDisposed(() => this.tracker.Current[index]);
 
-        public IEnumerator<T> GetEnumerator() => this.VerifyDisposed(() => this.tracker.GetEnumerator());
+        public IEnumerator<T> GetEnumerator() => this.ThrowIfDisposed(() => this.tracker.GetEnumerator());
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
