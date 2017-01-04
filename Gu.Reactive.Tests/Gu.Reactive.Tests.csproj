@@ -104,6 +104,7 @@
     <Compile Include="Internals\RootItemTests.cs" />
     <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
     <Compile Include="NameOf_\MethodTests.cs" />
+    <Compile Include="NotifyCollectionChangedEventArgsTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveCollectionChangedSlimTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveCollectionChangedTests.cs" />
     <Compile Include="Collections\FixedSizedQueueTests.cs" />

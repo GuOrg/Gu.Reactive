@@ -43,7 +43,6 @@
             CollectionAssert.AreEqual(new[] { 2, 3 }, queue);
             var expected = new EventArgs[]
             {
-                Notifier.IndexerPropertyChangedEventArgs,
                 Diff.CreateRemoveEventArgs(1, 0),
                 Diff.CreateAddEventArgs(3, 1)
             };
@@ -56,18 +55,7 @@
             return new EventArgs[]
                        {
                            Notifier.CountPropertyChangedEventArgs,
-                           Notifier.IndexerPropertyChangedEventArgs,
                            Diff.CreateAddEventArgs(item, index),
-                       };
-        }
-
-        private static IReadOnlyList<EventArgs> CreateRemoveEventArgsCollection(object item, int index)
-        {
-            return new EventArgs[]
-                       {
-                           Notifier.CountPropertyChangedEventArgs,
-                           Notifier.IndexerPropertyChangedEventArgs,
-                           Diff.CreateRemoveEventArgs(item, index),
                        };
         }
     }

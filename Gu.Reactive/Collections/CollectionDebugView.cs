@@ -7,12 +7,11 @@ namespace Gu.Reactive
     /// <summary>
     /// http://www.codeproject.com/Articles/28405/Make-the-debugger-show-the-contents-of-your-custom
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public class CollectionDebugView<T>
     {
-        private readonly IEnumerable<T> collection;
-
         private static readonly T[] Empty = new T[0];
+        private readonly IEnumerable<T> collection;
 
         public CollectionDebugView(IEnumerable<T> collection)
         {

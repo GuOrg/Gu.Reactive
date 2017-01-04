@@ -9,6 +9,7 @@
     using System.Linq;
     using System.Reactive.Concurrency;
 
+    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Current.Count}")]
     public class CollectionSynchronizer<T> : IReadOnlyList<T>
     {

@@ -11,6 +11,7 @@
     using Gu.Reactive.Internals;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
     public class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T>, IReadOnlyFilteredView<T>, IUpdater
     {
@@ -62,18 +63,23 @@
                                                     .Subscribe(this.Refresh);
         }
 
+        /// <inheritdoc/>
         public TimeSpan BufferTime { get; }
 
+        /// <inheritdoc/>
         public Func<T, bool> Filter { get;  }
 
+        /// <inheritdoc/>
         object IUpdater.IsUpdatingSourceItem => null;
 
+        /// <inheritdoc/>
         public new void Refresh()
         {
             (this.source as IRefreshAble)?.Refresh();
             this.SetSource(this.Filtered());
         }
 
+        /// <inheritdoc/>
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             this.SetSource(this.Filtered());

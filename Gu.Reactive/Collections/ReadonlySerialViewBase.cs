@@ -9,6 +9,7 @@ namespace Gu.Reactive
     using System.Runtime.CompilerServices;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
     public abstract class ReadonlySerialViewBase<T> : IRefreshAble, IList, IDisposable, INotifyPropertyChanged
     {

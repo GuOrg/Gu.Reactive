@@ -188,9 +188,9 @@
     <Compile Include="Collections\EditableListView{T}.cs" />
     <Compile Include="Collections\FilteredView{T}.cs" />
     <Compile Include="Collections\FixedSizedQueue{T}.cs" />
-    <Compile Include="Collections\IMappingFactory{TSource,TResult}.cs" />
-    <Compile Include="Collections\MappingCache{TSource,TResult}.cs" />
-    <Compile Include="Collections\MappingFactory{TSource,TResult}.cs" />
+    <Compile Include="Collections\Internals\IMappingFactory{TSource,TResult}.cs" />
+    <Compile Include="Collections\Internals\MappingCache{TSource,TResult}.cs" />
+    <Compile Include="Collections\Internals\MappingFactory{TSource,TResult}.cs" />
     <Compile Include="Collections\MappingView{TSource,TResult}.cs" />
     <Compile Include="Collections\ObservableBatchCollection{T}.cs" />
     <Compile Include="Collections\ObservableFixedSizeQueue{T}.cs" />
@@ -205,12 +205,13 @@
     <Compile Include="Contracts\IObservableSet.cs" />
     <Compile Include="Collections\ObservableSet.cs" />
     <Compile Include="Collections\ReadonlyIListView.cs" />
-    <Compile Include="Collections\ListExt.cs" />
+    <Compile Include="Collections\Internals\ListExt.cs" />
     <Compile Include="Collections\ReadonlySerialViewBase.cs" />
-    <Compile Include="Collections\ThrowHelper.cs" />
+    <Compile Include="Collections\Internals\ThrowHelper.cs" />
     <Compile Include="Conditions\ConditionExt.cs" />
     <Compile Include="Contracts\IReadOnlyFilteredView{T}.cs" />
     <Compile Include="Contracts\IReadOnlyObservableCollection{T}.cs" />
+    <Compile Include="Contracts\IReadonlySet{T}.cs" />
     <Compile Include="Contracts\IReadOnlyThrottledView{T}.cs" />
     <Compile Include="Contracts\IRefreshAble.cs" />
     <Compile Include="Contracts\ISatisfied.cs" />
@@ -221,27 +222,27 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FilteredView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\IUpdater.cs" />
-    <Compile Include="Collections\MappingFactory.cs" />
+    <Compile Include="Collections\Internals\IUpdater.cs" />
+    <Compile Include="Collections\Internals\MappingFactory.cs" />
     <Compile Include="Collections\MappingView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MappingView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\Notifier.cs" />
+    <Compile Include="Collections\Internals\Notifier.cs" />
     <Compile Include="Collections\ReadOnlyFilteredView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ReadOnlyFilteredView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\ThrottledRefresher.cs" />
+    <Compile Include="Collections\Internals\ThrottledRefresher.cs" />
     <Compile Include="Collections\ThrottledView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ThrottledView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\Diff.cs" />
-    <Compile Include="Collections\FilteredRefresher.cs" />
+    <Compile Include="Collections\Internals\Diff.cs" />
+    <Compile Include="Collections\Internals\FilteredRefresher.cs" />
     <Compile Include="Collections\FilteredView.cs" />
     <Compile Include="Collections\ReadOnlyThrottledView.cs" />
     <Compile Include="Collections\WeakCompositeDisposable.cs" />
@@ -263,7 +264,7 @@
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
     <Compile Include="Internals\ValueAndSender{TValue}.cs" />
     <Compile Include="ItemPropertyChangedEventArgs{TItem,TValue}.cs" />
-    <Compile Include="NotifyCollectionChangedEventArgs.cs" />
+    <Compile Include="NotifyCollectionChangedEventArgs{T}.cs" />
     <Compile Include="NotifyCollectionChangedEventArgsExt.cs" />
     <Compile Include="NotifyCollectionChangedExt.generated.cs">
       <AutoGen>True</AutoGen>
