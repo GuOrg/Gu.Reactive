@@ -7,7 +7,7 @@
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
 
-    public static class FilteredRefresher
+    internal static class FilteredRefresher
     {
         private static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgses = new[] { Diff.NotifyCollectionResetEventArgs };
 

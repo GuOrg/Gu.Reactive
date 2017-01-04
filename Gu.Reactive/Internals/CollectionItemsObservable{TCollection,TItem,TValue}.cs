@@ -18,7 +18,7 @@
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
-        private static readonly ObjectIdentityComparer<TItem> IdentityComparer = new ObjectIdentityComparer<TItem>();
+        private static readonly ObjectIdentityComparer<TItem> IdentityComparer = ObjectIdentityComparer<TItem>.Default;
 
         private readonly IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> sourceObservable;
 
@@ -28,7 +28,7 @@
         private readonly ConcurrentDictionary<TItem, IDisposable> map = new ConcurrentDictionary<TItem, IDisposable>(IdentityComparer);
         private readonly object @lock = new object();
         private readonly SerialDisposable collectionChangedSubscription = new SerialDisposable();
-        private IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>> _observer;
+        private IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>> observer;
         private bool disposed;
         private bool intialized;
 
@@ -90,7 +90,7 @@
 
         protected override IDisposable SubscribeCore(IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>> observer)
         {
-            this._observer = observer;
+            this.observer = observer;
             var observableCollection = this.wr.Target as TCollection;
             if (observableCollection != null)
             {
@@ -222,7 +222,7 @@
 
         private void OnItemPropertyChanged(TItem item, EventPattern<PropertyChangedAndValueEventArgs<TValue>> x)
         {
-            this._observer?.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>(x.Sender, new ItemPropertyChangedEventArgs<TItem, TValue>(item, x)));
+            this.observer?.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>(x.Sender, new ItemPropertyChangedEventArgs<TItem, TValue>(item, x)));
         }
 
         private void VerifyDisposed()

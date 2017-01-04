@@ -1,10 +1,11 @@
-﻿namespace Gu.Reactive.Tests.NameOf_
+﻿#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0619 // Type or member is obsolete
+namespace Gu.Reactive.Tests.NameOf_
 {
     using System.Linq;
 
     using NUnit.Framework;
 
-    #pragma warning disable CS0618 // Type or member is obsolete
     //// ReSharper disable once InconsistentNaming
     public class MethodTests
     {
@@ -49,5 +50,4 @@
         {
         }
     }
-    #pragma warning restore CS0618 // Type or member is obsolete
 }

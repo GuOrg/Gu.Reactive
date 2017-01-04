@@ -137,22 +137,12 @@
         /// <summary>
         /// Observe propertychanges with values.
         /// </summary>
-        /// <param name="source">
-        /// The source.
-        /// </param>
-        /// <param name="property">
-        /// The property.
-        /// </param>
-        /// <param name="signalInitial">
-        /// If true OnNext is called immediately on subscribe
-        /// </param>
-        /// <typeparam name="TNotifier">
-        /// </typeparam>
-        /// <typeparam name="TProperty">
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="IObservable"/>.
-        /// </returns>
+        /// <param name="source">The source.</param>
+        /// <param name="property">An expression specifying the property path.</param>
+        /// <param name="signalInitial">If true OnNext is called immediately on subscribe.</param>
+        /// <typeparam name="TNotifier">The type of <paramref name="source"/></typeparam>
+        /// <typeparam name="TProperty">The type of the last property in the path.</typeparam>
+        /// <returns>The <see cref="IObservable{T}"/> of type of type <see cref="EventPattern{TArgs}"/> of type <see cref="PropertyChangedAndValueEventArgs{TProperty}"/>.</returns>
         public static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,

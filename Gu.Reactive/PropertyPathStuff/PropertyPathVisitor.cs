@@ -19,6 +19,7 @@
             this.expression = expression;
         }
 
+        [Obsolete("Don't use this.")]
         internal static IReadOnlyList<MemberInfo> GetPath<TSource, TResult>(Expression<Func<TSource, TResult>> expression)
         {
             var visitor = new PropertyPathVisitor(expression);
@@ -27,6 +28,7 @@
             return visitor.path;
         }
 
+        [Obsolete("Don't use this.")]
         internal static IReadOnlyList<MemberInfo> GetPath<T>(Expression<Func<T>> expression)
         {
             var visitor = new PropertyPathVisitor(expression);

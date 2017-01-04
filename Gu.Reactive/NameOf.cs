@@ -10,6 +10,7 @@
     /// <summary>
     /// Class provides methods to obtain member names of data types.
     /// </summary>
+    [Obsolete("To be removed.")]
     public static class NameOf
     {
         /// <summary>
@@ -18,7 +19,7 @@
         /// <typeparam name="T">
         /// Type of the property.
         /// </typeparam>
-        /// <param name="propertyExpression">
+        /// <param name="property">
         /// Property expression on the the form () =&gt; Instance.Property.
         /// </param>
         /// <param name="allowNestedProperty">
@@ -28,9 +29,10 @@
         /// Returns the simple name of the property.
         /// </returns>
         [Obsolete("Use nameof instead")]
-        public static string Property<T>(Expression<Func<T>> propertyExpression, bool allowNestedProperty = false)
+        //// ReSharper disable once UnusedParameter.Global
+        public static string Property<T>(Expression<Func<T>> property, bool allowNestedProperty = false)
         {
-            var path = PropertyPathVisitor.GetPath(propertyExpression);
+            var path = PropertyPathVisitor.GetPath(property);
 
             if (path.Count > 1 && !allowNestedProperty)
             {
@@ -40,7 +42,7 @@
             var memberInfo = path.Last();
             if (!(memberInfo is PropertyInfo))
             {
-                throw new ArgumentException("The expression is for a method", nameof(propertyExpression));
+                throw new ArgumentException("The expression is for a method", nameof(property));
             }
 
             return memberInfo.Name;
@@ -52,20 +54,20 @@
         /// <typeparam name="TSource">
         /// Type of the item
         /// </typeparam>
-        /// <param name="propertyExpression">
+        /// <param name="property">
         /// Property expression on the the form () =&gt; Instance.Property.
         /// </param>
         /// <returns>
         /// Returns the simple name of the property.
         /// </returns>
         [Obsolete("Use nameof instead")]
-        public static string Property<TSource>(Expression<Func<TSource, object>> propertyExpression)
+        public static string Property<TSource>(Expression<Func<TSource, object>> property)
         {
-            var path = PropertyPathVisitor.GetPath(propertyExpression);
+            var path = PropertyPathVisitor.GetPath(property);
             var memberInfo = path.Last();
             if (!(memberInfo is PropertyInfo))
             {
-                throw new ArgumentException("The expression is for a method", nameof(propertyExpression));
+                throw new ArgumentException("The expression is for a method", nameof(property));
             }
 
             return memberInfo.Name;
@@ -80,130 +82,104 @@
         /// <typeparam name="TValue">
         /// Type of the property.
         /// </typeparam>
-        /// <param name="propertyExpression">
+        /// <param name="property">
         /// Property expression on the the form () =&gt; Instance.Property.
         /// </param>
         /// <returns>
         /// Returns the simple name of the property.
         /// </returns>
         [Obsolete("Use nameof instead")]
-        public static string Property<TItem, TValue>(Expression<Func<TItem, TValue>> propertyExpression)
+        public static string Property<TItem, TValue>(Expression<Func<TItem, TValue>> property)
         {
-            var path = PropertyPathVisitor.GetPath(propertyExpression);
+            var path = PropertyPathVisitor.GetPath(property);
             var memberInfo = path.Last();
             if (!(memberInfo is PropertyInfo))
             {
-                throw new ArgumentException("The expression is for a method", nameof(propertyExpression));
+                throw new ArgumentException("The expression is for a method", nameof(property));
             }
 
             return memberInfo.Name;
         }
 
         /// <summary>
-        /// The method.
+        /// Get the name of a method.
         /// </summary>
-        /// <param name="action">
-        /// The action.
-        /// </param>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
+        /// <param name="method">An expression specifying a method.</param>
+        /// <returns> The name of the method specified by <paramref name="method"/>.</returns>
         [Obsolete("Use nameof instead")]
-        public static string Method(Expression<Action> action)
+        public static string Method(Expression<Action> method)
         {
-            return ((MethodCallExpression)action.Body).Method.Name;
+            return ((MethodCallExpression)method.Body).Method.Name;
         }
 
         /// <summary>
-        /// The method.
+        /// Get the name of a method.
         /// </summary>
-        /// <param name="action">
-        /// The action.
-        /// </param>
-        /// <typeparam name="TSource">The source type.</typeparam>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
+        /// <typeparam name="TSource">The type containing the method.</typeparam>
+        /// <param name="method">An expression specifying a method.</param>
+        /// <returns> The name of the method specified by <paramref name="method"/>.</returns>
         [Obsolete("Use nameof instead")]
-        public static string Method<TSource>(Expression<Action<TSource>> action)
+        public static string Method<TSource>(Expression<Action<TSource>> method)
         {
-            return ((MethodCallExpression)action.Body).Method.Name;
+            return ((MethodCallExpression)method.Body).Method.Name;
         }
 
         /// <summary>
-        /// The method.
+        /// Get the name of a method.
         /// </summary>
-        /// <param name="func">
-        /// The func.
-        /// </param>
-        /// <typeparam name="TResult">The return type.</typeparam>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
+        /// <typeparam name="TResult">The type of the returnvalue of the method.</typeparam>
+        /// <param name="method">An expression specifying a method.</param>
+        /// <returns> The name of the method specified by <paramref name="method"/>.</returns>
         [Obsolete("Use nameof instead")]
-        public static string Method<TResult>(Expression<Func<TResult>> func)
+        public static string Method<TResult>(Expression<Func<TResult>> method)
         {
-            return ((MethodCallExpression)func.Body).Method.Name;
+            return ((MethodCallExpression)method.Body).Method.Name;
         }
 
         /// <summary>
-        /// The method.
+        /// Get the name of a method.
         /// </summary>
-        /// <param name="method">
-        /// An expression pointing to a method.
-        /// </param>
-        /// <typeparam name="TClass">The source type.</typeparam>
-        /// <typeparam name="TReturnValue">The return type.</typeparam>
-        /// <returns>
-        /// The <see cref="string"/>.
-        /// </returns>
-        [Obsolete("Use nameof instead")]
+        /// <typeparam name="TClass">The type containing the method.</typeparam>
+        /// <typeparam name="TReturnValue">The type of the returnvalue of the method.</typeparam>
+        /// <param name="method">An expression specifying a method.</param>
+        /// <returns> The name of the method specified by <paramref name="method"/>.</returns>
+        [Obsolete("Use nameof instead", error: true)]
         public static string Method<TClass, TReturnValue>(Expression<Func<TClass, TReturnValue>> method)
         {
             return ((MethodCallExpression)method.Body).Method.Name;
         }
 
         /// <summary>
-        /// The arguments.
+        /// Get the name of the arguments of a method.
         /// </summary>
-        /// <param name="func">
-        /// The func.
-        /// </param>
-        /// <typeparam name="T">
-        /// </typeparam>
-        /// <returns>
-        /// The <see cref="Argument[]"/>.
-        /// </returns>
-        public static Argument[] Arguments<T>(Expression<Func<T>> func)
+        /// <typeparam name="T">The type of the returnvalue of the method.</typeparam>
+        /// <param name="method">An expression specifying a method.</param>
+        /// <returns> The name of the arguments of the method specified by <paramref name="method"/>.</returns>
+        [Obsolete("To be removed.")]
+        public static Argument[] Arguments<T>(Expression<Func<T>> method)
         {
-            var method = (MethodCallExpression)func.Body;
-            return Arguments(method);
+            var methodCallExpression = (MethodCallExpression)method.Body;
+            return Arguments(methodCallExpression);
         }
 
         /// <summary>
-        /// The arguments.
+        /// Get the name of the arguments of a method.
         /// </summary>
-        /// <param name="action">
-        /// The action.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Argument[]"/>.
-        /// </returns>
-        public static Argument[] Arguments(Expression<Action> action)
+        /// <param name="method">An expression specifying a method.</param>
+        /// <returns> The name of the arguments of the method specified by <paramref name="method"/>.</returns>
+        [Obsolete("To be removed.")]
+        public static Argument[] Arguments(Expression<Action> method)
         {
-            var method = (MethodCallExpression)action.Body;
-            return Arguments(method);
+            var methodCallExpression = (MethodCallExpression)method.Body;
+            return Arguments(methodCallExpression);
         }
 
         /// <summary>
-        /// The arguments.
+        /// Get the name of the arguments of a method.
         /// </summary>
-        /// <param name="method">
-        /// The method.
-        /// </param>
-        /// <returns>
-        /// The <see cref="Argument[]"/>.
-        /// </returns>
+        /// <param name="method">An expression specifying a method.</param>
+        /// <returns> The name of the arguments of the method specified by <paramref name="method"/>.</returns>
+        [Obsolete("To be removed.")]
         public static Argument[] Arguments(MethodCallExpression method)
         {
             var names = method.Method.GetParameters()
@@ -216,18 +192,8 @@
                         .ToArray();
         }
 
-        /// <summary>
-        /// The get value.
-        /// </summary>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        /// <returns>
-        /// The <see cref="object"/>.
-        /// </returns>
-        /// <exception cref="ArgumentException">
-        /// </exception>
-        public static object GetValue(MemberExpression e)
+        [Obsolete("To be removed.")]
+        private static object GetValue(MemberExpression e)
         {
             var memberExpression = e.Expression as MemberExpression;
             if (memberExpression != null)
@@ -252,17 +218,6 @@
             throw new ArgumentException("Failed to get value", nameof(e));
         }
 
-        /// <summary>
-        /// The get value.
-        /// </summary>
-        /// <param name="e">
-        /// The e.
-        /// </param>
-        /// <returns>
-        /// The <see cref="object"/>.
-        /// </returns>
-        /// <exception cref="NotImplementedException">
-        /// </exception>
         private static object GetValue(Expression e)
         {
             var me = e as MemberExpression;
@@ -280,9 +235,7 @@
             throw new NotImplementedException("message");
         }
 
-        /// <summary>
-        /// The argument.
-        /// </summary>
+        /// <summary>The argument.</summary>
         public class Argument
         {
             /// <summary>

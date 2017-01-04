@@ -59,7 +59,7 @@
 
         public override void Refresh()
         {
-            this.ThworIfDisposed();
+            this.ThrowIfDisposed();
             (this.Source as IRefreshAble)?.Refresh();
             var updated = this.Source.AsReadOnly();
             this.Tracker.Reset(this, updated, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
@@ -73,7 +73,7 @@
 
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            this.ThworIfDisposed();
+            this.ThrowIfDisposed();
             var updated = this.Source as IReadOnlyList<T> ?? this.Source.ToArray();
             this.Tracker.Refresh(this, updated, changes, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
         }

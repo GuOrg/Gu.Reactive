@@ -81,7 +81,7 @@
         {
         }
 
-        protected void ThworIfDisposed()
+        protected void ThrowIfDisposed()
         {
             if (this.disposed)
             {
