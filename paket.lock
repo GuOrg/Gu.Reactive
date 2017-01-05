@@ -21,7 +21,7 @@ NUGET
   remote: http://www.nuget.org/api/v2
     JetBrains.Annotations (10.2.1)
     StyleCop.Analyzers (1.0)
-    WpfAnalyzers (0.2.7.1-dev)
+    WpfAnalyzers (0.2.7.2-dev)
 
 GROUP Test
 FRAMEWORK: >= NET45
@@ -48,7 +48,7 @@ NUGET
     Moq (4.5.29)
       Castle.Core (>= 3.3.3)
     NUnit (3.5)
-    System.Collections.Immutable (1.3)
+    System.Collections.Immutable (1.3.1)
     System.Reactive.Core (3.1.1)
       System.Reactive.Interfaces (>= 3.1.1)
     System.Reactive.Interfaces (3.1.1)

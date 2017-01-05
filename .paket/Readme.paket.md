@@ -2,6 +2,8 @@
 
 1. PM> `.paket/paket.bootstrapper.exe` only needed for downloading or updating paket.exe
 2. PM> `.paket/paket.exe restore` restore packages.
+3. PM> `.paket/paket.exe install` install packages.
+4. PM> `.paket/paket.exe update` update packages.
 
 ## To create packages:
 
