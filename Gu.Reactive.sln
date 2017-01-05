@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive", "Gu.Wpf.R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive.Tests", "Gu.Wpf.Reactive.Tests\Gu.Wpf.Reactive.Tests.csproj", "{F94EA890-7658-47C9-A033-8967F626360A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Dummy", "Gu.Reactive.Dummy\Gu.Reactive.Dummy.csproj", "{675922EC-879E-4C49-A96F-F59CE94C12FC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Benchmarks", "Gu.Reactive.Benchmarks\Gu.Reactive.Benchmarks.csproj", "{DF62EBA0-B27F-464B-976B-2E0F41F2421E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C15ED745-9164-4E28-A40F-8BCE39D116AF}"
@@ -72,12 +70,6 @@ Global
 		{F94EA890-7658-47C9-A033-8967F626360A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F94EA890-7658-47C9-A033-8967F626360A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F94EA890-7658-47C9-A033-8967F626360A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{675922EC-879E-4C49-A96F-F59CE94C12FC}.CreateNugetPackage|Any CPU.ActiveCfg = Release|Any CPU
-		{675922EC-879E-4C49-A96F-F59CE94C12FC}.CreateNugetPackage|Any CPU.Build.0 = Release|Any CPU
-		{675922EC-879E-4C49-A96F-F59CE94C12FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{675922EC-879E-4C49-A96F-F59CE94C12FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{675922EC-879E-4C49-A96F-F59CE94C12FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{675922EC-879E-4C49-A96F-F59CE94C12FC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.CreateNugetPackage|Any CPU.ActiveCfg = Release|Any CPU
 		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.CreateNugetPackage|Any CPU.Build.0 = Release|Any CPU
 		{DF62EBA0-B27F-464B-976B-2E0F41F2421E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
