@@ -18,23 +18,17 @@
         /// <summary>
         /// Extension method for listening to property changes.
         /// Handles nested x => x.Level1.Level2.Level3
-        /// Unsubscribes & subscribes when each level changes.
+        /// Unsubscribes &amp; subscribes when each level changes.
         /// Handles nulls.
         /// </summary>
-        /// <typeparam name="TNotifier">
-        /// </typeparam>
-        /// <typeparam name="TProperty">
-        /// </typeparam>
-        /// <param name="source">
-        /// </param>
+        /// <param name="source">The source instance to track changes for. </param>
         /// <param name="property">
-        /// </param>
+        /// An expression specifying the property path to track.
+        /// Example x => x.Foo.Bar.Meh
+        ///  </param>
         /// <param name="signalInitial">
         /// If true OnNext is called immediately on subscribe
         /// </param>
-        /// <returns>
-        /// The <see cref="IObservable"/>.
-        /// </returns>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
@@ -53,44 +47,13 @@
             return source.ObservePropertyChanged(name, signalInitial);
         }
 
-        internal static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
-            this TNotifier source,
-            PropertyPath<TNotifier, TProperty> property,
-            bool signalInitial = true)
-            where TNotifier : INotifyPropertyChanged
-        {
-            var observable = new PropertyPathObservable<TNotifier, TProperty>(source, property);
-            if (signalInitial)
-            {
-                return Observable.Defer(
-                    () =>
-                    {
-                        var current = new EventPattern<PropertyChangedEventArgs>(
-                            observable.Sender,
-                            observable.PropertyChangedEventArgs);
-                        return Observable.Return(current).Concat(observable);
-                    });
-            }
-
-            return observable;
-        }
-
         /// <summary>
         /// Prefer other overloads with x => x.PropertyName for refactor friendliness.
         /// This is faster though.
         /// </summary>
-        /// <param name="source">
-        /// The source.
-        /// </param>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="signalInitial">
-        /// If true OnNext is called immediately on subscribe
-        /// </param>
-        /// <returns>
-        /// The <see cref="IObservable{EventPattern{PropertyChangedEventArgs}}"/>.
-        /// </returns>
+        /// <param name="source"> The source instance to track changes for. </param>
+        /// <param name="name"> The name of the property to track. Note that nested properties are not allowed. </param>
+        /// <param name="signalInitial"> If true OnNext is called immediately on subscribe </param>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(
             this INotifyPropertyChanged source,
             string name,
@@ -109,12 +72,16 @@
                                          .Concat(observable);
                     });
             }
-            else
-            {
-                return observable;
-            }
+
+            return observable;
         }
 
+        /// <summary>
+        /// This is a faster version of ObservePropertyChanged. It returns only the <see cref="PropertyChangedEventArgs"/> from source and not the EventPattern
+        /// </summary>
+        /// <param name="source"> The source instance to track changes for. </param>
+        /// <param name="name"> The name of the property to track. Note that nested properties are not allowed. </param>
+        /// <param name="signalInitial"> If true OnNext is called immediately on subscribe </param>
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source, string name, bool signalInitial = true)
         {
             Ensure.NotNull(source, nameof(source));
@@ -155,8 +122,11 @@
             return source.ObservePropertyChangedWithValue(propertyPath, signalInitial);
         }
 
-        public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(
-            this INotifyPropertyChanged source)
+        /// <summary>
+        /// Observe property changes for <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(this INotifyPropertyChanged source)
         {
             Ensure.NotNull(source, nameof(source));
             var wr = new WeakReference<INotifyPropertyChanged>(source);
@@ -181,6 +151,10 @@
             return observable;
         }
 
+        /// <summary>
+        /// Observe property changes for <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source">The source.</param>
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source)
         {
             Ensure.NotNull(source, nameof(source));
@@ -195,6 +169,41 @@
                         source.PropertyChanged += handler;
                         return Disposable.Create(() => source.PropertyChanged -= handler);
                     });
+            return observable;
+        }
+
+        /// <summary>
+        /// Extension method for listening to property changes.
+        /// Handles nested x => x.Level1.Level2.Level3
+        /// Unsubscribes &amp; subscribes when each level changes.
+        /// Handles nulls.
+        /// </summary>
+        /// <param name="source">The source instance to track changes for. </param>
+        /// <param name="property">
+        /// A cached property path. Creating the property path from Expression&lt;Func&lt;TNotifier, TProperty&gt;&gt; is a bit expensive so caching can make sense.
+        ///  </param>
+        /// <param name="signalInitial">
+        /// If true OnNext is called immediately on subscribe
+        /// </param>
+        internal static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
+            this TNotifier source,
+            PropertyPath<TNotifier, TProperty> property,
+            bool signalInitial = true)
+            where TNotifier : INotifyPropertyChanged
+        {
+            var observable = new PropertyPathObservable<TNotifier, TProperty>(source, property);
+            if (signalInitial)
+            {
+                return Observable.Defer(
+                    () =>
+                    {
+                        var current = new EventPattern<PropertyChangedEventArgs>(
+                            observable.Sender,
+                            observable.PropertyChangedEventArgs);
+                        return Observable.Return(current).Concat(observable);
+                    });
+            }
+
             return observable;
         }
 
@@ -217,20 +226,20 @@
                                         new PropertyChangedAndValueEventArgs<TProperty>(
                                             x.EventArgs.PropertyName,
                                             propertyPath.GetValue((TNotifier)wr.Target))));
-                    if (signalInitial)
-                    {
-                        var valueAndSource = propertyPath.GetValueAndSender((TNotifier)wr.Target);
-                        var current =
-                            new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
-                                valueAndSource.Source,
-                                new PropertyChangedAndValueEventArgs<TProperty>(
-                                    propertyPath.Last.PropertyInfo.Name,
-                                    valueAndSource.Value));
-                        return Observable.Return(current).Concat(withValues);
-                    }
+                        if (signalInitial)
+                        {
+                            var valueAndSource = propertyPath.GetValueAndSender((TNotifier)wr.Target);
+                            var current =
+                                new EventPattern<PropertyChangedAndValueEventArgs<TProperty>>(
+                                    valueAndSource.Source,
+                                    new PropertyChangedAndValueEventArgs<TProperty>(
+                                        propertyPath.Last.PropertyInfo.Name,
+                                        valueAndSource.Value));
+                            return Observable.Return(current).Concat(withValues);
+                        }
 
-                    return withValues;
-                });
+                        return withValues;
+                    });
         }
 
         private static bool IsPropertyName(this PropertyChangedEventArgs e, string propertyName)

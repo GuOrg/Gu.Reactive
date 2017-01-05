@@ -9,3 +9,5 @@ releasenotes
 excludeddependencies
   JetBrains.Annotations
   StyleCop.Analyzers
+  WpfAnalyzers
+  Gu.Analyzers

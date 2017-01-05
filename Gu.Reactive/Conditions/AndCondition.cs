@@ -10,12 +10,18 @@ namespace Gu.Reactive
     /// </summary>
     public class AndCondition : Condition
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AndCondition"/> class.
+        /// </summary>
         public AndCondition(params ICondition[] prerequisites)
             : base(new AndConditionCollection(prerequisites))
         {
             Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AndCondition"/> class.
+        /// </summary>
         public AndCondition(ICondition condition, ICondition[] prerequisites)
             : this(ConditionCollection.Prepend(condition, prerequisites))
         {

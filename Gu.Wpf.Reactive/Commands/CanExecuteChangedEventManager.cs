@@ -25,7 +25,7 @@
                 if (currentManager == null)
                 {
                     currentManager = new CanExecuteChangedEventManager();
-                    SetCurrentManager(managerType, (WeakEventManager)currentManager);
+                    SetCurrentManager(managerType, currentManager);
                 }
 
                 return currentManager;

@@ -8,7 +8,6 @@
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
-    using JetBrains.Annotations;
 
     /// <summary>
     /// Base class for collections
@@ -43,8 +42,10 @@
             this.previousIsSatisfied = isSatisfied(this.innerConditions);
         }
 
+        /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <inheritdoc/>
         public bool? IsSatisfied
         {
             get
@@ -66,24 +67,30 @@
             }
         }
 
+        /// <inheritdoc/>
         public int Count => this.innerConditions.Count;
 
+        /// <inheritdoc/>
         public ICondition this[int index] => this.innerConditions[index];
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
         public override string ToString() => $"IsSatisfied: {this.IsSatisfied} {{{string.Join(", ", this.innerConditions.Select(x => x.Name))}}}";
 
+        /// <inheritdoc/>
         public IEnumerator<ICondition> GetEnumerator()
         {
             this.ThrowIfDisposed();
             return this.innerConditions.GetEnumerator();
         }
 
+        /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()
         {
             this.ThrowIfDisposed();
@@ -99,6 +106,16 @@
             return result;
         }
 
+        /// <summary>
+        /// Disposes of a <see cref="ConditionCollection"/>.
+        /// </summary>
+        /// <remarks>
+        /// Called from Dispose() with disposing=true.
+        /// Guidelines:
+        /// 1. We may be called more than once: do nothing after the first call.
+        /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.
+        /// </remarks>
+        /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing && !this.disposed)
@@ -109,12 +126,19 @@
             this.disposed = true;
         }
 
-        [NotifyPropertyChangedInvocator]
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="ConditionCollection"/> will raise
+        /// a property changed event through this virtual method.
+        /// </summary>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// </summary>
         protected void ThrowIfDisposed()
         {
             if (this.disposed)

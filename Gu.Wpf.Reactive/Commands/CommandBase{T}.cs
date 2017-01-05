@@ -56,7 +56,7 @@
                 }
 
                 this.isExecuting = value;
-                this.PropertyChanged?.Invoke(this, IsExecutingChangedEventArgs);
+                this.OnPropertyChanged(IsExecutingChangedEventArgs);
             }
         }
 
@@ -114,8 +114,15 @@
         /// <param name="propertyName">The name of the property to notify</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
+
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="CommandBase{T}"/> will raise
+        /// a property changed event through this virtual method.
+        /// </summary>
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => this.PropertyChanged?.Invoke(this, e);
 
         private class InternalCanExecuteChangedEventManager : WeakEventManager
         {

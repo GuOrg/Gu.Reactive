@@ -8,17 +8,19 @@
 
     using Gu.Reactive.Internals;
 
+    /// <summary>
+    /// Factory methods for creating observables from notifying collections.
+    /// </summary>
     public static partial class NotifyCollectionChangedExt
     {
         /// <summary>
         /// Observes propertychanges for items in the collection.
         /// </summary>
-        /// <typeparam name="TProperty"></typeparam>
         /// <typeparam name="TItem">The type of the items in the collection</typeparam>
-        /// <param name="source"></param>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The sopurce item to track changes for.</param>
         /// <param name="property">Sample: item => item.SomeProp.SomeNestedProp</param>
         /// <param name="signalInitial">When true a reset is singaled on subscribe.</param>
-        /// <returns></returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TItem, TProperty>(
             this ObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
@@ -50,12 +52,11 @@
         /// <summary>
         /// Observes propertychanges for items in the collection.
         /// </summary>
-        /// <typeparam name="TProperty"></typeparam>
         /// <typeparam name="TItem">The type of the items in the collection</typeparam>
-        /// <param name="source"></param>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The sopurce item to track changes for.</param>
         /// <param name="property">Sample: item => item.SomeProp.SomeNestedProp</param>
         /// <param name="signalInitial">When true a reset is singaled on subscribe.</param>
-        /// <returns></returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TItem, TProperty>(
             this ReadOnlyObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
@@ -87,12 +88,11 @@
         /// <summary>
         /// Observes propertychanges for items in the collection.
         /// </summary>
-        /// <typeparam name="TProperty"></typeparam>
         /// <typeparam name="TItem">The type of the items in the collection</typeparam>
-        /// <param name="source"></param>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The sopurce item to track changes for.</param>
         /// <param name="property">Sample: item => item.SomeProp.SomeNestedProp</param>
         /// <param name="signalInitial">When true a reset is singaled on subscribe.</param>
-        /// <returns></returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TItem, TProperty>(
             this IReadOnlyObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
