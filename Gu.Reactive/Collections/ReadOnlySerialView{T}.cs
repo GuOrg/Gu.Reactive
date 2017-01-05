@@ -6,6 +6,7 @@
     using System.Reactive.Disposables;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
     public sealed class ReadOnlySerialView<T> : ReadonlySerialViewBase<T>, IReadOnlyObservableCollection<T>, IUpdater
     {
@@ -20,7 +21,7 @@
             : base(source, true, true)
         {
             this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, TimeSpan.Zero, null, false)
-                                                                .Subscribe(this.Refresh);
+                                                                    .Subscribe(this.Refresh);
         }
 
         object IUpdater.IsUpdatingSourceItem => null;
@@ -29,7 +30,7 @@
         {
             base.SetSource(source);
             this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, this.Source, TimeSpan.Zero, null, false)
-                                                                .Subscribe(this.Refresh);
+                                                                    .Subscribe(this.Refresh);
         }
 
         public new void ClearSource()

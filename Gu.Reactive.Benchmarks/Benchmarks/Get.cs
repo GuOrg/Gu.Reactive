@@ -14,7 +14,7 @@ namespace Gu.Reactive.Benchmarks
             this.Fake = null;
         }
 
-        public Fake Fake { get; } = new Fake { Next = new Level { Name = "Johan" } };
+        public Fake Fake { get; }
 
         [Benchmark(Baseline = true)]
         public string Func()

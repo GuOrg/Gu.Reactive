@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.Sandbox
+﻿// ReSharper disable UnusedVariable
+namespace Gu.Reactive.Tests.Sandbox
 {
     using System;
     using System.Collections.ObjectModel;

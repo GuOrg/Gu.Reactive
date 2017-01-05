@@ -30,7 +30,7 @@
         private static List<Fake> CreateFakes(int n)
         {
             return Enumerable.Range(0, n)
-                             .Select(x => new Fake { Value = x })
+                             .Select(i => new Fake { Value = i })
                              .ToList();
         }
     }

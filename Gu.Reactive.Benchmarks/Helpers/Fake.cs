@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive.Benchmarks
 {
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
 
     using JetBrains.Annotations;
@@ -10,16 +11,15 @@
         private bool isTrue;
         private Level next;
         private string name;
-
         private StructLevel structLevel;
-
         private int value;
+        private int writeOnly;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int WriteOnly
         {
-            set { return; }
+            set { this.writeOnly = value; }
         }
 
         public bool IsTrue
@@ -93,6 +93,7 @@
             }
         }
 
+        [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
         public NotInpc NotInpc { get; private set; }
 
         public int Value

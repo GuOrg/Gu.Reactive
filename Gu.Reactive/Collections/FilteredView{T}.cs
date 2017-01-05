@@ -11,10 +11,10 @@
     using System.Reactive.Linq;
 
     /// <summary>
-    /// Typed CollectionView for intellisense in xaml
+    /// Typed filtered CollectionView for intellisense in xaml
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
@@ -141,8 +141,8 @@
 
         protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
         {
-            var filter = this.Filter;
-            if (filter != null)
+            var currentFilter = this.Filter;
+            if (currentFilter != null)
             {
                 switch (e.Action)
                 {
@@ -154,7 +154,7 @@
                             }
 
                             var newItem = e.NewItem<T>();
-                            if (!filter(newItem))
+                            if (!currentFilter(newItem))
                             {
                                 return; // added item that is not visible
                             }
@@ -170,7 +170,7 @@
                             }
 
                             var item = e.OldItem<T>();
-                            if (!filter(item))
+                            if (!currentFilter(item))
                             {
                                 return; // removed item that is not visible
                             }
@@ -187,7 +187,7 @@
 
                             var newItem = e.NewItem<T>();
                             var oldItem = e.OldItem<T>();
-                            if (!(filter(newItem) || filter(oldItem)))
+                            if (!(currentFilter(newItem) || currentFilter(oldItem)))
                             {
                                 return; // replaced item that is not visible
                             }
@@ -203,7 +203,7 @@
                             }
 
                             var newItem = e.NewItem<T>();
-                            if (!filter(newItem))
+                            if (!currentFilter(newItem))
                             {
                                 return; // moved item that is not visible
                             }

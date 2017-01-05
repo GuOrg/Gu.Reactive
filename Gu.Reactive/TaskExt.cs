@@ -151,41 +151,31 @@
             // Wire up the logic for what happens when source task completes
             task.ContinueWith(
                 (antecedent, state) =>
-            {
-                // Recover our state data
-                var tuple =
-                    (Tuple<Timer, TaskCompletionSource<T>>)state;
+                    {
+                        // Recover our state data
+                        var tuple =
+                            (Tuple<Timer, TaskCompletionSource<T>>)state;
 
-                // Cancel the Timer
-                tuple.Item1.Dispose();
+                        // Cancel the Timer
+                        tuple.Item1.Dispose();
 
-                // Marshal results to proxy
-                MarshalTaskResults(antecedent, tuple.Item2);
-            },
-            Tuple.Create(timer, tcs),
-            CancellationToken.None,
-            TaskContinuationOptions.ExecuteSynchronously,
-            TaskScheduler.Default);
+                        // Marshal results to proxy
+                        MarshalTaskResults(antecedent, tuple.Item2);
+                    },
+                Tuple.Create(timer, tcs),
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
 
             return tcs.Task;
         }
 
-        /// <summary>
-        /// The marshal task results.
-        /// </summary>
-        /// <param name="source">
-        /// The source.
-        /// </param>
-        /// <param name="proxy">
-        /// The proxy.
-        /// </param>
-        /// <typeparam name="TResult">
-        /// </typeparam>
         internal static void MarshalTaskResults<TResult>(Task source, TaskCompletionSource<TResult> proxy)
         {
             switch (source.Status)
             {
                 case TaskStatus.Faulted:
+                    // ReSharper disable once AssignNullToNotNullAttribute
                     proxy.TrySetException(source.Exception);
                     break;
                 case TaskStatus.Canceled:

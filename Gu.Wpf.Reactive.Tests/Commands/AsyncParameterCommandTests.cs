@@ -120,18 +120,12 @@ namespace Gu.Wpf.Reactive.Tests
         }
 
         [Test]
-        public async Task ExecuteThrows()
+        public void ExecuteThrows()
         {
             var exception = new Exception();
             var command = new AsyncCommand<int>(x => Task.Run(() => { throw exception; }));
             command.Execute(0);
-            try
-            {
-                await command.Execution.Task.ConfigureAwait(false);
-            }
-            catch
-            {
-            }
+            Assert.ThrowsAsync<Exception>(() => command.Execution.Task);
 
             Assert.AreEqual(exception, command.Execution.InnerException);
             Assert.AreEqual(TaskStatus.Faulted, command.Execution.Status);

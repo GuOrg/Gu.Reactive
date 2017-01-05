@@ -120,18 +120,12 @@
         }
 
         [Test]
-        public async Task ExecuteThrows()
+        public void ExecuteThrows()
         {
             var exception = new Exception();
             var command = new AsyncCommand(() => Task.Run(() => { throw exception; }));
             command.Execute();
-            try
-            {
-                await command.Execution.Task.ConfigureAwait(false);
-            }
-            catch
-            {
-            }
+            Assert.ThrowsAsync<Exception>(() => command.Execution.Task);
 
             Assert.AreEqual(exception, command.Execution.InnerException);
             Assert.AreEqual(TaskStatus.Faulted, command.Execution.Status);
