@@ -15,8 +15,6 @@
 
     public class FilteredViewTests
     {
-        private static readonly NotifyCollectionChangedEventArgs ResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-
         [Test]
         public void Refresh()
         {

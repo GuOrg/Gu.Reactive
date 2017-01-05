@@ -40,27 +40,5 @@
             AssertEx.AreEqual(x, y);
             return 0;
         }
-
-        private static bool ListsEquals(IList newItems, IList oldItems)
-        {
-            if (newItems == null && oldItems == null)
-            {
-                return true;
-            }
-
-            if (newItems == null || oldItems == null)
-            {
-                return false;
-            }
-
-            if (newItems.Count != oldItems.Count)
-            {
-                return false;
-            }
-
-            return !newItems.Cast<object>()
-                            .Where((t, i) => !Equals(t, oldItems[i]))
-                            .Any();
-        }
     }
 }

@@ -26,6 +26,7 @@
             return summaries;
         }
 
+        // ReSharper disable once UnusedMember.Local
         private static IEnumerable<Summary> RunSingle<T>()
         {
             var summaries = new[] { BenchmarkRunner.Run<T>() };

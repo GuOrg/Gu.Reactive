@@ -29,21 +29,21 @@
 
         public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; }
 
-        public IThrottledView<DummyItem> ThrottledView { get;  }
+        public IThrottledView<DummyItem> ThrottledView { get; }
 
-        public IReadOnlyObservableCollection<DummyItem> ReadOnlyThrottledView { get;  }
+        public IReadOnlyObservableCollection<DummyItem> ReadOnlyThrottledView { get; }
 
-        public IReadOnlyObservableCollection<DummyItem> ReadOnlyIlistThrottledView { get; private set; }
+        public IReadOnlyObservableCollection<DummyItem> ReadOnlyIlistThrottledView { get; }
 
         public TimeSpan DeferTime { get; }
 
-        public ICommand AddOneCommand { get; private set; }
+        public ICommand AddOneCommand { get; }
 
-        public ICommand AddOneToViewCommand { get; private set; }
+        public ICommand AddOneToViewCommand { get; }
 
-        public ICommand AddTenCommand { get; private set; }
+        public ICommand AddTenCommand { get; }
 
-        public ICommand AddOneOnOtherThreadCommand { get; private set; }
+        public ICommand AddOneOnOtherThreadCommand { get; }
 
         private void AddOne()
         {
@@ -66,11 +66,6 @@
             {
                 this.AddOne();
             }
-        }
-
-        private void Clear()
-        {
-            this.observableCollection.Clear();
         }
     }
 }

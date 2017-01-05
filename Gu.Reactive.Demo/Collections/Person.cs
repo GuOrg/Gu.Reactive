@@ -51,24 +51,7 @@
             }
         }
 
-        public string Tags
-        {
-            get
-            {
-                return this.tags;
-            }
-
-            private set
-            {
-                if (value == this.tags)
-                {
-                    return;
-                }
-
-                this.tags = value;
-                this.OnPropertyChanged();
-            }
-        }
+        public string Tags => this.tags;
 
         internal IReadOnlyList<int> TagsValues
         {
@@ -87,6 +70,7 @@
                 this.tagsValues = value;
                 this.tags = string.Join(", ", this.tagsValues);
                 this.OnPropertyChanged();
+                this.OnPropertyChanged(nameof(this.Tags));
             }
         }
 

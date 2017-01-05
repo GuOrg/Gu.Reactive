@@ -93,8 +93,6 @@ namespace Gu.Reactive.Tests.Collections
         {
             public Model Model { get; set; }
 
-            public int Value { get; set; }
-
             public int Index { get; set; }
 
             public Vm UpdateIndex(int i)

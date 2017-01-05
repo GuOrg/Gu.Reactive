@@ -1,16 +1,17 @@
 ﻿namespace Gu.Reactive.Demo
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using Gu.Wpf.Reactive;
-    using JetBrains.Annotations;
 
-    public sealed class ConditionsViewModel : INotifyPropertyChanged
+    public sealed class ConditionsViewModel : INotifyPropertyChanged, IDisposable
     {
         public static readonly ConditionsViewModel Instance = new ConditionsViewModel();
 
         private readonly List<ICondition> conditions;
+        private bool disposed;
 
         private ConditionsViewModel()
         {
@@ -47,11 +48,30 @@
 
         public ICondition CanStopCondition { get; } = new IsMotorRunning();
 
-        public ConditionRelayCommand StartCommand { get;  }
+        public ConditionRelayCommand StartCommand { get; }
 
-        public ConditionRelayCommand StopCommand { get;  }
+        public ConditionRelayCommand StopCommand { get; }
 
         public IEnumerable<ICondition> Conditions => this.conditions;
+
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.IsLeftDoorOpenCondition.Dispose();
+            this.IsRightDoorOpenCondition.Dispose();
+            this.IsBackDoorOpenCondition.Dispose();
+            this.IsLeftDoorClosedCondition.Dispose();
+            this.IsMotorRunningCondition.Dispose();
+            this.CanStartCondition.Dispose();
+            this.CanStopCondition.Dispose();
+            this.StartCommand.Dispose();
+            this.StopCommand.Dispose();
+        }
 
         // ReSharper disable once UnusedMember.Local
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

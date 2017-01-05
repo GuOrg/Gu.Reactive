@@ -25,8 +25,10 @@
         {
             var fake = new Fake { Value = 1 };
             var observable = fake.ObservePropertyChanged();
-            var disposable = observable.Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
+            using (observable.Subscribe(this.changes.Add))
+            {
+                Assert.AreEqual(0, this.changes.Count);
+            }
         }
 
         [TestCase("")]
@@ -103,15 +105,19 @@
         {
             var fake = new Fake { IsTrueOrNull = null };
             var observable = fake.ObservePropertyChanged();
-            var disposable = observable.Subscribe(this.changes.Add);
+            using (observable.Subscribe(this.changes.Add))
+            {
+                Assert.AreEqual(0, this.changes.Count);
 
-            Assert.AreEqual(0, this.changes.Count);
+                fake.IsTrueOrNull = true;
+                Assert.AreEqual(1, this.changes.Count);
+                AssertRx.AreEqual(fake, "IsTrueOrNull", this.changes.Last());
 
-            fake.IsTrueOrNull = true;
-            Assert.AreEqual(1, this.changes.Count);
-            AssertRx.AreEqual(fake, "IsTrueOrNull", this.changes.Last());
+                fake.IsTrueOrNull = null;
+                Assert.AreEqual(2, this.changes.Count);
+                AssertRx.AreEqual(fake, "IsTrueOrNull", this.changes.Last());
+            }
 
-            fake.IsTrueOrNull = null;
             Assert.AreEqual(2, this.changes.Count);
             AssertRx.AreEqual(fake, "IsTrueOrNull", this.changes.Last());
         }
