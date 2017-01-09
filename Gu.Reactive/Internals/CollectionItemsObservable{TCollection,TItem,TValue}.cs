@@ -94,8 +94,8 @@
             var observableCollection = this.wr.Target as TCollection;
             if (observableCollection != null)
             {
-                this.collectionChangedSubscription.Disposable = observableCollection.ObserveCollectionChanged(true)
-                                                                                .Subscribe(this.Update);
+                this.collectionChangedSubscription.Disposable = observableCollection.ObserveCollectionChangedSlim(true)
+                                                                                    .Subscribe(this.Update);
             }
             else if (this.sourceObservable != null)
             {
@@ -115,33 +115,33 @@
             this.wr.Target = null;
             this.Reset(null);
             this.collectionChangedSubscription.Disposable = null;
-            if (eventPattern.EventArgs.HasValue)
+            if (eventPattern.EventArgs.HasValue && eventPattern.EventArgs.Value != null)
             {
                 this.intialized = false;
                 var collection = eventPattern.EventArgs.Value;
                 this.wr.Target = collection;
-                this.collectionChangedSubscription.Disposable = collection.ObserveCollectionChanged(true)
-                                                           .Subscribe(this.Update);
+                this.collectionChangedSubscription.Disposable = collection.ObserveCollectionChangedSlim(true)
+                                                                          .Subscribe(this.Update);
                 this.intialized = true;
             }
         }
 
-        private void Update(EventPattern<NotifyCollectionChangedEventArgs> e)
+        private void Update(NotifyCollectionChangedEventArgs e)
         {
             this.VerifyDisposed();
             lock (this.@lock)
             {
-                switch (e.EventArgs.Action)
+                switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        this.AddRange(e.EventArgs.NewItems);
+                        this.AddRange(e.NewItems);
                         break;
                     case NotifyCollectionChangedAction.Remove:
-                        this.RemoveRange(e.EventArgs.OldItems);
+                        this.RemoveRange(e.OldItems);
                         break;
                     case NotifyCollectionChangedAction.Replace:
-                        this.AddRange(e.EventArgs.NewItems);
-                        this.RemoveRange(e.EventArgs.OldItems);
+                        this.AddRange(e.NewItems);
+                        this.RemoveRange(e.OldItems);
                         break;
                     case NotifyCollectionChangedAction.Move:
                         break;

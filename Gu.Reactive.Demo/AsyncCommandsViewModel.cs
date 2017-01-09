@@ -8,21 +8,19 @@
     using JetBrains.Annotations;
     using Wpf.Reactive;
 
-    public class AsyncCommandsViewModel : INotifyPropertyChanged
+    public sealed class AsyncCommandsViewModel : INotifyPropertyChanged, IDisposable
     {
         private int delay = 500;
 
         private int count;
+        private bool disposed;
 
         public AsyncCommandsViewModel()
         {
             this.AsyncCommand = new AsyncCommand(this.SimpleTask);
-
             this.AsyncCancelableCommand = new AsyncCommand(this.CancelableTask);
-
             this.AsyncParameterCommand = new AsyncCommand<string>(this.ParameterTask);
             this.AsyncCancelableParameterCommand = new AsyncCommand<string>(this.CancelableParameterTask);
-
             this.AsyncThrowCommand = new AsyncCommand(this.VoidTaskThrowMethod);
         }
 
@@ -108,7 +106,22 @@
             throw new Exception("Something went wrong");
         }
 
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.AsyncCommand.Dispose();
+            this.AsyncCancelableCommand.Dispose();
+            this.AsyncParameterCommand.Dispose();
+            this.AsyncCancelableParameterCommand.Dispose();
+            this.AsyncThrowCommand.Dispose();
+        }
+
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
