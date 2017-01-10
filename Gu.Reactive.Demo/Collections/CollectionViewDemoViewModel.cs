@@ -8,13 +8,12 @@
     using System.Runtime.CompilerServices;
     using System.Windows.Data;
 
-    using JetBrains.Annotations;
-
     using Wpf.Reactive;
 
-    public class CollectionViewDemoViewModel : INotifyPropertyChanged
+    public sealed class CollectionViewDemoViewModel : INotifyPropertyChanged, IDisposable
     {
         private Func<int, bool> filter = x => true;
+        private bool disposed;
 
         public CollectionViewDemoViewModel()
         {
@@ -72,12 +71,25 @@
             }
         }
 
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.FilteredView1.Dispose();
+            this.FilteredView2.Dispose();
+            this.ObservableFilteredView.Dispose();
+            this.ThrottledFilteredView.Dispose();
+        }
+
         private bool FilterMethod(int value)
         {
             return this.Filter(value);
         }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

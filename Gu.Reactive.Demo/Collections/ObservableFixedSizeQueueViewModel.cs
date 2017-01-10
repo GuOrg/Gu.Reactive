@@ -17,8 +17,8 @@
 
         public ObservableFixedSizeQueue<int> Queue { get; } = new ObservableFixedSizeQueue<int>(5);
 
-        public ICommand EnqueueCommand { get; private set; }
+        public ICommand EnqueueCommand { get; }
 
-        public ICommand EnqueueOnThreadCommand { get; private set; }
+        public ICommand EnqueueOnThreadCommand { get; }
     }
 }

@@ -13,6 +13,8 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public string Tags => this.tags;
+
         public string FirstName
         {
             get
@@ -50,8 +52,6 @@
                 this.OnPropertyChanged();
             }
         }
-
-        public string Tags => this.tags;
 
         internal IReadOnlyList<int> TagsValues
         {

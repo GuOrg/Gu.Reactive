@@ -66,6 +66,14 @@
 
         public MappingView<MappedVm, MappedVm> MappedMappedUpdateNewIndexed { get; }
 
+        public ICommand AddOneToSourceCommand { get; }
+
+        public ICommand AddOneToSourceOnOtherThreadCommand { get; }
+
+        public ICommand ClearCommand { get; }
+
+        public ICommand RemoveAtCommand { get; }
+
         public int RemoveAt
         {
             get
@@ -93,14 +101,6 @@
             }
         }
 
-        public ICommand AddOneToSourceCommand { get; }
-
-        public ICommand AddOneToSourceOnOtherThreadCommand { get; }
-
-        public ICommand ClearCommand { get; }
-
-        public ICommand RemoveAtCommand { get; }
-
         public void Dispose()
         {
             if (this.disposed)
@@ -111,6 +111,15 @@
             this.disposed = true;
             (this.ClearCommand as IDisposable)?.Dispose();
             (this.RemoveAtCommand as IDisposable)?.Dispose();
+            this.Ints.Dispose();
+            this.FilteredMappedInts.Dispose();
+            this.MappedInts.Dispose();
+            this.MappedIndexedInts.Dispose();
+            this.FilteredMappedMapped.Dispose();
+            this.MappedMapped.Dispose();
+            (this.MappedMappedIndexed as IDisposable)?.Dispose();
+            this.MappedMappedUpdateIndexed.Dispose();
+            this.MappedMappedUpdateNewIndexed.Dispose();
         }
 
         [NotifyPropertyChangedInvocator]

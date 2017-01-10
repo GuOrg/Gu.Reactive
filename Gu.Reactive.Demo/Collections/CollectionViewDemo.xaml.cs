@@ -9,14 +9,26 @@
     /// <summary>
     /// Interaction logic for CollectionViewDemo.xaml
     /// </summary>
-    public partial class CollectionViewDemo : UserControl
+    public sealed partial class CollectionViewDemo : UserControl, IDisposable
     {
         private readonly CollectionViewDemoViewModel viewModel = new CollectionViewDemoViewModel();
+        private bool disposed;
 
         public CollectionViewDemo()
         {
             this.InitializeComponent();
             this.DataContext = this.viewModel;
+        }
+
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.viewModel.Dispose();
         }
 
         private void FilterOnClick(object sender, RoutedEventArgs e)

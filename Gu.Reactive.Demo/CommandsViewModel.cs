@@ -42,6 +42,32 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public RelayCommand RaiseCanExecuteCommand { get; }
+
+        public RelayCommand RaiseCanExecuteOnOtherThread { get; }
+
+        public RelayCommand DelayedToggleCanExecute { get; }
+
+        public ManualRelayCommand ManualRelayCommandNoCondition { get; }
+
+        public ManualRelayCommand ManualRelayCommand { get; }
+
+        public ManualRelayCommand<string> ManualRelayCommandWithParameter { get; }
+
+        public RelayCommand RelayCommandNoCondition { get; }
+
+        public RelayCommand RelayCommand { get; }
+
+        public RelayCommand<string> RelayCommandWithParamater { get; }
+
+        public ObservingRelayCommand ObservingRelayCommand { get; }
+
+        public ObservingRelayCommand<string> ObservingRelayCommandWithParameter { get; }
+
+        public ConditionRelayCommand ConditionRelayCommand { get; }
+
+        public ConditionRelayCommand<string> ConditionRelayCommandWithParameter { get; }
+
         public string Executed
         {
             get
@@ -79,32 +105,6 @@
                 this.OnPropertyChanged();
             }
         }
-
-        public RelayCommand RaiseCanExecuteCommand { get; }
-
-        public RelayCommand RaiseCanExecuteOnOtherThread { get; }
-
-        public RelayCommand DelayedToggleCanExecute { get; }
-
-        public ManualRelayCommand ManualRelayCommandNoCondition { get; }
-
-        public ManualRelayCommand ManualRelayCommand { get; }
-
-        public ManualRelayCommand<string> ManualRelayCommandWithParameter { get; }
-
-        public RelayCommand RelayCommandNoCondition { get; }
-
-        public RelayCommand RelayCommand { get; }
-
-        public RelayCommand<string> RelayCommandWithParamater { get; }
-
-        public ObservingRelayCommand ObservingRelayCommand { get; }
-
-        public ObservingRelayCommand<string> ObservingRelayCommandWithParameter { get; }
-
-        public ConditionRelayCommand ConditionRelayCommand { get; }
-
-        public ConditionRelayCommand<string> ConditionRelayCommandWithParameter { get; }
 
         public void Dispose()
         {

@@ -10,8 +10,8 @@
             this.Filter = filter;
         }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public Predicate<object> Filter { get; private set; }
+        public Predicate<object> Filter { get; }
     }
 }

@@ -10,11 +10,12 @@
 
     using Gu.Wpf.Reactive;
 
-    public class DispatchingViewViewModel
+    public sealed class DispatchingViewViewModel : IDisposable
     {
         private readonly ObservableCollection<DummyItem> observableCollection = new ObservableCollection<DummyItem>();
         private readonly ObservableCollection<NotifyCollectionChangedEventArgs> observableCollectionChanges = new ObservableCollection<NotifyCollectionChangedEventArgs>();
         private readonly ObservableCollection<NotifyCollectionChangedEventArgs> dispatchingChanges = new ObservableCollection<NotifyCollectionChangedEventArgs>();
+        private bool disposed;
 
         public DispatchingViewViewModel()
         {
@@ -36,12 +37,6 @@
                     .Subscribe(x => this.dispatchingChanges.Add(x.EventArgs));
         }
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionChanges => this.observableCollectionChanges;
-
-        public ObservableCollection<NotifyCollectionChangedEventArgs> DispatchingChanges => this.dispatchingChanges;
-
-        public ObservableCollection<DummyItem> ObservableCollection => this.observableCollection;
-
         public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; }
 
         public IObservableCollection<DummyItem> DispatchingView { get; }
@@ -57,6 +52,23 @@
         public ICommand AddOneOnOtherThreadCommand { get; }
 
         public RelayCommand ClearCommand { get; }
+
+        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionChanges => this.observableCollectionChanges;
+
+        public ObservableCollection<NotifyCollectionChangedEventArgs> DispatchingChanges => this.dispatchingChanges;
+
+        public ObservableCollection<DummyItem> ObservableCollection => this.observableCollection;
+
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            (this.DispatchingView as IDisposable)?.Dispose();
+        }
 
         private void AddOne()
         {

@@ -14,19 +14,19 @@
     public partial class DataGridAndEventsView : UserControl
     {
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
-            "Source",
+            nameof(Source),
             typeof(IEnumerable),
             typeof(DataGridAndEventsView),
             new PropertyMetadata(default(IEnumerable), OnSourceChanged));
 
         public static readonly DependencyProperty ChangesProperty = DependencyProperty.Register(
-            "Changes",
+            nameof(Changes),
             typeof(ObservableCollection<NotifyCollectionChangedEventArgs>),
             typeof(DataGridAndEventsView),
             new PropertyMetadata(default(ObservableCollection<NotifyCollectionChangedEventArgs>)));
 
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
-            "Header",
+            nameof(Header),
             typeof(string),
             typeof(DataGridAndEventsView),
             new PropertyMetadata(default(string)));

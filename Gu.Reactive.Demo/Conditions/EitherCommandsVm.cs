@@ -91,13 +91,5 @@
                       .ConfigureAwait(false);
             this.Value += 2;
         }
-
-        private void ThrowIfDisposed()
-        {
-            if (this.disposed)
-            {
-                throw new ObjectDisposedException(this.GetType().FullName);
-            }
-        }
     }
 }

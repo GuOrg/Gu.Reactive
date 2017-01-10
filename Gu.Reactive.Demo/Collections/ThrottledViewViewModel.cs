@@ -7,9 +7,10 @@
 
     using Gu.Wpf.Reactive;
 
-    public class ThrottledViewViewModel
+    public sealed class ThrottledViewViewModel : IDisposable
     {
         private readonly ObservableCollection<DummyItem> observableCollection = new ObservableCollection<DummyItem>();
+        private bool disposed;
 
         public ThrottledViewViewModel()
         {
@@ -24,8 +25,6 @@
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
             this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
         }
-
-        public ObservableCollection<DummyItem> ObservableCollection => this.observableCollection;
 
         public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; }
 
@@ -44,6 +43,21 @@
         public ICommand AddTenCommand { get; }
 
         public ICommand AddOneOnOtherThreadCommand { get; }
+
+        public ObservableCollection<DummyItem> ObservableCollection => this.observableCollection;
+
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.ThrottledView.Dispose();
+            (this.ReadOnlyThrottledView as IDisposable)?.Dispose();
+            (this.ReadOnlyIlistThrottledView as IDisposable)?.Dispose();
+        }
 
         private void AddOne()
         {

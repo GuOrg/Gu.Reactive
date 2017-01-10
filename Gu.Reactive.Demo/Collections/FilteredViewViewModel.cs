@@ -54,24 +54,13 @@
 
         public AsyncCommand AddOneOnOtherThread { get; }
 
-        public string SearchText
-        {
-            get
-            {
-                return this.searchText;
-            }
+        public IReadOnlyObservableCollection<Person> PeopleRaw { get; }
 
-            set
-            {
-                if (value == this.searchText)
-                {
-                    return;
-                }
+        public IEnumerable<int> Tags { get; }
 
-                this.searchText = value;
-                this.OnPropertyChanged();
-            }
-        }
+        public FilteredView<Person> Filtered { get; }
+
+        public IReadOnlyObservableCollection<Person> ReadOnlyFiltered { get; }
 
         public bool HasSearchText
         {
@@ -92,9 +81,24 @@
             }
         }
 
-        public IReadOnlyObservableCollection<Person> PeopleRaw { get; }
+        public string SearchText
+        {
+            get
+            {
+                return this.searchText;
+            }
 
-        public IEnumerable<int> Tags { get; }
+            set
+            {
+                if (value == this.searchText)
+                {
+                    return;
+                }
+
+                this.searchText = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         public IEnumerable<int> SelectedTags
         {
@@ -114,10 +118,6 @@
                 this.OnPropertyChanged();
             }
         }
-
-        public FilteredView<Person> Filtered { get; }
-
-        public IReadOnlyObservableCollection<Person> ReadOnlyFiltered { get; }
 
         public int NumberOfItems
         {
@@ -147,6 +147,9 @@
 
             this.disposed = true;
             this.AddOneOnOtherThread.Dispose();
+            (this.PeopleRaw as IDisposable)?.Dispose();
+            this.Filtered.Dispose();
+            (this.ReadOnlyFiltered as IDisposable)?.Dispose();
         }
 
         [NotifyPropertyChangedInvocator]
