@@ -61,7 +61,7 @@ namespace Gu.Reactive.PropertyPathStuff
                 throw new ArgumentException("Expression contains no constants", nameof(propertyExpression));
             }
 
-            //valuePath.Source = source;
+            ////valuePath.Source = source;
             var source = constants.Last().Value;
             var propertyPath = new PropertyPath(parts);
             return new PropertyPath<TValue>(propertyPath, source);

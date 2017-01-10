@@ -1,5 +1,6 @@
 ﻿namespace Gu.Reactive.Demo
 {
+    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
@@ -7,11 +8,12 @@
     using JetBrains.Annotations;
     using Wpf.Reactive;
 
-    public class CommandsViewModel : INotifyPropertyChanged
+    public sealed class CommandsViewModel : INotifyPropertyChanged, IDisposable
     {
         private string executed;
 
         private bool canExecute;
+        private bool disposed;
 
         public CommandsViewModel()
         {
@@ -78,11 +80,11 @@
             }
         }
 
-        public RelayCommand RaiseCanExecuteCommand { get; private set; }
+        public RelayCommand RaiseCanExecuteCommand { get; }
 
-        public RelayCommand RaiseCanExecuteOnOtherThread { get; private set; }
+        public RelayCommand RaiseCanExecuteOnOtherThread { get; }
 
-        public RelayCommand DelayedToggleCanExecute { get; private set; }
+        public RelayCommand DelayedToggleCanExecute { get; }
 
         public ManualRelayCommand ManualRelayCommandNoCondition { get; }
 
@@ -104,8 +106,22 @@
 
         public ConditionRelayCommand<string> ConditionRelayCommandWithParameter { get; }
 
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.ObservingRelayCommand.Dispose();
+            this.ObservingRelayCommandWithParameter.Dispose();
+            this.ConditionRelayCommand.Dispose();
+            this.ConditionRelayCommandWithParameter.Dispose();
+        }
+
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

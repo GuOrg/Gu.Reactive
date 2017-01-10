@@ -7,7 +7,7 @@
 
     using Gu.Reactive.Internals;
 
-    //[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    ////[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     internal class PropertyPath<TSource, TValue> : IValuePath<TSource, TValue>, IPropertyPath
     {
         private readonly PropertyPath propertyPath;

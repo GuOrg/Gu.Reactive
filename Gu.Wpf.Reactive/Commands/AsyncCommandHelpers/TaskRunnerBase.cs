@@ -121,6 +121,8 @@
             if (disposing)
             {
                 this.TaskCompletion?.Task.Dispose();
+                this.CanCancelCondition?.Dispose();
+                this.CanRunCondition.Dispose();
             }
         }
 

@@ -23,7 +23,7 @@
 
         public TResult GetOrCreateValue(TSource key, int index)
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             TResult mapped;
             if (this.indexSelector != null)
             {
@@ -48,10 +48,7 @@
             return this.GetOrCreateValue(key, index);
         }
 
-        /// <summary>
-        /// Make the class sealed when using this.
-        /// Call VerifyDisposed at the start of all public methods
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (this.disposed)
@@ -60,16 +57,14 @@
             }
 
             this.disposed = true;
-            // Dispose some stuff now
+            this.itemDisposables.Dispose();
         }
 
-        private void VerifyDisposed()
+        private void ThrowIfDisposed()
         {
             if (this.disposed)
             {
-                throw new ObjectDisposedException(
-                    this.GetType()
-                        .FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
     }

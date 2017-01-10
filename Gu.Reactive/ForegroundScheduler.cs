@@ -8,7 +8,7 @@ namespace Gu.Reactive
     /// Sets thread to foreground while there are items in the queue.
     /// Useful for save operations that should keep the app alive until finished.
     /// </summary>
-    public sealed class ForegroundScheduler : IScheduler
+    public sealed class ForegroundScheduler : IScheduler, IDisposable
     {
         /// <summary>
         /// The default instance.
@@ -17,6 +17,7 @@ namespace Gu.Reactive
         private readonly EventLoopScheduler inner;
         private Thread thread;
         private int count;
+        private bool disposed;
 
         private ForegroundScheduler()
         {
@@ -29,6 +30,7 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
         {
+            this.ThrowIfDisposed();
             Interlocked.Increment(ref this.count);
             return this.inner.Schedule(state, (sc, st) => this.Invoke(sc, st, action));
         }
@@ -36,6 +38,7 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public IDisposable Schedule<TState>(TState state, TimeSpan dueTime, Func<IScheduler, TState, IDisposable> action)
         {
+            this.ThrowIfDisposed();
             Interlocked.Increment(ref this.count);
             return this.inner.Schedule(state, dueTime, (sc, st) => this.Invoke(sc, st, action));
         }
@@ -43,8 +46,21 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public IDisposable Schedule<TState>(TState state, DateTimeOffset dueTime, Func<IScheduler, TState, IDisposable> action)
         {
+            this.ThrowIfDisposed();
             Interlocked.Increment(ref this.count);
             return this.inner.Schedule(state, dueTime, (sc, st) => this.Invoke(sc, st, action));
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.inner.Dispose();
         }
 
         private IDisposable Invoke<TState>(IScheduler scheduler, TState state, Func<IScheduler, TState, IDisposable> action)
@@ -72,6 +88,14 @@ namespace Gu.Reactive
                               IsBackground = true // maybe we want it as foreground when saving?
                           };
             return this.thread;
+        }
+
+        private void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
         }
     }
 }

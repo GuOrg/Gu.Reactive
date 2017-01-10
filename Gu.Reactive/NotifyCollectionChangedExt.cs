@@ -45,7 +45,6 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TCollection : IEnumerable, INotifyCollectionChanged
         {
-            //Contract.Requires<ArgumentNullException>(source != null);
             IObservable<EventPattern<NotifyCollectionChangedEventArgs>> observable =
                 Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
                     x => source.CollectionChanged += x,

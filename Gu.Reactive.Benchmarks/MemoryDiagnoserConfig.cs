@@ -1,12 +1,13 @@
 ﻿namespace Gu.Reactive.Benchmarks
 {
     using BenchmarkDotNet.Configs;
+    using BenchmarkDotNet.Diagnostics.Windows;
 
     public class MemoryDiagnoserConfig : ManualConfig
     {
         public MemoryDiagnoserConfig()
         {
-            this.Add(new BenchmarkDotNet.Diagnosers.MemoryDiagnoser());
+            this.Add(new MemoryDiagnoser());
         }
     }
 }

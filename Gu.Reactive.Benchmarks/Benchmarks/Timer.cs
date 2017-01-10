@@ -36,17 +36,17 @@
             }
         }
 
-        //[Test]
-        //public async Task TimerChange()
-        //{
-        //    var sw = Stopwatch.StartNew();
-        //    var timer = new Timer(CallBack, sw, 10, -1);
-        //    timer.Change(10, -1);
-        //    timer.Change(10, -1);
-        //    timer.Change(10, -1);
-        //    timer.Change(10, -1);
-        //    await Task.Delay(50).ConfigureAwait(false);
-        //}
+        ////[Test]
+        ////public async Task TimerChange()
+        ////{
+        ////    var sw = Stopwatch.StartNew();
+        ////    var timer = new Timer(CallBack, sw, 10, -1);
+        ////    timer.Change(10, -1);
+        ////    timer.Change(10, -1);
+        ////    timer.Change(10, -1);
+        ////    timer.Change(10, -1);
+        ////    await Task.Delay(50).ConfigureAwait(false);
+        ////}
 
         private void CallBack(object state)
         {

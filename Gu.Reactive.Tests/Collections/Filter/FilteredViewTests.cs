@@ -33,7 +33,7 @@
 
             view.Refresh();
             scheduler.Start();
-            //expected.AddRange(Diff.ResetEventArgsCollection);
+            ////expected.AddRange(Diff.ResetEventArgsCollection);
             CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
             CollectionAssert.AreEqual(new[] { 1 }, view);
         }

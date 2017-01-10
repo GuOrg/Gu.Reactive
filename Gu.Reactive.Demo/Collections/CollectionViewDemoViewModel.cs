@@ -41,9 +41,9 @@
 
         public IEnumerable<int> Enumerable { get; }
 
-        public ReadOnlyFilteredView<int> FilteredView1 { get; private set; }
+        public ReadOnlyFilteredView<int> FilteredView1 { get; }
 
-        public ReadOnlyFilteredView<int> FilteredView2 { get; private set; }
+        public ReadOnlyFilteredView<int> FilteredView2 { get; }
 
         public ObservableCollection<int> ObservableCollection { get; }
 

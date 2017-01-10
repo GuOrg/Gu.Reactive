@@ -53,6 +53,7 @@
         }
 
         /// <inheritdoc/>
+        [field: NonSerialized]
         public override event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <inheritdoc/>

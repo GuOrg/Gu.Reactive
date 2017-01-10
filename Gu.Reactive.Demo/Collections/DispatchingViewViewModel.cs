@@ -42,21 +42,21 @@
 
         public ObservableCollection<DummyItem> ObservableCollection => this.observableCollection;
 
-        public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; private set; }
+        public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; }
 
         public IObservableCollection<DummyItem> DispatchingView { get; }
 
-        public TimeSpan DeferTime { get; private set; }
+        public TimeSpan DeferTime { get; }
 
-        public ICommand AddOneCommand { get; private set; }
+        public ICommand AddOneCommand { get; }
 
-        public ICommand AddOneToViewCommand { get; private set; }
+        public ICommand AddOneToViewCommand { get; }
 
-        public ICommand AddTenCommand { get; private set; }
+        public ICommand AddTenCommand { get; }
 
-        public ICommand AddOneOnOtherThreadCommand { get; private set; }
+        public ICommand AddOneOnOtherThreadCommand { get; }
 
-        public RelayCommand ClearCommand { get; private set; }
+        public RelayCommand ClearCommand { get; }
 
         private void AddOne()
         {

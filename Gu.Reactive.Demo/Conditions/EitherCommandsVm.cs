@@ -1,27 +1,33 @@
 ﻿namespace Gu.Reactive.Demo
 {
+    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using Gu.Wpf.Reactive;
     using JetBrains.Annotations;
 
-    public sealed class EitherCommandsVm : INotifyPropertyChanged
+    public sealed class EitherCommandsVm : INotifyPropertyChanged, IDisposable
     {
+        private readonly Condition isAddingOne;
+        private readonly Condition isAddingTwo;
+        private readonly ICondition isNotAddingAny;
+
         private int value;
+        private bool disposed;
 
         public EitherCommandsVm()
         {
-            var isAddingOne = new Condition(
+            this.isAddingOne = new Condition(
                 this.ObservePropertyChanged(x => x.AddOneCommand.IsExecuting),
                 () => this.AddOneCommand?.IsExecuting);
-            var isAddingTwo = new Condition(
+            this.isAddingTwo = new Condition(
                 this.ObservePropertyChanged(x => x.AddTwoCommand.IsExecuting),
                 () => this.AddTwoCommand?.IsExecuting);
 
-            var isnotAddingAny = new OrCondition(isAddingOne, isAddingTwo).Negate();
-            this.AddOneCommand = new AsyncCommand(this.AddOne, isnotAddingAny);
-            this.AddTwoCommand = new AsyncCommand(this.AddTwo, isnotAddingAny);
+            this.isNotAddingAny = new OrCondition(this.isAddingOne, this.isAddingTwo).Negate();
+            this.AddOneCommand = new AsyncCommand(this.AddOne, this.isNotAddingAny);
+            this.AddTwoCommand = new AsyncCommand(this.AddTwo, this.isNotAddingAny);
             this.OnPropertyChanged(nameof(this.AddOneCommand));
             this.OnPropertyChanged(nameof(this.AddTwoCommand));
         }
@@ -51,6 +57,21 @@
             }
         }
 
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.AddOneCommand.Dispose();
+            this.AddTwoCommand.Dispose();
+            this.isAddingOne.Dispose();
+            this.isAddingTwo.Dispose();
+            this.isNotAddingAny.Dispose();
+        }
+
         [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -69,6 +90,14 @@
             await Task.Delay(1000)
                       .ConfigureAwait(false);
             this.Value += 2;
+        }
+
+        private void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
         }
     }
 }

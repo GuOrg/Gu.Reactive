@@ -108,34 +108,18 @@ namespace Gu.Reactive.PropertyPathStuff
                 {
                     if (!ReferenceEquals(oldSource, value))
                     {
-                        this.Subscription = inpc.ObservePropertyChanged(this.PathProperty.PropertyInfo.Name, !isNullToNull)
-                                           .Subscribe(this.onNext, this.onError);
+                        this.subscription.Disposable = inpc.ObservePropertyChanged(this.PathProperty.PropertyInfo.Name, !isNullToNull)
+                                                           .Subscribe(this.onNext, this.onError);
                     }
                 }
                 else
                 {
-                    this.Subscription = null;
+                    this.subscription.Disposable = null;
                     if (!isNullToNull)
                     {
                         this.OnPropertyChanged(value, this.PropertyChangedEventArgs);
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Gets or the subscription.
-        /// </summary>
-        public IDisposable Subscription
-        {
-            get
-            {
-                return this.subscription;
-            }
-
-            private set
-            {
-                this.subscription.Disposable = value;
             }
         }
 
@@ -150,7 +134,7 @@ namespace Gu.Reactive.PropertyPathStuff
             }
 
             this.disposed = true;
-            this.Subscription.Dispose();
+            this.subscription.Dispose();
         }
 
         private void OnError(Exception obj)

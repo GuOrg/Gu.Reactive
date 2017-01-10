@@ -82,21 +82,20 @@
             // Wire up the logic for what happens when source task completes
             task.ContinueWith(
                 (antecedent, state) =>
-            {
-                // Recover our state data
-                var tuple =
-                    (Tuple<Timer, TaskCompletionSource<VoidTypeStruct>>)state;
+                    {
+                        // Recover our state data
+                        var tuple = (Tuple<Timer, TaskCompletionSource<VoidTypeStruct>>)state;
 
-                // Cancel the Timer
-                tuple.Item1.Dispose();
+                        // Cancel the Timer
+                        tuple.Item1.Dispose();
 
-                // Marshal results to proxy
-                MarshalTaskResults(antecedent, tuple.Item2);
-            },
-            Tuple.Create(timer, tcs),
-            CancellationToken.None,
-            TaskContinuationOptions.ExecuteSynchronously,
-            TaskScheduler.Default);
+                        // Marshal results to proxy
+                        MarshalTaskResults(antecedent, tuple.Item2);
+                    },
+                Tuple.Create(timer, tcs),
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
 
             return tcs.Task;
         }
@@ -140,13 +139,16 @@
             // Set up a timer to complete after the specified timeout period
             var timer = new Timer(
                 state =>
-            {
-                // Recover your state information
-                var myTcs = (TaskCompletionSource<T>)state;
+                    {
+                        // Recover your state information
+                        var myTcs = (TaskCompletionSource<T>)state;
 
-                // Fault our proxy with a TimeoutException
-                myTcs.TrySetException(new TimeoutException());
-            }, tcs, millisecondsTimeout, Timeout.Infinite);
+                        // Fault our proxy with a TimeoutException
+                        myTcs.TrySetException(new TimeoutException());
+                    },
+                tcs,
+                millisecondsTimeout,
+                Timeout.Infinite);
 
             // Wire up the logic for what happens when source task completes
             task.ContinueWith(

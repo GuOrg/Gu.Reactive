@@ -1,5 +1,6 @@
 ﻿namespace Gu.Reactive.Demo
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
@@ -9,27 +10,28 @@
     using Gu.Wpf.Reactive;
     using JetBrains.Annotations;
 
-    public class MappingViewViewModel : INotifyPropertyChanged
+    public sealed class MappingViewViewModel : INotifyPropertyChanged, IDisposable
     {
         private readonly ObservableCollection<int> ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
 
         private int removeAt;
+        private bool disposed;
 
         public MappingViewViewModel()
         {
             this.Ints = this.ints.AsDispatchingView();
 
-            this.FilteredMappedInts = this.ints.AsReadOnlyFilteredView(x => x % 2 == 0).AsMappingView(x => new MappedVm { Value = x },  WpfSchedulers.Dispatcher);
-            this.MappedInts = this.ints.AsMappingView(x => new MappedVm { Value = x },  WpfSchedulers.Dispatcher);
-            this.MappedIndexedInts = this.ints.AsMappingView((x, i) => new MappedVm { Value = x, Index = i },  WpfSchedulers.Dispatcher);
+            this.FilteredMappedInts = this.ints.AsReadOnlyFilteredView(x => x % 2 == 0).AsMappingView(x => new MappedVm { Value = x }, WpfSchedulers.Dispatcher);
+            this.MappedInts = this.ints.AsMappingView(x => new MappedVm { Value = x }, WpfSchedulers.Dispatcher);
+            this.MappedIndexedInts = this.ints.AsMappingView((x, i) => new MappedVm { Value = x, Index = i }, WpfSchedulers.Dispatcher);
 
             this.FilteredMappedMapped = this.MappedInts.AsReadOnlyFilteredView(x => x.Value % 2 == 0)
-                                             .AsMappingView(x => new MappedVm { Value = x.Value * 2 },  WpfSchedulers.Dispatcher);
+                                             .AsMappingView(x => new MappedVm { Value = x.Value * 2 }, WpfSchedulers.Dispatcher);
 
-            this.MappedMapped = this.MappedInts.AsMappingView(x => new MappedVm { Value = x.Value * 2 },  WpfSchedulers.Dispatcher);
-            this.MappedMappedIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i },  WpfSchedulers.Dispatcher);
-            this.MappedMappedUpdateIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => x.UpdateIndex(i),  WpfSchedulers.Dispatcher);
-            this.MappedMappedUpdateNewIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => new MappedVm { Value = x.Value * 2, Index = i },  WpfSchedulers.Dispatcher);
+            this.MappedMapped = this.MappedInts.AsMappingView(x => new MappedVm { Value = x.Value * 2 }, WpfSchedulers.Dispatcher);
+            this.MappedMappedIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, WpfSchedulers.Dispatcher);
+            this.MappedMappedUpdateIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => x.UpdateIndex(i), WpfSchedulers.Dispatcher);
+            this.MappedMappedUpdateNewIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => new MappedVm { Value = x.Value * 2, Index = i }, WpfSchedulers.Dispatcher);
 
             this.AddOneToSourceCommand = new RelayCommand(() => this.ints.Add(this.ints.Count + 1));
 
@@ -48,21 +50,21 @@
 
         public DispatchingView<int> Ints { get; }
 
-        public MappingView<int, MappedVm> FilteredMappedInts { get; set; }
+        public MappingView<int, MappedVm> FilteredMappedInts { get; }
 
         public MappingView<int, MappedVm> MappedInts { get; }
 
-        public MappingView<int, MappedVm> MappedIndexedInts { get; private set; }
+        public MappingView<int, MappedVm> MappedIndexedInts { get; }
 
-        public MappingView<MappedVm, MappedVm> FilteredMappedMapped { get; set; }
+        public MappingView<MappedVm, MappedVm> FilteredMappedMapped { get; }
 
-        public MappingView<MappedVm, MappedVm> MappedMapped { get; private set; }
+        public MappingView<MappedVm, MappedVm> MappedMapped { get; }
 
-        public IReadOnlyObservableCollection<MappedVm> MappedMappedIndexed { get; private set; }
+        public IReadOnlyObservableCollection<MappedVm> MappedMappedIndexed { get; }
 
-        public MappingView<MappedVm, MappedVm> MappedMappedUpdateIndexed { get; private set; }
+        public MappingView<MappedVm, MappedVm> MappedMappedUpdateIndexed { get; }
 
-        public MappingView<MappedVm, MappedVm> MappedMappedUpdateNewIndexed { get; private set; }
+        public MappingView<MappedVm, MappedVm> MappedMappedUpdateNewIndexed { get; }
 
         public int RemoveAt
         {
@@ -91,16 +93,28 @@
             }
         }
 
-        public ICommand AddOneToSourceCommand { get; private set; }
+        public ICommand AddOneToSourceCommand { get; }
 
-        public ICommand AddOneToSourceOnOtherThreadCommand { get; private set; }
+        public ICommand AddOneToSourceOnOtherThreadCommand { get; }
 
-        public ICommand ClearCommand { get; private set; }
+        public ICommand ClearCommand { get; }
 
-        public ICommand RemoveAtCommand { get; private set; }
+        public ICommand RemoveAtCommand { get; }
+
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            (this.ClearCommand as IDisposable)?.Dispose();
+            (this.RemoveAtCommand as IDisposable)?.Dispose();
+        }
 
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

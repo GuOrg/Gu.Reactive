@@ -11,7 +11,7 @@
     using Gu.Wpf.Reactive;
     using JetBrains.Annotations;
 
-    public class FilteredViewViewModel : INotifyPropertyChanged
+    public sealed class FilteredViewViewModel : INotifyPropertyChanged, IDisposable
     {
         private static readonly IReadOnlyList<string> FirstNames = new[] { "Erik", "Johan", "Max", "Lynn", "Markus" };
         private static readonly IReadOnlyList<string> LastNames = new[] { "Larsson", "Svensson", "Skeet", "Andersson" };
@@ -23,6 +23,7 @@
         private bool hasSearchText;
         private IEnumerable<int> selectedTags = Enumerable.Empty<int>();
         private int numberOfItems = 100;
+        private bool disposed;
 
         public FilteredViewViewModel()
         {
@@ -49,9 +50,9 @@
             this.AddOneOnOtherThread = new AsyncCommand(() => Task.Run(() => this.AddOne()));
         }
 
-        public AsyncCommand AddOneOnOtherThread { get; }
-
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public AsyncCommand AddOneOnOtherThread { get; }
 
         public string SearchText
         {
@@ -93,7 +94,7 @@
 
         public IReadOnlyObservableCollection<Person> PeopleRaw { get; }
 
-        public IEnumerable<int> Tags { get; private set; }
+        public IEnumerable<int> Tags { get; }
 
         public IEnumerable<int> SelectedTags
         {
@@ -137,8 +138,19 @@
             }
         }
 
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.AddOneOnOtherThread.Dispose();
+        }
+
         [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
