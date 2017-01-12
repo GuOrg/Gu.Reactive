@@ -66,21 +66,32 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         public void ThrowsOnStructInPath()
         {
             var fake = new Fake();
-            Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.StructLevel.Name));
+            var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.StructLevel.Name));
+            var expected = "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?\r\n" +
+                           "The type StructLevel is a value type not so x.StructLevel will not notify when it changes.\r\n" +
+                           "The path is: x => x.StructLevel.Name\r\n" +
+                           "Parameter name: path";
+            Assert.AreEqual(expected, exception.Message);
         }
 
         [Test]
         public void ThrowsOnNotInpcInPath()
         {
             var fake = new Fake();
-            Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.Name.Length));
+            var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.Name.Length));
+            var expected = "All levels in the path must implement INotifyPropertyChanged.\r\n" +
+                           "The type string does not so x.Name will not notify when it changes.\r\n" +
+                           "The path is: x => x.Name.Length\r\n" +
+                           "Parameter name: path";
+            Assert.AreEqual(expected, exception.Message);
         }
 
         [Test]
         public void ThrowsOnMethodInPath()
         {
             var fake = new Fake();
-            Assert.Throws<InvalidCastException>(() => fake.ObservePropertyChanged(x => x.Method().Name)); // Leaving it InvalidCast here
+            var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.Method().Name));
+            Assert.AreEqual("Expected path to be properties only. Was x.Method().Name", exception.Message);
         }
 
         [TestCase(true, 1)]
