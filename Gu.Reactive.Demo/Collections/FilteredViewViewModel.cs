@@ -18,7 +18,6 @@
         private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
         private readonly ObservableCollection<Person> peopleRaw;
         private readonly Random random = new Random();
-
         private string searchText;
         private bool hasSearchText;
         private IEnumerable<int> selectedTags = Enumerable.Empty<int>();
@@ -163,6 +162,31 @@
             return this.IsTextMatch(person) && this.IsTagMatch(person);
         }
 
+        private IReadOnlyList<int> CreateTags()
+        {
+            var tags = Enumerable.Repeat(0, this.random.Next(0, 3))
+                                 .Select(_ => this.random.Next(0, 10))
+                                 .Distinct()
+                                 .ToArray();
+            return tags;
+        }
+
+        private static bool IsMatch(string value, string pattern)
+        {
+            if (value == null)
+            {
+                return false;
+            }
+
+            var indexOf = InvariantCulture.CompareInfo.IndexOf(value, pattern, CompareOptions.OrdinalIgnoreCase);
+            if (pattern.Length == 1)
+            {
+                return indexOf == 0;
+            }
+
+            return indexOf >= 0;
+        }
+
         private bool IsTextMatch(Person person)
         {
             if (string.IsNullOrEmpty(this.SearchText))
@@ -196,31 +220,6 @@
             }
 
             return this.selectedTags.Intersect(person.TagsValues).Any();
-        }
-
-        private IReadOnlyList<int> CreateTags()
-        {
-            var tags = Enumerable.Repeat(0, this.random.Next(0, 3))
-                                 .Select(_ => this.random.Next(0, 10))
-                                 .Distinct()
-                                 .ToArray();
-            return tags;
-        }
-
-        private static bool IsMatch(string value, string pattern)
-        {
-            if (value == null)
-            {
-                return false;
-            }
-
-            var indexOf = InvariantCulture.CompareInfo.IndexOf(value, pattern, CompareOptions.OrdinalIgnoreCase);
-            if (pattern.Length == 1)
-            {
-                return indexOf == 0;
-            }
-
-            return indexOf >= 0;
         }
 
         private void UpdateRawCollection()

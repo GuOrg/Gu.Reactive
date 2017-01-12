@@ -13,11 +13,11 @@
 
     public abstract class CrudSourceTests
     {
-        private List<EventArgs> expected;
         protected List<EventArgs> Actual;
         protected TestScheduler Scheduler;
         protected IReadOnlyObservableCollection<int> View;
         protected ObservableCollection<int> Ints;
+        private List<EventArgs> expected;
 
         [SetUp]
         public virtual void SetUp()

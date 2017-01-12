@@ -1,11 +1,8 @@
 namespace Gu.Reactive.Tests.Conditions
 {
     using System;
-
     using Gu.Reactive.Tests.Helpers;
-
     using Moq;
-
     using NUnit.Framework;
 
     public class AndConditionTests

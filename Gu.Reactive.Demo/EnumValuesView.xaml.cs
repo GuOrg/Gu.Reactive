@@ -6,7 +6,7 @@
     {
         public EnumValuesView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

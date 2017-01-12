@@ -25,16 +25,12 @@
         private string name;
         private bool disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Condition"/> class.
+        /// </summary>
         public Condition(Func<bool?> criteria, IObservable<object> observable, params IObservable<object>[] observables)
             : this(Observable.Merge(observables.Concat(new[] { observable })), criteria)
         {
-        }
-
-        protected Condition(ConditionCollection conditionCollection)
-            : this(conditionCollection.ObserveIsSatisfiedChanged(), () => conditionCollection.IsSatisfied)
-        {
-            Ensure.NotNullOrEmpty(conditionCollection, nameof(conditionCollection));
-            this.prerequisites = conditionCollection;
         }
 
         /// <summary>
@@ -60,6 +56,17 @@
                 .Subscribe(_ => this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.isSatisfied)));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Condition"/> class.
+        /// </summary>
+        protected Condition(ConditionCollection conditionCollection)
+            : this(conditionCollection.ObserveIsSatisfiedChanged(), () => conditionCollection.IsSatisfied)
+        {
+            Ensure.NotNullOrEmpty(conditionCollection, nameof(conditionCollection));
+            this.prerequisites = conditionCollection;
+        }
+
+        /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -141,12 +148,14 @@
             return new NegatedCondition(this);
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
         public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString() ?? "null"}";
 
         protected virtual void Dispose(bool disposing)

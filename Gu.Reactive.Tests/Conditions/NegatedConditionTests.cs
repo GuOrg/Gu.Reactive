@@ -96,7 +96,7 @@
         public void Name()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull);
+            var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull) {Name = "IsTrueOrNull" };
             var negatedCondition = condition.Negate();
             Assert.AreEqual("Not_" + condition.Name, negatedCondition.Name);
         }

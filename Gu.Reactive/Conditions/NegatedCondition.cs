@@ -20,7 +20,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="NegatedCondition"/> class.
         /// </summary>
-        public NegatedCondition(Condition condition)
+        public NegatedCondition(ICondition condition)
         {
             this.condition = condition;
             this.Name = $"Not_{this.condition.Name}";
