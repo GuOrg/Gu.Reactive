@@ -1,6 +1,10 @@
 namespace Gu.Reactive.Tests.Conditions
 {
     using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
+    using System.Reactive.Linq;
 
     using Gu.Reactive.Tests.Helpers;
 
@@ -9,18 +13,63 @@ namespace Gu.Reactive.Tests.Conditions
     public class AbstractConditionTests
     {
         [Test]
-        public void Naming()
+        public void IsSatisfied()
         {
-            var fake = new Fake { IsTrue = false };
-            var condition = new ConditionExpandsAbstract(fake.ObservePropertyChanged(x => x.IsTrue)) { Name = "Name" };
+            var fake = new Fake { IsTrueOrNull = false };
+            var condition = new FakeCondition(fake);
+            Assert.AreEqual(false, condition.IsSatisfied);
+            fake.IsTrueOrNull = true;
+            Assert.AreEqual(true, condition.IsSatisfied);
+        }
+
+        [Test]
+        public void Notifies()
+        {
+            var fake = new Fake { IsTrueOrNull = false };
+            var condition = new FakeCondition(fake);
+            var argses = new List<PropertyChangedEventArgs>();
+            condition.PropertyChanged += (sender, args) => argses.Add(args);
+            fake.IsTrueOrNull = true;
+            Assert.AreEqual(1, argses.Count);
+        }
+
+        [Test]
+        public void History()
+        {
+            var fake = new Fake { IsTrueOrNull = false };
+            var condition = new FakeCondition(fake);
+            fake.IsTrueOrNull = true;
+            CollectionAssert.AreEqual(new bool?[] { null, true }, condition.History.Select(x => x.State));
+        }
+
+        [Test]
+        public void Name()
+        {
+            var condition = new AbstractConditionImpl(Observable.Empty<object>()) { Name = "Name" };
             var negated = condition.Negate();
             Assert.AreEqual("Name", condition.Name);
             Assert.AreEqual("Not_Name", negated.Name);
         }
 
-        private class ConditionExpandsAbstract : AbstractCondition
+        private class FakeCondition : AbstractCondition
         {
-            public ConditionExpandsAbstract(IObservable<object> observable)
+            private readonly Fake fake;
+
+            public FakeCondition(Fake fake)
+                : base(fake.ObservePropertyChanged(x => x.IsTrueOrNull))
+            {
+                this.fake = fake;
+            }
+
+            protected override bool? Criteria()
+            {
+                return this.fake?.IsTrueOrNull;
+            }
+        }
+
+        private class AbstractConditionImpl : AbstractCondition
+        {
+            public AbstractConditionImpl(IObservable<object> observable)
                 : base(observable)
             {
             }
