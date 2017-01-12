@@ -14,6 +14,9 @@
         private bool disposed;
         private string name;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AbstractCondition"/> class.
+        /// </summary>
         protected AbstractCondition(IObservable<object> observable)
         {
             this.condition = new Condition(observable, this.Criteria);
@@ -67,7 +70,7 @@
         public ICondition Negate()
         {
             this.ThrowIfDisposed();
-            return this.condition.Negate();
+            return new NegatedCondition(this);
         }
 
         /// <inheritdoc/>
