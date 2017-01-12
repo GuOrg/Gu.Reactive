@@ -9,35 +9,78 @@ Gu.Reactive
 
 Helpers for using System.Reactive with `INotifyPropertyChanged`.
 
-### ObservePropertyChanged:
+# Factory methods for creating observables.
 
-```
+## ObservePropertyChanged:
+
+```c#
 var subscription = fake.ObservePropertyChanged(x => x.Next.Value)
 					   .Subscribe(...);
 ```
 
-1) Listens to nested changes. All steps in the property path must be INotifyPropertyChanged. Throws if not.
+1) Create an observable from the `PropertytChangedEvent` for fake.
+2) Listens to nested changes. All steps in the property path must be INotifyPropertyChanged. Throws if not.
+3) When PropertyChanged is raised with string.Empty or null the observable notifies.
+4) Updates subscriptions for items in path and uses weak events.
 
-2) Updates subscriptions for items in path and uses weak events. Tested for memory leaks.
+### SinganlInitial
+Default true meaning that the observable will call OnNExt on Subscribe
 
-3) Refactor friendly cos lambdas.
+## ObservePropertyChangedSlim:
 
-### ObserveItemPropertyChanged
+```c#
+var subscription = this.ObservePropertyChangedSlim(nameof(this.Value"))
+					   .Subscribe(...);
 ```
+
+1) Return an `IObservable<PropertyChangedEventArgs>` so more lightweight than `ObservePropertyChanged`
+2) Filters change args mathing property name or string.IsNullOrEmpty
+
+### SinganlInitial
+Default true meaning that the observable will call OnNExt on Subscribe
+
+### ObservePropertyChangedWithValue
+```c#
+fake.ObservePropertyChangedWithValue(x => x.Collection)
+	.ItemPropertyChanged(x => x.Name)
+	.Subscribe(_changes.Add);
+```
+
+
+## ObserveCollectionChanged:
+
+```c#
+var subscription = collection.ObserveCollectionChanged()
+					   .Subscribe(...);
+```
+
+1) Create an observable from the `CollectionChangedEvent` for collection.
+
+### SinganlInitial
+Default true meaning that the observable will call OnNExt on Subscribe
+
+## ObservePropertyChangedSlim:
+
+```c#
+var subscription = collection.ObserveCollectionChangedSlim()
+					   .Subscribe(...);
+```
+
+1) Return an `IObservable<NotifyCollectionChangedEventArgs>` so more lightweight than `ObserveCollectionChanged`
+
+### SinganlInitial
+Default true meaning that the observable will call OnNExt on Subscribe
+
+## ObserveItemPropertyChanged
+```c#
 var subscription = collection.ObserveItemPropertyChanged(x => x.Name)
 							 .Subscribe(...);
 ```
 1) Listens to changes using ObservePropertyChanged
 2) Removes subscriptions for elements that are removed from the collection and adds subscription to new elements.
 
-### Composes
-```
-fake.ObservePropertyChangedWithValue(x => x.Collection)
-	.ItemPropertyChanged(x => x.Name)
-	.Subscribe(_changes.Add);
-```
 
-### Conditions:
+# Conditions:
 Se demo code
 
 ### FilteredView<T>
