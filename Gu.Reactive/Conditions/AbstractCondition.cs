@@ -1,4 +1,6 @@
-﻿namespace Gu.Reactive
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable VirtualMemberNeverOverridden.Global
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;

@@ -1,4 +1,3 @@
-#pragma warning disable SA1600 // Elements must be documented, internal
 namespace Gu.Reactive.Internals
 {
     internal static class MaybeExt

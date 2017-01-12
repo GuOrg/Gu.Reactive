@@ -1,14 +1,14 @@
-﻿namespace Gu.Reactive
+﻿// ReSharper disable VirtualMemberNeverOverridden.Global
+// ReSharper disable MemberCanBePrivate.Global
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
-    using System.Linq.Expressions;
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
-    using JetBrains.Annotations;
 
     /// <summary>
     /// To be used standalone or derived from. Conditions really starts to sing when you subclass them and use an IoC container to build trees.
@@ -28,6 +28,15 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Condition"/> class.
         /// </summary>
+        /// <param name="observable">
+        /// The observable that triggers updates of <see cref="IsSatisfied"/>
+        /// </param>
+        /// <param name="criteria">
+        /// The criteria that is evaluated to give IsSatisfied.
+        /// </param>
+        /// <param name="observables">
+        /// More observables that triggers updates of <see cref="IsSatisfied"/>
+        /// </param>
         public Condition(Func<bool?> criteria, IObservable<object> observable, params IObservable<object>[] observables)
             : this(Observable.Merge(observables.Concat(new[] { observable })), criteria)
         {
@@ -37,7 +46,7 @@
         /// Initializes a new instance of the <see cref="Condition"/> class.
         /// </summary>
         /// <param name="observable">
-        /// The observable that triggers notifications
+        /// The observable that triggers updates of <see cref="IsSatisfied"/>
         /// </param>
         /// <param name="criteria">
         /// The criteria that is evaluated to give IsSatisfied.
@@ -77,13 +86,14 @@
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 return this.criteria(); // No caching
             }
 
             private set
             {
-                // This is only to raise inpc, value is always calculated
+                // The cached value is only for not raising PropertyChanged if the value has not changed.
+                // The getter calculates the value.
                 if (this.isSatisfied == value)
                 {
                     return;
@@ -101,13 +111,13 @@
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 return this.name;
             }
 
             set
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 if (value == this.name)
                 {
                     return;
@@ -130,7 +140,7 @@
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 return this.prerequisites;
             }
         }
@@ -144,7 +154,7 @@
         /// </returns>
         public virtual ICondition Negate()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             return new NegatedCondition(this);
         }
 
@@ -158,6 +168,16 @@
         /// <inheritdoc/>
         public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString() ?? "null"}";
 
+        /// <summary>
+        /// Disposes of a <see cref="Condition"/>.
+        /// </summary>
+        /// <remarks>
+        /// Called from Dispose() with disposing=true.
+        /// Guidelines:
+        /// 1. We may be called more than once: do nothing after the first call.
+        /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.
+        /// </remarks>
+        /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)
@@ -172,7 +192,10 @@
             }
         }
 
-        protected void VerifyDisposed()
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// </summary>
+        protected void ThrowIfDisposed()
         {
             if (this.disposed)
             {
@@ -180,30 +203,30 @@
             }
         }
 
+        /// <summary>
+        /// Update <see cref="IsSatisfied"/> with <see cref="criteria"/>
+        /// </summary>
         protected void UpdateIsSatisfied()
         {
             this.IsSatisfied = this.criteria();
         }
 
-        [NotifyPropertyChangedInvocator]
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// </summary>
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="Condition"/> will raise
+        /// a property changed event through this virtual method.
+        /// </summary>
         protected void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
-        }
-
-        /// <summary>
-        /// Calls NameOf.Property(propety)
-        /// </summary>
-        /// <param name="propety"></param>
-        [Obsolete("Use nameof")]
-        protected void OnPropertyChanged<T>(Expression<Func<T>> propety)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(NameOf.Property(propety)));
         }
     }
 }

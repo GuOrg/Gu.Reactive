@@ -1,5 +1,4 @@
-﻿#pragma warning disable SA1600 // Elements must be documented
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     internal static class BoolBoxes
     {

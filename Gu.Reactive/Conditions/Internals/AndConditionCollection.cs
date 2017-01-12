@@ -8,7 +8,7 @@
     /// </summary>
     internal class AndConditionCollection : ConditionCollection
     {
-        public AndConditionCollection(params ICondition[] conditions)
+        internal AndConditionCollection(params ICondition[] conditions)
             : base(GetIsSatisfied, conditions)
         {
         }

@@ -31,12 +31,10 @@ using System.Windows.Markup;
 [assembly: XmlnsPrefix("http://Gu.com/Reactive", "reactive")]
 
 #pragma warning disable SA1649 // File name must match first type name
-#pragma warning disable SA1600 // Elements must be documented
 internal class References
 {
     // Touching Gu.Wpf.ToolTips so that it gets copied to output dir
     // http://stackoverflow.com/a/24828522/1069200
     public static readonly Gu.Wpf.ToolTips.PopupButton ToolTipsReference;
 }
-#pragma warning restore SA1600 // Elements must be documented
 #pragma warning restore SA1649 // File name must match first type name
