@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.PropertyPathStuff
+﻿#pragma warning disable SA1600 // Elements must be documented, internal
+namespace Gu.Reactive.PropertyPathStuff
 {
     using System;
     using System.ComponentModel;

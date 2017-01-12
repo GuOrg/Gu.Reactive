@@ -320,6 +320,9 @@
     <Compile Include="TypeExt.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\stylecop.json">
+      <Link>stylecop.json</Link>
+    </None>
     <None Include="Collections\ThrottledView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ThrottledView.generated.cs</LastGenOutput>

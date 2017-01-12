@@ -77,18 +77,25 @@
 
         #region IList & IList<T>
 
+        /// <inheritdoc/>
         public int Count => this.inner.Count;
 
+        /// <inheritdoc/>
         public object SyncRoot => ((IList)this.inner).SyncRoot;
 
+        /// <inheritdoc/>
         public bool IsSynchronized => ((IList)this.inner).IsSynchronized;
 
+        /// <inheritdoc/>
         public T this[int index] => this.inner[index];
 
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator() => this.inner.GetEnumerator();
 
+        /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
+        /// <inheritdoc/>
         public int IndexOf(T value)
         {
             lock (this.inner)
@@ -97,6 +104,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public int IndexOf(object value)
         {
             lock (this.inner)
@@ -105,6 +113,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public int LastIndexOf(T value)
         {
             lock (this.inner)
@@ -113,6 +122,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public bool Contains(T value)
         {
             lock (this.inner)
@@ -121,6 +131,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public bool Contains(object value)
         {
             lock (this.inner)
@@ -129,6 +140,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public void CopyTo(T[] array, int index)
         {
             lock (this.inner)
@@ -137,6 +149,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public void CopyTo(Array array, int index)
         {
             lock (this.inner)

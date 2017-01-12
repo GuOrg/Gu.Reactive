@@ -1,3 +1,4 @@
+#pragma warning disable SA1600 // Elements must be documented, internal
 namespace Gu.Reactive.PropertyPathStuff
 {
     using System;
@@ -90,9 +91,7 @@ namespace Gu.Reactive.PropertyPathStuff
         {
             if (this.disposed)
             {
-                throw new ObjectDisposedException(
-                    this.GetType()
-                        .FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
     }

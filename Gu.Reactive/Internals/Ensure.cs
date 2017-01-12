@@ -1,4 +1,5 @@
-﻿// ReSharper disable UnusedParameter.Global
+﻿#pragma warning disable SA1600 // Elements must be documented, internal
+// ReSharper disable UnusedParameter.Global
 namespace Gu.Reactive.Internals
 {
     using System;

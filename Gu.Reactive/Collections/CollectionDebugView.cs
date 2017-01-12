@@ -13,11 +13,17 @@ namespace Gu.Reactive
         private static readonly T[] Empty = new T[0];
         private readonly IEnumerable<T> collection;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CollectionDebugView{T}"/> class.
+        /// </summary>
         public CollectionDebugView(IEnumerable<T> collection)
         {
             this.collection = collection;
         }
 
+        /// <summary>
+        /// The items in the collection.
+        /// </summary>
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
         public T[] Items
         {

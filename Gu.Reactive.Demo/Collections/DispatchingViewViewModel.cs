@@ -28,13 +28,15 @@
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
             this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
             this.ClearCommand = new RelayCommand(() => this.Clear(), () => true);
-            this.ObservableCollection.ObserveCollectionChanged()
-                                .ObserveOnDispatcher()
-                                .Subscribe(x => this.observableCollectionChanges.Add(x.EventArgs));
+            this.ObservableCollection
+                .ObserveCollectionChanged()
+                .ObserveOnDispatcher()
+                .Subscribe(x => this.observableCollectionChanges.Add(x.EventArgs));
 
-            this.DispatchingView.ObserveCollectionChanged()
-                    .ObserveOnDispatcher()
-                    .Subscribe(x => this.dispatchingChanges.Add(x.EventArgs));
+            this.DispatchingView
+                .ObserveCollectionChanged()
+                .ObserveOnDispatcher()
+                .Subscribe(x => this.dispatchingChanges.Add(x.EventArgs));
         }
 
         public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; }

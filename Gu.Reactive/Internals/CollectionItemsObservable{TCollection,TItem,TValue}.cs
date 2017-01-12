@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Internals
+﻿#pragma warning disable SA1600 // Elements must be documented, internal
+namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections;
@@ -59,17 +60,20 @@
             }
         }
 
+        /// <inheritdoc/>
         public IEnumerator<TItem> GetEnumerator()
         {
             return this.Collection.GetEnumerator();
         }
 
+        /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()
         {
             this.VerifyDisposed();
             return this.GetEnumerator();
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (this.disposed)

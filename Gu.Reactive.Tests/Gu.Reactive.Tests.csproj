@@ -127,7 +127,6 @@
     <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedTests.cs" />
     <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedAndValue_SimpleTests.cs" />
     <Compile Include="Internals\TypeExtTests.cs" />
-    <Compile Include="Sandbox\Foo.cs" />
     <Compile Include="Sandbox\ItemsObservableBox.cs" />
     <Compile Include="Trackers\AverageTracker_PrimitiveTests.cs" />
     <Compile Include="Trackers\MinTrackerTests.cs" />

@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Internals
+﻿#pragma warning disable SA1600 // Elements must be documented, internal
+namespace Gu.Reactive.Internals
 {
     internal class ValueAndSender<TValue>
     {
