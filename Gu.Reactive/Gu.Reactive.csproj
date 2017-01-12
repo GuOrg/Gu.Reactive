@@ -216,7 +216,7 @@
     <Compile Include="Contracts\IRefreshAble.cs" />
     <Compile Include="Contracts\ISatisfied.cs" />
     <Compile Include="Contracts\ISchedulers.cs" />
-    <Compile Include="Collections\CollectionDebugView.cs" />
+    <Compile Include="Collections\Internals\CollectionDebugView.cs" />
     <Compile Include="Collections\FilteredView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

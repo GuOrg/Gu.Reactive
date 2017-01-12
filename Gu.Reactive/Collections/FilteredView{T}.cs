@@ -245,16 +245,19 @@
             }
         }
 
+        /// <summary>
+        /// Get the filtered items from Source
+        /// </summary>
         protected IEnumerable<T> Filtered()
         {
-            if (this.Filter == null)
-            {
-                return this.Source;
-            }
-
-            return this.Source.Where(this.filter);
+            return Filtered(this.Source, this.filter);
         }
 
+        /// <summary>
+        /// Get the filtered items from Source
+        /// If source is null and empty enuerable is returned.
+        /// If filter is null the raw source is returned.
+        /// </summary>
         protected static IEnumerable<T> Filtered(IEnumerable<T> source, Func<T, bool> filter)
         {
             if (source == null)

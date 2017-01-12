@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive
+﻿// ReSharper disable MemberCanBePrivate.Global
+namespace Gu.Reactive
 {
     using System;
     using System.Collections;
@@ -7,6 +8,9 @@
     using System.ComponentModel;
     using System.Reactive.Disposables;
 
+    /// <summary>
+    /// Decorate an <see cref="IObservableCollection{T}"/> with <see cref="IList"/>
+    /// </summary>
     public class EditableListView<T> : IObservableCollection<T>, IList, IDisposable
     {
         private readonly IObservableCollection<T> source;
@@ -14,10 +18,19 @@
 
         private bool disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditableListView{T}"/> class.
+        /// </summary>
         public EditableListView(IObservableCollection<T> source)
         {
             this.source = source;
-            this.subscriptions = this.Subscribe(source);
+            this.subscriptions = new CompositeDisposable(2)
+                                     {
+                                         source.ObservePropertyChangedSlim()
+                                               .Subscribe(this.OnPropertyChanged),
+                                         source.ObserveCollectionChangedSlim(false)
+                                               .Subscribe(this.OnCollectionChanged)
+                                     };
         }
 
         /// <inheritdoc/>
@@ -52,7 +65,7 @@
         object IList.this[int index]
         {
             get { return this[index]; }
-            set { throw new NotImplementedException("we must notify immediately here"); }
+            set { this.source[index] = (T)value; }
         }
 
         /// <inheritdoc/>
@@ -200,16 +213,5 @@
             return result;
         }
 
-        private IDisposable Subscribe<TCol>(TCol col)
-            where TCol : INotifyCollectionChanged, INotifyPropertyChanged
-        {
-            return new CompositeDisposable(2)
-            {
-                col.ObservePropertyChangedSlim()
-                   .Subscribe(this.OnPropertyChanged),
-                col.ObserveCollectionChangedSlim(false)
-                    .Subscribe(this.OnCollectionChanged)
-            };
-        }
     }
 }
