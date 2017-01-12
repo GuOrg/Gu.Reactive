@@ -23,7 +23,7 @@ var subscription = fake.ObservePropertyChanged(x => x.Next.Value)
 3) When PropertyChanged is raised with string.Empty or null the observable notifies.
 4) Updates subscriptions for items in path and uses weak events.
 
-### SinganlInitial
+### SignalInitial
 Default true meaning that the observable will call OnNExt on Subscribe
 
 ## ObservePropertyChangedSlim:
@@ -36,7 +36,7 @@ var subscription = this.ObservePropertyChangedSlim(nameof(this.Value"))
 1) Return an `IObservable<PropertyChangedEventArgs>` so more lightweight than `ObservePropertyChanged`
 2) Filters change args mathing property name or string.IsNullOrEmpty
 
-### SinganlInitial
+### SignalInitial
 Default true meaning that the observable will call OnNExt on Subscribe
 
 ### ObservePropertyChangedWithValue
@@ -56,7 +56,7 @@ var subscription = collection.ObserveCollectionChanged()
 
 1) Create an observable from the `CollectionChangedEvent` for collection.
 
-### SinganlInitial
+### SignalInitial
 Default true meaning that the observable will call OnNExt on Subscribe
 
 ## ObservePropertyChangedSlim:
@@ -68,7 +68,7 @@ var subscription = collection.ObserveCollectionChangedSlim()
 
 1) Return an `IObservable<NotifyCollectionChangedEventArgs>` so more lightweight than `ObserveCollectionChanged`
 
-### SinganlInitial
+### SignalInitial
 Default true meaning that the observable will call OnNExt on Subscribe
 
 ## ObserveItemPropertyChanged
