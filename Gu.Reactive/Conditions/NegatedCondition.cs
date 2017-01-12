@@ -17,6 +17,9 @@
 
         private bool disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NegatedCondition"/> class.
+        /// </summary>
         public NegatedCondition(Condition condition)
         {
             this.condition = condition;
@@ -89,6 +92,9 @@
             this.disposed = true;
             this.subscription.Dispose();
         }
+
+        /// <inheritdoc/>
+        public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString() ?? "null"}";
 
         private void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
