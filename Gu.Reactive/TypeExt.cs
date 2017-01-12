@@ -3,13 +3,14 @@
     using System;
     using System.Linq;
 
+    /// <summary>
+    /// Helpers for <see cref="Type"/>
+    /// </summary>
     public static class TypeExt
     {
         /// <summary>
         /// Returns nicely formatted type names for generic types.
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
         public static string PrettyName(this Type type)
         {
             if (type == typeof(long))
@@ -49,8 +50,6 @@
         /// <summary>
         /// Check if a type is Nullable`1
         /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
         public static bool IsNullable(this Type type)
         {
             if (type == null)

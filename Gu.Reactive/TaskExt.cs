@@ -4,9 +4,14 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    /// <summary>
+    /// Helpers for <see cref="Task"/>
+    /// </summary>
     public static class TaskExt
     {
         /// <summary>
+        /// Make a task ~cancelable~ 
+        /// The inner task will still complete after cancelling so side-effects may be an issue.
         /// http://blogs.msdn.com/b/pfxteam/archive/2012/10/05/how-do-i-cancel-non-cancelable-async-operations.aspx
         /// </summary>
         /// <typeparam name="T">The type of the task.</typeparam>
@@ -29,21 +34,21 @@
             return await task.ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Decorate a task with timeout.
+        /// The inner task will still complete after cancelling so side-effects may be an issue.
+        /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
+        /// </summary>
         public static Task TimeoutAfter(this Task task, TimeSpan timeout)
         {
             return TimeoutAfter(task, (int)timeout.TotalMilliseconds);
         }
 
         /// <summary>
+        /// Decorate a task with timeout.
+        /// The inner task will still complete after cancelling so side-effects may be an issue.
         /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
         /// </summary>
-        /// <param name="task">
-        /// </param>
-        /// <param name="millisecondsTimeout">
-        /// </param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
         public static Task TimeoutAfter(this Task task, int millisecondsTimeout)
         {
             // Short-circuit #1: infinite timeout or task already completed

@@ -168,6 +168,8 @@ Null if IsSatisfied for no prerequisite is false and any prerequisite is null.
 
 Se demo for more code samples.
 
+## Collections
+
 ### FilteredView<T>
 * No more CollectionViewSource in code.
 * Typed so you get intellisense in xaml.

@@ -74,6 +74,21 @@
             }
         }
 
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.AsyncCommand.Dispose();
+            this.AsyncCancelableCommand.Dispose();
+            this.AsyncParameterCommand.Dispose();
+            this.AsyncCancelableParameterCommand.Dispose();
+            this.AsyncThrowCommand.Dispose();
+        }
+
         private async Task SimpleTask()
         {
             await Task.Delay(this.Delay).ConfigureAwait(false);
@@ -100,25 +115,10 @@
             return this.CancelableTask(token);
         }
 
-        public async Task VoidTaskThrowMethod()
+        private async Task VoidTaskThrowMethod()
         {
             await Task.Delay(this.Delay).ConfigureAwait(false);
             throw new Exception("Something went wrong");
-        }
-
-        public void Dispose()
-        {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            this.disposed = true;
-            this.AsyncCommand.Dispose();
-            this.AsyncCancelableCommand.Dispose();
-            this.AsyncParameterCommand.Dispose();
-            this.AsyncCancelableParameterCommand.Dispose();
-            this.AsyncThrowCommand.Dispose();
         }
 
         [NotifyPropertyChangedInvocator]

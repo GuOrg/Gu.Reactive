@@ -24,9 +24,9 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public PathProperty this[int index] => this.parts[index];
 
-        public static PropertyPath<TSource, TValue> Create<TSource, TValue>(Expression<Func<TSource, TValue>> propertyExpression)
+        public static PropertyPath<TSource, TValue> Create<TSource, TValue>(Expression<Func<TSource, TValue>> propertyPath)
         {
-            var path = PropertyPathVisitor.GetPath(propertyExpression);
+            var path = PropertyPathVisitor.GetPath(propertyPath);
             var propertyInfos = path.Cast<PropertyInfo>().ToArray();
             var parts = new PathProperty[propertyInfos.Length];
             PathProperty previous = null;
