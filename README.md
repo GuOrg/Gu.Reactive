@@ -81,7 +81,92 @@ var subscription = collection.ObserveItemPropertyChanged(x => x.Name)
 
 
 # Conditions:
-Se demo code
+## Condition
+
+A type that calculates `IsSatisfied` when any of the `IObservable<object>` triggers signals.
+Create it in code like this:
+
+```c#
+this.isTrueCondition = new Condition(
+    this.ObservePropertyChanged(x => x.IsTrue),
+    () => this.IsTrue);
+```
+
+The conditions work really well when used with an IoC.
+Then subclasses are created and the IoC is used to build trees of nested conditions.
+
+```c#
+public class HasFuel : Condition
+{
+    public HasFuel(Car car)
+        : base(
+            car.ObservePropertyChanged(x => x.FuelLevel),
+            () => car.FuelLevel > 0)
+    {
+    }
+}
+```
+
+### IsSatisfied
+
+Aveluates the criteria passed in in the ctor. Recalculates when any of the observables signals and the value changes.
+
+### Name
+
+Default is GetType.Name but the property is mutable so other names can be specified.
+
+### History
+
+The last 100 times of change and values for IsSatisfied
+
+### Negate()
+
+Returns a condition wrapping the instance and negating the value of IsSatisfied.
+Negating a negated condition returns the original condition.
+
+## OrCondition
+
+Calculates IsSatisfied based on if any of the prerequisites are true. Listens to changes in IsSatisfied for prerequisites and notifies when value changes.
+
+```c#
+public class IsAnyDoorOpen : OrCondition
+{
+    public IsAnyDoorOpen(
+		IsLeftDoorOpen isLeftDoorOpen,
+		IsRightDoorOpen isRightDoorOpen)
+        : base(isLeftDoorOpen, isRightDoorOpen)
+    {
+    }
+}
+```
+### IsSatisfied
+
+True if IsSatisfied for any prerequisites is true.
+False if IsSatisfied for all prerequisites are false.
+Null if IsSatisfied for no prerequisite is true and any prerequisite is null.
+
+## AndCondition
+
+Calculates IsSatisfied based on if all of the prerequisites have IsSatisfied == true. Listens to changes in IsSatisfied for prerequisites and notifies when value changes.
+
+```c#
+public class IsAnyDoorOpen : AndCondition
+{
+    public IsAnyDoorOpen(
+		IsLeftDoorOpen isLeftDoorOpen,
+		IsRightDoorOpen isRightDoorOpen)
+        : base(isLeftDoorOpen.Negate(), isRightDoorOpen.Negate())
+    {
+    }
+}
+```
+### IsSatisfied
+
+True if IsSatisfied for all prerequisites are true.
+False if IsSatisfied for any prerequisite is false.
+Null if IsSatisfied for no prerequisite is false and any prerequisite is null.
+
+Se demo for more code samples.
 
 ### FilteredView<T>
 * No more CollectionViewSource in code.
