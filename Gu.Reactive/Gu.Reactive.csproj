@@ -274,6 +274,9 @@
     <Compile Include="ObservableExt.cs" />
     <Compile Include="PropertyChangedAndValueEventArgs{TProperty}.cs" />
     <Compile Include="PropertyPathStuff\ExpressionExt.cs" />
+    <Compile Include="PropertyPathStuff\Getter.cs" />
+    <Compile Include="PropertyPathStuff\Getter{TSource,TProperty}.cs" />
+    <Compile Include="PropertyPathStuff\IGetter.cs" />
     <Compile Include="PropertyPathStuff\IPropertyPath.cs" />
     <Compile Include="Internals\MaybeExt.cs" />
     <Compile Include="Internals\RwLock.cs" />

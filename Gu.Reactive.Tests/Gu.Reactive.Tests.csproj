@@ -99,6 +99,7 @@
     <Compile Include="Internals\Ensure.Compare.Tests.cs" />
     <Compile Include="Internals\Ensure.Tests.cs" />
     <Compile Include="Internals\Ensure.String.Tests.cs" />
+    <Compile Include="PropertyPathStuff\GetterTests.cs" />
     <Compile Include="PropertyPathStuff\NotifyingPathItemTests.cs" />
     <Compile Include="PropertyPathStuff\PathItemTests.cs" />
     <Compile Include="PropertyPathStuff\PropertyPathTests.cs" />
