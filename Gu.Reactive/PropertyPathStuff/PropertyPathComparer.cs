@@ -4,15 +4,34 @@ namespace Gu.Reactive.PropertyPathStuff
     using System.Linq.Expressions;
     using System.Reflection;
 
-    internal class PropertyPathComparer : IEqualityComparer<LambdaExpression>
+    /// <summary>
+    /// A comparer for lamda expressions with only properties.
+    /// Example x => x.Foo.Bar or () => Foo.Bar
+    /// </summary>
+    public sealed class PropertyPathComparer : IEqualityComparer<LambdaExpression>
     {
+        /// <summary>
+        /// The default instance.
+        /// </summary>
         public static readonly PropertyPathComparer Default = new PropertyPathComparer();
 
         private PropertyPathComparer()
         {
         }
 
-        public bool Equals(LambdaExpression x, LambdaExpression y)
+        /// <inheritdoc/>
+        bool IEqualityComparer<LambdaExpression>.Equals(LambdaExpression x, LambdaExpression y)
+        {
+            return Equals(x, y);
+        }
+
+        /// <inheritdoc/>
+        int IEqualityComparer<LambdaExpression>.GetHashCode(LambdaExpression obj)
+        {
+            return GetHashCode(obj);
+        }
+
+        internal static bool Equals(LambdaExpression x, LambdaExpression y)
         {
             var xMember = x.GetRootProperty();
             var yMember = y.GetRootProperty();
@@ -27,13 +46,13 @@ namespace Gu.Reactive.PropertyPathStuff
                 }
 
                 xMember = xMember.GetPreviousProperty();
-                yMember =yMember.GetPreviousProperty();
+                yMember = yMember.GetPreviousProperty();
             }
 
             return xMember == null && yMember == null;
         }
 
-        public int GetHashCode(LambdaExpression obj)
+        private static int GetHashCode(LambdaExpression obj)
         {
             var member = obj.GetRootProperty();
             unchecked
