@@ -3,11 +3,12 @@ namespace Gu.Reactive.PropertyPathStuff
     using System;
     using System.Reflection;
 
-    public class ClassGetter<TSource, TValue> : Getter<TSource, TValue>
+    internal class ClassGetter<TSource, TValue> : Getter<TSource, TValue>
     {
         private readonly Func<TSource, TValue> getter;
 
         private ClassGetter(PropertyInfo property)
+            : base(property)
         {
             if (property.GetMethod == null)
             {

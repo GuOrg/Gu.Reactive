@@ -19,18 +19,17 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public static object GetValueViaDelegate(this PropertyInfo property, object source)
         {
-            return GetOrCreate(property)
-                .GetValue(source);
+            return GetOrCreate(property).GetValue(source);
         }
 
         private static IGetter Create(PropertyInfo property)
         {
-            Ensure.NotNull(property.DeclaringType, nameof(property));
-            var typeDef = property.DeclaringType.IsValueType
+            Ensure.NotNull(property.ReflectedType, nameof(property));
+            var typeDef = property.ReflectedType.IsValueType
                 ? typeof(StructGetter<,>)
                 : typeof(ClassGetter<,>);
 
-            var ctor = typeDef.MakeGenericType(property.DeclaringType, property.PropertyType)
+            var ctor = typeDef.MakeGenericType(property.ReflectedType, property.PropertyType)
                                                    .GetConstructor(
                                                        BindingFlags.NonPublic | BindingFlags.Instance,
                                                        null,

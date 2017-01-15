@@ -8,6 +8,20 @@ namespace Gu.Reactive.Tests.PropertyPathStuff
     public class GetterTests
     {
         [Test]
+        public void Caching()
+        {
+            var getter1 = Getter.GetOrCreate(typeof(Fake).GetProperty("Name"));
+            var getter2 = Getter.GetOrCreate(typeof(Fake).GetProperty("Name"));
+            Assert.AreSame(getter1, getter2);
+
+            var getter3 = Getter.GetOrCreate(typeof(Level).GetProperty("Name"));
+            var getter4 = Getter.GetOrCreate(typeof(Level).GetProperty("Name"));
+            Assert.AreSame(getter3, getter4);
+
+            Assert.AreNotSame(getter1, getter3);
+        }
+
+        [Test]
         public void GetValue()
         {
             var source = new Fake { Name = "meh" };
