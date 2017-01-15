@@ -6,6 +6,7 @@ namespace Gu.Reactive.Internals
 
     internal static partial class Ensure
     {
+        [JetBrains.Annotations.ContractAnnotation("halt <= value:null")]
         internal static void NotNull<T>(T value, string parameterName)
             where T : class
         {

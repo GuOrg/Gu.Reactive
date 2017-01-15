@@ -12,6 +12,8 @@
             this.value = value;
         }
 
+        public static Maybe<T> None => new Maybe<T>(false, default(T));
+
         /// <inheritdoc/>
         public bool HasValue { get; }
 
@@ -27,6 +29,13 @@
 
                 return this.value;
             }
+        }
+
+        public T ValueOrDefault()
+        {
+            return this.HasValue
+                       ? this.value
+                       : default(T);
         }
     }
 }

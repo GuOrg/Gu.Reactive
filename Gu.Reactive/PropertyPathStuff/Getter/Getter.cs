@@ -3,6 +3,8 @@ namespace Gu.Reactive.PropertyPathStuff
     using System.Collections.Concurrent;
     using System.Reflection;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// Factory methods for creating <see cref="IGetter"/> from <see cref="PropertyInfo"/>
     /// </summary>
@@ -23,6 +25,7 @@ namespace Gu.Reactive.PropertyPathStuff
 
         private static IGetter Create(PropertyInfo property)
         {
+            Ensure.NotNull(property.DeclaringType, nameof(property));
             var typeDef = property.DeclaringType.IsValueType
                 ? typeof(StructGetter<,>)
                 : typeof(ClassGetter<,>);

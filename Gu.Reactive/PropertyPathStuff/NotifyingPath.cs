@@ -4,7 +4,6 @@ namespace Gu.Reactive.PropertyPathStuff
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
 
     internal sealed class NotifyingPath : IReadOnlyList<INotifyingPathItem>, IDisposable
     {
@@ -44,8 +43,6 @@ namespace Gu.Reactive.PropertyPathStuff
                 this.root.Value = value;
             }
         }
-
-        internal object LastSource => ((NotifyingPathItem)this.parts.Last()).Previous.Value;
 
         public INotifyingPathItem this[int index]
         {
