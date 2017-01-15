@@ -256,7 +256,6 @@
     <Compile Include="Internals\Ensure.Collection.cs" />
     <Compile Include="Internals\Ensure.Compare.cs" />
     <Compile Include="Internals\Ensure.cs" />
-    <Compile Include="Internals\ConstantVisitor.cs" />
     <Compile Include="Contracts\IWpfSchedulers.cs" />
     <Compile Include="Internals\Ensure.String.cs" />
     <Compile Include="Internals\ItemsObservable{TCollection,TItem,TProperty}.cs" />
@@ -273,18 +272,20 @@
     </Compile>
     <Compile Include="ObservableExt.cs" />
     <Compile Include="PropertyChangedAndValueEventArgs{TProperty}.cs" />
-    <Compile Include="PropertyPathStuff\ExpressionExt.cs" />
-    <Compile Include="PropertyPathStuff\Getter.cs" />
-    <Compile Include="PropertyPathStuff\Getter{TSource,TProperty}.cs" />
-    <Compile Include="PropertyPathStuff\IGetter.cs" />
+    <Compile Include="Internals\ExpressionExt.cs" />
+    <Compile Include="PropertyPathStuff\Getter\ClassGetter.cs" />
+    <Compile Include="PropertyPathStuff\Getter\Getter.cs" />
+    <Compile Include="PropertyPathStuff\Getter\Getter{TSource,TValue}.cs" />
+    <Compile Include="PropertyPathStuff\Getter\IGetter.cs" />
+    <Compile Include="PropertyPathStuff\Getter\StructGetter.cs" />
     <Compile Include="PropertyPathStuff\IPropertyPath.cs" />
     <Compile Include="Internals\MaybeExt.cs" />
     <Compile Include="Internals\RwLock.cs" />
     <Compile Include="PropertyPathStuff\INotifyingPathItem.cs" />
     <Compile Include="PropertyPathStuff\NotifyingPath.cs" />
     <Compile Include="PropertyPathStuff\NotifyingPathItem.cs" />
-    <Compile Include="PropertyPathStuff\PropertyInfoComparer.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPathComparer.cs" />
+    <Compile Include="PropertyPathStuff\Comparers\PropertyInfoComparer.cs" />
+    <Compile Include="PropertyPathStuff\Comparers\PropertyPathComparer.cs" />
     <Compile Include="PropertyPathStuff\PropertyPath{TSource,TValue}.cs" />
     <Compile Include="PropertyPathStuff\PropertyPath{TValue}.cs" />
     <Compile Include="PropertyPathStuff\RootItem.cs" />

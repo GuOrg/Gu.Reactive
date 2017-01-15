@@ -12,7 +12,7 @@ namespace Gu.Reactive.Benchmarks
     {
         private readonly Fake fake = new Fake { IsTrue = false, Next = new Level { Name = string.Empty } };
 
-        private readonly PropertyPath<Fake, string> propertyPath = PropertyPathStuff.PropertyPath.Create<Fake, string>(x => x.Next.Name);
+        private readonly PropertyPath<Fake, string> propertyPath = PropertyPathStuff.PropertyPath.GetOrCreate<Fake, string>(x => x.Next.Name);
 
         [Benchmark(Baseline = true)]
         public int SubscribeToEventStandard()

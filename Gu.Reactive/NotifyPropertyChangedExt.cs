@@ -39,7 +39,7 @@
             var pe = me.Expression as ParameterExpression;
             if (pe == null)
             {
-                var path = PropertyPath.Create(property);
+                var path = PropertyPath.GetOrCreate(property);
                 return source.ObservePropertyChanged(path, signalInitial);
             }
 
@@ -118,7 +118,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));
-            var propertyPath = PropertyPath.Create(property);
+            var propertyPath = PropertyPath.GetOrCreate(property);
             return source.ObservePropertyChangedWithValue(propertyPath, signalInitial);
         }
 

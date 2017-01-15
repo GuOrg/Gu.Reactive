@@ -2,10 +2,13 @@ namespace Gu.Reactive.PropertyPathStuff
 {
     using System;
     using System.Reflection;
+
     using Internals;
 
     internal sealed class PathProperty
     {
+        private readonly IGetter getter;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PathProperty"/> class.
         /// </summary>
@@ -32,6 +35,7 @@ namespace Gu.Reactive.PropertyPathStuff
             }
 
             this.PropertyInfo = propertyInfo;
+            this.getter = Getter.GetOrCreate(propertyInfo);
         }
 
         public PathProperty Next { get; private set; }
@@ -63,7 +67,7 @@ namespace Gu.Reactive.PropertyPathStuff
 
             if (this.Previous == null)
             {
-                var o = this.PropertyInfo.GetValue(source);
+                var o = this.getter.GetValue(source);
                 return new Maybe<T>(true, (T)o);
             }
 
@@ -78,7 +82,7 @@ namespace Gu.Reactive.PropertyPathStuff
                 return new Maybe<T>(false, default(T));
             }
 
-            var value = (T)this.PropertyInfo.GetValue(maybe.Value);
+            var value = (T)this.getter.GetValue(maybe.Value);
             return new Maybe<T>(true, value);
         }
 

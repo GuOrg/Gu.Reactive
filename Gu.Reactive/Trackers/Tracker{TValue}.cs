@@ -12,7 +12,6 @@
     /// <summary>
     /// A base class for trackers of aggretages of the values in a collection.
     /// </summary>
-    /// <typeparam name="TValue"></typeparam>
     public abstract class Tracker<TValue> : ITracker<TValue?>
         where TValue : struct
     {

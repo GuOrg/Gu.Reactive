@@ -88,8 +88,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);
             var observable = fake.ObservePropertyChangedWithValue(x => x.Name, false);
-            var subscription = observable
-                                   .Subscribe();
+            var subscription = observable.Subscribe();
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);
 

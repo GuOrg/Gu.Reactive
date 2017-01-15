@@ -10,7 +10,7 @@ namespace Gu.Reactive.Tests.PropertyPathStuff
         [Test]
         public void ToStringTest()
         {
-            var path = PropertyPath.Create<Fake, int>(x => x.Next.Value);
+            var path = PropertyPath.GetOrCreate<Fake, int>(x => x.Next.Value);
             Assert.AreEqual("x => x.Next.Value", path.ToString());
         }
     }

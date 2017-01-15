@@ -43,7 +43,7 @@ namespace Gu.Reactive.Tests.Internals
         [Test]
         public void Implicit()
         {
-            var path = PropertyPath.Create<IReadOnlyObservableCollection<Fake>, int>(x => x.Count);
+            var path = PropertyPath.GetOrCreate<IReadOnlyObservableCollection<Fake>, int>(x => x.Count);
             var source = Mock.Of<IReadOnlyObservableCollection<Fake>>();
             Assert.DoesNotThrow(() => new PropertyPathObservable<IReadOnlyObservableCollection<Fake>, int>(source, path));
         }

@@ -6,6 +6,8 @@
     using System.Linq.Expressions;
     using System.Reflection;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// The path expression visitor.
     /// </summary>
@@ -13,14 +15,19 @@
     {
         private static readonly ConcurrentDictionary<LambdaExpression, IReadOnlyList<PropertyInfo>> Cache = new ConcurrentDictionary<LambdaExpression, IReadOnlyList<PropertyInfo>>(PropertyPathComparer.Default);
 
-        internal static IReadOnlyList<MemberInfo> GetPath<TSource, TResult>(Expression<Func<TSource, TResult>> expression)
+        internal static IReadOnlyList<PropertyInfo> GetPath<TSource, TResult>(Expression<Func<TSource, TResult>> propertyPath)
         {
-            return Cache.GetOrAdd(expression, Create);
+            return Cache.GetOrAdd(propertyPath, Create);
         }
 
-        internal static IReadOnlyList<MemberInfo> GetPath<T>(Expression<Func<T>> expression)
+        internal static IReadOnlyList<PropertyInfo> GetPath<T>(Expression<Func<T>> propertyPath)
         {
-            return Cache.GetOrAdd(expression, Create);
+            return Cache.GetOrAdd(propertyPath, Create);
+        }
+
+        internal static IReadOnlyList<PropertyInfo> GetPath(LambdaExpression propertyPath)
+        {
+            return Cache.GetOrAdd(propertyPath, Create);
         }
 
         private static IReadOnlyList<PropertyInfo> Create(LambdaExpression expression)

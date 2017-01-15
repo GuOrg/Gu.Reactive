@@ -1,8 +1,11 @@
-﻿namespace Gu.Reactive.PropertyPathStuff
+namespace Gu.Reactive.PropertyPathStuff
 {
     using System.Collections.Concurrent;
     using System.Reflection;
 
+    /// <summary>
+    /// Factory methods for creating <see cref="IGetter"/> from <see cref="PropertyInfo"/>
+    /// </summary>
     public static class Getter
     {
         private static readonly ConcurrentDictionary<PropertyInfo, IGetter> Cache = new ConcurrentDictionary<PropertyInfo, IGetter>(PropertyInfoComparer.Default);
@@ -20,7 +23,11 @@
 
         private static IGetter Create(PropertyInfo property)
         {
-            var ctor = typeof(Getter<,>).MakeGenericType(property.DeclaringType, property.PropertyType)
+            var typeDef = property.DeclaringType.IsValueType
+                ? typeof(StructGetter<,>)
+                : typeof(ClassGetter<,>);
+
+            var ctor = typeDef.MakeGenericType(property.DeclaringType, property.PropertyType)
                                                    .GetConstructor(
                                                        BindingFlags.NonPublic | BindingFlags.Instance,
                                                        null,

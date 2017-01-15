@@ -26,7 +26,7 @@
         /// <param name="source"> The source.</param>
         /// <param name="propertyExpression">The property expression.</param>
         public PropertyPathObservable(TClass source, Expression<Func<TClass, TProp>> propertyExpression)
-            : this(source, PropertyPath.Create(propertyExpression))
+            : this(source, PropertyPath.GetOrCreate(propertyExpression))
         {
         }
 

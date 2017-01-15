@@ -28,7 +28,7 @@
         {
             this.collectionRef.Target = source;
             this.signalInitial = signalInitial;
-            this.propertyPath = PropertyPath.Create(property);
+            this.propertyPath = PropertyPath.GetOrCreate(property);
         }
 
         public ItemsObservable(
@@ -37,7 +37,7 @@
         {
             this.sourceObservable = source;
             this.signalInitial = true;
-            this.propertyPath = PropertyPath.Create(property);
+            this.propertyPath = PropertyPath.GetOrCreate(property);
         }
 
         protected override IDisposable SubscribeCore(IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer)

@@ -4,6 +4,8 @@ namespace Gu.Reactive.PropertyPathStuff
     using System.Linq.Expressions;
     using System.Reflection;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// A comparer for lamda expressions with only properties.
     /// Example x => x.Foo.Bar or () => Foo.Bar
@@ -49,7 +51,8 @@ namespace Gu.Reactive.PropertyPathStuff
                 yMember = yMember.GetPreviousProperty();
             }
 
-            return xMember == null && yMember == null;
+            return xMember == null && yMember == null && 
+                   x.GetSourceType() == y.GetSourceType();
         }
 
         private static int GetHashCode(LambdaExpression obj)
@@ -65,7 +68,7 @@ namespace Gu.Reactive.PropertyPathStuff
                     member = member.GetPreviousProperty();
                 }
                 while (member != null);
-                return hash;
+                return (hash * 397) ^ obj.GetSourceType().GetHashCode();
             }
         }
     }
