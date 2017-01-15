@@ -99,10 +99,10 @@
     <Compile Include="Internals\Ensure.Compare.Tests.cs" />
     <Compile Include="Internals\Ensure.Tests.cs" />
     <Compile Include="Internals\Ensure.String.Tests.cs" />
-    <Compile Include="Internals\NotifyingPathItemTests.cs" />
-    <Compile Include="Internals\PathItemTests.cs" />
-    <Compile Include="Internals\PropertyPathTests.cs" />
-    <Compile Include="Internals\RootItemTests.cs" />
+    <Compile Include="PropertyPathStuff\NotifyingPathItemTests.cs" />
+    <Compile Include="PropertyPathStuff\PathItemTests.cs" />
+    <Compile Include="PropertyPathStuff\PropertyPathTests.cs" />
+    <Compile Include="PropertyPathStuff\RootItemTests.cs" />
     <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
     <Compile Include="NameOf_\MethodTests.cs" />
     <Compile Include="NotifyCollectionChangedEventArgsTests.cs" />
@@ -128,6 +128,7 @@
     <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedTests.cs" />
     <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedAndValue_SimpleTests.cs" />
     <Compile Include="Internals\TypeExtTests.cs" />
+    <Compile Include="PropertyPathStuff\PropertyPathParserTests.cs" />
     <Compile Include="Sandbox\ItemsObservableBox.cs" />
     <Compile Include="Trackers\AverageTracker_PrimitiveTests.cs" />
     <Compile Include="Trackers\MinTrackerTests.cs" />

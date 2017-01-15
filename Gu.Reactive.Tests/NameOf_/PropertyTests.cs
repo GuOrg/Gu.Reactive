@@ -89,18 +89,5 @@ namespace Gu.Reactive.Tests.NameOf_
             Assert.Throws<ArgumentException>(() => NameOf.Property<PropertyTests>(x => x.Fake.Next.Method()));
             Assert.Throws<ArgumentException>(() => NameOf.Property<PropertyTests, Level>(x => x.Fake.Next.Method()));
         }
-
-        [Test]
-        public void OnNestedMethod()
-        {
-            var property = NameOf.Property(() => this.Fake.Method().Name, true);
-            Assert.AreEqual("Name", property);
-
-            property = NameOf.Property<PropertyTests>(x => this.Fake.Method().Name);
-            Assert.AreEqual("Name", property);
-
-            property = NameOf.Property<PropertyTests, string>(x => this.Fake.Method().Name);
-            Assert.AreEqual("Name", property);
-        }
     }
 }

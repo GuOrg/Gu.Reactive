@@ -273,12 +273,15 @@
     </Compile>
     <Compile Include="ObservableExt.cs" />
     <Compile Include="PropertyChangedAndValueEventArgs{TProperty}.cs" />
+    <Compile Include="PropertyPathStuff\ExpressionExt.cs" />
     <Compile Include="PropertyPathStuff\IPropertyPath.cs" />
     <Compile Include="Internals\MaybeExt.cs" />
     <Compile Include="Internals\RwLock.cs" />
     <Compile Include="PropertyPathStuff\INotifyingPathItem.cs" />
     <Compile Include="PropertyPathStuff\NotifyingPath.cs" />
     <Compile Include="PropertyPathStuff\NotifyingPathItem.cs" />
+    <Compile Include="PropertyPathStuff\PropertyInfoComparer.cs" />
+    <Compile Include="PropertyPathStuff\PropertyPathComparer.cs" />
     <Compile Include="PropertyPathStuff\PropertyPath{TSource,TValue}.cs" />
     <Compile Include="PropertyPathStuff\PropertyPath{TValue}.cs" />
     <Compile Include="PropertyPathStuff\RootItem.cs" />
@@ -296,7 +299,7 @@
     <Compile Include="PropertyPathStuff\PropertyPath.cs" />
     <Compile Include="PropertyPathStuff\PathProperty.cs" />
     <Compile Include="PropertyPathStuff\PropertyPathObservable.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPathVisitor.cs" />
+    <Compile Include="PropertyPathStuff\PropertyPathParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />
     <Compile Include="Schedulers.cs" />

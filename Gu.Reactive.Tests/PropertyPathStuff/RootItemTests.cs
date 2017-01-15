@@ -5,8 +5,9 @@
     using System.ComponentModel;
     using System.Reactive;
 
+    using Gu.Reactive.PropertyPathStuff;
+
     using NUnit.Framework;
-    using PropertyPathStuff;
 
     public class RootItemTests
     {

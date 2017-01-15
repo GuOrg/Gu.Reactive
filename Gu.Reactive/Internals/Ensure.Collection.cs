@@ -6,12 +6,12 @@
 
     internal static partial class Ensure
     {
-        internal static void NotNullOrEmpty<T>(IReadOnlyCollection<T> value, string parameterName)
+        internal static void NotNullOrEmpty<T>(IReadOnlyCollection<T> collection, string parameterName)
         {
             Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
-            Ensure.NotNull(value, parameterName);
+            Ensure.NotNull(collection, parameterName);
 
-            if (value.Count == 0)
+            if (collection.Count == 0)
             {
                 throw new ArgumentNullException(parameterName);
             }

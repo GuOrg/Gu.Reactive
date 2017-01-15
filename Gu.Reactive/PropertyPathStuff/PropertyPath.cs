@@ -26,7 +26,7 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public static PropertyPath<TSource, TValue> Create<TSource, TValue>(Expression<Func<TSource, TValue>> propertyPath)
         {
-            var path = PropertyPathVisitor.GetPath(propertyPath);
+            var path = PropertyPathParser.GetPath(propertyPath);
             var propertyInfos = path.Cast<PropertyInfo>().ToArray();
             var parts = new PathProperty[propertyInfos.Length];
             PathProperty previous = null;
@@ -38,12 +38,13 @@ namespace Gu.Reactive.PropertyPathStuff
                 previous = item;
             }
 
+            //Debug.Assert(propertyPath.ToString() == new PropertyPath<TSource, TValue>(new PropertyPath(parts)).ToString(), $"{propertyPath} == {new PropertyPath<TSource, TValue>(new PropertyPath(parts))}");
             return new PropertyPath<TSource, TValue>(new PropertyPath(parts));
         }
 
         public static PropertyPath<TValue> Create<TValue>(Expression<Func<TValue>> propertyExpression)
         {
-            var path = PropertyPathVisitor.GetPath(propertyExpression);
+            var path = PropertyPathParser.GetPath(propertyExpression);
             var propertyInfos = path.Cast<PropertyInfo>().ToArray();
             var parts = new PathProperty[propertyInfos.Length];
             PathProperty previous = null;

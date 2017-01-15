@@ -32,7 +32,7 @@
         //// ReSharper disable once UnusedParameter.Global
         public static string Property<T>(Expression<Func<T>> property, bool allowNestedProperty = false)
         {
-            var path = PropertyPathVisitor.GetPath(property);
+            var path = PropertyPathParser.GetPath(property);
 
             if (path.Count > 1 && !allowNestedProperty)
             {
@@ -63,7 +63,7 @@
         [Obsolete("Use nameof instead")]
         public static string Property<TSource>(Expression<Func<TSource, object>> property)
         {
-            var path = PropertyPathVisitor.GetPath(property);
+            var path = PropertyPathParser.GetPath(property);
             var memberInfo = path.Last();
             if (!(memberInfo is PropertyInfo))
             {
@@ -91,7 +91,7 @@
         [Obsolete("Use nameof instead")]
         public static string Property<TItem, TValue>(Expression<Func<TItem, TValue>> property)
         {
-            var path = PropertyPathVisitor.GetPath(property);
+            var path = PropertyPathParser.GetPath(property);
             var memberInfo = path.Last();
             if (!(memberInfo is PropertyInfo))
             {

@@ -1,6 +1,4 @@
-﻿// ReSharper disable All
-#pragma warning disable 618
-namespace Gu.Reactive.Tests.Internals
+﻿namespace Gu.Reactive.Tests.PropertyPathStuff
 {
     using System;
     using System.Collections.Generic;
@@ -9,10 +7,10 @@ namespace Gu.Reactive.Tests.Internals
     using System.Reactive;
     using System.Reflection;
 
+    using Gu.Reactive.PropertyPathStuff;
     using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
-    using PropertyPathStuff;
 
     public class NotifyingPathItemTests
     {
@@ -218,8 +216,7 @@ namespace Gu.Reactive.Tests.Internals
             var fakeInpc = new Fake { Next = new Level { Name = "1" } };
             var rootItem = new RootItem(fakeInpc);
 
-            var nextName = NameOf.Property<Fake>(x => x.Next);
-            var nextProp = typeof(Fake).GetProperty(nextName);
+            var nextProp = typeof(Fake).GetProperty(nameof(fakeInpc.Next));
             var firstProperty = new PathProperty(null, nextProp);
             var first = new NotifyingPathItem(rootItem, firstProperty);
 
