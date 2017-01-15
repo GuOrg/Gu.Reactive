@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Internals
+namespace Gu.Reactive.Tests.PropertyPathStuff
 {
     using Gu.Reactive.PropertyPathStuff;
     using Gu.Reactive.Tests.Helpers;

@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests.Internals
+﻿namespace Gu.Reactive.Tests.PropertyPathStuff
 {
     using System;
     using System.Collections.Generic;
