@@ -53,7 +53,7 @@
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 var collection = (IEnumerable<TItem>)this.wr.Target;
                 return collection ?? Enumerable.Empty<TItem>();
             }
@@ -68,7 +68,7 @@
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             return this.GetEnumerator();
         }
 
@@ -131,7 +131,7 @@
 
         private void Update(NotifyCollectionChangedEventArgs e)
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             lock (this.@lock)
             {
                 switch (e.Action)
@@ -228,7 +228,7 @@
             this.observer?.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>(x.Sender, new ItemPropertyChangedEventArgs<TItem, TValue>(item, x)));
         }
 
-        private void VerifyDisposed()
+        private void ThrowIfDisposed()
         {
             if (this.disposed)
             {

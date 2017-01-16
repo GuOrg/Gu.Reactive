@@ -61,6 +61,21 @@
             return observable.Buffer(throttleTime, scheduler, signalInitial);
         }
 
+        internal static IObservable<T> StartWithIf<T>(this IObservable<T> observable, bool condition, IScheduler scheduler, T toPrepend)
+        {
+            if (!condition)
+            {
+                return observable;
+            }
+
+            if (scheduler != null)
+            {
+                return observable.StartWith(scheduler, toPrepend);
+            }
+
+            return observable.StartWith(toPrepend);
+        }
+
         private static IObservable<IReadOnlyList<NotifyCollectionChangedEventArgs>> Buffer(
             this IObservable<NotifyCollectionChangedEventArgs> observable,
             TimeSpan throttleTime,
@@ -79,21 +94,5 @@
 
             return observable.Select(x => new[] { x });
         }
-
-        public static IObservable<T> StartWithIf<T>(this IObservable<T> observable, bool condition, IScheduler scheduler, T toPrepend)
-        {
-            if (!condition)
-            {
-                return observable;
-            }
-
-            if (scheduler != null)
-            {
-                return observable.StartWith(scheduler, toPrepend);
-            }
-
-            return observable.StartWith(toPrepend);
-        }
-
     }
 }

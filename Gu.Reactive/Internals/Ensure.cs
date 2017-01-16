@@ -17,7 +17,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        public static void IsTrue(bool condition, string parameterName, string message)
+        internal static void IsTrue(bool condition, string parameterName, string message)
         {
             Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
             if (!condition)

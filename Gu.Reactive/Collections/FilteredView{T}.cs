@@ -125,6 +125,7 @@
             }
         }
 
+        /// <inheritdoc/>
         public override void Refresh()
         {
             this.ThrowIfDisposed();
@@ -139,6 +140,27 @@
             }
         }
 
+        /// <summary>
+        /// Get the filtered items from Source
+        /// If source is null and empty enuerable is returned.
+        /// If filter is null the raw source is returned.
+        /// </summary>
+        protected static IEnumerable<T> Filtered(IEnumerable<T> source, Func<T, bool> filter)
+        {
+            if (source == null)
+            {
+                return Enumerable.Empty<T>();
+            }
+
+            if (filter == null)
+            {
+                return source;
+            }
+
+            return source.Where(filter);
+        }
+
+        /// <inheritdoc/>
         protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
         {
             var currentFilter = this.Filter;
@@ -227,6 +249,7 @@
             }
         }
 
+        /// <inheritdoc/>
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             lock (this.Source.SyncRootOrDefault(this.Tracker.SyncRoot))
@@ -251,26 +274,6 @@
         protected IEnumerable<T> Filtered()
         {
             return Filtered(this.Source, this.filter);
-        }
-
-        /// <summary>
-        /// Get the filtered items from Source
-        /// If source is null and empty enuerable is returned.
-        /// If filter is null the raw source is returned.
-        /// </summary>
-        protected static IEnumerable<T> Filtered(IEnumerable<T> source, Func<T, bool> filter)
-        {
-            if (source == null)
-            {
-                return Enumerable.Empty<T>();
-            }
-
-            if (filter == null)
-            {
-                return source;
-            }
-
-            return source.Where(filter);
         }
 
         /// <summary>

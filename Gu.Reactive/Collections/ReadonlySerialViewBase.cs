@@ -14,28 +14,40 @@ namespace Gu.Reactive
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
-    public abstract class ReadonlySerialViewBase<T> : IRefreshAble, IList, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
+    public abstract class ReadonlySerialViewBase<T> : IRefreshAble, IList, IReadOnlyList<T>, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
     {
         private static readonly IReadOnlyList<T> Empty = new T[0];
         private readonly CollectionSynchronizer<T> tracker;
 
         private bool disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{T}"/> class.
+        /// </summary>
         protected ReadonlySerialViewBase()
             : this(null, true, true)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{T}"/> class.
+        /// </summary>
         protected ReadonlySerialViewBase(IEnumerable<T> source)
             : this(source, true, true)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{T}"/> class.
+        /// </summary>
         protected ReadonlySerialViewBase(bool isreadonly, bool isFixedSize)
             : this(null, isreadonly, isFixedSize)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{T}"/> class.
+        /// </summary>
         protected ReadonlySerialViewBase(IEnumerable<T> source, bool isreadonly, bool isFixedSize)
         {
             this.IsReadOnly = isreadonly;
@@ -50,10 +62,65 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <inheritdoc/>
+        public int Count => this.ThrowIfDisposed(() => this.tracker.Count);
+
+        /// <inheritdoc/>
+        public bool IsReadOnly { get; }
+
+        /// <inheritdoc/>
+        public bool IsFixedSize { get; }
+
+        /// <inheritdoc/>
+        object ICollection.SyncRoot => this.tracker.SyncRoot;
+
+        /// <inheritdoc/>
+        bool ICollection.IsSynchronized => this.tracker.IsSynchronized;
+
         /// <summary>
         /// The source collection.
         /// </summary>
         protected IEnumerable<T> Source { get; private set; }
+
+        /// <inheritdoc/>
+        object IList.this[int index]
+        {
+            get { return this[index]; }
+            set { ThrowHelper.ThrowCollectionIsReadonly(); }
+        }
+
+        /// <inheritdoc/>
+        public T this[int index] => this.ThrowIfDisposed(() => this.tracker.Current[index]);
+
+        /// <inheritdoc/>
+        public IEnumerator<T> GetEnumerator() => this.ThrowIfDisposed(() => this.tracker.GetEnumerator());
+
+        /// <inheritdoc/>
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
+        /// <inheritdoc/>
+        int IList.Add(object value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
+
+        /// <inheritdoc/>
+        bool IList.Contains(object value) => this.tracker.Contains(value);
+
+        /// <inheritdoc/>
+        void IList.Clear() => ThrowHelper.ThrowCollectionIsReadonly();
+
+        /// <inheritdoc/>
+        int IList.IndexOf(object value) => this.tracker.IndexOf(value);
+
+        /// <inheritdoc/>
+        void IList.Insert(int index, object value) => ThrowHelper.ThrowCollectionIsReadonly();
+
+        /// <inheritdoc/>
+        void IList.Remove(object value) => ThrowHelper.ThrowCollectionIsReadonly();
+
+        /// <inheritdoc/>
+        void IList.RemoveAt(int index) => ThrowHelper.ThrowCollectionIsReadonly();
+
+        /// <inheritdoc/>
+        void ICollection.CopyTo(Array array, int index) => this.tracker.CopyTo(array, index);
 
         /// <inheritdoc/>
         public void Dispose()
@@ -195,47 +262,5 @@ namespace Gu.Reactive
         {
             this.PropertyChanged?.Invoke(this, e);
         }
-
-        #region IReadOnlyList<T> & IList
-
-        public int Count => this.ThrowIfDisposed(() => this.tracker.Count);
-
-        public bool IsReadOnly { get; }
-
-        public bool IsFixedSize { get; }
-
-        object ICollection.SyncRoot => this.tracker.SyncRoot;
-
-        bool ICollection.IsSynchronized => this.tracker.IsSynchronized;
-
-        object IList.this[int index]
-        {
-            get { return this[index]; }
-            set { ThrowHelper.ThrowCollectionIsReadonly(); }
-        }
-
-        public T this[int index] => this.ThrowIfDisposed(() => this.tracker.Current[index]);
-
-        public IEnumerator<T> GetEnumerator() => this.ThrowIfDisposed(() => this.tracker.GetEnumerator());
-
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-
-        int IList.Add(object value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
-
-        bool IList.Contains(object value) => this.tracker.Contains(value);
-
-        void IList.Clear() => ThrowHelper.ThrowCollectionIsReadonly();
-
-        int IList.IndexOf(object value) => this.tracker.IndexOf(value);
-
-        void IList.Insert(int index, object value) => ThrowHelper.ThrowCollectionIsReadonly();
-
-        void IList.Remove(object value) => ThrowHelper.ThrowCollectionIsReadonly();
-
-        void IList.RemoveAt(int index) => ThrowHelper.ThrowCollectionIsReadonly();
-
-        void ICollection.CopyTo(Array array, int index) => this.tracker.CopyTo(array, index);
-
-        #endregion IReadOnlyList<T>
     }
 }

@@ -11,7 +11,7 @@
 
         public void Add(IDisposable disposable)
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             lock (this.gate)
             {
                 foreach (var wr in this.disposables)
@@ -30,7 +30,7 @@
 
         public void Purge()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             lock (this.gate)
             {
                 for (int i = 0; i < this.disposables.Count; i++)
@@ -47,7 +47,7 @@
 
         /// <summary>
         /// Make the class sealed when using this.
-        /// Call VerifyDisposed at the start of all public methods
+        /// Call ThrowIfDisposed at the start of all public methods
         /// </summary>
         public void Dispose()
         {
@@ -75,7 +75,7 @@
             }
         }
 
-        private void VerifyDisposed()
+        private void ThrowIfDisposed()
         {
             if (this.disposed)
             {

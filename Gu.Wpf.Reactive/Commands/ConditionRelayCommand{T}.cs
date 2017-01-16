@@ -40,14 +40,14 @@
         /// <inheritdoc/>
         protected override bool InternalCanExecute(T parameter)
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             return base.InternalCanExecute(parameter);
         }
 
         /// <inheritdoc/>
         protected override void InternalExecute(T parameter)
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             base.InternalExecute(parameter);
         }
 
@@ -78,7 +78,7 @@
         /// <summary>
         /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
         /// </summary>
-        protected void VerifyDisposed()
+        protected void ThrowIfDisposed()
         {
             if (this.disposed)
             {

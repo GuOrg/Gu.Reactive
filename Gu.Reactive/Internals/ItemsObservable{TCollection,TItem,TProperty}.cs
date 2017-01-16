@@ -42,7 +42,7 @@
 
         protected override IDisposable SubscribeCore(IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer)
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
 
             CollectionItemsObservable<TCollection, TItem, TProperty> observable;
             if (this.collectionRef.Target != null)
@@ -61,10 +61,7 @@
             return observable.Subscribe(observer);
         }
 
-        /// <summary>
-        /// Make the class sealed when using this.
-        /// Call VerifyDisposed at the start of all public methods
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (this.disposed)
@@ -75,7 +72,7 @@
             this.disposed = true;
         }
 
-        private void VerifyDisposed()
+        private void ThrowIfDisposed()
         {
             if (this.disposed)
             {

@@ -10,7 +10,7 @@
     public static class TaskExt
     {
         /// <summary>
-        /// Make a task ~cancelable~ 
+        /// Make a task ~cancelable~
         /// The inner task will still complete after cancelling so side-effects may be an issue.
         /// http://blogs.msdn.com/b/pfxteam/archive/2012/10/05/how-do-i-cancel-non-cancelable-async-operations.aspx
         /// </summary>

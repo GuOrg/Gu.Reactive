@@ -29,7 +29,7 @@
 
         public TResult GetOrCreateValue(TSource key, int index)
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             object mapped;
             if (this.cache.TryGetValue(key, out mapped))
             {
@@ -85,7 +85,7 @@
 
         /// <summary>
         /// Make the class sealed when using this.
-        /// Call VerifyDisposed at the start of all public methods
+        /// Call ThrowIfDisposed at the start of all public methods
         /// </summary>
         public void Dispose()
         {
@@ -98,7 +98,7 @@
             this.itemDisposables.Dispose();
         }
 
-        private void VerifyDisposed()
+        private void ThrowIfDisposed()
         {
             if (this.disposed)
             {

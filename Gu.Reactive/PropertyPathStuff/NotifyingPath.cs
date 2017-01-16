@@ -33,13 +33,13 @@ namespace Gu.Reactive.PropertyPathStuff
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 return (INotifyPropertyChanged)((RootItem)this.parts[0]).Value;
             }
 
             set
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 this.root.Value = value;
             }
         }
@@ -48,26 +48,26 @@ namespace Gu.Reactive.PropertyPathStuff
         {
             get
             {
-                this.VerifyDisposed();
+                this.ThrowIfDisposed();
                 return this.parts[index];
             }
         }
 
         public IEnumerator<INotifyingPathItem> GetEnumerator()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             return this.parts.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             return this.GetEnumerator();
         }
 
         /// <summary>
         /// Make the class sealed when using this.
-        /// Call VerifyDisposed at the start of all public methods
+        /// Call ThrowIfDisposed at the start of all public methods
         /// </summary>
         public void Dispose()
         {
@@ -83,7 +83,7 @@ namespace Gu.Reactive.PropertyPathStuff
             }
         }
 
-        private void VerifyDisposed()
+        private void ThrowIfDisposed()
         {
             if (this.disposed)
             {

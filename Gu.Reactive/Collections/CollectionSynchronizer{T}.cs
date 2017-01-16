@@ -9,6 +9,9 @@
     using System.Linq;
     using System.Reactive.Concurrency;
 
+    /// <summary>
+    /// Helper for synchronizing two coillections and notifying about diffs.
+    /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Current.Count}")]
     public class CollectionSynchronizer<T> : IReadOnlyList<T>
@@ -17,6 +20,9 @@
         private static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];
         private readonly List<T> inner = new List<T>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CollectionSynchronizer{T}"/> class.
+        /// </summary>
         public CollectionSynchronizer(IEnumerable<T> source)
         {
             this.inner.AddRange(source ?? Enumerable.Empty<T>());

@@ -24,19 +24,19 @@
 
         public IDisposable Read()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             return new Reader(this.innerLock);
         }
 
         public IDisposable UpgradeableRead()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             return new UpgradeableReader(this.innerLock);
         }
 
         public IDisposable Write()
         {
-            this.VerifyDisposed();
+            this.ThrowIfDisposed();
             return new Writer(this.innerLock);
         }
 
@@ -56,7 +56,7 @@
             return $"RwLock RecursionPolicy: {this.innerLock.RecursionPolicy}, IsReadLockHeld:{this.innerLock.IsReadLockHeld}, IsWriteLockHeld: {this.innerLock.IsWriteLockHeld}, IsUpgradeableReadLockHeld: {this.innerLock.IsUpgradeableReadLockHeld}";
         }
 
-        private void VerifyDisposed()
+        private void ThrowIfDisposed()
         {
             if (this.disposed)
             {

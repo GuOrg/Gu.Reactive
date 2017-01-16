@@ -5,7 +5,6 @@
     using System.ComponentModel;
     using System.Linq;
     using System.Reactive;
-    using System.Reflection;
 
     using Gu.Reactive.PropertyPathStuff;
     using Gu.Reactive.Tests.Helpers;
