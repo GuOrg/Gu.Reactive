@@ -6,6 +6,9 @@
     using System.Diagnostics;
     using System.Reactive.Concurrency;
 
+    /// <summary>
+    /// A readonly view of a collection that buffers changes before notifying.
+    /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
     public class ReadOnlyThrottledView<T> : ReadonlySerialViewBase<T>, IReadOnlyThrottledView<T>, IUpdater
@@ -13,21 +16,33 @@
         private readonly IDisposable refreshSubscription;
         private bool disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
+        /// </summary>
         public ReadOnlyThrottledView(ObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
             : this(bufferTime, scheduler, collection.AsReadOnly())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
+        /// </summary>
         public ReadOnlyThrottledView(ReadOnlyObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
             : this(bufferTime, scheduler, collection.AsReadOnly())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
+        /// </summary>
         public ReadOnlyThrottledView(IObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
             : this(bufferTime, scheduler, collection.AsReadOnly())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
+        /// </summary>
         public ReadOnlyThrottledView(IReadOnlyObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
             : this(bufferTime, scheduler, collection)
         {
@@ -41,8 +56,12 @@
                                                      .Subscribe(this.Refresh);
         }
 
+        /// <summary>
+        /// The time to buffer changes before notifying.
+        /// </summary>
         public TimeSpan BufferTime { get; }
 
+        /// <inheritdoc/>
         object IUpdater.IsUpdatingSourceItem => null;
 
         /// <summary>

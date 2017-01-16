@@ -5,17 +5,26 @@
     using System.Diagnostics;
     using System.Reactive.Disposables;
 
+    /// <summary>
+    /// A view where the source can be updated that notifies about changes.
+    /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
     public sealed class ReadOnlySerialView<T> : ReadonlySerialViewBase<T>, IReadOnlyObservableCollection<T>, IUpdater
     {
         private readonly SerialDisposable refreshSubscription = new SerialDisposable();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
+        /// </summary>
         public ReadOnlySerialView()
             : this(null)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
+        /// </summary>
         public ReadOnlySerialView(IEnumerable<T> source)
             : base(source, true, true)
         {
@@ -26,6 +35,9 @@
         /// <inheritdoc/>
         object IUpdater.IsUpdatingSourceItem => null;
 
+        /// <summary>
+        /// Update the source collection and notify about changes.
+        /// </summary>
         public new void SetSource(IEnumerable<T> source)
         {
             base.SetSource(source);
@@ -33,6 +45,9 @@
                                                                     .Subscribe(this.Refresh);
         }
 
+        /// <summary>
+        /// Set Source to empty and notify about changes.
+        /// </summary>
         public new void ClearSource()
         {
             base.ClearSource();

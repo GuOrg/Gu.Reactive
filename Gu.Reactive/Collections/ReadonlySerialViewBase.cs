@@ -157,7 +157,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
-        protected void SetSource(IEnumerable<T> source)
+        protected virtual void SetSource(IEnumerable<T> source)
         {
             this.ThrowIfDisposed();
             this.Source = source ?? Empty;
@@ -184,7 +184,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Set <see cref="Source"/> to empty and notify about changes.
         /// </summary>
-        protected void ClearSource()
+        protected virtual void ClearSource()
         {
             this.ThrowIfDisposed();
             this.Source = Empty;

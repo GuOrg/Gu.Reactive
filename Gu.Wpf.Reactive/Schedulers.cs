@@ -5,6 +5,9 @@
     using System.Reactive.Linq;
     using System.Windows;
 
+    /// <summary>
+    /// Helper for invoking on the dispatcher.
+    /// </summary>
     public static class Schedulers
     {
         /// <summary>

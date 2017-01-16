@@ -99,6 +99,9 @@
             protected set { this.SetValue(IsInSyncPropertyKey, value); }
         }
 
+        /// <summary>
+        /// Called when the <see cref="Condition"/> changes.
+        /// </summary>
         // ReSharper disable once UnusedParameter.Global
         protected virtual void OnConditionChanged(ICondition oldCondition, ICondition newCondition)
         {

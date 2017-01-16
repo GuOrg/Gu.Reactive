@@ -166,6 +166,9 @@
             return InvokeAsyncResult(() => collection.Remove(item));
         }
 
+        /// <summary>
+        /// Clear <paramref name="collection"/> on the dispatcher.
+        /// </summary>
         public static Task ClearAsync<T>(this ObservableCollection<T> collection)
         {
             return InvokeAsync(collection.Clear);

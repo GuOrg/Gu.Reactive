@@ -9,6 +9,9 @@
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
 
+    /// <summary>
+    /// A synchronized view of a collection that supports two way bindings.
+    /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
     public abstract class SynchronizedEditableView<T> : IList, IList<T>, IUpdater, IRefreshAble, IDisposable, INotifyPropertyChanged, INotifyCollectionChanged
@@ -61,12 +64,24 @@
         /// <inheritdoc/>
         object IUpdater.IsUpdatingSourceItem => this.isUpdatingSourceItem;
 
+        /// <summary>
+        /// The source collection.
+        /// </summary>
         protected IList<T> Source { get; }
 
+        /// <summary>
+        /// The <see cref="CollectionSynchronizer{T}"/> that keeps this in sync with <see cref="Source"/>
+        /// </summary>
         protected CollectionSynchronizer<T> Tracker { get; }
 
+        /// <summary>
+        /// The <see cref="PropertyChangedEventHandler"/>
+        /// </summary>
         protected PropertyChangedEventHandler PropertyChangedEventHandler => this.PropertyChanged;
 
+        /// <summary>
+        /// The <see cref="NotifyCollectionChangedEventHandler"/>
+        /// </summary>
         protected NotifyCollectionChangedEventHandler NotifyCollectionChangedEventHandler => this.CollectionChanged;
 
         /// <inheritdoc/>
@@ -197,6 +212,7 @@
             GC.SuppressFinalize(this);
         }
 
+        /// <inheritdoc/>
         public abstract void Refresh();
 
         /// <summary>
@@ -204,12 +220,22 @@
         /// </summary>
         protected abstract void RefreshNow(NotifyCollectionChangedEventArgs change);
 
+        /// <summary>
+        /// Refreshes the view. May be deferred if there is a buffer time.
+        /// </summary>
         protected abstract void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes);
 
+        /// <summary>
+        /// Protected implementation of Dispose pattern.
+        /// </summary>
+        /// <param name="disposing">true: safe to free managed resources</param>
         protected virtual void Dispose(bool disposing)
         {
         }
 
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// </summary>
         protected void ThrowIfDisposed()
         {
             if (this.disposed)
@@ -218,11 +244,19 @@
             }
         }
 
+        /// <summary>
+        /// Calls <see cref="OnPropertyChanged(PropertyChangedEventArgs)"/>
+        /// </summary>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="SynchronizedEditableView{T}"/> will raise
+        /// a property changed event through this virtual method.
+        /// </summary>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
