@@ -69,16 +69,18 @@
         public void StartWithIfTests()
         {
             var scheduler = new TestScheduler();
-            var subject = new Subject<int>();
-            var results = new List<Timestamped<int>>();
-            var observable = subject.StartWithIf(true, scheduler, 0);
-            observable.Timestamp(scheduler)
-                      .Throttle(TimeSpan.FromSeconds(0.5), scheduler)
-                      .Subscribe(results.Add);
-            scheduler.Schedule(TimeSpan.FromSeconds(1), () => subject.OnNext(1));
-            scheduler.Schedule(TimeSpan.FromSeconds(2), () => subject.OnNext(1));
-            scheduler.Start();
-            Assert.AreEqual(3, results.Count);
+            using (var subject = new Subject<int>())
+            {
+                var results = new List<Timestamped<int>>();
+                var observable = subject.StartWithIf(true, scheduler, 0);
+                observable.Timestamp(scheduler)
+                          .Throttle(TimeSpan.FromSeconds(0.5), scheduler)
+                          .Subscribe(results.Add);
+                scheduler.Schedule(TimeSpan.FromSeconds(1), () => subject.OnNext(1));
+                scheduler.Schedule(TimeSpan.FromSeconds(2), () => subject.OnNext(1));
+                scheduler.Start();
+                Assert.AreEqual(3, results.Count);
+            }
         }
 
         public class RefresherSource : List<RefresherData>
@@ -113,7 +115,7 @@
                 this.Results = results;
             }
 
-            public bool SignalInitial { get; set; }
+            public bool SignalInitial { get; }
 
             public int[] Times { get; }
 

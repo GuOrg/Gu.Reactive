@@ -16,39 +16,49 @@ namespace Gu.Reactive.Tests.Conditions
         public void IsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            var condition = new FakeCondition(fake);
-            Assert.AreEqual(false, condition.IsSatisfied);
-            fake.IsTrueOrNull = true;
-            Assert.AreEqual(true, condition.IsSatisfied);
+            using (var condition = new FakeCondition(fake))
+            {
+                Assert.AreEqual(false, condition.IsSatisfied);
+                fake.IsTrueOrNull = true;
+                Assert.AreEqual(true, condition.IsSatisfied);
+            }
         }
 
         [Test]
         public void Notifies()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            var condition = new FakeCondition(fake);
-            var argses = new List<PropertyChangedEventArgs>();
-            condition.PropertyChanged += (sender, args) => argses.Add(args);
-            fake.IsTrueOrNull = true;
-            Assert.AreEqual(1, argses.Count);
+            using (var condition = new FakeCondition(fake))
+            {
+                var argses = new List<PropertyChangedEventArgs>();
+                condition.PropertyChanged += (sender, args) => argses.Add(args);
+                fake.IsTrueOrNull = true;
+                Assert.AreEqual(1, argses.Count);
+            }
         }
 
         [Test]
         public void History()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            var condition = new FakeCondition(fake);
-            fake.IsTrueOrNull = true;
-            CollectionAssert.AreEqual(new bool?[] { null, true }, condition.History.Select(x => x.State));
+            using (var condition = new FakeCondition(fake))
+            {
+                fake.IsTrueOrNull = true;
+                CollectionAssert.AreEqual(new bool?[] { null, true }, condition.History.Select(x => x.State));
+            }
         }
 
         [Test]
         public void Name()
         {
-            var condition = new AbstractConditionImpl(Observable.Empty<object>()) { Name = "Name" };
-            var negated = condition.Negate();
-            Assert.AreEqual("Name", condition.Name);
-            Assert.AreEqual("Not_Name", negated.Name);
+            using (var condition = new AbstractConditionImpl(Observable.Empty<object>()) { Name = "Name" })
+            {
+                using (var negated = condition.Negate())
+                {
+                    Assert.AreEqual("Name", condition.Name);
+                    Assert.AreEqual("Not_Name", negated.Name);
+                }
+            }
         }
 
         private class FakeCondition : AbstractCondition

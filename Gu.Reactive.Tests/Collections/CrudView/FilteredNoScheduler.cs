@@ -10,6 +10,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public override void SetUp()
         {
             base.SetUp();
+            this.View?.Dispose();
             this.View = this.Ints.AsFilteredView(x => true, TimeSpan.Zero);
             this.Actual = this.SubscribeAll(this.View);
         }

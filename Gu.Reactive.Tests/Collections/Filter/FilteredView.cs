@@ -13,7 +13,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
         {
             base.SetUp();
             this.scheduler = new TestScheduler();
-
+            this.view?.Dispose();
             this.view = this.ints.AsFilteredView(x => true, this.scheduler);
             this.actual = this.view.SubscribeAll();
         }
