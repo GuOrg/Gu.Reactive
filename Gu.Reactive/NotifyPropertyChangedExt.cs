@@ -6,6 +6,7 @@
     using System.Reactive;
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
+    using System.Reflection;
 
     using Gu.Reactive.Internals;
     using Gu.Reactive.PropertyPathStuff;
@@ -86,7 +87,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNullOrEmpty(name, "name");
-            if (source.GetType().GetProperty(name) == null)
+            if (source.GetType().GetProperty(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) == null)
             {
                 throw new ArgumentException($"The type {source.GetType()} does not have a property named {name}", name);
             }
