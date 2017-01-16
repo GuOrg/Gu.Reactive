@@ -38,20 +38,11 @@ namespace Gu.Reactive.PropertyPathStuff
             return new PropertyPath<TValue>(path, source);
         }
 
-        public Maybe<T> GetValue<T>(object source)
-        {
-            return this.Last.GetValue<T>(source);
-        }
+        public Maybe<T> GetValue<T>(object source) => this.Last.GetValue<T>(source);
 
-        public IEnumerator<PathProperty> GetEnumerator()
-        {
-            return this.parts.GetEnumerator();
-        }
+        public IEnumerator<PathProperty> GetEnumerator() => this.parts.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.parts.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => this.parts.GetEnumerator();
 
         public override string ToString()
         {

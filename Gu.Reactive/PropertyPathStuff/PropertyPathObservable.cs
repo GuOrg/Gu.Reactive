@@ -59,8 +59,6 @@
         /// <summary>
         /// All steps in the path must implement INotifyPropertyChanged, this throws if this condition is not met.
         /// </summary>
-        /// <param name="path">
-        /// </param>
         private static void VerifyPath(IPropertyPath path)
         {
             for (int i = 0; i < path.Count - 1; i++)
