@@ -71,19 +71,7 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public bool IsLast => this.PathProperty.IsLast;
 
-        public object Value
-        {
-            get
-            {
-                var source = this.Source;
-                if (source == null)
-                {
-                    return null;
-                }
-
-                return this.PathProperty.PropertyInfo.GetValue(source);
-            }
-        }
+        public object Value => this.PathProperty.GetPropertyValue(this.Source).ValueOrDefault();
 
         /// <summary>
         /// Gets or sets the source.
@@ -138,20 +126,16 @@ namespace Gu.Reactive.PropertyPathStuff
             var next = this.Next;
             if (next != null)
             {
-                var source = this.Source;
-                var value = source != null
-                                ? (INotifyPropertyChanged)this.PathProperty.PropertyInfo.GetValue(this.Source)
-                                : null;
-
-                // The source signaled event without changing value.
-                // We still bubble up since it is not our job to filter.
-                if (ReferenceEquals(value, next.Source) && value != null)
+                var value = this.PathProperty.GetPropertyValue(this.Source);
+                if (ReferenceEquals(value.ValueOrDefault(), next.Source) && value.ValueOrDefault() != null)
                 {
+                    // The source signaled event without changing value.
+                    // We still bubble up since it is not our job to filter.
                     next.OnPropertyChanged(next.Source, e);
                 }
                 else
                 {
-                    next.Source = value; // Let event bubble up this way.
+                    next.Source = (INotifyPropertyChanged)value.ValueOrDefault(); // Let event bubble up this way.
                 }
             }
 
