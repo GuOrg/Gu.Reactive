@@ -42,7 +42,7 @@
             }
 
             var value = this.propertyPath.Last.PropertyInfo.GetValue(sender);
-            return new ValueAndSender<TValue>(sender, new Maybe<TValue>(true, (TValue)value));
+            return new ValueAndSender<TValue>(sender, Maybe<TValue>.Some((TValue)value));
         }
 
         public object GetSender(TSource source)

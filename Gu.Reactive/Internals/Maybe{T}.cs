@@ -6,7 +6,7 @@
     {
         private readonly T value;
 
-        public Maybe(bool hasValue, T value)
+        private Maybe(bool hasValue, T value)
         {
             this.HasValue = hasValue;
             this.value = value;
@@ -30,6 +30,8 @@
                 return this.value;
             }
         }
+
+        public static Maybe<T> Some(T value) => new Maybe<T>(true, value);
 
         public T ValueOrDefault()
         {

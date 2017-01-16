@@ -48,7 +48,7 @@
             var propertyName = NameOf.Property<Fake>(x => x.IsTrue);
             var propertyInfo = typeof(Fake).GetProperty(propertyName);
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
-            Assert.Throws<TargetException>(() => pathItem.Source = new StructLevel());
+            Assert.Throws<InvalidCastException>(() => pathItem.Source = new StructLevel());
         }
 
         [Test]
@@ -80,7 +80,7 @@
             var propertyInfo = typeof(Fake).GetProperty(propertyName);
             var level = new Level();
             var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo));
-            Assert.Throws<TargetException>(() => pathItem.Source = level);
+            Assert.Throws<InvalidCastException>(() => pathItem.Source = level);
         }
 
         [Test]

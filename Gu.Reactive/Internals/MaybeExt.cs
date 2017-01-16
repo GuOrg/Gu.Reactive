@@ -4,8 +4,9 @@ namespace Gu.Reactive.Internals
     {
         public static Maybe<T> As<T>(this Maybe<object> maybe)
         {
-            var value = maybe.HasValue ? (T)maybe.Value : default(T);
-            return new Maybe<T>(maybe.HasValue, value);
+            return maybe.HasValue
+                       ? Maybe<T>.Some((T)maybe.Value)
+                       : Maybe<T>.None;
         }
     }
 }

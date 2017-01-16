@@ -54,7 +54,9 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public override string ToString() => $"PathItem for: {this.PropertyInfo.DeclaringType.PrettyName()}.{this.PropertyInfo.Name}";
 
-        internal object GetPropertyValue(object source) => this.getter.GetValue(source);
+        internal Maybe<object> GetPropertyValue(object source) => source == null
+                                                                      ? Maybe<object>.None
+                                                                      : Maybe<object>.Some(this.getter.GetValue(source));
 
         /// <summary>
         /// Gets value all the way from the root recursively.
@@ -66,13 +68,13 @@ namespace Gu.Reactive.PropertyPathStuff
         {
             if (rootSource == null)
             {
-                return new Maybe<T>(false, default(T));
+                return Maybe<T>.None;
             }
 
             if (this.Previous == null)
             {
                 var o = this.getter.GetValue(rootSource);
-                return new Maybe<T>(true, (T)o);
+                return Maybe<T>.Some((T)o);
             }
 
             var maybe = this.Previous.GetValueFromRoot<object>(rootSource);
@@ -82,7 +84,7 @@ namespace Gu.Reactive.PropertyPathStuff
             }
 
             var value = (T)this.getter.GetValue(maybe.Value);
-            return new Maybe<T>(true, value);
+            return Maybe<T>.Some(value);
         }
     }
 }
