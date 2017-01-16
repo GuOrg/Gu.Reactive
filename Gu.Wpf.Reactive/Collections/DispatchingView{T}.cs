@@ -11,7 +11,6 @@
     /// </summary>
     /// <typeparam name="T">The type of the items in the source collection.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
     public class DispatchingView<T> : ThrottledView<T>
     {

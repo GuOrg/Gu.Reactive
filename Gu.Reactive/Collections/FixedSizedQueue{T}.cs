@@ -12,7 +12,6 @@
     /// </summary>
     [Serializable]
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
     public class FixedSizedQueue<T> : IProducerConsumerCollection<T>
     {

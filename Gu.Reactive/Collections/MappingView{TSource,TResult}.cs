@@ -13,7 +13,6 @@
     using Gu.Reactive.Internals;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
     public class MappingView<TSource, TResult> : ReadonlySerialViewBase<TResult>, IReadOnlyObservableCollection<TResult>, IUpdater, IRefreshAble
     {

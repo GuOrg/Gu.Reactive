@@ -6,7 +6,6 @@
     using System.Reactive.Disposables;
 
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
     public sealed class ReadOnlySerialView<T> : ReadonlySerialViewBase<T>, IReadOnlyObservableCollection<T>, IUpdater
     {

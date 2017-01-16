@@ -12,7 +12,6 @@ namespace Gu.Reactive
     /// A base class for swapping out an <see cref="IEnumerable{T}"/> source and get notifications.
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
     public abstract class ReadonlySerialViewBase<T> : IRefreshAble, IList, IReadOnlyList<T>, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
     {
