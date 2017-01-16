@@ -15,14 +15,29 @@
     public abstract class Tracker<TValue> : ITracker<TValue?>
         where TValue : struct
     {
+        /// <summary>
+        /// The source collection.
+        /// </summary>
         protected readonly IReadOnlyList<TValue> Source;
+
+        /// <summary>
+        /// For locking.
+        /// </summary>
         protected readonly object Gate;
+
+        /// <summary>
+        /// The value to use when the <see cref="Source"/> is empty.
+        /// </summary>
         protected readonly TValue? WhenEmpty;
+
         private readonly IDisposable subscription;
 
         private TValue? value;
         private bool disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Tracker{TValue}"/> class.
+        /// </summary>
         protected Tracker(
             IReadOnlyList<TValue> source,
             IObservable<NotifyCollectionChangedEventArgs> onChanged,

@@ -30,9 +30,6 @@
         /// Observs on DispatcherScheduler.Current id not null
         /// Falls back to DispatcherScheduler.Current (for tests)
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="observable"></param>
-        /// <returns></returns>
         public static IObservable<T> ObserveOnDispatcherOrCurrentThread<T>(this IObservable<T> observable)
         {
             return observable.ObserveOn(DispatcherOrCurrentThread);

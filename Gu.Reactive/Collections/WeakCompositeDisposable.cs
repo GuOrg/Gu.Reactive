@@ -3,17 +3,34 @@
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// A weak <see cref="System.Reactive.Disposables.CompositeDisposable"/>
+    /// </summary>
     public sealed class WeakCompositeDisposable : IDisposable
     {
         private readonly object gate = new object();
         private readonly List<WeakReference<IDisposable>> disposables = new List<WeakReference<IDisposable>>();
         private bool disposed;
 
+        /// <summary>
+        /// Adds a disposable to the CompositeDisposable or disposes the disposable if the CompositeDisposable is disposed.
+        /// </summary>
         public void Add(IDisposable disposable)
         {
-            this.ThrowIfDisposed();
+            if (this.disposed)
+            {
+                disposable.Dispose();
+                return;
+            }
+
             lock (this.gate)
             {
+                if (this.disposed)
+                {
+                    disposable.Dispose();
+                    return;
+                }
+
                 foreach (var wr in this.disposables)
                 {
                     IDisposable temp;
@@ -28,6 +45,9 @@
             }
         }
 
+        /// <summary>
+        /// Delete all weakreferences where target is collected.
+        /// </summary>
         public void Purge()
         {
             this.ThrowIfDisposed();

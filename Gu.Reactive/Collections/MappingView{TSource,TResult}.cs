@@ -12,6 +12,9 @@
 
     using Gu.Reactive.Internals;
 
+    /// <summary>
+    /// A view of a collection that maps the values.
+    /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
     public class MappingView<TSource, TResult> : ReadonlySerialViewBase<TResult>, IReadOnlyObservableCollection<TResult>, IUpdater, IRefreshAble
@@ -21,61 +24,97 @@
         private readonly IMappingFactory<TSource, TResult> factory;
         private readonly List<TResult> mapped = new List<TResult>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(ObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, selector, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(IObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, selector, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, selector, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, selector, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(ObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, indexSelector, null, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(IObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, indexSelector, null, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, indexSelector, null, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, indexSelector, null, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(ObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, indexSelector, indexUpdater, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(IObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, indexSelector, indexUpdater, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, indexSelector, indexUpdater, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
+        /// </summary>
         public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater, IScheduler scheduler, params IObservable<object>[] triggers)
             : this(source, scheduler, indexSelector, indexUpdater, triggers)
         {

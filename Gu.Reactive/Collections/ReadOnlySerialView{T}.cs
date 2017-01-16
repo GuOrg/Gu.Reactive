@@ -23,6 +23,7 @@
                                                                     .Subscribe(this.Refresh);
         }
 
+        /// <inheritdoc/>
         object IUpdater.IsUpdatingSourceItem => null;
 
         public new void SetSource(IEnumerable<T> source)

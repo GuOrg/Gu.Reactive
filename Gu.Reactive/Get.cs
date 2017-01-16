@@ -1,13 +1,16 @@
-﻿namespace Gu.Reactive
+﻿#pragma warning disable 1591
+#pragma warning disable SA1600 // Elements must be documented
+namespace Gu.Reactive
 {
     using System;
     using System.Linq.Expressions;
 
     using Gu.Reactive.PropertyPathStuff;
 
+    [Obsolete("Use C#6 ?. operator")]
     public static class Get
     {
-        [Obsolete("Use C#6 ?.")]
+        [Obsolete("Use C#6 ?. operator")]
         public static TValue ValueOrDefault<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,
@@ -23,7 +26,7 @@
             return @default;
         }
 
-        [Obsolete("Use C#6 ?.")]
+        [Obsolete("Use C#6 ?. operator")]
         public static TValue ValueOrDefault<TValue>(Expression<Func<TValue>> path, TValue @default = default(TValue))
         {
             var valuePath = PropertyPath.Create(path);
@@ -37,14 +40,7 @@
 
         internal static IValuePath<TSource, TValue> ValuePath<TSource, TValue>(Expression<Func<TSource, TValue>> path)
         {
-            var valuePath = PropertyPath.GetOrCreate(path);
-            return valuePath;
-        }
-
-        internal static IMaybe<TValue> ValuePath<TValue>(Expression<Func<TValue>> path)
-        {
-            var valuePath = PropertyPath.Create(path);
-            return valuePath;
+            return PropertyPath.GetOrCreate(path);
         }
     }
 }

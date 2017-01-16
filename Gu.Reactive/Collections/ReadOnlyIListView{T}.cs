@@ -7,6 +7,10 @@
     using System.ComponentModel;
     using System.Reactive.Disposables;
 
+    /// <summary>
+    /// For exposing a source collection as a readonly list.
+    /// For example DataGrid needs <see cref="IList"/> for elrmrnts to be editable.
+    /// </summary>
     public class ReadOnlyIListView<T> : IReadOnlyObservableCollection<T>, IList, IDisposable
     {
         private readonly IReadOnlyList<T> source;
@@ -14,12 +18,18 @@
 
         private bool disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyIListView{T}"/> class.
+        /// </summary>
         public ReadOnlyIListView(IObservableCollection<T> source)
         {
             this.source = source.AsReadOnly();
             this.subscriptions = this.Subscribe(source);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyIListView{T}"/> class.
+        /// </summary>
         public ReadOnlyIListView(IReadOnlyObservableCollection<T> source)
         {
             this.source = source;

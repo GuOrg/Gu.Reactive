@@ -7,7 +7,7 @@
     using Gu.Reactive;
 
     /// <summary>
-    /// A view of an <see cref="ObservableCollection{T}"/> that notifies on the dispatcher.
+    /// A readonly view of an <see cref="ObservableCollection{T}"/> that notifies on the dispatcher.
     /// </summary>
     /// <typeparam name="T">The type of the items in the source collection.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
