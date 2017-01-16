@@ -17,30 +17,29 @@ namespace Gu.Reactive.PropertyPathStuff
         public NotifyingPathItem(INotifyingPathItem previous, PathProperty pathProperty)
         {
             Ensure.NotNull(pathProperty, nameof(pathProperty));
-            if (previous?.PathProperty != null)
-            {
-                var type = previous.PathProperty.PropertyInfo.PropertyType;
-                if (type.IsValueType)
-                {
-                    var message = string.Format(
-                            "Property path cannot have structs in it. Copy by value will make subscribing error prone." + Environment.NewLine +
-                        "The type {0} is a value type not so {1}.{2} will not notify when it changes.",
-                        type.PrettyName(),
-                        previous.PathProperty.PropertyInfo,
-                        pathProperty.PropertyInfo.Name);
-                    throw new ArgumentException(message, nameof(pathProperty));
-                }
+            Ensure.NotNull(pathProperty.PropertyInfo.ReflectedType, nameof(pathProperty));
 
-                if (!typeof(INotifyPropertyChanged).IsAssignableFrom(type))
-                {
-                    var message = string.Format(
-                        "All levels in the path must implement INotifyPropertyChanged." + Environment.NewLine +
-                        "The type {0} does not so {1}.{2} will not notify when it changes.",
-                        type.PrettyName(),
-                        previous.PathProperty.PropertyInfo,
-                        pathProperty.PropertyInfo.Name);
-                    throw new ArgumentException(message, nameof(pathProperty));
-                }
+            var type = pathProperty.PropertyInfo.ReflectedType;
+            if (type.IsValueType)
+            {
+                var message = string.Format(
+                    "Property path cannot have structs in it. Copy by value will make subscribing error prone." + Environment.NewLine +
+                    "The type {0}.{1} is a value type not so {1}.{2} subscribing to changes is weird.",
+                    type.Namespace,
+                    type.PrettyName(),
+                    pathProperty.PropertyInfo.Name);
+                throw new ArgumentException(message, nameof(pathProperty));
+            }
+
+            if (!typeof(INotifyPropertyChanged).IsAssignableFrom(type))
+            {
+                var message = string.Format(
+                    "All levels in the path must implement INotifyPropertyChanged." + Environment.NewLine +
+                    "The type {0}.{1} does not so the property {1}.{2} will not notify when value changes.",
+                    type.Namespace,
+                    type.PrettyName(),
+                    pathProperty.PropertyInfo.Name);
+                throw new ArgumentException(message, nameof(pathProperty));
             }
 
             this.PathProperty = pathProperty;

@@ -1,5 +1,4 @@
-﻿// ReSharper disable All
-namespace Gu.Reactive.Tests.PropertyPathStuff
+﻿namespace Gu.Reactive.Tests.PropertyPathStuff
 {
     using System;
 
@@ -15,13 +14,18 @@ namespace Gu.Reactive.Tests.PropertyPathStuff
         {
             var propertyInfo = typeof(Fake).GetProperty("WriteOnly");
             Assert.NotNull(propertyInfo);
-            Assert.Throws<ArgumentException>(() => new PathProperty(null, propertyInfo));
+            var exception = Assert.Throws<ArgumentException>(() => new PathProperty(null, propertyInfo));
+            var expected = "Propert cannot be write only.\r\n" +
+                           "The property Gu.Reactive.Tests.Helpers.Fake.WriteOnly does not have a getter.\r\n" +
+                           "Parameter name: propertyInfo";
+            Assert.AreEqual(expected, exception.Message);
         }
 
         [Test]
         public void ThrowsOnNullProp()
         {
-            Assert.Throws<ArgumentNullException>(() => new PathProperty(null, null));
+            var exception = Assert.Throws<ArgumentNullException>(() => new PathProperty(null, null));
+            Assert.AreEqual("Value cannot be null.\r\nParameter name: propertyInfo", exception.Message);
         }
     }
 }

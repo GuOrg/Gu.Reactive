@@ -18,14 +18,17 @@ namespace Gu.Reactive.PropertyPathStuff
         /// </param>
         public PathProperty(PathProperty previous, PropertyInfo propertyInfo)
         {
-            if (propertyInfo == null)
-            {
-                throw new ArgumentNullException(nameof(propertyInfo));
-            }
+            Ensure.NotNull(propertyInfo, nameof(propertyInfo));
 
             if (!propertyInfo.CanRead)
             {
-                throw new ArgumentException("Propert must be readable");
+                var message = string.Format(
+                    "Propert cannot be write only." + Environment.NewLine +
+                    "The property {0}.{1}.{2} does not have a getter.",
+                    propertyInfo.ReflectedType?.Namespace,
+                    propertyInfo.ReflectedType?.PrettyName(),
+                    propertyInfo.Name);
+                throw new ArgumentException(message, nameof(propertyInfo));
             }
 
             this.Previous = previous;
