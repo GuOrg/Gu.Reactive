@@ -12,11 +12,17 @@ namespace Gu.Reactive.PropertyPathStuff
     {
         private static readonly ConcurrentDictionary<PropertyInfo, IGetter> Cache = new ConcurrentDictionary<PropertyInfo, IGetter>(PropertyInfoComparer.Default);
 
+        /// <summary>
+        /// Get or create an <see cref="IGetter"/> for <paramref name="property"/>
+        /// </summary>
         public static IGetter GetOrCreate(PropertyInfo property)
         {
             return Cache.GetOrAdd(property, Create);
         }
 
+        /// <summary>
+        /// Same as <see cref="PropertyInfo.GetValue(object)"/> but uses a cached delegate for performance.
+        /// </summary>
         public static object GetValueViaDelegate(this PropertyInfo property, object source)
         {
             return GetOrCreate(property).GetValue(source);

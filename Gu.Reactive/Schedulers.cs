@@ -2,6 +2,7 @@ namespace Gu.Reactive
 {
     using System.Reactive.Concurrency;
 
+    /// <inheritdoc/>
     public class Schedulers : ISchedulers
     {
         /// <inheritdoc/>

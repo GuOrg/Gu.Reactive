@@ -2,8 +2,16 @@
 {
     using System.ComponentModel;
 
+    using Gu.Reactive.Internals;
+
+    /// <summary>
+    /// A <see cref="PropertyChangedEventArgs"/> with the value of the property.
+    /// </summary>
     public class PropertyChangedAndValueEventArgs<TProperty> : PropertyChangedEventArgs, IMaybe<TProperty>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyChangedAndValueEventArgs{TProperty}"/> class.
+        /// </summary>
         public PropertyChangedAndValueEventArgs(string propertyName, TProperty value, bool hasValue)
             : base(propertyName)
         {
@@ -11,13 +19,9 @@
             this.HasValue = hasValue;
         }
 
-        public PropertyChangedAndValueEventArgs(string propertyName, IMaybe<TProperty> maybe)
-            : base(propertyName)
+        internal PropertyChangedAndValueEventArgs(string propertyName, Maybe<TProperty> maybe)
+            : this(propertyName, maybe.ValueOrDefault(), maybe.HasValue)
         {
-            this.HasValue = maybe.HasValue;
-            this.Value = maybe.HasValue
-                        ? maybe.Value
-                        : default(TProperty);
         }
 
         /// <summary>
@@ -27,6 +31,9 @@
         /// </summary>
         public bool HasValue { get; }
 
+        /// <summary>
+        /// The value of the property.
+        /// </summary>
         public TProperty Value { get; }
     }
 }

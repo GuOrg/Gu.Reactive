@@ -3,10 +3,11 @@
     using System;
     using System.Windows.Input;
 
+    /// <inheritdoc/>
     public class RelayCommand<T> : ManualRelayCommand<T>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RelayCommand"/> class.
+        /// Initializes a new instance of the <see cref="RelayCommand{T}"/> class.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
         /// <param name="criteria">The criteria for CanExecute</param>

@@ -74,6 +74,9 @@
                                                                                           .Subscribe(this.Refresh));
         }
 
+        /// <summary>
+        /// The predicate to filter by.
+        /// </summary>
         public Func<T, bool> Filter
         {
             get
@@ -95,6 +98,9 @@
             }
         }
 
+        /// <summary>
+        /// The triggers for updating the filter.
+        /// </summary>
         public ObservableCollection<IObservable<object>> Triggers
         {
             get
@@ -104,6 +110,9 @@
             }
         }
 
+        /// <summary>
+        /// The time to buffer changes before notifying.
+        /// </summary>
         public TimeSpan BufferTime
         {
             get

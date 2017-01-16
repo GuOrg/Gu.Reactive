@@ -5,7 +5,6 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Diagnostics;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive.Concurrency;
     using System.Reactive.Disposables;
@@ -13,7 +12,6 @@
 
     using Gu.Reactive.Internals;
 
-    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration", Justification = "We need the reference")]
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     //// ReSharper disable once UseNameofExpression
     [DebuggerDisplay("Count = {Count}")]
@@ -117,8 +115,10 @@
             this.SetSource(this.mapped);
         }
 
+        /// <inheritdoc/>
         object IUpdater.IsUpdatingSourceItem => null;
 
+        /// <inheritdoc/>
         public override void Refresh()
         {
             lock (this.Source.SyncRootOrDefault(this.mapped.SyncRoot()))
@@ -133,16 +133,21 @@
             }
         }
 
-        protected virtual TResult GetOrCreateValue(TSource key, int index)
-        {
-            return this.factory.GetOrCreateValue(key, index);
-        }
+        /// <summary>
+        /// Delegates creation to mapping factory.
+        /// </summary>
+        protected virtual TResult GetOrCreateValue(TSource key, int index) => this.factory.GetOrCreateValue(key, index);
 
+        /// <summary>
+        /// Delegates updating of item at index to mapping factory.
+        /// </summary>
+        /// <param name="index">The index to update the item for.</param>
+        /// <returns>The collection changed args the update causes. Can be null.</returns>
         protected virtual NotifyCollectionChangedEventArgs UpdateIndex(int index)
         {
             if (!this.factory.CanUpdateIndex)
             {
-                return null;
+                throw new InvalidOperationException("Cannot update.");
             }
 
             var key = this.source.ElementAt(index);
@@ -158,20 +163,20 @@
         }
 
         /// <summary>
-        ///
+        /// Delegates updating of items at and above index to mapping factory.
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns>True if NotifyCollectionChanged.Reset was raised</returns>
+        /// <param name="index">The index to update the item for.</param>
+        /// <returns>The collection changed args the update causes.</returns>
         protected virtual List<NotifyCollectionChangedEventArgs> UpdateIndicesFrom(int index)
         {
             if (!this.factory.CanUpdateIndex)
             {
-                return new List<NotifyCollectionChangedEventArgs>();
+                throw new InvalidOperationException("Cannot update.");
             }
 
             var count = this.source.Count();
             var changes = new List<NotifyCollectionChangedEventArgs>();
-            for (int i = index; i < count; i++)
+            for (var i = index; i < count; i++)
             {
                 var change = this.UpdateIndex(i);
                 if (change != null)
@@ -183,6 +188,10 @@
             return changes;
         }
 
+        /// <summary>
+        /// Called when the source collection changed.
+        /// </summary>
+        /// <param name="changeCollection">The changes accumulated during the buffer time.</param>
         protected virtual void OnSourceCollectionChanged(IReadOnlyList<NotifyCollectionChangedEventArgs> changeCollection)
         {
             if (changeCollection == null || changeCollection.Count == 0)
@@ -268,6 +277,8 @@
                 this.updateSubscription.Dispose();
                 this.factory.Dispose();
             }
+
+            base.Dispose(disposing);
         }
     }
 }

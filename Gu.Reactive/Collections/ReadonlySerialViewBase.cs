@@ -179,10 +179,7 @@ namespace Gu.Reactive
             this.disposed = true;
             if (disposing)
             {
-                // Free any other managed objects here.
             }
-
-            // Free any unmanaged objects here.
         }
 
         /// <summary>
