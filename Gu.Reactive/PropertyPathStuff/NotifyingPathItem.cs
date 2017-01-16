@@ -160,10 +160,9 @@ namespace Gu.Reactive.PropertyPathStuff
 
         private bool IsNullToNull(object oldSource, object newSource)
         {
-            var propertyInfo = this.PathProperty.PropertyInfo;
-            var oldValue = oldSource != null ? propertyInfo.GetValue(oldSource) : null;
-            var newValue = newSource != null ? propertyInfo.GetValue(newSource) : null;
-            return oldValue == null && newValue == null;
+            var oldValue = this.PathProperty.GetPropertyValue(oldSource);
+            var newValue = this.PathProperty.GetPropertyValue(newSource);
+            return oldValue.ValueOrDefault() == null && newValue.ValueOrDefault() == null;
         }
     }
 }
