@@ -11,7 +11,6 @@ namespace Gu.Reactive.PropertyPathStuff
     {
         private readonly WeakReference sourceRef = new WeakReference(null);
         private readonly Action<EventPattern<PropertyChangedEventArgs>> onNext;
-        private readonly Action<Exception> onError;
         private readonly SerialDisposable subscription = new SerialDisposable();
         private bool disposed;
 
@@ -46,7 +45,6 @@ namespace Gu.Reactive.PropertyPathStuff
 
             this.PathProperty = pathProperty;
             this.onNext = x => this.OnPropertyChanged(x.Sender, x.EventArgs);
-            this.onError = this.OnError;
             this.PropertyChangedEventArgs = new PropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
             this.Previous = previous;
             var notifyingPathItem = previous as NotifyingPathItem;
@@ -109,7 +107,7 @@ namespace Gu.Reactive.PropertyPathStuff
                     if (!ReferenceEquals(oldSource, value))
                     {
                         this.subscription.Disposable = inpc.ObservePropertyChanged(this.PathProperty.PropertyInfo.Name, !isNullToNull)
-                                                           .Subscribe(this.onNext, this.onError);
+                                                           .Subscribe(this.onNext);
                     }
                 }
                 else
@@ -123,9 +121,7 @@ namespace Gu.Reactive.PropertyPathStuff
             }
         }
 
-        /// <summary>
-        /// The dispose.
-        /// </summary>
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (this.disposed)
@@ -135,11 +131,6 @@ namespace Gu.Reactive.PropertyPathStuff
 
             this.disposed = true;
             this.subscription.Dispose();
-        }
-
-        private void OnError(Exception obj)
-        {
-            throw new NotImplementedException();
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -152,13 +143,9 @@ namespace Gu.Reactive.PropertyPathStuff
                                 ? (INotifyPropertyChanged)this.PathProperty.PropertyInfo.GetValue(this.Source)
                                 : null;
 
-                // The source signaled event without changing value. We still bubble up since it is not our job to filter.
+                // The source signaled event without changing value.
+                // We still bubble up since it is not our job to filter.
                 if (ReferenceEquals(value, next.Source) && value != null)
-                {
-                    next.OnPropertyChanged(next.Source, e);
-                }
-                //// We want eventArgs.PropertyName string.Empty to bubble up
-                else if (string.IsNullOrEmpty(e.PropertyName) && value != null)
                 {
                     next.OnPropertyChanged(next.Source, e);
                 }

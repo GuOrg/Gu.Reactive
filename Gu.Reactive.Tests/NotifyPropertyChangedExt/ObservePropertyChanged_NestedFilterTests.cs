@@ -132,7 +132,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         [TestCase("")]
         [TestCase(null)]
-        public void DoesNotReactsnStringEmptyOrNullFromRootWhenNull(string propertyName)
+        public void DoesNotReactToStringEmptyOrNullFromRootWhenNull(string propertyName)
         {
             var fake = new Fake();
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
@@ -145,7 +145,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         [TestCase("")]
         [TestCase(null)]
-        public void DoesReactsOnStringEmptyOrNullFromRootWhenNotNull(string propertyName)
+        public void DoesReactToStringEmptyOrNullFromRootWhenNotNull(string propertyName)
         {
             var fake = new Fake { Next = new Level() };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
