@@ -262,16 +262,16 @@
     <Compile Include="Internals\Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
     <Compile Include="Internals\ValueAndSender{TValue}.cs" />
-    <Compile Include="ItemPropertyChangedEventArgs{TItem,TValue}.cs" />
+    <Compile Include="EventArgs\ItemPropertyChangedEventArgs{TItem,TValue}.cs" />
     <Compile Include="NotifyCollectionChangedEventArgs{T}.cs" />
-    <Compile Include="NotifyCollectionChangedEventArgsExt.cs" />
+    <Compile Include="EventArgs\NotifyCollectionChangedEventArgsExt.cs" />
     <Compile Include="NotifyCollectionChangedExt.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NotifyCollectionChangedExt.tt</DependentUpon>
     </Compile>
     <Compile Include="ObservableExt.cs" />
-    <Compile Include="PropertyChangedAndValueEventArgs{TProperty}.cs" />
+    <Compile Include="EventArgs\PropertyChangedAndValueEventArgs{TProperty}.cs" />
     <Compile Include="Internals\ExpressionExt.cs" />
     <Compile Include="PropertyPathStuff\Getter\ClassGetter.cs" />
     <Compile Include="PropertyPathStuff\Getter\Getter.cs" />

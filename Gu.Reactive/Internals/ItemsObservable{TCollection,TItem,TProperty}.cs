@@ -10,8 +10,7 @@
     using Gu.Reactive.PropertyPathStuff;
 
     internal sealed class ItemsObservable<TCollection, TItem, TProperty> :
-        ObservableBase<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>,
-        IDisposable
+        ObservableBase<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
@@ -19,7 +18,6 @@
         private readonly bool signalInitial;
         private readonly PropertyPath<TItem, TProperty> propertyPath;
         private readonly WeakReference collectionRef = new WeakReference(null);
-        private bool disposed;
 
         public ItemsObservable(
             TCollection source,
@@ -42,8 +40,6 @@
 
         protected override IDisposable SubscribeCore(IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer)
         {
-            this.ThrowIfDisposed();
-
             CollectionItemsObservable<TCollection, TItem, TProperty> observable;
             if (this.collectionRef.Target != null)
             {
@@ -59,27 +55,6 @@
             }
 
             return observable.Subscribe(observer);
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            this.disposed = true;
-        }
-
-        private void ThrowIfDisposed()
-        {
-            if (this.disposed)
-            {
-                throw new ObjectDisposedException(
-                    this.GetType()
-                        .FullName);
-            }
         }
     }
 }

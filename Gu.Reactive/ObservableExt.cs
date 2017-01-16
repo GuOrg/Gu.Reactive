@@ -42,6 +42,7 @@
                         // until the first p of the new window arrives
                         var throttleTimer = p.Throttle(dueTime, scheduler);
                         var timeoutTimer = p.Delay(maxTime, scheduler);
+
                         // signal when either timer signals
                         return throttleTimer.Amb(timeoutTimer);
                     })
