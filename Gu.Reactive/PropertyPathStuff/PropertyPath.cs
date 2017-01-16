@@ -38,7 +38,7 @@ namespace Gu.Reactive.PropertyPathStuff
             return new PropertyPath<TValue>(path, source);
         }
 
-        public Maybe<T> GetValue<T>(object source) => this.Last.GetValue<T>(source);
+        public Maybe<T> GetValueFromRoot<T>(object rootSource) => this.Last.GetValueFromRoot<T>(rootSource);
 
         public IEnumerator<PathProperty> GetEnumerator() => this.parts.GetEnumerator();
 

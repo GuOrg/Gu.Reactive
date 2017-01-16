@@ -17,7 +17,7 @@
                 throw new InvalidOperationException(message);
             }
 
-            this.maybe = propertyPath.GetValue<TValue>(source);
+            this.maybe = propertyPath.GetValueFromRoot<TValue>(source);
         }
 
         public bool HasValue => this.maybe.HasValue;

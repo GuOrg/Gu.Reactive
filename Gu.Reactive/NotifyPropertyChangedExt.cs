@@ -225,7 +225,7 @@
                                         x.Sender,
                                         new PropertyChangedAndValueEventArgs<TProperty>(
                                             x.EventArgs.PropertyName,
-                                            propertyPath.GetValue((TNotifier)wr.Target))));
+                                            propertyPath.GetValueFromRoot((TNotifier)wr.Target))));
                         if (signalInitial)
                         {
                             var valueAndSource = propertyPath.GetValueAndSender((TNotifier)wr.Target);

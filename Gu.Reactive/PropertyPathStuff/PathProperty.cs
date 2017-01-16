@@ -52,43 +52,37 @@ namespace Gu.Reactive.PropertyPathStuff
         /// </summary>
         public bool IsLast => this.Next == null;
 
+        public override string ToString() => $"PathItem for: {this.PropertyInfo.DeclaringType.PrettyName()}.{this.PropertyInfo.Name}";
+
+        internal object GetPropertyValue(object source) => this.getter.GetValue(source);
+
         /// <summary>
         /// Gets value all the way from the root recursively.
         /// Checks for null along the way.
         /// </summary>
-        /// <param name="source">The source object</param>
+        /// <param name="rootSource">The source object</param>
         /// <returns>The value of the property.</returns>
-        internal Maybe<T> GetValue<T>(object source)
+        internal Maybe<T> GetValueFromRoot<T>(object rootSource)
         {
-            if (source == null)
+            if (rootSource == null)
             {
                 return new Maybe<T>(false, default(T));
             }
 
             if (this.Previous == null)
             {
-                var o = this.getter.GetValue(source);
+                var o = this.getter.GetValue(rootSource);
                 return new Maybe<T>(true, (T)o);
             }
 
-            var maybe = this.Previous.GetValue<object>(source);
-            if (!maybe.HasValue)
+            var maybe = this.Previous.GetValueFromRoot<object>(rootSource);
+            if (maybe.ValueOrDefault() == null)
             {
-                return maybe.As<T>();
-            }
-
-            if (maybe.Value == null)
-            {
-                return new Maybe<T>(false, default(T));
+                return Maybe<T>.None;
             }
 
             var value = (T)this.getter.GetValue(maybe.Value);
             return new Maybe<T>(true, value);
-        }
-
-        public override string ToString()
-        {
-            return $"PathItem for: {this.PropertyInfo.DeclaringType.PrettyName()}.{this.PropertyInfo.Name}";
         }
     }
 }

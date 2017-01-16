@@ -12,7 +12,7 @@
     {
         private readonly PropertyPath propertyPath;
 
-        private static readonly ValueAndSender<TValue> EmptyValueAndSender = new ValueAndSender<TValue>(null, new Maybe<TValue>(false, default(TValue)));
+        private static readonly ValueAndSender<TValue> EmptyValueAndSender = new ValueAndSender<TValue>(null, Maybe<TValue>.None);
 
         internal PropertyPath(PropertyPath propertyPath)
         {
@@ -31,11 +31,7 @@
 
         public PathProperty this[int index] => this.propertyPath[index];
 
-        public IMaybe<TValue> GetValue(TSource source)
-        {
-            var maybe = this.propertyPath.GetValue<TValue>(source);
-            return maybe;
-        }
+        IMaybe<TValue> IValuePath<TSource, TValue>.GetValue(TSource source) => this.GetValueFromRoot(source);
 
         public ValueAndSender<TValue> GetValueAndSender(TSource source)
         {
@@ -56,25 +52,18 @@
                 return source;
             }
 
-            var maybe = this.propertyPath[this.propertyPath.Count - 2].GetValue<object>(source);
+            var maybe = this.propertyPath[this.propertyPath.Count - 2].GetValueFromRoot<object>(source);
             return maybe.HasValue
                        ? maybe.Value
                        : null;
         }
 
-        public IEnumerator<PathProperty> GetEnumerator()
-        {
-            return this.propertyPath.GetEnumerator();
-        }
+        public IEnumerator<PathProperty> GetEnumerator() => this.propertyPath.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        public override string ToString()
-        {
-            return $"x => x.{string.Join(".", this.propertyPath.Select(x => x.PropertyInfo.Name))}";
-        }
+        public override string ToString() => $"x => x.{string.Join(".", this.propertyPath.Select(x => x.PropertyInfo.Name))}";
+
+        internal Maybe<TValue> GetValueFromRoot(object rootSource) => this.propertyPath.GetValueFromRoot<TValue>(rootSource);
     }
 }

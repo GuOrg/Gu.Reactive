@@ -13,7 +13,7 @@
             Expression<Func<TSource, TValue>> path,
             TValue @default = default(TValue))
         {
-            var valuePath = PropertyPath.GetOrCreate(path);
+            var valuePath = (IValuePath<TSource, TValue>)PropertyPath.GetOrCreate(path);
             var maybe = valuePath.GetValue(source);
             if (maybe.HasValue)
             {
