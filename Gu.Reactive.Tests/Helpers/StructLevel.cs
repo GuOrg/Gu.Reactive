@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.Helpers
+﻿#pragma warning disable WPF1001
+namespace Gu.Reactive.Tests.Helpers
 {
     using System.ComponentModel;
 

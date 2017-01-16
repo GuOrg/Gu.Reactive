@@ -7,39 +7,37 @@
 
     public class FixedSizedQueueTests
     {
-        private const int Size = 2;
-        private FixedSizedQueue<int> queue;
-
-        [SetUp]
-        public void SetUp()
-        {
-            this.queue = new FixedSizedQueue<int>(Size);
-        }
-
         [Test]
-        public void EnqueueTrims()
+        public void EnqueueTrimsOverflow()
         {
-            this.queue.Enqueue(0);
-            CollectionAssert.AreEqual(new[] { 0 }, this.queue);
+            var queue = new FixedSizedQueue<int>(2);
+            queue.Enqueue(0);
+            CollectionAssert.AreEqual(new[] { 0 }, queue);
 
-            this.queue.Enqueue(1);
-            CollectionAssert.AreEqual(new[] { 0, 1 }, this.queue);
+            queue.Enqueue(1);
+            CollectionAssert.AreEqual(new[] { 0, 1 }, queue);
 
-            this.queue.Enqueue(2);
-            CollectionAssert.AreEqual(new[] { 1, 2 }, this.queue);
+            queue.Enqueue(2);
+            CollectionAssert.AreEqual(new[] { 1, 2 }, queue);
+
+            queue.Enqueue(3);
+            CollectionAssert.AreEqual(new[] { 2, 3 }, queue);
         }
 
         [Test]
         public void SerializeRountrip()
         {
+            var queue = new FixedSizedQueue<int>(2);
             var binaryFormatter = new BinaryFormatter();
-            var stream = new MemoryStream();
-            this.queue.Enqueue(1);
-            this.queue.Enqueue(2);
-            binaryFormatter.Serialize(stream, this.queue);
-            stream.Position = 0;
-            var roundtripped = (FixedSizedQueue<int>)binaryFormatter.Deserialize(stream);
-            Assert.AreEqual(this.queue, roundtripped);
+            using (var stream = new MemoryStream())
+            {
+                queue.Enqueue(1);
+                queue.Enqueue(2);
+                binaryFormatter.Serialize(stream, queue);
+                stream.Position = 0;
+                var roundtripped = (FixedSizedQueue<int>)binaryFormatter.Deserialize(stream);
+                Assert.AreEqual(queue, roundtripped);
+            }
         }
     }
 }
