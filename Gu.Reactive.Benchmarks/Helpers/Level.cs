@@ -90,6 +90,7 @@
             }
         }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public NotInpc NotInpc { get; private set; }
 
         public Level Method()

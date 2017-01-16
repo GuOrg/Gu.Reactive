@@ -1,13 +1,14 @@
 ﻿namespace Gu.Reactive.Benchmarks
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class NotInpc
     {
-        public bool IsTrue { get; }
+        public bool IsTrue { get; set; }
 
-        public bool? IsTrueOrNull { get; }
+        public bool? IsTrueOrNull { get; set; }
 
-        public string Name { get; }
+        public string Name { get; set; }
 
-        public int Value { get; }
+        public int Value { get; set; }
     }
 }

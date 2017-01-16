@@ -8,7 +8,6 @@
              x:Name="Root"
              d:DataContext="{d:DesignInstance demo:NinjaBindingViewModel}"
              d:DesignHeight="300"
-             d:DesignWidth="300"
              mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />

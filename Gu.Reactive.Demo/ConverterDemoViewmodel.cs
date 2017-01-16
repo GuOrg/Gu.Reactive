@@ -25,7 +25,7 @@
 
             set
             {
-                if (Equals(value, this.isVisible))
+                if (value == this.isVisible)
                 {
                     return;
                 }

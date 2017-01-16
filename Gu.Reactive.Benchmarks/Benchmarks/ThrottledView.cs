@@ -6,6 +6,7 @@
 
     public class ThrottledView
     {
+        // ReSharper disable once CollectionNeverQueried.Local
         private readonly ObservableCollection<int> reference = new ObservableCollection<int>();
         private readonly ObservableCollection<int> ints = new ObservableCollection<int>();
         private readonly ThrottledView<int> view;

@@ -37,7 +37,7 @@ namespace Gu.Reactive.Tests.Collections
             var subject = new Subject<object>();
             this.view.Triggers.Add(subject);
             this.ints.Clear();
-            for (int i = 0; i < 10; i++)
+            for (var i = 0; i < 10; i++)
             {
                 subject.OnNext(null);
             }
