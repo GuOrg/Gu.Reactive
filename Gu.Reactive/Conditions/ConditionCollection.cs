@@ -11,7 +11,7 @@ namespace Gu.Reactive
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Base class for collections
+    /// Base class for collections of conditions
     /// </summary>
     public abstract class ConditionCollection : ISatisfied, IReadOnlyList<ICondition>, INotifyPropertyChanged, IDisposable
     {
@@ -21,6 +21,9 @@ namespace Gu.Reactive
         private bool? previousIsSatisfied;
         private bool disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConditionCollection"/> class.
+        /// </summary>
         protected ConditionCollection(Func<IReadOnlyList<ICondition>, bool?> isSatisfied, params ICondition[] conditions)
         {
             Ensure.NotNull(isSatisfied, nameof(isSatisfied));
@@ -35,11 +38,7 @@ namespace Gu.Reactive
             this.innerConditions = conditions;
             this.subscription = conditions.Select(x => x.ObserveIsSatisfiedChanged())
                                        .Merge()
-                                       .Subscribe(
-                                           x =>
-                                           {
-                                               this.IsSatisfied = isSatisfied(this.innerConditions);
-                                           });
+                                       .Subscribe(_ => this.IsSatisfied = isSatisfied(this.innerConditions));
             this.previousIsSatisfied = isSatisfied(this.innerConditions);
         }
 

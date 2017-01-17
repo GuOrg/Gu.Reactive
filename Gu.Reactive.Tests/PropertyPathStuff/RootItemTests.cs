@@ -11,35 +11,32 @@
 
     public class RootItemTests
     {
-        private List<EventPattern<PropertyChangedEventArgs>> changes;
-
-        [SetUp]
-        public void SetUp()
-        {
-            this.changes = new List<EventPattern<PropertyChangedEventArgs>>();
-        }
-
         [Test]
         public void SignalsValue()
         {
-            var item = new RootItem(null);
-            item.ObservePropertyChanged(x => x.Value, false)
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
-            item.Value = new object();
-            Assert.AreEqual(1, this.changes.Count);
+            using (var item = new RootItem(null))
+            {
+                var changes = new List<EventPattern<PropertyChangedEventArgs>>();
+                item.ObservePropertyChanged(x => x.Value, false)
+                    .Subscribe(changes.Add);
+                Assert.AreEqual(0, changes.Count);
+                item.Value = new object();
+                Assert.AreEqual(1, changes.Count);
+            }
         }
 
         [Test]
         public void Signals()
         {
             int count = 0;
-            var item = new RootItem(null);
-            item.ObservePropertyChanged(x => x.Source, false)
-                .Subscribe(_ => count++);
-            Assert.AreEqual(0, count);
-            item.Value = new object();
-            Assert.AreEqual(1, count);
+            using (var item = new RootItem(null))
+            {
+                item.ObservePropertyChanged(x => x.Source, false)
+                    .Subscribe(_ => count++);
+                Assert.AreEqual(0, count);
+                item.Value = new object();
+                Assert.AreEqual(1, count);
+            }
         }
     }
 }

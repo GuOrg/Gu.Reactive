@@ -11,16 +11,20 @@ namespace Gu.Reactive.Tests.Trackers
         public void InitializesWithValues()
         {
             var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            var tracker = ints.TrackMin(-1);
-            Assert.AreEqual(1, tracker.Value);
+            using (var tracker = ints.TrackMin(-1))
+            {
+                Assert.AreEqual(1, tracker.Value);
+            }
         }
 
         [Test]
         public void InitializesWhenEmpty()
         {
             var ints = new ObservableCollection<int>(new int[0]);
-            var tracker = ints.TrackMin(-1);
-            Assert.AreEqual(-1, tracker.Value);
+            using (var tracker = ints.TrackMin(-1))
+            {
+                Assert.AreEqual(-1, tracker.Value);
+            }
         }
 
         [TestCase(0, -2, -2, 1)]
@@ -30,14 +34,17 @@ namespace Gu.Reactive.Tests.Trackers
         public void Replace(int index, int value, int expectedValue, int expectedCount)
         {
             var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            var tracker = ints.TrackMin(-1);
-            Assert.AreEqual(1, tracker.Value);
-            int count = 0;
-            tracker.ObservePropertyChanged(x => x.Value, false)
-                   .Subscribe(_ => count++);
-            ints[index] = value;
-            Assert.AreEqual(expectedValue, tracker.Value);
-            Assert.AreEqual(expectedCount, count);
+            int count;
+            using (var tracker = ints.TrackMin(-1))
+            {
+                Assert.AreEqual(1, tracker.Value);
+                count = 0;
+                tracker.ObservePropertyChanged(x => x.Value, false)
+                       .Subscribe(_ => count++);
+                ints[index] = value;
+                Assert.AreEqual(expectedValue, tracker.Value);
+                Assert.AreEqual(expectedCount, count);
+            }
         }
 
         [Test]

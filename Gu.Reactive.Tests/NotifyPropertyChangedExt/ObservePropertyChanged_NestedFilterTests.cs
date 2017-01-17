@@ -14,52 +14,46 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     // ReSharper disable once InconsistentNaming
     public class ObservePropertyChanged_NestedFilterTests
     {
-        private List<EventPattern<PropertyChangedEventArgs>> changes;
-
-        [SetUp]
-        public void SetUp()
-        {
-            this.changes = new List<EventPattern<PropertyChangedEventArgs>>();
-        }
-
         [Test]
         public void ReactsTwoPropertiesSameInstance()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Next = new Level { Value = 1 } };
             fake.ObservePropertyChanged(x => x.Next.Value, false)
-                .Subscribe(this.changes.Add);
+                .Subscribe(changes.Add);
 
             fake.ObservePropertyChanged(x => x.Next.IsTrue, false)
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(0, changes.Count);
 
             fake.Next.Value++;
-            Assert.AreEqual(1, this.changes.Count);
-            AssertEventPattern(fake.Next, "Value", this.changes.Last());
+            Assert.AreEqual(1, changes.Count);
+            AssertEventPattern(fake.Next, "Value", changes.Last());
 
             fake.Next.IsTrue = !fake.IsTrue;
-            Assert.AreEqual(2, this.changes.Count);
-            AssertEventPattern(fake.Next, "IsTrue", this.changes.Last());
+            Assert.AreEqual(2, changes.Count);
+            AssertEventPattern(fake.Next, "IsTrue", changes.Last());
         }
 
         [Test]
         public void ReactsTwoInstancesSameProperty()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake1 = new Fake { Next = new Level() };
             fake1.ObservePropertyChanged(x => x.Next.Value, false)
-                .Subscribe(this.changes.Add);
+                .Subscribe(changes.Add);
             var fake2 = new Fake { Next = new Level() };
             fake2.ObservePropertyChanged(x => x.Next.Value, false)
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(0, changes.Count);
 
             fake1.Next.Value++;
-            Assert.AreEqual(1, this.changes.Count);
-            AssertEventPattern(fake1.Next, "Value", this.changes.Last());
+            Assert.AreEqual(1, changes.Count);
+            AssertEventPattern(fake1.Next, "Value", changes.Last());
 
             fake2.Next.Value++;
-            Assert.AreEqual(2, this.changes.Count);
-            AssertEventPattern(fake2.Next, "Value", this.changes.Last());
+            Assert.AreEqual(2, changes.Count);
+            AssertEventPattern(fake2.Next, "Value", changes.Last());
         }
 
         [Test]
@@ -98,169 +92,184 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(false, 0)]
         public void SignalsInitialWhenHasValue(bool signalInitial, int expected)
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Next = new Level() };
             fake.ObservePropertyChanged(x => x.Next.Value, signalInitial)
-                .Subscribe(this.changes.Add);
+                .Subscribe(changes.Add);
 
-            Assert.AreEqual(expected, this.changes.Count);
+            Assert.AreEqual(expected, changes.Count);
             if (expected == 1)
             {
-                AssertEventPattern(fake.Next, "Value", this.changes.Last());
+                AssertEventPattern(fake.Next, "Value", changes.Last());
             }
 
             fake.Next.Value++;
-            Assert.AreEqual(expected + 1, this.changes.Count); // Double check that we are subscribing
+            Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
         }
 
         [TestCase(true, 1)]
         [TestCase(false, 0)]
         public void SignalsInitialWhenNoValue(bool signalInitial, int expected)
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake();
             fake.ObservePropertyChanged(x => x.Next.Value, signalInitial)
-                .Subscribe(this.changes.Add);
+                .Subscribe(changes.Add);
 
-            Assert.AreEqual(expected, this.changes.Count);
+            Assert.AreEqual(expected, changes.Count);
             if (expected == 1)
             {
-                AssertEventPattern(null, "Value", this.changes.Last());
+                AssertEventPattern(null, "Value", changes.Last());
             }
 
             fake.Next = new Level();
-            Assert.AreEqual(expected + 1, this.changes.Count); // Double check that we are subscribing
+            Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
         }
 
         [TestCase("")]
         [TestCase(null)]
         public void DoesNotReactToStringEmptyOrNullFromRootWhenNull(string propertyName)
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake();
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
-            var disposable = observable.Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
-
-            fake.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
-            Assert.AreEqual(0, this.changes.Count);
+            using (observable.Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
+                fake.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
+                Assert.AreEqual(0, changes.Count);
+            }
         }
 
         [TestCase("")]
         [TestCase(null)]
         public void DoesReactToStringEmptyOrNullFromRootWhenNotNull(string propertyName)
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Next = new Level() };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
-            var disposable = observable.Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
+            using (var disposable = observable.Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
 
-            fake.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
-            Assert.AreEqual(1, this.changes.Count);
-            AssertEventPattern(fake.Next, propertyName, this.changes.Last());
+                fake.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
+                Assert.AreEqual(1, changes.Count);
+                AssertEventPattern(fake.Next, propertyName, changes.Last());
+            }
         }
 
         [TestCase("")]
         [TestCase(null)]
         public void ReactsOnStringEmptyOrNullFromSource(string propertyName)
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Next = new Level() };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
-            var disposable = observable.Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
+            using (observable.Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
 
-            fake.Next.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
+                fake.Next.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
 
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreEqual(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual(propertyName, this.changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual(fake.Next, changes.Last().Sender);
+                Assert.AreEqual(propertyName, changes.Last().EventArgs.PropertyName);
+            }
         }
 
         [Test]
         public void TwoLevelsReacts()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake();
             fake.ObservePropertyChanged(x => x.Next.IsTrue, true)
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreSame(null, this.changes.Single().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreSame(null, changes.Single().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
             fake.Next = new Level();
-            Assert.AreEqual(2, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(2, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
             fake.Next.IsTrue = !fake.Next.IsTrue;
-            Assert.AreEqual(3, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(3, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
         public void TwoLevelsRootChangesFromValueToNull()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Next = new Level() };
             fake.ObservePropertyChanged(x => x.Next.IsTrue, true)
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Single().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreSame(fake.Next, changes.Single().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
             fake.Next = null;
-            Assert.AreEqual(2, this.changes.Count);
-            Assert.AreSame(null, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(2, changes.Count);
+            Assert.AreSame(null, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
         public void TwoLevelsRootChangesFromNullToValue()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake();
             fake.ObservePropertyChanged(x => x.Next.IsTrue, true)
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreSame(null, this.changes.Single().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreSame(null, changes.Single().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
             fake.Next = new Level();
-            Assert.AreEqual(2, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(2, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
         public void TwoLevelsStartingWithValue()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Next = new Level() };
             fake.ObservePropertyChanged(x => x.Next.IsTrue, true)
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
             fake.Next.IsTrue = !fake.Next.IsTrue;
-            Assert.AreEqual(2, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(2, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
         public void TwoLevelsStartingWithoutValue()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake();
             fake.ObservePropertyChanged(x => x.Next.IsTrue, true)
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
             fake.Next = new Level();
-            Assert.AreEqual(2, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(2, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
             fake.Next.IsTrue = !fake.Next.IsTrue;
-            Assert.AreEqual(3, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(3, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
         }
 
         [TestCase(true, null)]
@@ -268,41 +277,45 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(null, true)]
         public void TwoLevelsNullableStartingWithValue(bool? first, bool? other)
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Next = new Level { IsTrueOrNull = first } };
             fake.ObservePropertyChanged(x => x.Next.IsTrueOrNull, true)
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrueOrNull", this.changes.Last().EventArgs.PropertyName);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrueOrNull", changes.Last().EventArgs.PropertyName);
 
             fake.Next.IsTrueOrNull = other;
 
-            Assert.AreEqual(2, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrueOrNull", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(2, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrueOrNull", changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
         public void ThreeLevelsStartingWithNull()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake();
             var observable = fake.ObservePropertyChanged(x => x.Next.Next.IsTrue);
-            var disposable = observable.Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            fake.Next = new Level { Next = new Level() };
-            Assert.AreEqual(2, this.changes.Count);
-            Assert.AreSame(fake.Next.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            using (observable.Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                fake.Next = new Level { Next = new Level() };
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreSame(fake.Next.Next, changes.Last().Sender);
+                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
-            fake.Next.Next.IsTrue = !fake.Next.Next.IsTrue;
-            Assert.AreEqual(3, this.changes.Count);
-            Assert.AreSame(fake.Next.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+                fake.Next.Next.IsTrue = !fake.Next.Next.IsTrue;
+                Assert.AreEqual(3, changes.Count);
+                Assert.AreSame(fake.Next.Next, changes.Last().Sender);
+                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
-            fake.Next = null;
-            Assert.AreEqual(4, this.changes.Count);
-            Assert.AreSame(null, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+                fake.Next = null;
+                Assert.AreEqual(4, changes.Count);
+                Assert.AreSame(null, changes.Last().Sender);
+                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+            }
         }
 
         [TestCase("")]
@@ -310,12 +323,13 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase("Next")]
         public void FirstInPathSignalsEventWhenHasValue(string propertyName)
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var next = new Level();
             var fake = new Fake { Next = next };
             fake.ObservePropertyChanged(x => x.Next.IsTrue, false)
-                .Subscribe(this.changes.Add);
+                .Subscribe(changes.Add);
             fake.OnPropertyChanged(propertyName);
-            Assert.AreEqual(1, this.changes.Count);
+            Assert.AreEqual(1, changes.Count);
         }
 
         [TestCase("")]
@@ -323,94 +337,107 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase("IsTrue")]
         public void LastInPathSignalsEvent(string propertyName)
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var next = new Level();
             var fake = new Fake { Next = next };
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
-            var disposable = observable.Subscribe(this.changes.Add);
-            fake.Next.OnPropertyChanged(propertyName);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual(propertyName, this.changes.Last().EventArgs.PropertyName);
+            using (observable.Subscribe(changes.Add))
+            {
+                fake.Next.OnPropertyChanged(propertyName);
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreSame(fake.Next, changes.Last().Sender);
+                Assert.AreEqual(propertyName, changes.Last().EventArgs.PropertyName);
+            }
         }
 
         [Test]
         public void ThreeLevelsExisting()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Next = new Level { Next = new Level() } };
             var observable = fake.ObservePropertyChanged(x => x.Next.Next.IsTrue);
-            var disposable = observable.Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreSame(fake.Next.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            using (observable.Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreSame(fake.Next.Next, changes.Last().Sender);
+                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
-            fake.Next.Next.IsTrue = !fake.Next.Next.IsTrue;
-            Assert.AreEqual(2, this.changes.Count);
-            Assert.AreSame(fake.Next.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+                fake.Next.Next.IsTrue = !fake.Next.Next.IsTrue;
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreSame(fake.Next.Next, changes.Last().Sender);
+                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+            }
         }
 
         [Test]
         public void ThreeLevelsExistingLevelBecomesNull()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Next = new Level { Next = new Level() } };
             var observable = fake.ObservePropertyChanged(x => x.Next.Next.IsTrue);
-            var disposable = observable.Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreSame(fake.Next.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            using (observable.Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreSame(fake.Next.Next, changes.Last().Sender);
+                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
-            fake.Next = null;
-            Assert.AreEqual(2, this.changes.Count);
-            Assert.AreSame(null, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+                fake.Next = null;
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreSame(null, changes.Last().Sender);
+                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+            }
         }
 
         [Test]
         public void ThreeLevelsExistingLevelBecomesNew()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Next = new Level { Next = new Level() } };
             var observable = fake.ObservePropertyChanged(x => x.Next.Next.IsTrue);
-            var disposable = observable.Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreSame(fake.Next.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            using (observable.Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreSame(fake.Next.Next, changes.Last().Sender);
+                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
-            fake.Next = new Level() { Next = new Level() };
-            Assert.AreEqual(2, this.changes.Count);
-            Assert.AreSame(fake.Next.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+                fake.Next = new Level() { Next = new Level() };
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreSame(fake.Next.Next, changes.Last().Sender);
+                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+            }
         }
 
         [Test]
         public void Reacts()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake();
             var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue);
-            observable.Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            observable.Subscribe(changes.Add);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
             fake.Next = new Level { IsTrue = false };
-            Assert.AreEqual(2, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(2, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
             fake.Next.IsTrue = true;
-            Assert.AreEqual(3, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(3, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
             Level level1 = fake.Next;
             fake.Next = null;
-            Assert.AreEqual(4, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(4, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
 
             level1.IsTrue = !level1.IsTrue;
-            Assert.AreEqual(4, this.changes.Count);
-            Assert.AreSame(fake.Next, this.changes.Last().Sender);
-            Assert.AreEqual("IsTrue", this.changes.Last().EventArgs.PropertyName);
+            Assert.AreEqual(4, changes.Count);
+            Assert.AreSame(fake.Next, changes.Last().Sender);
+            Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
         }
 
         [Test]
@@ -430,11 +457,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
                 })();
             //// http://stackoverflow.com/a/579001/1069200
-            var subscription = observable.Subscribe();
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
+            using (var subscription = observable.Subscribe())
+            {
+                GC.KeepAlive(observable);
+                GC.KeepAlive(subscription);
+            }
 
-            subscription.Dispose();
             GC.Collect();
             Assert.IsFalse(rootRef.IsAlive);
             Assert.IsFalse(levelRef.IsAlive);
@@ -455,11 +483,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
                 })();
             //// http://stackoverflow.com/a/579001/1069200
-            var subscription = observable.Subscribe();
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
+            using (var subscription = observable.Subscribe())
+            {
+                GC.KeepAlive(observable);
+                GC.KeepAlive(subscription);
+            }
 
-            subscription.Dispose();
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
         }
@@ -471,9 +500,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var fake = new Fake { Next = level };
             var wr = new WeakReference(level);
             var observable = fake.ObservePropertyChanged(x => x.Next.Value);
-            var subscription = observable.Subscribe();
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
+            using (var subscription = observable.Subscribe())
+            {
+                GC.KeepAlive(observable);
+                GC.KeepAlive(subscription);
+            }
 
             level = null;
             fake.Next = null;
@@ -499,9 +530,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
                 })();
             //// http://stackoverflow.com/a/579001/1069200
-            var subscription = observable.Subscribe();
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
+            using (var subscription = observable.Subscribe())
+            {
+                GC.KeepAlive(observable);
+                GC.KeepAlive(subscription);
+            }
 
             GC.Collect();
 

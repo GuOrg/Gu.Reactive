@@ -143,12 +143,12 @@
             var fake = new Fake();
             var wr = new WeakReference(fake);
             var observable = fake.ObservePropertyChanged();
-            var subscription = observable.Subscribe();
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
-
-            fake = null;
-            subscription.Dispose();
+            using (var subscription = observable.Subscribe())
+            {
+                GC.KeepAlive(observable);
+                GC.KeepAlive(subscription);
+                fake = null;
+            }
 
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);

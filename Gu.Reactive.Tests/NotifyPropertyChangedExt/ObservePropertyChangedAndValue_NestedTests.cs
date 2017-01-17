@@ -135,9 +135,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
                 })();
             //// http://stackoverflow.com/a/579001/1069200
-            var subscription = observable.Subscribe();
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
+            using (var subscription = observable.Subscribe())
+            {
+                GC.KeepAlive(observable);
+                GC.KeepAlive(subscription);
+            }
 
             GC.Collect();
 
@@ -207,13 +209,13 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
                 })();
             //// http://stackoverflow.com/a/579001/1069200
-            var subscription = observable.Subscribe();
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
+            using (var subscription = observable.Subscribe())
+            {
+                GC.KeepAlive(observable);
+                GC.KeepAlive(subscription);
+            }
 
-            subscription.Dispose();
             GC.Collect();
-
             Assert.IsFalse(wr.IsAlive);
         }
     }
