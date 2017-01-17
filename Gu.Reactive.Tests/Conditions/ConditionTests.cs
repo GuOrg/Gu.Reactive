@@ -16,10 +16,12 @@
         {
             var fake = new Fake { IsTrueOrNull = false };
             var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull);
-            var condition = new Condition(observable, () => fake.IsTrueOrNull);
-            Assert.AreEqual(false, condition.IsSatisfied);
-            fake.IsTrueOrNull = true;
-            Assert.AreEqual(true, condition.IsSatisfied);
+            using (var condition = new Condition(observable, () => fake.IsTrueOrNull))
+            {
+                Assert.AreEqual(false, condition.IsSatisfied);
+                fake.IsTrueOrNull = true;
+                Assert.AreEqual(true, condition.IsSatisfied);
+            }
         }
 
         [Test]
@@ -27,11 +29,13 @@
         {
             var fake = new Fake { IsTrueOrNull = false };
             var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
-            var condition = new Condition(observable, () => fake.IsTrueOrNull);
-            var argses = new List<PropertyChangedEventArgs>();
-            condition.PropertyChanged += (sender, args) => argses.Add(args);
-            fake.IsTrueOrNull = true;
-            Assert.AreEqual(1, argses.Count);
+            using (var condition = new Condition(observable, () => fake.IsTrueOrNull))
+            {
+                var argses = new List<PropertyChangedEventArgs>();
+                condition.PropertyChanged += (sender, args) => argses.Add(args);
+                fake.IsTrueOrNull = true;
+                Assert.AreEqual(1, argses.Count);
+            }
         }
 
         [Test]
@@ -39,9 +43,11 @@
         {
             var fake = new Fake { IsTrueOrNull = false };
             var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
-            var condition = new Condition(observable, () => fake.IsTrueOrNull);
-            fake.IsTrueOrNull = true;
-            CollectionAssert.AreEqual(new[] { false, true }, condition.History.Select(x => x.State));
+            using (var condition = new Condition(observable, () => fake.IsTrueOrNull))
+            {
+                fake.IsTrueOrNull = true;
+                CollectionAssert.AreEqual(new[] { false, true }, condition.History.Select(x => x.State));
+            }
         }
 
         [Test]
@@ -50,9 +56,11 @@
             var dummy = new Fake();
             var wr = new WeakReference(dummy);
             Assert.IsTrue(wr.IsAlive);
-            var condition = new Condition(dummy.ObservePropertyChanged(x => x.IsTrueOrNull, false), () => dummy.IsTrueOrNull);
-            dummy = null;
-            condition.Dispose();
+            using (new Condition(dummy.ObservePropertyChanged(x => x.IsTrueOrNull, false), () => dummy.IsTrueOrNull))
+            {
+                dummy = null;
+            }
+
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
         }

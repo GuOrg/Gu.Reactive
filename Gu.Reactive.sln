@@ -1,5 +1,4 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -9,6 +8,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{E9C570
 		paket.lock = paket.lock
 		.paket\paket.targets = .paket\paket.targets
 		.paket\Readme.paket.md = .paket\Readme.paket.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C15ED745-9164-4E28-A40F-8BCE39D116AF}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.md = LICENSE.md
+		README.md = README.md
+		.paket\Readme.paket.md = .paket\Readme.paket.md
+		RELEASE_NOTES.md = RELEASE_NOTES.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive", "Gu.Reactive\Gu.Reactive.csproj", "{2230088E-F6DC-4C79-9983-D9654274D689}"
@@ -22,14 +29,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive.Tests", "Gu.Wpf.Reactive.Tests\Gu.Wpf.Reactive.Tests.csproj", "{F94EA890-7658-47C9-A033-8967F626360A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Benchmarks", "Gu.Reactive.Benchmarks\Gu.Reactive.Benchmarks.csproj", "{DF62EBA0-B27F-464B-976B-2E0F41F2421E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C15ED745-9164-4E28-A40F-8BCE39D116AF}"
-	ProjectSection(SolutionItems) = preProject
-		LICENSE.md = LICENSE.md
-		README.md = README.md
-		.paket\Readme.paket.md = .paket\Readme.paket.md
-		RELEASE_NOTES.md = RELEASE_NOTES.md
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive.UiTests", "Gu.Wpf.Reactive.UiTests\Gu.Wpf.Reactive.UiTests.csproj", "{57060616-3F95-494C-9F2F-312422E24E00}"
 EndProject
