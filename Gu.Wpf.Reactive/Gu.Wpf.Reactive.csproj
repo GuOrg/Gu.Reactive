@@ -40,18 +40,6 @@
     <DocumentationFile>bin\Release\Gu.Wpf.Reactive.XML</DocumentationFile>
     <CodeAnalysisRuleSet>Gu.Wpf.Reactive.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CreateNugetPackage|AnyCPU'">
-    <OutputPath>bin\CreateNugetPackage\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>Gu.Wpf.Reactive.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\CreateNugetPackage\Gu.Wpf.Reactive.XML</DocumentationFile>
-    <BuildPackage>true</BuildPackage>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
