@@ -122,7 +122,7 @@
                 return this.notInpc;
             }
 
-            private set
+            set
             {
                 if (ReferenceEquals(value, this.notInpc))
                 {
