@@ -13,7 +13,7 @@
         private string name;
 
         private StructLevel structLevel;
-
+        private NotInpc notInpc;
         private int value;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -29,7 +29,7 @@
 
             set
             {
-                if (value.Equals(this.isTrueOrNull))
+                if (value == this.isTrueOrNull)
                 {
                     return;
                 }
@@ -105,12 +105,34 @@
 
             set
             {
+                if (System.Collections.Generic.EqualityComparer<StructLevel>.Default.Equals(value, this.structLevel))
+                {
+                    return;
+                }
+
                 this.structLevel = value;
                 this.OnPropertyChanged();
             }
         }
 
-        public NotInpc NotInpc { get; private set; }
+        public NotInpc NotInpc
+        {
+            get
+            {
+                return this.notInpc;
+            }
+
+            private set
+            {
+                if (ReferenceEquals(value, this.notInpc))
+                {
+                    return;
+                }
+
+                this.notInpc = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         public int Value
         {
@@ -121,6 +143,11 @@
 
             set
             {
+                if (value == this.value)
+                {
+                    return;
+                }
+
                 this.value = value;
                 this.OnPropertyChanged();
             }

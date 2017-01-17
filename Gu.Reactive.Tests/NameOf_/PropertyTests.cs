@@ -10,9 +10,9 @@ namespace Gu.Reactive.Tests.NameOf_
     // ReSharper disable once InconsistentNaming
     public class PropertyTests
     {
-        public string StringProp { get; private set; }
+        public string StringProp { get; }
 
-        public Fake Fake { get; private set; }
+        public Fake Fake { get; }
 
         [Test]
         public void PropertyHappyPath()

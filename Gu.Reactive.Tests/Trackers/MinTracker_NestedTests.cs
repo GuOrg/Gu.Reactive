@@ -100,6 +100,11 @@
 
                 set
                 {
+                    if (value == this.value)
+                    {
+                        return;
+                    }
+
                     this.value = value;
                     this.OnPropertyChanged();
                 }

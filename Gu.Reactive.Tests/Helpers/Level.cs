@@ -9,6 +9,7 @@
     {
         private bool isTrue;
         private Level next;
+        private NotInpc notInpc;
         private string name;
 
         private bool? isTrueOrNull;
@@ -112,7 +113,24 @@
             }
         }
 
-        public NotInpc NotInpc { get; private set; }
+        public NotInpc NotInpc
+        {
+            get
+            {
+                return this.notInpc;
+            }
+
+            private set
+            {
+                if (ReferenceEquals(value, this.notInpc))
+                {
+                    return;
+                }
+
+                this.notInpc = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         public Level Method()
         {
