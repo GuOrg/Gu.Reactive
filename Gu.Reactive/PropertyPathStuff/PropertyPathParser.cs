@@ -33,7 +33,7 @@
         private static IReadOnlyList<PropertyInfo> Create(LambdaExpression expression)
         {
             var path = new List<PropertyInfo>();
-            var member =expression.GetRootProperty();
+            var member = expression.GetRootProperty();
             while (member != null)
             {
                 path.Add((PropertyInfo)member.Member);
