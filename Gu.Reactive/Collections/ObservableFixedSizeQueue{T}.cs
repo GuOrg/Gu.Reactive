@@ -69,6 +69,11 @@
             this.CollectionChanged.Notify(this, Diff.CreateAddEventArgs(item, this.Count - 1), this.scheduler);
         }
 
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="ObservableFixedSizeQueue{T}"/> will raise
+        /// a property changed event through this virtual method.
+        /// </summary>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);

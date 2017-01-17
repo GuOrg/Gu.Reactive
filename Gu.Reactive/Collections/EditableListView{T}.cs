@@ -212,6 +212,5 @@ namespace Gu.Reactive
             this.ThwrowIfDisposed();
             return result;
         }
-
     }
 }

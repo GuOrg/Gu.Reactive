@@ -12,6 +12,7 @@ namespace Gu.Reactive.Tests.Collections
         {
             base.SetUp();
             this.Scheduler = new TestScheduler();
+            (this.View as IDisposable)?.Dispose();
             this.View = new ReadOnlyThrottledView<int>(this.Ints, TimeSpan.FromMilliseconds(10), this.Scheduler);
             this.Scheduler.Start();
             this.Actual = this.View.SubscribeAll();

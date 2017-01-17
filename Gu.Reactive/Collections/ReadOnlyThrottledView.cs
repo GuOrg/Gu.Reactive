@@ -62,7 +62,7 @@
         public TimeSpan BufferTime { get; }
 
         /// <inheritdoc/>
-        object IUpdater.IsUpdatingSourceItem => null;
+        object IUpdater.CurrentlyUpdatingSourceItem => null;
 
         /// <summary>
         /// Protected implementation of Dispose pattern.

@@ -10,6 +10,7 @@
 
     using Gu.Reactive.Internals;
 
+    /// <inheritdoc/>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
     public class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T>, IReadOnlyFilteredView<T>, IUpdater
@@ -18,32 +19,49 @@
         private readonly IDisposable refreshSubscription;
         private bool disposed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
+        /// </summary>
         public ReadOnlyFilteredView(ObservableCollection<T> collection, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
             : this((IReadOnlyList<T>)collection, filter, bufferTime, scheduler, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
+        /// </summary>
         public ReadOnlyFilteredView(ReadOnlyObservableCollection<T> collection, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
             : this((IReadOnlyList<T>)collection, filter, bufferTime, scheduler, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
+        /// </summary>
         public ReadOnlyFilteredView(IObservableCollection<T> collection, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
             : this((IReadOnlyList<T>)collection, filter, bufferTime, scheduler, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
+        /// </summary>
         public ReadOnlyFilteredView(IReadOnlyObservableCollection<T> collection, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
             : this((IReadOnlyList<T>)collection, filter, bufferTime, scheduler, triggers)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
+        /// </summary>
         public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, IEnumerable<IObservable<object>> triggers)
-            : this(source, filter, scheduler, bufferTime, triggers.ToArray())
+            : this(source, filter, scheduler, bufferTime, triggers?.ToArray())
         {
-            Ensure.NotNull(triggers, nameof(triggers));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
+        /// </summary>
         public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, IObservable<object> trigger)
             : this(source, filter, scheduler, bufferTime, new[] { trigger })
         {
@@ -58,7 +76,7 @@
             this.Filter = filter;
             this.BufferTime = bufferTime;
             this.SetSource(this.Filtered());
-            this.refreshSubscription = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, false)
+            this.refreshSubscription = FilteredRefresher.Create(this, source, bufferTime, triggers ?? Enumerable.Empty<IObservable<object>>(), scheduler, false)
                                                     .Subscribe(this.Refresh);
         }
 
@@ -66,12 +84,15 @@
         public TimeSpan BufferTime { get; }
 
         /// <inheritdoc/>
-        public Func<T, bool> Filter { get;  }
+        public Func<T, bool> Filter { get; }
 
         /// <inheritdoc/>
-        object IUpdater.IsUpdatingSourceItem => null;
+        object IUpdater.CurrentlyUpdatingSourceItem => null;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Force a refresh.
+        /// May be deferred if there is a buffer time.
+        /// </summary>
         public new void Refresh()
         {
             (this.source as IRefreshAble)?.Refresh();
@@ -84,6 +105,9 @@
             this.SetSource(this.Filtered());
         }
 
+        /// <summary>
+        /// Get the filtered items.
+        /// </summary>
         protected IEnumerable<T> Filtered()
         {
             return this.source.Where(this.Filter);

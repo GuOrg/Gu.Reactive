@@ -33,7 +33,7 @@
         bool Overlaps(IEnumerable<T> other);
 
         /// <summary>
-        /// Checks if this and other contain the same elements. This is set equality: 
+        /// Checks if this and other contain the same elements. This is set equality:
         /// duplicates and order are ignored
         /// </summary>
         bool SetEquals(IEnumerable<T> other);

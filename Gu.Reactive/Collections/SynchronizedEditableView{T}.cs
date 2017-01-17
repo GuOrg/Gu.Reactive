@@ -62,7 +62,7 @@
         bool IList.IsFixedSize => false;
 
         /// <inheritdoc/>
-        object IUpdater.IsUpdatingSourceItem => this.isUpdatingSourceItem;
+        object IUpdater.CurrentlyUpdatingSourceItem => this.isUpdatingSourceItem;
 
         /// <summary>
         /// The source collection.

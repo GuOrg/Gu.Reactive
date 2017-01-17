@@ -154,7 +154,7 @@
         }
 
         /// <inheritdoc/>
-        object IUpdater.IsUpdatingSourceItem => null;
+        object IUpdater.CurrentlyUpdatingSourceItem => null;
 
         /// <inheritdoc/>
         public override void Refresh()

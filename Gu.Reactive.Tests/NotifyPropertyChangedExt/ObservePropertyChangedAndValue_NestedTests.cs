@@ -135,12 +135,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
                 })();
             //// http://stackoverflow.com/a/579001/1069200
-            using (var subscription = observable.Subscribe())
-            {
-                GC.KeepAlive(observable);
-                GC.KeepAlive(subscription);
-            }
-
+#pragma warning disable GU0030 // Use using.
+            var subscription = observable.Subscribe();
+#pragma warning restore GU0030 // Use using.
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
             GC.Collect();
 
             Assert.IsFalse(wr.IsAlive);
@@ -185,7 +184,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
                 })();
             //// http://stackoverflow.com/a/579001/1069200
+#pragma warning disable GU0030 // Use using.
             var subscription = observable.Subscribe();
+#pragma warning restore GU0030 // Use using.
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);
 

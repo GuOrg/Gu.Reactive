@@ -9,7 +9,6 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using Gu.Wpf.Reactive;
-    using JetBrains.Annotations;
 
     public sealed class FilteredViewViewModel : INotifyPropertyChanged, IDisposable
     {
@@ -151,7 +150,22 @@
             (this.ReadOnlyFiltered as IDisposable)?.Dispose();
         }
 
-        [NotifyPropertyChangedInvocator]
+        private static bool IsMatch(string value, string pattern)
+        {
+            if (value == null)
+            {
+                return false;
+            }
+
+            var indexOf = InvariantCulture.CompareInfo.IndexOf(value, pattern, CompareOptions.OrdinalIgnoreCase);
+            if (pattern.Length == 1)
+            {
+                return indexOf == 0;
+            }
+
+            return indexOf >= 0;
+        }
+
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -169,22 +183,6 @@
                                  .Distinct()
                                  .ToArray();
             return tags;
-        }
-
-        private static bool IsMatch(string value, string pattern)
-        {
-            if (value == null)
-            {
-                return false;
-            }
-
-            var indexOf = InvariantCulture.CompareInfo.IndexOf(value, pattern, CompareOptions.OrdinalIgnoreCase);
-            if (pattern.Length == 1)
-            {
-                return indexOf == 0;
-            }
-
-            return indexOf >= 0;
         }
 
         private bool IsTextMatch(Person person)

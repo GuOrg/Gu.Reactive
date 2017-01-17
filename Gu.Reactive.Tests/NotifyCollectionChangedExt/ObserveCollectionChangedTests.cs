@@ -56,11 +56,13 @@
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var ints = new ObservableCollection<int>();
-            var subscription = ints.ObserveCollectionChanged(false)
-                                   .Subscribe(x => changes.Add(x.EventArgs));
-            ints.Add(1);
-            Assert.AreEqual(1, changes.Count);
-            subscription.Dispose();
+            using (ints.ObserveCollectionChanged(false)
+                       .Subscribe(x => changes.Add(x.EventArgs)))
+            {
+                ints.Add(1);
+                Assert.AreEqual(1, changes.Count);
+            }
+
             ints.Add(2);
             Assert.AreEqual(1, changes.Count);
         }
@@ -71,12 +73,13 @@
             var ints = new ObservableCollection<int>();
             var wr = new WeakReference(ints);
             var observable = ints.ObservePropertyChanged();
-            var subscription = observable.Subscribe();
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
+            using (var subscription = observable.Subscribe())
+            {
+                GC.KeepAlive(observable);
+                GC.KeepAlive(subscription);
 
-            ints = null;
-            subscription.Dispose();
+                ints = null;
+            }
 
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
@@ -88,7 +91,9 @@
             var ints = new ObservableCollection<int>();
             var wr = new WeakReference(ints);
             var observable = ints.ObservePropertyChanged();
+#pragma warning disable GU0030 // Use using.
             var subscription = observable.Subscribe();
+#pragma warning restore GU0030 // Use using.
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);
 

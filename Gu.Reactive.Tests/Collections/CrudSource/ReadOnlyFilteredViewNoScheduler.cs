@@ -12,6 +12,7 @@ namespace Gu.Reactive.Tests.Collections
         public override void SetUp()
         {
             base.SetUp();
+            (this.View as IDisposable)?.Dispose();
             this.View = new ReadOnlyFilteredView<int>(this.Ints, x => true, TimeSpan.Zero, null);
             this.Actual = this.View.SubscribeAll();
         }
@@ -20,8 +21,10 @@ namespace Gu.Reactive.Tests.Collections
         public void InitializeFiltered()
         {
             var ints = new ObservableCollection<int>(new[] { 1, 2 });
-            var view = ints.AsReadOnlyFilteredView(x => x < 2);
-            CollectionAssert.AreEqual(new[] { 1 }, view);
+            using (var view = ints.AsReadOnlyFilteredView(x => x < 2))
+            {
+                CollectionAssert.AreEqual(new[] { 1 }, view);
+            }
         }
     }
 }

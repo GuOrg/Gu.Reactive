@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
+﻿#pragma warning disable WPF1014 // Don't raise PropertyChanged for missing property.
+namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
     using System.Collections.Generic;
@@ -127,13 +128,13 @@
         {
             var fake = new Fake { IsTrue = true };
             var observable = fake.ObservePropertyChanged();
-            var disposable = observable.Subscribe(this.changes.Add);
-            fake.IsTrue = !fake.IsTrue;
-            Assert.AreEqual(1, this.changes.Count);
+            using (observable.Subscribe(this.changes.Add))
+            {
+                fake.IsTrue = !fake.IsTrue;
+                Assert.AreEqual(1, this.changes.Count);
+            }
 
-            disposable.Dispose();
             fake.IsTrue = !fake.IsTrue;
-
             Assert.AreEqual(1, this.changes.Count);
         }
 
@@ -160,7 +161,9 @@
             var fake = new Fake();
             var wr = new WeakReference(fake);
             var observable = fake.ObservePropertyChanged();
+#pragma warning disable GU0030 // Use using.
             var subscription = observable.Subscribe();
+#pragma warning restore GU0030 // Use using.
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);
 

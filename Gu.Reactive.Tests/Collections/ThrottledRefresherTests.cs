@@ -24,7 +24,7 @@
             var ints = new ObservableCollection<int>();
             var results = new List<Timestamped<IReadOnlyList<NotifyCollectionChangedEventArgs>>>();
             var scheduler = new TestScheduler();
-            var observable = ThrottledRefresher.Create(Mock.Of<IUpdater>(x => x.IsUpdatingSourceItem == null), ints, TimeSpan.FromMilliseconds(10), scheduler, data.SignalInitial)
+            var observable = ThrottledRefresher.Create(Mock.Of<IUpdater>(x => x.CurrentlyUpdatingSourceItem == null), ints, TimeSpan.FromMilliseconds(10), scheduler, data.SignalInitial)
                                  .Timestamp(scheduler);
             observable.Subscribe(results.Add);
 
@@ -55,7 +55,7 @@
             var ints = new ObservableCollection<int>();
             var results = new List<IReadOnlyList<NotifyCollectionChangedEventArgs>>();
             var observable = ThrottledRefresher.Create(
-                Mock.Of<IUpdater>(x => x.IsUpdatingSourceItem == (object)1),
+                Mock.Of<IUpdater>(x => x.CurrentlyUpdatingSourceItem == (object)1),
                 ints,
                 TimeSpan.Zero,
                 null,

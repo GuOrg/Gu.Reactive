@@ -88,11 +88,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);
             var observable = fake.ObservePropertyChangedWithValue(x => x.Name, false);
-            using (var subscription = observable.Subscribe())
-            {
-                GC.KeepAlive(observable);
-                GC.KeepAlive(subscription);
-            }
+#pragma warning disable GU0030 // Use using.
+            var subscription = observable.Subscribe();
+#pragma warning restore GU0030 // Use using.
+            GC.KeepAlive(observable);
+            GC.KeepAlive(subscription);
 
             fake = null;
             GC.Collect();

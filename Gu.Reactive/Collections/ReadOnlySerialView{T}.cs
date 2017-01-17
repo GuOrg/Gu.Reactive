@@ -33,7 +33,7 @@
         }
 
         /// <inheritdoc/>
-        object IUpdater.IsUpdatingSourceItem => null;
+        object IUpdater.CurrentlyUpdatingSourceItem => null;
 
         /// <summary>
         /// Update the source collection and notify about changes.

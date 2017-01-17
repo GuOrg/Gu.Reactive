@@ -51,7 +51,7 @@ namespace Gu.Reactive.PropertyPathStuff
                 yMember = yMember.GetPreviousProperty();
             }
 
-            return xMember == null && yMember == null && 
+            return xMember == null && yMember == null &&
                    x.GetSourceType() == y.GetSourceType();
         }
 

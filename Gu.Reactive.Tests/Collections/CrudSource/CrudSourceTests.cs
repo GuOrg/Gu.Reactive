@@ -13,10 +13,13 @@
 
     public abstract class CrudSourceTests
     {
+#pragma warning disable SA1306 // Field names must begin with lower-case letter
         protected List<EventArgs> Actual;
         protected TestScheduler Scheduler;
         protected IReadOnlyObservableCollection<int> View;
         protected ObservableCollection<int> Ints;
+#pragma warning restore SA1306 // Field names must begin with lower-case letter
+
         private List<EventArgs> expected;
 
         [SetUp]

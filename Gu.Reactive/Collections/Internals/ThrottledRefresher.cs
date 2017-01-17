@@ -31,7 +31,7 @@
                 {
                     NotifyCollectionChangedEventHandler fsHandler = (_, e) =>
                         {
-                            var isUpdatingSourceItem = updater.IsUpdatingSourceItem;
+                            var isUpdatingSourceItem = updater.CurrentlyUpdatingSourceItem;
                             if (isUpdatingSourceItem == null)
                             {
                                 o.OnNext(e);

@@ -120,7 +120,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public void Move(int fromIndex, int toIndex)
         {
             Assert.Inconclusive("Do we want move?");
-            //this.View.Move(fromIndex, toIndex);
+            ////this.View.Move(fromIndex, toIndex);
             this.Scheduler?.Start();
             CollectionAssert.AreEqual(this.Ints, this.View);
             CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);

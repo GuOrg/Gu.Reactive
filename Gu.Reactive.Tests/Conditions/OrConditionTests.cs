@@ -32,8 +32,10 @@ namespace Gu.Reactive.Tests.Conditions
             this.mock1.SetupGet(x => x.IsSatisfied).Returns(first);
             this.mock2.SetupGet(x => x.IsSatisfied).Returns(second);
             this.mock3.SetupGet(x => x.IsSatisfied).Returns(third);
-            var collection = new OrCondition(this.mock1.Object, this.mock2.Object, this.mock3.Object);
-            Assert.AreEqual(expected, collection.IsSatisfied);
+            using (var collection = new OrCondition(this.mock1.Object, this.mock2.Object, this.mock3.Object))
+            {
+                Assert.AreEqual(expected, collection.IsSatisfied);
+            }
         }
 
         [Test]
@@ -43,36 +45,44 @@ namespace Gu.Reactive.Tests.Conditions
             var fake1 = new Fake { IsTrue = false };
             var fake2 = new Fake { IsTrue = false };
             var fake3 = new Fake { IsTrue = false };
-            var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrue), () => fake1.IsTrue);
-            var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrue), () => fake2.IsTrue);
-            var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrue), () => fake3.IsTrue);
-            var collection = new OrCondition(condition1, condition2, condition3);
-            collection.ObserveIsSatisfiedChanged()
-                      .Subscribe(_ => count++);
-            Assert.AreEqual(false, collection.IsSatisfied);
-            fake1.IsTrue = !fake1.IsTrue;
-            Assert.AreEqual(true, collection.IsSatisfied);
-            Assert.AreEqual(1, count);
+            using (var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrue), () => fake1.IsTrue))
+            {
+                using (var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrue), () => fake2.IsTrue))
+                {
+                    using (var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrue), () => fake3.IsTrue))
+                    {
+                        using (var collection = new OrCondition(condition1, condition2, condition3))
+                        {
+                            collection.ObserveIsSatisfiedChanged()
+                                      .Subscribe(_ => count++);
+                            Assert.AreEqual(false, collection.IsSatisfied);
+                            fake1.IsTrue = !fake1.IsTrue;
+                            Assert.AreEqual(true, collection.IsSatisfied);
+                            Assert.AreEqual(1, count);
 
-            fake2.IsTrue = !fake2.IsTrue;
-            Assert.AreEqual(true, collection.IsSatisfied);
-            Assert.AreEqual(1, count);
+                            fake2.IsTrue = !fake2.IsTrue;
+                            Assert.AreEqual(true, collection.IsSatisfied);
+                            Assert.AreEqual(1, count);
 
-            fake3.IsTrue = !fake3.IsTrue;
-            Assert.AreEqual(true, collection.IsSatisfied);
-            Assert.AreEqual(1, count);
+                            fake3.IsTrue = !fake3.IsTrue;
+                            Assert.AreEqual(true, collection.IsSatisfied);
+                            Assert.AreEqual(1, count);
 
-            fake1.IsTrue = !fake1.IsTrue;
-            Assert.AreEqual(true, collection.IsSatisfied);
-            Assert.AreEqual(1, count);
+                            fake1.IsTrue = !fake1.IsTrue;
+                            Assert.AreEqual(true, collection.IsSatisfied);
+                            Assert.AreEqual(1, count);
 
-            fake2.IsTrue = !fake2.IsTrue;
-            Assert.AreEqual(true, collection.IsSatisfied);
-            Assert.AreEqual(1, count);
+                            fake2.IsTrue = !fake2.IsTrue;
+                            Assert.AreEqual(true, collection.IsSatisfied);
+                            Assert.AreEqual(1, count);
 
-            fake3.IsTrue = !fake3.IsTrue;
-            Assert.AreEqual(false, collection.IsSatisfied);
-            Assert.AreEqual(2, count);
+                            fake3.IsTrue = !fake3.IsTrue;
+                            Assert.AreEqual(false, collection.IsSatisfied);
+                            Assert.AreEqual(2, count);
+                        }
+                    }
+                }
+            }
         }
 
         [Test]
@@ -84,8 +94,10 @@ namespace Gu.Reactive.Tests.Conditions
         [Test]
         public void Prerequisites()
         {
-            var collection = new OrCondition(this.mock1.Object, this.mock2.Object, this.mock3.Object);
-            CollectionAssert.AreEqual(new[] { this.mock1.Object, this.mock2.Object, this.mock3.Object }, collection.Prerequisites);
+            using (var collection = new OrCondition(this.mock1.Object, this.mock2.Object, this.mock3.Object))
+            {
+                CollectionAssert.AreEqual(new[] { this.mock1.Object, this.mock2.Object, this.mock3.Object }, collection.Prerequisites);
+            }
         }
     }
 }

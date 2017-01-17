@@ -16,7 +16,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        public static void IsMatch(string text, string pattern, string parameterName)
+        internal static void IsMatch(string text, string pattern, string parameterName)
         {
             Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
             if (!Regex.IsMatch(text, pattern))

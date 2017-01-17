@@ -9,7 +9,7 @@ namespace Gu.Reactive.Tests.Get
 
     public class ValueOrDefaultTests
     {
-        public Fake Fake { get; private set; }
+        private Fake Fake { get; set; }
 
         [SetUp]
         public void SetUp()

@@ -13,9 +13,9 @@
         {
         }
 
-        public DummyItem(int i)
+        public DummyItem(int value)
         {
-            this.Value = i;
+            this.Value = value;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

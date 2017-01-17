@@ -4,7 +4,11 @@
 
     public struct StructLevel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged
+        {
+            add { }
+            remove { }
+        }
 
         public string Name { get; set; }
     }

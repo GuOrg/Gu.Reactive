@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.Get
+﻿#pragma warning disable 618
+namespace Gu.Reactive.Tests.Get
 {
     using System;
 
@@ -10,7 +11,7 @@
 
     public class ValuePathTests
     {
-        public Fake Fake { get; private set; }
+        private Fake Fake { get; set; }
 
         [SetUp]
         public void SetUp()

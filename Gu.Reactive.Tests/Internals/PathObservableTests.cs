@@ -161,11 +161,14 @@ namespace Gu.Reactive.Tests.Internals
             var level1 = new Level();
             var wr = new WeakReference(level1);
             Assert.IsTrue(wr.IsAlive);
-            var subscription = fake.ObservePropertyChanged(x => x.Next.IsTrue).Subscribe();
-            fake.Next = level1;
-            fake.Next = null;
-            level1 = null;
-            subscription.Dispose();
+            using (fake.ObservePropertyChanged(x => x.Next.IsTrue)
+                       .Subscribe())
+            {
+                fake.Next = level1;
+                fake.Next = null;
+                level1 = null;
+            }
+
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
         }

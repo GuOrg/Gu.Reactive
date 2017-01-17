@@ -1,7 +1,13 @@
 ﻿namespace Gu.Reactive
 {
+    /// <summary>
+    /// Helper interface for updating collections.
+    /// </summary>
     internal interface IUpdater
     {
-        object IsUpdatingSourceItem { get; }
+        /// <summary>
+        /// The item that is currently being updated.
+        /// </summary>
+        object CurrentlyUpdatingSourceItem { get; }
     }
 }

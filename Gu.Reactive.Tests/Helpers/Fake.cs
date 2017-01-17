@@ -18,7 +18,13 @@
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int WriteOnly { set { return; } }
+        public int WriteOnly
+        {
+            set
+            {
+                return;
+            }
+        }
 
         public bool? IsTrueOrNull
         {

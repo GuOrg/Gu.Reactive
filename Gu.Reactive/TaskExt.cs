@@ -105,21 +105,21 @@
             return tcs.Task;
         }
 
+        /// <summary>
+        /// Decorate a task with timeout.
+        /// The inner task will still complete after cancelling so side-effects may be an issue.
+        /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
+        /// </summary>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, TimeSpan timeout)
         {
             return TimeoutAfter(task, (int)timeout.TotalMilliseconds);
         }
 
         /// <summary>
+        /// Decorate a task with timeout.
+        /// The inner task will still complete after cancelling so side-effects may be an issue.
         /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
         /// </summary>
-        /// <param name="task">
-        /// </param>
-        /// <param name="millisecondsTimeout">
-        /// </param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, int millisecondsTimeout)
         {
             // Short-circuit #1: infinite timeout or task already completed

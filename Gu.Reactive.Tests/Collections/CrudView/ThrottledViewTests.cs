@@ -11,69 +11,74 @@
 
     public class ThrottledViewTests
     {
-        private readonly List<NotifyCollectionChangedEventArgs> changes = new List<NotifyCollectionChangedEventArgs>();
-        private ObservableCollection<int> source;
-        private TimeSpan deferTime;
-        private IThrottledView<int> throttledView;
-
-        [SetUp]
-        public void SetUp()
-        {
-            this.source = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            this.deferTime = TimeSpan.FromMilliseconds(10);
-            this.throttledView = this.source.AsThrottledView(this.deferTime);
-            this.changes.Clear();
-        }
-
         [Test]
         public void OneChangeOneNotification()
         {
-            this.throttledView.CollectionChanged += (_, e) => this.changes.Add(e);
-            this.source.Add(4);
-            this.throttledView.Refresh();
-            CollectionAssert.AreEqual(this.source, this.throttledView);
-            var expected = new[] { new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, 4, 3) };
-            CollectionAssert.AreEqual(expected, this.changes, EventArgsComparer.Default);
+            var changes = new List<NotifyCollectionChangedEventArgs>();
+            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var deferTime = TimeSpan.FromMilliseconds(10);
+            using (var throttledView = source.AsThrottledView(deferTime))
+            {
+                throttledView.CollectionChanged += (_, e) => changes.Add(e);
+                source.Add(4);
+                throttledView.Refresh();
+                CollectionAssert.AreEqual(source, throttledView);
+                var expected = new[] { new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, 4, 3) };
+                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+            }
         }
 
         [Test]
         public void ManyChangeOneReset()
         {
-            this.throttledView.CollectionChanged += (_, e) => this.changes.Add(e);
-            for (int i = 0; i < 10; i++)
+            var changes = new List<NotifyCollectionChangedEventArgs>();
+            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var deferTime = TimeSpan.FromMilliseconds(10);
+            using (var throttledView = source.AsThrottledView(deferTime))
             {
-                this.source.Add(i);
-            }
+                throttledView.CollectionChanged += (_, e) => changes.Add(e);
+                for (int i = 0; i < 10; i++)
+                {
+                    source.Add(i);
+                }
 
-            this.throttledView.Refresh();
-            CollectionAssert.AreEqual(this.source, this.throttledView);
-            var expected = new[] { new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset) };
-            CollectionAssert.AreEqual(expected, this.changes, EventArgsComparer.Default);
+                throttledView.Refresh();
+                CollectionAssert.AreEqual(source, throttledView);
+                var expected = new[] { new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset) };
+                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+            }
         }
 
         [Test]
         public void TwoBurstsTwoResets()
         {
-            this.throttledView.CollectionChanged += (_, e) => this.changes.Add(e);
-            for (int i = 0; i < 10; i++)
+            var changes = new List<NotifyCollectionChangedEventArgs>();
+            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var deferTime = TimeSpan.FromMilliseconds(10);
+            using (var throttledView = source.AsThrottledView(deferTime))
             {
-                this.source.Add(i);
-            }
+                throttledView.CollectionChanged += (_, e) => changes.Add(e);
+                for (int i = 0; i < 10; i++)
+                {
+                    source.Add(i);
+                }
 
-            this.throttledView.Refresh();
-            for (int i = 0; i < 10; i++)
-            {
-                this.source.Add(i);
-            }
+                throttledView.Refresh();
+                for (int i = 0; i < 10; i++)
+                {
+                    source.Add(i);
+                }
 
-            this.throttledView.Refresh();
-            CollectionAssert.AreEqual(this.source, this.throttledView);
-            var expected = new[]
-            {
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset),
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)
-            };
-            CollectionAssert.AreEqual(expected, this.changes, EventArgsComparer.Default);
+                throttledView.Refresh();
+                CollectionAssert.AreEqual(source, throttledView);
+
+                var expected = new[]
+                                   {
+                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset),
+                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)
+                                   };
+                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+            }
         }
     }
 }

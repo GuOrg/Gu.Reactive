@@ -51,26 +51,28 @@ namespace Gu.Reactive.Tests.Trackers
         public void ReactsAndNotifiesOnSourceChanges()
         {
             var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            var tracker = MinTracker.TrackMin(ints, -1);
-            Assert.AreEqual(1, tracker.Value);
-            int count = 0;
-            tracker.ObservePropertyChanged(x => x.Value, false)
-                   .Subscribe(_ => count++);
-            ints.Remove(2);
-            Assert.AreEqual(0, count);
-            Assert.AreEqual(1, tracker.Value);
+            using (var tracker = MinTracker.TrackMin(ints, -1))
+            {
+                Assert.AreEqual(1, tracker.Value);
+                int count = 0;
+                tracker.ObservePropertyChanged(x => x.Value, false)
+                       .Subscribe(_ => count++);
+                ints.Remove(2);
+                Assert.AreEqual(0, count);
+                Assert.AreEqual(1, tracker.Value);
 
-            ints.Remove(1);
-            Assert.AreEqual(1, count);
-            Assert.AreEqual(3, tracker.Value);
+                ints.Remove(1);
+                Assert.AreEqual(1, count);
+                Assert.AreEqual(3, tracker.Value);
 
-            ints.Remove(3);
-            Assert.AreEqual(2, count);
-            Assert.AreEqual(-1, tracker.Value);
+                ints.Remove(3);
+                Assert.AreEqual(2, count);
+                Assert.AreEqual(-1, tracker.Value);
 
-            ints.Add(2);
-            Assert.AreEqual(3, count);
-            Assert.AreEqual(2, tracker.Value);
+                ints.Add(2);
+                Assert.AreEqual(3, count);
+                Assert.AreEqual(2, tracker.Value);
+            }
         }
     }
 }

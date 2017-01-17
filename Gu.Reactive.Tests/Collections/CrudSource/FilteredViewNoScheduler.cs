@@ -9,6 +9,7 @@ namespace Gu.Reactive.Tests.Collections
         public override void SetUp()
         {
             base.SetUp();
+            (this.View as IDisposable)?.Dispose();
             this.View = new FilteredView<int>(this.Ints, x => true, TimeSpan.Zero, null);
             this.Actual = this.View.SubscribeAll();
         }

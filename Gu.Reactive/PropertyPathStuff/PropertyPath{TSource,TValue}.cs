@@ -10,9 +10,9 @@
     ////[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     internal class PropertyPath<TSource, TValue> : IValuePath<TSource, TValue>, IPropertyPath
     {
-        private readonly PropertyPath propertyPath;
-
         private static readonly ValueAndSender<TValue> EmptyValueAndSender = new ValueAndSender<TValue>(null, Maybe<TValue>.None);
+
+        private readonly PropertyPath propertyPath;
 
         internal PropertyPath(PropertyPath propertyPath)
         {
