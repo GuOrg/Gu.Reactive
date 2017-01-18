@@ -162,6 +162,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />
     <Compile Include="Schedulers.cs" />
+    <Compile Include="SerialDisposable{T}.cs" />
     <Compile Include="TaskExt.cs" />
     <Compile Include="Trackers\DoubleAverageTracker.cs" />
     <Compile Include="Trackers\ITracker{TValue}.cs" />

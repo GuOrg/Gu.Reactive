@@ -57,6 +57,7 @@
     <Compile Include="Collections\Filter\ReadOnlyFilteredViewTests.cs" />
     <Compile Include="Collections\ObservableBatchCollectionTests.cs" />
     <Compile Include="Collections\ReadOnlySerialViewTests.cs" />
+    <Compile Include="Collections\SerialDisposableTests.cs" />
     <Compile Include="Collections\ThrottledRefresherTests.cs" />
     <Compile Include="Collections\DiffTests.cs" />
     <Compile Include="Collections\CrudView\CrudViewTests.cs" />
