@@ -33,5 +33,17 @@ namespace Gu.Reactive.Tests.Collections
                 mock.Verify(x => x.Dispose(), Times.Once);
             }
         }
+
+        [Test]
+        public void AssignSameTwiceDoesNotDispose()
+        {
+            using (var serialDisposable = new SerialDisposable<IDisposable>())
+            {
+                var mock = new Mock<IDisposable>(MockBehavior.Strict);
+                serialDisposable.Disposable = mock.Object;
+                serialDisposable.Disposable = mock.Object;
+                mock.Setup(x => x.Dispose());
+            }
+        }
     }
 }

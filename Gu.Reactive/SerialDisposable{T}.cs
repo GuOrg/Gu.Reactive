@@ -40,10 +40,15 @@ namespace Gu.Reactive
 
             set
             {
-                var flag = false;
+               var flag = false;
                 var disposable = (IDisposable)null;
                 lock (this.gate)
                 {
+                    if (ReferenceEquals(value, this.current))
+                    {
+                        return;
+                    }
+
                     flag = this.disposed;
                     if (!flag)
                     {
