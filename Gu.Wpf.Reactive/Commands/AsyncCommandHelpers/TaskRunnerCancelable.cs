@@ -85,6 +85,7 @@ namespace Gu.Wpf.Reactive
             {
                 this.cancellationTokenSource.Dispose();
                 this.cancellationSubscription.Dispose();
+                this.CanCancelCondition.Dispose();
             }
 
             base.Dispose(disposing);

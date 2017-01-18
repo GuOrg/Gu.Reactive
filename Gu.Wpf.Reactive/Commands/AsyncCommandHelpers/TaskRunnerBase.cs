@@ -13,6 +13,10 @@
     /// </summary>
     public abstract class TaskRunnerBase : INotifyPropertyChanged, IDisposable
     {
+        /// <summary>
+        /// A condition that always returns false.
+        /// </summary>
+        protected static readonly Condition NeverCancelCondition = new Condition(Observable.Empty<object>(), () => false) { Name = "CanCancel" };
         private NotifyTaskCompletion taskCompletion;
 
         private bool disposed;
@@ -24,7 +28,6 @@
         {
             var observable = this.ObservePropertyChanged(x => x.TaskCompletion.Status);
             this.CanRunCondition = new Condition(observable, this.CanRun) { Name = "CanRun" };
-            this.CanCancelCondition = new Condition(Observable.Empty<object>(), () => false) { Name = "CanCancel" };
         }
 
         /// <inheritdoc/>
@@ -55,7 +58,7 @@
         /// <summary>
         /// Condition for if the current run can be canceled.
         /// </summary>
-        public virtual ICondition CanCancelCondition { get; }
+        public abstract ICondition CanCancelCondition { get; }
 
         /// <summary>
         /// Condition for if the task can be executed.
@@ -121,7 +124,6 @@
             if (disposing)
             {
                 this.TaskCompletion?.Task.Dispose();
-                this.CanCancelCondition?.Dispose();
                 this.CanRunCondition.Dispose();
             }
         }

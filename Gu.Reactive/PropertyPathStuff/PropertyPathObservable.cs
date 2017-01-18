@@ -53,7 +53,7 @@
             var subscription = path.Last()
                                    .ObservePropertyChanged()
                                    .Subscribe(observer.OnNext, observer.OnError);
-            return new CompositeDisposable(2) { path, subscription };
+            return new CompositeDisposable(3) { rootItem, path, subscription };
         }
 
         /// <summary>

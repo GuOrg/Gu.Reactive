@@ -44,11 +44,13 @@
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var ints = new ObservableCollection<int>();
-            var view = ints.AsReadOnlyFilteredView(x => true);
-            view.ObserveCollectionChanged(false)
-                .Subscribe(x => changes.Add(x.EventArgs));
-            ints.Add(1);
-            Assert.AreEqual(1, changes.Count);
+            using (var view = ints.AsReadOnlyFilteredView(x => true))
+            {
+                view.ObserveCollectionChanged(false)
+                    .Subscribe(x => changes.Add(x.EventArgs));
+                ints.Add(1);
+                Assert.AreEqual(1, changes.Count);
+            }
         }
 
         [Test]

@@ -3,6 +3,7 @@
     using System;
     using System.Threading.Tasks;
 
+    using Gu.Reactive;
     using Gu.Reactive.Internals;
 
     /// <summary>
@@ -22,6 +23,9 @@
             Ensure.NotNull(action, nameof(action));
             this.action = action;
         }
+
+        /// <inheritdoc/>
+        public override ICondition CanCancelCondition { get; } = NeverCancelCondition;
 
         /// <inheritdoc/>
         public void Run(TParameter parameter)

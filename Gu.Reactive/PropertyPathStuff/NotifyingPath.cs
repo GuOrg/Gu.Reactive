@@ -17,7 +17,7 @@ namespace Gu.Reactive.PropertyPathStuff
             var items = new INotifyingPathItem[path.Count + 1];
             items[0] = root;
             INotifyingPathItem previous = root;
-            for (int i = 0; i < path.Count; i++)
+            for (var i = 0; i < path.Count; i++)
             {
                 var item = new NotifyingPathItem(previous, path[i]);
                 items[i + 1] = item;
