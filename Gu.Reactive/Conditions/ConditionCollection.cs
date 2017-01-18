@@ -27,7 +27,7 @@ namespace Gu.Reactive
         protected ConditionCollection(Func<IReadOnlyList<ICondition>, bool?> isSatisfied, params ICondition[] conditions)
         {
             Ensure.NotNull(isSatisfied, nameof(isSatisfied));
-            Ensure.NotNullOrEmpty(conditions, "conditions");
+            Ensure.NotNullOrEmpty(conditions, nameof(conditions));
 
             if (conditions.Distinct().Count() != conditions.Length)
             {

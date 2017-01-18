@@ -39,17 +39,17 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{T}"/> class.
         /// </summary>
-        protected ReadonlySerialViewBase(bool isreadonly, bool isFixedSize)
-            : this(null, isreadonly, isFixedSize)
+        protected ReadonlySerialViewBase(bool isReadOnly, bool isFixedSize)
+            : this(null, isReadOnly, isFixedSize)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{T}"/> class.
         /// </summary>
-        protected ReadonlySerialViewBase(IEnumerable<T> source, bool isreadonly, bool isFixedSize)
+        protected ReadonlySerialViewBase(IEnumerable<T> source, bool isReadOnly, bool isFixedSize)
         {
-            this.IsReadOnly = isreadonly;
+            this.IsReadOnly = isReadOnly;
             this.IsFixedSize = isFixedSize;
             this.Source = source ?? Empty;
             this.tracker = new CollectionSynchronizer<T>(source ?? Empty);
@@ -62,13 +62,13 @@ namespace Gu.Reactive
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <inheritdoc/>
-        public int Count => this.ThrowIfDisposed(() => this.tracker.Count);
-
-        /// <inheritdoc/>
         public bool IsReadOnly { get; }
 
         /// <inheritdoc/>
         public bool IsFixedSize { get; }
+
+        /// <inheritdoc/>
+        public int Count => this.ThrowIfDisposed(() => this.tracker.Count);
 
         /// <inheritdoc/>
         object ICollection.SyncRoot => this.tracker.SyncRoot;

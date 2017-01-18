@@ -81,22 +81,22 @@
         /// This is a faster version of ObservePropertyChanged. It returns only the <see cref="PropertyChangedEventArgs"/> from source and not the EventPattern
         /// </summary>
         /// <param name="source"> The source instance to track changes for. </param>
-        /// <param name="name"> The name of the property to track. Note that nested properties are not allowed. </param>
+        /// <param name="propertyName"> The name of the property to track. Note that nested properties are not allowed. </param>
         /// <param name="signalInitial"> If true OnNext is called immediately on subscribe </param>
-        public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source, string name, bool signalInitial = true)
+        public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source, string propertyName, bool signalInitial = true)
         {
             Ensure.NotNull(source, nameof(source));
-            Ensure.NotNullOrEmpty(name, "name");
-            if (source.GetType().GetProperty(name, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) == null)
+            Ensure.NotNullOrEmpty(propertyName, nameof(propertyName));
+            if (source.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) == null)
             {
-                throw new ArgumentException($"The type {source.GetType()} does not have a property named {name}", name);
+                throw new ArgumentException($"The type {source.GetType()} does not have a property named {propertyName}", propertyName);
             }
 
             var observable = source.ObservePropertyChangedSlim()
-                                   .Where(e => IsPropertyName(e, name));
+                                   .Where(e => IsPropertyName(e, propertyName));
             if (signalInitial)
             {
-                observable = observable.StartWith(new PropertyChangedEventArgs(name));
+                observable = observable.StartWith(new PropertyChangedEventArgs(propertyName));
             }
 
             return observable;

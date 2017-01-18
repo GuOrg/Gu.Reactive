@@ -133,7 +133,7 @@
         private MappingView(IEnumerable<TSource> source, IScheduler scheduler, IMappingFactory<TSource, TResult> factory, params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(source as INotifyCollectionChanged, "source");
+            Ensure.NotNull(source as INotifyCollectionChanged, nameof(source));
             Ensure.NotNull(factory, nameof(factory));
 
             this.source = source;

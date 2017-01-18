@@ -74,6 +74,18 @@
         }
 
         /// <summary>
+        /// The triggers for updating the filter.
+        /// </summary>
+        public ObservableCollection<IObservable<object>> Triggers
+        {
+            get
+            {
+                this.ThrowIfDisposed();
+                return this.triggers;
+            }
+        }
+
+        /// <summary>
         /// The predicate to filter by.
         /// </summary>
         public Func<T, bool> Filter
@@ -94,18 +106,6 @@
 
                 this.filter = value;
                 this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// The triggers for updating the filter.
-        /// </summary>
-        public ObservableCollection<IObservable<object>> Triggers
-        {
-            get
-            {
-                this.ThrowIfDisposed();
-                return this.triggers;
             }
         }
 
@@ -265,13 +265,7 @@
                 lock (this.Tracker.SyncRoot)
                 {
                     var updated = this.Filtered().ToArray();
-                    this.Tracker.Refresh(
-                        this,
-                        updated,
-                        null,
-                        this.scheduler,
-                        this.PropertyChangedEventHandler,
-                        this.NotifyCollectionChangedEventHandler);
+                    this.Tracker.Refresh(this, updated, null, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
                 }
             }
         }

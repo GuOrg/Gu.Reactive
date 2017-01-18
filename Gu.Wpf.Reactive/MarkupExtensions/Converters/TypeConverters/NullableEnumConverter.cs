@@ -88,7 +88,7 @@ namespace Gu.Wpf.Reactive
                 return Enum.Parse(this.type, s);
             }
 
-            throw new ArgumentException("value");
+            throw new ArgumentException(nameof(value));
         }
     }
 }

@@ -78,7 +78,7 @@ namespace Gu.Wpf.Reactive
                 return double.Parse(s, NumberStyles.Float, culture);
             }
 
-            throw new ArgumentException("value");
+            throw new ArgumentException(nameof(value));
         }
 
         object ITypeConverter.ConvertTo(object value, CultureInfo culture)

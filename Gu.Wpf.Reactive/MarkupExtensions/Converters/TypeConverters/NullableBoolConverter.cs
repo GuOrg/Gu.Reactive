@@ -70,7 +70,7 @@ namespace Gu.Wpf.Reactive
                 return bool.Parse(s);
             }
 
-            throw new ArgumentException("value");
+            throw new ArgumentException(nameof(value));
         }
 
         object ITypeConverter.ConvertTo(object value, CultureInfo culture)
