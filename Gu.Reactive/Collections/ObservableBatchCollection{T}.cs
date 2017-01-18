@@ -30,14 +30,14 @@ namespace Gu.Reactive
         /// Initializes a new instance of the <see cref="ObservableBatchCollection{T}"/> class.
         /// It contains elements copied from the specified list
         /// </summary>
-        /// <param name="list">The list whose elements are copied to the new list.</param>
+        /// <param name="collection">The list whose elements are copied to the new list.</param>
         /// <remarks>
         /// The elements are copied onto the ObservableCollection in the
         /// same order they are read by the enumerator of the list.
         /// </remarks>
         /// <exception cref="ArgumentNullException"> list is a null reference </exception>
-        public ObservableBatchCollection(IList<T> list)
-            : base(list)
+        public ObservableBatchCollection(IList<T> collection)
+            : base(collection)
         {
         }
 

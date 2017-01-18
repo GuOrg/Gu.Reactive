@@ -19,7 +19,9 @@ namespace Gu.Reactive.PropertyPathStuff
             INotifyingPathItem previous = root;
             for (var i = 0; i < path.Count; i++)
             {
+#pragma warning disable GU0030 // Use using.
                 var item = new NotifyingPathItem(previous, path[i]);
+#pragma warning restore GU0030 // Use using.
                 items[i + 1] = item;
                 previous = item;
             }
