@@ -17,40 +17,40 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyDispatchingView{T}"/> class.
         /// </summary>
-        /// <param name="collection">The source collection.</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes before notifying.</param>
-        public ReadOnlyDispatchingView(ObservableCollection<T> collection, TimeSpan bufferTime)
-            : base(collection, bufferTime, WpfSchedulers.Dispatcher)
+        public ReadOnlyDispatchingView(ObservableCollection<T> source, TimeSpan bufferTime)
+            : base(source, bufferTime, WpfSchedulers.Dispatcher)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyDispatchingView{T}"/> class.
         /// </summary>
-        /// <param name="collection">The source collection.</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes before notifying.</param>
-        public ReadOnlyDispatchingView(IObservableCollection<T> collection, TimeSpan bufferTime)
-            : base(collection, bufferTime, WpfSchedulers.Dispatcher)
+        public ReadOnlyDispatchingView(IObservableCollection<T> source, TimeSpan bufferTime)
+            : base(source, bufferTime, WpfSchedulers.Dispatcher)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyDispatchingView{T}"/> class.
         /// </summary>
-        /// <param name="collection">The source collection.</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes before notifying.</param>
-        public ReadOnlyDispatchingView(ReadOnlyObservableCollection<T> collection, TimeSpan bufferTime)
-            : base(collection, bufferTime, WpfSchedulers.Dispatcher)
+        public ReadOnlyDispatchingView(ReadOnlyObservableCollection<T> source, TimeSpan bufferTime)
+            : base(source, bufferTime, WpfSchedulers.Dispatcher)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyDispatchingView{T}"/> class.
         /// </summary>
-        /// <param name="collection">The source collection.</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes before notifying.</param>
-        public ReadOnlyDispatchingView(IReadOnlyObservableCollection<T> collection, TimeSpan bufferTime)
-            : base(collection, bufferTime, WpfSchedulers.Dispatcher)
+        public ReadOnlyDispatchingView(IReadOnlyObservableCollection<T> source, TimeSpan bufferTime)
+            : base(source, bufferTime, WpfSchedulers.Dispatcher)
         {
         }
     }

@@ -17,13 +17,13 @@
         private static readonly IEnumerable<ICondition> Empty = new ICondition[0];
 
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
-            "Condition",
+            nameof(Condition),
             typeof(ICondition),
             typeof(ConditionControl),
             new PropertyMetadata(default(ICondition), OnConditionChanged));
 
         private static readonly DependencyPropertyKey RootPropertyKey = DependencyProperty.RegisterReadOnly(
-            "Root",
+            nameof(Root),
             typeof(IEnumerable<ICondition>),
             typeof(ConditionControl),
             new PropertyMetadata(Empty));
@@ -31,13 +31,13 @@
         public static readonly DependencyProperty RootProperty = RootPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey FlattenedPrerequisitesPropertyKey = DependencyProperty.RegisterReadOnly(
-            "FlattenedPrerequisites",
+            nameof(FlattenedPrerequisites),
             typeof(IEnumerable<ICondition>),
             typeof(ConditionControl),
             new PropertyMetadata(Empty));
 
         private static readonly DependencyPropertyKey IsInSyncPropertyKey = DependencyProperty.RegisterReadOnly(
-            "IsInSync",
+            nameof(IsInSync),
             typeof(bool),
             typeof(ConditionControl),
             new PropertyMetadata(true));
@@ -61,15 +61,6 @@
         public ConditionControl()
         {
             this.IsVisibleChanged += (_, __) => this.OnIsVisibleChanged();
-        }
-
-        /// <summary>
-        /// The condition.
-        /// </summary>
-        public ICondition Condition
-        {
-            get { return (ICondition)this.GetValue(ConditionProperty); }
-            set { this.SetValue(ConditionProperty, value); }
         }
 
         /// <summary>
@@ -97,6 +88,15 @@
         {
             get { return (bool)this.GetValue(IsInSyncProperty); }
             protected set { this.SetValue(IsInSyncPropertyKey, value); }
+        }
+
+        /// <summary>
+        /// The condition.
+        /// </summary>
+        public ICondition Condition
+        {
+            get { return (ICondition)this.GetValue(ConditionProperty); }
+            set { this.SetValue(ConditionProperty, value); }
         }
 
         /// <summary>

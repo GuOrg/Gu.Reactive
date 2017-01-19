@@ -52,6 +52,12 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
+        public IReadOnlyList<ICondition> Prerequisites => this.condition.Prerequisites;
+
+        /// <inheritdoc/>
+        public IEnumerable<ConditionHistoryPoint> History => this.history;
+
+        /// <inheritdoc/>
         public string Name
         {
             get
@@ -70,12 +76,6 @@ namespace Gu.Reactive
                 this.OnPropertyChanged();
             }
         }
-
-        /// <inheritdoc/>
-        public IReadOnlyList<ICondition> Prerequisites => this.condition.Prerequisites;
-
-        /// <inheritdoc/>
-        public IEnumerable<ConditionHistoryPoint> History => this.history;
 
         /// <summary>
         /// Returns the negated (original) condition.

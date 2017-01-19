@@ -8,19 +8,19 @@
     /// </summary>
     internal class AndConditionCollection : ConditionCollection
     {
-        internal AndConditionCollection(params ICondition[] conditions)
-            : base(GetIsSatisfied, conditions)
+        internal AndConditionCollection(params ICondition[] prerequisites)
+            : base(GetIsSatisfied, prerequisites)
         {
         }
 
-        private static bool? GetIsSatisfied(IReadOnlyList<ICondition> conditions)
+        private static bool? GetIsSatisfied(IReadOnlyList<ICondition> prerequisites)
         {
-            if (conditions.All(x => x.IsSatisfied == true))
+            if (prerequisites.All(x => x.IsSatisfied == true))
             {
                 return true;
             }
 
-            if (conditions.Any(x => x.IsSatisfied == false))
+            if (prerequisites.Any(x => x.IsSatisfied == false))
             {
                 return false;
             }

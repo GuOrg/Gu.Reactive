@@ -68,11 +68,11 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="Condition"/> class.
         /// </summary>
-        protected Condition(ConditionCollection conditionCollection)
-            : this(conditionCollection.ObserveIsSatisfiedChanged(), () => conditionCollection.IsSatisfied)
+        protected Condition(ConditionCollection prerequisites)
+            : this(prerequisites.ObserveIsSatisfiedChanged(), () => prerequisites.IsSatisfied)
         {
-            Ensure.NotNullOrEmpty(conditionCollection, nameof(conditionCollection));
-            this.prerequisites = conditionCollection;
+            Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
+            this.prerequisites = prerequisites;
         }
 
         /// <inheritdoc/>

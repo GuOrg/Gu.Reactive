@@ -15,7 +15,7 @@ namespace Gu.Reactive
     /// </summary>
     public abstract class ConditionCollection : ISatisfied, IReadOnlyList<ICondition>, INotifyPropertyChanged, IDisposable
     {
-        private readonly IReadOnlyList<ICondition> innerConditions;
+        private readonly IReadOnlyList<ICondition> prerequisites;
         private readonly IDisposable subscription;
         private readonly Func<IReadOnlyList<ICondition>, bool?> isSatisfied;
         private bool? previousIsSatisfied;
@@ -24,26 +24,29 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionCollection"/> class.
         /// </summary>
-        protected ConditionCollection(Func<IReadOnlyList<ICondition>, bool?> isSatisfied, params ICondition[] conditions)
+        protected ConditionCollection(Func<IReadOnlyList<ICondition>, bool?> isSatisfied, params ICondition[] prerequisites)
         {
             Ensure.NotNull(isSatisfied, nameof(isSatisfied));
-            Ensure.NotNullOrEmpty(conditions, nameof(conditions));
+            Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
 
-            if (conditions.Distinct().Count() != conditions.Length)
+            if (prerequisites.Distinct().Count() != prerequisites.Length)
             {
                 throw new ArgumentException("conditions must be distinct");
             }
 
             this.isSatisfied = isSatisfied;
-            this.innerConditions = conditions;
-            this.subscription = conditions.Select(x => x.ObserveIsSatisfiedChanged())
+            this.prerequisites = prerequisites;
+            this.subscription = prerequisites.Select(x => x.ObserveIsSatisfiedChanged())
                                        .Merge()
-                                       .Subscribe(_ => this.IsSatisfied = isSatisfied(this.innerConditions));
-            this.previousIsSatisfied = isSatisfied(this.innerConditions);
+                                       .Subscribe(_ => this.IsSatisfied = isSatisfied(this.prerequisites));
+            this.previousIsSatisfied = isSatisfied(this.prerequisites);
         }
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <inheritdoc/>
+        public int Count => this.prerequisites.Count;
 
         /// <inheritdoc/>
         public bool? IsSatisfied
@@ -51,7 +54,7 @@ namespace Gu.Reactive
             get
             {
                 this.ThrowIfDisposed();
-                return this.isSatisfied(this.innerConditions); // No caching
+                return this.isSatisfied(this.prerequisites); // No caching
             }
 
             private set
@@ -68,10 +71,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public int Count => this.innerConditions.Count;
-
-        /// <inheritdoc/>
-        public ICondition this[int index] => this.innerConditions[index];
+        public ICondition this[int index] => this.prerequisites[index];
 
         /// <inheritdoc/>
         public void Dispose()
@@ -81,13 +81,13 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public override string ToString() => $"IsSatisfied: {this.IsSatisfied} {{{string.Join(", ", this.innerConditions.Select(x => x.Name))}}}";
+        public override string ToString() => $"IsSatisfied: {this.IsSatisfied} {{{string.Join(", ", this.prerequisites.Select(x => x.Name))}}}";
 
         /// <inheritdoc/>
         public IEnumerator<ICondition> GetEnumerator()
         {
             this.ThrowIfDisposed();
-            return this.innerConditions.GetEnumerator();
+            return this.prerequisites.GetEnumerator();
         }
 
         /// <inheritdoc/>

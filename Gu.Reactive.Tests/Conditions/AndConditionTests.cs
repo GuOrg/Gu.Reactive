@@ -81,7 +81,7 @@ namespace Gu.Reactive.Tests.Conditions
         public void ThrowsIfEmpty()
         {
             var exception = Assert.Throws<ArgumentNullException>(() => new AndCondition());
-            Assert.AreEqual("Value cannot be null.\r\nParameter name: conditions", exception.Message);
+            Assert.AreEqual("Value cannot be null.\r\nParameter name: prerequisites", exception.Message);
         }
 
         [Test]

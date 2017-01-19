@@ -34,6 +34,16 @@
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
+        /// Condition for if the current run can be canceled.
+        /// </summary>
+        public abstract ICondition CanCancelCondition { get; }
+
+        /// <summary>
+        /// Condition for if the task can be executed.
+        /// </summary>
+        public ICondition CanRunCondition { get; }
+
+        /// <summary>
         /// The status of the current task.
         /// </summary>
         public NotifyTaskCompletion TaskCompletion
@@ -54,16 +64,6 @@
                 this.OnPropertyChanged();
             }
         }
-
-        /// <summary>
-        /// Condition for if the current run can be canceled.
-        /// </summary>
-        public abstract ICondition CanCancelCondition { get; }
-
-        /// <summary>
-        /// Condition for if the task can be executed.
-        /// </summary>
-        public ICondition CanRunCondition { get; }
 
         /// <summary>
         /// Check if the task is running.

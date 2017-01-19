@@ -5,8 +5,8 @@
 
     internal class OrConditionCollection : ConditionCollection
     {
-        public OrConditionCollection(params ICondition[] conditions)
-            : base(GetIsSatisfied, conditions)
+        public OrConditionCollection(params ICondition[] prerequisites)
+            : base(GetIsSatisfied, prerequisites)
         {
         }
 

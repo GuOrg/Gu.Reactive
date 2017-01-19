@@ -37,10 +37,10 @@ namespace Gu.Reactive.PropertyPathStuff
 
             var ctor = typeDef.MakeGenericType(property.ReflectedType, property.PropertyType)
                                                    .GetConstructor(
-                                                       BindingFlags.NonPublic | BindingFlags.Instance,
-                                                       null,
-                                                       new[] { typeof(PropertyInfo) },
-                                                       null);
+                                                       bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance,
+                                                       binder: null,
+                                                       types: new[] { typeof(PropertyInfo) },
+                                                       modifiers: null);
             return (IGetter)ctor.Invoke(new object[] { property });
         }
     }
