@@ -85,6 +85,21 @@
         protected NotifyCollectionChangedEventHandler NotifyCollectionChangedEventHandler => this.CollectionChanged;
 
         /// <inheritdoc/>
+        public T this[int index]
+        {
+            get
+            {
+                return this.Tracker.Current[index];
+            }
+
+            set
+            {
+                var sourceIndex = this.Source.IndexOf(this.Tracker.Current[index]);
+                this.Source[sourceIndex] = value;
+            }
+        }
+
+        /// <inheritdoc/>
         object IList.this[int index]
         {
             get
@@ -99,21 +114,6 @@
                 this[index] = (T)value;
                 this.RefreshNow(Diff.CreateReplaceEventArgs(value, old, index));
                 this.isUpdatingSourceItem = null;
-            }
-        }
-
-        /// <inheritdoc/>
-        public T this[int index]
-        {
-            get
-            {
-                return this.Tracker.Current[index];
-            }
-
-            set
-            {
-                var sourceIndex = this.Source.IndexOf(this.Tracker.Current[index]);
-                this.Source[sourceIndex] = value;
             }
         }
 

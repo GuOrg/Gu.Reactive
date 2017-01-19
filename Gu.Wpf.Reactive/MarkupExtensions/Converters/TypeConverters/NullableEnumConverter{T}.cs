@@ -72,7 +72,7 @@ namespace Gu.Wpf.Reactive
                 return (T)Enum.Parse(typeof(T), s);
             }
 
-            throw new ArgumentException("value");
+            throw new ArgumentException(nameof(value));
         }
 
         object ITypeConverter.ConvertTo(object value, CultureInfo culture)

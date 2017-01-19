@@ -8,8 +8,8 @@
             this.Value = value;
         }
 
-        public object Source { get; private set; }
+        public object Source { get; }
 
-        public Maybe<TValue> Value { get; private set; }
+        public Maybe<TValue> Value { get; }
     }
 }

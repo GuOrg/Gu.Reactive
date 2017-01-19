@@ -20,7 +20,7 @@
         /// </summary>
         /// <param name="size">The maximum number of elements in the queue.</param>
         public ObservableFixedSizeQueue(int size)
-            : base(size)
+            : this(size, null)
         {
         }
 

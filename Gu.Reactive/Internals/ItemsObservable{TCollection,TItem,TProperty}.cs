@@ -24,16 +24,17 @@
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
         {
+            this.sourceObservable = null;
             this.collectionRef.Target = source;
             this.signalInitial = signalInitial;
             this.propertyPath = PropertyPath.GetOrCreate(property);
         }
 
         public ItemsObservable(
-            IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
+            IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> sourceObservable,
             Expression<Func<TItem, TProperty>> property)
         {
-            this.sourceObservable = source;
+            this.sourceObservable = sourceObservable;
             this.signalInitial = true;
             this.propertyPath = PropertyPath.GetOrCreate(property);
         }

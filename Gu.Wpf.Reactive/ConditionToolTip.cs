@@ -18,19 +18,19 @@
 #pragma warning disable SA1600 // Elements must be documented
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
-            "Condition",
+            nameof(Condition),
             typeof(ICondition),
             typeof(ConditionToolTip),
             new PropertyMetadata(default(ICondition)));
 
         public static readonly DependencyProperty InferConditionFromCommandProperty = DependencyProperty.Register(
-            "InferConditionFromCommand",
+            nameof(InferConditionFromCommand),
             typeof(bool),
             typeof(ConditionToolTip),
             new PropertyMetadata(true, OnInferConditionFromCommandChanged));
 
         private static readonly DependencyPropertyKey CommandTypePropertyKey = DependencyProperty.RegisterReadOnly(
-            "CommandType",
+            nameof(CommandType),
             typeof(Type),
             typeof(ConditionToolTip),
             new PropertyMetadata(default(Type)));
@@ -69,6 +69,15 @@
         }
 
         /// <summary>
+        /// The command type of the PlacementTarget
+        /// </summary>
+        public Type CommandType
+        {
+            get { return (Type)this.GetValue(CommandTypeProperty); }
+            protected set { this.SetValue(CommandTypePropertyKey, value); }
+        }
+
+        /// <summary>
         /// Setting this to true binds <see cref="Condition"/> to the Condition of the command if any.
         /// </summary>
         public bool InferConditionFromCommand
@@ -84,15 +93,6 @@
         {
             get { return (ICondition)this.GetValue(ConditionProperty); }
             set { this.SetValue(ConditionProperty, value); }
-        }
-
-        /// <summary>
-        /// The command type of the PlacementTarget
-        /// </summary>
-        public Type CommandType
-        {
-            get { return (Type)this.GetValue(CommandTypeProperty); }
-            protected set { this.SetValue(CommandTypePropertyKey, value); }
         }
 
         private static void OnPlacementTargetProxyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)

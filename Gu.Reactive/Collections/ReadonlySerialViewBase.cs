@@ -82,14 +82,14 @@ namespace Gu.Reactive
         protected IEnumerable<T> Source { get; private set; }
 
         /// <inheritdoc/>
+        public T this[int index] => this.ThrowIfDisposed(() => this.tracker.Current[index]);
+
+        /// <inheritdoc/>
         object IList.this[int index]
         {
             get { return this[index]; }
             set { ThrowHelper.ThrowCollectionIsReadonly(); }
         }
-
-        /// <inheritdoc/>
-        public T this[int index] => this.ThrowIfDisposed(() => this.tracker.Current[index]);
 
         /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator() => this.ThrowIfDisposed(() => this.tracker.GetEnumerator());

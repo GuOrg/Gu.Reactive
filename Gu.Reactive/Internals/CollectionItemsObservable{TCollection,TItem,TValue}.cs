@@ -34,6 +34,7 @@
 
         public CollectionItemsObservable(TCollection collection, bool signalInitial, PropertyPath<TItem, TValue> propertyPath)
         {
+            this.sourceObservable = null;
             this.signalInitial = signalInitial;
             this.propertyPath = propertyPath;
             this.wr.Target = collection;

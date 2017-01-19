@@ -79,6 +79,23 @@ namespace Gu.Reactive
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
+        /// A log of the last 100 times the condition has signaled. Use for debugging.
+        /// </summary>
+        public IEnumerable<ConditionHistoryPoint> History => this.history;
+
+        /// <summary>
+        /// The subconditions for this condition
+        /// </summary>
+        public IReadOnlyList<ICondition> Prerequisites
+        {
+            get
+            {
+                this.ThrowIfDisposed();
+                return this.prerequisites;
+            }
+        }
+
+        /// <summary>
         /// Evaluates the criteria and returns if it is satisfied.
         /// Notifies via PropertyChanged when it changes.
         /// </summary>
@@ -125,23 +142,6 @@ namespace Gu.Reactive
 
                 this.name = value;
                 this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// A log of the last 100 times the condition has signaled. Use for debugging.
-        /// </summary>
-        public IEnumerable<ConditionHistoryPoint> History => this.history;
-
-        /// <summary>
-        /// The subconditions for this condition
-        /// </summary>
-        public IReadOnlyList<ICondition> Prerequisites
-        {
-            get
-            {
-                this.ThrowIfDisposed();
-                return this.prerequisites;
             }
         }
 

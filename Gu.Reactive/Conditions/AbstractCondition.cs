@@ -34,6 +34,19 @@ namespace Gu.Reactive
         public bool? IsSatisfied => this.condition.IsSatisfied;
 
         /// <inheritdoc/>
+        public IReadOnlyList<ICondition> Prerequisites
+        {
+            get
+            {
+                this.ThrowIfDisposed();
+                return this.condition.Prerequisites;
+            }
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<ConditionHistoryPoint> History => this.condition.History;
+
+        /// <inheritdoc/>
         public string Name
         {
             get
@@ -54,19 +67,6 @@ namespace Gu.Reactive
                 this.OnPropertyChanged();
             }
         }
-
-        /// <inheritdoc/>
-        public IReadOnlyList<ICondition> Prerequisites
-        {
-            get
-            {
-                this.ThrowIfDisposed();
-                return this.condition.Prerequisites;
-            }
-        }
-
-        /// <inheritdoc/>
-        public IEnumerable<ConditionHistoryPoint> History => this.condition.History;
 
         /// <inheritdoc/>
         public ICondition Negate()

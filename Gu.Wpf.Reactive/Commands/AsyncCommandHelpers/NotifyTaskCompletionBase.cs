@@ -40,28 +40,6 @@
         public T Task { get; }
 
         /// <summary>
-        /// Null if the run is not completed.
-        /// </summary>
-        public T Completed
-        {
-            get
-            {
-                return this.completed;
-            }
-
-            private set
-            {
-                if (this.completed == value)
-                {
-                    return;
-                }
-
-                this.completed = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// The current status of the <see cref="Task"/>
         /// </summary>
         public TaskStatus Status => this.Task.Status;
@@ -105,6 +83,28 @@
         /// The exception message produced by the run if any.
         /// </summary>
         public string ErrorMessage => this.InnerException?.Message;
+
+        /// <summary>
+        /// Null if the run is not completed.
+        /// </summary>
+        public T Completed
+        {
+            get
+            {
+                return this.completed;
+            }
+
+            private set
+            {
+                if (this.completed == value)
+                {
+                    return;
+                }
+
+                this.completed = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Called after awaiting the task.

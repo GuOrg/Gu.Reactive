@@ -62,15 +62,15 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public PathProperty PathProperty { get; }
 
-        public INotifyingPathItem Previous { get; private set; }
-
-        public NotifyingPathItem Next { get; private set; }
-
         public PropertyChangedEventArgs PropertyChangedEventArgs { get; }
+
+        public INotifyingPathItem Previous { get; }
 
         public bool IsLast => this.PathProperty.IsLast;
 
         public object Value => this.PathProperty.GetPropertyValue(this.Source).ValueOrDefault();
+
+        public NotifyingPathItem Next { get; private set; }
 
         /// <summary>
         /// Gets or sets the source.

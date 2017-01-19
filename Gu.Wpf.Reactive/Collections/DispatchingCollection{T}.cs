@@ -25,14 +25,14 @@
         /// Initializes a new instance of the <see cref="DispatchingCollection{T}"/> class.
         /// It contains elements copied from the specified list
         /// </summary>
-        /// <param name="source">The list whose elements are copied to the new list.</param>
+        /// <param name="collection">The list whose elements are copied to the new list.</param>
         /// <remarks>
         /// The elements are copied onto the ObservableCollection in the
         /// same order they are read by the enumerator of the list.
         /// </remarks>
         /// <exception cref="ArgumentNullException"> list is a null reference </exception>
-        public DispatchingCollection(IList<T> source)
-            : base(source)
+        public DispatchingCollection(IList<T> collection)
+            : base(collection)
         {
         }
 
@@ -41,14 +41,14 @@
         /// It contains the elements copied from the specified collection and has sufficient capacity
         /// to accommodate the number of elements copied.
         /// </summary>
-        /// <param name="source">The collection whose elements are copied to the new list.</param>
+        /// <param name="collection">The collection whose elements are copied to the new list.</param>
         /// <remarks>
         /// The elements are copied onto the ObservableCollection in the
         /// same order they are read by the enumerator of the collection.
         /// </remarks>
         /// <exception cref="ArgumentNullException"> collection is a null reference </exception>
-        public DispatchingCollection(IEnumerable<T> source)
-            : base(source)
+        public DispatchingCollection(IEnumerable<T> collection)
+            : base(collection)
         {
         }
 

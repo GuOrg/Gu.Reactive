@@ -15,11 +15,14 @@
         public MappingCache(Func<TSource, TResult> selector)
         {
             this.selector = selector;
+            this.indexSelector = null;
+            this.indexUpdater = null;
             this.cache = new ConditionalWeakTable<object, object>();
         }
 
         public MappingCache(Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater)
         {
+            this.selector = null;
             this.indexSelector = indexSelector;
             this.indexUpdater = indexUpdater;
             this.cache = new ConditionalWeakTable<object, object>();

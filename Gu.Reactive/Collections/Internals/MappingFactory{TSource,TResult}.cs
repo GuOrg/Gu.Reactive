@@ -12,10 +12,12 @@
         internal MappingFactory(Func<TSource, TResult> selector)
         {
             this.selector = selector;
+            this.indexSelector = null;
         }
 
         internal MappingFactory(Func<TSource, int, TResult> indexSelector)
         {
+            this.selector = null;
             this.indexSelector = indexSelector;
         }
 
