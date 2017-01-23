@@ -12,73 +12,70 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     // ReSharper disable once InconsistentNaming
     public class ObservePropertyChangedAndValue_SimpleTests
     {
-        private List<EventPattern<PropertyChangedAndValueEventArgs<string>>> changes;
-
-        [SetUp]
-        public void SetUp()
-        {
-            this.changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
-        }
-
         [Test]
         public void SignalsInitialNull()
         {
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake();
             fake.ObservePropertyChangedWithValue(x => x.Name, true)
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreEqual(null, this.changes.Single().EventArgs.Value);
-            Assert.AreSame(fake, this.changes.Single().Sender);
-            Assert.IsTrue(this.changes.Single().EventArgs.HasValue);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreEqual(null, changes.Single().EventArgs.Value);
+            Assert.AreSame(fake, changes.Single().Sender);
+            Assert.IsTrue(changes.Single().EventArgs.HasValue);
         }
 
         [Test]
         public void SignalsInitialValue()
         {
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake { Name = "Johan" };
             fake.ObservePropertyChangedWithValue(x => x.Name, true)
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreEqual("Johan", this.changes.Single().EventArgs.Value);
-            Assert.AreSame(fake, this.changes.Single().Sender);
-            Assert.IsTrue(this.changes.Single().EventArgs.HasValue);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreEqual("Johan", changes.Single().EventArgs.Value);
+            Assert.AreSame(fake, changes.Single().Sender);
+            Assert.IsTrue(changes.Single().EventArgs.HasValue);
         }
 
         [Test]
         public void DoesNotSignalOnSubscribe()
         {
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake { Name = "Johan" };
             fake.ObservePropertyChangedWithValue(x => x.Name, false)
-                .Subscribe(this.changes.Add);
-            CollectionAssert.IsEmpty(this.changes);
+                .Subscribe(changes.Add);
+            CollectionAssert.IsEmpty(changes);
         }
 
         [Test]
         public void SignalsOnSourceChanges()
         {
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake();
             fake.ObservePropertyChangedWithValue(x => x.Name, false)
-                .Subscribe(this.changes.Add);
-            CollectionAssert.IsEmpty(this.changes);
+                .Subscribe(changes.Add);
+            CollectionAssert.IsEmpty(changes);
             fake.Name = "El Kurro";
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreEqual("El Kurro", this.changes.Single().EventArgs.Value);
-            Assert.AreSame(fake, this.changes.Single().Sender);
-            Assert.IsTrue(this.changes.Single().EventArgs.HasValue);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreEqual("El Kurro", changes.Single().EventArgs.Value);
+            Assert.AreSame(fake, changes.Single().Sender);
+            Assert.IsTrue(changes.Single().EventArgs.HasValue);
         }
 
         [Test]
         public void SignalsOnDerivedSourceChanges()
         {
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new DerivedFake();
             fake.ObservePropertyChangedWithValue(x => x.Name, false)
-                .Subscribe(this.changes.Add);
-            CollectionAssert.IsEmpty(this.changes);
+                .Subscribe(changes.Add);
+            CollectionAssert.IsEmpty(changes);
             fake.Name = "El Kurro";
-            Assert.AreEqual(1, this.changes.Count);
-            Assert.AreEqual("El Kurro", this.changes.Single().EventArgs.Value);
-            Assert.AreSame(fake, this.changes.Single().Sender);
-            Assert.IsTrue(this.changes.Single().EventArgs.HasValue);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreEqual("El Kurro", changes.Single().EventArgs.Value);
+            Assert.AreSame(fake, changes.Single().Sender);
+            Assert.IsTrue(changes.Single().EventArgs.HasValue);
         }
 
         [Test]

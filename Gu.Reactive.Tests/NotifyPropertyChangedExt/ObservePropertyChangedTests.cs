@@ -14,22 +14,15 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
     public class ObservePropertyChangedTests
     {
-        private List<EventPattern<PropertyChangedEventArgs>> changes;
-
-        [SetUp]
-        public void SetUp()
-        {
-            this.changes = new List<EventPattern<PropertyChangedEventArgs>>();
-        }
-
         [Test]
         public void DoesNotSignalSubscribe()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Value = 1 };
             var observable = fake.ObservePropertyChanged();
-            using (observable.Subscribe(this.changes.Add))
+            using (observable.Subscribe(changes.Add))
             {
-                Assert.AreEqual(0, this.changes.Count);
+                Assert.AreEqual(0, changes.Count);
             }
         }
 
@@ -38,105 +31,112 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase("Value")]
         public void ReactsOnStringEmptyOrNull(string prop)
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Value = 1 };
             fake.ObservePropertyChanged()
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(0, changes.Count);
             fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
-            Assert.AreEqual(1, this.changes.Count);
+            Assert.AreEqual(1, changes.Count);
         }
 
         [Test]
         public void ReactsOnEvent()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Value = 1 };
             fake.ObservePropertyChanged()
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(0, changes.Count);
             fake.OnPropertyChanged("SomeProp");
-            Assert.AreEqual(1, this.changes.Count);
-            AssertRx.AreEqual(fake, "SomeProp", this.changes.Last());
+            Assert.AreEqual(1, changes.Count);
+            AssertRx.AreEqual(fake, "SomeProp", changes.Last());
         }
 
         [Test]
         public void ReactsOnEventDerived()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new DerivedFake { Value = 1 };
             fake.ObservePropertyChanged()
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(0, changes.Count);
             fake.OnPropertyChanged("SomeProp");
-            Assert.AreEqual(1, this.changes.Count);
-            AssertRx.AreEqual(fake, "SomeProp", this.changes.Last());
+            Assert.AreEqual(1, changes.Count);
+            AssertRx.AreEqual(fake, "SomeProp", changes.Last());
         }
 
         [Test]
         public void ReactsValue()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Value = 1 };
             fake.ObservePropertyChanged()
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(0, changes.Count);
             fake.Value++;
-            Assert.AreEqual(1, this.changes.Count);
-            AssertRx.AreEqual(fake, "Value", this.changes.Last());
+            Assert.AreEqual(1, changes.Count);
+            AssertRx.AreEqual(fake, "Value", changes.Last());
         }
 
         [Test]
         public void ReactsTwoInstancesValue()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake1 = new Fake { Value = 1 };
             fake1.ObservePropertyChanged()
-                .Subscribe(this.changes.Add);
+                .Subscribe(changes.Add);
             var fake2 = new Fake { Value = 1 };
             fake2.ObservePropertyChanged()
-                .Subscribe(this.changes.Add);
-            Assert.AreEqual(0, this.changes.Count);
+                .Subscribe(changes.Add);
+            Assert.AreEqual(0, changes.Count);
 
             fake1.Value++;
-            Assert.AreEqual(1, this.changes.Count);
-            AssertRx.AreEqual(fake1, "Value", this.changes.Last());
+            Assert.AreEqual(1, changes.Count);
+            AssertRx.AreEqual(fake1, "Value", changes.Last());
 
             fake2.Value++;
-            Assert.AreEqual(2, this.changes.Count);
-            AssertRx.AreEqual(fake2, "Value", this.changes.Last());
+            Assert.AreEqual(2, changes.Count);
+            AssertRx.AreEqual(fake2, "Value", changes.Last());
         }
 
         [Test]
         public void ReactsNullable()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { IsTrueOrNull = null };
             var observable = fake.ObservePropertyChanged();
-            using (observable.Subscribe(this.changes.Add))
+            using (observable.Subscribe(changes.Add))
             {
-                Assert.AreEqual(0, this.changes.Count);
+                Assert.AreEqual(0, changes.Count);
 
                 fake.IsTrueOrNull = true;
-                Assert.AreEqual(1, this.changes.Count);
-                AssertRx.AreEqual(fake, "IsTrueOrNull", this.changes.Last());
+                Assert.AreEqual(1, changes.Count);
+                AssertRx.AreEqual(fake, "IsTrueOrNull", changes.Last());
 
                 fake.IsTrueOrNull = null;
-                Assert.AreEqual(2, this.changes.Count);
-                AssertRx.AreEqual(fake, "IsTrueOrNull", this.changes.Last());
+                Assert.AreEqual(2, changes.Count);
+                AssertRx.AreEqual(fake, "IsTrueOrNull", changes.Last());
             }
 
-            Assert.AreEqual(2, this.changes.Count);
-            AssertRx.AreEqual(fake, "IsTrueOrNull", this.changes.Last());
+            Assert.AreEqual(2, changes.Count);
+            AssertRx.AreEqual(fake, "IsTrueOrNull", changes.Last());
         }
 
         [Test]
         public void StopsListeningOnDispose()
         {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { IsTrue = true };
             var observable = fake.ObservePropertyChanged();
-            using (observable.Subscribe(this.changes.Add))
+            using (observable.Subscribe(changes.Add))
             {
                 fake.IsTrue = !fake.IsTrue;
-                Assert.AreEqual(1, this.changes.Count);
+                Assert.AreEqual(1, changes.Count);
             }
 
             fake.IsTrue = !fake.IsTrue;
-            Assert.AreEqual(1, this.changes.Count);
+            Assert.AreEqual(1, changes.Count);
         }
 
         [Test]
