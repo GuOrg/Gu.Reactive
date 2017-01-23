@@ -63,15 +63,12 @@
         /// <inheritdoc/>
         public IEnumerator<TItem> GetEnumerator()
         {
+            this.ThrowIfDisposed();
             return this.Collection.GetEnumerator();
         }
 
         /// <inheritdoc/>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            this.ThrowIfDisposed();
-            return this.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         /// <inheritdoc/>
         public void Dispose()
@@ -83,9 +80,9 @@
 
             this.disposed = true;
             this.collectionChangedSubscription.Dispose();
-            foreach (var disposable in this.map.Values.ToArray())
+            foreach (var kvp in this.map)
             {
-                disposable?.Dispose();
+                kvp.Value?.Dispose();
             }
 
             this.map.Clear();
@@ -99,7 +96,7 @@
             if (observableCollection != null)
             {
                 this.collectionChangedSubscription.Disposable = observableCollection.ObserveCollectionChangedSlim(true)
-                                                                                    .Subscribe(this.Update);
+                                                                                    .Subscribe(this.OnTrackedCollectionChanged);
             }
             else if (this.sourceObservable != null)
             {
@@ -107,7 +104,7 @@
             }
             else
             {
-                throw new InvalidOperationException("Nothing to subscribe on");
+                throw new InvalidOperationException("Nothing to subscribe to");
             }
 
             this.intialized = true;
@@ -125,12 +122,12 @@
                 var collection = eventPattern.EventArgs.Value;
                 this.wr.Target = collection;
                 this.collectionChangedSubscription.Disposable = collection.ObserveCollectionChangedSlim(true)
-                                                                          .Subscribe(this.Update);
+                                                                          .Subscribe(this.OnTrackedCollectionChanged);
                 this.intialized = true;
             }
         }
 
-        private void Update(NotifyCollectionChangedEventArgs e)
+        private void OnTrackedCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             this.ThrowIfDisposed();
             lock (this.@lock)
@@ -217,12 +214,8 @@
             }
         }
 
-        private IDisposable ObserveItem(TItem item)
-        {
-            var itemSubscription = item.ObservePropertyChangedWithValue(this.propertyPath, this.intialized || this.signalInitial)
-                                       .Subscribe(x => this.OnItemPropertyChanged(item, x));
-            return itemSubscription;
-        }
+        private IDisposable ObserveItem(TItem item) => item.ObservePropertyChangedWithValue(this.propertyPath, this.intialized || this.signalInitial)
+                                                           .Subscribe(x => this.OnItemPropertyChanged(item, x));
 
         private void OnItemPropertyChanged(TItem item, EventPattern<PropertyChangedAndValueEventArgs<TValue>> x)
         {

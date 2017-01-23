@@ -55,6 +55,56 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         }
 
         [Test]
+        public void OneObservableTwoSubscriptions()
+        {
+            var changes1 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+            var changes2 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+            var fake = new FakeWithCollection();
+            var observable = fake.ObservePropertyChangedWithValue(x => x.Collection)
+                                 .ItemPropertyChanged(x => x.Name);
+            using (observable.Subscribe(changes1.Add))
+            {
+                using (observable.Subscribe(changes2.Add))
+                {
+                    CollectionAssert.IsEmpty(changes1);
+                    var collection = new ObservableCollection<Fake> { new Fake { Name = "Johan" } };
+                    fake.Collection = collection;
+                    Assert.AreEqual(1, changes1.Count);
+                    Assert.AreEqual(1, changes2.Count);
+                    AssertRx.AreEqual(collection[0], "Name", collection[0], "Johan", changes1.Last());
+                    AssertRx.AreEqual(collection[0], "Name", collection[0], "Johan", changes2.Last());
+                }
+            }
+        }
+
+        [Test]
+        public void OneObservableTwoSubscriptionsNested()
+        {
+            var changes1 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+            var changes2 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+            var collection = new ObservableCollection<Fake> { new Fake { Next = new Level { Name = "Johan" } } };
+            var fake = new FakeWithCollection { Collection = collection };
+            var observable = fake.ObservePropertyChangedWithValue(x => x.Collection, true)
+                                 .ItemPropertyChanged(x => x.Next.Name);
+            using (observable.Subscribe(changes1.Add))
+            {
+                using (observable.Subscribe(changes2.Add))
+                {
+                    Assert.AreEqual(1, changes1.Count);
+                    Assert.AreEqual(1, changes2.Count);
+                    AssertRx.AreEqual(collection[0].Next, "Name", collection[0], "Johan", changes1.Last());
+                    AssertRx.AreEqual(collection[0].Next, "Name", collection[0], "Johan", changes2.Last());
+
+                    collection[0].Next.Name = "Erik";
+                    Assert.AreEqual(2, changes1.Count);
+                    Assert.AreEqual(2, changes2.Count);
+                    AssertRx.AreEqual(collection[0].Next, "Name", collection[0], "Erik", changes1.Last());
+                    AssertRx.AreEqual(collection[0].Next, "Name", collection[0], "Erik", changes2.Last());
+                }
+            }
+        }
+
+        [Test]
         public void StopsSubscribing()
         {
             var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();

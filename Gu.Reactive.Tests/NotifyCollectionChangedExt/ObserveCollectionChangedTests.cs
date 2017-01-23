@@ -40,6 +40,28 @@
         }
 
         [Test]
+        public void OneObservableTwoSubscriptions()
+        {
+            var changes1 = new List<NotifyCollectionChangedEventArgs>();
+            var changes2 = new List<NotifyCollectionChangedEventArgs>();
+            var ints = new ObservableCollection<int>();
+            var observable = ints.ObserveCollectionChanged(false);
+            using (observable.Subscribe(x => changes1.Add(x.EventArgs)))
+            {
+                using (observable.Subscribe(x => changes2.Add(x.EventArgs)))
+                {
+                    ints.Add(1);
+                    Assert.AreEqual(1, changes1.Count);
+                    Assert.AreEqual(1, changes2.Count);
+
+                    ints.Add(2);
+                    Assert.AreEqual(2, changes1.Count);
+                    Assert.AreEqual(2, changes2.Count);
+                }
+            }
+        }
+
+        [Test]
         public void ReactsOnView()
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();

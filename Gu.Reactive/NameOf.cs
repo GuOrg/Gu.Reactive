@@ -39,13 +39,7 @@
                 throw new ArgumentException("Trying to get the name of a nested property: " + string.Join(".", path.Select(x => x.Name)));
             }
 
-            var memberInfo = path.Last();
-            if (!(memberInfo is PropertyInfo))
-            {
-                throw new ArgumentException("The expression is for a method", nameof(property));
-            }
-
-            return memberInfo.Name;
+            return path[path.Count - 1].Name;
         }
 
         /// <summary>
@@ -64,13 +58,7 @@
         public static string Property<TSource>(Expression<Func<TSource, object>> property)
         {
             var path = PropertyPathParser.GetPath(property);
-            var memberInfo = path.Last();
-            if (!(memberInfo is PropertyInfo))
-            {
-                throw new ArgumentException("The expression is for a method", nameof(property));
-            }
-
-            return memberInfo.Name;
+            return path[path.Count - 1].Name;
         }
 
         /// <summary>
@@ -92,13 +80,7 @@
         public static string Property<TItem, TValue>(Expression<Func<TItem, TValue>> property)
         {
             var path = PropertyPathParser.GetPath(property);
-            var memberInfo = path.Last();
-            if (!(memberInfo is PropertyInfo))
-            {
-                throw new ArgumentException("The expression is for a method", nameof(property));
-            }
-
-            return memberInfo.Name;
+            return path[path.Count - 1].Name;
         }
 
         /// <summary>
