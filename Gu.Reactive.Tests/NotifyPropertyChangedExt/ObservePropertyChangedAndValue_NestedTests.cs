@@ -68,6 +68,35 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
+        public void TwoSubscriptionsOneObservable()
+        {
+            var changes1 = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes2 = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var fake = new Fake { Next = new Level { Name = "" } };
+            var observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
+            using (observable.Subscribe(changes1.Add))
+            {
+                using (observable.Subscribe(changes2.Add))
+                {
+                    Assert.AreEqual(0, changes1.Count);
+                    Assert.AreEqual(0, changes2.Count);
+
+                    fake.Next.Name += "a";
+                    Assert.AreEqual(1, changes1.Count);
+                    Assert.AreEqual(1, changes2.Count);
+
+                    fake.Next.Name += "a";
+                    Assert.AreEqual(2, changes1.Count);
+                    Assert.AreEqual(2, changes2.Count);
+
+                    fake.Next = null;
+                    Assert.AreEqual(3, changes1.Count);
+                    Assert.AreEqual(3, changes2.Count);
+                }
+            }
+        }
+
+        [Test]
         public void SignalsInitialNull()
         {
             var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();

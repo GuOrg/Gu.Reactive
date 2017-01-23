@@ -90,6 +90,35 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
+        public void TwoSubscriptionsOneObservable()
+        {
+            var changes1 = new List<EventPattern<PropertyChangedEventArgs>>();
+            var changes2 = new List<EventPattern<PropertyChangedEventArgs>>();
+            var fake = new Fake { Value = 1 };
+            var observable = fake.ObservePropertyChanged(x => x.IsTrue, false);
+            using (observable.Subscribe(changes1.Add))
+            {
+                using (observable.Subscribe(changes2.Add))
+                {
+                    Assert.AreEqual(0, changes1.Count);
+                    Assert.AreEqual(0, changes2.Count);
+
+                    fake.IsTrue = !fake.IsTrue;
+                    Assert.AreEqual(1, changes1.Count);
+                    Assert.AreEqual(1, changes2.Count);
+                    AssertEventPattern(fake, "IsTrue", changes1.Last());
+                    AssertEventPattern(fake, "IsTrue", changes2.Last());
+
+                    fake.IsTrue = !fake.IsTrue;
+                    Assert.AreEqual(2, changes1.Count);
+                    Assert.AreEqual(2, changes2.Count);
+                    AssertEventPattern(fake, "IsTrue", changes1.Last());
+                    AssertEventPattern(fake, "IsTrue", changes2.Last());
+                }
+            }
+        }
+
+        [Test]
         public void ReactsWhenValueChanges()
         {
             var changes = new List<EventPattern<PropertyChangedEventArgs>>();

@@ -57,6 +57,41 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
+        public void TwoSubscriptionsOneObservable()
+        {
+            var changes1 = new List<EventPattern<PropertyChangedEventArgs>>();
+            var changes2 = new List<EventPattern<PropertyChangedEventArgs>>();
+            var fake = new Fake { Next = new Level() };
+            var observable = fake.ObservePropertyChanged(x => x.Next.IsTrue, false);
+            using (observable.Subscribe(changes1.Add))
+            {
+                using (observable.Subscribe(changes2.Add))
+                {
+                    Assert.AreEqual(0, changes1.Count);
+                    Assert.AreEqual(0, changes2.Count);
+
+                    fake.Next.IsTrue = !fake.Next.IsTrue;
+                    Assert.AreEqual(1, changes1.Count);
+                    Assert.AreEqual(1, changes2.Count);
+                    AssertEventPattern(fake.Next, "IsTrue", changes1.Last());
+                    AssertEventPattern(fake.Next, "IsTrue", changes2.Last());
+
+                    fake.Next.IsTrue = !fake.Next.IsTrue;
+                    Assert.AreEqual(2, changes1.Count);
+                    Assert.AreEqual(2, changes2.Count);
+                    AssertEventPattern(fake.Next, "IsTrue", changes1.Last());
+                    AssertEventPattern(fake.Next, "IsTrue", changes2.Last());
+
+                    fake.Next = null;
+                    Assert.AreEqual(3, changes1.Count);
+                    Assert.AreEqual(3, changes2.Count);
+                    AssertEventPattern(null, "IsTrue", changes1.Last());
+                    AssertEventPattern(null, "IsTrue", changes2.Last());
+                }
+            }
+        }
+
+        [Test]
         public void ThrowsOnStructInPath()
         {
             var fake = new Fake();
