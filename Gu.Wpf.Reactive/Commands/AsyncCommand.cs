@@ -15,6 +15,8 @@ namespace Gu.Wpf.Reactive
     public class AsyncCommand : ConditionRelayCommand
     {
         private readonly ITaskRunner runner;
+        private readonly IDisposable taskCompletionSubscription;
+
         private bool disposed;
 
         /// <summary>
@@ -72,8 +74,8 @@ namespace Gu.Wpf.Reactive
         {
             this.CancelCommand = new ConditionRelayCommand(runner.Cancel, runner.CanCancelCondition);
             this.runner = runner;
-            runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
-                   .Subscribe(_ => this.OnPropertyChanged(nameof(this.Execution)));
+            this.taskCompletionSubscription = runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
+                                                    .Subscribe(_ => this.OnPropertyChanged(nameof(this.Execution)));
         }
 
         /// <summary>
@@ -130,6 +132,7 @@ namespace Gu.Wpf.Reactive
             {
                 this.runner.Dispose();
                 this.CancelCommand.Dispose();
+                this.taskCompletionSubscription?.Dispose();
             }
 
             base.Dispose(disposing);

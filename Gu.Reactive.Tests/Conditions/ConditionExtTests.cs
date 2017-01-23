@@ -30,7 +30,7 @@ namespace Gu.Reactive.Tests.Conditions
             using (var source = new Subject<object>())
             {
                 var isSatisfied = false;
-                // ReSharper disable once AccessToModifiedClosure
+                //// ReSharper disable once AccessToModifiedClosure
                 using (var condition = new Condition(source, () => isSatisfied))
                 {
                     ICondition result = null;

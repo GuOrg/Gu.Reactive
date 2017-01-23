@@ -14,7 +14,7 @@
             var listener = new CommandListener();
             var wr = new WeakReference(listener);
             command.CanExecuteChanged += listener.React;
-            // ReSharper disable once RedundantAssignment
+            //// ReSharper disable once RedundantAssignment
             listener = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);

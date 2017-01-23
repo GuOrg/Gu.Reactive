@@ -69,7 +69,11 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public IEnumerator<T> GetEnumerator() => this.ThwrowIfDisposed(this.source.GetEnumerator());
+        public IEnumerator<T> GetEnumerator()
+        {
+            this.ThwrowIfDisposed();
+            return this.source.GetEnumerator();
+        }
 
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

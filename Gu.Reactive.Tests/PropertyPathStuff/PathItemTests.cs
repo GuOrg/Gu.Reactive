@@ -14,6 +14,7 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("WriteOnly");
             Assert.NotNull(propertyInfo);
+            //// ReSharper disable once ObjectCreationAsStatement
             var exception = Assert.Throws<ArgumentException>(() => new PathProperty(null, propertyInfo));
             var expected = "Propert cannot be write only.\r\n" +
                            "The property Gu.Reactive.Tests.Helpers.Fake.WriteOnly does not have a getter.\r\n" +
@@ -24,6 +25,7 @@
         [Test]
         public void ThrowsOnNullProp()
         {
+            // ReSharper disable once ObjectCreationAsStatement
             var exception = Assert.Throws<ArgumentNullException>(() => new PathProperty(null, null));
             Assert.AreEqual("Value cannot be null.\r\nParameter name: propertyInfo", exception.Message);
         }

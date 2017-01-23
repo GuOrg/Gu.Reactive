@@ -68,7 +68,11 @@
         }
 
         /// <inheritdoc/>
-        public IEnumerator<T> GetEnumerator() => this.ThrowIfDisposed(this.source.GetEnumerator());
+        public IEnumerator<T> GetEnumerator()
+        {
+            this.ThrowIfDisposed();
+            return this.source.GetEnumerator();
+        }
 
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();

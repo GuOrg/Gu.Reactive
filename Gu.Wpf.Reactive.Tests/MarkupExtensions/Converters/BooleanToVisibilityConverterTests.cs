@@ -25,7 +25,7 @@ namespace Gu.Wpf.Reactive.Tests.MarkupExtensions.Converters
             Assert.AreEqual(visibility, converted);
             var convertBack = converter.ConvertBack(converted, null, null, null);
             Assert.AreEqual(visible, convertBack);
-            // ReSharper disable once PossibleNullReferenceException
+            //// ReSharper disable once PossibleNullReferenceException
             convertBack = converter.ConvertBack(converted.ToString(), null, null, null);
             Assert.AreEqual(visible, convertBack);
         }

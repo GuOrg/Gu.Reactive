@@ -56,7 +56,7 @@
             var dummy = new Fake();
             var wr = new WeakReference(dummy);
             Assert.IsTrue(wr.IsAlive);
-            // ReSharper disable once AccessToModifiedClosure
+            //// ReSharper disable once AccessToModifiedClosure
             using (new Condition(dummy.ObservePropertyChanged(x => x.IsTrueOrNull, false), () => dummy.IsTrueOrNull))
             {
             }

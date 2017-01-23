@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
 
     using Gu.Reactive.Tests.Helpers;
 
@@ -120,6 +121,28 @@
                 using (var negatedCondition = condition.Negate())
                 {
                     Assert.AreEqual("Not_" + condition.Name, negatedCondition.Name);
+                }
+            }
+        }
+
+        [Test]
+        public void History()
+        {
+            var fake = new Fake { IsTrueOrNull = false };
+            using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull) { Name = "IsTrueOrNull" })
+            {
+                using (var negatedCondition = condition.Negate())
+                {
+                    var expected = new List<bool?> { true };
+                    CollectionAssert.AreEqual(expected, negatedCondition.History.Select(x => x.State));
+
+                    fake.IsTrueOrNull = true;
+                    expected.Add(false);
+                    CollectionAssert.AreEqual(expected, negatedCondition.History.Select(x => x.State));
+
+                    fake.IsTrueOrNull = null;
+                    expected.Add(null);
+                    CollectionAssert.AreEqual(expected, negatedCondition.History.Select(x => x.State));
                 }
             }
         }

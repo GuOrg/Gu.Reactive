@@ -99,6 +99,7 @@
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);
 
+            // ReSharper disable once RedundantAssignment
             ints = null;
             GC.Collect();
 

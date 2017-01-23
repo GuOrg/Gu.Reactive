@@ -1,4 +1,5 @@
-﻿#pragma warning disable WPF1014 // Don't raise PropertyChanged for missing property.
+﻿// ReSharper disable NotResolvedInText
+#pragma warning disable WPF1014 // Don't raise PropertyChanged for missing property.
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
@@ -148,6 +149,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 GC.KeepAlive(observable);
                 GC.KeepAlive(subscription);
+                //// ReSharper disable once RedundantAssignment
                 fake = null;
             }
 
@@ -167,6 +169,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);
 
+            // ReSharper disable once RedundantAssignment
             fake = null;
             GC.Collect();
 

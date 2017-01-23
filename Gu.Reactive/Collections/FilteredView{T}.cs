@@ -20,6 +20,8 @@
         private readonly ObservableCollection<IObservable<object>> triggers;
         private readonly IScheduler scheduler;
         private readonly SerialDisposable refreshSubscription = new SerialDisposable();
+        private readonly IDisposable triggerSubscription;
+
         private Func<T, bool> filter;
         private bool disposed;
         private TimeSpan bufferTime;
@@ -66,11 +68,11 @@
                                                 this.ObservePropertyChangedSlim(nameof(this.Filter), false),
                                                 this.ObservePropertyChangedSlim(nameof(this.BufferTime), false)
                                             };
-            observables.Merge()
-                       .ThrottleOrDefault(bufferTime, scheduler)
-                       .Subscribe(_ => this.refreshSubscription.Disposable = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, true)
-                                                                                          .ObserveOn(scheduler ?? Scheduler.Immediate)
-                                                                                          .Subscribe(this.Refresh));
+            this.triggerSubscription = observables.Merge()
+                                                  .ThrottleOrDefault(bufferTime, scheduler)
+                                                  .Subscribe(_ => this.refreshSubscription.Disposable = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, true)
+                                                                                                                         .ObserveOn(scheduler ?? Scheduler.Immediate)
+                                                                                                                         .Subscribe(this.Refresh));
         }
 
         /// <summary>
@@ -294,6 +296,7 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
+                this.triggerSubscription?.Dispose();
             }
 
             base.Dispose(disposing);

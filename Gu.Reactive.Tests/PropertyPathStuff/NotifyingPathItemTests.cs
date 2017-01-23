@@ -18,6 +18,7 @@
         {
             var propertyInfo = typeof(StructLevel).GetProperty("Name");
             var pathItem = new PathProperty(null, propertyInfo);
+            //// ReSharper disable once ObjectCreationAsStatement
             var exception = Assert.Throws<ArgumentException>(() => new NotifyingPathItem(null, pathItem));
             var expected = "Property path cannot have structs in it. Copy by value will make subscribing error prone.\r\n" +
                            "The type Gu.Reactive.Tests.Helpers.StructLevel is a value type not so StructLevel.Name subscribing to changes is weird.\r\n" +
@@ -30,6 +31,7 @@
         {
             var propertyInfo = typeof(NotInpc).GetProperty("Name");
             var pathItem = new PathProperty(null, propertyInfo);
+            //// ReSharper disable once ObjectCreationAsStatement
             var exception = Assert.Throws<ArgumentException>(() => new NotifyingPathItem(null, pathItem));
             var expected = "All levels in the path must implement INotifyPropertyChanged.\r\n" +
                            "The type Gu.Reactive.Tests.Helpers.NotInpc does not so the property NotInpc.Name will not notify when value changes.\r\n" +

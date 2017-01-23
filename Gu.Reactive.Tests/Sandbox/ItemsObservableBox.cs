@@ -25,7 +25,7 @@ namespace Gu.Reactive.Tests.Sandbox
             using (var view = source.AsMappingView(x => x.ObservePropertyChanged(path, true)))
             {
                 var sw = Stopwatch.StartNew();
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     var fake = new Fake();
                     source.Add(fake);
@@ -39,7 +39,7 @@ namespace Gu.Reactive.Tests.Sandbox
         [TestCase(1000)]
         public void AddNestedMerge(int n)
         {
-            int count = 0;
+            var count = 0;
             var source = new ObservableCollection<Fake>();
             var path = PropertyPath.GetOrCreate<Fake, int>(x => x.Next.Next.Value);
             using (var view = source.AsMappingView(x => x.ObservePropertyChanged(path, true)))
@@ -48,7 +48,7 @@ namespace Gu.Reactive.Tests.Sandbox
                 using (var subject = new Subject<IObservable<EventPattern<PropertyChangedEventArgs>>>())
                 {
                     subject.Switch().Publish().RefCount().Subscribe(_ => count++);
-                    for (int i = 0; i < n; i++)
+                    for (var i = 0; i < n; i++)
                     {
                         var fake = new Fake();
                         source.Add(fake);
@@ -69,7 +69,7 @@ namespace Gu.Reactive.Tests.Sandbox
             using (var view = source.AsMappingView(x => x.ObservePropertyChanged(path, true)))
             {
                 var sw = Stopwatch.StartNew();
-                for (int i = 0; i < n; i++)
+                for (var i = 0; i < n; i++)
                 {
                     var fake = new Fake();
                     source.Add(fake);

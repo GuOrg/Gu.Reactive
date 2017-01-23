@@ -94,6 +94,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);
 
+            // ReSharper disable once RedundantAssignment
             fake = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
@@ -111,6 +112,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 GC.KeepAlive(observable);
                 GC.KeepAlive(subscription);
 
+                // ReSharper disable once RedundantAssignment
                 fake = null;
             }
 

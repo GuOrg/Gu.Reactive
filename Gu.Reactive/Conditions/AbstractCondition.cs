@@ -13,6 +13,8 @@ namespace Gu.Reactive
     public abstract class AbstractCondition : ICondition
     {
         private readonly Condition condition;
+        private readonly IDisposable subscription;
+
         private bool disposed;
         private string name;
 
@@ -22,8 +24,8 @@ namespace Gu.Reactive
         protected AbstractCondition(IObservable<object> observable)
         {
             this.condition = new Condition(observable, this.Criteria);
-            this.condition.ObservePropertyChangedSlim()
-                          .Subscribe(this.OnPropertyChanged);
+            this.subscription = this.condition.ObservePropertyChangedSlim()
+                                              .Subscribe(this.OnPropertyChanged);
             this.Name = this.condition.Name;
         }
 
@@ -97,6 +99,7 @@ namespace Gu.Reactive
             if (disposing)
             {
                 this.condition.Dispose();
+                this.subscription?.Dispose();
             }
         }
 

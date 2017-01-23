@@ -27,10 +27,13 @@ namespace Gu.Reactive
             this.Name = $"Not_{this.condition.Name}";
 
             this.subscription = condition.ObserveIsSatisfiedChanged()
-                                         .Subscribe(_ => this.OnPropertyChanged(nameof(this.IsSatisfied)));
-
-            this.ObservePropertyChangedSlim(nameof(this.IsSatisfied), true)
-                .Subscribe(_ => this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.IsSatisfied)));
+                                         .Subscribe(
+                                             _ =>
+                                                 {
+                                                     this.OnPropertyChanged(nameof(this.IsSatisfied));
+                                                     this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.IsSatisfied));
+                                                 });
+            this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.IsSatisfied));
         }
 
         /// <inheritdoc/>

@@ -7,6 +7,8 @@
     using System.Threading.Tasks;
     using System.Windows;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// Extension methods for <see cref="ObservableCollection{T}"/>
     /// </summary>
