@@ -3,6 +3,8 @@
 namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.Windows.Data;
+    using System.Windows.Markup;
     using System.Windows.Media;
 
     /// <summary>
@@ -10,14 +12,15 @@ namespace Gu.Wpf.Reactive
     /// Visibility="{Binding SomeProperty, Converter={common:BooleanToVisibilityConverter WhenTrue=Green, WhenFalse=Red, WhenNull=Gray}}"
     /// No resource declaration is necessary
     /// </summary>
+    [MarkupExtensionReturnType(typeof(IValueConverter))]
     [Obsolete("To be removed.")]
     public class BooleanToBrushConverter : BooleanToXConverter<Brush>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BooleanToBrushConverter"/> class
         /// </summary>
+        // ReSharper disable once EmptyConstructor, think the xaml parser wants this.
         public BooleanToBrushConverter()
-            : base()
         {
         }
     }

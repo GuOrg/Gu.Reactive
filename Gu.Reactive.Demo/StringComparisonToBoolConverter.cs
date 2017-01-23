@@ -9,10 +9,6 @@ namespace Gu.Reactive.Demo
     {
         public static readonly string GroupName = "StringComparison";
 
-        public StringComparisonToBoolConverter()
-        {
-        }
-
         public StringComparison TrueWhen { get; set; }
 
         protected override bool? Convert(StringComparison? value, CultureInfo culture)

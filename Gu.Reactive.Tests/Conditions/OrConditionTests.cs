@@ -88,6 +88,8 @@ namespace Gu.Reactive.Tests.Conditions
         [Test]
         public void ThrowsIfEmpty()
         {
+            // ReSharper disable once HeapView.ObjectAllocation.Evident
+            // ReSharper disable once ObjectCreationAsStatement
             Assert.Throws<ArgumentNullException>(() => new OrCondition());
         }
 

@@ -1,9 +1,10 @@
 ﻿#pragma warning disable 618
-namespace Gu.Wpf.Reactive.Tests.Converters
+namespace Gu.Wpf.Reactive.Tests.MarkupExtensions.Converters
 {
     using System;
     using System.Windows;
     using System.Windows.Data;
+
     using NUnit.Framework;
 
     public class BooleanToVisibilityConverterTests
@@ -19,11 +20,13 @@ namespace Gu.Wpf.Reactive.Tests.Converters
                 WhenFalse = Visibility.Hidden,
                 WhenNull = Visibility.Collapsed
             };
-            var convert = converter.Convert(visible, null, null, null);
-            Assert.AreEqual(visibility, convert);
-            var convertBack = converter.ConvertBack(convert, null, null, null);
+
+            var converted = converter.Convert(visible, null, null, null);
+            Assert.AreEqual(visibility, converted);
+            var convertBack = converter.ConvertBack(converted, null, null, null);
             Assert.AreEqual(visible, convertBack);
-            convertBack = converter.ConvertBack(convert.ToString(), null, null, null);
+            // ReSharper disable once PossibleNullReferenceException
+            convertBack = converter.ConvertBack(converted.ToString(), null, null, null);
             Assert.AreEqual(visible, convertBack);
         }
 

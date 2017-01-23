@@ -7,7 +7,6 @@ namespace Gu.Reactive.Tests.NameOf_
 
     using NUnit.Framework;
 
-    // ReSharper disable once InconsistentNaming
     public class PropertyTests
     {
         public string StringProp { get; }
@@ -34,6 +33,9 @@ namespace Gu.Reactive.Tests.NameOf_
             Assert.AreEqual("StringProp", name);
 
             name = NameOf.Property<PropertyTests>(x => x.StringProp);
+            Assert.AreEqual("StringProp", name);
+
+            name = NameOf.Property<PropertyTests, string>(x => x.StringProp);
             Assert.AreEqual("StringProp", name);
 
             name = NameOf.Property<PropertyTests, string>(x => x.StringProp);

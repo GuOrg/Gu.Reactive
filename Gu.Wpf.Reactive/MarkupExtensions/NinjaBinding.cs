@@ -62,7 +62,7 @@
                 return DefaultValue(serviceProvider);
             }
 
-            Binding binding = null;
+            Binding binding;
             if (this.Binding.ElementName != null)
             {
                 var reference = new Reference(this.Binding.ElementName);

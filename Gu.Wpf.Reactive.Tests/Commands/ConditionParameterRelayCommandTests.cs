@@ -46,9 +46,11 @@
         public void Execute()
         {
             var i = 0;
-            var command = new ConditionRelayCommand<int>(x => i = x, this.condition);
-            command.Execute(1);
-            Assert.AreEqual(1, i);
+            using (var command = new ConditionRelayCommand<int>(x => i = x, this.condition))
+            {
+                command.Execute(1);
+                Assert.AreEqual(1, i);
+            }
         }
     }
 }

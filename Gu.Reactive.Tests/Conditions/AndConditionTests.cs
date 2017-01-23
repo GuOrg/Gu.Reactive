@@ -80,6 +80,8 @@ namespace Gu.Reactive.Tests.Conditions
         [Test]
         public void ThrowsIfEmpty()
         {
+            // ReSharper disable once HeapView.ObjectAllocation.Evident
+            // ReSharper disable once ObjectCreationAsStatement
             var exception = Assert.Throws<ArgumentNullException>(() => new AndCondition());
             Assert.AreEqual("Value cannot be null.\r\nParameter name: prerequisites", exception.Message);
         }

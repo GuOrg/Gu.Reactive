@@ -1,9 +1,10 @@
 ﻿#pragma warning disable 618
-namespace Gu.Wpf.Reactive.Tests.Converters
+namespace Gu.Wpf.Reactive.Tests.MarkupExtensions.Converters
 {
     using System;
     using System.Globalization;
     using System.Windows.Data;
+
     using NUnit.Framework;
 
     public class MultiplyConverterTests

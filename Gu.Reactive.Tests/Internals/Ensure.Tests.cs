@@ -30,11 +30,11 @@
         {
             if (isTrue)
             {
-                Ensure.IsTrue(isTrue, nameof(isTrue), message);
+                Ensure.IsTrue(true, nameof(isTrue), message);
             }
             else
             {
-                var ex = Assert.Throws<ArgumentException>(() => Ensure.IsTrue(isTrue, nameof(isTrue), message));
+                var ex = Assert.Throws<ArgumentException>(() => Ensure.IsTrue(false, nameof(isTrue), message));
                 Assert.AreEqual(message + "\r\nParameter name: isTrue", ex.Message);
             }
         }
