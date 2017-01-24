@@ -1,9 +1,11 @@
 namespace Gu.Reactive.Tests.Collections
 {
     using System.Collections.ObjectModel;
+    using System.Diagnostics.CodeAnalysis;
 
     using NUnit.Framework;
 
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
     public class MappingView_IndexedTests
     {
         [Test]

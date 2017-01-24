@@ -43,7 +43,7 @@ namespace Gu.Reactive
 
             set
             {
-               var flag = false;
+                var flag = false;
                 var disposable = (IDisposable)null;
                 lock (this.gate)
                 {

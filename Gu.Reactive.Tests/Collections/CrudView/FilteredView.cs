@@ -15,7 +15,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             this.Scheduler = new TestScheduler();
             this.View?.Dispose();
             this.View = this.Ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
-            this.Actual = this.SubscribeAll(this.View);
+            this.ActualEventArgs = this.SubscribeAll(this.View);
         }
     }
 }

@@ -101,12 +101,14 @@
                     <ContentPresenter Content="{Binding }" ContentTemplate="{StaticResource CompletionNoResultTemplate}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Width="150" Text="Result: " />
+                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                         <TextBlock Text="{Binding Result}" />
                     </StackPanel>
                 </StackPanel>
             </DataTemplate>
 
             <DataTemplate x:Key="AsyncCommandTemplate" DataType="reactive:AsyncCommand">
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                 <GroupBox Header="{Binding ToolTipText}">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -134,6 +136,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="AsyncParameterCommandTemplate" DataType="reactive:AsyncCommand">
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                 <GroupBox Header="{Binding ToolTipText}">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -162,6 +165,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="AsyncResultCommandTemplate" DataType="{x:Type reactive:AsyncCommand}">
+                <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
                 <GroupBox Header="{Binding ToolTipText}">
                     <StackPanel Orientation="Horizontal">
                         <Button Width="100"

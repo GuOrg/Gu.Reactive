@@ -1,4 +1,5 @@
-﻿#pragma warning disable 618
+﻿// ReSharper disable UnassignedGetOnlyAutoProperty
+#pragma warning disable 618
 namespace Gu.Reactive.Tests.NameOf_
 {
     using System;

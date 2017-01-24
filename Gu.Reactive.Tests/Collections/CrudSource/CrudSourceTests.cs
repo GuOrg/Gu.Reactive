@@ -14,19 +14,19 @@
     public abstract class CrudSourceTests
     {
 #pragma warning disable SA1306 // Field names must begin with lower-case letter
-        protected List<EventArgs> Actual;
+        protected List<EventArgs> ActualEventArgs;
         protected TestScheduler Scheduler;
         protected IReadOnlyObservableCollection<int> View;
         protected ObservableCollection<int> Ints;
 #pragma warning restore SA1306 // Field names must begin with lower-case letter
 
-        private List<EventArgs> expected;
+        private List<EventArgs> expectedEventArgs;
 
         [SetUp]
         public virtual void SetUp()
         {
             this.Ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            this.expected = this.Ints.SubscribeAll();
+            this.expectedEventArgs = this.Ints.SubscribeAll();
         }
 
         [Test]
@@ -43,7 +43,7 @@
             this.Scheduler?.Start();
 
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.IsEmpty(this.Actual);
+            CollectionAssert.IsEmpty(this.ActualEventArgs);
         }
 
         [Test]
@@ -51,17 +51,21 @@
         {
             int[] actual = null;
             int[] expected = null;
-            this.View.ObserveCollectionChanged(false)
-                 .Subscribe(_ => { actual = this.View.ToArray(); });
-            this.Ints.ObserveCollectionChanged(false)
-                 .Subscribe(_ => { expected = this.Ints.ToArray(); });
-            this.Ints.Add(5);
-            this.Scheduler?.Start();
-            CollectionAssert.AreEqual(expected, actual);
+            using (this.View.ObserveCollectionChanged(false)
+                       .Subscribe(_ => { actual = this.View.ToArray(); }))
+            {
+                using (this.Ints.ObserveCollectionChanged(false)
+                           .Subscribe(_ => { expected = this.Ints.ToArray(); }))
+                {
+                    this.Ints.Add(5);
+                    this.Scheduler?.Start();
+                    CollectionAssert.AreEqual(expected, actual);
 
-            this.Ints.Clear();
-            this.Scheduler?.Start();
-            CollectionAssert.AreEqual(expected, actual);
+                    this.Ints.Clear();
+                    this.Scheduler?.Start();
+                    CollectionAssert.AreEqual(expected, actual);
+                }
+            }
         }
 
         [Test]
@@ -71,7 +75,7 @@
             this.Scheduler?.Start();
 
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.expectedEventArgs, this.ActualEventArgs, EventArgsComparer.Default);
         }
 
         [Test]
@@ -90,7 +94,7 @@
             this.Scheduler.Start();
 
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, this.Actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, this.ActualEventArgs, EventArgsComparer.Default);
         }
 
         [TestCase(1)]
@@ -101,7 +105,7 @@
             this.Scheduler?.Start();
 
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.expectedEventArgs, this.ActualEventArgs, EventArgsComparer.Default);
         }
 
         [TestCase(2, 1)]
@@ -113,7 +117,7 @@
 
             Assert.AreEqual(value, this.View[index]);
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.expectedEventArgs, this.ActualEventArgs, EventArgsComparer.Default);
         }
 
         [TestCase(0, 1)]
@@ -123,7 +127,7 @@
             this.Scheduler?.Start();
 
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.expectedEventArgs, this.ActualEventArgs, EventArgsComparer.Default);
         }
     }
 }

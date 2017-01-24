@@ -72,7 +72,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes1 = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var changes2 = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
-            var fake = new Fake { Next = new Level { Name = "" } };
+            var fake = new Fake { Next = new Level { Name = string.Empty } };
             var observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
             using (observable.Subscribe(changes1.Add))
             {

@@ -16,13 +16,15 @@
         private NotInpc notInpc;
         private int value;
 
+        private int writeOnly;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public int WriteOnly
         {
             set
             {
-                return;
+                this.writeOnly = value;
             }
         }
 

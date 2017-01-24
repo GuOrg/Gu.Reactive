@@ -44,6 +44,7 @@
 
             set
             {
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (value == this.doubleValue)
                 {
                     return;

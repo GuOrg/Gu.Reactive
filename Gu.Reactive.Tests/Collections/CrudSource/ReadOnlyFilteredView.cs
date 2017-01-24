@@ -19,7 +19,7 @@ namespace Gu.Reactive.Tests.Collections
             (this.View as IDisposable)?.Dispose();
             this.View = new ReadOnlyFilteredView<int>(this.Ints, x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
             this.Scheduler.Start();
-            this.Actual = this.View.SubscribeAll();
+            this.ActualEventArgs = this.View.SubscribeAll();
         }
 
         [Test]

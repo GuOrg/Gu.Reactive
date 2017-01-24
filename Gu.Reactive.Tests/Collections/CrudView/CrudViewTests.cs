@@ -17,9 +17,9 @@ namespace Gu.Reactive.Tests.Collections.CrudView
 
     public abstract class CrudViewTests
     {
-        private List<EventArgs> expected;
+        private List<EventArgs> expectedEventArgs;
 
-        protected List<EventArgs> Actual { get; set; }
+        protected List<EventArgs> ActualEventArgs { get; set; }
 
         protected TestScheduler Scheduler { get; set; }
 
@@ -31,7 +31,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public virtual void SetUp()
         {
             this.Ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            this.expected = this.SubscribeAll(this.Ints);
+            this.expectedEventArgs = this.SubscribeAll(this.Ints);
         }
 
         [TearDown]
@@ -48,7 +48,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             this.View.Refresh();
             this.Scheduler?.Start();
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.IsEmpty(this.Actual);
+            CollectionAssert.IsEmpty(this.ActualEventArgs);
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             this.View.Add(4);
             this.Scheduler?.Start();
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.expectedEventArgs, this.ActualEventArgs, EventArgsComparer.Default);
         }
 
         [Test]
@@ -86,13 +86,13 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             this.Scheduler?.Start();
             Assert.AreEqual(3, index);
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.IsNotEmpty(this.Actual);
-            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
+            CollectionAssert.IsNotEmpty(this.ActualEventArgs);
+            CollectionAssert.AreEqual(this.expectedEventArgs, this.ActualEventArgs, EventArgsComparer.Default);
 
-            var before = this.Actual.ToArray();
+            var before = this.ActualEventArgs.ToArray();
             this.Scheduler?.Start(); // Should not signal deferred
 
-            CollectionAssert.AreEqual(before, this.Actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(before, this.ActualEventArgs, EventArgsComparer.Default);
         }
 
         [TestCase(1)]
@@ -102,7 +102,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             this.View.Remove(toRemove);
             this.Scheduler?.Start();
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.expectedEventArgs, this.ActualEventArgs, EventArgsComparer.Default);
         }
 
         [TestCase(2, 5)]
@@ -113,7 +113,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             this.Scheduler?.Start();
             Assert.AreEqual(value, this.View[index]);
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.expectedEventArgs, this.ActualEventArgs, EventArgsComparer.Default);
         }
 
         [TestCase(0, 1)]
@@ -121,9 +121,10 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         {
             Assert.Inconclusive("Do we want move?");
             ////this.View.Move(fromIndex, toIndex);
+            // ReSharper disable once HeuristicUnreachableCode
             this.Scheduler?.Start();
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.AreEqual(this.expected, this.Actual, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(this.expectedEventArgs, this.ActualEventArgs, EventArgsComparer.Default);
         }
 
         [Test]

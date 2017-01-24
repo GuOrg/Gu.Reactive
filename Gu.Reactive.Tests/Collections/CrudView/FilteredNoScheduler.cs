@@ -12,7 +12,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             base.SetUp();
             this.View?.Dispose();
             this.View = this.Ints.AsFilteredView(x => true, TimeSpan.Zero);
-            this.Actual = this.SubscribeAll(this.View);
+            this.ActualEventArgs = this.SubscribeAll(this.View);
         }
     }
 }

@@ -10,12 +10,9 @@
     /// </summary>
     public sealed class Mapper<TSource, TResult> : ITracker<TResult>
     {
-        private readonly ITracker<TSource> source;
-        private readonly Func<TSource, TResult> selector;
         private readonly IDisposable subscription;
 
         private bool disposed;
-
         private TResult value;
 
         /// <summary>
@@ -23,12 +20,10 @@
         /// </summary>
         public Mapper(ITracker<TSource> source, Func<TSource, TResult> selector)
         {
-            this.source = source;
-            this.selector = selector;
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             this.subscription = source.ObservePropertyChangedSlim(nameof(source.Value))
-                                      .Subscribe(_ => { this.Value = this.selector(this.source.Value); });
+                                      .Subscribe(_ => { this.Value = selector(source.Value); });
         }
 
         /// <inheritdoc/>

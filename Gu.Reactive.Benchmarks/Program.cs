@@ -8,7 +8,9 @@
 
     public class Program
     {
+        //// ReSharper disable PossibleNullReferenceException
         private static readonly string DesinationDirectory = System.IO.Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "Results");
+        //// ReSharper restore PossibleNullReferenceException
 
         public static void Main()
         {
