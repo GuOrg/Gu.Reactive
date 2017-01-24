@@ -24,9 +24,9 @@
         /// Initializes a new instance of the <see cref="PropertyPathObservable{TClass,TProp}"/> class.
         /// </summary>
         /// <param name="source"> The source.</param>
-        /// <param name="propertyExpression">The property expression.</param>
-        public PropertyPathObservable(TClass source, Expression<Func<TClass, TProp>> propertyExpression)
-            : this(source, PropertyPath.GetOrCreate(propertyExpression))
+        /// <param name="property">The property expression.</param>
+        public PropertyPathObservable(TClass source, Expression<Func<TClass, TProp>> property)
+            : this(source, PropertyPath.GetOrCreate(property))
         {
         }
 
@@ -37,9 +37,9 @@
         /// <param name="propertyPath">The path to track changes for.</param>
         public PropertyPathObservable(TClass source, PropertyPath<TClass, TProp> propertyPath)
         {
+            VerifyPath(propertyPath);
             this.sourceReference.Target = source;
             this.propertyPath = propertyPath;
-            VerifyPath(this.propertyPath);
             this.PropertyChangedEventArgs = new PropertyChangedEventArgs(this.propertyPath.Last.PropertyInfo.Name);
         }
 
@@ -49,7 +49,6 @@
         {
             var rootItem = new RootItem((INotifyPropertyChanged)this.sourceReference.Target);
             var path = new NotifyingPath(rootItem, this.propertyPath);
-
             var subscription = path.Last()
                                    .ObservePropertyChanged()
                                    .Subscribe(observer.OnNext, observer.OnError);
