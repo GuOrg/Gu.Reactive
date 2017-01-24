@@ -74,6 +74,25 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         }
 
         [Test]
+        public void MoveDoesNotSignal()
+        {
+            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+            var item1 = new Fake { Name = "1" };
+            var item2 = new Fake { Name = "2" };
+            var collection = new ObservableCollection<Fake> { item1, item2 };
+            using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                             .Subscribe(changes.Add))
+            {
+                CollectionAssert.IsEmpty(changes);
+
+                collection.Move(0, 1);
+                CollectionAssert.IsEmpty(changes);
+            }
+
+            CollectionAssert.IsEmpty(changes);
+        }
+
+        [Test]
         public void ReactsWhenPropertyChangesSameInstanceTwice()
         {
             var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
@@ -279,7 +298,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 Assert.AreEqual(1, changes.Count);
                 AssertRx.AreEqual(item3, "Name", item3, "3", changes.Last());
 
-                item1.Name = "new";
+                item1.Name = "new1";
                 Assert.AreEqual(1, changes.Count); // Stopped subscribing
             }
 
@@ -324,24 +343,19 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public void MemoryLeakDisposeTest()
         {
+#if DEBUG
+            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+#endif
             var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-            var collectionRef = new WeakReference(null);
-            var item1Ref = new WeakReference(null);
-            IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = null;
-            new Action(
-                () =>
-                {
-                    var collection = new ObservableCollection<Fake> { new Fake { Name = "1" }, new Fake { Name = "2" } };
-                    collectionRef.Target = collection;
-                    item1Ref.Target = collection[0];
-                    Assert.IsTrue(collectionRef.IsAlive);
-                    observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
-                })();
+            var collection = new ObservableCollection<Fake> { new Fake { Name = "1" }, new Fake { Name = "2" } };
+
+            var collectionRef = new WeakReference(collection);
+            var item1Ref = new WeakReference(collection[0]);
+            IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
+            Assert.IsTrue(collectionRef.IsAlive);
             //// http://stackoverflow.com/a/579001/1069200
-            using (var subscription = observable.Subscribe(changes.Add))
+            using (observable.Subscribe(changes.Add))
             {
-                GC.KeepAlive(observable);
-                GC.KeepAlive(subscription);
                 CollectionAssert.IsEmpty(changes);
             }
 
@@ -350,28 +364,22 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             Assert.IsFalse(item1Ref.IsAlive);
         }
 
-        [Test(Description = "Works in release build. Debug extends scope of variables.")]
+        [Test]
         public void MemoryLeakNoDisposeTest()
         {
 #if DEBUG
-            Assert.Inconclusive();
+            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
             var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-            var collectionRef = new WeakReference(null);
-            var item1Ref = new WeakReference(null);
-            IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = null;
-            new Action(
-                () =>
-                {
-                    var collection = new ObservableCollection<Fake> { new Fake { Name = "1" }, new Fake { Name = "2" } };
-                    collectionRef.Target = collection;
-                    item1Ref.Target = collection[0];
-                    Assert.IsTrue(collectionRef.IsAlive);
-                    observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
-                })();
+            var collection = new ObservableCollection<Fake> { new Fake { Name = "1" }, new Fake { Name = "2" } };
+
+            var collectionRef = new WeakReference(collection);
+            var item1Ref = new WeakReference(collection[0]);
+            IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
+            Assert.IsTrue(collectionRef.IsAlive);
             //// http://stackoverflow.com/a/579001/1069200
 #pragma warning disable GU0030 // Use using.
-            var subscription = observable.Subscribe();
+            var subscription = observable.Subscribe(changes.Add);
 #pragma warning restore GU0030 // Use using.
             GC.KeepAlive(observable);
             GC.KeepAlive(subscription);

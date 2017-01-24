@@ -18,14 +18,12 @@
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
-        private static readonly ObjectIdentityComparer<TItem> IdentityComparer = ObjectIdentityComparer<TItem>.Default;
-
         private readonly IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> sourceObservable;
 
         private readonly bool signalInitial;
         private readonly PropertyPath<TItem, TValue> propertyPath;
         private readonly WeakReference wr = new WeakReference(null);
-        private readonly ConcurrentDictionary<TItem, IDisposable> map = new ConcurrentDictionary<TItem, IDisposable>(IdentityComparer);
+        private readonly ConcurrentDictionary<TItem, IDisposable> map = new ConcurrentDictionary<TItem, IDisposable>(ObjectIdentityComparer<TItem>.Default);
         private readonly object @lock = new object();
         private readonly SerialDisposable collectionChangedSubscription = new SerialDisposable();
         private IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TValue>>> observer;
@@ -168,9 +166,9 @@
                 return;
             }
 
-            var old = this.map.Keys.Except(collection, IdentityComparer).ToArray();
+            var old = this.map.Keys.Except(collection, ObjectIdentityComparer<TItem>.Default).ToArray();
             this.RemoveRange(old);
-            var newItems = collection.Except(this.map.Keys, IdentityComparer).ToArray();
+            var newItems = collection.Except(this.map.Keys, ObjectIdentityComparer<TItem>.Default).ToArray();
             this.AddRange(newItems);
         }
 

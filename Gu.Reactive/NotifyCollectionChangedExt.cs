@@ -11,6 +11,7 @@ namespace Gu.Reactive
     using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
+    using Gu.Reactive.PropertyPathStuff;
 
     /// <summary>
     /// Extension methods for subscribing to collection changes.
@@ -78,7 +79,13 @@ namespace Gu.Reactive
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
-            return new ItemsObservable<TCollection, TItem, TProperty>(source, property, signalInitial);
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
+                    o =>
+                        new ItemsPropertyObservable<TCollection, TItem, TProperty>(
+                            source,
+                            PropertyPath.GetOrCreate(property),
+                            o,
+                            signalInitial));
         }
 
         /// <summary>

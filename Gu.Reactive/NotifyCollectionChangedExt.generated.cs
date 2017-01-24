@@ -5,8 +5,10 @@
     using System.ComponentModel;
     using System.Linq.Expressions;
     using System.Reactive;
+    using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
+    using Gu.Reactive.PropertyPathStuff;
 
     /// <summary>
     /// Factory methods for creating observables from notifying collections.
@@ -27,7 +29,13 @@
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            return new ItemsObservable<ObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
+                    o =>
+                        new ItemsPropertyObservable<ObservableCollection<TItem>, TItem, TProperty>(
+                            source,
+                            PropertyPath.GetOrCreate(property),
+                            o,
+                            signalInitial));
         }
 
         /// <summary>
@@ -63,7 +71,13 @@
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            return new ItemsObservable<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
+                    o =>
+                        new ItemsPropertyObservable<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(
+                            source,
+                            PropertyPath.GetOrCreate(property),
+                            o,
+                            signalInitial));
         }
 
         /// <summary>
@@ -99,7 +113,13 @@
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            return new ItemsObservable<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
+                    o =>
+                        new ItemsPropertyObservable<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(
+                            source,
+                            PropertyPath.GetOrCreate(property),
+                            o,
+                            signalInitial));
         }
 
         /// <summary>

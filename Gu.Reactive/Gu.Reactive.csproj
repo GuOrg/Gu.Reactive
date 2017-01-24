@@ -115,6 +115,7 @@
     <Compile Include="Internals\Ensure.String.cs" />
     <Compile Include="Internals\Ext.cs" />
     <Compile Include="Internals\ItemsObservable{TCollection,TItem,TProperty}.cs" />
+    <Compile Include="Internals\ItemsPropertyObservable{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
     <Compile Include="Internals\ValueAndSender{TValue}.cs" />

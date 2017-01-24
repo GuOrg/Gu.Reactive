@@ -8,8 +8,10 @@ namespace Gu.Reactive
     using System.ComponentModel;
     using System.Linq.Expressions;
     using System.Reactive;
+    using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
+    using Gu.Reactive.PropertyPathStuff;
 
     /// <summary>
     /// Factory methods for creating observables from notifying collections.
@@ -40,7 +42,13 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            return new ItemsObservable<<#= typeName #><TItem>, TItem, TProperty>(source, property, signalInitial);
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
+                    o =>
+                        new ItemsPropertyObservable<<#= typeName #><TItem>, TItem, TProperty>(
+                            source,
+                            PropertyPath.GetOrCreate(property),
+                            o,
+                            signalInitial));
         }
 
         /// <summary>
