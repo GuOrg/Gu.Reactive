@@ -97,7 +97,17 @@ namespace Gu.Reactive
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
-            return new ItemsObservable<TCollection, TItem, TProperty>(source, property);
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
+                o =>
+                    {
+                        var itemsPropertyObservable = new ItemsPropertyObservable<TCollection, TItem, TProperty>(
+                            null,
+                            PropertyPath.GetOrCreate(property),
+                            o,
+                            false);
+                        var subscription = source.Subscribe(x => itemsPropertyObservable.UpdateSource(x.EventArgs.Value));
+                        return new CompositeDisposable(2) { itemsPropertyObservable, subscription };
+                    });
         }
     }
 }

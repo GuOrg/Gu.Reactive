@@ -4,7 +4,9 @@
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq.Expressions;
+
     using System.Reactive;
+    using System.Reactive.Disposables;
     using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
@@ -53,8 +55,17 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            var observable = new ItemsObservable<ObservableCollection<TItem>, TItem, TProperty>(source, property);
-            return observable;
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
+                o =>
+                    {
+                        var itemsPropertyObservable = new ItemsPropertyObservable<ObservableCollection<TItem>, TItem, TProperty>(
+                            null,
+                            PropertyPath.GetOrCreate(property),
+                            o,
+                            false);
+                        var subscription = source.Subscribe(x => itemsPropertyObservable.UpdateSource(x.EventArgs.Value));
+                        return new CompositeDisposable(2) { itemsPropertyObservable, subscription };
+                    });
         }
 
         /// <summary>
@@ -95,8 +106,17 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            var observable = new ItemsObservable<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
-            return observable;
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
+                o =>
+                    {
+                        var itemsPropertyObservable = new ItemsPropertyObservable<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(
+                            null,
+                            PropertyPath.GetOrCreate(property),
+                            o,
+                            false);
+                        var subscription = source.Subscribe(x => itemsPropertyObservable.UpdateSource(x.EventArgs.Value));
+                        return new CompositeDisposable(2) { itemsPropertyObservable, subscription };
+                    });
         }
 
         /// <summary>
@@ -137,8 +157,17 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            var observable = new ItemsObservable<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
-            return observable;
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
+                o =>
+                    {
+                        var itemsPropertyObservable = new ItemsPropertyObservable<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(
+                            null,
+                            PropertyPath.GetOrCreate(property),
+                            o,
+                            false);
+                        var subscription = source.Subscribe(x => itemsPropertyObservable.UpdateSource(x.EventArgs.Value));
+                        return new CompositeDisposable(2) { itemsPropertyObservable, subscription };
+                    });
         }
     }
 }
