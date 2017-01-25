@@ -31,7 +31,7 @@ namespace Gu.Reactive
 
             if (prerequisites.Distinct().Count() != prerequisites.Length)
             {
-                throw new ArgumentException("conditions must be distinct");
+                throw new ArgumentException("Prerequisites must be distinct", nameof(prerequisites));
             }
 
             this.isSatisfied = isSatisfied;
@@ -99,7 +99,9 @@ namespace Gu.Reactive
 
         internal static ICondition[] Prepend(ICondition condition, ICondition[] conditions)
         {
+            Ensure.NotNull(condition, nameof(condition));
             Ensure.NotNullOrEmpty(conditions, nameof(conditions));
+
             var result = new ICondition[conditions.Length + 1];
             result[0] = condition;
             conditions.CopyTo(result, 1);

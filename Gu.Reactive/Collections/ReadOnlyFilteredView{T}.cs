@@ -77,7 +77,7 @@
             this.BufferTime = bufferTime;
             this.SetSource(this.Filtered());
             this.refreshSubscription = FilteredRefresher.Create(this, source, bufferTime, triggers ?? Enumerable.Empty<IObservable<object>>(), scheduler, false)
-                                                    .Subscribe(this.Refresh);
+                                                        .Subscribe(this.Refresh);
         }
 
         /// <inheritdoc/>

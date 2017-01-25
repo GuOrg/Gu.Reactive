@@ -19,7 +19,7 @@
         public static IObservable<T> ObserveIsSatisfiedChanged<T>(this T condition)
             where T : class, ISatisfied
         {
-            var observable = Observable.Create<T>(
+            return Observable.Create<T>(
                 o =>
                 {
                     PropertyChangedEventHandler handler = (_, e) =>
@@ -32,7 +32,6 @@
                     condition.PropertyChanged += handler;
                     return Disposable.Create(() => condition.PropertyChanged -= handler);
                 });
-            return observable;
         }
 
         /// <summary>

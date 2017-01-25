@@ -15,7 +15,7 @@ namespace Gu.Reactive
     /// </summary>
     public class Condition : ICondition
     {
-        private static readonly IReadOnlyList<ICondition> Empty = new ICondition[0];
+        private static readonly IReadOnlyList<ICondition> EmptyPrerequisites = new ICondition[0];
         private static readonly PropertyChangedEventArgs IsSatisfiedChangedEventArgs = new PropertyChangedEventArgs(nameof(IsSatisfied));
         private readonly Func<bool?> criteria;
         private readonly IDisposable subscription;
@@ -57,7 +57,7 @@ namespace Gu.Reactive
             Ensure.NotNull(criteria, nameof(criteria));
 
             this.criteria = criteria;
-            this.prerequisites = Empty;
+            this.prerequisites = EmptyPrerequisites;
             this.name = this.GetType().PrettyName();
             this.subscription = observable.Subscribe(x => this.UpdateIsSatisfied());
             this.UpdateIsSatisfied();

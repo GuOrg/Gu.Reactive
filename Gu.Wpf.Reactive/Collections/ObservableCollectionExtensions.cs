@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Reactive.Concurrency;
     using System.Threading.Tasks;
     using System.Windows;
 
@@ -32,7 +31,7 @@
 
             if (collection.Count == 0)
             {
-                Shedule(() => collection.Add(item));
+                Invoke(() => collection.Add(item));
             }
             else
             {
@@ -42,7 +41,7 @@
                     var result = comparison.Invoke(collection[i], item);
                     if (result >= 1)
                     {
-                        Shedule(() => collection.Insert(i, item));
+                        Invoke(() => collection.Insert(i, item));
                         last = false;
                         break;
                     }
@@ -50,7 +49,7 @@
 
                 if (last)
                 {
-                    Shedule(() => collection.Add(item));
+                    Invoke(() => collection.Add(item));
                 }
             }
         }
@@ -63,7 +62,7 @@
         /// <param name="item">The item to add.</param>
         public static void InvokeAdd<T>(this ObservableCollection<T> collection, T item)
         {
-            Shedule(() => collection.Add(item));
+            Invoke(() => collection.Add(item));
         }
 
         /// <summary>
@@ -74,7 +73,7 @@
         /// <param name="items">The items to add.</param>
         public static void InvokeAddRange<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
         {
-            Shedule(
+            Invoke(
                 () =>
                 {
                     foreach (var newItem in items)
@@ -92,7 +91,7 @@
         /// <param name="item">The item to remove.</param>
         public static void InvokeRemove<T>(this ObservableCollection<T> collection, T item)
         {
-            Shedule(() => collection.Remove(item));
+            Invoke(() => collection.Remove(item));
         }
 
         /// <summary>
@@ -103,14 +102,14 @@
         /// <param name="items">The items to remove.</param>
         public static void InvokeRemoveRange<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
         {
-            Shedule(
+            Invoke(
                 () =>
-                {
-                    foreach (var oldItem in items)
                     {
-                        collection.Remove(oldItem);
-                    }
-                });
+                        foreach (var oldItem in items)
+                        {
+                            collection.Remove(oldItem);
+                        }
+                    });
         }
 
         /// <summary>
@@ -120,7 +119,7 @@
         /// <param name="collection">The collection.</param>
         public static void InvokeClear<T>(this ObservableCollection<T> collection)
         {
-            Shedule(collection.Clear);
+            Invoke(collection.Clear);
         }
 
         /// <summary>
@@ -163,7 +162,7 @@
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static Task<bool> RemoveAsync<T>(this ObservableCollection<T> collection, T item)
         {
-            return InvokeAsyncResult(() => collection.Remove(item));
+            return InvokeAsync(() => collection.Remove(item));
         }
 
         /// <summary>
@@ -171,12 +170,19 @@
         /// </summary>
         public static Task ClearAsync<T>(this ObservableCollection<T> collection)
         {
-            return InvokeAsync(collection.Clear);
+            return InvokeAsync((Action)collection.Clear);
         }
 
-        private static void Shedule(Action action)
+        private static void Invoke(Action action)
         {
-            Schedulers.DispatcherOrCurrentThread.Schedule(action);
+            var application = Application.Current;
+            if (application != null)
+            {
+                application.Dispatcher.Invoke(action);
+                return;
+            }
+
+            action();
         }
 
         private static Task InvokeAsync(Action action)
@@ -191,7 +197,7 @@
             return CompletedTask;
         }
 
-        private static Task<bool> InvokeAsyncResult(Func<bool> action)
+        private static Task<bool> InvokeAsync(Func<bool> action)
         {
             var application = Application.Current;
             if (application != null)
