@@ -28,7 +28,7 @@ namespace Gu.Reactive
             {
                 if (signalInitial)
                 {
-                    o.OnNext(Diff.NotifyCollectionResetEventArgs);
+                    o.OnNext(CachedEventArgs.NotifyCollectionReset);
                 }
                 NotifyCollectionChangedEventHandler fsHandler = (_, e) =>
                 {

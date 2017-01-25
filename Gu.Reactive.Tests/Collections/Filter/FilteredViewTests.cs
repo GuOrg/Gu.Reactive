@@ -26,7 +26,7 @@
                 scheduler.Start();
                 var expected = new List<EventArgs>();
                 expected.Add(new PropertyChangedEventArgs("Filter"));
-                expected.AddRange(Diff.ResetEventArgsCollection);
+                expected.AddRange(CachedEventArgs.ResetEventArgsCollection);
                 CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
                 CollectionAssert.AreEqual(new[] { 1 }, view);
 

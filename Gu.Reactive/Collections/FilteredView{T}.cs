@@ -254,7 +254,7 @@
             {
                 lock (this.Tracker.SyncRoot)
                 {
-                    this.Tracker.Refresh(this, this.Filtered().ToArray(), CollectionSynchronizer<T>.ResetArgs, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+                    this.Tracker.Refresh(this, this.Filtered().ToArray(), CachedEventArgs.SingleNotifyCollectionReset, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
                 }
             }
         }

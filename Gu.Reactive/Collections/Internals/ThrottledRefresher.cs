@@ -10,8 +10,6 @@
 
     internal static class ThrottledRefresher
     {
-        internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-
         private static readonly IObservable<IReadOnlyList<NotifyCollectionChangedEventArgs>> Empty = Observable.Empty<IReadOnlyList<NotifyCollectionChangedEventArgs>>();
 
         internal static IObservable<IReadOnlyList<NotifyCollectionChangedEventArgs>> Create(
@@ -82,7 +80,7 @@
             IScheduler scheduler,
             bool signalInitial)
         {
-            observable = observable.StartWithIf(signalInitial, scheduler, NotifyCollectionResetEventArgs);
+            observable = observable.StartWithIf(signalInitial, scheduler, CachedEventArgs.NotifyCollectionReset);
 
             if (throttleTime > TimeSpan.Zero)
             {

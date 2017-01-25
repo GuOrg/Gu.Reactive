@@ -9,7 +9,7 @@
 
     internal static class FilteredRefresher
     {
-        private static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgses = new[] { Diff.NotifyCollectionResetEventArgs };
+        private static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgses = new[] { CachedEventArgs.NotifyCollectionReset };
 
         internal static IObservable<IReadOnlyList<NotifyCollectionChangedEventArgs>> Create(
             IUpdater updater,

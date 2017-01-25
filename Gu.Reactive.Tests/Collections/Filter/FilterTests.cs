@@ -44,8 +44,8 @@ namespace Gu.Reactive.Tests.Collections.Filter
             CollectionAssert.AreEqual(new[] { 1, 2 }, this.view);
             var expected = new EventArgs[]
                                {
-                                   Notifier.CountPropertyChangedEventArgs,
-                                   Notifier.IndexerPropertyChangedEventArgs,
+                                   CachedEventArgs.CountPropertyChanged,
+                                   CachedEventArgs.IndexerPropertyChanged,
                                    Diff.CreateRemoveEventArgs(3, 2),
                                };
             this.actual.RemoveAll(
@@ -61,8 +61,8 @@ namespace Gu.Reactive.Tests.Collections.Filter
             this.view.Filter = x => x < 3;
             this.scheduler?.Start();
             CollectionAssert.AreEqual(new[] { 1, 2 }, this.view);
-            this.expected.Add(Notifier.CountPropertyChangedEventArgs);
-            this.expected.Add(Notifier.IndexerPropertyChangedEventArgs);
+            this.expected.Add(CachedEventArgs.CountPropertyChanged);
+            this.expected.Add(CachedEventArgs.IndexerPropertyChanged);
             this.expected.Add(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, 3, 2));
 
             this.actual.RemoveAll(
@@ -74,8 +74,8 @@ namespace Gu.Reactive.Tests.Collections.Filter
             this.view.Filter = x => true;
             this.scheduler?.Start();
             CollectionAssert.AreEqual(new[] { 1, 2, 3 }, this.view);
-            this.expected.Add(Notifier.CountPropertyChangedEventArgs);
-            this.expected.Add(Notifier.IndexerPropertyChangedEventArgs);
+            this.expected.Add(CachedEventArgs.CountPropertyChanged);
+            this.expected.Add(CachedEventArgs.IndexerPropertyChanged);
             this.expected.Add(Diff.CreateAddEventArgs(3, 2));
 
             this.actual.RemoveAll(
@@ -92,7 +92,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
 
             this.scheduler?.Start();
             CollectionAssert.IsEmpty(this.view);
-            this.expected.AddRange(Diff.ResetEventArgsCollection);
+            this.expected.AddRange(CachedEventArgs.ResetEventArgsCollection);
 
             this.actual.RemoveAll(
                 x =>

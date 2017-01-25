@@ -37,7 +37,7 @@
                 var newInts = new ObservableCollection<int>(new[] { 4, 5 });
                 view.SetSource(newInts);
                 CollectionAssert.AreEqual(newInts, view);
-                CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, changes, EventArgsComparer.Default);
+                CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, changes, EventArgsComparer.Default);
             }
         }
 
@@ -50,7 +50,7 @@
                 var changes = view.SubscribeAll();
                 view.SetSource(null);
                 CollectionAssert.IsEmpty(view);
-                CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, changes, EventArgsComparer.Default);
+                CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, changes, EventArgsComparer.Default);
             }
         }
 
@@ -63,7 +63,7 @@
                 var changes = view.SubscribeAll();
                 view.ClearSource();
                 CollectionAssert.IsEmpty(view);
-                CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, changes, EventArgsComparer.Default);
+                CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, changes, EventArgsComparer.Default);
             }
         }
 

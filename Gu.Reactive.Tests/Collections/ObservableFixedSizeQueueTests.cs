@@ -54,7 +54,7 @@
         {
             return new EventArgs[]
                        {
-                           Notifier.CountPropertyChangedEventArgs,
+                           CachedEventArgs.CountPropertyChanged,
                            Diff.CreateAddEventArgs(item, index),
                        };
         }

@@ -38,14 +38,14 @@ namespace Gu.Wpf.Reactive.Tests.CollectionViews
         {
             var batchCollection = new DispatchingCollection<int>();
             var actualChanges = batchCollection.SubscribeAll();
-            var expectedChanges = new List<EventArgs>(Diff.ResetEventArgsCollection);
+            var expectedChanges = new List<EventArgs>(CachedEventArgs.ResetEventArgsCollection);
             batchCollection.AddRange(new[] { 1, 2 });
             CollectionAssert.AreEqual(new[] { 1, 2 }, batchCollection);
             CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
 
             batchCollection.AddRange(new[] { 3, 4 });
             CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, batchCollection);
-            expectedChanges.AddRange(Diff.ResetEventArgsCollection);
+            expectedChanges.AddRange(CachedEventArgs.ResetEventArgsCollection);
             CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
         }
 
@@ -94,7 +94,7 @@ namespace Gu.Wpf.Reactive.Tests.CollectionViews
         {
             var batchCollection = new DispatchingCollection<int> { 1, 2, 3, 4 };
             var actualChanges = batchCollection.SubscribeAll();
-            var expectedChanges = new List<EventArgs>(Diff.ResetEventArgsCollection);
+            var expectedChanges = new List<EventArgs>(CachedEventArgs.ResetEventArgsCollection);
 
             batchCollection.RemoveRange(new[] { 1, 2 });
             CollectionAssert.AreEqual(new[] { 3, 4 }, batchCollection);
@@ -102,7 +102,7 @@ namespace Gu.Wpf.Reactive.Tests.CollectionViews
 
             batchCollection.RemoveRange(new[] { 3, 4 });
             CollectionAssert.IsEmpty(batchCollection);
-            expectedChanges.AddRange(Diff.ResetEventArgsCollection);
+            expectedChanges.AddRange(CachedEventArgs.ResetEventArgsCollection);
             CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
         }
 

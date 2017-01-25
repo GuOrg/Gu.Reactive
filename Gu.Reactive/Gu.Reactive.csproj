@@ -38,6 +38,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EventArgs\CachedEventArgs.cs" />
     <Compile Include="Collections\CollectionSynchronizer{T}.cs" />
     <Compile Include="Collections\EditableListView.cs" />
     <Compile Include="Collections\EditableListView{T}.cs" />
@@ -112,7 +113,6 @@
     <Compile Include="Internals\Ensure.cs" />
     <Compile Include="Contracts\IWpfSchedulers.cs" />
     <Compile Include="Internals\Ensure.String.cs" />
-    <Compile Include="Internals\Ext.cs" />
     <Compile Include="Internals\ItemsPropertyObservable{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />

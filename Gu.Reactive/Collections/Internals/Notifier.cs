@@ -8,9 +8,6 @@ namespace Gu.Reactive
 
     internal static class Notifier
     {
-        internal static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs("Count");
-        internal static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
-
         internal static void NotifyReset(
             object sender,
             IScheduler scheduler,
@@ -19,7 +16,7 @@ namespace Gu.Reactive
         {
             Notify(
                 sender,
-                Diff.NotifyCollectionResetEventArgs,
+                CachedEventArgs.NotifyCollectionReset,
                 scheduler,
                 propertyChangedEventHandler,
                 collectionChangeEventHandler);
@@ -62,18 +59,18 @@ namespace Gu.Reactive
             {
                 case NotifyCollectionChangedAction.Add:
                 case NotifyCollectionChangedAction.Remove:
-                    propHandler.Notify(sender, CountPropertyChangedEventArgs);
-                    propHandler.Notify(sender, IndexerPropertyChangedEventArgs);
+                    propHandler.Notify(sender, CachedEventArgs.CountPropertyChanged);
+                    propHandler.Notify(sender, CachedEventArgs.IndexerPropertyChanged);
                     colHandler.Notify(sender, change, scheduler);
                     break;
                 case NotifyCollectionChangedAction.Replace:
                 case NotifyCollectionChangedAction.Move:
-                    propHandler.Notify(sender, IndexerPropertyChangedEventArgs);
+                    propHandler.Notify(sender, CachedEventArgs.IndexerPropertyChanged);
                     colHandler.Notify(sender, change, scheduler);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    propHandler.Notify(sender, CountPropertyChangedEventArgs); // not sure if specialcasing is needed here.
-                    propHandler.Notify(sender, IndexerPropertyChangedEventArgs);
+                    propHandler.Notify(sender, CachedEventArgs.CountPropertyChanged); // not sure if specialcasing is needed here.
+                    propHandler.Notify(sender, CachedEventArgs.IndexerPropertyChanged);
                     colHandler.Notify(sender, change, scheduler);
                     break;
                 default:

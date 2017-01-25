@@ -16,7 +16,7 @@
             var source = new ObservableCollection<int>();
             source.ObserveCollectionChangedSlim(true)
                   .Subscribe(changes.Add);
-            CollectionAssert.AreEqual(new[] { Diff.NotifyCollectionResetEventArgs }, changes);
+            CollectionAssert.AreEqual(new[] { CachedEventArgs.NotifyCollectionReset }, changes);
         }
 
         [Test]

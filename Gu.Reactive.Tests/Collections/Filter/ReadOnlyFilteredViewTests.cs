@@ -26,8 +26,8 @@ namespace Gu.Reactive.Tests.Collections.Filter
                     CollectionAssert.AreEqual(new[] { 1, 2 }, view);
                     var expected = new EventArgs[]
                    {
-                                   Notifier.CountPropertyChangedEventArgs,
-                                   Notifier.IndexerPropertyChangedEventArgs,
+                                   CachedEventArgs.CountPropertyChanged,
+                                   CachedEventArgs.IndexerPropertyChanged,
                                    Diff.CreateRemoveEventArgs(3, 2),
                    };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);

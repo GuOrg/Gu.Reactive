@@ -44,8 +44,8 @@ namespace Gu.Reactive.Tests.Collections
                 ints.Add(1);
                 var expected = new[]
                                    {
-                                   Notifier.CountPropertyChangedEventArgs,
-                                   Notifier.IndexerPropertyChangedEventArgs
+                                   CachedEventArgs.CountPropertyChanged,
+                                   CachedEventArgs.IndexerPropertyChanged
                                };
                 CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
             }
@@ -95,8 +95,8 @@ namespace Gu.Reactive.Tests.Collections
                 CollectionAssert.AreEqual(new[] { 2 }, view);
                 var expected = new EventArgs[]
                    {
-                                   Notifier.CountPropertyChangedEventArgs,
-                                   Notifier.IndexerPropertyChangedEventArgs,
+                                   CachedEventArgs.CountPropertyChanged,
+                                   CachedEventArgs.IndexerPropertyChanged,
                                    Diff.CreateAddEventArgs(2, 0)
                    };
                 CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
@@ -130,8 +130,8 @@ namespace Gu.Reactive.Tests.Collections
                 CollectionAssert.IsEmpty(view);
                 var expected = new EventArgs[]
                    {
-                                   Notifier.CountPropertyChangedEventArgs,
-                                   Notifier.IndexerPropertyChangedEventArgs,
+                                   CachedEventArgs.CountPropertyChanged,
+                                   CachedEventArgs.IndexerPropertyChanged,
                                    Diff.CreateRemoveEventArgs(2, 0)
                    };
                 CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
@@ -164,8 +164,8 @@ namespace Gu.Reactive.Tests.Collections
                 CollectionAssert.AreEqual(new[] { 2 }, view);
                 var expected = new EventArgs[]
                    {
-                                   Notifier.CountPropertyChangedEventArgs,
-                                   Notifier.IndexerPropertyChangedEventArgs,
+                                   CachedEventArgs.CountPropertyChanged,
+                                   CachedEventArgs.IndexerPropertyChanged,
                                    Diff.CreateAddEventArgs(2, 0)
                    };
                 CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);

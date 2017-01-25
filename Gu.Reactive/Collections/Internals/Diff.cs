@@ -6,15 +6,6 @@
 
     internal static class Diff
     {
-        internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-
-        internal static readonly IReadOnlyList<EventArgs> ResetEventArgsCollection = new EventArgs[]
-                                                                                         {
-                                                                                             Notifier.CountPropertyChangedEventArgs,
-                                                                                             Notifier.IndexerPropertyChangedEventArgs,
-                                                                                             NotifyCollectionResetEventArgs
-                                                                                         };
-
         internal static NotifyCollectionChangedEventArgs CollectionChange<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges)
         {
             if (collectionChanges != null && collectionChanges.Count == 1)
@@ -42,7 +33,7 @@
             var diff = before.Count - after.Count;
             if (Math.Abs(diff) > 1)
             {
-                return NotifyCollectionResetEventArgs;
+                return CachedEventArgs.NotifyCollectionReset;
             }
 
             IComparer<T> comparer;
@@ -98,7 +89,7 @@
                 {
                     if (newIndex != after.Count - 1)
                     {
-                        return NotifyCollectionResetEventArgs;
+                        return CachedEventArgs.NotifyCollectionReset;
                     }
 
                     newIndex = i;
@@ -120,7 +111,7 @@
                 {
                     if (oldIndex != before.Count - 1)
                     {
-                        return NotifyCollectionResetEventArgs;
+                        return CachedEventArgs.NotifyCollectionReset;
                     }
 
                     oldIndex = i;
@@ -149,7 +140,7 @@
                     }
                     else
                     {
-                        return NotifyCollectionResetEventArgs;
+                        return CachedEventArgs.NotifyCollectionReset;
                     }
                 }
             }
@@ -172,7 +163,7 @@
                 return CreateReplaceEventArgs(after[oldIndex], before[oldIndex], oldIndex);
             }
 
-            return NotifyCollectionResetEventArgs; // Resetting here, throwing is an alternative.
+            return CachedEventArgs.NotifyCollectionReset; // Resetting here, throwing is an alternative.
         }
 
         private class RefComparer<T> : IComparer<T>

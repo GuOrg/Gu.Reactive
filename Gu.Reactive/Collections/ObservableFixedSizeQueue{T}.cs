@@ -58,7 +58,7 @@
             base.Enqueue(item);
             if (this.Count != count)
             {
-                this.OnPropertyChanged(Notifier.CountPropertyChangedEventArgs);
+                this.OnPropertyChanged(CachedEventArgs.CountPropertyChanged);
             }
 
             if (count >= this.Size)

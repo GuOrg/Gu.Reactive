@@ -88,10 +88,5 @@
                 <local:ConditionToolTip />
             </Setter.Value>
         </Setter>
-        <Setter Property="toolTips:TouchToolTipService.ToolTip">
-            <Setter.Value>
-                <local:ConditionToolTip />
-            </Setter.Value>
-        </Setter>
     </Style>
 </ResourceDictionary>

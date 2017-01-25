@@ -16,8 +16,6 @@
     [DebuggerDisplay("Count = {Current.Count}")]
     public class CollectionSynchronizer<T> : IReadOnlyList<T>
     {
-        internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> ResetArgs = new[] { Diff.NotifyCollectionResetEventArgs };
-        private static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];
         private readonly List<T> inner = new List<T>();
 
         /// <summary>
@@ -167,7 +165,7 @@
         {
             lock (this.SyncRoot)
             {
-                this.Refresh(sender, updated, EmptyArgs, scheduler, propertyChanged, collectionChanged);
+                this.Refresh(sender, updated, CachedEventArgs.EmptyArgs, scheduler, propertyChanged, collectionChanged);
             }
         }
 

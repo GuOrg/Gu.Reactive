@@ -16,6 +16,7 @@
         private NotInpc notInpc;
         private int value;
 
+        // ReSharper disable once NotAccessedField.Local
         private int writeOnly;
 
         public event PropertyChangedEventHandler PropertyChanged;

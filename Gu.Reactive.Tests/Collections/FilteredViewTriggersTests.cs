@@ -34,7 +34,7 @@ namespace Gu.Reactive.Tests.Collections
                 CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
                 scheduler.Start();
 
-                CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, actualChanges, EventArgsComparer.Default);
+                CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, actualChanges, EventArgsComparer.Default);
                 CollectionAssert.IsEmpty(view);
             }
         }
@@ -62,8 +62,8 @@ namespace Gu.Reactive.Tests.Collections
 
                 var expected = new EventArgs[]
                                    {
-                                       Notifier.CountPropertyChangedEventArgs,
-                                       Notifier.IndexerPropertyChangedEventArgs,
+                                       CachedEventArgs.CountPropertyChanged,
+                                       CachedEventArgs.IndexerPropertyChanged,
                                        Diff.CreateAddEventArgs(4, 3)
                                    };
                 CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
@@ -94,8 +94,8 @@ namespace Gu.Reactive.Tests.Collections
 
                 var expected = new EventArgs[]
                                    {
-                                       Notifier.CountPropertyChangedEventArgs,
-                                       Notifier.IndexerPropertyChangedEventArgs,
+                                       CachedEventArgs.CountPropertyChanged,
+                                       CachedEventArgs.IndexerPropertyChanged,
                                        Diff.CreateAddEventArgs(4, 3)
                                    };
                 CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
@@ -132,8 +132,8 @@ namespace Gu.Reactive.Tests.Collections
                 view.Refresh();
                 var expected = new EventArgs[]
                                    {
-                                       Notifier.CountPropertyChangedEventArgs,
-                                       Notifier.IndexerPropertyChangedEventArgs,
+                                       CachedEventArgs.CountPropertyChanged,
+                                       CachedEventArgs.IndexerPropertyChanged,
                                        Diff.CreateRemoveEventArgs(2, 1),
                                        new PropertyChangedEventArgs("Filter"),
                                    };

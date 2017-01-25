@@ -94,7 +94,7 @@
             this.Scheduler.Start();
 
             CollectionAssert.AreEqual(this.Ints, this.View);
-            CollectionAssert.AreEqual(Diff.ResetEventArgsCollection, this.ActualEventArgs, EventArgsComparer.Default);
+            CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, this.ActualEventArgs, EventArgsComparer.Default);
         }
 
         [TestCase(1)]
