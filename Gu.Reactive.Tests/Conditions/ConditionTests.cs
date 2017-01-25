@@ -47,6 +47,9 @@
             {
                 fake.IsTrueOrNull = true;
                 CollectionAssert.AreEqual(new[] { false, true }, condition.History.Select(x => x.State));
+
+                fake.IsTrueOrNull = null;
+                CollectionAssert.AreEqual(new bool?[] { false, true, null }, condition.History.Select(x => x.State));
             }
         }
 

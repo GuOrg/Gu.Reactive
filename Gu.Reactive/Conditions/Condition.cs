@@ -59,10 +59,8 @@ namespace Gu.Reactive
             this.criteria = criteria;
             this.prerequisites = EmptyPrerequisites;
             this.name = this.GetType().PrettyName();
-            this.subscription = observable.Subscribe(x => this.UpdateIsSatisfied());
-            this.UpdateIsSatisfied();
-            this.ObservePropertyChangedSlim(nameof(this.IsSatisfied), true)
-                .Subscribe(_ => this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.isSatisfied)));
+            this.subscription = observable.StartWith((object)null)
+                                          .Subscribe(x => this.UpdateIsSatisfied());
         }
 
         /// <summary>
@@ -113,10 +111,16 @@ namespace Gu.Reactive
                 // The getter calculates the value.
                 if (this.isSatisfied == value)
                 {
+                    if (this.history.Count == 0)
+                    {
+                        this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.isSatisfied));
+                    }
+
                     return;
                 }
 
                 this.isSatisfied = value;
+                this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.isSatisfied));
                 this.OnPropertyChanged(IsSatisfiedChangedEventArgs);
             }
         }

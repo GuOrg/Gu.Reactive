@@ -92,7 +92,11 @@ namespace Gu.Reactive
 
             if (scheduler != null)
             {
+#pragma warning disable GU0011 // Don't ignore returnvalue
+#pragma warning disable GU0033 // Don't ignore returnvalue of type IDisposable.
                 scheduler.Schedule(() => handler(sender, e));
+#pragma warning restore GU0033
+#pragma warning restore GU0011
             }
             else
             {
