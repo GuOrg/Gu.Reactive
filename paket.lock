@@ -19,10 +19,10 @@ GROUP Analyzers
 FRAMEWORK: >= NET45
 NUGET
   remote: http://www.nuget.org/api/v2
-    Gu.Analyzers (0.1.11.8-dev)
+    Gu.Analyzers (0.1.11.9-dev)
     JetBrains.Annotations (10.2.1)
     StyleCop.Analyzers (1.0)
-    WpfAnalyzers (0.2.7.6)
+    WpfAnalyzers (0.2.7.7)
 
 GROUP Test
 FRAMEWORK: >= NET45
@@ -32,7 +32,7 @@ NUGET
     BenchmarkDotNet.Diagnostics.Windows (0.9.7)
       BenchmarkDotNet (>= 0.9.7)
       Microsoft.Diagnostics.Tracing.TraceEvent (>= 1.0.41)
-    Castle.Core (3.3.3)
+    Castle.Core (4.0)
     Microsoft.Diagnostics.Tracing.TraceEvent (1.0.41)
     Microsoft.Reactive.Testing (3.1.1)
       System.Reactive.PlatformServices (>= 3.1.1)
