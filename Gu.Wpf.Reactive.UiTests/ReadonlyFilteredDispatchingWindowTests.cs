@@ -13,28 +13,143 @@
     {
         protected override string WindowName { get; } = "ReadonlyFilteredDispatchingWindow";
 
-        private Table ListBox => this.Window.FindFirstDescendant(x => x.ByText("ListBox"))
+        private Table ListBox => this.Window
+                                     .FindFirstDescendant(x => x.ByText("ListBox"))
                                      .FindFirstDescendant(x => x.ByControlType(ControlType.List))
                                      .AsTable();
 
-        private Table DataGrid => this.Window.FindFirstDescendant(x => x.ByText("DataGrid"))
-                             .FindFirstDescendant(x => x.ByControlType(ControlType.DataGrid))
-                             .AsTable();
+        private Grid DataGrid => this.Window
+                                      .FindFirstDescendant(x => x.ByText("DataGrid"))
+                                      .FindFirstDescendant(x => x.ByControlType(ControlType.DataGrid))
+                                      .AsGrid();
 
-        private IEnumerable<Label> ViewChanges => this.Window.FindFirstDescendant(x => x.ByText("ViewChanges"))
-                                                             .FindAllChildren().Skip(1).Select(x => x.AsLabel());
+        private Button ClearButton => this.Window
+                                          .FindFirstDescendant(x => x.ByText("Clear"))
+                                          .AsButton();
 
-        private IEnumerable<Label> SourceChanges => this.Window.FindFirstDescendant(x => x.ByText("SourceChanges"))
-                                                               .FindAllChildren().Skip(1).Select(x => x.AsLabel());
+        private Button AddOneButton => this.Window
+                                           .FindFirstDescendant(x => x.ByText("AddOne"))
+                                           .AsButton();
+
+        private Button AddTenButton => this.Window
+                                           .FindFirstDescendant(x => x.ByText("AddTen"))
+                                           .AsButton();
+
+        private Button AddOneOnOtherThreadButton => this.Window
+                                   .FindFirstDescendant(x => x.ByText("AddOneOnOtherThread"))
+                                   .AsButton();
+
+        private Button TriggerButton => this.Window
+                                            .FindFirstDescendant(x => x.ByText("Trigger"))
+                                            .AsButton();
+
+        private Button TriggerOnOtherThreadButton => this.Window
+                                                         .FindFirstDescendant(x => x.ByText("TriggerOnOtherThread"))
+                                                         .AsButton();
+
+        private TextBox FilterTextBox => this.Window
+                                             .FindFirstDescendant(x => x.ByAutomationId("FilterText"))
+                                             .AsTextBox();
+
+        private IEnumerable<Label> ViewChanges => this.Window
+                                                      .FindFirstDescendant(x => x.ByText("ViewChanges"))
+                                                      .FindAllChildren()
+                                                      .Skip(1)
+                                                      .Select(x => x.AsLabel());
+
+        private IEnumerable<Label> SourceChanges => this.Window
+                                                        .FindFirstDescendant(x => x.ByText("SourceChanges"))
+                                                        .FindAllChildren()
+                                                        .Skip(1)
+                                                        .Select(x => x.AsLabel());
 
         [Test]
         public void Initializes()
         {
+            this.Restart();
             CollectionAssert.AreEqual(new[] { "1", "2", "3" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
 
             CollectionAssert.AreEqual(new[] { "Reset" }, this.ViewChanges.Select(x => x.Text));
             CollectionAssert.AreEqual(new[] { "Reset" }, this.SourceChanges.Select(x => x.Text));
+        }
+
+        [Test]
+        public void AddOne()
+        {
+            this.ClearButton.Click(false);
+            this.AddOneButton.Click(false);
+            CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+        }
+
+        [Test]
+        public void AddTen()
+        {
+            this.ClearButton.Click(false);
+            this.AddTenButton.Click(false);
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+        }
+
+        [Test]
+        public void FilterThenTrigger()
+        {
+            this.ClearButton.Click(false);
+            this.AddTenButton.Click(false);
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+
+            this.FilterTextBox.Text = "2";
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+
+            this.TriggerButton.Click(false);
+            CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+        }
+
+        [Test]
+        public void FilterThenTriggerOnOtherThread()
+        {
+            this.ClearButton.Click(false);
+            this.AddTenButton.Click(false);
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+
+            this.FilterTextBox.Text = "2";
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+
+            this.TriggerOnOtherThreadButton.Click(false);
+            CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+        }
+
+        [Test]
+        public void AddOneOnOtherThread()
+        {
+            this.ClearButton.Click(false);
+            this.AddOneOnOtherThreadButton.Click(false);
+            CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+        }
+
+        [Test]
+        public void EditDataGrid()
+        {
+            this.ClearButton.Click(false);
+            this.AddTenButton.Click(false);
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+
+            var cell = this.DataGrid.Rows[0].Cells[0];
+            cell.Click(false);
+            cell.AsTextBox().Enter("5");
+            this.ListBox.Focus();
+
+            CollectionAssert.AreEqual(new[] { "5", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "5", "2", "3", "4" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
         }
     }
 }

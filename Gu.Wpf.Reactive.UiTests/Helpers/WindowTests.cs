@@ -17,12 +17,18 @@ namespace Gu.Wpf.Reactive.UiTests
 
         protected abstract string WindowName { get; }
 
-        [OneTimeSetUp]
-        public virtual void OneTimeSetUp()
+        public void Restart()
         {
+            this.application?.Dispose();
             this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
             this.automation = new UIA3Automation();
             this.Window = this.application.GetMainWindow(this.automation);
+        }
+
+        [OneTimeSetUp]
+        public virtual void OneTimeSetUp()
+        {
+            this.Restart();
         }
 
         [OneTimeTearDown]

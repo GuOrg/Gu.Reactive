@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections
+namespace Gu.Reactive.Tests
 {
     using System;
 

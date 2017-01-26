@@ -28,7 +28,7 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="Max" />
-            <TextBox Text="{Binding Max}" />
+            <TextBox Text="{Binding Max}" x:Name="FilterText" />
             <Button Command="{Binding TriggerCommand}" Content="Trigger" />
 
             <Button Command="{Binding TriggerOnOtherThreadCommand}" Content="TriggerOnOtherThread" />
