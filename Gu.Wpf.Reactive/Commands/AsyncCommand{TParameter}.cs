@@ -15,6 +15,8 @@
     public class AsyncCommand<TParameter> : ConditionRelayCommand<TParameter>
     {
         private readonly ITaskRunner<TParameter> runner;
+        private readonly IDisposable runnerSubscription;
+
         private bool disposed;
 
         /// <summary>
@@ -71,8 +73,9 @@
             : base(runner.Run, condition)
         {
             this.runner = runner;
-            runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
-                   .Subscribe(_ => this.OnPropertyChanged(nameof(this.Execution)));
+            this.runnerSubscription = runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
+                                       .Subscribe(_ => this.OnPropertyChanged(nameof(this.Execution)));
+
             this.CancelCommand = new ConditionRelayCommand(runner.Cancel, runner.CanCancelCondition);
         }
 
@@ -130,6 +133,7 @@
             {
                 this.runner.Dispose();
                 this.CancelCommand.Dispose();
+                this.runnerSubscription?.Dispose();
             }
 
             base.Dispose(disposing);

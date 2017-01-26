@@ -27,7 +27,9 @@
 
                 if (dispatcherObject?.CheckAccess() == true)
                 {
+#pragma warning disable GU0011 // Don't ignore the returnvalue.
                     dispatcherObject.Dispatcher.Invoke(DispatcherPriority.DataBind, invocation, sender, e);
+#pragma warning restore GU0011 // Don't ignore the returnvalue.
                 }
                 else
                 {

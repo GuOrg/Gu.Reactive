@@ -80,8 +80,7 @@
             var handler = this.InternalCanExecuteChanged;
             if (handler != null)
             {
-                var scheduler = Schedulers.DispatcherOrCurrentThread;
-                scheduler.Schedule(() => handler(this, EventArgs.Empty));
+                Schedulers.DispatcherOrCurrentThread.Schedule(() => handler.Invoke(this, EventArgs.Empty));
             }
         }
 
