@@ -24,9 +24,9 @@ namespace Gu.Reactive
         protected AbstractCondition(IObservable<object> observable)
         {
             this.condition = new Condition(observable, this.Criteria);
-            this.subscription = this.condition.ObservePropertyChangedSlim()
-                                              .Subscribe(this.OnPropertyChanged);
-            this.Name = this.condition.Name;
+            this.subscription = this.condition.ObserveIsSatisfiedChanged()
+                                              .Subscribe(_ => this.OnPropertyChanged(CachedEventArgs.IsSatisfiedChanged));
+            this.name = this.GetType().Name;
         }
 
         /// <inheritdoc/>
@@ -36,7 +36,7 @@ namespace Gu.Reactive
         public bool? IsSatisfied => this.condition.IsSatisfied;
 
         /// <inheritdoc/>
-        public IReadOnlyList<ICondition> Prerequisites
+        IReadOnlyList<ICondition> ICondition.Prerequisites
         {
             get
             {
@@ -121,20 +121,20 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Raise PropertyChanged event to any listeners.
+        /// </summary>
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
         /// Properties/methods modifying this <see cref="AbstractCondition"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
-        }
-
-        /// <summary>
-        /// Raise PropertyChanged event to any listeners.
-        /// </summary>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -35,6 +35,7 @@
             return summaries;
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private static void CopyResult(string name)
         {
 #if DEBUG

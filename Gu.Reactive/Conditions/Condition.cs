@@ -16,7 +16,6 @@ namespace Gu.Reactive
     public class Condition : ICondition
     {
         private static readonly IReadOnlyList<ICondition> EmptyPrerequisites = new ICondition[0];
-        private static readonly PropertyChangedEventArgs IsSatisfiedChangedEventArgs = new PropertyChangedEventArgs(nameof(IsSatisfied));
         private readonly Func<bool?> criteria;
         private readonly IDisposable subscription;
         private readonly IReadOnlyList<ICondition> prerequisites;
@@ -121,7 +120,7 @@ namespace Gu.Reactive
 
                 this.isSatisfied = value;
                 this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.isSatisfied));
-                this.OnPropertyChanged(IsSatisfiedChangedEventArgs);
+                this.OnPropertyChanged(CachedEventArgs.IsSatisfiedChanged);
             }
         }
 

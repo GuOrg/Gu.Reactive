@@ -9,6 +9,7 @@ namespace Gu.Reactive
     {
         internal static readonly PropertyChangedEventArgs CountPropertyChanged = new PropertyChangedEventArgs("Count");
         internal static readonly PropertyChangedEventArgs IndexerPropertyChanged = new PropertyChangedEventArgs("Item[]");
+        internal static readonly PropertyChangedEventArgs IsSatisfiedChanged = new PropertyChangedEventArgs(nameof(ICondition.IsSatisfied));
 
         internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionReset = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 

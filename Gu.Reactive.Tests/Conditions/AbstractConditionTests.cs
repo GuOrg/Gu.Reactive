@@ -19,8 +19,15 @@ namespace Gu.Reactive.Tests.Conditions
             using (var condition = new FakeCondition(fake))
             {
                 Assert.AreEqual(false, condition.IsSatisfied);
+
                 fake.IsTrueOrNull = true;
                 Assert.AreEqual(true, condition.IsSatisfied);
+
+                fake.IsTrueOrNull = null;
+                Assert.AreEqual(null, condition.IsSatisfied);
+
+                fake.IsTrueOrNull = false;
+                Assert.AreEqual(false, condition.IsSatisfied);
             }
         }
 
@@ -32,8 +39,15 @@ namespace Gu.Reactive.Tests.Conditions
             {
                 var argses = new List<PropertyChangedEventArgs>();
                 condition.PropertyChanged += (sender, args) => argses.Add(args);
+
                 fake.IsTrueOrNull = true;
                 Assert.AreEqual(1, argses.Count);
+
+                fake.IsTrueOrNull = false;
+                Assert.AreEqual(2, argses.Count);
+
+                fake.IsTrueOrNull = null;
+                Assert.AreEqual(3, argses.Count);
             }
         }
 
@@ -49,14 +63,27 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void Name()
+        public void DefaultName()
         {
-            using (var condition = new AbstractConditionImpl(Observable.Empty<object>()) { Name = "Name" })
+            using (var condition = new AbstractConditionImpl(Observable.Empty<object>()))
             {
+                Assert.AreEqual("AbstractConditionImpl", condition.Name);
                 using (var negated = condition.Negate())
                 {
-                    Assert.AreEqual("Name", condition.Name);
-                    Assert.AreEqual("Not_Name", negated.Name);
+                    Assert.AreEqual("Not_AbstractConditionImpl", negated.Name);
+                }
+            }
+        }
+
+        [Test]
+        public void ExplicitName()
+        {
+            using (var condition = new AbstractConditionImpl(Observable.Empty<object>()) { Name = "ExplicitName" })
+            {
+                Assert.AreEqual("ExplicitName", condition.Name);
+                using (var negated = condition.Negate())
+                {
+                    Assert.AreEqual("Not_ExplicitName", negated.Name);
                 }
             }
         }
