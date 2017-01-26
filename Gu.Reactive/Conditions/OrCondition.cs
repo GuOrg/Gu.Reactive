@@ -4,7 +4,7 @@ namespace Gu.Reactive
 
     /// <summary>
     /// Creates an <see cref="ICondition"/> from a collection of condtions.
-    /// It is Satisfied when any prerequisites is staisfied.
+    /// It is Satisfied when any of the prerequisites is staisfied.
     /// If no prerequisite IsSatisfied IsSatisfied returns false.
     /// If no prerequisite is IsSatisFied == true and any prerequisite is null the result is null
     /// </summary>

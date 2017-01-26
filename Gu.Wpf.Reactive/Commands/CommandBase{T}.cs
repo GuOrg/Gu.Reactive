@@ -2,7 +2,6 @@
 {
     using System;
     using System.ComponentModel;
-    using System.Reactive.Concurrency;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Input;
@@ -80,7 +79,15 @@
             var handler = this.InternalCanExecuteChanged;
             if (handler != null)
             {
-                Schedulers.DispatcherOrCurrentThread.Schedule(() => handler.Invoke(this, EventArgs.Empty));
+                var dispatcher = Application.Current?.Dispatcher;
+                if (dispatcher != null)
+                {
+                    dispatcher.BeginInvoke(handler, this, EventArgs.Empty);
+                }
+                else
+                {
+                    handler.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 

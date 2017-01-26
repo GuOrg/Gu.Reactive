@@ -15,6 +15,7 @@ namespace Gu.Reactive.Tests.Collections
             using (var serialDisposable = new SerialDisposable<IDisposable>())
             {
                 serialDisposable.Disposable = mock.Object;
+                Assert.AreSame(mock.Object, serialDisposable.Disposable);
                 mock.Setup(x => x.Dispose());
             }
 
