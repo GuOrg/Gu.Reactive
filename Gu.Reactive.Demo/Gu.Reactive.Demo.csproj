@@ -65,6 +65,12 @@
     <Compile Include="Collections\CollectionViewDemoViewModel.cs">
       <DependentUpon>CollectionViewDemo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Collections\ReadonlyFilteredDispatchingView.xaml.cs">
+      <DependentUpon>ReadonlyFilteredDispatchingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\ReadonlyFilteredDispatchingViewModel.cs">
+      <DependentUpon>ReadonlyFilteredDispatchingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CommandsView.xaml.cs">
       <DependentUpon>CommandsView.xaml</DependentUpon>
     </Compile>
@@ -161,17 +167,18 @@
     <Compile Include="Conditions\ToolTipsView.xaml.cs">
       <DependentUpon>ToolTipsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UiTestWindows\AsyncCommandsWindow.xaml.cs">
-      <DependentUpon>AsyncCommandsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UiTestWindows\ConvertersDemoWindow.xaml.cs">
-      <DependentUpon>ConvertersDemoWindow.xaml</DependentUpon>
+    <Compile Include="UiTestWindows\ReadonlyFilteredDispatchingWindow.xaml.cs">
+      <DependentUpon>ReadonlyFilteredDispatchingWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="AsyncCommandsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Collections\CollectionViewDemo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Collections\ReadonlyFilteredDispatchingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -252,6 +259,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UiTestWindows\ConvertersDemoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\ReadonlyFilteredDispatchingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

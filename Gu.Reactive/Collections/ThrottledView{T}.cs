@@ -5,7 +5,6 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Diagnostics;
-    using System.Linq;
     using System.Reactive.Concurrency;
     using System.Reactive.Disposables;
 
@@ -30,7 +29,7 @@
             this.scheduler = scheduler;
             this.bufferTime = bufferTime;
             this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, bufferTime, scheduler, false)
-                                                               .Subscribe(this.Refresh);
+                                                                    .Subscribe(this.Refresh);
         }
 
         /// <summary>

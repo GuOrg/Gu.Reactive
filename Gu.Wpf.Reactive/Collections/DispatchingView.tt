@@ -14,7 +14,7 @@ namespace Gu.Wpf.Reactive
     public static partial class DispatchingView
     {
 <#
-    var typeNames = new []{"IObservableCollection", "ObservableCollection" };
+    var typeNames = new []{"IObservableCollection", "ObservableCollection", "FilteredView" };
     for(int i = 0; i < typeNames.Length; i++)
     {
         var typeName = typeNames[i];
@@ -47,7 +47,7 @@ namespace Gu.Wpf.Reactive
         }
 <#    } #>
 <#
-    var readOnlyTypeNames = new []{"ReadOnlyObservableCollection", "IReadOnlyObservableCollection" };
+    var readOnlyTypeNames = new []{"ReadOnlyObservableCollection", "IReadOnlyObservableCollection", "ReadOnlyFilteredView" };
     for(int i = 0; i < readOnlyTypeNames.Length; i++)
     {
         var typeName = readOnlyTypeNames[i];
