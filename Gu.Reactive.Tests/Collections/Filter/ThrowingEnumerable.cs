@@ -5,10 +5,10 @@ namespace Gu.Reactive.Tests.Collections.Filter
 
     public class ThrowingEnumerable<T> : IEnumerable<T>
     {
-        private readonly Stack<bool> throws;
+        private readonly Queue<bool> throws;
         private readonly List<T> inner = new List<T>();
 
-        public ThrowingEnumerable(IEnumerable<T> items, Stack<bool> throws)
+        public ThrowingEnumerable(IEnumerable<T> items, Queue<bool> throws)
         {
             this.throws = throws;
             this.inner.AddRange(items);
@@ -16,7 +16,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
 
         public IEnumerator<T> GetEnumerator()
         {
-            return new ThrowingEnumerator(this.inner, this.throws.Count > 0 && this.throws.Pop());
+            return new ThrowingEnumerator(this.inner, this.throws.Count > 0 && this.throws.Dequeue());
         }
 
         IEnumerator IEnumerable.GetEnumerator()

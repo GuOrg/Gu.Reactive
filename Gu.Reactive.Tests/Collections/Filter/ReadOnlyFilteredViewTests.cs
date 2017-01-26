@@ -38,12 +38,12 @@ namespace Gu.Reactive.Tests.Collections.Filter
         }
 
         [Test]
-        public void FilterThrowingEnumerable()
+        public void FilterThrowingEnumerableThrowsAtFirst()
         {
             this.filter = x => true;
             using (var subject = new Subject<object>())
             {
-                var source = new ThrowingEnumerable<int>(new[] { 1, 2, 3, 4 }, new Stack<bool>(new[] { true }));
+                var source = new ThrowingEnumerable<int>(new[] { 1, 2, 3, 4 }, new Queue<bool>(new[] { true }));
                 using (var view = source.AsReadOnlyFilteredView(this.Filter, subject))
                 {
                     CollectionAssert.AreEqual(new[] { 1, 2, 3, 4, 0 }, view);
@@ -58,6 +58,26 @@ namespace Gu.Reactive.Tests.Collections.Filter
                                            Diff.CreateRemoveEventArgs(0, 4),
                                        };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void FilterThrowingEnumerableThrowsAtSecond()
+        {
+            this.filter = x => true;
+            using (var subject = new Subject<object>())
+            {
+                var source = new ThrowingEnumerable<int>(new[] { 1, 2, 3, 4 }, new Queue<bool>(new[] { false, true }));
+                using (var view = source.AsReadOnlyFilteredView(this.Filter, subject))
+                {
+                    CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
+                    var actual = view.SubscribeAll();
+
+                    this.filter = x => x > 0;
+                    subject.OnNext(null);
+                    CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
+                    CollectionAssert.IsEmpty(actual);
                 }
             }
         }

@@ -26,7 +26,7 @@
         /// </summary>
         public CollectionSynchronizer(IEnumerable<T> source)
         {
-            this.inner.AddRange(source ?? Enumerable.Empty<T>());
+            this.Update(source ?? Enumerable.Empty<T>(), null, false);
         }
 
         /// <summary>
@@ -69,8 +69,13 @@
         }
 
         /// <inheritdoc/>
-        // ReSharper disable once InconsistentlySynchronizedField
-        public IEnumerator<T> GetEnumerator() => this.inner.GetEnumerator();
+        public IEnumerator<T> GetEnumerator()
+        {
+            lock (this.inner)
+            {
+                return this.inner.GetEnumerator();
+            }
+        }
 
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
@@ -227,6 +232,7 @@
                     this.inner.AddRange(this.temp);
                 }
 
+                this.temp.Clear();
                 return change;
             }
         }
