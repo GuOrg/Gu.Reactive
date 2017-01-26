@@ -6,7 +6,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
 
     using NUnit.Framework;
 
-    public class FilteredView : FilterTests
+    public class FilteredViewTestsBase : FilterTests
     {
         [SetUp]
         public override void SetUp()

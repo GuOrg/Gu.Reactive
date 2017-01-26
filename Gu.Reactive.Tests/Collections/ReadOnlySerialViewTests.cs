@@ -30,13 +30,12 @@
         [Test]
         public void SetSource()
         {
-            var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            using (var view = new ReadOnlySerialView<int>(ints))
+            using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
                 var changes = view.SubscribeAll();
-                var newInts = new ObservableCollection<int>(new[] { 4, 5 });
-                view.SetSource(newInts);
-                CollectionAssert.AreEqual(newInts, view);
+                var newSource = new[] { 4, 5 };
+                view.SetSource(newSource);
+                CollectionAssert.AreEqual(newSource, view);
                 CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, changes, EventArgsComparer.Default);
             }
         }
@@ -44,13 +43,24 @@
         [Test]
         public void SetSourceNull()
         {
-            var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            using (var view = new ReadOnlySerialView<int>(ints))
+            using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
                 var changes = view.SubscribeAll();
                 view.SetSource(null);
                 CollectionAssert.IsEmpty(view);
                 CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, changes, EventArgsComparer.Default);
+            }
+        }
+
+        [Test]
+        public void SetSourceToEqual()
+        {
+            using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
+            {
+                var changes = view.SubscribeAll();
+                view.SetSource(new[] { 1, 2, 3 });
+                CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+                CollectionAssert.IsEmpty(changes);
             }
         }
 

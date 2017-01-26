@@ -57,8 +57,13 @@ namespace Gu.Reactive.Tests.Conditions
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new FakeCondition(fake))
             {
+                CollectionAssert.AreEqual(new bool?[] { false }, condition.History.Select(x => x.State));
+
                 fake.IsTrueOrNull = true;
                 CollectionAssert.AreEqual(new bool?[] { false, true }, condition.History.Select(x => x.State));
+
+                fake.IsTrueOrNull = null;
+                CollectionAssert.AreEqual(new bool?[] { false, true, null }, condition.History.Select(x => x.State));
             }
         }
 

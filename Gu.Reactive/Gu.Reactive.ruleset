@@ -1,5 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Rules for Gu.Reactive" Description="Code analysis rules for Gu.Reactive.csproj." ToolsVersion="14.0">
+  <Rules AnalyzerId="Gu.Analyzers.Analyzers" RuleNamespace="Gu.Analyzers.Analyzers">
+    <Rule Id="GU0001" Action="Warning" />
+    <Rule Id="GU0002" Action="Warning" />
+    <Rule Id="GU0003" Action="Warning" />
+    <Rule Id="GU0004" Action="Warning" />
+    <Rule Id="GU0006" Action="Warning" />
+    <Rule Id="GU0010" Action="Warning" />
+    <Rule Id="GU0011" Action="None" />
+    <Rule Id="GU0020" Action="Warning" />
+    <Rule Id="GU0021" Action="Warning" />
+    <Rule Id="GU0022" Action="Warning" />
+    <Rule Id="GU0033" Action="Warning" />
+  </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1001" Action="Warning" />
     <Rule Id="CA1009" Action="Warning" />
@@ -67,34 +80,11 @@
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1118" Action="None" />
     <Rule Id="SA1401" Action="None" />
+    <Rule Id="SA1404" Action="None" />
     <Rule Id="SA1611" Action="None" />
     <Rule Id="SA1615" Action="None" />
     <Rule Id="SA1618" Action="None" />
     <Rule Id="SA1623" Action="None" />
     <Rule Id="SA1633" Action="None" />
-  </Rules>
-  <Rules AnalyzerId="Gu.Analyzers.Analyzers" RuleNamespace="Gu.Analyzers.Analyzers">
-    <Rule Id="GU0001" Action="Warning" />
-    <Rule Id="GU0002" Action="Warning" />
-    <Rule Id="GU0003" Action="Warning" />
-    <Rule Id="GU0004" Action="Warning" />
-    <Rule Id="GU0005" Action="Warning" />
-    <Rule Id="GU0006" Action="Warning" />
-    <Rule Id="GU0007" Action="None" />
-    <Rule Id="GU0008" Action="None" />
-    <Rule Id="GU0010" Action="Warning" />
-    <Rule Id="GU0011" Action="None" />
-    <Rule Id="GU0020" Action="Warning" />
-    <Rule Id="GU0021" Action="Warning" />
-    <Rule Id="GU0022" Action="Warning" />
-    <Rule Id="GU0030" Action="Warning" />
-    <Rule Id="GU0031" Action="Warning" />
-    <Rule Id="GU0032" Action="Warning" />
-    <Rule Id="GU0033" Action="Warning" />
-    <Rule Id="GU0034" Action="Warning" />
-    <Rule Id="GU0035" Action="Warning" />
-    <Rule Id="GU0036" Action="Warning" />
-    <Rule Id="GU0037" Action="Warning" />
-    <Rule Id="GU0050" Action="Warning" />
   </Rules>
 </RuleSet>

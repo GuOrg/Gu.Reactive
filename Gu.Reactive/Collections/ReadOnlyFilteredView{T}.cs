@@ -5,6 +5,7 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive.Concurrency;
 
@@ -68,6 +69,7 @@
             Ensure.NotNull(trigger, nameof(trigger));
         }
 
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, IScheduler scheduler, TimeSpan bufferTime, IReadOnlyList<IObservable<object>> triggers)
         {
             Ensure.NotNull(source, nameof(source));
@@ -75,7 +77,7 @@
             this.source = source;
             this.Filter = filter;
             this.BufferTime = bufferTime;
-            this.SetSource(this.Filtered());
+            this.SetSourceCore(this.Filtered());
             this.refreshSubscription = FilteredRefresher.Create(this, source, bufferTime, triggers ?? Enumerable.Empty<IObservable<object>>(), scheduler, false)
                                                         .Subscribe(this.Refresh);
         }

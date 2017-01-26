@@ -45,6 +45,8 @@
             var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
             using (var condition = new Condition(observable, () => fake.IsTrueOrNull))
             {
+                CollectionAssert.AreEqual(new[] { false }, condition.History.Select(x => x.State));
+
                 fake.IsTrueOrNull = true;
                 CollectionAssert.AreEqual(new[] { false, true }, condition.History.Select(x => x.State));
 

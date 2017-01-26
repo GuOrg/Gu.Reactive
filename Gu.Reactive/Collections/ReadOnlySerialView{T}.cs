@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Reactive.Disposables;
 
     /// <summary>
@@ -25,6 +26,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
         /// </summary>
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public ReadOnlySerialView(IEnumerable<T> source)
             : base(source, true, true)
         {

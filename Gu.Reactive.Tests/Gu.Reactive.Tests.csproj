@@ -55,14 +55,15 @@
     <Compile Include="Collections\CrudView\FilteredNoScheduler.cs" />
     <Compile Include="Collections\CrudView\FilteredView.cs" />
     <Compile Include="Collections\Filter\ReadOnlyFilteredViewTests.cs" />
+    <Compile Include="Collections\Filter\ThrowingEnumerable.cs" />
     <Compile Include="Collections\ObservableBatchCollectionTests.cs" />
     <Compile Include="Collections\ReadOnlySerialViewTests.cs" />
-    <Compile Include="Collections\SerialDisposableTests.cs" />
+    <Compile Include="SerialDisposableTests.cs" />
     <Compile Include="Collections\ThrottledRefresherTests.cs" />
     <Compile Include="Collections\DiffTests.cs" />
     <Compile Include="Collections\CrudView\CrudViewTests.cs" />
     <Compile Include="Collections\ExtensionsTests.cs" />
-    <Compile Include="Collections\Filter\FilteredView.cs" />
+    <Compile Include="Collections\Filter\FilteredViewTestsBase.cs" />
     <Compile Include="Collections\Filter\FilteredViewNoScheduler.cs" />
     <Compile Include="Collections\Filter\FilterTests.cs" />
     <Compile Include="Collections\Filter\FilteredViewTests.cs" />

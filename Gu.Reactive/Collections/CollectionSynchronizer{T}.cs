@@ -6,6 +6,7 @@
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive.Concurrency;
 
@@ -14,8 +15,10 @@
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Current.Count}")]
+    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public class CollectionSynchronizer<T> : IReadOnlyList<T>
     {
+        private readonly List<T> temp = new List<T>();
         private readonly List<T> inner = new List<T>();
 
         /// <summary>
@@ -66,6 +69,7 @@
         }
 
         /// <inheritdoc/>
+        // ReSharper disable once InconsistentlySynchronizedField
         public IEnumerator<T> GetEnumerator() => this.inner.GetEnumerator();
 
         /// <inheritdoc/>
@@ -158,7 +162,7 @@
         /// <param name="collectionChanged">The <see cref="NotifyCollectionChangedEventHandler"/> to notify on.</param>
         public void Reset(
             object sender,
-            IReadOnlyList<T> updated,
+            IEnumerable<T> updated,
             IScheduler scheduler,
             PropertyChangedEventHandler propertyChanged,
             NotifyCollectionChangedEventHandler collectionChanged)
@@ -180,7 +184,7 @@
         /// <param name="collectionChanged">The <see cref="NotifyCollectionChangedEventHandler"/> to notify on.</param>
         public void Refresh(
             object sender,
-            IReadOnlyList<T> updated,
+            IEnumerable<T> updated,
             IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges,
             IScheduler scheduler,
             PropertyChangedEventHandler propertyChanged,
@@ -196,18 +200,35 @@
             }
         }
 
-        private NotifyCollectionChangedEventArgs Update(IReadOnlyList<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges, bool calculateDiff)
+        private NotifyCollectionChangedEventArgs Update(IEnumerable<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges, bool calculateDiff)
         {
-            NotifyCollectionChangedEventArgs change = calculateDiff
-                                                          ? Diff.CollectionChange(this.inner, updated, collectionChanges)
-                                                          : null;
-            if (!calculateDiff || change != null)
+            lock (this.inner)
             {
-                this.inner.Clear();
-                this.inner.AddRange(updated);
-            }
+                // retrying five times here if collection is modified.
+                for (var i = 0; i < 5; i++)
+                {
+                    this.temp.Clear();
+                    try
+                    {
+                        this.temp.AddRange(updated);
+                        break;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                    }
+                }
 
-            return change;
+                var change = calculateDiff
+                                 ? Diff.CollectionChange(this.inner, this.temp, collectionChanges)
+                                 : null;
+                if (!calculateDiff || change != null)
+                {
+                    this.inner.Clear();
+                    this.inner.AddRange(this.temp);
+                }
+
+                return change;
+            }
         }
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Reactive.Disposables;
@@ -23,7 +24,7 @@
         /// </summary>
         public ReadOnlyIListView(IObservableCollection<T> source)
         {
-            this.source = source.AsReadOnly();
+            this.source = new ReadOnlyCollection<T>(source);
             this.subscriptions = this.Subscribe(source);
         }
 
@@ -64,6 +65,7 @@
         object IList.this[int index]
         {
             get { return this[index]; }
+            //// ReSharper disable once ValueParameterNotUsed
             set { ThrowHelper.ThrowCollectionIsReadonly(); }
         }
 

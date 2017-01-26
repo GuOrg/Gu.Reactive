@@ -74,23 +74,20 @@
         {
             this.ThrowIfDisposed();
             (this.Source as IRefreshAble)?.Refresh();
-            var updated = this.Source.AsReadOnly();
-            this.Tracker.Reset(this, updated, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+            this.Tracker.Reset(this, this.Source, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
         }
 
         /// <inheritdoc/>
         protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
         {
-            var updated = this.Source.AsReadOnly();
-            this.Tracker.Refresh(this, updated, new[] { e }, null, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+            this.Tracker.Refresh(this, this.Source, new[] { e }, null, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
         }
 
         /// <inheritdoc/>
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             this.ThrowIfDisposed();
-            var updated = this.Source as IReadOnlyList<T> ?? this.Source.ToArray();
-            this.Tracker.Refresh(this, updated, changes, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+            this.Tracker.Refresh(this, this.Source, changes, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
         }
 
         /// <summary>

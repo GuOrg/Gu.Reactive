@@ -5,6 +5,7 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive.Concurrency;
     using System.Reactive.Disposables;
@@ -130,6 +131,7 @@
         {
         }
 
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private MappingView(IEnumerable<TSource> source, IScheduler scheduler, IMappingFactory<TSource, TResult> factory, params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
@@ -150,7 +152,7 @@
                 this.updateSubscription.Add(triggerSubscription);
             }
 
-            this.SetSource(this.mapped);
+            this.SetSourceCore(this.mapped);
         }
 
         /// <inheritdoc/>

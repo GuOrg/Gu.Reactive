@@ -144,8 +144,7 @@
                 lock (this.Tracker.SyncRoot)
                 {
                     (this.Source as IRefreshAble)?.Refresh();
-                    var updated = this.Filtered().ToArray();
-                    this.Tracker.Reset(this, updated, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+                    this.Tracker.Reset(this, this.Filtered(), this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
                 }
             }
         }
@@ -254,7 +253,7 @@
             {
                 lock (this.Tracker.SyncRoot)
                 {
-                    this.Tracker.Refresh(this, this.Filtered().ToArray(), CachedEventArgs.SingleNotifyCollectionReset, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+                    this.Tracker.Refresh(this, this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
                 }
             }
         }
@@ -266,8 +265,7 @@
             {
                 lock (this.Tracker.SyncRoot)
                 {
-                    var updated = this.Filtered().ToArray();
-                    this.Tracker.Refresh(this, updated, null, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+                    this.Tracker.Refresh(this, this.Filtered(), null, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
                 }
             }
         }

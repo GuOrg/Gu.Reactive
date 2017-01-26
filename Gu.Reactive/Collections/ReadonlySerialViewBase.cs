@@ -87,8 +87,16 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         object IList.this[int index]
         {
-            get { return this[index]; }
-            set { ThrowHelper.ThrowCollectionIsReadonly(); }
+            get
+            {
+                return this[index];
+            }
+
+            // ReSharper disable once ValueParameterNotUsed
+            set
+            {
+                ThrowHelper.ThrowCollectionIsReadonly();
+            }
         }
 
         /// <inheritdoc/>
@@ -138,8 +146,7 @@ namespace Gu.Reactive
                 lock (this.tracker.SyncRoot)
                 {
                     (this.Source as IRefreshAble)?.Refresh();
-                    var source = this.Source.AsReadOnly();
-                    this.tracker.Reset(this, source, null, this.PropertyChanged, this.CollectionChanged);
+                    this.tracker.Reset(this, this.Source, null, this.PropertyChanged, this.CollectionChanged);
                 }
             }
         }
@@ -158,6 +165,14 @@ namespace Gu.Reactive
         /// Update the source collection and notify about changes.
         /// </summary>
         protected virtual void SetSource(IEnumerable<T> source)
+        {
+            this.SetSourceCore(source);
+        }
+
+        /// <summary>
+        /// Update the source collection and notify about changes.
+        /// </summary>
+        protected void SetSourceCore(IEnumerable<T> source)
         {
             this.ThrowIfDisposed();
             this.Source = source ?? Empty;
@@ -233,8 +248,7 @@ namespace Gu.Reactive
             {
                 lock (this.tracker.SyncRoot)
                 {
-                    var source = this.Source.AsReadOnly();
-                    this.tracker.Refresh(this, source, changes, null, this.PropertyChanged, this.CollectionChanged);
+                    this.tracker.Refresh(this, this.Source, changes, null, this.PropertyChanged, this.CollectionChanged);
                 }
             }
         }

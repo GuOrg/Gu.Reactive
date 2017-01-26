@@ -20,7 +20,7 @@
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
         public ReadOnlyThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : this(bufferTime, scheduler, source.AsReadOnly())
+            : this(bufferTime, scheduler, source)
         {
         }
 
@@ -28,7 +28,7 @@
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
         public ReadOnlyThrottledView(ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : this(bufferTime, scheduler, source.AsReadOnly())
+            : this(bufferTime, scheduler, source)
         {
         }
 
@@ -36,7 +36,7 @@
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
         public ReadOnlyThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : this(bufferTime, scheduler, source.AsReadOnly())
+            : this(bufferTime, scheduler, source)
         {
         }
 
@@ -48,12 +48,12 @@
         {
         }
 
-        private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler scheduler, IReadOnlyList<T> source)
+        private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler scheduler, IEnumerable<T> source)
             : base(source, true, true)
         {
             this.BufferTime = bufferTime;
             this.refreshSubscription = ThrottledRefresher.Create(this, source, bufferTime, scheduler, false)
-                                                     .Subscribe(this.Refresh);
+                                                         .Subscribe(this.Refresh);
         }
 
         /// <summary>
