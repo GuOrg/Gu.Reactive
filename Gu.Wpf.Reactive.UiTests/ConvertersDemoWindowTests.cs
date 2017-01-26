@@ -2,9 +2,9 @@
 {
     using System;
 
-    using NUnit.Framework;
+    using FlaUI.Core.AutomationElements.Infrastructure;
 
-    using TestStack.White.UIItems;
+    using NUnit.Framework;
 
     public class ConvertersDemoWindowTests : WindowTests
     {
@@ -13,15 +13,15 @@
         [Test]
         public void StringComparisonToBoolConverter()
         {
-            var groupBox = this.Window.GetByText<GroupBox>("EnumToBool");
-            var currentCultureButton = groupBox.GetByText<RadioButton>(StringComparison.CurrentCulture.ToString());
-            var ordinalIgnoreCaseButton = groupBox.GetByText<RadioButton>(StringComparison.OrdinalIgnoreCase.ToString());
-            Assert.AreEqual("CurrentCulture", groupBox.Get<Label>("StringComparison").Text);
+            var groupBox = this.Window.FindFirstDescendant(x => x.ByText("EnumToBool"));
+            var currentCultureButton = groupBox.FindFirstDescendant(x => x.ByText(StringComparison.CurrentCulture.ToString())).AsRadioButton();
+            var ordinalIgnoreCaseButton = groupBox.FindFirstDescendant(x => x.ByText(StringComparison.OrdinalIgnoreCase.ToString())).AsRadioButton();
+            Assert.AreEqual("CurrentCulture", groupBox.FindFirstDescendant(x => x.ByText("StringComparison")).AsLabel().Text);
             Assert.AreEqual(true, currentCultureButton.IsSelected);
             Assert.AreEqual(false, ordinalIgnoreCaseButton.IsSelected);
 
             ordinalIgnoreCaseButton.Click();
-            Assert.AreEqual("OrdinalIgnoreCase", groupBox.Get<Label>("StringComparison").Text);
+            Assert.AreEqual("OrdinalIgnoreCase", groupBox.FindFirstDescendant(x => x.ByText("StringComparison")).AsLabel().Text);
             Assert.AreEqual(false, currentCultureButton.IsSelected);
             Assert.AreEqual(true, ordinalIgnoreCaseButton.IsSelected);
         }

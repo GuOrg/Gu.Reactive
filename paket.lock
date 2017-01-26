@@ -33,6 +33,9 @@ NUGET
       BenchmarkDotNet (>= 0.9.7)
       Microsoft.Diagnostics.Tracing.TraceEvent (>= 1.0.41)
     Castle.Core (3.3.3)
+    FlaUI.Core (0.6.1)
+    FlaUI.UIA3 (0.6.1)
+      FlaUI.Core (>= 0.6.1)
     Microsoft.Diagnostics.Tracing.TraceEvent (1.0.41)
     Microsoft.Reactive.Testing (3.1.1)
       System.Reactive.PlatformServices (>= 3.1.1)
@@ -108,5 +111,3 @@ NUGET
       System.Security.Cryptography.Algorithms (>= 4.3) - framework: >= net46
       System.Security.Cryptography.Encoding (>= 4.3) - framework: >= net46
     System.Threading.Timer (4.3)
-    TestStack.White (0.13.3)
-      Castle.Core (>= 3.3)

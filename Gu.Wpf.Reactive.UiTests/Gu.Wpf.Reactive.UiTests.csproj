@@ -51,10 +51,9 @@
   <ItemGroup>
     <Compile Include="ConvertersDemoWindowTests.cs" />
     <Compile Include="Helpers\Info.cs" />
-    <Compile Include="Helpers\KeyboardExt.cs" />
-    <Compile Include="Helpers\UIItemExt.cs" />
     <Compile Include="Helpers\WindowTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadonlyFilteredDispatchingWindowTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Gu.Wpf.Reactive.UiTests.ruleset" />
@@ -119,8 +118,24 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
-        <Reference Include="Castle.Core">
-          <HintPath>..\packages\test\Castle.Core\lib\net45\Castle.Core.dll</HintPath>
+        <Reference Include="FlaUI.Core">
+          <HintPath>..\packages\test\FlaUI.Core\lib\net45\FlaUI.Core.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
+      <ItemGroup>
+        <Reference Include="FlaUI.UIA3">
+          <HintPath>..\packages\test\FlaUI.UIA3\lib\net45\FlaUI.UIA3.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="interop.UIAutomationCore">
+          <HintPath>..\packages\test\FlaUI.UIA3\lib\net45\interop.UIAutomationCore.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -457,17 +472,6 @@
       <ItemGroup>
         <Reference Include="System.Security.Cryptography.X509Certificates">
           <HintPath>..\packages\test\System.Security.Cryptography.X509Certificates\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
-      <ItemGroup>
-        <Reference Include="TestStack.White">
-          <HintPath>..\packages\test\TestStack.White\lib\net40\TestStack.White.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

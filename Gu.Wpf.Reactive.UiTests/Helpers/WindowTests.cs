@@ -1,14 +1,17 @@
 namespace Gu.Wpf.Reactive.UiTests
 {
-    using NUnit.Framework;
+    using FlaUI.Core;
+    using FlaUI.Core.AutomationElements;
+    using FlaUI.Core.Input;
+    using FlaUI.Core.WindowsAPI;
+    using FlaUI.UIA3;
 
-    using TestStack.White;
-    using TestStack.White.UIItems.WindowItems;
-    using TestStack.White.WindowsAPI;
+    using NUnit.Framework;
 
     public abstract class WindowTests
     {
         private Application application;
+        private UIA3Automation automation;
 
         protected Window Window { get; private set; }
 
@@ -18,14 +21,15 @@ namespace Gu.Wpf.Reactive.UiTests
         public virtual void OneTimeSetUp()
         {
             this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
-            this.Window = this.application.GetWindow(this.WindowName);
+            this.automation = new UIA3Automation();
+            this.Window = this.application.GetMainWindow(this.automation);
         }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            this.Window?.Keyboard.PressAndLeaveSpecialKey(KeyboardInput.SpecialKeys.CONTROL);
-            this.Window?.Keyboard.PressAndLeaveSpecialKey(KeyboardInput.SpecialKeys.SHIFT);
+            Keyboard.ReleaseScanCode((ushort)ScanCodeShort.CONTROL, false);
+            Keyboard.ReleaseScanCode((ushort)ScanCodeShort.SHIFT, false);
             this.application?.Dispose();
         }
     }

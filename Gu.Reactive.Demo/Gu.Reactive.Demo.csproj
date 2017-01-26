@@ -167,9 +167,6 @@
     <Compile Include="Conditions\ToolTipsView.xaml.cs">
       <DependentUpon>ToolTipsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UiTestWindows\ReadonlyFilteredDispatchingWindow.xaml.cs">
-      <DependentUpon>ReadonlyFilteredDispatchingWindow.xaml</DependentUpon>
-    </Compile>
     <Page Include="AsyncCommandsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

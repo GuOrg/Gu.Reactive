@@ -58,7 +58,6 @@
                     return Disposable.Create(() => incc.CollectionChanged -= fsHandler);
                 });
             return observable.Buffer(throttleTime, scheduler, signalInitial);
-            //.ObserveOn(scheduler);
         }
 
         internal static IObservable<T> StartWithIf<T>(this IObservable<T> observable, bool condition, IScheduler scheduler, T toPrepend)

@@ -33,6 +33,7 @@
 
             <Button Command="{Binding TriggerOnOtherThreadCommand}" Content="TriggerOnOtherThread" />
         </StackPanel>
+        
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -55,11 +56,11 @@
                 <DataGrid x:Name="DataGrid" ItemsSource="{Binding DispatchingView}" />
             </GroupBox>
 
-            <GroupBox Grid.Column="2" Header="DispatchingChanges">
+            <GroupBox Grid.Column="2" Header="ViewChanges">
                 <ItemsControl ItemsSource="{Binding DispatchingChanges}" />
             </GroupBox>
 
-            <GroupBox Grid.Column="3" Header="ObservableCollectionChanges">
+            <GroupBox Grid.Column="3" Header="SourceChanges">
                 <ItemsControl ItemsSource="{Binding ObservableCollectionChanges}" />
             </GroupBox>
         </Grid>
