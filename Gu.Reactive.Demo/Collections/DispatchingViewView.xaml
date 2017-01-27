@@ -4,8 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             >
+             mc:Ignorable="d">
     <UserControl.DataContext>
         <demo:DispatchingViewViewModel />
     </UserControl.DataContext>
@@ -15,25 +14,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <WrapPanel Grid.Row="0">
-            <Button Command="{Binding AddOneCommand}"
-                    Content="AddOne"
-                    />
+            <Button Command="{Binding AddOneCommand}" Content="AddOne" />
 
-            <Button Command="{Binding AddOneToViewCommand}"
-                    Content="AddOneToView"
-                    />
+            <Button Command="{Binding AddOneToViewCommand}" Content="AddOneToView" />
 
-            <Button Command="{Binding AddTenCommand}"
-                    Content="AddTen"
-                    />
+            <Button Command="{Binding AddFourCommand}" Content="AddFour" />
 
-            <Button Command="{Binding AddOneOnOtherThreadCommand}"
-                    Content="AddOneOnOtherThread"
-                    />
+            <Button Command="{Binding AddOneOnOtherThreadCommand}" Content="AddOneOnOtherThread" />
 
-            <Button Command="{Binding ClearCommand}"
-                    Content="Clear"
-                    />
+            <Button Command="{Binding ClearCommand}" Content="Clear" />
         </WrapPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -43,32 +32,26 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <GroupBox Grid.Column="0"
-                      Header="ListBox"
-                      >
-                <ListBox x:Name="ListBox"
-                         ItemsSource="{Binding DispatchingView}"
-                         />
+            <GroupBox Grid.Column="0" Header="ListBox">
+                <ListBox x:Name="ListBox" ItemsSource="{Binding View}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type demo:DummyItem}">
+                            <TextBlock Text="{Binding Value}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </GroupBox>
 
-            <GroupBox Grid.Column="1"
-                      Header="DataGrid"
-                      >
-                <DataGrid x:Name="DataGrid"
-                          ItemsSource="{Binding DispatchingView}"
-                          />
+            <GroupBox Grid.Column="1" Header="DataGrid">
+                <DataGrid x:Name="DataGrid" ItemsSource="{Binding View}" />
             </GroupBox>
 
-            <GroupBox Grid.Column="2"
-                      Header="DispatchingChanges"
-                      >
-                <ItemsControl ItemsSource="{Binding DispatchingChanges}" />
+            <GroupBox Grid.Column="2" Header="ViewChanges">
+                <ItemsControl ItemsSource="{Binding ViewChanges}" />
             </GroupBox>
 
-            <GroupBox Grid.Column="3"
-                      Header="ObservableCollectionChanges"
-                      >
-                <ItemsControl ItemsSource="{Binding ObservableCollectionChanges}" />
+            <GroupBox Grid.Column="3" Header="SourceChanges">
+                <ItemsControl ItemsSource="{Binding SourceChanges}" />
             </GroupBox>
         </Grid>
     </Grid>

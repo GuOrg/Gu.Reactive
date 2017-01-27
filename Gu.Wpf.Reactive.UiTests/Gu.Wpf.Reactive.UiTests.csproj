@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ConvertersDemoWindowTests.cs" />
     <Compile Include="DispatchingCollectionWindowTests.cs" />
+    <Compile Include="DispatchingViewWindowTests.cs" />
     <Compile Include="Helpers\Info.cs" />
     <Compile Include="Helpers\WindowTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

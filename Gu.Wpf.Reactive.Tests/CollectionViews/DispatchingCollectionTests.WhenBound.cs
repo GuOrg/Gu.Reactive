@@ -1,6 +1,5 @@
 namespace Gu.Wpf.Reactive.Tests.CollectionViews
 {
-    using System.Net.Mime;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
