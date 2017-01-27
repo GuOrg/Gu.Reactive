@@ -1,8 +1,5 @@
 namespace Gu.Wpf.Reactive.UiTests
 {
-    using System.Linq;
-    using System.Threading.Tasks;
-
     using FlaUI.Core.AutomationElements;
     using FlaUI.Core.AutomationElements.Infrastructure;
     using FlaUI.Core.Definitions;
@@ -45,6 +42,8 @@ namespace Gu.Wpf.Reactive.UiTests
         [SetUp]
         public void SetUp()
         {
+            this.AddOneButton.Click(false);
+            this.AddOneButton.Click(false);
             this.ClearButton.Click(false);
         }
 
@@ -56,27 +55,27 @@ namespace Gu.Wpf.Reactive.UiTests
 
             CollectionAssert.AreEqual(new[] { "1", "2", "3" }, this.MappedInts.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { string.Empty, string.Empty, string.Empty }, this.MappedInts.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedInts.Events.RowValues());
+            CollectionAssert.IsEmpty(this.MappedInts.Events.RowValues());
 
-            CollectionAssert.AreEqual(new[] { "1" }, this.MappedIndexedInts.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedIndexedInts.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedIndexedInts.Events.RowValues());
+            CollectionAssert.AreEqual(new[] { "1", "2", "3" }, this.MappedIndexedInts.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "0", "1", "2" }, this.MappedIndexedInts.DataGrid.ColumnValues(1));
+            CollectionAssert.IsEmpty(this.MappedIndexedInts.Events.RowValues());
 
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMapped.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { string.Empty }, this.MappedMapped.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMapped.Events.RowValues());
+            CollectionAssert.AreEqual(new[] { "2", "4", "6" }, this.MappedMapped.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { string.Empty, string.Empty, string.Empty }, this.MappedMapped.DataGrid.ColumnValues(1));
+            CollectionAssert.IsEmpty(this.MappedMapped.Events.RowValues());
 
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMappedIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedMappedIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMappedIndexed.Events.RowValues());
+            CollectionAssert.AreEqual(new[] { "2", "4", "6" }, this.MappedMappedIndexed.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "0", "1", "2" }, this.MappedMappedIndexed.DataGrid.ColumnValues(1));
+            CollectionAssert.IsEmpty(this.MappedMappedIndexed.Events.RowValues());
 
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMappedUpdateIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedMappedUpdateIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMappedUpdateIndexed.Events.RowValues());
+            CollectionAssert.AreEqual(new[] { "2", "4", "6" }, this.MappedMappedUpdateIndexed.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "0", "1", "2" }, this.MappedMappedUpdateIndexed.DataGrid.ColumnValues(1));
+            CollectionAssert.IsEmpty(this.MappedMappedUpdateIndexed.Events.RowValues());
 
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMappedUpdateNewIndexed.Events.RowValues());
+            CollectionAssert.AreEqual(new[] { "4", "8", "12" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "0", "1", "2" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(1));
+            CollectionAssert.IsEmpty(this.MappedMappedUpdateNewIndexed.Events.RowValues());
         }
 
         [Test]

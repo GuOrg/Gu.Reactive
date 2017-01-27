@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo.Conditions
 {
     using System.Windows.Controls;
 

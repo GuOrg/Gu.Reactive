@@ -17,7 +17,10 @@
             nameof(Source),
             typeof(IEnumerable),
             typeof(DataGridAndEventsView),
-            new PropertyMetadata(default(IEnumerable), OnSourceChanged));
+            new PropertyMetadata(
+                default(IEnumerable), 
+                OnSourceChanged, 
+                CoerceSource));
 
         public static readonly DependencyProperty ChangesProperty = DependencyProperty.Register(
             nameof(Changes),
@@ -53,6 +56,12 @@
         {
             get { return (string)this.GetValue(HeaderProperty); }
             set { this.SetValue(HeaderProperty, value); }
+        }
+
+        private static object CoerceSource(DependencyObject d, object basevalue)
+        {
+            ((DataGridAndEventsView)d).Changes?.Clear();
+            return basevalue;
         }
 
         private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

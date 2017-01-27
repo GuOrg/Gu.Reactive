@@ -42,12 +42,12 @@
                     Command="{Binding AddOneToSourceOnOtherThreadCommand}"
                     Content="Add to source on thread" />
 
-            <Slider Grid.Column="2"
+            <Slider x:Name="RemoveAt"
+                    Grid.Column="2"
                     Maximum="{Binding Ints.Count}"
                     Minimum="0"
-                    x:Name="RemoveAt"
                     Value="{Binding RemoveAt}" />
-            
+
             <Button Grid.Column="3"
                     Command="{Binding RemoveAtCommand}"
                     Content="RemoveAt" />
@@ -76,7 +76,7 @@
             <demo:DataGridAndEventsView Header="MappedMappedUpdateIndexed" Source="{Binding MappedMappedUpdateIndexed}" />
 
             <demo:DataGridAndEventsView Header="MappedMappedUpdateNewIndexed" Source="{Binding MappedMappedUpdateNewIndexed}" />
-            
+
             <demo:DataGridAndEventsView Header="FilteredMappedMapped" Source="{Binding FilteredMappedMapped}" />
         </UniformGrid>
     </Grid>

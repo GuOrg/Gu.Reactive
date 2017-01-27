@@ -37,9 +37,7 @@
 
             this.AddOneToSourceOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.ints.Add(this.ints.Count + 1)));
 
-            this.ClearCommand = new ConditionRelayCommand(
-                () => this.ints.Clear(),
-                new Condition(() => this.ints.Any(), this.ints.ObserveCollectionChanged()));
+            this.ClearCommand = new RelayCommand(this.Clear);
 
             this.RemoveAtCommand = new ConditionRelayCommand(
                 () => this.ints.RemoveAt(this.RemoveAt >= this.ints.Count ? this.ints.Count - 1 : this.RemoveAt),
@@ -120,6 +118,12 @@
             (this.MappedMappedIndexed as IDisposable)?.Dispose();
             this.MappedMappedUpdateIndexed.Dispose();
             this.MappedMappedUpdateNewIndexed.Dispose();
+        }
+
+        private void Clear()
+        {
+            this.ints.Clear();
+            this.OnPropertyChanged(string.Empty);
         }
 
         [NotifyPropertyChangedInvocator]

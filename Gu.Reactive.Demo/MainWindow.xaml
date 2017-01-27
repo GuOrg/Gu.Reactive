@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:demo="clr-namespace:Gu.Reactive.Demo"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:conditions="clr-namespace:Gu.Reactive.Demo.Conditions"
         Title="MainWindow"
         Width="525"
         Height="350"
@@ -18,9 +19,9 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <demo:EditConditionStateView Grid.Column="0" />
-                    <demo:ConditionButtonsView Grid.Column="1" />
-                    <demo:ConditionsView Grid.Column="2" />
+                    <conditions:EditConditionStateView Grid.Column="0" />
+                    <conditions:ConditionButtonsView Grid.Column="1" />
+                    <conditions:ConditionsView Grid.Column="2" />
                 </Grid>
             </AdornerDecorator>
         </TabItem>
@@ -34,7 +35,7 @@
         </TabItem>
 
         <TabItem Header="Either Commands">
-            <demo:EitherCommandsView />
+            <conditions:EitherCommandsView />
         </TabItem>
 
         <TabItem Header="FilteredView">
@@ -74,7 +75,7 @@
         </TabItem>
 
         <TabItem Header="ToolTips">
-            <demo:ToolTipsView />
+            <conditions:ToolTipsView />
         </TabItem>
     </TabControl>
 </Window>

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Gu.Reactive.Demo.ConditionsView"
+﻿<UserControl x:Class="Gu.Reactive.Demo.Conditions.ConditionsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive"
              xmlns:wpf="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
-             DataContext="{x:Static demo:ConditionsViewModel.Instance}"
+             xmlns:conditions="clr-namespace:Gu.Reactive.Demo.Conditions"
+             DataContext="{x:Static conditions:ConditionsViewModel.Instance}"
              mc:Ignorable="d">
     <StackPanel>
         <UniformGrid Rows="1">
