@@ -1,7 +1,6 @@
 ﻿namespace Gu.Reactive.Demo
 {
     using System;
-    using System.Collections;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -14,14 +13,6 @@
 
     public class ReadonlyFilteredDispatchingViewModel : IDisposable, INotifyPropertyChanged
     {
-        private readonly ObservableCollection<DummyItem> observableCollection = new ObservableCollection<DummyItem>();
-
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> observableCollectionChanges =
-            new ObservableCollection<NotifyCollectionChangedEventArgs>();
-
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> dispatchingChanges =
-            new ObservableCollection<NotifyCollectionChangedEventArgs>();
-
         private readonly Subject<object> trigger = new Subject<object>();
 
         private bool disposed;
@@ -30,12 +21,12 @@
 
         public ReadonlyFilteredDispatchingViewModel()
         {
-            this.DeferTime = TimeSpan.FromSeconds(0.1);
+            this.Source = new ObservableCollection<DummyItem>();
             this.Add(3);
-            this.ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(this.observableCollection);
-            this.DispatchingView = this.observableCollection
-                                       .AsReadOnlyFilteredView(this.Filter, this.trigger)
-                                       .AsDispatchingView();
+            this.View = this.Source
+                            .AsReadOnlyFilteredView(this.Filter, this.trigger)
+                            .AsDispatchingView();
+
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
             this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
@@ -44,24 +35,22 @@
             this.TriggerOnOtherThreadCommand = new RelayCommand(
                 () => Task.Run(() => this.trigger.OnNext(null)),
                 () => true);
-            this.ObservableCollection
+            this.Source
                 .ObserveCollectionChanged()
                 .ObserveOnDispatcher()
-                .Subscribe(x => this.observableCollectionChanges.Add(x.EventArgs));
+                .Subscribe(x => this.SourceChanges.Add(x.EventArgs));
 
-            this.DispatchingView
+            this.View
                 .ObserveCollectionChanged()
                 .ObserveOnDispatcher()
-                .Subscribe(x => this.dispatchingChanges.Add(x.EventArgs));
+                .Subscribe(x => this.ViewChanges.Add(x.EventArgs));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; }
+        public ObservableCollection<DummyItem> Source { get; }
 
-        public IReadOnlyObservableCollection<DummyItem> DispatchingView { get; }
-
-        public TimeSpan DeferTime { get; }
+        public IReadOnlyObservableCollection<DummyItem> View { get; }
 
         public ICommand AddOneCommand { get; }
 
@@ -75,11 +64,9 @@
 
         public RelayCommand TriggerOnOtherThreadCommand { get; }
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionChanges => this.observableCollectionChanges;
+        public ObservableCollection<NotifyCollectionChangedEventArgs> SourceChanges { get; } = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> DispatchingChanges => this.dispatchingChanges;
-
-        public ObservableCollection<DummyItem> ObservableCollection => this.observableCollection;
+        public ObservableCollection<NotifyCollectionChangedEventArgs> ViewChanges { get; } = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
         public int Max
         {
@@ -108,7 +95,7 @@
             }
 
             this.disposed = true;
-            (this.DispatchingView as IDisposable)?.Dispose();
+            (this.View as IDisposable)?.Dispose();
             this.trigger.Dispose();
         }
 
@@ -129,10 +116,7 @@
 
         private void AddOne()
         {
-            lock (((ICollection)this.observableCollection).SyncRoot)
-            {
-                this.observableCollection.Add(new DummyItem(this.observableCollection.Count + 1));
-            }
+            this.Source.Add(new DummyItem(this.Source.Count + 1));
         }
 
         private void AddTen()
@@ -150,9 +134,10 @@
 
         private void Clear()
         {
-            this.observableCollection.Clear();
-            this.observableCollectionChanges.Clear();
-            this.dispatchingChanges.Clear();
+            this.Source.Clear();
+            ((IRefreshAble)this.View).Refresh();
+            this.SourceChanges.Clear();
+            this.ViewChanges.Clear();
         }
     }
 }

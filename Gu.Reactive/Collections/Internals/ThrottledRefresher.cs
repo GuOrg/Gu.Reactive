@@ -25,7 +25,7 @@
                 return Empty;
             }
 
-            scheduler = scheduler ?? Scheduler.Default;
+            //scheduler = scheduler ?? Scheduler.Default;
             var observable = Observable.Create<NotifyCollectionChangedEventArgs>(o =>
                 {
                     NotifyCollectionChangedEventHandler fsHandler = (_, e) =>
@@ -91,7 +91,13 @@
                              .Cast<IReadOnlyList<NotifyCollectionChangedEventArgs>>();
             }
 
-            return observable.Select(x => new[] { x });
+            if (scheduler == null)
+            {
+                return observable.Select(x => new[] { x });
+            }
+
+            return observable.Select(x => new[] { x })
+                             .ObserveOn(scheduler);
         }
     }
 }

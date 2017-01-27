@@ -43,7 +43,7 @@
             </Grid.ColumnDefinitions>
 
             <GroupBox Grid.Column="0" Header="ListBox">
-                <ListBox x:Name="ListBox" ItemsSource="{Binding DispatchingView}">
+                <ListBox x:Name="ListBox" ItemsSource="{Binding View}">
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="{x:Type demo:DummyItem}">
                             <TextBlock Text="{Binding Value}" />
@@ -53,15 +53,15 @@
             </GroupBox>
 
             <GroupBox Grid.Column="1" Header="DataGrid">
-                <DataGrid x:Name="DataGrid" ItemsSource="{Binding DispatchingView}" />
+                <DataGrid x:Name="DataGrid" ItemsSource="{Binding View}" />
             </GroupBox>
 
             <GroupBox Grid.Column="2" Header="ViewChanges">
-                <ItemsControl ItemsSource="{Binding DispatchingChanges}" />
+                <ItemsControl ItemsSource="{Binding ViewChanges}" />
             </GroupBox>
 
             <GroupBox Grid.Column="3" Header="SourceChanges">
-                <ItemsControl ItemsSource="{Binding ObservableCollectionChanges}" />
+                <ItemsControl ItemsSource="{Binding SourceChanges}" />
             </GroupBox>
         </Grid>
     </Grid>

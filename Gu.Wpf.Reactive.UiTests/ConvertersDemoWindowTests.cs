@@ -20,7 +20,7 @@
             Assert.AreEqual(true, currentCultureButton.IsSelected);
             Assert.AreEqual(false, ordinalIgnoreCaseButton.IsSelected);
 
-            ordinalIgnoreCaseButton.Click();
+            ordinalIgnoreCaseButton.Click(false);
             Assert.AreEqual("OrdinalIgnoreCase", groupBox.FindFirstDescendant(x => x.ByAutomationId("StringComparison")).AsLabel().Text);
             Assert.AreEqual(false, currentCultureButton.IsSelected);
             Assert.AreEqual(true, ordinalIgnoreCaseButton.IsSelected);

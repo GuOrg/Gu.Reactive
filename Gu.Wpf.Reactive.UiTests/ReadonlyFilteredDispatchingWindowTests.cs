@@ -67,6 +67,7 @@
         public void SetUp()
         {
             this.FilterTextBox.Text = "5";
+            this.AddTenButton.Click(false);
             this.ClearButton.Click(false);
         }
 
