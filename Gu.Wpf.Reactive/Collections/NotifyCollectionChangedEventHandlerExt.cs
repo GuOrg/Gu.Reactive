@@ -24,11 +24,10 @@
             foreach (var invocation in handler.GetInvocationList())
             {
                 var dispatcherObject = invocation.Target as DispatcherObject;
-
-                if (dispatcherObject?.CheckAccess() == true)
+                if (dispatcherObject?.CheckAccess() == false)
                 {
 #pragma warning disable GU0011 // Don't ignore the returnvalue.
-                    dispatcherObject.Dispatcher.Invoke(DispatcherPriority.DataBind, invocation, sender, e);
+                    dispatcherObject.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, invocation, sender, e);
 #pragma warning restore GU0011 // Don't ignore the returnvalue.
                 }
                 else

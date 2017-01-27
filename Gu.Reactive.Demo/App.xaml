@@ -4,7 +4,8 @@
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System">
     <!--<Application.StartupUri>UiTestWindows/AsyncCommandsWindow.xaml</Application.StartupUri>-->
-    <Application.StartupUri>MainWindow.xaml</Application.StartupUri>
+    <Application.StartupUri>UiTestWindows/DispatchingCollectionWindow.xaml</Application.StartupUri>
+    <!--<Application.StartupUri>MainWindow.xaml</Application.StartupUri>-->
     <Application.Resources>
         <ResourceDictionary>
             <!--  Must have x:Shared="False" or else the same instance of tooltip is used.  -->

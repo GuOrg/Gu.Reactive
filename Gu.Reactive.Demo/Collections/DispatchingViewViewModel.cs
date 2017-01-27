@@ -12,17 +12,13 @@
 
     public sealed class DispatchingViewViewModel : IDisposable
     {
-        private readonly ObservableCollection<DummyItem> observableCollection = new ObservableCollection<DummyItem>();
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> observableCollectionChanges = new ObservableCollection<NotifyCollectionChangedEventArgs>();
-        private readonly ObservableCollection<NotifyCollectionChangedEventArgs> dispatchingChanges = new ObservableCollection<NotifyCollectionChangedEventArgs>();
         private bool disposed;
 
         public DispatchingViewViewModel()
         {
-            this.DeferTime = TimeSpan.FromSeconds(0.1);
             this.Add(3);
-            this.ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(this.observableCollection);
-            this.DispatchingView = this.observableCollection.AsDispatchingView();
+            this.ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(this.ObservableCollection);
+            this.DispatchingView = this.ObservableCollection.AsDispatchingView();
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddOneToViewCommand = new RelayCommand(this.AddOneToView, () => true);
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
@@ -31,19 +27,17 @@
             this.ObservableCollection
                 .ObserveCollectionChanged()
                 .ObserveOnDispatcher()
-                .Subscribe(x => this.observableCollectionChanges.Add(x.EventArgs));
+                .Subscribe(x => this.ObservableCollectionChanges.Add(x.EventArgs));
 
             this.DispatchingView
                 .ObserveCollectionChanged()
                 .ObserveOnDispatcher()
-                .Subscribe(x => this.dispatchingChanges.Add(x.EventArgs));
+                .Subscribe(x => this.DispatchingChanges.Add(x.EventArgs));
         }
 
         public ReadOnlyObservableCollection<DummyItem> ReadOnlyObservableCollection { get; }
 
         public IObservableCollection<DummyItem> DispatchingView { get; }
-
-        public TimeSpan DeferTime { get; }
 
         public ICommand AddOneCommand { get; }
 
@@ -55,11 +49,11 @@
 
         public RelayCommand ClearCommand { get; }
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionChanges => this.observableCollectionChanges;
+        public ObservableCollection<NotifyCollectionChangedEventArgs> ObservableCollectionChanges { get; } = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
-        public ObservableCollection<NotifyCollectionChangedEventArgs> DispatchingChanges => this.dispatchingChanges;
+        public ObservableCollection<NotifyCollectionChangedEventArgs> DispatchingChanges { get; } = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
-        public ObservableCollection<DummyItem> ObservableCollection => this.observableCollection;
+        public ObservableCollection<DummyItem> ObservableCollection { get; } = new ObservableCollection<DummyItem>();
 
         public void Dispose()
         {
@@ -74,15 +68,15 @@
 
         private void AddOne()
         {
-            lock (((ICollection)this.observableCollection).SyncRoot)
+            lock (((ICollection)this.ObservableCollection).SyncRoot)
             {
-                this.observableCollection.Add(new DummyItem(this.observableCollection.Count + 1));
+                this.ObservableCollection.Add(new DummyItem(this.ObservableCollection.Count + 1));
             }
         }
 
         private void AddOneToView()
         {
-            this.DispatchingView.Add(new DummyItem(this.observableCollection.Count + 1));
+            this.DispatchingView.Add(new DummyItem(this.ObservableCollection.Count + 1));
         }
 
         private void AddTen()
@@ -100,9 +94,9 @@
 
         private void Clear()
         {
-            this.observableCollection.Clear();
-            this.observableCollectionChanges.Clear();
-            this.dispatchingChanges.Clear();
+            this.ObservableCollection.Clear();
+            this.ObservableCollectionChanges.Clear();
+            this.DispatchingChanges.Clear();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Gu.Wpf.Reactive.Tests.CollectionViews
 
     using NUnit.Framework;
 
-    public class DispatchingCollectionTests
+    public partial class DispatchingCollectionTests
     {
         [Test]
         public void Add()

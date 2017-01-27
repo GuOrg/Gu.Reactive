@@ -65,6 +65,12 @@
     <Compile Include="Collections\CollectionViewDemoViewModel.cs">
       <DependentUpon>CollectionViewDemo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Collections\DispatchingCollectionView.xaml.cs">
+      <DependentUpon>DispatchingCollectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\DispatchingCollectionViewModel.cs">
+      <DependentUpon>DispatchingCollectionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Collections\FilteredDispatchingView.xaml.cs">
       <DependentUpon>FilteredDispatchingView.xaml</DependentUpon>
     </Compile>
@@ -181,6 +187,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Collections\DispatchingCollectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Collections\FilteredDispatchingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -260,6 +270,10 @@
     <Page Include="Conditions\ToolTipsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\DispatchingCollectionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UiTestWindows\AsyncCommandsWindow.xaml">
       <SubType>Designer</SubType>
