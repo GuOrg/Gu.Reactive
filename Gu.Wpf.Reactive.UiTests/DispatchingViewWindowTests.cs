@@ -63,7 +63,7 @@ namespace Gu.Wpf.Reactive.UiTests
         {
             this.Restart();
             CollectionAssert.AreEqual(new[] { "1", "2", "3", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "Item: {NewItemPlaceholder}, Column Display Index: 0" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
 
             CollectionAssert.AreEqual(new[] { "Reset" }, this.ViewChanges.Select(x => x.Text));
             CollectionAssert.AreEqual(new[] { "Reset" }, this.SourceChanges.Select(x => x.Text));
@@ -74,7 +74,7 @@ namespace Gu.Wpf.Reactive.UiTests
         {
             this.AddOneButton.Click(false);
             CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "Item: {NewItemPlaceholder}, Column Display Index: 0" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
 
             CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.ViewChanges.Select(x => x.Text));
             CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.SourceChanges.Select(x => x.Text));
@@ -85,7 +85,7 @@ namespace Gu.Wpf.Reactive.UiTests
         {
             this.AddFourButton.Click(false);
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "Item: {NewItemPlaceholder}, Column Display Index: 0" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Add", 4)), this.ViewChanges.Select(x => x.Text));
             CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Add", 4)), this.SourceChanges.Select(x => x.Text));
         }
@@ -95,7 +95,7 @@ namespace Gu.Wpf.Reactive.UiTests
         {
             this.AddOneOnOtherThreadButton.Click(false);
             CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "Item: {NewItemPlaceholder}, Column Display Index: 0" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace Gu.Wpf.Reactive.UiTests
         {
             this.AddFourButton.Click(false);
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "Item: {NewItemPlaceholder}, Column Display Index: 0" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
 
             var cell = this.DataGrid.Rows[0].Cells[0];
             cell.Click(false);
@@ -111,7 +111,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.ListBox.Focus();
 
             CollectionAssert.AreEqual(new[] { "5", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "5", "2", "3", "4", "Item: {NewItemPlaceholder}, Column Display Index: 0" }, this.DataGrid.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "5", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
         }
     }
 }

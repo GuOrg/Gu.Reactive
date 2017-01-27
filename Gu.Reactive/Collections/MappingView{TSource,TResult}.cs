@@ -185,11 +185,6 @@
         /// <returns>The collection changed args the update causes. Can be null.</returns>
         protected virtual NotifyCollectionChangedEventArgs UpdateIndex(int index)
         {
-            if (!this.factory.CanUpdateIndex)
-            {
-                throw new InvalidOperationException("Cannot update.");
-            }
-
             var key = this.source.ElementAt(index);
             var updated = this.factory.UpdateIndex(key, index);
             var old = this.mapped[index];
@@ -209,11 +204,6 @@
         /// <returns>The collection changed args the update causes.</returns>
         protected virtual List<NotifyCollectionChangedEventArgs> UpdateIndicesFrom(int index)
         {
-            if (!this.factory.CanUpdateIndex)
-            {
-                throw new InvalidOperationException("Cannot update.");
-            }
-
             var count = this.source.Count();
             var changes = new List<NotifyCollectionChangedEventArgs>();
             for (var i = index; i < count; i++)

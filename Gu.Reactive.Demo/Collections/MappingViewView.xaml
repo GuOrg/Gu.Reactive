@@ -45,7 +45,9 @@
             <Slider Grid.Column="2"
                     Maximum="{Binding Ints.Count}"
                     Minimum="0"
+                    x:Name="RemoveAt"
                     Value="{Binding RemoveAt}" />
+            
             <Button Grid.Column="3"
                     Command="{Binding RemoveAtCommand}"
                     Content="RemoveAt" />
@@ -57,8 +59,8 @@
         </Grid>
 
         <UniformGrid Grid.Row="1" Columns="{Binding Children.Count, RelativeSource={RelativeSource Self}}">
-            <GroupBox Header="Ints">
-                <ItemsControl ItemsSource="{Binding Ints}" />
+            <GroupBox Header="Source">
+                <ListBox ItemsSource="{Binding Ints}" />
             </GroupBox>
 
             <demo:DataGridAndEventsView Header="MappedInts" Source="{Binding MappedInts}" />
