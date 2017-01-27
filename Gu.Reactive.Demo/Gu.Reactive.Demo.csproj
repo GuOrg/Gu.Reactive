@@ -65,6 +65,10 @@
     <Compile Include="Collections\CollectionViewDemoViewModel.cs">
       <DependentUpon>CollectionViewDemo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Collections\FilteredDispatchingView.xaml.cs">
+      <DependentUpon>FilteredDispatchingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\FilteredDispatchingViewModel.cs" />
     <Compile Include="Collections\ReadonlyFilteredDispatchingView.xaml.cs">
       <DependentUpon>ReadonlyFilteredDispatchingView.xaml</DependentUpon>
     </Compile>
@@ -175,6 +179,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Collections\FilteredDispatchingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Collections\ReadonlyFilteredDispatchingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -258,6 +266,10 @@
     <Page Include="UiTestWindows\ConvertersDemoWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\FilteredDispatchingWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UiTestWindows\ReadonlyFilteredDispatchingWindow.xaml">
       <SubType>Designer</SubType>
