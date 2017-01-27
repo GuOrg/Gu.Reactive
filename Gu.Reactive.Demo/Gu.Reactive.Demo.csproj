@@ -68,7 +68,9 @@
     <Compile Include="Collections\FilteredDispatchingView.xaml.cs">
       <DependentUpon>FilteredDispatchingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Collections\FilteredDispatchingViewModel.cs" />
+    <Compile Include="Collections\FilteredDispatchingViewModel.cs">
+      <DependentUpon>FilteredDispatchingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Collections\ReadonlyFilteredDispatchingView.xaml.cs">
       <DependentUpon>ReadonlyFilteredDispatchingView.xaml</DependentUpon>
     </Compile>

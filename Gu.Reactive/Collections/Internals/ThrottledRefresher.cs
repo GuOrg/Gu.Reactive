@@ -25,7 +25,6 @@
                 return Empty;
             }
 
-            //scheduler = scheduler ?? Scheduler.Default;
             var observable = Observable.Create<NotifyCollectionChangedEventArgs>(o =>
                 {
                     NotifyCollectionChangedEventHandler fsHandler = (_, e) =>

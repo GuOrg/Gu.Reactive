@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.Tests.CollectionViews
+namespace Gu.Wpf.Reactive.Tests.CollectionViews
 {
     using System;
     using System.Collections.ObjectModel;
@@ -6,14 +6,13 @@
     using System.Threading.Tasks;
     using System.Windows;
 
-    using FakesAndHelpers;
-
     using Gu.Reactive;
+    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
 
     using NUnit.Framework;
 
     [Apartment(ApartmentState.STA)]
-    public class DispatchingViewTests
+    public class ReadOnlyDispatchingViewTests
     {
         [OneTimeSetUp]
         public void SetUp()
@@ -27,23 +26,7 @@
             var source = new ObservableCollection<int>();
             var ourceChanges = source.SubscribeAll();
 
-            var view = source.AsDispatchingView();
-            var viewChanges = view.SubscribeAll();
-
-            source.Add(1);
-            await Application.Current.Dispatcher.SimulateYield();
-
-            CollectionAssert.AreEqual(source, view);
-            CollectionAssert.AreEqual(ourceChanges, viewChanges, EventArgsComparer.Default);
-        }
-
-        [Test]
-        public async Task WhenAddToSourceExplicitZero()
-        {
-            var source = new ObservableCollection<int>();
-            var ourceChanges = source.SubscribeAll();
-
-            var view = source.AsDispatchingView(TimeSpan.Zero);
+            var view = new ReadOnlyDispatchingView<int>(source, TimeSpan.Zero);
             var viewChanges = view.SubscribeAll();
 
             source.Add(1);
@@ -60,7 +43,7 @@
             var sourceChanges = source.SubscribeAll();
 
             var bufferTime = TimeSpan.FromMilliseconds(20);
-            var view = source.AsDispatchingView(bufferTime);
+            var view = new ReadOnlyDispatchingView<int>(source, bufferTime);
             var viewChanges = view.SubscribeAll();
 
             source.Add(1);
@@ -68,6 +51,7 @@
             CollectionAssert.IsEmpty(view);
             CollectionAssert.IsEmpty(viewChanges);
 
+            await Task.Delay(bufferTime);
             await Task.Delay(bufferTime);
             await Application.Current.Dispatcher.SimulateYield();
 
@@ -80,7 +64,7 @@
         {
             var source = new ObservableCollection<int>();
             var bufferTime = TimeSpan.FromMilliseconds(20);
-            var view = source.AsDispatchingView(bufferTime);
+            var view = new ReadOnlyDispatchingView<int>(source, bufferTime);
             var viewChanges = view.SubscribeAll();
 
             source.Add(1);
@@ -90,43 +74,10 @@
             CollectionAssert.IsEmpty(viewChanges);
 
             await Task.Delay(bufferTime);
-            await Task.Delay(bufferTime);
             await Application.Current.Dispatcher.SimulateYield();
 
             CollectionAssert.AreEqual(source, view);
             CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, viewChanges, EventArgsComparer.Default);
-        }
-
-        [Test]
-        public async Task WhenAddToView()
-        {
-            var source = new ObservableCollection<int>();
-            var sourceChanges = source.SubscribeAll();
-
-            var view = source.AsDispatchingView();
-            var viewChanges = view.SubscribeAll();
-
-            view.Add(1);
-            await Application.Current.Dispatcher.SimulateYield();
-
-            CollectionAssert.AreEqual(source, view);
-            CollectionAssert.AreEqual(sourceChanges, viewChanges, EventArgsComparer.Default);
-        }
-
-        [Test]
-        public async Task WhenAddToViewExplicitZero()
-        {
-            var source = new ObservableCollection<int>();
-            var sourceChanges = source.SubscribeAll();
-
-            var view = source.AsDispatchingView(TimeSpan.Zero);
-            var viewChanges = view.SubscribeAll();
-
-            view.Add(1);
-            await Application.Current.Dispatcher.SimulateYield();
-
-            CollectionAssert.AreEqual(source, view);
-            CollectionAssert.AreEqual(sourceChanges, viewChanges, EventArgsComparer.Default);
         }
     }
 }

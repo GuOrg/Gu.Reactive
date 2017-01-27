@@ -9,6 +9,10 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
     {
         public static readonly EventArgsComparer Default = new EventArgsComparer();
 
+        private EventArgsComparer()
+        {
+        }
+
         public int Compare(object x, object y)
         {
             if (Equals(x, y))
