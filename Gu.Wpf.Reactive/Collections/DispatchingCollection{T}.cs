@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
+    using System.Threading.Tasks;
 
     using Gu.Reactive;
 
@@ -57,14 +58,14 @@
         public override event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <inheritdoc/>
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        protected override async void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             var handler = this.CollectionChanged;
             if (handler != null)
             {
                 using (this.BlockReentrancy())
                 {
-                    handler.InvokeOnDispatcher(this, e);
+                    await handler.InvokeOnDispatcherAsync(this, e).ConfigureAwait(false);
                 }
             }
         }
