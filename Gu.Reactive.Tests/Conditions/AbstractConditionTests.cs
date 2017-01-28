@@ -68,6 +68,28 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
+        public void HistoryNegated()
+        {
+            var fake = new Fake { IsTrueOrNull = false };
+            using (var condition = new FakeCondition(fake))
+            {
+                using (var negated = condition.Negate())
+                {
+                    CollectionAssert.AreEqual(new bool?[] { false }, condition.History.Select(x => x.State));
+                    CollectionAssert.AreEqual(new bool?[] { true }, negated.History.Select(x => x.State));
+
+                    fake.IsTrueOrNull = true;
+                    CollectionAssert.AreEqual(new bool?[] { false, true }, condition.History.Select(x => x.State));
+                    CollectionAssert.AreEqual(new bool?[] { true, false }, negated.History.Select(x => x.State));
+
+                    fake.IsTrueOrNull = null;
+                    CollectionAssert.AreEqual(new bool?[] { false, true, null }, condition.History.Select(x => x.State));
+                    CollectionAssert.AreEqual(new bool?[] { true, false, null }, negated.History.Select(x => x.State));
+                }
+            }
+        }
+
+        [Test]
         public void DefaultName()
         {
             using (var condition = new AbstractConditionImpl(Observable.Empty<object>()))

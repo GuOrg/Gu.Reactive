@@ -5,15 +5,18 @@ namespace Gu.Reactive
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Reactive.Disposables;
     using System.Runtime.CompilerServices;
+
+    using Gu.Reactive.Internals;
 
     /// <summary>
     /// This is a baseclass when you want to have a nonstatic Criteria method
     /// </summary>
     public abstract class AbstractCondition : ICondition
     {
-        private readonly Condition condition;
-        private readonly IDisposable subscription;
+        private readonly Lazy<Condition> condition;
+        private readonly SingleAssignmentDisposable subscription = new SingleAssignmentDisposable();
 
         private bool disposed;
         private string name;
@@ -23,30 +26,50 @@ namespace Gu.Reactive
         /// </summary>
         protected AbstractCondition(IObservable<object> observable)
         {
-            this.condition = new Condition(observable, this.Criteria);
-            this.subscription = this.condition.ObserveIsSatisfiedChanged()
-                                              .Subscribe(_ => this.OnPropertyChanged(CachedEventArgs.IsSatisfiedChanged));
+            this.condition = new Lazy<Condition>(
+                () =>
+                    {
+                        var created = new Condition(observable, this.Criteria);
+                        this.subscription.Disposable = created.ObserveIsSatisfiedChanged()
+                                                              .Subscribe(_ => this.OnPropertyChanged(CachedEventArgs.IsSatisfiedChanged));
+                        return created;
+                    });
+
             this.name = this.GetType().Name;
         }
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged
+        {
+            add
+            {
+                this.condition.ForceCreate();
+                this.PropertyChangedCore += value;
+            }
+
+            remove
+            {
+                this.PropertyChangedCore -= value;
+            }
+        }
+
+        private event PropertyChangedEventHandler PropertyChangedCore;
 
         /// <inheritdoc/>
-        public bool? IsSatisfied => this.condition.IsSatisfied;
+        public bool? IsSatisfied => this.condition.Value.IsSatisfied;
 
         /// <inheritdoc/>
-        IReadOnlyList<ICondition> ICondition.Prerequisites
+        IReadOnlyList<ICondition> ICondition.Prerequisites => this.condition.Value.Prerequisites;
+
+        /// <inheritdoc/>
+        public IEnumerable<ConditionHistoryPoint> History
         {
             get
             {
                 this.ThrowIfDisposed();
-                return this.condition.Prerequisites;
+                return this.condition.Value.History;
             }
         }
-
-        /// <inheritdoc/>
-        public IEnumerable<ConditionHistoryPoint> History => this.condition.History;
 
         /// <inheritdoc/>
         public string Name
@@ -85,6 +108,15 @@ namespace Gu.Reactive
         }
 
         /// <summary>
+        /// Calls ForceCreate on the condition.
+        /// This can be useful in the end of the constructor of inheriting class to start collecting history.
+        /// </summary>
+        protected void Initialize()
+        {
+            this.condition.ForceCreate();
+        }
+
+        /// <summary>
         /// Protected implementation of Dispose pattern.
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
@@ -98,8 +130,11 @@ namespace Gu.Reactive
             this.disposed = true;
             if (disposing)
             {
-                this.condition.Dispose();
-                this.subscription?.Dispose();
+                if (this.condition.IsValueCreated)
+                {
+                    this.condition.Value.Dispose();
+                    this.subscription?.Dispose();
+                }
             }
         }
 
@@ -134,7 +169,7 @@ namespace Gu.Reactive
         /// </summary>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            this.PropertyChanged?.Invoke(this, e);
+            this.PropertyChangedCore?.Invoke(this, e);
         }
     }
 }
