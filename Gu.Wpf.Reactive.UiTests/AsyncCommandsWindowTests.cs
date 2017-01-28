@@ -1,7 +1,5 @@
 namespace Gu.Wpf.Reactive.UiTests
 {
-    using System.Threading.Tasks;
-
     using FlaUI.Core.AutomationElements;
     using FlaUI.Core.AutomationElements.Infrastructure;
 

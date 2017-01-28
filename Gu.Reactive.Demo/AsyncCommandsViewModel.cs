@@ -10,13 +10,16 @@
 
     public sealed class AsyncCommandsViewModel : INotifyPropertyChanged, IDisposable
     {
-        private int delay = 500;
+        private readonly Condition canExecuteCondition;
 
+        private int delay = 500;
         private int count;
+        private bool canExecute;
         private bool disposed;
 
         public AsyncCommandsViewModel()
         {
+            this.canExecuteCondition = new Condition(this.ObservePropertyChanged(x => x.CanExecute), () => this.CanExecute);
             this.AsyncCommand = new AsyncCommand(this.SimpleTask);
             this.AsyncCancelableCommand = new AsyncCommand(this.CancelableTask);
             this.AsyncParameterCommand = new AsyncCommand<string>(this.ParameterTask);
@@ -55,6 +58,25 @@
             }
         }
 
+        public bool CanExecute
+        {
+            get
+            {
+                return this.canExecute;
+            }
+
+            set
+            {
+                if (value.Equals(this.canExecute))
+                {
+                    return;
+                }
+
+                this.canExecute = value;
+                this.OnPropertyChanged();
+            }
+        }
+
         public int Delay
         {
             get
@@ -87,6 +109,7 @@
             this.AsyncParameterCommand.Dispose();
             this.AsyncCancelableParameterCommand.Dispose();
             this.AsyncThrowCommand.Dispose();
+            this.canExecuteCondition?.Dispose();
         }
 
         private async Task SimpleTask()

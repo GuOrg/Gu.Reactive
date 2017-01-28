@@ -10,7 +10,7 @@
 
     public sealed class CommandsViewModel : INotifyPropertyChanged, IDisposable
     {
-        private readonly Condition condition;
+        private readonly Condition canExecuteCondition;
 
         private string executed;
         private bool canExecute;
@@ -29,9 +29,9 @@
             this.ObservingRelayCommand = new ObservingRelayCommand(() => this.Executed = "ObservingRelayCommand", () => this.CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
             this.ObservingRelayCommandWithParameter = new ObservingRelayCommand<string>(x => this.Executed = "ObservingRelayCommandWithParameter: " + x, x => this.CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
 
-            this.condition = new Condition(this.ObservePropertyChanged(x => x.CanExecute), () => this.CanExecute);
-            this.ConditionRelayCommand = new ConditionRelayCommand(() => this.Executed = "ConditionRelayCommand", this.condition);
-            this.ConditionRelayCommandWithParameter = new ConditionRelayCommand<string>(x => this.Executed = "ConditionRelayCommandWithParameter: " + x, this.condition);
+            this.canExecuteCondition = new Condition(this.ObservePropertyChanged(x => x.CanExecute), () => this.CanExecute);
+            this.ConditionRelayCommand = new ConditionRelayCommand(() => this.Executed = "ConditionRelayCommand", this.canExecuteCondition);
+            this.ConditionRelayCommandWithParameter = new ConditionRelayCommand<string>(x => this.Executed = "ConditionRelayCommandWithParameter: " + x, this.canExecuteCondition);
             this.RaiseCanExecuteCommand = new RelayCommand(this.RaiseCanExecute);
             this.RaiseCanExecuteOnOtherThread = new RelayCommand(() => Task.Run(() => this.RaiseCanExecute()));
             this.DelayedToggleCanExecute = new RelayCommand(async () =>
@@ -119,7 +119,7 @@
             this.ObservingRelayCommandWithParameter.Dispose();
             this.ConditionRelayCommand.Dispose();
             this.ConditionRelayCommandWithParameter.Dispose();
-            this.condition.Dispose();
+            this.canExecuteCondition.Dispose();
         }
 
         [NotifyPropertyChangedInvocator]
