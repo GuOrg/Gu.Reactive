@@ -18,8 +18,8 @@
             typeof(IEnumerable),
             typeof(DataGridAndEventsView),
             new PropertyMetadata(
-                default(IEnumerable), 
-                OnSourceChanged, 
+                default(IEnumerable),
+                OnSourceChanged,
                 CoerceSource));
 
         public static readonly DependencyProperty ChangesProperty = DependencyProperty.Register(

@@ -6,7 +6,7 @@
     {
         public DispatchingCollectionView()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }
