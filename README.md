@@ -9,6 +9,46 @@ Gu.Reactive
 
 Helpers for using System.Reactive with `INotifyPropertyChanged`.
 
+# Table of contents
+
+- [Factory methods for creating observables.](#factory-methods-for-creating-observables)
+  - [ObservePropertyChanged:](#observepropertychanged)
+    - [SignalInitial](#signalinitial)
+  - [ObservePropertyChangedSlim:](#observepropertychangedslim)
+    - [SignalInitial](#signalinitial)
+    - [ObservePropertyChangedWithValue](#observepropertychangedwithvalue)
+  - [ObserveCollectionChanged:](#observecollectionchanged)
+    - [SignalInitial](#signalinitial)
+  - [ObservePropertyChangedSlim:](#observepropertychangedslim)
+    - [SignalInitial](#signalinitial)
+  - [ObserveItemPropertyChanged](#observeitempropertychanged)
+- [Conditions:](#conditions)
+  - [Condition](#condition)
+    - [IsSatisfied](#issatisfied)
+    - [Name](#name)
+    - [History](#history)
+    - [Negate()](#negate)
+  - [OrCondition](#orcondition)
+    - [IsSatisfied](#issatisfied)
+  - [AndCondition](#andcondition)
+    - [IsSatisfied](#issatisfied)
+- [Collections](#collections)
+  - [FilteredView<T>](#filteredview-t)
+  - [MappingView<TSource, TResult>](#mappingview-tsource--tresult)
+  - [ThrottledView<T>](#throttledview-t)
+  - [DispatchingView<T>](#dispatchingview-t)
+  - [ReadOnlySerialView<T>](#readonlyserialview-t)
+- [Gu.Wpf.Reactive](#guwpfreactive)
+  - [Commands](#commands)
+    - [AsyncCommand](#asynccommand)
+    - [ConditionRelayCommand](#conditionrelaycommand)
+    - [ManualRelayCommand](#manualrelaycommand)
+    - [ObservingRelayCommand](#observingrelaycommand)
+    - [RelayCommand](#relaycommand)
+  - [MarkupExtensions](#markupextensions)
+    - [EnumValuesForExtension](#enumvaluesforextension)
+    - [NinjaBinding](#ninjabinding)
+
 # Factory methods for creating observables.
 
 ## ObservePropertyChanged:
@@ -168,12 +208,205 @@ Null if IsSatisfied for no prerequisite is false and any prerequisite is null.
 
 Se demo for more code samples.
 
-## Collections
+# Collections
 
-### FilteredView<T>
-* No more CollectionViewSource in code.
-* Typed so you get intellisense in xaml.
-* Takes Filter<T, bool> and params IObservable<object> for max composability.
+## FilteredView<T>
+
+A typed filtered view of a collection. Sample usage:
+
+```c#
+public sealed class ViewModel : INotifyPropertyChanged, IDisposable
+{
+    private string filterText;
+    private bool disposed;
+
+    public ViewModel(ObservableCollection<Person> people, IWpfSchedulers schedulers)
+    {
+        this.FilteredPeople = people.AsFilteredView(
+            this.IsMatch,
+            TimeSpan.FromMilliseconds(10),
+            schedulers.Dispatcher,
+            this.ObservePropertyChangedSlim(nameof(this.FilterText)));
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public FilteredView<Person> FilteredPeople { get; }
+
+    public string FilterText
+    {
+        get
+        {
+            return this.filterText;
+        }
+
+        set
+        {
+            if (value == this.filterText)
+            {
+                return;
+            }
+
+            this.filterText = value;
+            this.OnPropertyChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+        if (this.disposed)
+        {
+            return;
+        }
+
+        this.disposed = true;
+        this.FilteredPeople.Dispose();
+    }
+
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private bool IsMatch(Person person)
+    {
+        if (string.IsNullOrEmpty(this.filterText))
+        {
+            return true;
+        }
+
+        var indexOf = CultureInfo.InvariantCulture.CompareInfo.IndexOf(person.FirstName, this.filterText, CompareOptions.OrdinalIgnoreCase);
+        if (this.filterText.Length == 1)
+        {
+            return indexOf == 0;
+        }
+
+        return indexOf >= 0;
+    }
+}
+```
+
+## MappingView<TSource, TResult>
+
+A view that maps from one type to another.
+
+```c#
+public sealed class ViewModel : IDisposable
+{
+    private bool disposed;
+
+    public ViewModel(ObservableCollection<Person> people)
+    {
+        this.PersonViewModels = people.AsMappingView(x => new PersonViewModel(x));
+    }
+
+    public MappingView<Person, PersonViewModel> PersonViewModels { get; }
+
+    public void Dispose()
+    {
+        if (this.disposed)
+        {
+            return;
+        }
+
+        this.disposed = true;
+        this.PersonViewModels.Dispose();
+    }
+}
+```
+
+## ThrottledView<T>
+
+A view that buffers changes. If there are many changes within the buffer time one reset event is raised instead of on event per change.
+
+```c#
+public sealed class ViewModel : IDisposable
+{
+    private bool disposed;
+
+    public ViewModel(ObservableCollection<Person> people)
+    {
+        this.PersonViewModels = people.AsThrottledView(TimeSpan.FromMilliseconds(100));
+    }
+
+    public ThrottledView<Person> PersonViewModels { get; }
+
+    public void Dispose()
+    {
+        if (this.disposed)
+        {
+            return;
+        }
+
+        this.disposed = true;
+        this.PersonViewModels.Dispose();
+    }
+}
+```
+
+## DispatchingView<T>
+
+A view that notifies on the dispatcher. Useful if the collection is updated on another thread.
+
+```c#
+public sealed class ViewModel : IDisposable
+{
+    private bool disposed;
+
+    public ViewModel(ObservableCollection<Person> people)
+    {
+        this.PersonViewModels = people.AsDispatchingView();
+    }
+
+    public DispatchingView<Person> PersonViewModels { get; }
+
+    public void Dispose()
+    {
+        if (this.disposed)
+        {
+            return;
+        }
+
+        this.disposed = true;
+        this.PersonViewModels.Dispose();
+    }
+}
+```
+
+## ReadOnlySerialView<T>
+
+A view that can have source set to different collections. 
+Useful when composing with for example MappedView
+
+```c#
+public sealed class ViewModel : IDisposable
+{
+    private bool disposed;
+
+    public ViewModel(ObservableCollection<Person> people)
+    {
+        this.Update(people);
+    }
+
+    public ReadOnlySerialView<Person> People { get; } = new ReadOnlySerialView<Person>();
+
+    public void Update(ObservableCollection<Person> people)
+    {
+        this.People.SetSource(people);
+    }
+
+    public void Dispose()
+    {
+        if (this.disposed)
+        {
+            return;
+        }
+
+        this.disposed = true;
+        this.People.Dispose();
+    }
+}
+```
 
 
 # Gu.Wpf.Reactive

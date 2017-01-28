@@ -51,6 +51,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.ClearButton.Click(false);
             FlaUI.Core.Input.Helpers.WaitUntilInputIsProcessed();
             this.ClearButton.Click(false);
+            FlaUI.Core.Input.Helpers.WaitUntilInputIsProcessed();
         }
 
         [Test]
