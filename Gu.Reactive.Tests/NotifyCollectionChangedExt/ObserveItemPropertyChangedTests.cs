@@ -3,6 +3,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive;
 
@@ -341,6 +342,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         }
 
         [Test]
+        [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
         public void MemoryLeakDisposeTest()
         {
 #if DEBUG
@@ -365,6 +367,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         }
 
         [Test]
+        [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
         public void MemoryLeakNoDisposeTest()
         {
 #if DEBUG
