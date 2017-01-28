@@ -4,14 +4,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DataContext="{d:DesignInstance demo:AsyncCommandsViewModel}"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
              mc:Ignorable="d">
+    <UserControl.DataContext>
+        <demo:AsyncCommandsViewModel />
+    </UserControl.DataContext>
     <StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center" Text="Delay" />
-            <TextBox MinWidth="50" Text="{Binding Delay}" />
+            <TextBox x:Name="Delay" MinWidth="50" Text="{Binding Delay}" />
         </StackPanel>
 
         <GroupBox Header="AsyncCommand">
@@ -32,14 +32,23 @@
             </Grid>
         </GroupBox>
 
-        <ContentPresenter Content="{Binding AsyncThrowCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
+        <GroupBox Header="AsyncThrowCommand">
+            <ContentPresenter Content="{Binding AsyncThrowCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
+        </GroupBox>
 
-        <ContentPresenter Content="{Binding AsyncParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
+        <GroupBox Header="AsyncParameterCommand">
+            <ContentPresenter Content="{Binding AsyncParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
+        </GroupBox>
 
         <TextBlock MinWidth="50" Text="{Binding Count, StringFormat='Count: {0}'}" />
 
-        <ContentPresenter Content="{Binding AsyncCancelableCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
-        <ContentPresenter Content="{Binding AsyncCancelableParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
+        <GroupBox Header="AsyncCancelableCommand">
+            <ContentPresenter Content="{Binding AsyncCancelableCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
+        </GroupBox>
+
+        <GroupBox Header="AsyncCancelableParameterCommand">
+            <ContentPresenter Content="{Binding AsyncCancelableParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
+        </GroupBox>
 
         <StackPanel>
             <Button Command="{Binding AsyncCancelableCommand}" Content="Run" />

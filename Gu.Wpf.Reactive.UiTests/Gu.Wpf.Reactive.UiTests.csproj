@@ -49,6 +49,7 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="AsyncCommandsWindowTests.cs" />
     <Compile Include="CommandsWindowTests.cs" />
     <Compile Include="ConvertersDemoWindowTests.cs" />
     <Compile Include="DispatchingCollectionWindowTests.cs" />

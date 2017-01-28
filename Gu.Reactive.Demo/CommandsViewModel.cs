@@ -27,10 +27,10 @@
             this.RelayCommandWithParamater = new RelayCommand<string>(x => this.Executed = "RelayCommandWithParamater: " + x, x => this.CanExecute);
 
             this.ObservingRelayCommand = new ObservingRelayCommand(() => this.Executed = "ObservingRelayCommand", () => this.CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
-            this.ObservingRelayCommandWithParameter = new ObservingRelayCommand<string>(x => this.Executed = "ObservingRelayCommandWithParameter:" + x, x => this.CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
+            this.ObservingRelayCommandWithParameter = new ObservingRelayCommand<string>(x => this.Executed = "ObservingRelayCommandWithParameter: " + x, x => this.CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
 
             this.condition = new Condition(this.ObservePropertyChanged(x => x.CanExecute), () => this.CanExecute);
-            this.ConditionRelayCommand = new ConditionRelayCommand(() => this.Executed = "ObservingRelayCommand", this.condition);
+            this.ConditionRelayCommand = new ConditionRelayCommand(() => this.Executed = "ConditionRelayCommand", this.condition);
             this.ConditionRelayCommandWithParameter = new ConditionRelayCommand<string>(x => this.Executed = "ConditionRelayCommandWithParameter: " + x, this.condition);
             this.RaiseCanExecuteCommand = new RelayCommand(this.RaiseCanExecute);
             this.RaiseCanExecuteOnOtherThread = new RelayCommand(() => Task.Run(() => this.RaiseCanExecute()));
@@ -76,7 +76,7 @@
                 return this.executed;
             }
 
-            private set
+            set
             {
                 if (value == this.executed)
                 {

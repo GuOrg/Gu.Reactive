@@ -186,6 +186,7 @@
     <Compile Include="Conditions\ToolTipsView.xaml.cs">
       <DependentUpon>ToolTipsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeNameConverter.cs" />
     <Page Include="AsyncCommandsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

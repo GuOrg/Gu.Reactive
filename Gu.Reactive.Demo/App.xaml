@@ -4,10 +4,11 @@
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System">
     <!--<Application.StartupUri>UiTestWindows/AsyncCommandsWindow.xaml</Application.StartupUri>-->
+    <!--<Application.StartupUri>UiTestWindows/CommandsWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/DispatchingCollectionWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/MappingViewWindow.xaml</Application.StartupUri>-->
-    <Application.StartupUri>UiTestWindows/ReadOnlySerialViewWindow.xaml</Application.StartupUri>
-    <!--<Application.StartupUri>MainWindow.xaml</Application.StartupUri>-->
+    <!--<Application.StartupUri>UiTestWindows/ReadOnlySerialViewWindow.xaml</Application.StartupUri>-->
+    <Application.StartupUri>MainWindow.xaml</Application.StartupUri>
     <Application.Resources>
         <ResourceDictionary>
             <!--  Must have x:Shared="False" or else the same instance of tooltip is used.  -->
@@ -110,32 +111,31 @@
                 </StackPanel>
             </DataTemplate>
 
-            <DataTemplate x:Key="AsyncCommandTemplate" DataType="reactive:AsyncCommand">
+            <DataTemplate x:Key="AsyncCommandTemplate" DataType="{x:Type reactive:AsyncCommand}">
                 <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
-                <GroupBox Header="{Binding ToolTipText}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel>
-                            <Button Width="100"
-                                    Height="50"
-                                    VerticalAlignment="Top"
-                                    Command="{Binding}"
-                                    Content="Run" />
-                            <Button Width="100"
-                                    Height="50"
-                                    VerticalAlignment="Top"
-                                    Command="{Binding CancelCommand}"
-                                    Content="Cancel" />
-                        </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <Button Width="100"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                Command="{Binding}"
+                                Content="Run" />
 
-                        <Expander Grid.Column="1" Header="Task">
-                            <ContentPresenter Content="{Binding Execution}" ContentTemplate="{StaticResource CompletionNoResultTemplate}" />
-                        </Expander>
-                    </Grid>
-                </GroupBox>
+                        <Button Width="100"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                Command="{Binding CancelCommand}"
+                                Content="Cancel" />
+                    </StackPanel>
+
+                    <Expander Grid.Column="1" Header="Task">
+                        <ContentPresenter Content="{Binding Execution}" ContentTemplate="{StaticResource CompletionNoResultTemplate}" />
+                    </Expander>
+                </Grid>
             </DataTemplate>
 
             <DataTemplate x:Key="AsyncParameterCommandTemplate" DataType="reactive:AsyncCommand">

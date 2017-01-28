@@ -42,13 +42,16 @@
                     Grid.Column="3"
                     Command="{Binding DelayedToggleCanExecute}"
                     Content="DelayedToggleCanExecute" />
+
             <TextBlock Grid.Row="1"
                        Grid.Column="0"
                        Text="Executed:" />
-            <TextBlock Grid.Row="1"
-                       Grid.Column="1"
-                       Grid.ColumnSpan="2"
-                       Text="{Binding Executed}" />
+
+            <TextBox Grid.Row="1"
+                     Grid.Column="1"
+                     Grid.ColumnSpan="2"
+                     x:Name="Executed"
+                     Text="{Binding Executed}" />
         </Grid>
         <WrapPanel Grid.Row="1">
             <WrapPanel.Resources>
@@ -61,27 +64,23 @@
             <Button Command="{Binding ManualRelayCommand}" Content="ManualRelayCommand" />
             <Button Command="{Binding ManualRelayCommandNoCondition}" Content="ManualRelayCommandNoCondition" />
             <Button Command="{Binding ManualRelayCommandWithParameter}"
-                    CommandParameter="Value"
+                    CommandParameter="ManualRelayCommandWithParameter"
                     Content="ManualRelayCommandWithParameter" />
 
             <Button Command="{Binding RelayCommand}" Content="RelayCommand" />
             <Button Command="{Binding RelayCommandNoCondition}" Content="RelayCommandNoCondition" />
             <Button Command="{Binding RelayCommandWithParamater}"
-                    CommandParameter="1"
+                    CommandParameter="RelayCommandWithParamater"
                     Content="RelayCommandWithParamater" />
 
-            <Button Command="{Binding ObservingRelayCommand}"
-                    CommandParameter="1"
-                    Content="ObservingRelayCommand" />
+            <Button Command="{Binding ObservingRelayCommand}" Content="ObservingRelayCommand" />
             <Button Command="{Binding ObservingRelayCommandWithParameter}"
-                    CommandParameter="1"
+                    CommandParameter="ObservingRelayCommandWithParameter"
                     Content="ObservingRelayCommandWithParameter" />
 
-            <Button Command="{Binding ConditionRelayCommand}"
-                    CommandParameter="1"
-                    Content="ConditionRelayCommand" />
+            <Button Command="{Binding ConditionRelayCommand}" Content="ConditionRelayCommand" />
             <Button Command="{Binding ConditionRelayCommandWithParameter}"
-                    CommandParameter="1"
+                    CommandParameter="ConditionRelayCommandWithParameter"
                     Content="ConditionRelayCommandWithParameter" />
         </WrapPanel>
     </Grid>

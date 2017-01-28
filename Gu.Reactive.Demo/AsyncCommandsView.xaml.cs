@@ -10,7 +10,6 @@
         public AsyncCommandsView()
         {
             this.InitializeComponent();
-            this.DataContext = new AsyncCommandsViewModel();
         }
     }
 }
