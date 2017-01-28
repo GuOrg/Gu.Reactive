@@ -38,7 +38,6 @@ Helpers for using System.Reactive with `INotifyPropertyChanged`.
   - [ThrottledView<T>](#throttledview-t)
   - [DispatchingView<T>](#dispatchingview-t)
   - [ReadOnlySerialView<T>](#readonlyserialview-t)
-- [Gu.Wpf.Reactive](#guwpfreactive)
   - [Commands](#commands)
     - [AsyncCommand](#asynccommand)
     - [ConditionRelayCommand](#conditionrelaycommand)
@@ -409,8 +408,10 @@ public sealed class ViewModel : IDisposable
 ```
 
 
-# Gu.Wpf.Reactive
-Helpers for using System.Reactive with `INotifyPropertyChanged`  WPF applications.
+Gu.Wpf.Reactive
+===========
+
+Helpers for using System.Reactive with `INotifyPropertyChanged` in  WPF applications.
 
 ## Commands
 A set of relay commands. The generic versions take a command parameter of the generic type.
