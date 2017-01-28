@@ -1,10 +1,12 @@
-﻿namespace Gu.Reactive.Demo.Conditions
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
+
     using Gu.Wpf.Reactive;
+
     using JetBrains.Annotations;
 
     public sealed class EitherCommandsVm : INotifyPropertyChanged, IDisposable

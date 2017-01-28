@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Gu.Reactive.Demo.Conditions.ToolTipsView"
+﻿<UserControl x:Class="Gu.Reactive.Demo.ToolTipsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,8 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips"
-             xmlns:conditions="clr-namespace:Gu.Reactive.Demo.Conditions"
-             DataContext="{x:Static conditions:ConditionsViewModel.Instance}"
+             DataContext="{x:Static demo:ConditionsViewModel.Instance}"
              mc:Ignorable="d">
     <AdornerDecorator>
         <StackPanel>

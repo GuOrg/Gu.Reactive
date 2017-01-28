@@ -18,6 +18,7 @@
             <GroupBox Header="NumberOfItems">
                 <TextBox Text="{Binding NumberOfItems}" />
             </GroupBox>
+            
             <Button Command="{Binding AddOneOnOtherThread}" Content="AddOnThread" />
 
             <GroupBox Header="Tags">

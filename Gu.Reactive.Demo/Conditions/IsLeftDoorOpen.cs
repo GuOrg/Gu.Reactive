@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Demo.Conditions
+namespace Gu.Reactive.Demo
 {
     public class IsLeftDoorOpen : Condition
     {

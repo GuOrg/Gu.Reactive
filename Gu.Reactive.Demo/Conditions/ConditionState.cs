@@ -1,7 +1,8 @@
-namespace Gu.Reactive.Demo.Conditions
+namespace Gu.Reactive.Demo
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+
     using JetBrains.Annotations;
 
     public class ConditionState : INotifyPropertyChanged

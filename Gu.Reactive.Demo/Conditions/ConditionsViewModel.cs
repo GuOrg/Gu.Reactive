@@ -1,9 +1,10 @@
-﻿namespace Gu.Reactive.Demo.Conditions
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+
     using Gu.Wpf.Reactive;
 
     public sealed class ConditionsViewModel : INotifyPropertyChanged, IDisposable
