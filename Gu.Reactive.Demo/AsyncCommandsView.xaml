@@ -8,53 +8,62 @@
     <UserControl.DataContext>
         <demo:AsyncCommandsViewModel />
     </UserControl.DataContext>
-    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center" Text="Delay" />
-            <TextBox x:Name="Delay" MinWidth="50" Text="{Binding Delay}" />
+            <TextBox x:Name="Delay"
+                     MinWidth="50"
+                     Text="{Binding Delay}" />
+            <TextBlock MinWidth="50" Text="{Binding Count, StringFormat='Count: {0}'}" />
         </StackPanel>
 
-        <GroupBox Header="AsyncCommand">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Button Width="100"
-                        Height="50"
-                        VerticalAlignment="Top"
-                        Command="{Binding}"
-                        Content="Run" />
+        <WrapPanel Grid.Row="1">
+            <GroupBox Header="AsyncCommand">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button Width="100"
+                            Height="50"
+                            VerticalAlignment="Top"
+                            Command="{Binding}"
+                            Content="Run" />
 
-                <Expander Grid.Column="1" Header="Task">
-                    <ContentPresenter Content="{Binding AsyncCommand.Execution}" ContentTemplate="{StaticResource CompletionNoResultTemplate}" />
-                </Expander>
-            </Grid>
-        </GroupBox>
+                    <Expander Grid.Column="1" Header="Task">
+                        <ContentPresenter Content="{Binding AsyncCommand.Execution}" ContentTemplate="{StaticResource CompletionNoResultTemplate}" />
+                    </Expander>
+                </Grid>
+            </GroupBox>
 
-        <GroupBox Header="AsyncThrowCommand">
-            <ContentPresenter Content="{Binding AsyncThrowCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
-        </GroupBox>
+            <GroupBox Header="AsyncThrowCommand">
+                <ContentPresenter Content="{Binding AsyncThrowCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
+            </GroupBox>
 
-        <GroupBox Header="AsyncParameterCommand">
-            <ContentPresenter Content="{Binding AsyncParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
-        </GroupBox>
+            <GroupBox Header="AsyncParameterCommand">
+                <ContentPresenter Content="{Binding AsyncParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
+            </GroupBox>
 
-        <TextBlock MinWidth="50" Text="{Binding Count, StringFormat='Count: {0}'}" />
 
-        <GroupBox Header="AsyncCancelableCommand">
-            <ContentPresenter Content="{Binding AsyncCancelableCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
-        </GroupBox>
+            <GroupBox Header="AsyncCancelableCommand">
+                <ContentPresenter Content="{Binding AsyncCancelableCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />
+            </GroupBox>
 
-        <GroupBox Header="AsyncCancelableParameterCommand">
-            <ContentPresenter Content="{Binding AsyncCancelableParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
-        </GroupBox>
+            <GroupBox Header="AsyncCancelableParameterCommand">
+                <ContentPresenter Content="{Binding AsyncCancelableParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
+            </GroupBox>
+        </WrapPanel>
 
-        <StackPanel>
+        <StackPanel Grid.Row="2">
             <Button Command="{Binding AsyncCancelableCommand}" Content="Run" />
             <Button Command="{Binding AsyncCancelableCommand.CancelCommand}" Content="Cancel" />
         </StackPanel>
         <!--  <ContentPresenter Content="{Binding AsyncThrowCommand}" ContentTemplate="{StaticResource AsyncCommandTemplate}" />  -->
 
-    </StackPanel>
+    </Grid>
 </UserControl>
