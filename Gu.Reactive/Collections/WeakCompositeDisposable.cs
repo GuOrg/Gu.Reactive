@@ -19,7 +19,9 @@
         {
             if (this.disposed)
             {
+#pragma warning disable GU0036 // Don't dispose injected.
                 disposable.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
                 return;
             }
 
@@ -27,7 +29,9 @@
             {
                 if (this.disposed)
                 {
+#pragma warning disable GU0036 // Don't dispose injected.
                     disposable.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
                     return;
                 }
 
@@ -53,7 +57,7 @@
             this.ThrowIfDisposed();
             lock (this.gate)
             {
-                for (int i = 0; i < this.disposables.Count; i++)
+                for (var i = 0; i < this.disposables.Count; i++)
                 {
                     var wr = this.disposables[i];
                     IDisposable temp;
