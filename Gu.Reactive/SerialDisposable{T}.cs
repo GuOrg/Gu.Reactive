@@ -43,8 +43,20 @@ namespace Gu.Reactive
 
             set
             {
-                bool flag;
-                var disposable = (IDisposable)null;
+                if (ReferenceEquals(value, this.current))
+                {
+                    return;
+                }
+
+                if (this.disposed)
+                {
+#pragma warning disable GU0036 // Don't dispose injected.
+                    value?.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
+                    return;
+                }
+
+                var toDispose = (IDisposable)null;
                 lock (this.gate)
                 {
                     if (ReferenceEquals(value, this.current))
@@ -52,22 +64,19 @@ namespace Gu.Reactive
                         return;
                     }
 
-                    flag = this.disposed;
-                    if (!flag)
+                    if (this.disposed)
                     {
-                        disposable = this.current;
+                        toDispose = value;
+                    }
+                    else
+                    {
+                        toDispose = this.current;
                         this.current = value;
-                        this.OnPropertyChanged();
                     }
                 }
 
-                disposable?.Dispose();
-                if (!flag || value == null)
-                {
-                    return;
-                }
-
-                value.Dispose();
+                this.OnPropertyChanged();
+                toDispose?.Dispose();
             }
         }
 
@@ -76,18 +85,25 @@ namespace Gu.Reactive
         /// </summary>
         public void Dispose()
         {
-            var disposable = (IDisposable)null;
-            lock (this.gate)
+            if (this.disposed)
             {
-                if (!this.disposed)
-                {
-                    this.disposed = true;
-                    disposable = this.current;
-                    this.current = null;
-                }
+                return;
             }
 
-            disposable?.Dispose();
+            var toDispose = (IDisposable)null;
+            lock (this.gate)
+            {
+                if (this.disposed)
+                {
+                    return;
+                }
+
+                this.disposed = true;
+                toDispose = this.current;
+                this.current = null;
+            }
+
+            toDispose?.Dispose();
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
