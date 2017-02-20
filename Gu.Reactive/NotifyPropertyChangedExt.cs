@@ -36,16 +36,13 @@
             bool signalInitial = true)
             where TNotifier : INotifyPropertyChanged
         {
-            var me = (MemberExpression)property.Body;
-            var pe = me.Expression as ParameterExpression;
-            if (pe == null)
+            var path = PropertyPath.GetOrCreate(property);
+            if (path.Count > 1)
             {
-                var path = PropertyPath.GetOrCreate(property);
                 return source.ObservePropertyChanged(path, signalInitial);
             }
 
-            string name = me.Member.Name;
-            return source.ObservePropertyChanged(name, signalInitial);
+            return source.ObservePropertyChanged(path[0].PropertyInfo.Name, signalInitial);
         }
 
         /// <summary>
@@ -159,7 +156,6 @@
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source)
         {
             Ensure.NotNull(source, nameof(source));
-
             var observable = Observable.Create<PropertyChangedEventArgs>(
                 o =>
                     {

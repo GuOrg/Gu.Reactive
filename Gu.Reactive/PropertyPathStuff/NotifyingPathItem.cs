@@ -66,8 +66,6 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public INotifyingPathItem Previous { get; }
 
-        public bool IsLast => this.PathProperty.IsLast;
-
         public object Value => this.PathProperty.GetPropertyValue(this.Source).ValueOrDefault();
 
         public NotifyingPathItem Next { get; private set; }

@@ -8,12 +8,10 @@ namespace Gu.Reactive.PropertyPathStuff
     internal sealed class NotifyingPath : IReadOnlyList<INotifyingPathItem>, IDisposable
     {
         private readonly IReadOnlyList<INotifyingPathItem> parts;
-        private readonly RootItem root;
         private bool disposed;
 
         internal NotifyingPath(RootItem root, IPropertyPath path)
         {
-            this.root = root;
             var items = new INotifyingPathItem[path.Count + 1];
             items[0] = root;
             INotifyingPathItem previous = root;
@@ -28,21 +26,6 @@ namespace Gu.Reactive.PropertyPathStuff
         }
 
         public int Count => this.parts.Count;
-
-        internal INotifyPropertyChanged Source
-        {
-            get
-            {
-                this.ThrowIfDisposed();
-                return (INotifyPropertyChanged)((RootItem)this.parts[0]).Value;
-            }
-
-            set
-            {
-                this.ThrowIfDisposed();
-                this.root.Value = value;
-            }
-        }
 
         public INotifyingPathItem this[int index]
         {

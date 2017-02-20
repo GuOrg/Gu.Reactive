@@ -32,11 +32,6 @@ namespace Gu.Reactive.PropertyPathStuff
             }
 
             this.Previous = previous;
-            if (previous != null)
-            {
-                previous.Next = this;
-            }
-
             this.PropertyInfo = propertyInfo;
             this.getter = Getter.GetOrCreate(propertyInfo);
         }
@@ -47,13 +42,6 @@ namespace Gu.Reactive.PropertyPathStuff
         /// Gets the property info.
         /// </summary>
         public PropertyInfo PropertyInfo { get; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether is last.
-        /// </summary>
-        public bool IsLast => this.Next == null;
-
-        public PathProperty Next { get; private set; }
 
         public override string ToString() => $"PathItem for: {this.PropertyInfo.DeclaringType.PrettyName()}.{this.PropertyInfo.Name}";
 
