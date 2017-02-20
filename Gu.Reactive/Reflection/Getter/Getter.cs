@@ -1,4 +1,4 @@
-namespace Gu.Reactive.PropertyPathStuff
+namespace Gu.Reactive
 {
     using System.Collections.Concurrent;
     using System.Reflection;
@@ -36,11 +36,11 @@ namespace Gu.Reactive.PropertyPathStuff
                 : typeof(ClassGetter<,>);
 
             var ctor = typeDef.MakeGenericType(property.ReflectedType, property.PropertyType)
-                                                   .GetConstructor(
-                                                       bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance,
-                                                       binder: null,
-                                                       types: new[] { typeof(PropertyInfo) },
-                                                       modifiers: null);
+                              .GetConstructor(
+                                  bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance,
+                                  binder: null,
+                                  types: new[] { typeof(PropertyInfo) },
+                                  modifiers: null);
             return (IGetter)ctor.Invoke(new object[] { property });
         }
     }

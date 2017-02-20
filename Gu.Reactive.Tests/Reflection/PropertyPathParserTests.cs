@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests.PropertyPathStuff
+﻿namespace Gu.Reactive.Tests.Reflection
 {
     using System;
 
@@ -70,6 +70,49 @@
             var fake = new Fake();
             var actuals3 = PropertyPathParser.GetPath(() => fake.Next.IsTrue);
             Assert.AreSame(actuals1, actuals3);
+        }
+
+        [Test]
+        public void GetPathTwoLevelsGeneric()
+        {
+            var actuals1 = PropertyPathParser.GetPath<Fake<int>, int>(x => x.Next.Value);
+            var expected = new[] { typeof(Fake<int>).GetProperty("Next"), typeof(Level<int>).GetProperty("Value") };
+            CollectionAssert.AreEqual(expected, actuals1);
+
+            var actuals2 = PropertyPathParser.GetPath<Fake<int>, int>(x => x.Next.Value);
+            Assert.AreSame(actuals1, actuals2);
+
+            var fake = new Fake<int>();
+            var actuals3 = PropertyPathParser.GetPath(() => fake.Next.Value);
+            Assert.AreSame(actuals1, actuals3);
+        }
+
+        [Test]
+        public void GetPathTwoLevelsGenerics()
+        {
+            var intActuals1 = PropertyPathParser.GetPath<Fake<int>, int>(x => x.Next.Value);
+            var intExpecteds = new[] { typeof(Fake<int>).GetProperty("Next"), typeof(Level<int>).GetProperty("Value") };
+            CollectionAssert.AreEqual(intExpecteds, intActuals1);
+
+            var intActuals2 = PropertyPathParser.GetPath<Fake<int>, int>(x => x.Next.Value);
+            Assert.AreSame(intActuals1, intActuals2);
+
+            var intFake = new Fake<int>();
+            var intActuals3 = PropertyPathParser.GetPath(() => intFake.Next.Value);
+            Assert.AreSame(intActuals1, intActuals3);
+
+            var doubleActuals1 = PropertyPathParser.GetPath<Fake<double>, double>(x => x.Next.Value);
+            var doubleExpecteds = new[] { typeof(Fake<double>).GetProperty("Next"), typeof(Level<double>).GetProperty("Value") };
+            CollectionAssert.AreEqual(doubleExpecteds, doubleActuals1);
+
+            var doubleActuals2 = PropertyPathParser.GetPath<Fake<double>, double>(x => x.Next.Value);
+            Assert.AreSame(doubleActuals1, doubleActuals2);
+            Assert.AreNotSame(intActuals1, doubleActuals2);
+
+            var doubleFake = new Fake<double>();
+            var doubleActuals3 = PropertyPathParser.GetPath(() => doubleFake.Next.Value);
+            Assert.AreSame(doubleActuals1, doubleActuals3);
+            Assert.AreNotSame(intActuals1, doubleActuals2);
         }
 
         [Test]

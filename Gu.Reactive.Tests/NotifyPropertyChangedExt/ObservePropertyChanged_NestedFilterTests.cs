@@ -295,6 +295,52 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
+        public void TwoLevelsReactsGenerics()
+        {
+            var intChanges = new List<EventPattern<PropertyChangedEventArgs>>();
+            var doubleChanges = new List<EventPattern<PropertyChangedEventArgs>>();
+            var intFake = new Fake<int>();
+            var doubleFake = new Fake<double>();
+            using (intFake.ObservePropertyChanged(x => x.Next.Value, true)
+                          .Subscribe(intChanges.Add))
+            {
+                using (doubleFake.ObservePropertyChanged(x => x.Next.Value, true)
+                                 .Subscribe(doubleChanges.Add))
+                {
+                    Assert.AreEqual(1, intChanges.Count);
+                    Assert.AreEqual(1, doubleChanges.Count);
+                    Assert.AreSame(null, intChanges.Single().Sender);
+                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+
+                    intFake.Next = new Level<int>();
+                    Assert.AreEqual(2, intChanges.Count);
+                    Assert.AreSame(intFake.Next, intChanges.Last().Sender);
+                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+
+                    intFake.Next.Value++;
+                    Assert.AreEqual(3, intChanges.Count);
+                    Assert.AreSame(intFake.Next, intChanges.Last().Sender);
+                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+
+                    Assert.AreEqual(1, doubleChanges.Count);
+                    Assert.AreSame(null, doubleChanges.Single().Sender);
+                    Assert.AreEqual("Value", doubleChanges.Last().EventArgs.PropertyName);
+
+                    doubleFake.Next = new Level<double>();
+                    Assert.AreEqual(2, doubleChanges.Count);
+                    Assert.AreSame(doubleFake.Next, doubleChanges.Last().Sender);
+                    Assert.AreEqual("Value", doubleChanges.Last().EventArgs.PropertyName);
+
+                    doubleFake.Next.Value++;
+                    Assert.AreEqual(3, doubleChanges.Count);
+                    Assert.AreEqual(3, intChanges.Count);
+                    Assert.AreSame(doubleFake.Next, doubleChanges.Last().Sender);
+                    Assert.AreEqual("Value", doubleChanges.Last().EventArgs.PropertyName);
+                }
+            }
+        }
+
+        [Test]
         public void TwoLevelsRootChangesFromValueToNull()
         {
             var changes = new List<EventPattern<PropertyChangedEventArgs>>();

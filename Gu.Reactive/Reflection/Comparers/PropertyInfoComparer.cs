@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.PropertyPathStuff
+﻿namespace Gu.Reactive
 {
     using System.Collections.Generic;
     using System.Reflection;
@@ -36,14 +36,15 @@
             }
 
             return x.MetadataToken == y.MetadataToken &&
-                   x.Module.MetadataToken == y.Module.MetadataToken;
+                   x.Module.MetadataToken == y.Module.MetadataToken &&
+                   x.PropertyType == y.PropertyType;
         }
 
         internal static int GetHashCode(PropertyInfo obj)
         {
             unchecked
             {
-                return (obj.MetadataToken * 397) ^ obj.Module.MetadataToken;
+                return (obj.MetadataToken * 397) ^ (obj.Module.MetadataToken * 397) ^ obj.PropertyType.GetHashCode();
             }
         }
     }

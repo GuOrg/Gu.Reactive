@@ -1,6 +1,5 @@
-namespace Gu.Reactive.Tests.PropertyPathStuff
+namespace Gu.Reactive.Tests.Reflection
 {
-    using Gu.Reactive.PropertyPathStuff;
     using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
@@ -27,6 +26,8 @@ namespace Gu.Reactive.Tests.PropertyPathStuff
             var source = new Fake { Name = "meh" };
             var getter = Getter.GetOrCreate(typeof(Fake).GetProperty("Name"));
             Assert.AreEqual("meh", getter.GetValue(source));
+            var genericGetter = (Getter<Fake, string>)getter;
+            Assert.AreEqual("meh", genericGetter.GetValue(source));
         }
 
         [Test]
@@ -35,14 +36,18 @@ namespace Gu.Reactive.Tests.PropertyPathStuff
             var source = new StructLevel { Name = "meh" };
             var getter = Getter.GetOrCreate(typeof(StructLevel).GetProperty("Name"));
             Assert.AreEqual("meh", getter.GetValue(source));
+            var genericGetter = (Getter<StructLevel, string>)getter;
+            Assert.AreEqual("meh", genericGetter.GetValue(source));
         }
 
         [Test]
         public void GetValueGeneric()
         {
-            var source = new Fake { Name = "meh" };
-            var getter = (Getter<Fake, string>)Getter.GetOrCreate(typeof(Fake).GetProperty("Name"));
-            Assert.AreEqual("meh", getter.GetValue(source));
+            var source = new Fake<int> { Value = 1 };
+            var getter = Getter.GetOrCreate(typeof(Fake<int>).GetProperty("Value"));
+            Assert.AreEqual(1, getter.GetValue(source));
+            var genericGetter = (Getter<Fake<int>, int>)getter;
+            Assert.AreEqual(1, genericGetter.GetValue(source));
         }
 
         [Test]

@@ -1,4 +1,4 @@
-namespace Gu.Reactive.PropertyPathStuff
+namespace Gu.Reactive
 {
     /// <summary>
     /// A wrapper around a delegate created from a <see cref="System.Reflection.PropertyInfo.GetMethod"/>

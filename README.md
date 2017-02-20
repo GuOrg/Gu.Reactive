@@ -48,6 +48,26 @@ Helpers for using System.Reactive with `INotifyPropertyChanged`.
     - [EnumValuesForExtension](#enumvaluesforextension)
     - [NinjaBinding](#ninjabinding)
 
+# Assembly redirects.
+When used from .Net 4.6 assembly redirects are needed.
+https://github.com/Reactive-Extensions/Rx.NET/issues/299
+
+```xml
+<dependentAssembly>
+  <assemblyIdentity name="System.Reactive.Core" publicKeyToken="94bc3704cddfc263" culture="neutral" />
+  <bindingRedirect oldVersion="0.0.0.0-3.0.3000.0" newVersion="3.0.3000.0" />
+</dependentAssembly>
+<dependentAssembly>
+  <assemblyIdentity name="System.Reactive.PlatformServices" publicKeyToken="94bc3704cddfc263" culture="neutral" />
+  <bindingRedirect oldVersion="0.0.0.0-3.0.3000.0" newVersion="3.0.3000.0" />
+</dependentAssembly>
+<dependentAssembly>
+  <assemblyIdentity name="System.Reactive.Linq" publicKeyToken="94bc3704cddfc263" culture="neutral" />
+  <bindingRedirect oldVersion="0.0.0.0-3.0.3000.0" newVersion="3.0.3000.0" />
+</dependentAssembly>
+```
+Nuget can generate redirects using PM> `Get-Project –All | Add-BindingRedirect`
+
 # Factory methods for creating observables.
 
 ## ObservePropertyChanged:

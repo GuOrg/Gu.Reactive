@@ -1,4 +1,4 @@
-namespace Gu.Reactive.PropertyPathStuff
+namespace Gu.Reactive
 {
     using System.Reflection;
 

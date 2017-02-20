@@ -5,8 +5,6 @@
     using System.Reflection;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.PropertyPathStuff;
-
     internal static class ExpressionExt
     {
         internal static MemberExpression GetRootProperty(this LambdaExpression lambda)

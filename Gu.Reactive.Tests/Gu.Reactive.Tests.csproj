@@ -60,6 +60,7 @@
     <Compile Include="Collections\ReadOnlySerialViewTests.cs" />
     <Compile Include="Helpers\Fake{T}.cs" />
     <Compile Include="Helpers\Level{T}.cs" />
+    <Compile Include="Reflection\PropertyInfoComparerTests.cs" />
     <Compile Include="SerialDisposableTests.cs" />
     <Compile Include="Collections\ThrottledRefresherTests.cs" />
     <Compile Include="Collections\DiffTests.cs" />
@@ -90,7 +91,7 @@
     <Compile Include="Internals\Ensure.Compare.Tests.cs" />
     <Compile Include="Internals\Ensure.Tests.cs" />
     <Compile Include="Internals\Ensure.String.Tests.cs" />
-    <Compile Include="PropertyPathStuff\GetterTests.cs" />
+    <Compile Include="Reflection\GetterTests.cs" />
     <Compile Include="PropertyPathStuff\NotifyingPathItemTests.cs" />
     <Compile Include="PropertyPathStuff\PathItemTests.cs" />
     <Compile Include="PropertyPathStuff\PropertyPathTests.cs" />
@@ -120,7 +121,7 @@
     <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedTests.cs" />
     <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedAndValue_SimpleTests.cs" />
     <Compile Include="Internals\TypeExtTests.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPathParserTests.cs" />
+    <Compile Include="Reflection\PropertyPathParserTests.cs" />
     <Compile Include="Sandbox\ItemsObservableBox.cs" />
     <Compile Include="Trackers\AverageTracker_PrimitiveTests.cs" />
     <Compile Include="Trackers\MinTrackerTests.cs" />
