@@ -13,7 +13,9 @@ namespace Gu.Reactive.Tests.Collections.Filter
         {
             base.SetUp();
             this.scheduler = new TestScheduler();
+#pragma warning disable GU0036 // Don't dispose injected.
             this.view?.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
             this.view = this.ints.AsFilteredView(x => true, this.scheduler);
             this.actual = this.view.SubscribeAll();
         }

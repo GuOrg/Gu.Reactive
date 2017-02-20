@@ -37,7 +37,9 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         [TearDown]
         public void TearDown()
         {
-            this.View.Dispose();
+#pragma warning disable GU0036 // Don't dispose injected.
+            this.View?.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
         }
 
         [Test]
