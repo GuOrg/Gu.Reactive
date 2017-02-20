@@ -19,6 +19,11 @@ namespace Gu.Wpf.Reactive.UiTests
 
         public void Restart()
         {
+            if (this.Window != null)
+            {
+                Helpers.WaitUntilResponsive(this.Window);
+            }
+
             this.application?.Dispose();
             this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
             this.automation = new UIA3Automation();
@@ -36,6 +41,11 @@ namespace Gu.Wpf.Reactive.UiTests
         {
             Keyboard.ReleaseScanCode((ushort)ScanCodeShort.CONTROL, false);
             Keyboard.ReleaseScanCode((ushort)ScanCodeShort.SHIFT, false);
+            if (this.Window != null)
+            {
+                Helpers.WaitUntilResponsive(this.Window);
+            }
+
             this.application?.Dispose();
         }
     }
