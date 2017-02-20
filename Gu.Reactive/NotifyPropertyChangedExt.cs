@@ -163,10 +163,7 @@
             var observable = Observable.Create<PropertyChangedEventArgs>(
                 o =>
                     {
-                        PropertyChangedEventHandler handler = (_, e) =>
-                            {
-                                o.OnNext(e);
-                            };
+                        PropertyChangedEventHandler handler = (_, e) => o.OnNext(e);
                         source.PropertyChanged += handler;
                         return Disposable.Create(() => source.PropertyChanged -= handler);
                     });

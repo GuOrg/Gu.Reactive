@@ -2,9 +2,6 @@ source http://www.nuget.org/api/v2/
 framework: >= net45
 
 nuget System.Reactive
-nuget System.Reactive.Linq
-nuget System.Reactive.PlatformServices
-
 nuget Gu.Wpf.ToolTips
 
 group Analyzers
@@ -22,6 +19,5 @@ group Test
   nuget NUnit
   nuget Microsoft.Reactive.Testing
   nuget System.Reflection.Metadata = 1.2.0
-  nuget BenchmarkDotNet
   nuget BenchmarkDotNet.Diagnostics.Windows
   nuget FlaUI.UIA3

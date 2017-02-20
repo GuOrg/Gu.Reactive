@@ -74,6 +74,7 @@ namespace Gu.Wpf.Reactive.Tests.CollectionViews
             CollectionAssert.IsEmpty(viewChanges);
 
             await Task.Delay(bufferTime);
+            await Task.Delay(bufferTime);
             await Application.Current.Dispatcher.SimulateYield();
 
             CollectionAssert.AreEqual(source, view);
