@@ -134,6 +134,21 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
+        public void ReactsWhenValueChangesGeneric()
+        {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
+            var fake = new Fake<int> { Value = 1 };
+            fake.ObservePropertyChanged(x => x.Value, false)
+                .Subscribe(changes.Add);
+            Assert.AreEqual(0, changes.Count);
+
+            fake.Value++;
+
+            Assert.AreEqual(1, changes.Count);
+            AssertEventPattern(fake, "Value", changes.Last());
+        }
+
+        [Test]
         public void DoesNotReactWhenOtherPropertyChanges()
         {
             var changes = new List<EventPattern<PropertyChangedEventArgs>>();
