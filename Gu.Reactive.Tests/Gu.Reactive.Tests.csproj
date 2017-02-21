@@ -58,6 +58,7 @@
     <Compile Include="Collections\Filter\ThrowingEnumerable.cs" />
     <Compile Include="Collections\ObservableBatchCollectionTests.cs" />
     <Compile Include="Collections\ReadOnlySerialViewTests.cs" />
+    <Compile Include="Helpers\DumpIfDebug.cs" />
     <Compile Include="Helpers\Fake{T}.cs" />
     <Compile Include="Helpers\Level{T}.cs" />
     <Compile Include="Reflection\PropertyInfoComparerTests.cs" />

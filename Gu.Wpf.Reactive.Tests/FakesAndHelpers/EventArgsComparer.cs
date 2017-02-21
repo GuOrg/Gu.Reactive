@@ -4,6 +4,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
     using System.Collections;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using Gu.Reactive.Tests.Helpers;
 
     public class EventArgsComparer : IComparer
     {
@@ -33,14 +34,14 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
         {
             if (y == null)
             {
-                Console.WriteLine("NotifyCollectionChangedEventArgs Null");
+                DumpIfDebug.WriteLine("NotifyCollectionChangedEventArgs Null");
                 return -1;
             }
 
             var yArgs = y as NotifyCollectionChangedEventArgs;
             if (yArgs == null)
             {
-                Console.WriteLine(
+                DumpIfDebug.WriteLine(
                     "NotifyCollectionChangedEventArgs Type, expected: {0} was: {1}",
                     typeof(NotifyCollectionChangedEventArgs),
                     y.GetType());
@@ -49,13 +50,13 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
 
             if (x.Action != yArgs.Action)
             {
-                Console.WriteLine("NotifyCollectionChangedEventArgs Action, expected: {0} was: {1}", x.Action, yArgs.Action);
+                DumpIfDebug.WriteLine("NotifyCollectionChangedEventArgs Action, expected: {0} was: {1}", x.Action, yArgs.Action);
                 return -1;
             }
 
             if (x.NewStartingIndex != yArgs.NewStartingIndex)
             {
-                Console.WriteLine("NotifyCollectionChangedEventArgs NewStartingIndex, expected: {0} was: {1}", x.NewStartingIndex, yArgs.NewStartingIndex);
+                DumpIfDebug.WriteLine("NotifyCollectionChangedEventArgs NewStartingIndex, expected: {0} was: {1}", x.NewStartingIndex, yArgs.NewStartingIndex);
                 return -1;
             }
 
@@ -63,13 +64,13 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
             {
                 var xItems = string.Join(", ", x.NewItems);
                 var yItems = string.Join(", ", yArgs.NewItems);
-                Console.WriteLine("NotifyCollectionChangedEventArgs NewItems, expected: {0} was: {1}", xItems, yItems);
+                DumpIfDebug.WriteLine("NotifyCollectionChangedEventArgs NewItems, expected: {0} was: {1}", xItems, yItems);
                 return -1;
             }
 
             if (x.OldStartingIndex != yArgs.OldStartingIndex)
             {
-                Console.WriteLine("NotifyCollectionChangedEventArgs OldStartingIndex, expected: {0} was: {1}", x.OldStartingIndex, yArgs.OldStartingIndex);
+                DumpIfDebug.WriteLine("NotifyCollectionChangedEventArgs OldStartingIndex, expected: {0} was: {1}", x.OldStartingIndex, yArgs.OldStartingIndex);
                 return -1;
             }
 
@@ -77,11 +78,11 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
             {
                 var xItems = string.Join(", ", x.OldItems);
                 var yItems = string.Join(", ", yArgs.OldItems);
-                Console.WriteLine("NotifyCollectionChangedEventArgs OldItems, expected: {0} was: {1}", xItems, yItems);
+                DumpIfDebug.WriteLine("NotifyCollectionChangedEventArgs OldItems, expected: {0} was: {1}", xItems, yItems);
                 return -1;
             }
 
-            Console.WriteLine("NotifyCollectionChangedEventArgs Success");
+            DumpIfDebug.WriteLine("NotifyCollectionChangedEventArgs Success");
             return 0;
         }
 
@@ -89,14 +90,14 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
         {
             if (y == null)
             {
-                Console.WriteLine("PropertyChangedEventArgs Null");
+                DumpIfDebug.WriteLine("PropertyChangedEventArgs Null");
                 return -1;
             }
 
             var yArgs = y as PropertyChangedEventArgs;
             if (yArgs == null)
             {
-                Console.WriteLine(
+                DumpIfDebug.WriteLine(
                     "PropertyChangedEventArgs Type, expected: {0} was: {1}",
                     typeof(PropertyChangedEventArgs),
                     y.GetType());
@@ -105,7 +106,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
 
             if (x.PropertyName != yArgs.PropertyName)
             {
-                Console.WriteLine("PropertyChangedEventArgs PropertyName, expected: {0} was: {1}", x.PropertyName, yArgs.PropertyName);
+                DumpIfDebug.WriteLine("PropertyChangedEventArgs PropertyName, expected: {0} was: {1}", x.PropertyName, yArgs.PropertyName);
                 return -1;
             }
 

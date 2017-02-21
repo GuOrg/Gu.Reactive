@@ -5,7 +5,7 @@
     using System.Windows.Markup;
 
     using Gu.Reactive;
-
+    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
 
     public class NamespacesTests
@@ -31,7 +31,7 @@
                                                              .OrderBy(x => x);
             foreach (var s in strings)
             {
-                Console.WriteLine(@"[assembly: XmlnsDefinition(""{0}"", ""{1}"")]", Uri, s);
+                DumpIfDebug.WriteLine(@"[assembly: XmlnsDefinition(""{0}"", ""{1}"")]", Uri, s);
             }
 
             CollectionAssert.AreEqual(strings, actuals);

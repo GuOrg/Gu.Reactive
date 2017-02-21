@@ -20,7 +20,7 @@ namespace Gu.Reactive.Tests.Helpers
             var actualChange = actual as PropertyChangedEventArgs;
             Assert.NotNull(actualChange, "Expected actual to be of type PropertyChangedEventArgs, was: " + actual.GetType().Name);
             Assert.AreEqual(expected.PropertyName, actualChange.PropertyName);
-            Console.WriteLine("PropertyChangedEventArgs Success: " + expected.PropertyName);
+            DumpIfDebug.WriteLine("PropertyChangedEventArgs Success: " + expected.PropertyName);
         }
 
         public static void AreEqual(NotifyCollectionChangedEventArgs expected, object actual)
@@ -43,7 +43,7 @@ namespace Gu.Reactive.Tests.Helpers
             Assert.AreEqual(expected.NewStartingIndex, actualChange.NewStartingIndex);
             CollectionAssert.AreEqual(expected.NewItems, actualChange.NewItems);
 
-            Console.WriteLine("NotifyCollectionChangedEventArgs Success: " + expected.Action);
+            DumpIfDebug.WriteLine("NotifyCollectionChangedEventArgs Success: " + expected.Action);
         }
     }
 }
