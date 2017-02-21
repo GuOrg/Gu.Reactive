@@ -19,8 +19,6 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public INotifyPropertyChanged Source => this.Value as INotifyPropertyChanged;
 
-        public bool IsLast => false;
-
         PropertyChangedEventArgs INotifyingPathItem.PropertyChangedEventArgs => PropertyChangedEventArgs;
 
         PathProperty INotifyingPathItem.PathProperty => null;

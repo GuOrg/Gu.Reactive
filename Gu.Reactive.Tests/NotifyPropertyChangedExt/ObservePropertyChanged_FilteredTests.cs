@@ -208,13 +208,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var fake = new Fake();
             var wr = new WeakReference(fake);
-            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull);
-            using (var subscription = observable.Subscribe())
+            using (fake.ObservePropertyChanged(x => x.IsTrueOrNull).Subscribe())
             {
-                GC.KeepAlive(observable);
-                GC.KeepAlive(subscription);
-                //// ReSharper disable once RedundantAssignment
-                fake = null;
             }
 
             GC.Collect();
@@ -227,34 +222,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var fake = new Fake();
             var wr = new WeakReference(fake);
             var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull);
-#pragma warning disable GU0030 // Use using.
-            var subscription = observable.Subscribe();
-#pragma warning restore GU0030 // Use using.
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
-
-            // ReSharper disable once RedundantAssignment
-            fake = null;
-            GC.Collect();
-
-            Assert.IsFalse(wr.IsAlive);
-        }
-
-        [Test]
-        public void MemoryLeakFilteredNoDisposeTest()
-        {
-            var fake = new Fake();
-            var wr = new WeakReference(fake);
-            Assert.IsTrue(wr.IsAlive);
-            var observable = fake.ObservePropertyChanged(x => x.Name);
-#pragma warning disable GU0030 // Use using.
-            var subscription = observable.Subscribe();
-#pragma warning restore GU0030 // Use using.
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
-
-            // ReSharper disable once RedundantAssignment
-            fake = null;
+            // ReSharper disable once UnusedVariable
+            var subscribe = observable.Subscribe();
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
         }

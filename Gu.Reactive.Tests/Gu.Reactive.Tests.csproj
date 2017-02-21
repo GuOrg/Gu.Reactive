@@ -109,7 +109,6 @@
     <Compile Include="Conditions\OrConditionTests.cs" />
     <Compile Include="Helpers\Fake.cs" />
     <Compile Include="Helpers\Level.cs" />
-    <Compile Include="Internals\PathObservableTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveItemPropertyChangedTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\ObserveItemPropertyChanged_ChainedTests.cs" />
     <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedAndValue_NestedTests.cs" />

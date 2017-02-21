@@ -13,6 +13,34 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     // ReSharper disable once InconsistentNaming
     public class ObservePropertyChangedAndValue_NestedTests
     {
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ThrowsOnStructInPath(bool signalIntital)
+        {
+            var fake = new Fake();
+            var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChangedWithValue(x => x.StructLevel.Name, signalIntital));
+            var expected = "Error found in x => x.StructLevel.Name\r\n" +
+                           "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?\r\n" +
+                           "The type StructLevel is a value type not so x.StructLevel will not notify when it changes.\r\n" +
+                           "The path is: x => x.StructLevel.Name\r\n\r\n" +
+                           "Parameter name: property";
+            Assert.AreEqual(expected, exception.Message);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void ThrowsOnNotNotifyingnPath(bool signalIntital)
+        {
+            var fake = new Fake();
+            var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChangedWithValue(x => x.Name.Length, signalIntital));
+            var expected = "Error found in x => x.Name.Length\r\n" +
+                           "All levels in the path must implement INotifyPropertyChanged.\r\n" +
+                           "The type string does not so x.Name will not notify when it changes.\r\n" +
+                           "The path is: x => x.Name.Length\r\n\r\n" +
+                           "Parameter name: property";
+            Assert.AreEqual(expected, exception.Message);
+        }
+
         [Test]
         [Explicit("Implement")]
         public void TypedEventargsTest()
@@ -96,17 +124,32 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
         }
 
+        [TestCase(null)]
+        [TestCase("abc")]
+        public void SignalsInitialThreeLevelsWhenValueNull(string value)
+        {
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var fake = new Fake { Next = new Level { Name = value } };
+            fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
+                .Subscribe(changes.Add);
+            Assert.AreEqual(1, changes.Count);
+            Assert.AreSame(fake.Next, changes.Single().Sender);
+            Assert.IsTrue(changes.Single().EventArgs.HasValue);
+            Assert.AreEqual(value, changes.Single().EventArgs.Value);
+            Assert.AreEqual("Name", changes.Last().EventArgs.PropertyName);
+        }
+
         [Test]
-        public void SignalsInitialNull()
+        public void SignalsInitialThreeLevelsWhenNull()
         {
             var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake();
             fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
                 .Subscribe(changes.Add);
             Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual(null, changes.Single().EventArgs.Value);
             Assert.AreSame(null, changes.Single().Sender);
             Assert.IsFalse(changes.Single().EventArgs.HasValue);
+            Assert.AreEqual(null, changes.Single().EventArgs.Value);
             Assert.AreEqual("Name", changes.Last().EventArgs.PropertyName);
         }
 
@@ -150,104 +193,37 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
-        public void MemoryLeakRootNoDisposeTest()
-        {
-            WeakReference wr = new WeakReference(null);
-            IObservable<EventPattern<PropertyChangedAndValueEventArgs<string>>> observable = null;
-            new Action(
-                () =>
-                {
-                    var fake = new Fake { Next = new Level() };
-                    wr.Target = fake;
-                    Assert.IsTrue(wr.IsAlive);
-                    observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
-                })();
-            //// http://stackoverflow.com/a/579001/1069200
-#pragma warning disable GU0030 // Use using.
-            var subscription = observable.Subscribe();
-#pragma warning restore GU0030 // Use using.
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
-            GC.Collect();
-
-            Assert.IsFalse(wr.IsAlive);
-        }
-
-        [Test]
-        public void MemoryLeakRootDisposeTest()
-        {
-            WeakReference wr = new WeakReference(null);
-            IObservable<EventPattern<PropertyChangedAndValueEventArgs<string>>> observable = null;
-            new Action(
-                () =>
-                {
-                    var fake = new Fake { Next = new Level() };
-                    wr.Target = fake;
-                    Assert.IsTrue(wr.IsAlive);
-                    observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
-                })();
-            //// http://stackoverflow.com/a/579001/1069200
-#pragma warning disable GU0030 // Use using.
-            var subscription = observable.Subscribe();
-#pragma warning restore GU0030 // Use using.
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
-
-            subscription.Dispose();
-            GC.Collect();
-
-            Assert.IsFalse(wr.IsAlive);
-            Assert.IsNotNull(subscription); // touching it after GC.Collect for no optimizations
-        }
-
-        [Test]
         public void MemoryLeakLevelNoDisposeTest()
         {
-            WeakReference wr = new WeakReference(null);
-            IObservable<EventPattern<PropertyChangedAndValueEventArgs<string>>> observable = null;
-            new Action(
-                () =>
-                {
-                    var fake = new Fake { Next = new Level() };
-                    wr.Target = fake.Next;
-                    Assert.IsTrue(wr.IsAlive);
-                    observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
-                })();
-            //// http://stackoverflow.com/a/579001/1069200
-#pragma warning disable GU0030 // Use using.
+            var fake = new Fake { Next = new Level() };
+            WeakReference wr = new WeakReference(fake.Next);
+            Assert.IsTrue(wr.IsAlive);
+            var observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
             var subscription = observable.Subscribe();
-#pragma warning restore GU0030 // Use using.
-            GC.KeepAlive(observable);
-            GC.KeepAlive(subscription);
-
+            fake.Next = null;
             GC.Collect();
-
             Assert.IsFalse(wr.IsAlive);
-            Assert.IsNotNull(subscription); // touching it after GC.Collect for no optimizations
+            Assert.NotNull(fake);
+            Assert.IsNotNull(observable); // touching it after GC.Collect
+            Assert.IsNotNull(subscription); // touching it after GC.Collect
         }
 
         [Test]
         public void MemoryLeakLevelDisposeTest()
         {
-            WeakReference wr = new WeakReference(null);
-            IObservable<EventPattern<PropertyChangedAndValueEventArgs<string>>> observable = null;
-            new Action(
-                () =>
-                {
-                    var fake = new Fake { Next = new Level() };
-                    wr.Target = fake.Next;
-                    Assert.IsTrue(wr.IsAlive);
-                    observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
-                })();
-            //// http://stackoverflow.com/a/579001/1069200
+            var fake = new Fake { Next = new Level() };
+            WeakReference wr = new WeakReference(fake.Next);
+            Assert.IsTrue(wr.IsAlive);
+            var observable = fake.ObservePropertyChangedWithValue(x => x.Next.Name, false);
             using (var subscription = observable.Subscribe())
             {
-                GC.KeepAlive(observable);
-                GC.KeepAlive(subscription);
             }
 
+            fake.Next = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
+            Assert.NotNull(fake);
+            Assert.IsNotNull(observable); // touching it after GC.Collect
         }
     }
 }

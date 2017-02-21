@@ -158,7 +158,6 @@
     <Compile Include="Conditions\Internals\OrConditionCollection.cs" />
     <Compile Include="PropertyPathStuff\PropertyPath.cs" />
     <Compile Include="PropertyPathStuff\PathProperty.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPathObservable.cs" />
     <Compile Include="PropertyPathStuff\PropertyPathParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />
