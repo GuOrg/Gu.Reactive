@@ -709,6 +709,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void MemoryLeakRootDisposeTest()
         {
+#if DEBUG
+            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+#endif
             var root = new Fake { Next = new Level() };
             var rootRef = new WeakReference(root);
             var levelRef = new WeakReference(root.Next);
@@ -726,6 +729,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void MemoryLeakRootNoDisposeTest()
         {
+#if DEBUG
+            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+#endif
             var root = new Fake { Next = new Level() };
             var rootRef = new WeakReference(root);
             var levelRef = new WeakReference(root.Next);
@@ -743,6 +749,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void MemoryLeakLevelNoDisposeTest()
         {
+#if DEBUG
+            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+#endif
             var root = new Fake { Next = new Level() };
             var rootRef = new WeakReference(root);
             var levelRef = new WeakReference(root.Next);
@@ -758,6 +767,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void MemoryLeakLevelDisposeTest()
         {
+#if DEBUG
+            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+#endif
             var root = new Fake { Next = new Level() };
             var rootRef = new WeakReference(root);
             var levelRef = new WeakReference(root.Next);
