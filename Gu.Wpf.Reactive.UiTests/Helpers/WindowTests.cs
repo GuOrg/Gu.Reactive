@@ -1,5 +1,6 @@
 namespace Gu.Wpf.Reactive.UiTests
 {
+    using System;
     using FlaUI.Core;
     using FlaUI.Core.AutomationElements;
     using FlaUI.Core.Input;
@@ -24,7 +25,21 @@ namespace Gu.Wpf.Reactive.UiTests
                 Helpers.WaitUntilResponsive(this.Window);
             }
 
-            this.application?.Dispose();
+            if (this.application != null)
+            {
+                try
+                {
+                    // had problems with this code on AppVeyor, decided to cargo cult it like this.
+                    this.application.WaitWhileBusy();
+                    this.application.Close();
+                    this.application.Dispose();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            }
+
             this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
             this.automation = new UIA3Automation();
             this.Window = this.application.GetMainWindow(this.automation);
