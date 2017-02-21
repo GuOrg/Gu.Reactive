@@ -221,7 +221,6 @@
                             .Subscribe(o);
                         return new CompositeDisposable(3) { rootItem, path, subscription };
                     });
-
         }
 
         internal static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(

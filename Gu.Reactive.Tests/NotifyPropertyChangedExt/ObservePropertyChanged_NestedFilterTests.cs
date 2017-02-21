@@ -757,7 +757,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var levelRef = new WeakReference(root.Next);
             Assert.IsTrue(rootRef.IsAlive);
             var observable = root.ObservePropertyChangedWithValue(x => x.Next.Name, false);
+#pragma warning disable GU0030 // Use using.
             var subscription = observable.Subscribe();
+#pragma warning restore GU0030 // Use using.
 
             GC.Collect();
             Assert.IsFalse(rootRef.IsAlive);
