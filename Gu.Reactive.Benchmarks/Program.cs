@@ -14,13 +14,13 @@
 
         public static void Main()
         {
-            //foreach (var summary in RunAll())
-            foreach (var summary in RunSingle<ObservePropertyChangedThenSubscribeThenReact>())
+            foreach (var summary in RunAll())
             {
                 CopyResult(summary.Title);
             }
         }
 
+        // ReSharper disable once UnusedMember.Local
         private static IEnumerable<Summary> RunAll()
         {
             var switcher = new BenchmarkSwitcher(typeof(Program).Assembly);

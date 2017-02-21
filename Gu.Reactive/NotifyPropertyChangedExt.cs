@@ -48,7 +48,7 @@
 
             if (verifiedPath.Path.Count > 1)
             {
-                return source.ObservePropertyChanged(verifiedPath.Path, signalInitial);
+                return source.ObservePropertyChanged((PropertyPath<TNotifier, TProperty>)verifiedPath.Path, signalInitial);
             }
 
             return source.ObservePropertyChanged(verifiedPath.Path[0].PropertyInfo.Name, signalInitial);
@@ -193,9 +193,9 @@
         /// <param name="signalInitial">
         /// If true OnNext is called immediately on subscribe
         /// </param>
-        internal static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier>(
+        internal static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
             this TNotifier source,
-            IPropertyPath propertyPath,
+            PropertyPath<TNotifier, TProperty> propertyPath,
             bool signalInitial = true)
             where TNotifier : INotifyPropertyChanged
         {

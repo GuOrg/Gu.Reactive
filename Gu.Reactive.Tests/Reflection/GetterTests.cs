@@ -51,6 +51,22 @@ namespace Gu.Reactive.Tests.Reflection
         }
 
         [Test]
+        public void GetValueGenerics()
+        {
+            var intFake = new Fake<int> { Value = 1 };
+            var intgetter = Getter.GetOrCreate(typeof(Fake<int>).GetProperty("Value"));
+            Assert.AreEqual(1, intgetter.GetValue(intFake));
+            var genericintGetter = (Getter<Fake<int>, int>)intgetter;
+            Assert.AreEqual(1, genericintGetter.GetValue(intFake));
+
+            var doubleFake = new Fake<double> { Value = 1 };
+            var doublegetter = Getter.GetOrCreate(typeof(Fake<double>).GetProperty("Value"));
+            Assert.AreEqual(1, doublegetter.GetValue(doubleFake));
+            var genericdoubleGetter = (Getter<Fake<double>, double>)doublegetter;
+            Assert.AreEqual(1, genericdoubleGetter.GetValue(doubleFake));
+        }
+
+        [Test]
         public void GetValueGenericStruct()
         {
             var source = new StructLevel { Name = "meh" };
