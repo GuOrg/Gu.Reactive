@@ -15,6 +15,8 @@
         private bool? isTrueOrNull;
 
         private int value;
+        private int value1;
+        private int value2;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -71,6 +73,44 @@
                 }
 
                 this.value = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public int Value1
+        {
+            get
+            {
+                return this.value1;
+            }
+
+            set
+            {
+                if (value == this.value1)
+                {
+                    return;
+                }
+
+                this.value1 = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public int Value2
+        {
+            get
+            {
+                return this.value2;
+            }
+
+            set
+            {
+                if (value == this.value2)
+                {
+                    return;
+                }
+
+                this.value2 = value;
                 this.OnPropertyChanged();
             }
         }

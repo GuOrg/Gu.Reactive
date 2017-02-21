@@ -1,3 +1,4 @@
+// ReSharper disable HeuristicUnreachableCode
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
@@ -207,6 +208,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void MemoryLeakDisposeTest()
         {
+#if DEBUG
+            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+#endif
             var fake = new Fake();
             var wr = new WeakReference(fake);
             using (fake.ObservePropertyChanged(x => x.IsTrueOrNull).Subscribe())
@@ -220,6 +224,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void MemoryLeakNoDisposeTest()
         {
+#if DEBUG
+            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+#endif
             var fake = new Fake();
             var wr = new WeakReference(fake);
             var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull);

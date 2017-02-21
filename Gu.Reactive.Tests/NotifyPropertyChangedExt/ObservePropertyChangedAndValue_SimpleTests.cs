@@ -81,6 +81,10 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void MemoryLeakNoDisposeTest()
         {
+#if DEBUG
+            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+#endif
+
             var fake = new Fake();
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);
@@ -100,6 +104,10 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void MemoryLeakDisposeTest()
         {
+#if DEBUG
+            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+#endif
+
             var fake = new Fake();
             var wr = new WeakReference(fake);
             Assert.IsTrue(wr.IsAlive);

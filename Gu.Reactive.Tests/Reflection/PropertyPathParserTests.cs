@@ -43,6 +43,19 @@
         }
 
         [Test]
+        public void GetPathOneAndTwoLevels()
+        {
+            var actuals1 = PropertyPathParser.GetPath<Fake, Level>(x => x.Next);
+            CollectionAssert.AreEqual(new[] { typeof(Fake).GetProperty("Next") }, actuals1);
+
+            var actuals2 = PropertyPathParser.GetPath<Fake, int>(f => f.Next.Value1);
+            CollectionAssert.AreEqual(new[] { typeof(Fake).GetProperty("Next"), typeof(Level).GetProperty("Value1") }, actuals2);
+
+            var actuals3 = PropertyPathParser.GetPath<Fake, int>(f => f.Next.Value2);
+            CollectionAssert.AreEqual(new[] { typeof(Fake).GetProperty("Next"), typeof(Level).GetProperty("Value2") }, actuals3);
+        }
+
+        [Test]
         public void GetPathsOneLevel()
         {
             var fake = new Fake();
