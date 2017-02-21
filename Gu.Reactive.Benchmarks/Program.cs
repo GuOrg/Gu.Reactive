@@ -9,12 +9,13 @@
     public class Program
     {
         //// ReSharper disable PossibleNullReferenceException
-        private static readonly string DesinationDirectory = System.IO.Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "Results");
+        private static readonly string DesinationDirectory = System.IO.Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "Benchmarks");
         //// ReSharper restore PossibleNullReferenceException
 
         public static void Main()
         {
-            foreach (var summary in RunAll())
+            //foreach (var summary in RunAll())
+            foreach (var summary in RunSingle<ObservePropertyChangedThenSubscribeThenReact>())
             {
                 CopyResult(summary.Title);
             }
@@ -22,7 +23,6 @@
 
         private static IEnumerable<Summary> RunAll()
         {
-            ClearAllResults();
             var switcher = new BenchmarkSwitcher(typeof(Program).Assembly);
             var summaries = switcher.Run(new[] { "*" });
             return summaries;
@@ -45,17 +45,6 @@
             var destinationFileName = System.IO.Path.Combine(DesinationDirectory, name + ".md");
             File.Copy(sourceFileName, destinationFileName, true);
 #endif
-        }
-
-        private static void ClearAllResults()
-        {
-            if (Directory.Exists(DesinationDirectory))
-            {
-                foreach (var resultFile in Directory.EnumerateFiles(DesinationDirectory, "*.md"))
-                {
-                    File.Delete(resultFile);
-                }
-            }
         }
     }
 }
