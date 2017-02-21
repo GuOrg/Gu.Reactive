@@ -196,7 +196,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             Assert.AreEqual(expected, changes.Count);
             if (signalInitial)
             {
-                AssertEventPattern(fake, "Value", changes.Last());
+                Assert.AreSame(fake, changes.Single().Sender);
+                Assert.AreEqual("Value", changes.Single().EventArgs.PropertyName);
             }
 
             fake.Value++;

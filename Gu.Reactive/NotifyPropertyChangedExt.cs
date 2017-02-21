@@ -193,7 +193,6 @@
         /// <param name="signalInitial">
         /// If true OnNext is called immediately on subscribe
         /// </param>
-        [Obsolete("Clean up some duplication here")]
         internal static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier>(
             this TNotifier source,
             IPropertyPath propertyPath,
@@ -203,19 +202,13 @@
             if (signalInitial)
             {
                 return Observable.Defer(
-                    () => Observable.Create<EventPattern<PropertyChangedEventArgs>>(
-                                o =>
-                                    {
-                                        var rootItem = new RootItem(source);
-                                        var path = new NotifyingPath(rootItem, propertyPath);
-                                        var current = new EventPattern<PropertyChangedEventArgs>(
-                                            path[path.Count - 1].Source,
-                                            path[path.Count - 1].PropertyChangedEventArgs);
-                                        var subscription = Observable.Return(current)
-                                                                     .Concat(path[path.Count - 1].ObservePropertyChanged())
-                                                                     .Subscribe(o);
-                                        return new CompositeDisposable(3) { rootItem, path, subscription };
-                                    }));
+                    () => Observable.Return(
+                                        new EventPattern<PropertyChangedEventArgs>(
+                                            propertyPath.Count == 1
+                                                ? source
+                                                : propertyPath[propertyPath.Count - 2].GetValueFromRoot<object>(source).ValueOrDefault(),
+                                            new PropertyChangedEventArgs(propertyPath.Last.PropertyInfo.Name)))
+                                    .Concat(source.ObservePropertyChanged(propertyPath, false)));
             }
 
             return Observable.Create<EventPattern<PropertyChangedEventArgs>>(
