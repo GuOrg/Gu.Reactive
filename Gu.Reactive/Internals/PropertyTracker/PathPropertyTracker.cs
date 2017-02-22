@@ -61,7 +61,7 @@ namespace Gu.Reactive.Internals
 
             if (previous != null)
             {
-                this.Source = (INotifyPropertyChanged)previous.Value;
+                this.Source = (INotifyPropertyChanged)previous.Value();
             }
         }
 
@@ -70,8 +70,6 @@ namespace Gu.Reactive.Internals
         public PathProperty PathProperty { get; }
 
         public PropertyChangedEventArgs PropertyChangedEventArgs => CachedEventArgs.GetOrCreatePropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
-
-        public object Value => this.PathProperty.GetPropertyValue(this.Source).ValueOrDefault();
 
         public PathPropertyTracker Next { get; private set; }
 
@@ -134,6 +132,8 @@ namespace Gu.Reactive.Internals
             }
         }
 
+        public object Value() => this.PathProperty.GetPropertyValue(this.Source).ValueOrDefault();
+
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -166,7 +166,7 @@ namespace Gu.Reactive.Internals
             var next = this.Next;
             if (next != null)
             {
-                var value = this.PathProperty.GetPropertyValue(this.Source);
+                var value = this.PathProperty.GetPropertyValue(this.source);
                 if (ReferenceEquals(value.ValueOrDefault(), next.Source) && value.ValueOrDefault() != null)
                 {
                     // The source signaled event without changing value.

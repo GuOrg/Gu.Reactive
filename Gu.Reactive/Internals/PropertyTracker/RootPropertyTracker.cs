@@ -5,7 +5,6 @@ namespace Gu.Reactive.Internals
 
     internal sealed class RootPropertyTracker : IPathPropertyTracker
     {
-        private static readonly PropertyChangedEventArgs PropertyChangedEventArgs = new PropertyChangedEventArgs(null);
         private static readonly PropertyChangedEventArgs ValueChangedEventArgs = new PropertyChangedEventArgs(nameof(Value));
         private static readonly PropertyChangedEventArgs SourceChangedEventArgs = new PropertyChangedEventArgs(nameof(Source));
         private readonly WeakReference sourceRef = new WeakReference(null);
@@ -18,10 +17,6 @@ namespace Gu.Reactive.Internals
         public event PropertyChangedEventHandler TrackedPropertyChanged;
 
         public INotifyPropertyChanged Source => this.Value as INotifyPropertyChanged;
-
-        PropertyChangedEventArgs IPathPropertyTracker.PropertyChangedEventArgs => PropertyChangedEventArgs;
-
-        PathProperty IPathPropertyTracker.PathProperty => null;
 
         public object Value
         {
@@ -41,6 +36,11 @@ namespace Gu.Reactive.Internals
                 this.OnPropertyChanged(ValueChangedEventArgs);
                 this.OnPropertyChanged(SourceChangedEventArgs);
             }
+        }
+
+        object IPathPropertyTracker.Value()
+        {
+            return this.Value;
         }
 
         public void Dispose()

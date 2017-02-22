@@ -8,12 +8,6 @@ namespace Gu.Reactive.Internals
     {
         event PropertyChangedEventHandler TrackedPropertyChanged;
 
-        PropertyChangedEventArgs PropertyChangedEventArgs { get; }
-
-        PathProperty PathProperty { get; }
-
-        object Value { get; }
-
-        INotifyPropertyChanged Source { get; }
+        object Value();
     }
 }
