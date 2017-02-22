@@ -47,7 +47,6 @@ namespace Gu.Reactive.Internals
 
             this.PathProperty = pathProperty;
             this.onNext = x => this.OnPropertyChanged(x.Sender, x.EventArgs);
-            this.PropertyChangedEventArgs = CachedEventArgs.GetOrCreatePropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
             var notifyingPathItem = previous as PathPropertyTracker;
             if (notifyingPathItem != null)
             {
@@ -64,7 +63,7 @@ namespace Gu.Reactive.Internals
 
         public PathProperty PathProperty { get; }
 
-        public PropertyChangedEventArgs PropertyChangedEventArgs { get; }
+        public PropertyChangedEventArgs PropertyChangedEventArgs => CachedEventArgs.GetOrCreatePropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
 
         public object Value => this.PathProperty.GetPropertyValue(this.Source).ValueOrDefault();
 
@@ -83,25 +82,29 @@ namespace Gu.Reactive.Internals
             set
             {
                 var oldSource = this.source;
-                this.source = value;
-                var inpc = value;
+                if (ReferenceEquals(oldSource, value))
+                {
+                    if (value != null)
+                    {
+                        this.OnPropertyChanged(value, this.PropertyChangedEventArgs);
+                    }
 
-                var isNullToNull = this.IsNullToNull(oldSource, value);
-                if (inpc != null)
+                    return;
+                }
+
+                this.source = value;
+                if (value != null)
                 {
                     if (!ReferenceEquals(oldSource, value))
                     {
-                        this.subscription.Disposable = inpc.ObservePropertyChanged(this.PathProperty.PropertyInfo.Name, !isNullToNull)
-                                                           .Subscribe(this.onNext);
+                        this.subscription.Disposable = value.ObservePropertyChanged(this.PathProperty.PropertyInfo.Name, !this.IsNullToNull(oldSource, value))
+                                                            .Subscribe(this.onNext);
                     }
                 }
                 else
                 {
                     this.subscription.Disposable = null;
-                    if (!isNullToNull)
-                    {
-                        this.OnPropertyChanged(value, this.PropertyChangedEventArgs);
-                    }
+                    this.OnPropertyChanged(value, this.PropertyChangedEventArgs);
                 }
             }
         }

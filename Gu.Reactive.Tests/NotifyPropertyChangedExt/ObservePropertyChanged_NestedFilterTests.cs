@@ -365,10 +365,15 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 fake.Next.Next = new Level();
                 Assert.AreEqual(1, changes.Count);
+
                 fake.Next.Next = null;
                 Assert.AreEqual(2, changes.Count);
+
                 fake.Next = null;
-                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual(3, changes.Count);
+
+                fake.OnPropertyChanged("Next");
+                Assert.AreEqual(3, changes.Count);
             }
         }
 
@@ -422,8 +427,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 fake.Next.Next.Next = null;
                 Assert.AreEqual(2, changes.Count);
 
+                fake.Next.Next = null;
+                Assert.AreEqual(3, changes.Count);
+
                 fake.Next = null;
-                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual(3, changes.Count);
             }
         }
 
