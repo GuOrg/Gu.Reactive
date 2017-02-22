@@ -45,7 +45,6 @@ namespace Gu.Reactive.PropertyPathStuff
             this.PathProperty = pathProperty;
             this.onNext = x => this.OnPropertyChanged(x.Sender, x.EventArgs);
             this.PropertyChangedEventArgs = CachedEventArgs.GetOrCreatePropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
-            this.Previous = previous;
             var notifyingPathItem = previous as PathPropertyTracker;
             if (notifyingPathItem != null)
             {
@@ -63,8 +62,6 @@ namespace Gu.Reactive.PropertyPathStuff
         public PathProperty PathProperty { get; }
 
         public PropertyChangedEventArgs PropertyChangedEventArgs { get; }
-
-        public IPathPropertyTracker Previous { get; }
 
         public object Value => this.PathProperty.GetPropertyValue(this.Source).ValueOrDefault();
 
