@@ -129,11 +129,11 @@
     <Compile Include="ObservableExt.cs" />
     <Compile Include="EventArgs\PropertyChangedAndValueEventArgs{TProperty}.cs" />
     <Compile Include="Internals\ExpressionExt.cs" />
-    <Compile Include="Reflection\Getter\ClassGetterr{TSource, TValue}.cs" />
+    <Compile Include="Reflection\Getter\ClassGetter{TSource,TValue}.cs" />
     <Compile Include="Reflection\Getter\Getter.cs" />
     <Compile Include="Reflection\Getter\Getter{TSource,TValue}.cs" />
     <Compile Include="Reflection\Getter\IGetter.cs" />
-    <Compile Include="Reflection\Getter\StructGetterr{TSource, TValue}.cs" />
+    <Compile Include="Reflection\Getter\StructGetter{TSource,TValue}.cs" />
     <Compile Include="PropertyPathStuff\IPropertyPath.cs" />
     <Compile Include="Internals\MaybeExt.cs" />
     <Compile Include="Internals\RwLock.cs" />

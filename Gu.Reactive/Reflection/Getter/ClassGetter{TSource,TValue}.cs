@@ -10,11 +10,6 @@ namespace Gu.Reactive
         private ClassGetter(PropertyInfo property)
             : base(property)
         {
-            if (property.GetMethod == null)
-            {
-                throw new ArgumentException($"Expected get method to not be null. Property: {property}");
-            }
-
             this.getter = (Func<TSource, TValue>)Delegate.CreateDelegate(typeof(Func<TSource, TValue>), property.GetMethod, true);
         }
 

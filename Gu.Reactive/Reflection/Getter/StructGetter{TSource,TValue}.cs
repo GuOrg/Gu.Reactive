@@ -10,11 +10,6 @@ namespace Gu.Reactive
         private StructGetter(PropertyInfo property)
             : base(property)
         {
-            if (property.GetMethod == null)
-            {
-                throw new ArgumentException($"Expected get method to not be null. Property: {property}");
-            }
-
             this.getter = (GetterDelegate)Delegate.CreateDelegate(typeof(GetterDelegate), property.GetMethod, true);
         }
 

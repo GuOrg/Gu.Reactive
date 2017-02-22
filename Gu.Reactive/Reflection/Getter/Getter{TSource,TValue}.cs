@@ -1,5 +1,6 @@
 namespace Gu.Reactive
 {
+    using System;
     using System.Collections.Generic;
     using System.Reflection;
 
@@ -19,6 +20,11 @@ namespace Gu.Reactive
         {
             Ensure.Equal(typeof(TSource), property.DeclaringType, nameof(property));
             Ensure.Equal(typeof(TValue), property.PropertyType, nameof(property));
+            if (property.GetMethod == null)
+            {
+                throw new ArgumentException($"Expected get method to not be null. Property: {property}");
+            }
+
             this.Property = property;
         }
 
