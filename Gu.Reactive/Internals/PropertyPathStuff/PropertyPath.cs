@@ -7,7 +7,7 @@ namespace Gu.Reactive.Internals
     using System.Linq;
     using System.Linq.Expressions;
 
-    internal class PropertyPath : IPropertyPath
+    internal sealed class PropertyPath : IPropertyPath
     {
         private static readonly ConcurrentDictionary<LambdaExpression, PropertyPath> CachedPaths = new ConcurrentDictionary<LambdaExpression, PropertyPath>(PropertyPathComparer.Default);
         private static readonly ConcurrentDictionary<LambdaExpression, IPropertyPath> Cache = new ConcurrentDictionary<LambdaExpression, IPropertyPath>(PropertyPathComparer.Default);

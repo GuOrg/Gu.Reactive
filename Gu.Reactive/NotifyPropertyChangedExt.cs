@@ -66,7 +66,7 @@
             bool signalInitial = true)
         {
             var observable = source.ObservePropertyChanged()
-                                   .Where(e => IsPropertyName(e.EventArgs, name));
+                                   .Where(e => IsMatch(e.EventArgs, name));
             if (signalInitial)
             {
                 var wr = new WeakReference(source);
@@ -98,7 +98,7 @@
             }
 
             var observable = source.ObservePropertyChangedSlim()
-                                   .Where(e => IsPropertyName(e, propertyName));
+                                   .Where(e => IsMatch(e, propertyName));
             if (signalInitial)
             {
                 observable = observable.StartWith(new PropertyChangedEventArgs(propertyName));
@@ -235,7 +235,12 @@
                                      propertyPath.Last.GetPropertyValue(x.Sender).As<TProperty>())));
         }
 
-        private static bool IsPropertyName(this PropertyChangedEventArgs e, string propertyName)
+        internal static bool IsMatch(this PropertyChangedEventArgs e, PropertyInfo property)
+        {
+            return IsMatch(e, property.Name);
+        }
+
+        internal static bool IsMatch(this PropertyChangedEventArgs e, string propertyName)
         {
             return string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName;
         }

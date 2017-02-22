@@ -399,6 +399,30 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 fake.Next.Next = null;
                 Assert.AreEqual(2, changes.Count);
                 fake.Next = null;
+            }
+        }
+
+        [Test]
+        public void ThreeLevelsReferenceType()
+        {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
+            var fake = new Fake();
+            using (fake.ObservePropertyChanged(x => x.Next.Next.Next, false)
+                       .Subscribe(changes.Add))
+            {
+                fake.Next = new Level();
+                Assert.AreEqual(0, changes.Count);
+
+                fake.Next.Next = new Level();
+                Assert.AreEqual(0, changes.Count);
+
+                fake.Next.Next.Next = new Level();
+                Assert.AreEqual(1, changes.Count);
+
+                fake.Next.Next.Next = null;
+                Assert.AreEqual(2, changes.Count);
+
+                fake.Next = null;
                 Assert.AreEqual(2, changes.Count);
             }
         }
@@ -658,7 +682,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase("")]
         [TestCase(null)]
         [TestCase("Next")]
-        public void FirstInPathSignalsEventWhenHasValue(string propertyName)
+        public void FirstInPathSignalsWhenHasValue(string propertyName)
         {
             var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var next = new Level();
