@@ -1,11 +1,14 @@
 ﻿namespace Gu.Reactive.Benchmarks
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
 
     using BenchmarkDotNet.Reports;
     using BenchmarkDotNet.Running;
 
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
+    [SuppressMessage("ReSharper", "UnusedParameter.Local")]
     public class Program
     {
         //// ReSharper disable PossibleNullReferenceException
@@ -20,7 +23,6 @@
             }
         }
 
-        // ReSharper disable once UnusedMember.Local
         private static IEnumerable<Summary> RunAll()
         {
             var switcher = new BenchmarkSwitcher(typeof(Program).Assembly);
@@ -28,14 +30,12 @@
             return summaries;
         }
 
-        // ReSharper disable once UnusedMember.Local
         private static IEnumerable<Summary> RunSingle<T>()
         {
             var summaries = new[] { BenchmarkRunner.Run<T>() };
             return summaries;
         }
 
-        // ReSharper disable once UnusedParameter.Local
         private static void CopyResult(string name)
         {
 #if DEBUG
