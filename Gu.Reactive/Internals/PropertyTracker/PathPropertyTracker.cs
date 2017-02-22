@@ -2,13 +2,12 @@ namespace Gu.Reactive.Internals
 {
     using System;
     using System.ComponentModel;
-    using System.Reactive;
-    using System.Reactive.Disposables;
 
     internal sealed class PathPropertyTracker : IPathPropertyTracker
     {
-        private readonly Action<EventPattern<PropertyChangedEventArgs>> onNext;
-        private readonly SerialDisposable subscription = new SerialDisposable();
+        private readonly PropertyChangedEventHandler onTrackedPropertyChanged;
+        private readonly object gate = new object();
+
         private INotifyPropertyChanged source;
         private bool disposed;
 
@@ -46,7 +45,13 @@ namespace Gu.Reactive.Internals
             }
 
             this.PathProperty = pathProperty;
-            this.onNext = x => this.OnPropertyChanged(x.Sender, x.EventArgs);
+            this.onTrackedPropertyChanged = (o, e) =>
+                {
+                    if (NotifyPropertyChangedExt.IsMatch(e, this.PathProperty.PropertyInfo))
+                    {
+                        this.OnTrackedPropertyChanged(o, e);
+                    }
+                };
             var notifyingPathItem = previous as PathPropertyTracker;
             if (notifyingPathItem != null)
             {
@@ -81,30 +86,49 @@ namespace Gu.Reactive.Internals
 
             set
             {
-                var oldSource = this.source;
+                if (this.disposed)
+                {
+                    return;
+                }
+
+                INotifyPropertyChanged oldSource;
+                lock (this.gate)
+                {
+                    if (this.disposed)
+                    {
+                        return;
+                    }
+
+                    oldSource = this.source;
+                    this.source = value;
+                }
+
                 if (ReferenceEquals(oldSource, value))
                 {
                     if (value != null)
                     {
-                        this.OnPropertyChanged(value, this.PropertyChangedEventArgs);
+                        this.OnTrackedPropertyChanged(value, this.PropertyChangedEventArgs);
                     }
 
                     return;
                 }
 
-                this.source = value;
+                if (oldSource != null)
+                {
+                    oldSource.PropertyChanged -= this.onTrackedPropertyChanged;
+                }
+
                 if (value != null)
                 {
-                    if (!ReferenceEquals(oldSource, value))
+                    value.PropertyChanged += this.onTrackedPropertyChanged;
+                    if (!this.IsNullToNull(oldSource, value))
                     {
-                        this.subscription.Disposable = value.ObservePropertyChanged(this.PathProperty.PropertyInfo.Name, !this.IsNullToNull(oldSource, value))
-                                                            .Subscribe(this.onNext);
+                        this.OnTrackedPropertyChanged(value, this.PropertyChangedEventArgs);
                     }
                 }
                 else
                 {
-                    this.subscription.Disposable = null;
-                    this.OnPropertyChanged(value, this.PropertyChangedEventArgs);
+                    this.OnTrackedPropertyChanged(null, this.PropertyChangedEventArgs);
                 }
             }
         }
@@ -117,11 +141,26 @@ namespace Gu.Reactive.Internals
                 return;
             }
 
-            this.disposed = true;
-            this.subscription.Dispose();
+            INotifyPropertyChanged oldSource;
+            lock (this.gate)
+            {
+                if (this.disposed)
+                {
+                    return;
+                }
+
+                this.disposed = true;
+                oldSource = this.source;
+                this.source = null;
+            }
+
+            if (oldSource != null)
+            {
+                oldSource.PropertyChanged -= this.onTrackedPropertyChanged;
+            }
         }
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OnTrackedPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var next = this.Next;
             if (next != null)
@@ -131,7 +170,7 @@ namespace Gu.Reactive.Internals
                 {
                     // The source signaled event without changing value.
                     // We still bubble up since it is not our job to filter.
-                    next.OnPropertyChanged(next.Source, e);
+                    next.OnTrackedPropertyChanged(next.Source, e);
                 }
                 else
                 {

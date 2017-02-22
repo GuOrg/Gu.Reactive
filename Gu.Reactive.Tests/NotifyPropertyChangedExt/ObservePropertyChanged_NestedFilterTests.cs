@@ -695,10 +695,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var next = new Level();
             var fake = new Fake { Next = next };
-            fake.ObservePropertyChanged(x => x.Next.IsTrue, false)
-                .Subscribe(changes.Add);
-            fake.OnPropertyChanged(propertyName);
-            Assert.AreEqual(1, changes.Count);
+            using (fake.ObservePropertyChanged(x => x.Next.IsTrue, false)
+                       .Subscribe(changes.Add))
+            {
+                fake.OnPropertyChanged(propertyName);
+                Assert.AreEqual(1, changes.Count);
+            }
         }
 
         [TestCase("")]
