@@ -7,14 +7,14 @@ namespace Gu.Reactive.PropertyPathStuff
 
     using Gu.Reactive.Internals;
 
-    internal sealed class NotifyingPathItem : INotifyingPathItem
+    internal sealed class PathPropertyTracker : IPathPropertyTracker
     {
         private readonly WeakReference sourceRef = new WeakReference(null);
         private readonly Action<EventPattern<PropertyChangedEventArgs>> onNext;
         private readonly SerialDisposable subscription = new SerialDisposable();
         private bool disposed;
 
-        public NotifyingPathItem(INotifyingPathItem previous, PathProperty pathProperty)
+        public PathPropertyTracker(IPathPropertyTracker previous, PathProperty pathProperty)
         {
             Ensure.NotNull(pathProperty, nameof(pathProperty));
             Ensure.NotNull(pathProperty.PropertyInfo.ReflectedType, nameof(pathProperty));
@@ -44,9 +44,9 @@ namespace Gu.Reactive.PropertyPathStuff
 
             this.PathProperty = pathProperty;
             this.onNext = x => this.OnPropertyChanged(x.Sender, x.EventArgs);
-            this.PropertyChangedEventArgs = new PropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
+            this.PropertyChangedEventArgs = CachedEventArgs.GetOrCreatePropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
             this.Previous = previous;
-            var notifyingPathItem = previous as NotifyingPathItem;
+            var notifyingPathItem = previous as PathPropertyTracker;
             if (notifyingPathItem != null)
             {
                 notifyingPathItem.Next = this;
@@ -64,11 +64,11 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public PropertyChangedEventArgs PropertyChangedEventArgs { get; }
 
-        public INotifyingPathItem Previous { get; }
+        public IPathPropertyTracker Previous { get; }
 
         public object Value => this.PathProperty.GetPropertyValue(this.Source).ValueOrDefault();
 
-        public NotifyingPathItem Next { get; private set; }
+        public PathPropertyTracker Next { get; private set; }
 
         /// <summary>
         /// Gets or sets the source.

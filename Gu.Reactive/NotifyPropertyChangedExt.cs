@@ -212,8 +212,8 @@
             return Observable.Create<EventPattern<PropertyChangedEventArgs>>(
                 o =>
                     {
-                        var rootItem = new RootItem(source);
-                        var path = new NotifyingPath(rootItem, propertyPath);
+                        var rootItem = new RootPropertyTracker(source);
+                        var path = new PropertyPathTracker(rootItem, propertyPath);
                         var subscription = path[path.Count - 1]
                             .ObservePropertyChanged()
                             .Subscribe(o);

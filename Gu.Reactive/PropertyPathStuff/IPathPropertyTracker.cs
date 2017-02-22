@@ -4,7 +4,7 @@ namespace Gu.Reactive.PropertyPathStuff
     using System;
     using System.ComponentModel;
 
-    internal interface INotifyingPathItem : IDisposable, INotifyPropertyChanged
+    internal interface IPathPropertyTracker : IDisposable, INotifyPropertyChanged
     {
         PropertyChangedEventArgs PropertyChangedEventArgs { get; }
 

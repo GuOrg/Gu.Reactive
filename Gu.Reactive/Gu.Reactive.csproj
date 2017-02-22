@@ -137,13 +137,13 @@
     <Compile Include="PropertyPathStuff\IPropertyPath.cs" />
     <Compile Include="Internals\MaybeExt.cs" />
     <Compile Include="Internals\RwLock.cs" />
-    <Compile Include="PropertyPathStuff\INotifyingPathItem.cs" />
-    <Compile Include="PropertyPathStuff\NotifyingPath.cs" />
-    <Compile Include="PropertyPathStuff\NotifyingPathItem.cs" />
+    <Compile Include="PropertyPathStuff\IPathPropertyTracker.cs" />
+    <Compile Include="PropertyPathStuff\PropertyPathTracker.cs" />
+    <Compile Include="PropertyPathStuff\PathPropertyTracker.cs" />
     <Compile Include="Reflection\Comparers\PropertyPathComparer.cs" />
     <Compile Include="PropertyPathStuff\PropertyPath{TSource,TValue}.cs" />
     <Compile Include="PropertyPathStuff\PropertyPath{TValue}.cs" />
-    <Compile Include="PropertyPathStuff\RootItem.cs" />
+    <Compile Include="PropertyPathStuff\RootPropertyTracker.cs" />
     <Compile Include="NotifyCollectionChangedExt.cs" />
     <Compile Include="NameOf.cs" />
     <Compile Include="Conditions\AndCondition.cs" />

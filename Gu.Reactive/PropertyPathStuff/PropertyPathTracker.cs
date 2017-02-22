@@ -4,19 +4,19 @@ namespace Gu.Reactive.PropertyPathStuff
     using System.Collections;
     using System.Collections.Generic;
 
-    internal sealed class NotifyingPath : IReadOnlyList<INotifyingPathItem>, IDisposable
+    internal sealed class PropertyPathTracker : IReadOnlyList<IPathPropertyTracker>, IDisposable
     {
-        private readonly IReadOnlyList<INotifyingPathItem> parts;
+        private readonly IReadOnlyList<IPathPropertyTracker> parts;
         private bool disposed;
 
-        internal NotifyingPath(RootItem root, IPropertyPath path)
+        internal PropertyPathTracker(RootPropertyTracker root, IPropertyPath path)
         {
-            var items = new INotifyingPathItem[path.Count + 1];
+            var items = new IPathPropertyTracker[path.Count + 1];
             items[0] = root;
-            INotifyingPathItem previous = root;
+            IPathPropertyTracker previous = root;
             for (var i = 0; i < path.Count; i++)
             {
-                var item = new NotifyingPathItem(previous, path[i]);
+                var item = new PathPropertyTracker(previous, path[i]);
                 items[i + 1] = item;
                 previous = item;
             }
@@ -26,7 +26,7 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public int Count => this.parts.Count;
 
-        public INotifyingPathItem this[int index]
+        public IPathPropertyTracker this[int index]
         {
             get
             {
@@ -35,7 +35,7 @@ namespace Gu.Reactive.PropertyPathStuff
             }
         }
 
-        public IEnumerator<INotifyingPathItem> GetEnumerator()
+        public IEnumerator<IPathPropertyTracker> GetEnumerator()
         {
             this.ThrowIfDisposed();
             return this.parts.GetEnumerator();

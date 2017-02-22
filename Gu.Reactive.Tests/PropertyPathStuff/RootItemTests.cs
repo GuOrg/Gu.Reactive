@@ -14,7 +14,7 @@
         [Test]
         public void SignalsValue()
         {
-            using (var item = new RootItem(null))
+            using (var item = new RootPropertyTracker(null))
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 item.ObservePropertyChanged(x => x.Value, false)
@@ -29,7 +29,7 @@
         public void Signals()
         {
             int count = 0;
-            using (var item = new RootItem(null))
+            using (var item = new RootPropertyTracker(null))
             {
                 item.ObservePropertyChanged(x => x.Source, false)
                     .Subscribe(_ => count++);

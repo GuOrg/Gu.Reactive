@@ -3,14 +3,14 @@ namespace Gu.Reactive.PropertyPathStuff
     using System;
     using System.ComponentModel;
 
-    internal sealed class RootItem : INotifyingPathItem
+    internal sealed class RootPropertyTracker : IPathPropertyTracker
     {
         private static readonly PropertyChangedEventArgs PropertyChangedEventArgs = new PropertyChangedEventArgs(null);
         private static readonly PropertyChangedEventArgs ValueChangedEventArgs = new PropertyChangedEventArgs(nameof(Value));
         private static readonly PropertyChangedEventArgs SourceChangedEventArgs = new PropertyChangedEventArgs(nameof(Source));
         private readonly WeakReference sourceRef = new WeakReference(null);
 
-        public RootItem(INotifyPropertyChanged value)
+        public RootPropertyTracker(INotifyPropertyChanged value)
         {
             this.sourceRef.Target = value;
         }
@@ -19,9 +19,9 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public INotifyPropertyChanged Source => this.Value as INotifyPropertyChanged;
 
-        PropertyChangedEventArgs INotifyingPathItem.PropertyChangedEventArgs => PropertyChangedEventArgs;
+        PropertyChangedEventArgs IPathPropertyTracker.PropertyChangedEventArgs => PropertyChangedEventArgs;
 
-        PathProperty INotifyingPathItem.PathProperty => null;
+        PathProperty IPathPropertyTracker.PathProperty => null;
 
         public object Value
         {

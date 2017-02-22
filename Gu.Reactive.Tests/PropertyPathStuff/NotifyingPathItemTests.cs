@@ -19,7 +19,7 @@
             var propertyInfo = typeof(StructLevel).GetProperty("Name");
             var pathItem = new PathProperty(null, propertyInfo);
             //// ReSharper disable once ObjectCreationAsStatement
-            var exception = Assert.Throws<ArgumentException>(() => new NotifyingPathItem(null, pathItem));
+            var exception = Assert.Throws<ArgumentException>(() => new PathPropertyTracker(null, pathItem));
             var expected = "Property path cannot have structs in it. Copy by value will make subscribing error prone.\r\n" +
                            "The type Gu.Reactive.Tests.Helpers.StructLevel is a value type not so StructLevel.Name subscribing to changes is weird.\r\n" +
                            "Parameter name: pathProperty";
@@ -32,7 +32,7 @@
             var propertyInfo = typeof(NotInpc).GetProperty("Name");
             var pathItem = new PathProperty(null, propertyInfo);
             //// ReSharper disable once ObjectCreationAsStatement
-            var exception = Assert.Throws<ArgumentException>(() => new NotifyingPathItem(null, pathItem));
+            var exception = Assert.Throws<ArgumentException>(() => new PathPropertyTracker(null, pathItem));
             var expected = "All levels in the path must implement INotifyPropertyChanged.\r\n" +
                            "The type Gu.Reactive.Tests.Helpers.NotInpc does not so the property NotInpc.Name will not notify when value changes.\r\n" +
                            "Parameter name: pathProperty";
@@ -43,7 +43,7 @@
         public void ThrowsOnSettingSourceToWrongType()
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
-            using (var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo)))
+            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 var exception = Assert.Throws<InvalidCastException>(() => pathItem.Source = default(StructLevel));
                 var expected = "Unable to cast object of type 'Gu.Reactive.Tests.Helpers.StructLevel' to type 'Gu.Reactive.Tests.Helpers.Fake'.";
@@ -56,7 +56,7 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var fakeInpc = new Fake();
-            using (var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo)))
+            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 pathItem.Source = fakeInpc;
                 Assert.AreSame(fakeInpc, pathItem.Source); // Really just scheking that we don't throw here
@@ -68,7 +68,7 @@
         {
             var propertyInfo = typeof(IFake).GetProperty("IsTrue");
             var fakeInpc = new Fake();
-            using (var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo)))
+            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 pathItem.Source = fakeInpc;
                 Assert.AreSame(fakeInpc, pathItem.Source); // Really just scheking that we don't throw here
@@ -80,7 +80,7 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var level = new Level();
-            using (var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo)))
+            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 var exception = Assert.Throws<InvalidCastException>(() => pathItem.Source = level);
                 Assert.AreEqual("Unable to cast object of type 'Gu.Reactive.Tests.Helpers.Level' to type 'Gu.Reactive.Tests.Helpers.Fake'.", exception.Message);
@@ -92,7 +92,7 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var fakeInpc = new Fake();
-            using (var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo)))
+            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 pathItem.ObservePropertyChanged().Subscribe(changes.Add);
@@ -110,7 +110,7 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var fakeInpc = new Fake();
-            using (var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo)))
+            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 pathItem.Source = fakeInpc;
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
@@ -128,7 +128,7 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("Name");
             var fakeInpc = new Fake();
-            using (var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo)))
+            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 pathItem.ObservePropertyChanged().Subscribe(changes.Add);
@@ -142,7 +142,7 @@
         public void DoesNotNotifyOnNewNullSourceWhenPropGoesFromNullToNull()
         {
             var propertyInfo = typeof(Fake).GetProperty("Name");
-            using (var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo)))
+            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 pathItem.ObservePropertyChanged().Subscribe(changes.Add);
@@ -157,7 +157,7 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var fakeInpc = new Fake { IsTrue = true };
-            using (var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo)))
+            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 pathItem.ObservePropertyChanged().Subscribe(changes.Add);
@@ -174,7 +174,7 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var fakeInpc = new Fake();
-            using (var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo)))
+            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 pathItem.Source = fakeInpc;
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
@@ -194,7 +194,7 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var fakeInpc = new Fake();
-            using (var pathItem = new NotifyingPathItem(null, new PathProperty(null, propertyInfo)))
+            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 pathItem.Source = fakeInpc;
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
@@ -211,14 +211,14 @@
         public void UpdatesNextSourceOnSourceChange()
         {
             var fakeInpc = new Fake { Next = new Level { Name = "1" } };
-            using (var rootItem = new RootItem(fakeInpc))
+            using (var rootItem = new RootPropertyTracker(fakeInpc))
             {
                 var nextProp = typeof(Fake).GetProperty("Next");
                 var firstPathItem = new PathProperty(null, nextProp);
-                using (var first = new NotifyingPathItem(rootItem, firstPathItem))
+                using (var first = new PathPropertyTracker(rootItem, firstPathItem))
                 {
                     var isTrueProp = typeof(Level).GetProperty("IsTrue");
-                    using (var second = new NotifyingPathItem(first, new PathProperty(firstPathItem, isTrueProp)))
+                    using (var second = new PathPropertyTracker(first, new PathProperty(firstPathItem, isTrueProp)))
                     {
                         first.Source = fakeInpc;
 
@@ -232,15 +232,15 @@
         public void UpdatesNextSourceOnPropertyChange()
         {
             var fakeInpc = new Fake { Next = new Level { Name = "1" } };
-            using (var rootItem = new RootItem(fakeInpc))
+            using (var rootItem = new RootPropertyTracker(fakeInpc))
             {
                 var nextProp = typeof(Fake).GetProperty(nameof(fakeInpc.Next));
                 var firstProperty = new PathProperty(null, nextProp);
-                using (var first = new NotifyingPathItem(rootItem, firstProperty))
+                using (var first = new PathPropertyTracker(rootItem, firstProperty))
                 {
                     var isTrueProp = typeof(Level).GetProperty("IsTrue");
                     var secondProperty = new PathProperty(firstProperty, isTrueProp);
-                    using (var second = new NotifyingPathItem(first, secondProperty))
+                    using (var second = new PathPropertyTracker(first, secondProperty))
                     {
                         Assert.AreSame(fakeInpc.Next, second.Source);
                         fakeInpc.Next = new Level { Name = "2" };
