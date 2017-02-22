@@ -134,16 +134,16 @@
     <Compile Include="Reflection\Getter\Getter{TSource,TValue}.cs" />
     <Compile Include="Reflection\Getter\IGetter.cs" />
     <Compile Include="Reflection\Getter\StructGetter{TSource,TValue}.cs" />
-    <Compile Include="PropertyPathStuff\IPropertyPath.cs" />
+    <Compile Include="Internals\PropertyPathStuff\IPropertyPath.cs" />
     <Compile Include="Internals\MaybeExt.cs" />
     <Compile Include="Internals\RwLock.cs" />
-    <Compile Include="PropertyPathStuff\IPathPropertyTracker.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPathTracker.cs" />
-    <Compile Include="PropertyPathStuff\PathPropertyTracker.cs" />
+    <Compile Include="Internals\PropertyTracker\IPathPropertyTracker.cs" />
+    <Compile Include="Internals\PropertyTracker\PropertyPathTracker.cs" />
+    <Compile Include="Internals\PropertyTracker\PathPropertyTracker.cs" />
     <Compile Include="Reflection\Comparers\PropertyPathComparer.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPath{TSource,TValue}.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPath{TValue}.cs" />
-    <Compile Include="PropertyPathStuff\RootPropertyTracker.cs" />
+    <Compile Include="Internals\PropertyPathStuff\PropertyPath{TSource,TValue}.cs" />
+    <Compile Include="Internals\PropertyPathStuff\PropertyPath{TValue}.cs" />
+    <Compile Include="Internals\PropertyTracker\RootPropertyTracker.cs" />
     <Compile Include="NotifyCollectionChangedExt.cs" />
     <Compile Include="NameOf.cs" />
     <Compile Include="Conditions\AndCondition.cs" />
@@ -155,9 +155,9 @@
     <Compile Include="Conditions\NegatedCondition.cs" />
     <Compile Include="Conditions\OrCondition.cs" />
     <Compile Include="Conditions\Internals\OrConditionCollection.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPath.cs" />
-    <Compile Include="PropertyPathStuff\PathProperty.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPathParser.cs" />
+    <Compile Include="Internals\PropertyPathStuff\PropertyPath.cs" />
+    <Compile Include="Internals\PropertyPathStuff\PathProperty.cs" />
+    <Compile Include="Internals\PropertyPathStuff\PropertyPathParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NotifyPropertyChangedExt.cs" />
     <Compile Include="Schedulers.cs" />
@@ -270,6 +270,7 @@
       <Paket>True</Paket>
     </Analyzer>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')">
       <ItemGroup>

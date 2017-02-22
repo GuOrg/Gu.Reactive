@@ -1,8 +1,8 @@
-﻿namespace Gu.Reactive.Tests.Internals
+﻿namespace Gu.Reactive.Tests.Internals.EnsureTests
 {
     using System;
 
-    using Gu.Reactive.Internals;
+    using Gu.Reactive.Internals.Ensure;
 
     using NUnit.Framework;
 

@@ -7,6 +7,7 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
+    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// A base class for trackers of aggretages of the values in a collection.

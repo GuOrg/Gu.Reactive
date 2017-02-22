@@ -10,7 +10,6 @@
     using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
-    using Gu.Reactive.PropertyPathStuff;
 
     /// <summary>
     /// Factory methods for creating observables from notifying collections.

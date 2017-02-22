@@ -12,6 +12,7 @@
     using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
+    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// A view of a collection that maps the values.

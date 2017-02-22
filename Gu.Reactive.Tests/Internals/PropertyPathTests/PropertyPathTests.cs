@@ -1,6 +1,6 @@
-namespace Gu.Reactive.Tests.PropertyPathStuff
+namespace Gu.Reactive.Tests.Internals.PropertyPathTests
 {
-    using Gu.Reactive.PropertyPathStuff;
+    using Gu.Reactive.Internals;
     using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;

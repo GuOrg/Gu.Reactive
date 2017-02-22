@@ -92,10 +92,10 @@
     <Compile Include="Internals\Ensure.Tests.cs" />
     <Compile Include="Internals\Ensure.String.Tests.cs" />
     <Compile Include="Reflection\GetterTests.cs" />
-    <Compile Include="PropertyPathStuff\NotifyingPathItemTests.cs" />
-    <Compile Include="PropertyPathStuff\PathItemTests.cs" />
-    <Compile Include="PropertyPathStuff\PropertyPathTests.cs" />
-    <Compile Include="PropertyPathStuff\RootItemTests.cs" />
+    <Compile Include="Internals\PropertyTrackerTests\PathPropertyTrackerTests.cs" />
+    <Compile Include="Internals\PropertyPathTests\PathItemTests.cs" />
+    <Compile Include="Internals\PropertyPathTests\PropertyPathTests.cs" />
+    <Compile Include="Internals\PropertyPathTests\RootItemTests.cs" />
     <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
     <Compile Include="NameOf_\MethodTests.cs" />
     <Compile Include="NotifyCollectionChangedEventArgsTests.cs" />

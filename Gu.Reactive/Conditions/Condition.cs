@@ -9,6 +9,7 @@ namespace Gu.Reactive
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
+    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// To be used standalone or derived from. Conditions really starts to sing when you subclass them and use an IoC container to build trees.

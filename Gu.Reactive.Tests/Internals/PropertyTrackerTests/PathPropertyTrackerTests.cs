@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests.PropertyPathStuff
+﻿namespace Gu.Reactive.Tests.Internals.PropertyTrackerTests
 {
     using System;
     using System.Collections.Generic;
@@ -6,12 +6,12 @@
     using System.Linq;
     using System.Reactive;
 
-    using Gu.Reactive.PropertyPathStuff;
+    using Gu.Reactive.Internals;
     using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;
 
-    public class NotifyingPathItemTests
+    public class PathPropertyTrackerTests
     {
         [Test]
         public void ThrowsOnStruct()

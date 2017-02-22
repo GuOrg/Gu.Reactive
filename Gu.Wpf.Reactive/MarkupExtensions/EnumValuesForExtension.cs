@@ -5,6 +5,7 @@
     using System.Windows.Markup;
 
     using Gu.Reactive.Internals;
+    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// Markupextension for getting Enum.GetValues(this.Type)

@@ -6,6 +6,7 @@ namespace Gu.Reactive
     using System.Reflection;
 
     using Gu.Reactive.Internals;
+    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// Factory methods for creating <see cref="IGetter"/> from <see cref="PropertyInfo"/>

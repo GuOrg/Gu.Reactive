@@ -1,12 +1,10 @@
-﻿namespace Gu.Reactive.PropertyPathStuff
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Reflection;
-
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// The path expression visitor.

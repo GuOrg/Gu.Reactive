@@ -1,11 +1,9 @@
-﻿namespace Gu.Reactive.PropertyPathStuff
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Gu.Reactive.Internals;
 
     ////[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     internal class PropertyPath<TSource, TValue> : IValuePath<TSource, TValue>, IPropertyPath

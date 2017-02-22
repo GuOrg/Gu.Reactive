@@ -5,7 +5,7 @@ namespace Gu.Reactive
     using System;
     using System.Linq.Expressions;
 
-    using Gu.Reactive.PropertyPathStuff;
+    using Gu.Reactive.Internals;
 
     [Obsolete("Use C#6 ?. operator")]
     public static class Get

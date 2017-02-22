@@ -1,11 +1,11 @@
-﻿namespace Gu.Reactive.Tests.PropertyPathStuff
+﻿namespace Gu.Reactive.Tests.Internals.PropertyPathTests
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Reactive;
 
-    using Gu.Reactive.PropertyPathStuff;
+    using Gu.Reactive.Internals;
 
     using NUnit.Framework;
 

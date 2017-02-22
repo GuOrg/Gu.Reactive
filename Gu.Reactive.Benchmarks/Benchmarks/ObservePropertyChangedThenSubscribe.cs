@@ -6,13 +6,13 @@ namespace Gu.Reactive.Benchmarks
 
     using BenchmarkDotNet.Attributes;
 
-    using Gu.Reactive.PropertyPathStuff;
+    using Gu.Reactive.Internals;
 
     public class ObservePropertyChangedThenSubscribe
     {
         private readonly Fake fake = new Fake { IsTrue = false, Next = new Level { Name = string.Empty } };
 
-        private readonly PropertyPath<Fake, string> propertyPath = PropertyPathStuff.PropertyPath.GetOrCreate<Fake, string>(x => x.Next.Name);
+        private readonly PropertyPath<Fake, string> propertyPath = PropertyPath.GetOrCreate<Fake, string>(x => x.Next.Name);
 
         [Benchmark(Baseline = true)]
         public int SubscribeToEventStandard()

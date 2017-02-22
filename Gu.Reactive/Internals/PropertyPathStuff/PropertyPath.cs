@@ -1,4 +1,4 @@
-namespace Gu.Reactive.PropertyPathStuff
+namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections;
@@ -6,7 +6,6 @@ namespace Gu.Reactive.PropertyPathStuff
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using Internals;
 
     internal class PropertyPath : IPropertyPath
     {

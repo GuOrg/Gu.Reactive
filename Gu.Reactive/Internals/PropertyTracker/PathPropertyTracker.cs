@@ -1,11 +1,9 @@
-namespace Gu.Reactive.PropertyPathStuff
+namespace Gu.Reactive.Internals
 {
     using System;
     using System.ComponentModel;
     using System.Reactive;
     using System.Reactive.Disposables;
-
-    using Gu.Reactive.Internals;
 
     internal sealed class PathPropertyTracker : IPathPropertyTracker
     {
@@ -16,8 +14,8 @@ namespace Gu.Reactive.PropertyPathStuff
 
         public PathPropertyTracker(IPathPropertyTracker previous, PathProperty pathProperty)
         {
-            Ensure.NotNull(pathProperty, nameof(pathProperty));
-            Ensure.NotNull(pathProperty.PropertyInfo.ReflectedType, nameof(pathProperty));
+            Ensure.Ensure.NotNull(pathProperty, nameof(pathProperty));
+            Ensure.Ensure.NotNull(pathProperty.PropertyInfo.ReflectedType, nameof(pathProperty));
 
             var type = pathProperty.PropertyInfo.ReflectedType;
             if (type.IsValueType)

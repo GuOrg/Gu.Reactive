@@ -11,7 +11,6 @@ namespace Gu.Reactive
     using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
-    using Gu.Reactive.PropertyPathStuff;
 
     /// <summary>
     /// Extension methods for subscribing to collection changes.

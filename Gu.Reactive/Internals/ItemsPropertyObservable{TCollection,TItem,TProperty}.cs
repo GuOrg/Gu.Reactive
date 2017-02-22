@@ -7,8 +7,6 @@
     using System.Linq;
     using System.Reactive;
 
-    using Gu.Reactive.PropertyPathStuff;
-
     internal sealed class ItemsPropertyObservable<TCollection, TItem, TProperty> : IDisposable
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged

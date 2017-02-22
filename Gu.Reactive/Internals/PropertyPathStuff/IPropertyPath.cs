@@ -1,5 +1,5 @@
 #pragma warning disable SA1600 // Elements must be documented, internal
-namespace Gu.Reactive.PropertyPathStuff
+namespace Gu.Reactive.Internals
 {
     using System.Collections.Generic;
 

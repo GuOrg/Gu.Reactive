@@ -2,7 +2,7 @@
 {
     using System;
 
-    using Gu.Reactive.PropertyPathStuff;
+    using Gu.Reactive.Internals;
     using Gu.Reactive.Tests.Helpers;
 
     using NUnit.Framework;

@@ -1,9 +1,7 @@
-namespace Gu.Reactive.PropertyPathStuff
+namespace Gu.Reactive.Internals
 {
     using System;
     using System.Reflection;
-
-    using Internals;
 
     internal sealed class PathProperty
     {
@@ -18,7 +16,7 @@ namespace Gu.Reactive.PropertyPathStuff
         /// </param>
         public PathProperty(PathProperty previous, PropertyInfo propertyInfo)
         {
-            Ensure.NotNull(propertyInfo, nameof(propertyInfo));
+            Ensure.Ensure.NotNull(propertyInfo, nameof(propertyInfo));
 
             if (!propertyInfo.CanRead)
             {
