@@ -43,6 +43,8 @@ namespace Gu.Wpf.Reactive.UiTests
             this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
             this.automation = new UIA3Automation();
             this.Window = this.application.GetMainWindow(this.automation);
+            this.application.WaitWhileBusy();
+            Helpers.WaitUntilResponsive(this.Window);
         }
 
         [OneTimeSetUp]

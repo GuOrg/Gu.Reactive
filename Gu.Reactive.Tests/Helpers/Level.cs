@@ -9,6 +9,7 @@
     {
         private bool isTrue;
         private Level next;
+        private Level<int> nextInt;
         private NotInpc notInpc;
         private string name;
 
@@ -149,6 +150,25 @@
                 }
 
                 this.next = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public Level<int> NextInt
+        {
+            get
+            {
+                return this.nextInt;
+            }
+
+            set
+            {
+                if (ReferenceEquals(value, this.nextInt))
+                {
+                    return;
+                }
+
+                this.nextInt = value;
                 this.OnPropertyChanged();
             }
         }

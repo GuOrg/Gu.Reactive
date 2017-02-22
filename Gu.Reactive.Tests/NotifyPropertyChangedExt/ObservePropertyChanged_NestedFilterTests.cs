@@ -510,6 +510,22 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
+        public void TwoLevelsValueType()
+        {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
+            var fake = new Fake();
+            using (fake.ObservePropertyChanged(x => x.Next.IsTrue, false).Subscribe(changes.Add))
+            {
+                fake.Next = new Level();
+                Assert.AreEqual(1, changes.Count);
+                fake.Next.IsTrue = !fake.Next.IsTrue;
+                Assert.AreEqual(2, changes.Count);
+                fake.Next = null;
+                Assert.AreEqual(3, changes.Count);
+            }
+        }
+
+        [Test]
         public void ThreeLevelsStartingWithNull()
         {
             var changes = new List<EventPattern<PropertyChangedEventArgs>>();
@@ -535,18 +551,52 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
-        public void TwoLevelsValueType()
+        public void ThreeLevelsStartingWithNullGeneric()
         {
             var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake();
-            using (fake.ObservePropertyChanged(x => x.Next.IsTrue, false).Subscribe(changes.Add))
+            using (fake.ObservePropertyChanged(x => x.Next.NextInt.Value).Subscribe(changes.Add))
             {
-                fake.Next = new Level();
                 Assert.AreEqual(1, changes.Count);
-                fake.Next.IsTrue = !fake.Next.IsTrue;
+                fake.Next = new Level { NextInt = new Level<int>() };
                 Assert.AreEqual(2, changes.Count);
-                fake.Next = null;
+                Assert.AreSame(fake.Next.NextInt, changes.Last().Sender);
+                Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+
+                fake.Next.NextInt.Value++;
                 Assert.AreEqual(3, changes.Count);
+                Assert.AreSame(fake.Next.NextInt, changes.Last().Sender);
+                Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+
+                fake.Next = null;
+                Assert.AreEqual(4, changes.Count);
+                Assert.AreSame(null, changes.Last().Sender);
+                Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+            }
+        }
+
+        [Test]
+        public void ThreeLevelsStartingWithNullGenericGeneric()
+        {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
+            var fake = new Fake();
+            using (fake.ObservePropertyChanged(x => x.NextInt.Next.Value).Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                fake.NextInt = new Level<int> { Next = new Level<int>() };
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreSame(fake.NextInt.Next, changes.Last().Sender);
+                Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+
+                fake.NextInt.Next.Value++;
+                Assert.AreEqual(3, changes.Count);
+                Assert.AreSame(fake.NextInt.Next, changes.Last().Sender);
+                Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+
+                fake.NextInt = null;
+                Assert.AreEqual(4, changes.Count);
+                Assert.AreSame(null, changes.Last().Sender);
+                Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
             }
         }
 

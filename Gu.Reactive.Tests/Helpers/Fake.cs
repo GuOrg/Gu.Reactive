@@ -10,6 +10,7 @@
         private bool? isTrueOrNull;
         private bool isTrue;
         private Level next;
+        private Level<int> nextInt;
         private string name;
 
         private StructLevel structLevel;
@@ -101,6 +102,25 @@
                 }
 
                 this.next = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public Level<int> NextInt
+        {
+            get
+            {
+                return this.nextInt;
+            }
+
+            set
+            {
+                if (ReferenceEquals(value, this.nextInt))
+                {
+                    return;
+                }
+
+                this.nextInt = value;
                 this.OnPropertyChanged();
             }
         }
