@@ -83,6 +83,40 @@
         }
 
         /// <summary>
+        /// Extension method for listening to property changes.
+        /// Handles nested x => x.Level1.Level2.Level3
+        /// Unsubscribes &amp; subscribes when each level changes.
+        /// Handles nulls.
+        /// </summary>
+        /// <param name="source">The source instance to track changes for. </param>
+        /// <param name="property">
+        /// An expression specifying the property path to track.
+        /// Example x => x.Foo.Bar.Meh
+        ///  </param>
+        /// <param name="signalInitial">
+        /// If true OnNext is called immediately on subscribe
+        /// </param>
+        public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim<TNotifier, TProperty>(
+            this TNotifier source,
+            Expression<Func<TNotifier, TProperty>> property,
+            bool signalInitial = true)
+            where TNotifier : INotifyPropertyChanged
+        {
+            var verifiedPath = Cached.GetOrAdd(property, p => VerifiedPropertyPath.Create((Expression<Func<TNotifier, TProperty>>)p));
+            if (!string.IsNullOrEmpty(verifiedPath.ErrorMessage))
+            {
+                throw new ArgumentException($"Error found in {property}" + Environment.NewLine + verifiedPath.ErrorMessage, nameof(property));
+            }
+
+            if (verifiedPath.Path.Count > 1)
+            {
+                return source.ObservePropertyChangedSlim((PropertyPath<TNotifier, TProperty>)verifiedPath.Path, signalInitial);
+            }
+
+            return source.ObservePropertyChangedSlim(verifiedPath.Path[0].PropertyInfo.Name, signalInitial);
+        }
+
+        /// <summary>
         /// This is a faster version of ObservePropertyChanged. It returns only the <see cref="PropertyChangedEventArgs"/> from source and not the EventPattern
         /// </summary>
         /// <param name="source"> The source instance to track changes for. </param>
@@ -195,12 +229,41 @@
                 o =>
                     {
                         var path = new PropertyPathTracker(source, propertyPath);
-                        var subscription = Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-                                      x => path.Last.TrackedPropertyChanged += x,
-                                      x => path.Last.TrackedPropertyChanged -= x)
-                                  .Subscribe(o);
-                        return new CompositeDisposable(3) { path, subscription };
+                        PropertyChangedEventHandler handler = (sender, e) => o.OnNext(new EventPattern<PropertyChangedEventArgs>(sender, e));
+                        path.Last.TrackedPropertyChanged += handler;
+                        return new CompositeDisposable(2)
+                        {
+                            path,
+                            Disposable.Create(() => path.Last.TrackedPropertyChanged -= handler)
+                        };
                     });
+        }
+
+        internal static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim<TNotifier, TProperty>(
+            this TNotifier source,
+            PropertyPath<TNotifier, TProperty> propertyPath,
+            bool signalInitial = true)
+            where TNotifier : INotifyPropertyChanged
+        {
+            if (signalInitial)
+            {
+                return Observable.Defer(
+                    () => Observable.Return(CachedEventArgs.GetOrCreatePropertyChangedEventArgs(propertyPath.Last.PropertyInfo.Name))
+                                    .Concat(source.ObservePropertyChangedSlim(propertyPath, false)));
+            }
+
+            return Observable.Create<PropertyChangedEventArgs>(
+                o =>
+                {
+                    var path = new PropertyPathTracker(source, propertyPath);
+                    PropertyChangedEventHandler handler = (_, e) => o.OnNext(e);
+                    path.Last.TrackedPropertyChanged += handler;
+                    return new CompositeDisposable(2)
+                    {
+                        path,
+                        Disposable.Create(() => path.Last.TrackedPropertyChanged -= handler)
+                    };
+                });
         }
 
         internal static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(
