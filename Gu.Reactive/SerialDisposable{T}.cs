@@ -56,7 +56,7 @@ namespace Gu.Reactive
                     return;
                 }
 
-                var toDispose = (IDisposable)null;
+                IDisposable toDispose;
                 lock (this.gate)
                 {
                     if (ReferenceEquals(value, this.current))
@@ -90,7 +90,7 @@ namespace Gu.Reactive
                 return;
             }
 
-            var toDispose = (IDisposable)null;
+            IDisposable toDispose;
             lock (this.gate)
             {
                 if (this.disposed)

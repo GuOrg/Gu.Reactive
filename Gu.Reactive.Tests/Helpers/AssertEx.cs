@@ -1,6 +1,5 @@
 namespace Gu.Reactive.Tests.Helpers
 {
-    using System;
     using System.Collections.Specialized;
     using System.ComponentModel;
 

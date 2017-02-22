@@ -230,8 +230,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var fake = new Fake();
             var wr = new WeakReference(fake);
             var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull);
-            //// ReSharper disable once UnusedVariable
 #pragma warning disable GU0030 // Use using.
+            //// ReSharper disable once UnusedVariable
             var subscribe = observable.Subscribe();
 #pragma warning restore GU0030 // Use using.
             GC.Collect();

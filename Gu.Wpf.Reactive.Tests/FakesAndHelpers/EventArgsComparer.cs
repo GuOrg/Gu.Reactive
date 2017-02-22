@@ -1,10 +1,9 @@
 namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
 {
-    using System;
     using System.Collections;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using Gu.Reactive.Tests.Helpers;
+    using System.Diagnostics.CodeAnalysis;
 
     public class EventArgsComparer : IComparer
     {
@@ -30,6 +29,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
             return this.Compare((PropertyChangedEventArgs)x, y);
         }
 
+        [SuppressMessage("ReSharper", "RedundantAssignment")]
         public int Compare(NotifyCollectionChangedEventArgs x, object y)
         {
             if (y == null)

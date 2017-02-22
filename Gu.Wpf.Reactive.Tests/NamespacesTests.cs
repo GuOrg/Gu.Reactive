@@ -1,6 +1,5 @@
 ﻿namespace Gu.Wpf.Reactive.Tests
 {
-    using System;
     using System.Linq;
     using System.Windows.Markup;
 
