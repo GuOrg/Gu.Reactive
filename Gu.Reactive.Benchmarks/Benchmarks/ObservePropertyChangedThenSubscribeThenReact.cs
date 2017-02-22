@@ -33,7 +33,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public int SimpleLambda()
+        public int ObservePropertyChangedSimpleLambda()
         {
             int count = 0;
             using (this.fake.ObservePropertyChanged(x => x.Value, false).Subscribe(x => count++))
@@ -44,18 +44,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public int Slim()
-        {
-            int count = 0;
-            using (this.fake.ObservePropertyChangedSlim("Value", false).Subscribe(x => count++))
-            {
-                this.fake.Value++;
-                return count;
-            }
-        }
-
-        [Benchmark]
-        public int Nested()
+        public int ObservePropertyChangedNestedLambda()
         {
             int count = 0;
             using (this.fake.ObservePropertyChanged(x => x.Next.Value, false)
@@ -67,7 +56,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public int NestedCachedPath()
+        public int ObservePropertyChangedNestedCachedPath()
         {
             int count = 0;
             using (this.fake.ObservePropertyChanged(this.propertyPath, false)
@@ -79,10 +68,46 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public int Rx()
+        public int ObservePropertyChangedSlimString()
         {
             int count = 0;
-            using (Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(x => this.fake.PropertyChanged += x, x => this.fake.PropertyChanged -= x)
+            using (this.fake.ObservePropertyChangedSlim("Value", false).Subscribe(x => count++))
+            {
+                this.fake.Value++;
+                return count;
+            }
+        }
+
+        [Benchmark]
+        public int ObservePropertyChangedSlimSimpleLambda()
+        {
+            int count = 0;
+            using (this.fake.ObservePropertyChangedSlim(x => x.Value, false).Subscribe(x => count++))
+            {
+                this.fake.Value++;
+                return count;
+            }
+        }
+
+        [Benchmark]
+        public int ObservePropertyChangedSlimNestedLambda()
+        {
+            int count = 0;
+            using (this.fake.ObservePropertyChangedSlim(x => x.Next.Value, false)
+                        .Subscribe(x => count++))
+            {
+                this.fake.Next.Value++;
+                return count;
+            }
+        }
+
+        [Benchmark]
+        public int ObservableFromEventPattern()
+        {
+            int count = 0;
+            using (Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+                x => this.fake.PropertyChanged += x, 
+                x => this.fake.PropertyChanged -= x)
                              .Where(x => string.IsNullOrEmpty(x.EventArgs.PropertyName) || x.EventArgs.PropertyName == nameof(this.fake.Value))
                              .Subscribe(x => count++))
             {

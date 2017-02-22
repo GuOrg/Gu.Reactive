@@ -33,33 +33,45 @@
         }
 
         [Benchmark]
-        public IObservable<EventPattern<PropertyChangedEventArgs>> SimpleLambda()
+        public IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChangedSimpleLambda()
         {
             return this.fake.ObservePropertyChanged(x => x.Value, false);
         }
 
         [Benchmark]
-        public IObservable<EventPattern<PropertyChangedEventArgs>> SimpleString()
-        {
-            return this.fake.ObservePropertyChanged("Value", false);
-        }
-
-        [Benchmark]
-        public IObservable<PropertyChangedEventArgs> SimpleSlim()
-        {
-            return this.fake.ObservePropertyChangedSlim("Value", false);
-        }
-
-        [Benchmark]
-        public IObservable<EventPattern<PropertyChangedEventArgs>> NestedLambda()
+        public IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChangedNestedLambda()
         {
             return this.fake.ObservePropertyChanged(x => x.Next.Name, false);
         }
 
         [Benchmark]
-        public IObservable<EventPattern<PropertyChangedEventArgs>> NestedCachedPath()
+        public IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChangedNestedCachedPath()
         {
             return this.fake.ObservePropertyChanged(this.propertyPath, false);
+        }
+
+        [Benchmark]
+        public IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChangedString()
+        {
+            return this.fake.ObservePropertyChanged("Value", false);
+        }
+
+        [Benchmark]
+        public IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlimString()
+        {
+            return this.fake.ObservePropertyChangedSlim("Value", false);
+        }
+
+        [Benchmark]
+        public IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlimSimpleLambda()
+        {
+            return this.fake.ObservePropertyChangedSlim(x => x.Value, false);
+        }
+
+        [Benchmark]
+        public IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlimNestedLambda()
+        {
+            return this.fake.ObservePropertyChangedSlim(x => x.Next.Value, false);
         }
     }
 }
