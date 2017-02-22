@@ -140,26 +140,9 @@
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(this INotifyPropertyChanged source)
         {
             Ensure.NotNull(source, nameof(source));
-            var wr = new WeakReference<INotifyPropertyChanged>(source);
-            IObservable<EventPattern<PropertyChangedEventArgs>> observable =
-                Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-                    x =>
-                    {
-                        INotifyPropertyChanged inpc;
-                        if (wr.TryGetTarget(out inpc))
-                        {
-                            inpc.PropertyChanged += x;
-                        }
-                    },
-                    x =>
-                    {
-                        INotifyPropertyChanged inpc;
-                        if (wr.TryGetTarget(out inpc))
-                        {
-                            inpc.PropertyChanged -= x;
-                        }
-                    });
-            return observable;
+            return Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+                x => source.PropertyChanged += x,
+                x => source.PropertyChanged -= x);
         }
 
         /// <summary>
@@ -213,9 +196,10 @@
                     {
                         var rootItem = new RootPropertyTracker(source);
                         var path = new PropertyPathTracker(rootItem, propertyPath);
-                        var subscription = path[path.Count - 1]
-                            .ObservePropertyChanged()
-                            .Subscribe(o);
+                        var subscription = Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+                                      x => path.Last.TrackedPropertyChanged += x,
+                                      x => path.Last.TrackedPropertyChanged -= x)
+                                  .Subscribe(o);
                         return new CompositeDisposable(3) { rootItem, path, subscription };
                     });
         }

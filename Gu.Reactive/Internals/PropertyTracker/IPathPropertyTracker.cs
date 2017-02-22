@@ -4,8 +4,10 @@ namespace Gu.Reactive.Internals
     using System;
     using System.ComponentModel;
 
-    internal interface IPathPropertyTracker : IDisposable, INotifyPropertyChanged
+    internal interface IPathPropertyTracker : IDisposable
     {
+        event PropertyChangedEventHandler TrackedPropertyChanged;
+
         PropertyChangedEventArgs PropertyChangedEventArgs { get; }
 
         PathProperty PathProperty { get; }

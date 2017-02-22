@@ -92,13 +92,13 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var fakeInpc = new Fake();
-            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
+            using (var tracker = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                pathItem.ObservePropertyChanged().Subscribe(changes.Add);
+                tracker.TrackedPropertyChanged += (o, e) => changes.Add(new EventPattern<PropertyChangedEventArgs>(o, e));
                 Assert.AreEqual(0, changes.Count);
 
-                pathItem.Source = fakeInpc;
+                tracker.Source = fakeInpc;
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreEqual("IsTrue", changes.Single().EventArgs.PropertyName);
                 Assert.AreSame(fakeInpc, changes.Single().Sender);
@@ -110,13 +110,13 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var fakeInpc = new Fake();
-            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
+            using (var tracker = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
-                pathItem.Source = fakeInpc;
+                tracker.Source = fakeInpc;
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                pathItem.ObservePropertyChanged().Subscribe(changes.Add);
+                tracker.TrackedPropertyChanged += (o, e) => changes.Add(new EventPattern<PropertyChangedEventArgs>(o, e));
                 Assert.AreEqual(0, changes.Count);
-                pathItem.Source = null;
+                tracker.Source = null;
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreEqual("IsTrue", changes.Single().EventArgs.PropertyName);
                 Assert.AreSame(null, changes.Single().Sender);
@@ -128,12 +128,12 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("Name");
             var fakeInpc = new Fake();
-            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
+            using (var tracker = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                pathItem.ObservePropertyChanged().Subscribe(changes.Add);
+                tracker.TrackedPropertyChanged += (o, e) => changes.Add(new EventPattern<PropertyChangedEventArgs>(o, e));
                 Assert.AreEqual(0, changes.Count);
-                pathItem.Source = fakeInpc;
+                tracker.Source = fakeInpc;
                 Assert.AreEqual(0, changes.Count);
             }
         }
@@ -142,12 +142,12 @@
         public void DoesNotNotifyOnNewNullSourceWhenPropGoesFromNullToNull()
         {
             var propertyInfo = typeof(Fake).GetProperty("Name");
-            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
+            using (var tracker = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                pathItem.ObservePropertyChanged().Subscribe(changes.Add);
+                tracker.TrackedPropertyChanged += (o, e) => changes.Add(new EventPattern<PropertyChangedEventArgs>(o, e));
                 Assert.AreEqual(0, changes.Count);
-                pathItem.Source = null;
+                tracker.Source = null;
                 Assert.AreEqual(0, changes.Count);
             }
         }
@@ -157,14 +157,14 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var fakeInpc = new Fake { IsTrue = true };
-            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
+            using (var tracker = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                pathItem.ObservePropertyChanged().Subscribe(changes.Add);
+                tracker.TrackedPropertyChanged += (o, e) => changes.Add(new EventPattern<PropertyChangedEventArgs>(o, e));
                 Assert.AreEqual(0, changes.Count);
-                pathItem.Source = fakeInpc;
+                tracker.Source = fakeInpc;
                 Assert.AreEqual(1, changes.Count);
-                pathItem.Source = new Fake { IsTrue = true };
+                tracker.Source = new Fake { IsTrue = true };
                 Assert.AreEqual(2, changes.Count);
             }
         }
@@ -174,11 +174,11 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var fakeInpc = new Fake();
-            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
+            using (var tracker = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
-                pathItem.Source = fakeInpc;
+                tracker.Source = fakeInpc;
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                pathItem.ObservePropertyChanged().Subscribe(changes.Add);
+                tracker.TrackedPropertyChanged += (o, e) => changes.Add(new EventPattern<PropertyChangedEventArgs>(o, e));
                 Assert.AreEqual(0, changes.Count);
                 fakeInpc.IsTrue = !fakeInpc.IsTrue;
                 Assert.AreEqual(1, changes.Count);
@@ -194,11 +194,11 @@
         {
             var propertyInfo = typeof(Fake).GetProperty("IsTrue");
             var fakeInpc = new Fake();
-            using (var pathItem = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
+            using (var tracker = new PathPropertyTracker(null, new PathProperty(null, propertyInfo)))
             {
-                pathItem.Source = fakeInpc;
+                tracker.Source = fakeInpc;
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                pathItem.ObservePropertyChanged().Subscribe(changes.Add);
+                tracker.TrackedPropertyChanged += (o, e) => changes.Add(new EventPattern<PropertyChangedEventArgs>(o, e));
                 Assert.AreEqual(0, changes.Count);
                 fakeInpc.OnPropertyChanged(eventArgsPropName);
                 Assert.AreEqual(1, changes.Count);
@@ -221,7 +221,6 @@
                     using (var second = new PathPropertyTracker(first, new PathProperty(firstPathItem, isTrueProp)))
                     {
                         first.Source = fakeInpc;
-
                         Assert.AreSame(fakeInpc.Next, second.Source);
                     }
                 }

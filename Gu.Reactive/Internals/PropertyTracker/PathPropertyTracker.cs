@@ -52,6 +52,7 @@ namespace Gu.Reactive.Internals
                         this.OnTrackedPropertyChanged(o, e);
                     }
                 };
+
             var notifyingPathItem = previous as PathPropertyTracker;
             if (notifyingPathItem != null)
             {
@@ -64,7 +65,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler TrackedPropertyChanged;
 
         public PathProperty PathProperty { get; }
 
@@ -178,7 +179,7 @@ namespace Gu.Reactive.Internals
                 }
             }
 
-            this.PropertyChanged?.Invoke(sender, e);
+            this.TrackedPropertyChanged?.Invoke(sender, e);
         }
 
         private bool IsNullToNull(object oldSource, object newSource)

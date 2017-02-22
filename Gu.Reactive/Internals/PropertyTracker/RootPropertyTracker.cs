@@ -15,7 +15,7 @@ namespace Gu.Reactive.Internals
             this.sourceRef.Target = value;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler TrackedPropertyChanged;
 
         public INotifyPropertyChanged Source => this.Value as INotifyPropertyChanged;
 
@@ -48,6 +48,6 @@ namespace Gu.Reactive.Internals
             // NOP
         }
 
-        private void OnPropertyChanged(PropertyChangedEventArgs e) => this.PropertyChanged?.Invoke(this, e);
+        private void OnPropertyChanged(PropertyChangedEventArgs e) => this.TrackedPropertyChanged?.Invoke(this, e);
     }
 }
