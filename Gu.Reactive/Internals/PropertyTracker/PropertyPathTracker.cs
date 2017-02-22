@@ -84,6 +84,26 @@ namespace Gu.Reactive.Internals
             return null;
         }
 
+        /// <summary>
+        /// Refreshes the path recursively from source.
+        /// This is for extra security in case changes are notified on different threads.
+        /// </summary>
+        internal void Refresh()
+        {
+            var source = this.parts[0].Source;
+            for (var i = 1; i < this.parts.Count; i++)
+            {
+                source = (INotifyPropertyChanged)this.parts[i - 1].PathProperty
+                                                      .GetPropertyValue(source)
+                                                      .ValueOrDefault();
+                var part = this.parts[i];
+                if (!ReferenceEquals(part.Source, source))
+                {
+                    part.Source = source;
+                }
+            }
+        }
+
         private void ThrowIfDisposed()
         {
             if (this.disposed)

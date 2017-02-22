@@ -53,6 +53,7 @@ namespace Gu.Reactive.Internals
                     if (NotifyPropertyChangedExt.IsMatch(e, this.PathProperty.PropertyInfo))
                     {
                         this.OnTrackedPropertyChanged(o, e);
+                        this.pathTracker.Refresh();
                     }
                 };
         }
