@@ -1,6 +1,9 @@
 namespace Gu.Reactive
 {
+    using System.Collections.Generic;
     using System.Reflection;
+
+    using Gu.Reactive.Internals;
 
     /// <summary>
     /// A wrapper around a delegate created from a <see cref="PropertyInfo.GetMethod"/>
@@ -14,6 +17,8 @@ namespace Gu.Reactive
         /// </summary>
         protected Getter(PropertyInfo property)
         {
+            Ensure.Equal(typeof(TSource), property.DeclaringType, nameof(property));
+            Ensure.Equal(typeof(TValue), property.PropertyType, nameof(property));
             this.Property = property;
         }
 
@@ -21,6 +26,9 @@ namespace Gu.Reactive
         /// The <see cref="PropertyInfo"/> that this instance is for.
         /// </summary>
         public PropertyInfo Property { get; }
+
+        // ReSharper disable once UnusedMember.Local for inspection  of the cache in the debugger.
+        private IReadOnlyList<Getter.CacheItem> CacheDebugView => Getter.CacheDebugView;
 
         /// <inheritdoc/>
         object IGetter.GetValue(object source) => this.GetValue((TSource)source);

@@ -42,7 +42,7 @@ namespace Gu.Reactive
             {
                 var xProperty = (PropertyInfo)xMember.Member;
                 var yProperty = (PropertyInfo)yMember.Member;
-                if (!PropertyInfoComparer.Equals(xProperty, yProperty))
+                if (xProperty != yProperty)
                 {
                     return false;
                 }
@@ -64,7 +64,7 @@ namespace Gu.Reactive
                 do
                 {
                     var property = (PropertyInfo)member.Member;
-                    hash = (hash * 397) ^ PropertyInfoComparer.GetHashCode(property);
+                    hash = (hash * 397) ^ property.GetHashCode();
                     member = member.GetPreviousProperty();
                 }
                 while (member != null);

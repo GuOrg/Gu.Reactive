@@ -1,6 +1,8 @@
 namespace Gu.Reactive
 {
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     using Gu.Reactive.Internals;
@@ -10,7 +12,13 @@ namespace Gu.Reactive
     /// </summary>
     public static class Getter
     {
-        private static readonly ConcurrentDictionary<PropertyInfo, IGetter> Cache = new ConcurrentDictionary<PropertyInfo, IGetter>(PropertyInfoComparer.Default);
+        private static readonly ConcurrentDictionary<PropertyInfo, IGetter> Cache = new ConcurrentDictionary<PropertyInfo, IGetter>();
+
+        // ReSharper disable once UnusedMember.Local for inspection in the debugger.
+        internal static IReadOnlyList<CacheItem> CacheDebugView =>
+            Cache.Select(x => new CacheItem(x))
+                 .OrderBy(x => x.Property)
+                 .ToArray();
 
         /// <summary>
         /// Get or create an <see cref="IGetter"/> for <paramref name="property"/>
@@ -42,6 +50,18 @@ namespace Gu.Reactive
                                   types: new[] { typeof(PropertyInfo) },
                                   modifiers: null);
             return (IGetter)ctor.Invoke(new object[] { property });
+        }
+
+        internal struct CacheItem
+        {
+            public CacheItem(KeyValuePair<PropertyInfo, IGetter> keyValuePair)
+            {
+                this.KeyValuePair = keyValuePair;
+            }
+
+            public KeyValuePair<PropertyInfo, IGetter> KeyValuePair { get; }
+
+            public string Property => $"{this.KeyValuePair.Key.DeclaringType.PrettyName()}.{this.KeyValuePair.Key.Name}";
         }
     }
 }

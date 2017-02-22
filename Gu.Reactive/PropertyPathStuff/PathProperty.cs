@@ -23,7 +23,7 @@ namespace Gu.Reactive.PropertyPathStuff
             if (!propertyInfo.CanRead)
             {
                 var message = string.Format(
-                    "Propert cannot be write only." + Environment.NewLine +
+                    "Property cannot be write only." + Environment.NewLine +
                     "The property {0}.{1}.{2} does not have a getter.",
                     propertyInfo.ReflectedType?.Namespace,
                     propertyInfo.ReflectedType?.PrettyName(),

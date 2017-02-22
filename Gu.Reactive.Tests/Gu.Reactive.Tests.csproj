@@ -61,7 +61,6 @@
     <Compile Include="Helpers\DumpIfDebug.cs" />
     <Compile Include="Helpers\Fake{T}.cs" />
     <Compile Include="Helpers\Level{T}.cs" />
-    <Compile Include="Reflection\PropertyInfoComparerTests.cs" />
     <Compile Include="SerialDisposableTests.cs" />
     <Compile Include="Collections\ThrottledRefresherTests.cs" />
     <Compile Include="Collections\DiffTests.cs" />
