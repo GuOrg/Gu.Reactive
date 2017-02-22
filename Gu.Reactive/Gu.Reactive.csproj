@@ -115,7 +115,7 @@
     <Compile Include="Internals\Ensure\Ensure.String.cs" />
     <Compile Include="Internals\ItemsPropertyObservable{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\LazyExt.cs" />
-    <Compile Include="Internals\Maybe{T}.cs" />
+    <Compile Include="Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
     <Compile Include="Internals\PropertyTracker\SenderAndValue{TValue}.cs" />
     <Compile Include="EventArgs\ItemPropertyChangedEventArgs{TItem,TValue}.cs" />
@@ -135,7 +135,7 @@
     <Compile Include="Reflection\Getter\IGetter.cs" />
     <Compile Include="Reflection\Getter\StructGetter{TSource,TValue}.cs" />
     <Compile Include="Internals\PropertyPathStuff\IPropertyPath.cs" />
-    <Compile Include="Internals\MaybeExt.cs" />
+    <Compile Include="MaybeExt.cs" />
     <Compile Include="Internals\RwLock.cs" />
     <Compile Include="Internals\PropertyTracker\PropertyPathTracker.cs" />
     <Compile Include="Internals\PropertyTracker\PathPropertyTracker.cs" />

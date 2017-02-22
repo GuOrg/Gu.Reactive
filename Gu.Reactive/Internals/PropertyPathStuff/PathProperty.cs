@@ -67,7 +67,7 @@ namespace Gu.Reactive.Internals
             }
 
             var maybe = this.Previous.GetValueFromRoot<object>(rootSource);
-            if (maybe.ValueOrDefault() == null)
+            if (maybe.GetValueOrDefault() == null)
             {
                 return Maybe<T>.None;
             }

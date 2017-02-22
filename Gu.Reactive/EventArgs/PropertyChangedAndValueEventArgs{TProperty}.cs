@@ -20,7 +20,7 @@
         }
 
         internal PropertyChangedAndValueEventArgs(string propertyName, Maybe<TProperty> maybe)
-            : this(propertyName, maybe.ValueOrDefault(), maybe.HasValue)
+            : this(propertyName, maybe.GetValueOrDefault(), maybe.HasValue)
         {
         }
 

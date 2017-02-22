@@ -95,7 +95,7 @@ namespace Gu.Reactive.Internals
             {
                 source = (INotifyPropertyChanged)this.parts[i - 1].PathProperty
                                                       .GetPropertyValue(source)
-                                                      .ValueOrDefault();
+                                                      .GetValueOrDefault();
                 var part = this.parts[i];
                 if (!ReferenceEquals(part.Source, source))
                 {

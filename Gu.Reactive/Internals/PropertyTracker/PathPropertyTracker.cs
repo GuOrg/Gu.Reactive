@@ -125,7 +125,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        public object Value() => this.PathProperty.GetPropertyValue(this.Source).ValueOrDefault();
+        public object Value() => this.PathProperty.GetPropertyValue(this.Source).GetValueOrDefault();
 
         /// <inheritdoc/>
         public void Dispose()
@@ -160,7 +160,7 @@ namespace Gu.Reactive.Internals
             if (next != null)
             {
                 var value = this.PathProperty.GetPropertyValue(this.source);
-                if (ReferenceEquals(value.ValueOrDefault(), next.Source) && value.ValueOrDefault() != null)
+                if (ReferenceEquals(value.GetValueOrDefault(), next.Source) && value.GetValueOrDefault() != null)
                 {
                     // The source signaled event without changing value.
                     // We still bubble up since it is not our job to filter.
@@ -168,7 +168,7 @@ namespace Gu.Reactive.Internals
                 }
                 else
                 {
-                    next.Source = (INotifyPropertyChanged)value.ValueOrDefault(); // Let event bubble up this way.
+                    next.Source = (INotifyPropertyChanged)value.GetValueOrDefault(); // Let event bubble up this way.
                 }
             }
 
@@ -179,7 +179,7 @@ namespace Gu.Reactive.Internals
         {
             var oldValue = this.PathProperty.GetPropertyValue(oldSource);
             var newValue = this.PathProperty.GetPropertyValue(newSource);
-            return oldValue.ValueOrDefault() == null && newValue.ValueOrDefault() == null;
+            return oldValue.GetValueOrDefault() == null && newValue.GetValueOrDefault() == null;
         }
     }
 }

@@ -9,13 +9,14 @@ namespace Gu.Reactive
     public interface IMaybe<out T>
     {
         /// <summary>
-        /// Tells you if this instance has a value from source.
-        /// Note that null can be the value. If source is null HasValue returns false.
+        /// Tells you if this instance has a value.
+        /// Note that the value can be null.
         /// </summary>
         bool HasValue { get; }
 
         /// <summary>
-        /// Check HasValue before getting.
+        /// Check HasValue before getting the value.
+        /// Note that null is a valid value for reference types.
         /// </summary>
         T Value { get; }
     }

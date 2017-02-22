@@ -278,7 +278,7 @@
                                  x.Sender,
                                  new PropertyChangedAndValueEventArgs<TProperty>(
                                      x.EventArgs.PropertyName,
-                                     propertyPath.Last.GetPropertyValue(x.Sender).As<TProperty>())));
+                                     propertyPath.Last.GetPropertyValue(x.Sender).Cast<TProperty>())));
         }
 
         internal static bool IsMatch(this PropertyChangedEventArgs e, PropertyInfo property)
