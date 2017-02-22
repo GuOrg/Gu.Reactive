@@ -117,7 +117,7 @@
     <Compile Include="Internals\LazyExt.cs" />
     <Compile Include="Internals\Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
-    <Compile Include="Internals\ValueAndSender{TValue}.cs" />
+    <Compile Include="Internals\PropertyTracker\SenderAndValue{TValue}.cs" />
     <Compile Include="EventArgs\ItemPropertyChangedEventArgs{TItem,TValue}.cs" />
     <Compile Include="NotifyCollectionChangedEventArgs{T}.cs" />
     <Compile Include="EventArgs\NotifyCollectionChangedEventArgsExt.cs" />

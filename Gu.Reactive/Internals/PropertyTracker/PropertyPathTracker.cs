@@ -26,6 +26,10 @@ namespace Gu.Reactive.Internals
 
         public int Count => this.parts.Count;
 
+        public IPathPropertyTracker First => this.parts[0];
+
+        public IPathPropertyTracker Last => this.parts[this.parts.Count - 1];
+
         public IPathPropertyTracker this[int index]
         {
             get

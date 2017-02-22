@@ -18,6 +18,11 @@ namespace Gu.Reactive.Internals
             Ensure.NotNull(pathProperty.PropertyInfo.ReflectedType, nameof(pathProperty));
 
             var type = pathProperty.PropertyInfo.ReflectedType;
+            if (type == null)
+            {
+                throw new ArgumentException("PathProperty.ReflectedType == null");
+            }
+
             if (type.IsValueType)
             {
                 var message = string.Format(
