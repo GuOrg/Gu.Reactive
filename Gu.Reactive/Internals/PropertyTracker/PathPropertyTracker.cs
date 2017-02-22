@@ -2,20 +2,22 @@ namespace Gu.Reactive.Internals
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics;
 
-    internal sealed class PathPropertyTracker : IPathPropertyTracker
+    [DebuggerDisplay("{this.PathProperty}")]
+    internal sealed class PathPropertyTracker : IDisposable
     {
+        private readonly PropertyPathTracker pathTracker;
         private readonly PropertyChangedEventHandler onTrackedPropertyChanged;
         private readonly object gate = new object();
 
         private INotifyPropertyChanged source;
         private bool disposed;
 
-        public PathPropertyTracker(IPathPropertyTracker previous, PathProperty pathProperty)
+        public PathPropertyTracker(PropertyPathTracker pathTracker, PathProperty pathProperty)
         {
             Ensure.NotNull(pathProperty, nameof(pathProperty));
             Ensure.NotNull(pathProperty.PropertyInfo.ReflectedType, nameof(pathProperty));
-
             var type = pathProperty.PropertyInfo.ReflectedType;
             if (type == null)
             {
@@ -44,6 +46,7 @@ namespace Gu.Reactive.Internals
                 throw new ArgumentException(message, nameof(pathProperty));
             }
 
+            this.pathTracker = pathTracker;
             this.PathProperty = pathProperty;
             this.onTrackedPropertyChanged = (o, e) =>
                 {
@@ -52,17 +55,6 @@ namespace Gu.Reactive.Internals
                         this.OnTrackedPropertyChanged(o, e);
                     }
                 };
-
-            var notifyingPathItem = previous as PathPropertyTracker;
-            if (notifyingPathItem != null)
-            {
-                notifyingPathItem.Next = this;
-            }
-
-            if (previous != null)
-            {
-                this.Source = (INotifyPropertyChanged)previous.Value();
-            }
         }
 
         public event PropertyChangedEventHandler TrackedPropertyChanged;
@@ -71,7 +63,7 @@ namespace Gu.Reactive.Internals
 
         public PropertyChangedEventArgs PropertyChangedEventArgs => CachedEventArgs.GetOrCreatePropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
 
-        public PathPropertyTracker Next { get; private set; }
+        public PathPropertyTracker Next => this.pathTracker.GetNext(this);
 
         /// <summary>
         /// Gets or sets the source.

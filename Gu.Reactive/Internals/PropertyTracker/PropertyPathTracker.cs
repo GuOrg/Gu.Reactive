@@ -3,34 +3,33 @@ namespace Gu.Reactive.Internals
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Linq;
 
-    internal sealed class PropertyPathTracker : IReadOnlyList<IPathPropertyTracker>, IDisposable
+    internal sealed class PropertyPathTracker : IReadOnlyList<PathPropertyTracker>, IDisposable
     {
-        private readonly IReadOnlyList<IPathPropertyTracker> parts;
+        private readonly IReadOnlyList<PathPropertyTracker> parts;
         private bool disposed;
 
-        internal PropertyPathTracker(RootPropertyTracker root, IPropertyPath path)
+        internal PropertyPathTracker(INotifyPropertyChanged source, IPropertyPath path)
         {
-            var items = new IPathPropertyTracker[path.Count + 1];
-            items[0] = root;
-            IPathPropertyTracker previous = root;
+            var items = new PathPropertyTracker[path.Count];
             for (var i = 0; i < path.Count; i++)
             {
-                var item = new PathPropertyTracker(previous, path[i]);
-                items[i + 1] = item;
-                previous = item;
+                items[i] = new PathPropertyTracker(this, path[i]);
             }
 
             this.parts = items;
+            items[0].Source = source;
         }
 
         public int Count => this.parts.Count;
 
-        public IPathPropertyTracker First => this.parts[0];
+        public PathPropertyTracker First => this.parts[0];
 
-        public IPathPropertyTracker Last => this.parts[this.parts.Count - 1];
+        public PathPropertyTracker Last => this.parts[this.parts.Count - 1];
 
-        public IPathPropertyTracker this[int index]
+        public PathPropertyTracker this[int index]
         {
             get
             {
@@ -39,7 +38,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        public IEnumerator<IPathPropertyTracker> GetEnumerator()
+        public IEnumerator<PathPropertyTracker> GetEnumerator()
         {
             this.ThrowIfDisposed();
             return this.parts.GetEnumerator();
@@ -67,6 +66,22 @@ namespace Gu.Reactive.Internals
             {
                 part.Dispose();
             }
+        }
+
+        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.PathProperty.PropertyInfo.Name))}";
+
+        internal PathPropertyTracker GetNext(PathPropertyTracker pathPropertyTracker)
+        {
+            for (var i = 0; i < this.parts.Count - 1; i++)
+            {
+                var tracker = this.parts[i];
+                if (ReferenceEquals(tracker, pathPropertyTracker))
+                {
+                    return this.parts[i + 1];
+                }
+            }
+
+            return null;
         }
 
         private void ThrowIfDisposed()

@@ -194,13 +194,12 @@
             return Observable.Create<EventPattern<PropertyChangedEventArgs>>(
                 o =>
                     {
-                        var rootItem = new RootPropertyTracker(source);
-                        var path = new PropertyPathTracker(rootItem, propertyPath);
+                        var path = new PropertyPathTracker(source, propertyPath);
                         var subscription = Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
                                       x => path.Last.TrackedPropertyChanged += x,
                                       x => path.Last.TrackedPropertyChanged -= x)
                                   .Subscribe(o);
-                        return new CompositeDisposable(3) { rootItem, path, subscription };
+                        return new CompositeDisposable(3) { path, subscription };
                     });
         }
 
