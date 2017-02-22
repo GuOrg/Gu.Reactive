@@ -7,9 +7,9 @@ namespace Gu.Reactive.Internals
 
     internal sealed class PathPropertyTracker : IPathPropertyTracker
     {
-        private readonly WeakReference sourceRef = new WeakReference(null);
         private readonly Action<EventPattern<PropertyChangedEventArgs>> onNext;
         private readonly SerialDisposable subscription = new SerialDisposable();
+        private INotifyPropertyChanged source;
         private bool disposed;
 
         public PathPropertyTracker(IPathPropertyTracker previous, PathProperty pathProperty)
@@ -77,13 +77,13 @@ namespace Gu.Reactive.Internals
         {
             get
             {
-                return (INotifyPropertyChanged)this.sourceRef.Target;
+                return this.source;
             }
 
             set
             {
-                var oldSource = this.sourceRef.Target;
-                this.sourceRef.Target = value;
+                var oldSource = this.source;
+                this.source = value;
                 var inpc = value;
 
                 var isNullToNull = this.IsNullToNull(oldSource, value);
