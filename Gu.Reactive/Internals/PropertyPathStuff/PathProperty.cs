@@ -16,7 +16,7 @@ namespace Gu.Reactive.Internals
         /// </param>
         public PathProperty(PathProperty previous, PropertyInfo propertyInfo)
         {
-            Ensure.Ensure.NotNull(propertyInfo, nameof(propertyInfo));
+            Ensure.NotNull(propertyInfo, nameof(propertyInfo));
 
             if (!propertyInfo.CanRead)
             {

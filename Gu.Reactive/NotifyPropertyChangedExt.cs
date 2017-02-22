@@ -11,7 +11,6 @@
     using System.Text;
 
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// Extension methods for subscribing to property changes.

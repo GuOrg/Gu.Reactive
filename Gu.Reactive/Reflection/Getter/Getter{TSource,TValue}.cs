@@ -5,7 +5,6 @@ namespace Gu.Reactive
     using System.Reflection;
 
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// A wrapper around a delegate created from a <see cref="PropertyInfo.GetMethod"/>

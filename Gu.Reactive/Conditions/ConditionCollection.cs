@@ -9,7 +9,6 @@ namespace Gu.Reactive
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// Base class for collections of conditions

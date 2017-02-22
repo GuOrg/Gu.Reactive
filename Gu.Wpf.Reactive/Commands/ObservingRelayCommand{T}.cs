@@ -5,7 +5,6 @@ namespace Gu.Wpf.Reactive
     using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// A command with CommandParameter of type <typeparamref name="T"/>

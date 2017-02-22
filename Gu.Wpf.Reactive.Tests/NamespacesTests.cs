@@ -9,19 +9,27 @@
 
     public class NamespacesTests
     {
+        private static readonly string[] IgnoredNamespaces =
+            {
+                "Annotations",
+                "Properties",
+                "XamlGeneratedNamespace",
+                "Internals",
+                "TypeConverters",
+            };
+
         private const string Uri = @"http://Gu.com/Reactive";
 
         [Test]
         public void XmlnsDefinitions()
         {
-            string[] skip = { "Annotations", "Properties", "XamlGeneratedNamespace", "Internals", "TypeConverters", "PropertyPathStuff" };
             var assemblies = new[] { typeof(ConditionControl).Assembly, typeof(ICondition).Assembly };
 
             var strings = assemblies.SelectMany(x => x.GetTypes())
                                   .Select(x => x.Namespace)
                                   .Where(x => x != null)
                                   .Distinct()
-                                  .Where(x => !skip.Any(x.EndsWith))
+                                  .Where(x => !IgnoredNamespaces.Any(x.EndsWith))
                                   .OrderBy(x => x)
                                   .ToArray();
             var attributes = typeof(ConditionControl).Assembly.CustomAttributes.Where(x => x.AttributeType == typeof(XmlnsDefinitionAttribute))

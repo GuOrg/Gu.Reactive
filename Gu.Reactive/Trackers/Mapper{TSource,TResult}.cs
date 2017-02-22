@@ -4,7 +4,6 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// A reactive mapper from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>

@@ -2,7 +2,7 @@
 {
     using System;
 
-    using Gu.Reactive.Internals.Ensure;
+    using Gu.Reactive.Internals;
 
     using NUnit.Framework;
 

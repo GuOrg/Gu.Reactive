@@ -108,11 +108,11 @@
     <Compile Include="ForegroundScheduler.cs" />
     <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />
-    <Compile Include="Internals\Ensure.Collection.cs" />
-    <Compile Include="Internals\Ensure.Compare.cs" />
-    <Compile Include="Internals\Ensure.cs" />
+    <Compile Include="Internals\Ensure\Ensure.Collection.cs" />
+    <Compile Include="Internals\Ensure\Ensure.Compare.cs" />
+    <Compile Include="Internals\Ensure\Ensure.cs" />
     <Compile Include="Contracts\IWpfSchedulers.cs" />
-    <Compile Include="Internals\Ensure.String.cs" />
+    <Compile Include="Internals\Ensure\Ensure.String.cs" />
     <Compile Include="Internals\ItemsPropertyObservable{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\LazyExt.cs" />
     <Compile Include="Internals\Maybe{T}.cs" />

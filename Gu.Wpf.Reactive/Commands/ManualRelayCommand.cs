@@ -3,7 +3,6 @@ namespace Gu.Wpf.Reactive
     using System;
 
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// A command that does not use the CommandParameter

@@ -8,7 +8,6 @@
 
     using Gu.Reactive;
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// A taskrunner for generic tasks.

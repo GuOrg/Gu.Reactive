@@ -88,9 +88,9 @@
     <Compile Include="Helpers\NotInpc.cs" />
     <Compile Include="Helpers\StructLevel.cs" />
     <Compile Include="Helpers\TestExtensions.cs" />
-    <Compile Include="Internals\Ensure.Compare.Tests.cs" />
-    <Compile Include="Internals\Ensure.Tests.cs" />
-    <Compile Include="Internals\Ensure.String.Tests.cs" />
+    <Compile Include="Internals\EnsureTests\Ensure.Compare.Tests.cs" />
+    <Compile Include="Internals\EnsureTests\Ensure.Tests.cs" />
+    <Compile Include="Internals\EnsureTests\Ensure.String.Tests.cs" />
     <Compile Include="Reflection\GetterTests.cs" />
     <Compile Include="Internals\PropertyTrackerTests\PathPropertyTrackerTests.cs" />
     <Compile Include="Internals\PropertyPathTests\PathItemTests.cs" />

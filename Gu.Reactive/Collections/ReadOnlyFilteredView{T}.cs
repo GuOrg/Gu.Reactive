@@ -10,7 +10,6 @@
     using System.Reactive.Concurrency;
 
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Internals.Ensure;
 
     /// <inheritdoc/>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]

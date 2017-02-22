@@ -6,7 +6,6 @@
     using System.Linq;
 
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Internals.Ensure;
 
     internal static class ListExt
     {

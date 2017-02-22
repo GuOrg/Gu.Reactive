@@ -33,14 +33,17 @@ using System.Windows.Markup;
 #pragma warning disable SA1649 // File name must match first type name
 //// ReSharper disable once UnusedMember.Global
 //// ReSharper disable once CheckNamespace
-internal class References
+namespace Gu.Wpf.Reactive.Properties
 {
-    // Touching Gu.Wpf.ToolTips so that it gets copied to output dir
-    // http://stackoverflow.com/a/24828522/1069200
+    internal class References
+    {
+        // Touching Gu.Wpf.ToolTips so that it gets copied to output dir
+        // http://stackoverflow.com/a/24828522/1069200
 #pragma warning disable 649
 #pragma warning disable 169
-    public static readonly Gu.Wpf.ToolTips.PopupButton ToolTipsReference;
+        public static readonly Gu.Wpf.ToolTips.PopupButton ToolTipsReference;
 #pragma warning restore 169
 #pragma warning restore 649
+    }
 }
 #pragma warning restore SA1649 // File name must match first type name

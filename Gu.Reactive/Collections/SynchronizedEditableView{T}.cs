@@ -8,7 +8,6 @@
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// A synchronized view of a collection that supports two way bindings.

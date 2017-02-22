@@ -14,8 +14,8 @@ namespace Gu.Reactive.Internals
 
         public PathPropertyTracker(IPathPropertyTracker previous, PathProperty pathProperty)
         {
-            Ensure.Ensure.NotNull(pathProperty, nameof(pathProperty));
-            Ensure.Ensure.NotNull(pathProperty.PropertyInfo.ReflectedType, nameof(pathProperty));
+            Ensure.NotNull(pathProperty, nameof(pathProperty));
+            Ensure.NotNull(pathProperty.PropertyInfo.ReflectedType, nameof(pathProperty));
 
             var type = pathProperty.PropertyInfo.ReflectedType;
             if (type.IsValueType)

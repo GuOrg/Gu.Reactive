@@ -5,7 +5,6 @@
     using System.Collections.ObjectModel;
     using System.Reactive.Concurrency;
     using Gu.Reactive.Internals;
-    using Gu.Reactive.Internals.Ensure;
 
     /// <summary>
     /// Factory methods for creating <see cref="ReadOnlyFilteredView{T}"/>
