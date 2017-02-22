@@ -10,8 +10,6 @@
     ////[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     internal class PropertyPath<TSource, TValue> : IValuePath<TSource, TValue>, IPropertyPath
     {
-        private static readonly ValueAndSender<TValue> EmptyValueAndSender = new ValueAndSender<TValue>(null, Maybe<TValue>.None);
-
         private readonly PropertyPath propertyPath;
 
         internal PropertyPath(PropertyPath propertyPath)
@@ -33,18 +31,10 @@
 
         IMaybe<TValue> IValuePath<TSource, TValue>.GetValue(TSource source) => this.GetValueFromRoot(source);
 
-        public ValueAndSender<TValue> GetValueAndSender(TSource source)
-        {
-            var sender = this.GetSender(source);
-            if (sender == null)
-            {
-                return EmptyValueAndSender;
-            }
-
-            var value = this.propertyPath.Last.PropertyInfo.GetValue(sender);
-            return new ValueAndSender<TValue>(sender, Maybe<TValue>.Some((TValue)value));
-        }
-
+        /// <summary>
+        /// Get the source of the last item in the path.
+        /// </summary>
+        /// <param name="source">The root instance for the path.</param>
         public object GetSender(TSource source)
         {
             if (this.Count == 1)

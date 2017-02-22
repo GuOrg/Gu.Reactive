@@ -43,6 +43,37 @@
         }
 
         [Test]
+        public void GetPathOneLevelGeneric()
+        {
+            var actuals1 = PropertyPathParser.GetPath<Level<int>, int>(x => x.Value);
+            CollectionAssert.AreEqual(new[] { typeof(Level<int>).GetProperty("Value") }, actuals1);
+            var actuals2 = PropertyPathParser.GetPath<Level<int>, int>(f => f.Value);
+            Assert.AreSame(actuals1, actuals2);
+
+            var fake = new Level<int>();
+            var actuals3 = PropertyPathParser.GetPath(() => fake.Value);
+            Assert.AreSame(actuals1, actuals3);
+        }
+
+        [Test]
+        public void GetPathOneLevelGenerics()
+        {
+            var intActuals1 = PropertyPathParser.GetPath<Level<int>, int>(x => x.Value);
+            CollectionAssert.AreEqual(new[] { typeof(Level<int>).GetProperty("Value") }, intActuals1);
+            var doubleActuals1 = PropertyPathParser.GetPath<Level<double>, double>(x => x.Value);
+            CollectionAssert.AreEqual(new[] { typeof(Level<double>).GetProperty("Value") }, doubleActuals1);
+            Assert.AreNotSame(intActuals1, doubleActuals1);
+
+            var intLevel = new Level<int>();
+            var intActuals2 = PropertyPathParser.GetPath(() => intLevel.Value);
+            Assert.AreSame(intActuals1, intActuals2);
+
+            var doubleLevel = new Level<double>();
+            var doubleActuals2 = PropertyPathParser.GetPath(() => doubleLevel.Value);
+            Assert.AreSame(doubleActuals1, doubleActuals2);
+        }
+
+        [Test]
         public void GetPathOneAndTwoLevels()
         {
             var actuals1 = PropertyPathParser.GetPath<Fake, Level>(x => x.Next);

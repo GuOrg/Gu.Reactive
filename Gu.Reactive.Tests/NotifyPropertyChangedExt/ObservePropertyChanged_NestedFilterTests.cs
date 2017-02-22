@@ -301,6 +301,61 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
+        public void TwoSubscriptionsTwoLevelsReacts()
+        {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
+            var intChanges = new List<EventPattern<PropertyChangedEventArgs>>();
+            var fake = new Fake();
+            var intfake = new Fake<int>();
+            using (fake.ObservePropertyChanged(x => x.Next.Value, true)
+                       .Subscribe(changes.Add))
+            {
+                using (intfake.ObservePropertyChanged(x => x.Next.Value, true)
+                              .Subscribe(intChanges.Add))
+                {
+                    Assert.AreEqual(1, changes.Count);
+                    Assert.AreEqual(1, intChanges.Count);
+                    Assert.AreSame(null, changes.Single().Sender);
+                    Assert.AreSame(null, intChanges.Single().Sender);
+                    Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+
+                    fake.Next = new Level();
+                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual(1, intChanges.Count);
+                    Assert.AreSame(fake.Next, changes.Last().Sender);
+                    Assert.AreSame(null, intChanges.Single().Sender);
+                    Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+
+                    fake.Next.Value++;
+                    Assert.AreEqual(3, changes.Count);
+                    Assert.AreEqual(1, intChanges.Count);
+                    Assert.AreSame(fake.Next, changes.Last().Sender);
+                    Assert.AreSame(null, intChanges.Single().Sender);
+                    Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+
+                    intfake.Next = new Level<int>();
+                    Assert.AreEqual(3, changes.Count);
+                    Assert.AreEqual(2, intChanges.Count);
+                    Assert.AreSame(fake.Next, changes.Last().Sender);
+                    Assert.AreSame(intfake.Next, intChanges.Last().Sender);
+                    Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+
+                    intfake.Next.Value++;
+                    Assert.AreEqual(3, changes.Count);
+                    Assert.AreEqual(3, intChanges.Count);
+                    Assert.AreSame(fake.Next, changes.Last().Sender);
+                    Assert.AreSame(intfake.Next, intChanges.Last().Sender);
+                    Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+                }
+            }
+        }
+
+        [Test]
         public void TwoLevelsExisting()
         {
             var changes = new List<EventPattern<PropertyChangedEventArgs>>();

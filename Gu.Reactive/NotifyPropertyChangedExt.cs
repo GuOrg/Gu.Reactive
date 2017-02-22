@@ -204,9 +204,7 @@
                 return Observable.Defer(
                     () => Observable.Return(
                                         new EventPattern<PropertyChangedEventArgs>(
-                                            propertyPath.Count == 1
-                                                ? source
-                                                : propertyPath[propertyPath.Count - 2].GetValueFromRoot<object>(source).ValueOrDefault(),
+                                            propertyPath.GetSender(source),
                                             new PropertyChangedEventArgs(propertyPath.Last.PropertyInfo.Name)))
                                     .Concat(source.ObservePropertyChanged(propertyPath, false)));
             }

@@ -39,5 +39,12 @@
                        ? this.value
                        : default(T);
         }
+
+        public override string ToString()
+        {
+            return this.HasValue
+                       ? $"Some {this.Value?.ToString() ?? "null"}"
+                       : "None";
+        }
     }
 }
