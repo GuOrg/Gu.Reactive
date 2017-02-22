@@ -1,4 +1,7 @@
 #### 2.0.1
+* BUGFIX: Don't use PropertyInfoComparer.
+
+#### 2.0.1
 * BUGFIX: PropertyInfoComparer must handle generic properties.
 
 #### 2.0.0

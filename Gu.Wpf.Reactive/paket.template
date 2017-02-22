@@ -4,7 +4,7 @@ projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  BUGFIX: PropertyInfoComparer must handle generic properties.
+  BUGFIX: Don't use PropertyInfoComparer.
 
 excludeddependencies
   JetBrains.Annotations
