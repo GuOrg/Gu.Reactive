@@ -18,29 +18,29 @@ namespace Gu.Reactive.Tests.NameOf_
         public void PropertyHappyPath()
         {
             var name = NameOf.Property(() => this.StringProp);
-            Assert.AreEqual("StringProp", name);
+            Assert.AreEqual(nameof(this.StringProp), name);
 
             name = NameOf.Property<PropertyTests>(x => this.StringProp);
-            Assert.AreEqual("StringProp", name);
+            Assert.AreEqual(nameof(this.StringProp), name);
 
             name = NameOf.Property<PropertyTests, string>(x => this.StringProp);
-            Assert.AreEqual("StringProp", name);
+            Assert.AreEqual(nameof(this.StringProp), name);
         }
 
         [Test]
         public void PropertyHappyPath2()
         {
             var name = NameOf.Property(() => this.StringProp);
-            Assert.AreEqual("StringProp", name);
+            Assert.AreEqual(nameof(this.StringProp), name);
 
             name = NameOf.Property<PropertyTests>(x => x.StringProp);
-            Assert.AreEqual("StringProp", name);
+            Assert.AreEqual(nameof(this.StringProp), name);
 
             name = NameOf.Property<PropertyTests, string>(x => x.StringProp);
-            Assert.AreEqual("StringProp", name);
+            Assert.AreEqual(nameof(this.StringProp), name);
 
             name = NameOf.Property<PropertyTests, string>(x => x.StringProp);
-            Assert.AreEqual("StringProp", name);
+            Assert.AreEqual(nameof(this.StringProp), name);
         }
 
         [Test]

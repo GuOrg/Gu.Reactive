@@ -17,26 +17,29 @@
         {
             var change = Diff.CollectionChange(new[] { 1, 2, 3 }, new[] { 1, 2, 3 });
             var notifier = new DummyNotifier();
-            var actual = notifier.SubscribeAll();
-
-            Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
-
-            CollectionAssert.IsEmpty(actual);
+            using (var actual = notifier.SubscribeAll())
+            {
+                Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
+                CollectionAssert.IsEmpty(actual);
+            }
         }
 
         [Test]
         public void AddToEmpty()
         {
             var ints = new ObservableCollection<int>();
-            var expected = ints.SubscribeAll();
-            ints.Add(1);
-            var notifier = new DummyNotifier();
-            var actual = notifier.SubscribeAll();
+            using (var expected = ints.SubscribeAll())
+            {
+                ints.Add(1);
+                var notifier = new DummyNotifier();
+                using (var actual = notifier.SubscribeAll())
+                {
+                    var change = Diff.CollectionChange(new int[0], ints);
+                    Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
 
-            var change = Diff.CollectionChange(new int[0], ints);
-            Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
-
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
         }
 
         [Test]
@@ -44,15 +47,18 @@
         {
             var before = new[] { 1, 2, 3 };
             var ints = new ObservableCollection<int>(before);
-            var expected = ints.SubscribeAll();
-            ints.Add(4);
-            var notifier = new DummyNotifier();
-            var actual = notifier.SubscribeAll();
+            using (var expected = ints.SubscribeAll())
+            {
+                ints.Add(4);
+                var notifier = new DummyNotifier();
+                using (var actual = notifier.SubscribeAll())
+                {
+                    var change = Diff.CollectionChange(before, ints);
+                    Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
 
-            var change = Diff.CollectionChange(before, ints);
-            Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
-
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
         }
 
         [TestCase(0)]
@@ -62,15 +68,18 @@
         {
             var before = new[] { 1, 2, 3 };
             var ints = new ObservableCollection<int>(before);
-            var expected = ints.SubscribeAll();
-            var notifier = new DummyNotifier();
-            var actual = notifier.SubscribeAll();
+            using (var expected = ints.SubscribeAll())
+            {
+                var notifier = new DummyNotifier();
+                using (var actual = notifier.SubscribeAll())
+                {
+                    ints.Insert(index, 4);
+                    var change = Diff.CollectionChange(before, ints);
+                    Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
 
-            ints.Insert(index, 4);
-            var change = Diff.CollectionChange(before, ints);
-            Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
-
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
         }
 
         [TestCase(0)]
@@ -80,15 +89,18 @@
         {
             var before = new[] { 1, 2, 3 };
             var ints = new ObservableCollection<int>(before);
-            var expected = ints.SubscribeAll();
-            var notifier = new DummyNotifier();
-            var actual = notifier.SubscribeAll();
+            using (var expected = ints.SubscribeAll())
+            {
+                var notifier = new DummyNotifier();
+                using (var actual = notifier.SubscribeAll())
+                {
+                    ints.RemoveAt(index);
+                    var change = Diff.CollectionChange(before, ints);
+                    Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
 
-            ints.RemoveAt(index);
-            var change = Diff.CollectionChange(before, ints);
-            Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
-
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
         }
 
         [Test]
@@ -96,15 +108,18 @@
         {
             var before = new[] { 1 };
             var ints = new ObservableCollection<int>(before);
-            var expected = ints.SubscribeAll();
-            var notifier = new DummyNotifier();
-            var actual = notifier.SubscribeAll();
+            using (var expected = ints.SubscribeAll())
+            {
+                var notifier = new DummyNotifier();
+                using (var actual = notifier.SubscribeAll())
+                {
+                    ints.Remove(1);
+                    var change = Diff.CollectionChange(before, ints);
+                    Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
 
-            ints.Remove(1);
-            var change = Diff.CollectionChange(before, ints);
-            Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
-
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
         }
 
         [Test]
@@ -112,15 +127,18 @@
         {
             var before = new[] { 1, 2, 3 };
             var ints = new ObservableCollection<int>(before);
-            var expected = ints.SubscribeAll();
-            var notifier = new DummyNotifier();
-            var actual = notifier.SubscribeAll();
+            using (var expected = ints.SubscribeAll())
+            {
+                var notifier = new DummyNotifier();
+                using (var actual = notifier.SubscribeAll())
+                {
+                    ints.Move(1, 2);
+                    var change = Diff.CollectionChange(before, ints);
+                    Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
 
-            ints.Move(1, 2);
-            var change = Diff.CollectionChange(before, ints);
-            Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
-
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
         }
 
         [Test]
@@ -128,15 +146,18 @@
         {
             var before = new[] { 1, 2, 3 };
             var ints = new ObservableCollection<int>(before);
-            var expected = ints.SubscribeAll();
-            var notifier = new DummyNotifier();
-            var actual = notifier.SubscribeAll();
+            using (var expected = ints.SubscribeAll())
+            {
+                var notifier = new DummyNotifier();
+                using (var actual = notifier.SubscribeAll())
+                {
+                    ints[0] = 5;
+                    var change = Diff.CollectionChange(before, ints);
+                    Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
 
-            ints[0] = 5;
-            var change = Diff.CollectionChange(before, ints);
-            Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
-
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
         }
 
         [Test]
@@ -144,15 +165,18 @@
         {
             var before = new[] { 1, 2, 3 };
             var ints = new ObservableCollection<int>(before);
-            var expected = ints.SubscribeAll();
-            var notifier = new DummyNotifier();
-            var actual = notifier.SubscribeAll();
+            using (var expected = ints.SubscribeAll())
+            {
+                var notifier = new DummyNotifier();
+                using (var actual = notifier.SubscribeAll())
+                {
+                    ints.Clear();
+                    var change = Diff.CollectionChange(before, ints);
+                    Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
 
-            ints.Clear();
-            var change = Diff.CollectionChange(before, ints);
-            Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
-
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
         }
 
         [Test]
@@ -161,16 +185,19 @@
             var before = new[] { 1 };
             var ints = new ObservableCollection<int>(before);
             var notifier = new DummyNotifier();
-            var actual = notifier.SubscribeAll();
+            using (var actual = notifier.SubscribeAll())
+            {
+                ints.Clear();
+                var change = Diff.CollectionChange(before, ints);
+                Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
 
-            ints.Clear();
-            var change = Diff.CollectionChange(before, ints);
-            Notifier.Notify(notifier, change, null, notifier.PropertyChangedEventHandler, notifier.NotifyCollectionChangedEventHandler);
-
-            var dummy = new ObservableCollection<int>(new[] { 1 });
-            var expected = dummy.SubscribeAll();
-            dummy.RemoveAt(0);
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                var dummy = new ObservableCollection<int>(new[] { 1 });
+                using (var expected = dummy.SubscribeAll())
+                {
+                    dummy.RemoveAt(0);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
         }
 
         private class DummyNotifier : INotifyPropertyChanged, INotifyCollectionChanged, IEnumerable

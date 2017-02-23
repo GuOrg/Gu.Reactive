@@ -42,7 +42,6 @@ namespace Gu.Reactive.Benchmarks
             }
         }
 
-
         [Benchmark]
         public IDisposable ObservePropertyChangedNestedCachedPath()
         {

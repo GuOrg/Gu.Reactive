@@ -22,17 +22,19 @@ namespace Gu.Reactive.Tests.Collections.Filter
                 var source = Enumerable.Range(1, 3);
                 using (var view = source.AsReadOnlyFilteredView(this.Filter, subject))
                 {
-                    var actual = view.SubscribeAll();
-                    this.filter = x => x < 3;
-                    subject.OnNext(null);
-                    CollectionAssert.AreEqual(new[] { 1, 2 }, view);
-                    var expected = new EventArgs[]
-                                       {
-                                           CachedEventArgs.CountPropertyChanged,
-                                           CachedEventArgs.IndexerPropertyChanged,
-                                           Diff.CreateRemoveEventArgs(3, 2),
-                                       };
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    using (var actual = view.SubscribeAll())
+                    {
+                        this.filter = x => x < 3;
+                        subject.OnNext(null);
+                        CollectionAssert.AreEqual(new[] { 1, 2 }, view);
+                        var expected = new EventArgs[]
+                                           {
+                                               CachedEventArgs.CountPropertyChanged,
+                                               CachedEventArgs.IndexerPropertyChanged,
+                                               Diff.CreateRemoveEventArgs(3, 2),
+                                           };
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
                 }
             }
         }
@@ -47,17 +49,19 @@ namespace Gu.Reactive.Tests.Collections.Filter
                 using (var view = source.AsReadOnlyFilteredView(this.Filter, subject))
                 {
                     CollectionAssert.AreEqual(new[] { 1, 2, 3, 4, 0 }, view);
-                    var actual = view.SubscribeAll();
-                    this.filter = x => x > 0;
-                    subject.OnNext(null);
-                    CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
-                    var expected = new EventArgs[]
-                                       {
-                                           CachedEventArgs.CountPropertyChanged,
-                                           CachedEventArgs.IndexerPropertyChanged,
-                                           Diff.CreateRemoveEventArgs(0, 4),
-                                       };
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    using (var actual = view.SubscribeAll())
+                    {
+                        this.filter = x => x > 0;
+                        subject.OnNext(null);
+                        CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
+                        var expected = new EventArgs[]
+                                           {
+                                               CachedEventArgs.CountPropertyChanged,
+                                               CachedEventArgs.IndexerPropertyChanged,
+                                               Diff.CreateRemoveEventArgs(0, 4),
+                                           };
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
                 }
             }
         }
@@ -72,12 +76,13 @@ namespace Gu.Reactive.Tests.Collections.Filter
                 using (var view = source.AsReadOnlyFilteredView(this.Filter, subject))
                 {
                     CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
-                    var actual = view.SubscribeAll();
-
-                    this.filter = x => x > 0;
-                    subject.OnNext(null);
-                    CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
-                    CollectionAssert.IsEmpty(actual);
+                    using (var actual = view.SubscribeAll())
+                    {
+                        this.filter = x => x > 0;
+                        subject.OnNext(null);
+                        CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
+                        CollectionAssert.IsEmpty(actual);
+                    }
                 }
             }
         }

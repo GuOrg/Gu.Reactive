@@ -105,12 +105,12 @@ namespace Gu.Reactive.Tests.Conditions
         [Test]
         public void ExplicitName()
         {
-            using (var condition = new AbstractConditionImpl(Observable.Empty<object>()) { Name = "ExplicitName" })
+            using (var condition = new AbstractConditionImpl(Observable.Empty<object>()) { Name = "Explicit name" })
             {
-                Assert.AreEqual("ExplicitName", condition.Name);
+                Assert.AreEqual("Explicit name", condition.Name);
                 using (var negated = condition.Negate())
                 {
-                    Assert.AreEqual("Not_ExplicitName", negated.Name);
+                    Assert.AreEqual("Not_Explicit name", negated.Name);
                 }
             }
         }

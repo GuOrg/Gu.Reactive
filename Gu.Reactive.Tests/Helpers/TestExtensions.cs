@@ -5,18 +5,14 @@
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Reactive.Linq;
 
     public static class TestExtensions
     {
-        public static List<EventArgs> SubscribeAll<T>(this T observableCollection)
+        public static EventList SubscribeAll<T>(this T observableCollection)
             where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
         {
-            var changes = new List<EventArgs>();
-            observableCollection.ObserveCollectionChangedSlim(false)
-                                .Subscribe(x => changes.Add(x));
-            observableCollection.ObservePropertyChanged()
-                                .Subscribe(x => changes.Add(x.EventArgs));
-            return changes;
+            return EventList.Create(observableCollection);
         }
 
         public static IReadOnlyList<NotifyCollectionChangedEventArgs> CollectionChanges(this INotifyCollectionChanged col)
@@ -39,6 +35,61 @@
                     maybe.Value = e;
                 };
             return maybe;
+        }
+
+        public sealed class EventList : IReadOnlyCollection<EventArgs>, IDisposable
+        {
+            private readonly List<EventArgs> inner = new List<EventArgs>();
+            private readonly IDisposable subscription;
+
+            private bool disposed;
+
+            private EventList(
+                IObservable<NotifyCollectionChangedEventArgs> incc,
+                IObservable<PropertyChangedEventArgs> inpc)
+            {
+                this.subscription = Observable.Merge<EventArgs>(incc, inpc)
+                                              .Subscribe(this.inner.Add);
+            }
+
+            public int Count => this.inner.Count;
+
+            public static EventList Create<T>(T observableCollection)
+                                where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
+            {
+                return new EventList(
+                    observableCollection.ObserveCollectionChangedSlim(false),
+                    observableCollection.ObservePropertyChangedSlim());
+            }
+
+            public IEnumerator<EventArgs> GetEnumerator()
+            {
+                return this.inner.GetEnumerator();
+            }
+
+            public void Dispose()
+            {
+                if (this.disposed)
+                {
+                    return;
+                }
+
+                this.disposed = true;
+                this.subscription?.Dispose();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return ((IEnumerable)this.inner).GetEnumerator();
+            }
+
+            private void ThrowIfDisposed()
+            {
+                if (this.disposed)
+                {
+                    throw new ObjectDisposedException(this.GetType().FullName);
+                }
+            }
         }
 
         private class Maybe<TNotifyCollectionChangedEventArgs> : IMaybe<TNotifyCollectionChangedEventArgs>

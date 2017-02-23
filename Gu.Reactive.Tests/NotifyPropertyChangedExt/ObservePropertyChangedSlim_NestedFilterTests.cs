@@ -4,6 +4,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
@@ -168,7 +169,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 }
 
                 fake.Next.Value++;
-                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing   
+                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
             }
         }
 
@@ -188,7 +189,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 }
 
                 fake.Next.Value++;
-                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing   
+                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
             }
         }
 
@@ -208,7 +209,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 }
 
                 fake.Next = new Level();
-                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing   
+                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
             }
         }
 
@@ -228,7 +229,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 }
 
                 fake.Next = new Level<int>();
-                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing   
+                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
             }
         }
 
@@ -238,8 +239,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake();
-            var observable = fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, false);
-            using (observable.Subscribe(changes.Add))
+            using (fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, false).Subscribe(changes.Add))
             {
                 Assert.AreEqual(0, changes.Count);
                 fake.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
@@ -253,8 +253,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake { Next = new Level() };
-            var observable = fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, false);
-            using (observable.Subscribe(changes.Add))
+            using (fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, false).Subscribe(changes.Add))
             {
                 Assert.AreEqual(0, changes.Count);
 
@@ -270,8 +269,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake { Next = new Level() };
-            var observable = fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, false);
-            using (observable.Subscribe(changes.Add))
+            using (fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, false).Subscribe(changes.Add))
             {
                 Assert.AreEqual(0, changes.Count);
 
@@ -686,8 +684,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var changes = new List<PropertyChangedEventArgs>();
             var next = new Level();
             var fake = new Fake { Next = next };
-            var observable = fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, false);
-            using (observable.Subscribe(changes.Add))
+            using (fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, false).Subscribe(changes.Add))
             {
                 fake.Next.OnPropertyChanged(propertyName);
                 Assert.AreEqual(1, changes.Count);
@@ -768,8 +765,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake { Next = new Level { Next = new Level() } };
-            var observable = fake.ObservePropertyChangedSlim(x => x.Next.Next.IsTrue);
-            using (observable.Subscribe(changes.Add))
+            using (fake.ObservePropertyChangedSlim(x => x.Next.Next.IsTrue).Subscribe(changes.Add))
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreEqual("IsTrue", changes.Last().PropertyName);
@@ -785,30 +781,33 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake();
-            var observable = fake.ObservePropertyChangedSlim(x => x.Next.IsTrue);
-            observable.Subscribe(changes.Add);
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+            using (fake.ObservePropertyChangedSlim(x => x.Next.IsTrue)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
 
-            fake.Next = new Level { IsTrue = false };
-            Assert.AreEqual(2, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                fake.Next = new Level { IsTrue = false };
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
 
-            fake.Next.IsTrue = true;
-            Assert.AreEqual(3, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                fake.Next.IsTrue = true;
+                Assert.AreEqual(3, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
 
-            Level level1 = fake.Next;
-            fake.Next = null;
-            Assert.AreEqual(4, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                Level level1 = fake.Next;
+                fake.Next = null;
+                Assert.AreEqual(4, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
 
-            level1.IsTrue = !level1.IsTrue;
-            Assert.AreEqual(4, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                level1.IsTrue = !level1.IsTrue;
+                Assert.AreEqual(4, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+            }
         }
 
         [Test]
+        [SuppressMessage("ReSharper", "UnusedVariable")]
         public void MemoryLeakRootDisposeTest()
         {
 #if DEBUG
@@ -829,6 +828,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
+        [SuppressMessage("ReSharper", "UnusedVariable")]
         public void MemoryLeakRootNoDisposeTest()
         {
 #if DEBUG
@@ -849,6 +849,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
+        [SuppressMessage("ReSharper", "UnusedVariable")]
         public void MemoryLeakLevelNoDisposeTest()
         {
 #if DEBUG
@@ -869,6 +870,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
+        [SuppressMessage("ReSharper", "UnusedVariable")]
         public void MemoryLeakLevelDisposeTest()
         {
 #if DEBUG

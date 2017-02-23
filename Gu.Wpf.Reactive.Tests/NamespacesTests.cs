@@ -9,6 +9,8 @@
 
     public class NamespacesTests
     {
+        private const string Uri = @"http://Gu.com/Reactive";
+
         private static readonly string[] IgnoredNamespaces =
             {
                 "Annotations",
@@ -17,8 +19,6 @@
                 "Internals",
                 "TypeConverters",
             };
-
-        private const string Uri = @"http://Gu.com/Reactive";
 
         [Test]
         public void XmlnsDefinitions()

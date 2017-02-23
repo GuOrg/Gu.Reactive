@@ -21,21 +21,23 @@ namespace Gu.Reactive.Tests.Collections
             var scheduler = new TestScheduler();
             using (var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler, new Subject<object>()))
             {
-                var actualChanges = view.SubscribeAll();
-                var subject = new Subject<object>();
-                view.Triggers.Add(subject);
-                ints.Clear();
-                for (var i = 0; i < 10; i++)
+                using (var actualChanges = view.SubscribeAll())
                 {
-                    subject.OnNext(null);
+                    var subject = new Subject<object>();
+                    view.Triggers.Add(subject);
+                    ints.Clear();
+                    for (var i = 0; i < 10; i++)
+                    {
+                        subject.OnNext(null);
+                    }
+
+                    CollectionAssert.IsEmpty(actualChanges);
+                    CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+                    scheduler.Start();
+
+                    CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, actualChanges, EventArgsComparer.Default);
+                    CollectionAssert.IsEmpty(view);
                 }
-
-                CollectionAssert.IsEmpty(actualChanges);
-                CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
-                scheduler.Start();
-
-                CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, actualChanges, EventArgsComparer.Default);
-                CollectionAssert.IsEmpty(view);
             }
         }
 
@@ -47,27 +49,29 @@ namespace Gu.Reactive.Tests.Collections
             var scheduler = new TestScheduler();
             using (var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler, subject))
             {
-                var actualChanges = view.SubscribeAll();
-                view.Triggers.Add(subject);
-                ints.Add(4);
-                for (int i = 0; i < 10; i++)
+                using (var actualChanges = view.SubscribeAll())
                 {
-                    subject.OnNext(null);
+                    view.Triggers.Add(subject);
+                    ints.Add(4);
+                    for (int i = 0; i < 10; i++)
+                    {
+                        subject.OnNext(null);
+                    }
+
+                    CollectionAssert.IsEmpty(actualChanges);
+                    CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+
+                    scheduler.Start();
+
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateAddEventArgs(4, 3)
+                                       };
+                    CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
                 }
-
-                CollectionAssert.IsEmpty(actualChanges);
-                CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
-
-                scheduler.Start();
-
-                var expected = new EventArgs[]
-                                   {
-                                       CachedEventArgs.CountPropertyChanged,
-                                       CachedEventArgs.IndexerPropertyChanged,
-                                       Diff.CreateAddEventArgs(4, 3)
-                                   };
-                CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
-                CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
             }
         }
 
@@ -78,28 +82,30 @@ namespace Gu.Reactive.Tests.Collections
             var scheduler = new TestScheduler();
             using (var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler, new Subject<object>()))
             {
-                var actualChanges = view.SubscribeAll();
-                var subject = new Subject<object>();
-                view.Triggers.Add(subject);
-                ints.Add(4);
-                for (int i = 0; i < 10; i++)
+                using (var actualChanges = view.SubscribeAll())
                 {
-                    subject.OnNext(null);
+                    var subject = new Subject<object>();
+                    view.Triggers.Add(subject);
+                    ints.Add(4);
+                    for (int i = 0; i < 10; i++)
+                    {
+                        subject.OnNext(null);
+                    }
+
+                    CollectionAssert.IsEmpty(actualChanges);
+                    CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+
+                    scheduler.Start();
+
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateAddEventArgs(4, 3)
+                                       };
+                    CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
                 }
-
-                CollectionAssert.IsEmpty(actualChanges);
-                CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
-
-                scheduler.Start();
-
-                var expected = new EventArgs[]
-                                   {
-                                       CachedEventArgs.CountPropertyChanged,
-                                       CachedEventArgs.IndexerPropertyChanged,
-                                       Diff.CreateAddEventArgs(4, 3)
-                                   };
-                CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
-                CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
             }
         }
 
@@ -107,16 +113,19 @@ namespace Gu.Reactive.Tests.Collections
         public void UpdatesAndNotifiesOnCollectionChanged()
         {
             var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            var expected = ints.SubscribeAll();
-            var scheduler = new TestScheduler();
-            using (var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler))
+            using (var expected = ints.SubscribeAll())
             {
-                var actual = view.SubscribeAll();
-
-                ints.Add(4);
-                CollectionAssert.IsEmpty(actual);
-                scheduler.Start();
-                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                var scheduler = new TestScheduler();
+                using (var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler))
+                {
+                    using (var actual = view.SubscribeAll())
+                    {
+                        ints.Add(4);
+                        CollectionAssert.IsEmpty(actual);
+                        scheduler.Start();
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
+                }
             }
         }
 
@@ -127,18 +136,20 @@ namespace Gu.Reactive.Tests.Collections
             using (var view = ints.AsFilteredView(x => true))
             {
                 ints.Add(1);
-                var actual = view.SubscribeAll();
-                view.Filter = x => x < 2;
-                view.Refresh();
-                var expected = new EventArgs[]
-                                   {
-                                       CachedEventArgs.CountPropertyChanged,
-                                       CachedEventArgs.IndexerPropertyChanged,
-                                       Diff.CreateRemoveEventArgs(2, 1),
-                                       new PropertyChangedEventArgs("Filter"),
-                                   };
-                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                CollectionAssert.AreEqual(new[] { 1, 1 }, view);
+                using (var actual = view.SubscribeAll())
+                {
+                    view.Filter = x => x < 2;
+                    view.Refresh();
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateRemoveEventArgs(2, 1),
+                                           new PropertyChangedEventArgs("Filter"),
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(new[] { 1, 1 }, view);
+                }
             }
         }
     }

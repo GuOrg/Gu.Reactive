@@ -2,9 +2,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
-    using System.Runtime.CompilerServices;
+
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
@@ -15,18 +14,20 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var fake = new Fake();
             var values = new List<Maybe<int>>();
-            fake.ObserveValue(x => x.Value, false)
-                .Subscribe(values.Add);
-            CollectionAssert.IsEmpty(values);
+            using (fake.ObserveValue(x => x.Value, false)
+                       .Subscribe(values.Add))
+            {
+                CollectionAssert.IsEmpty(values);
 
-            fake.Value++;
-            CollectionAssert.AreEqual(new[] { Maybe.Some(1) }, values);
+                fake.Value++;
+                CollectionAssert.AreEqual(new[] { Maybe.Some(1) }, values);
 
-            fake.Value++;
-            CollectionAssert.AreEqual(new[] { Maybe.Some(1), Maybe.Some(2) }, values);
+                fake.Value++;
+                CollectionAssert.AreEqual(new[] { Maybe.Some(1), Maybe.Some(2) }, values);
 
-            fake.OnPropertyChanged("Value");
-            CollectionAssert.AreEqual(new[] { Maybe.Some(1), Maybe.Some(2), Maybe.Some(2) }, values);
+                fake.OnPropertyChanged("Value");
+                CollectionAssert.AreEqual(new[] { Maybe.Some(1), Maybe.Some(2), Maybe.Some(2) }, values);
+            }
         }
 
         [TestCase(true, new[] { 1 })]

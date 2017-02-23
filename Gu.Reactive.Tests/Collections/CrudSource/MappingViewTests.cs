@@ -90,30 +90,37 @@ namespace Gu.Reactive.Tests.Collections
         public void NotifiesAdd()
         {
             var ints = new ObservableCollection<int>();
-            var expected = ints.SubscribeAll();
             using (var modelView = ints.AsMappingView(x => new Model(x)))
             {
-                var modelViewChanges = modelView.SubscribeAll();
-
-                using (var indexedView = modelView.AsMappingView((x, i) => new Vm { Model = x, Index = i }))
+                using (var modelViewChanges = modelView.SubscribeAll())
                 {
-                    var indexedChanges = indexedView.SubscribeAll();
-
-                    List<EventArgs> vmViewChanges;
-                    using (var vmView = modelView.AsMappingView(x => new Vm { Model = x }))
+                    using (var indexedView = modelView.AsMappingView((x, i) => new Vm { Model = x, Index = i }))
                     {
-                        vmViewChanges = vmView.SubscribeAll();
+                        using (var indexedChanges = indexedView.SubscribeAll())
+                        {
+                            using (var vmView = modelView.AsMappingView(x => new Vm { Model = x }))
+                            {
+                                using (var vmViewChanges = vmView.SubscribeAll())
+                                {
+                                    ints.Add(1);
+                                    var expected = new EventArgs[]
+                                                       {
+                                                           CachedEventArgs.CountPropertyChanged,
+                                                           CachedEventArgs.IndexerPropertyChanged,
+                                                           null
+                                                       };
 
-                        ints.Add(1);
+                                    expected[2] = Diff.CreateAddEventArgs(modelView[0], 0);
+                                    CollectionAssert.AreEqual(expected, modelViewChanges, EventArgsComparer.Default);
 
-                        expected[2] = Diff.CreateAddEventArgs(modelView[0], 0);
-                        CollectionAssert.AreEqual(expected, modelViewChanges, EventArgsComparer.Default);
+                                    expected[2] = Diff.CreateAddEventArgs(vmView[0], 0);
+                                    CollectionAssert.AreEqual(expected, vmViewChanges, EventArgsComparer.Default);
 
-                        expected[2] = Diff.CreateAddEventArgs(vmView[0], 0);
-                        CollectionAssert.AreEqual(expected, vmViewChanges, EventArgsComparer.Default);
-
-                        expected[2] = Diff.CreateAddEventArgs(indexedView[0], 0);
-                        CollectionAssert.AreEqual(expected, indexedChanges, EventArgsComparer.Default);
+                                    expected[2] = Diff.CreateAddEventArgs(indexedView[0], 0);
+                                    CollectionAssert.AreEqual(expected, indexedChanges, EventArgsComparer.Default);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -123,21 +130,30 @@ namespace Gu.Reactive.Tests.Collections
         public void NotifiesRemove()
         {
             var ints = new ObservableCollection<int>(new[] { 1 });
-            var expected = ints.SubscribeAll();
             using (var modelView = ints.AsMappingView(x => new Model(x)))
             {
-                var modelViewChanges = modelView.SubscribeAll();
-                using (var vmView = modelView.AsMappingView(x => new Vm { Model = x }))
+                using (var modelViewChanges = modelView.SubscribeAll())
                 {
-                    var vmViewChanges = vmView.SubscribeAll();
-                    var oldModel = modelView[0];
-                    var oldView = vmView[0];
-                    ints.Remove(1);
+                    using (var vmView = modelView.AsMappingView(x => new Vm { Model = x }))
+                    {
+                        using (var vmViewChanges = vmView.SubscribeAll())
+                        {
+                            var oldModel = modelView[0];
+                            var oldView = vmView[0];
+                            ints.Remove(1);
 
-                    expected[2] = Diff.CreateRemoveEventArgs(oldModel, 0);
-                    CollectionAssert.AreEqual(expected, modelViewChanges, EventArgsComparer.Default);
-                    expected[2] = Diff.CreateRemoveEventArgs(oldView, 0);
-                    CollectionAssert.AreEqual(expected, vmViewChanges, EventArgsComparer.Default);
+                            var expected = new EventArgs[]
+                                               {
+                                                   CachedEventArgs.CountPropertyChanged,
+                                                   CachedEventArgs.IndexerPropertyChanged,
+                                                   null
+                                               };
+                            expected[2] = Diff.CreateRemoveEventArgs(oldModel, 0);
+                            CollectionAssert.AreEqual(expected, modelViewChanges, EventArgsComparer.Default);
+                            expected[2] = Diff.CreateRemoveEventArgs(oldView, 0);
+                            CollectionAssert.AreEqual(expected, vmViewChanges, EventArgsComparer.Default);
+                        }
+                    }
                 }
             }
         }

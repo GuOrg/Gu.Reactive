@@ -2,8 +2,6 @@
 {
     using System.ComponentModel;
 
-    using Gu.Reactive.Internals;
-
     /// <summary>
     /// A <see cref="PropertyChangedEventArgs"/> with the value of the property.
     /// </summary>

@@ -84,15 +84,17 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake { Next = new Level { Next = new Level { Name = "Johan" } } };
-            fake.ObservePropertyChangedWithValue(x => x.Next.Next.Name, false)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(0, changes.Count);
-            fake.Next.Next.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
-            Assert.AreEqual(1, changes.Count);
-            Assert.IsTrue(changes.Single().EventArgs.HasValue);
-            Assert.AreEqual("Johan", changes.Single().EventArgs.Value);
-            Assert.AreSame(fake.Next.Next, changes.Single().Sender);
-            Assert.AreEqual(prop, changes.Last().EventArgs.PropertyName);
+            using (fake.ObservePropertyChangedWithValue(x => x.Next.Next.Name, false)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
+                fake.Next.Next.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
+                Assert.AreEqual(1, changes.Count);
+                Assert.IsTrue(changes.Single().EventArgs.HasValue);
+                Assert.AreEqual("Johan", changes.Single().EventArgs.Value);
+                Assert.AreSame(fake.Next.Next, changes.Single().Sender);
+                Assert.AreEqual(prop, changes.Last().EventArgs.PropertyName);
+            }
         }
 
         [Test]
@@ -172,9 +174,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake { Next = new Level { Name = "Johan" } };
-            fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
-                .Subscribe(changes.Add);
-            CollectionAssert.IsEmpty(changes);
+            using (fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
+                       .Subscribe(changes.Add))
+            {
+                CollectionAssert.IsEmpty(changes);
+            }
         }
 
         [Test]
@@ -182,14 +186,16 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake();
-            fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
-                .Subscribe(changes.Add);
-            CollectionAssert.IsEmpty(changes);
-            fake.Next = new Level();
-            CollectionAssert.IsEmpty(changes);
-            fake.Next.Name = "El Kurro";
-            Assert.AreEqual("El Kurro", changes.Single().EventArgs.Value);
-            Assert.IsTrue(changes.Single().EventArgs.HasValue);
+            using (fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
+                       .Subscribe(changes.Add))
+            {
+                CollectionAssert.IsEmpty(changes);
+                fake.Next = new Level();
+                CollectionAssert.IsEmpty(changes);
+                fake.Next.Name = "El Kurro";
+                Assert.AreEqual("El Kurro", changes.Single().EventArgs.Value);
+                Assert.IsTrue(changes.Single().EventArgs.HasValue);
+            }
         }
 
         [Test]

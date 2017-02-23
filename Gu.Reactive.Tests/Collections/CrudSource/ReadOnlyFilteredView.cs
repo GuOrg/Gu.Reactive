@@ -19,6 +19,7 @@ namespace Gu.Reactive.Tests.Collections
             (this.View as IDisposable)?.Dispose();
             this.View = new ReadOnlyFilteredView<int>(this.Ints, x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
             this.Scheduler.Start();
+            this.ActualEventArgs?.Dispose();
             this.ActualEventArgs = this.View.SubscribeAll();
         }
 
@@ -39,15 +40,17 @@ namespace Gu.Reactive.Tests.Collections
             using (var view = ints.AsReadOnlyFilteredView(x => true))
             {
                 var changes = new List<EventArgs>();
-                view.ObservePropertyChanged()
-                    .Subscribe(x => changes.Add(x.EventArgs));
-                ints.Add(1);
-                var expected = new[]
-                                   {
-                                   CachedEventArgs.CountPropertyChanged,
-                                   CachedEventArgs.IndexerPropertyChanged
-                               };
-                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                using (view.ObservePropertyChanged()
+                           .Subscribe(x => changes.Add(x.EventArgs)))
+                {
+                    ints.Add(1);
+                    var expected = new[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged
+                                       };
+                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                }
             }
         }
 
@@ -58,11 +61,13 @@ namespace Gu.Reactive.Tests.Collections
             using (var view = ints.AsReadOnlyFilteredView(x => true))
             {
                 var changes = new List<EventArgs>();
-                view.ObserveCollectionChangedSlim(false)
-                    .Subscribe(x => changes.Add(x));
-                ints.Add(1);
-                var expected = new[] { Diff.CreateAddEventArgs(1, 0) };
-                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                using (view.ObserveCollectionChangedSlim(false)
+                           .Subscribe(x => changes.Add(x)))
+                {
+                    ints.Add(1);
+                    var expected = new[] { Diff.CreateAddEventArgs(1, 0) };
+                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                }
             }
         }
 
@@ -72,10 +77,12 @@ namespace Gu.Reactive.Tests.Collections
             var ints = new ObservableCollection<int>();
             using (var view = ints.AsReadOnlyFilteredView(x => x % 2 == 0))
             {
-                var changes = view.SubscribeAll();
-                ints.Add(1);
-                CollectionAssert.IsEmpty(view);
-                CollectionAssert.IsEmpty(changes);
+                using (var changes = view.SubscribeAll())
+                {
+                    ints.Add(1);
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(changes);
+                }
             }
         }
 
@@ -85,22 +92,26 @@ namespace Gu.Reactive.Tests.Collections
             var ints = new ObservableCollection<int>();
             using (var view = ints.AsFilteredView(x => x % 2 == 0))
             {
-                var changes = view.SubscribeAll();
-                var countChanges = 0;
-                view.ObservePropertyChanged(x => x.Count, false)
-                    .Subscribe(_ => countChanges++);
-                Assert.AreEqual(0, countChanges);
+                using (var changes = view.SubscribeAll())
+                {
+                    var countChanges = 0;
+                    using (view.ObservePropertyChanged(x => x.Count, false)
+                               .Subscribe(_ => countChanges++))
+                    {
+                        Assert.AreEqual(0, countChanges);
 
-                ints.Add(2);
-                CollectionAssert.AreEqual(new[] { 2 }, view);
-                var expected = new EventArgs[]
-                   {
-                                   CachedEventArgs.CountPropertyChanged,
-                                   CachedEventArgs.IndexerPropertyChanged,
-                                   Diff.CreateAddEventArgs(2, 0)
-                   };
-                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
-                Assert.AreEqual(1, countChanges);
+                        ints.Add(2);
+                        CollectionAssert.AreEqual(new[] { 2 }, view);
+                        var expected = new EventArgs[]
+                                           {
+                                               CachedEventArgs.CountPropertyChanged,
+                                               CachedEventArgs.IndexerPropertyChanged,
+                                               Diff.CreateAddEventArgs(2, 0)
+                                           };
+                        CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                        Assert.AreEqual(1, countChanges);
+                    }
+                }
             }
         }
 
@@ -110,11 +121,12 @@ namespace Gu.Reactive.Tests.Collections
             var ints = new ObservableCollection<int>(new[] { 1 });
             using (var view = ints.AsReadOnlyFilteredView(x => x % 2 == 0))
             {
-                var changes = view.SubscribeAll();
-
-                ints.Remove(1);
-                CollectionAssert.IsEmpty(view);
-                CollectionAssert.IsEmpty(changes);
+                using (var changes = view.SubscribeAll())
+                {
+                    ints.Remove(1);
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(changes);
+                }
             }
         }
 
@@ -124,17 +136,18 @@ namespace Gu.Reactive.Tests.Collections
             var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
             using (var view = ints.AsReadOnlyFilteredView(x => x % 2 == 0))
             {
-                var changes = view.SubscribeAll();
-
-                ints.Remove(2);
-                CollectionAssert.IsEmpty(view);
-                var expected = new EventArgs[]
-                   {
-                                   CachedEventArgs.CountPropertyChanged,
-                                   CachedEventArgs.IndexerPropertyChanged,
-                                   Diff.CreateRemoveEventArgs(2, 0)
-                   };
-                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                using (var changes = view.SubscribeAll())
+                {
+                    ints.Remove(2);
+                    CollectionAssert.IsEmpty(view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateRemoveEventArgs(2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                }
             }
         }
 
@@ -144,11 +157,12 @@ namespace Gu.Reactive.Tests.Collections
             var ints = new ObservableCollection<int>(new[] { 1 });
             using (var view = ints.AsReadOnlyFilteredView(x => x % 2 == 0))
             {
-                var changes = view.SubscribeAll();
-
-                ints[0] = 3;
-                CollectionAssert.IsEmpty(view);
-                CollectionAssert.IsEmpty(changes);
+                using (var changes = view.SubscribeAll())
+                {
+                    ints[0] = 3;
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(changes);
+                }
             }
         }
 
@@ -158,17 +172,18 @@ namespace Gu.Reactive.Tests.Collections
             var ints = new ObservableCollection<int>(new[] { 1 });
             using (var view = ints.AsReadOnlyFilteredView(x => x % 2 == 0))
             {
-                var changes = view.SubscribeAll();
-
-                ints[0] = 2;
-                CollectionAssert.AreEqual(new[] { 2 }, view);
-                var expected = new EventArgs[]
-                   {
-                                   CachedEventArgs.CountPropertyChanged,
-                                   CachedEventArgs.IndexerPropertyChanged,
-                                   Diff.CreateAddEventArgs(2, 0)
-                   };
-                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                using (var changes = view.SubscribeAll())
+                {
+                    ints[0] = 2;
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateAddEventArgs(2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                }
             }
         }
     }

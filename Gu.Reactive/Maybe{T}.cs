@@ -105,6 +105,7 @@
             return this.HasValue ? this.value : defaultValue;
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return this.HasValue

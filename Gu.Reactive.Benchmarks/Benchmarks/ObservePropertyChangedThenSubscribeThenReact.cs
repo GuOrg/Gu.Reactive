@@ -106,7 +106,7 @@ namespace Gu.Reactive.Benchmarks
         {
             int count = 0;
             using (Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
-                x => this.fake.PropertyChanged += x, 
+                x => this.fake.PropertyChanged += x,
                 x => this.fake.PropertyChanged -= x)
                              .Where(x => string.IsNullOrEmpty(x.EventArgs.PropertyName) || x.EventArgs.PropertyName == nameof(this.fake.Value))
                              .Subscribe(x => count++))

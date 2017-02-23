@@ -13,14 +13,14 @@ namespace Gu.Reactive.Tests.NameOf_
         public void MethodAction()
         {
             var actual = NameOf.Method(() => this.DummyMethod(0));
-            Assert.AreEqual("DummyMethod", actual);
+            Assert.AreEqual(nameof(this.DummyMethod), actual);
         }
 
         [Test]
         public void MethodFunc()
         {
             var actual = NameOf.Method<MethodTests>(x => this.DummyMethod(0));
-            Assert.AreEqual("DummyMethod", actual);
+            Assert.AreEqual(nameof(this.DummyMethod), actual);
         }
 
         [Test]

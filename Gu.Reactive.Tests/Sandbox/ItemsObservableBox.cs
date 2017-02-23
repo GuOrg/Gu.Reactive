@@ -46,12 +46,17 @@ namespace Gu.Reactive.Tests.Sandbox
                 var sw = Stopwatch.StartNew();
                 using (var subject = new Subject<IObservable<EventPattern<PropertyChangedEventArgs>>>())
                 {
-                    subject.Switch().Publish().RefCount().Subscribe(_ => { });
-                    for (var i = 0; i < n; i++)
+                    using (subject.Switch()
+                                  .Publish()
+                                  .RefCount()
+                                  .Subscribe(_ => { }))
                     {
-                        var fake = new Fake();
-                        source.Add(fake);
-                        subject.OnNext(view.Merge());
+                        for (var i = 0; i < n; i++)
+                        {
+                            var fake = new Fake();
+                            source.Add(fake);
+                            subject.OnNext(view.Merge());
+                        }
                     }
                 }
 

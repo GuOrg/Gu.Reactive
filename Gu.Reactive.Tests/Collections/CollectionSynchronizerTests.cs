@@ -43,12 +43,16 @@
         {
             var source = new ObservableCollection<int>();
             var synchronizer = new CollectionSynchronizer<int>(source);
-            var expected = source.SubscribeAll();
-            var actual = this.SubscribeAll();
-            source.Add(1);
-            synchronizer.Refresh(this, source, null, null, this.PropertyChanged, this.CollectionChanged);
-            CollectionAssert.AreEqual(source, synchronizer.Current);
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+            using (var expected = source.SubscribeAll())
+            {
+                using (var actual = this.SubscribeAll())
+                {
+                    source.Add(1);
+                    synchronizer.Refresh(this, source, null, null, this.PropertyChanged, this.CollectionChanged);
+                    CollectionAssert.AreEqual(source, synchronizer.Current);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
         }
 
         [Test]
@@ -56,15 +60,19 @@
         {
             var source = new ObservableCollection<int>();
             var synchronizer = new CollectionSynchronizer<int>(source);
-            var expected = source.SubscribeAll();
-            var actual = this.SubscribeAll();
-            source.Add(1);
-            var scheduler = new TestScheduler();
-            synchronizer.Refresh(this, source, null, scheduler, this.PropertyChanged, this.CollectionChanged);
-            CollectionAssert.AreEqual(source, synchronizer.Current);
-            CollectionAssert.IsEmpty(actual.OfType<NotifyCollectionChangedEventArgs>());
-            scheduler.Start();
-            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+            using (var expected = source.SubscribeAll())
+            {
+                using (var actual = this.SubscribeAll())
+                {
+                    source.Add(1);
+                    var scheduler = new TestScheduler();
+                    synchronizer.Refresh(this, source, null, scheduler, this.PropertyChanged, this.CollectionChanged);
+                    CollectionAssert.AreEqual(source, synchronizer.Current);
+                    CollectionAssert.IsEmpty(actual.OfType<NotifyCollectionChangedEventArgs>());
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
         }
 
         public IEnumerator GetEnumerator()

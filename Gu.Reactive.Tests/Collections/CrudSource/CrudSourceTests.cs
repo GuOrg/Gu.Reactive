@@ -1,7 +1,6 @@
 ﻿namespace Gu.Reactive.Tests.Collections
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
 
@@ -11,21 +10,23 @@
 
     using NUnit.Framework;
 
-    public abstract class CrudSourceTests
+    public abstract class CrudSourceTests : IDisposable
     {
 #pragma warning disable SA1306 // Field names must begin with lower-case letter
-        protected List<EventArgs> ActualEventArgs;
+        protected TestExtensions.EventList ActualEventArgs;
         protected TestScheduler Scheduler;
         protected IReadOnlyObservableCollection<int> View;
         protected ObservableCollection<int> Ints;
 #pragma warning restore SA1306 // Field names must begin with lower-case letter
 
-        private List<EventArgs> expectedEventArgs;
+        private TestExtensions.EventList expectedEventArgs;
+        private bool disposed;
 
         [SetUp]
         public virtual void SetUp()
         {
             this.Ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            this.expectedEventArgs?.Dispose();
             this.expectedEventArgs = this.Ints.SubscribeAll();
         }
 
@@ -128,6 +129,34 @@
 
             CollectionAssert.AreEqual(this.Ints, this.View);
             CollectionAssert.AreEqual(this.expectedEventArgs, this.ActualEventArgs, EventArgsComparer.Default);
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            if (disposing)
+            {
+                this.expectedEventArgs?.Dispose();
+                this.ActualEventArgs?.Dispose();
+            }
+        }
+
+        protected void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
         }
     }
 }

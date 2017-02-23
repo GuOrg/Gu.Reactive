@@ -4,6 +4,8 @@
 
     public interface IFake : INotifyPropertyChanged
     {
+        NotInpc NotInpc { get; }
+
         int WriteOnly { set; }
 
         bool? IsTrueOrNull { get; set; }
@@ -15,8 +17,6 @@
         Level Next { get; set; }
 
         StructLevel StructLevel { get; set; }
-
-        NotInpc NotInpc { get; }
 
         int Value { get; set; }
 
