@@ -36,13 +36,19 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var expected = start.Select(Maybe.Some).ToList();
             var values = new List<Maybe<int>>();
             var fake = new Fake { Value = 1 };
-            fake.ObserveValue(x => x.Value, signalInitial)
-                .Subscribe(values.Add);
-            CollectionAssert.AreEqual(expected, values);
+            using (fake.ObserveValue(x => x.Value, signalInitial)
+                       .Subscribe(values.Add))
+            {
+                CollectionAssert.AreEqual(expected, values);
 
-            fake.Value++;
-            expected.Add(Maybe.Some(fake.Value));
-            CollectionAssert.AreEqual(expected, values);
+                fake.Value++;
+                expected.Add(Maybe.Some(fake.Value));
+                CollectionAssert.AreEqual(expected, values);
+
+                fake.Value++;
+                expected.Add(Maybe.Some(fake.Value));
+                CollectionAssert.AreEqual(expected, values);
+            }
         }
 
         [TestCase(true, new[] { 1 })]
@@ -82,24 +88,26 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var expected = start.Select(Maybe.Some).ToList();
             var values = new List<Maybe<int>>();
             var fake = new Fake { Next = new Level { Value = 1 } };
-            fake.ObserveValue(x => x.Next.Value, signalInitial)
-                .Subscribe(values.Add);
-            CollectionAssert.AreEqual(expected, values);
+            using (fake.ObserveValue(x => x.Next.Value, signalInitial)
+                       .Subscribe(values.Add))
+            {
+                CollectionAssert.AreEqual(expected, values);
 
-            fake.Next.Value++;
-            expected.Add(Maybe.Some(fake.Next.Value));
-            CollectionAssert.AreEqual(expected, values);
+                fake.Next.Value++;
+                expected.Add(Maybe.Some(fake.Next.Value));
+                CollectionAssert.AreEqual(expected, values);
 
-            fake.Next.OnPropertyChanged("Value");
-            expected.Add(Maybe.Some(fake.Next.Value));
-            CollectionAssert.AreEqual(expected, values);
+                fake.Next.OnPropertyChanged("Value");
+                expected.Add(Maybe.Some(fake.Next.Value));
+                CollectionAssert.AreEqual(expected, values);
 
-            fake.Next.OnPropertyChanged("Next");
-            CollectionAssert.AreEqual(expected, values);
+                fake.Next.OnPropertyChanged("Next");
+                CollectionAssert.AreEqual(expected, values);
 
-            fake.Next = null;
-            expected.Add(Maybe<int>.None);
-            CollectionAssert.AreEqual(expected, values);
+                fake.Next = null;
+                expected.Add(Maybe<int>.None);
+                CollectionAssert.AreEqual(expected, values);
+            }
         }
 
         [TestCase(true, new[] { 1 })]

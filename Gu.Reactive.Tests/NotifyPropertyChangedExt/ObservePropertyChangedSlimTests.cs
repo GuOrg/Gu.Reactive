@@ -2,7 +2,9 @@
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Linq;
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Tests.Helpers;
@@ -60,46 +62,64 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         public void Simple()
         {
             var fake = new Fake();
-            int count = 0;
-            fake.ObservePropertyChangedSlim()
-                .Subscribe(_ => count++);
-            Assert.AreEqual(0, count);
-            fake.IsTrue = !fake.IsTrue;
-            Assert.AreEqual(1, count);
+            var changes = new List<PropertyChangedEventArgs>();
+            using (fake.ObservePropertyChangedSlim()
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
+                fake.IsTrue = !fake.IsTrue;
+                CollectionAssert.AreEqual(new[] { "IsTrue" }, changes.Select(x => x.PropertyName));
+
+                fake.Value++;
+                CollectionAssert.AreEqual(new[] { "IsTrue", "Value" }, changes.Select(x => x.PropertyName));
+            }
         }
 
         [TestCase(true, 1)]
         [TestCase(false, 0)]
         public void SignalInitial(bool signalInitial, int expected)
         {
-            int count = 0;
-            this.ObservePropertyChangedSlim(nameof(this.PublicProperty), signalInitial)
-                .Subscribe(_ => count++);
-            Assert.AreEqual(expected, count);
-            this.PublicProperty++;
-            Assert.AreEqual(expected + 1, count);
+            var count1 = 0;
+            var count2 = 0;
+            var observable = this.ObservePropertyChangedSlim(nameof(this.PublicProperty), signalInitial);
+            using (observable.Subscribe(_ => count1++))
+            {
+                using (observable.Subscribe(_ => count2++))
+                {
+                    Assert.AreEqual(expected, count1);
+                    Assert.AreEqual(expected, count2);
+
+                    this.PublicProperty++;
+                    Assert.AreEqual(expected + 1, count1);
+                    Assert.AreEqual(expected + 1, count2);
+                }
+            }
         }
 
         [Test]
         public void WhenPublicProperty()
         {
-            int count = 0;
-            this.ObservePropertyChangedSlim(nameof(this.PublicProperty))
-                .Subscribe(_ => count++);
-            Assert.AreEqual(1, count);
-            this.PublicProperty++;
-            Assert.AreEqual(2, count);
+            var count = 0;
+            using (this.ObservePropertyChangedSlim(nameof(this.PublicProperty))
+                       .Subscribe(_ => count++))
+            {
+                Assert.AreEqual(1, count);
+                this.PublicProperty++;
+                Assert.AreEqual(2, count);
+            }
         }
 
         [Test]
         public void WhenPrivateProperty()
         {
-            int count = 0;
-            this.ObservePropertyChangedSlim(nameof(this.PrivateProperty))
-                .Subscribe(_ => count++);
-            Assert.AreEqual(1, count);
-            this.PrivateProperty++;
-            Assert.AreEqual(2, count);
+            var count = 0;
+            using (this.ObservePropertyChangedSlim(nameof(this.PrivateProperty))
+                       .Subscribe(_ => count++))
+            {
+                Assert.AreEqual(1, count);
+                this.PrivateProperty++;
+                Assert.AreEqual(2, count);
+            }
         }
 
         [Test]
@@ -113,30 +133,34 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         public void NamedNoSignalInitial()
         {
             var fake = new Fake();
-            int count = 0;
-            fake.ObservePropertyChangedSlim(nameof(fake.IsTrue), false)
-                .Subscribe(_ => count++);
-            Assert.AreEqual(0, count);
-            fake.IsTrue = !fake.IsTrue;
-            Assert.AreEqual(1, count);
+            var count = 0;
+            using (fake.ObservePropertyChangedSlim(nameof(fake.IsTrue), false)
+                       .Subscribe(_ => count++))
+            {
+                Assert.AreEqual(0, count);
+                fake.IsTrue = !fake.IsTrue;
+                Assert.AreEqual(1, count);
 
-            fake.Value++;
-            Assert.AreEqual(1, count);
+                fake.Value++;
+                Assert.AreEqual(1, count);
+            }
         }
 
         [Test]
         public void NamedSignalInitial()
         {
             var fake = new Fake();
-            int count = 0;
-            fake.ObservePropertyChangedSlim(nameof(fake.IsTrue), true)
-                .Subscribe(_ => count++);
-            Assert.AreEqual(1, count);
-            fake.IsTrue = !fake.IsTrue;
-            Assert.AreEqual(2, count);
+            var count = 0;
+            using (fake.ObservePropertyChangedSlim(nameof(fake.IsTrue), true)
+                       .Subscribe(_ => count++))
+            {
+                Assert.AreEqual(1, count);
+                fake.IsTrue = !fake.IsTrue;
+                Assert.AreEqual(2, count);
 
-            fake.Value++;
-            Assert.AreEqual(2, count);
+                fake.Value++;
+                Assert.AreEqual(2, count);
+            }
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

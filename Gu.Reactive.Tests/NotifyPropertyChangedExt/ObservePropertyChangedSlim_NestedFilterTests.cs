@@ -15,20 +15,23 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake { Next = new Level { Value = 1 } };
-            fake.ObservePropertyChangedSlim(x => x.Next.Value, false)
-                .Subscribe(changes.Add);
+            using (fake.ObservePropertyChangedSlim(x => x.Next.Value, false)
+                       .Subscribe(changes.Add))
+            {
+                using (fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, false)
+                           .Subscribe(changes.Add))
+                {
+                    Assert.AreEqual(0, changes.Count);
 
-            fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, false)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(0, changes.Count);
+                    fake.Next.Value++;
+                    Assert.AreEqual(1, changes.Count);
+                    Assert.AreEqual("Value", changes.Last().PropertyName);
 
-            fake.Next.Value++;
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual("Value", changes.Last().PropertyName);
-
-            fake.Next.IsTrue = !fake.IsTrue;
-            Assert.AreEqual(2, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                    fake.Next.IsTrue = !fake.IsTrue;
+                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                }
+            }
         }
 
         [Test]
@@ -36,20 +39,24 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake1 = new Fake { Next = new Level() };
-            fake1.ObservePropertyChangedSlim(x => x.Next.Value, false)
-                 .Subscribe(changes.Add);
-            var fake2 = new Fake { Next = new Level() };
-            fake2.ObservePropertyChangedSlim(x => x.Next.Value, false)
-                 .Subscribe(changes.Add);
-            Assert.AreEqual(0, changes.Count);
+            using (fake1.ObservePropertyChangedSlim(x => x.Next.Value, false)
+                        .Subscribe(changes.Add))
+            {
+                var fake2 = new Fake { Next = new Level() };
+                using (fake2.ObservePropertyChangedSlim(x => x.Next.Value, false)
+                            .Subscribe(changes.Add))
+                {
+                    Assert.AreEqual(0, changes.Count);
 
-            fake1.Next.Value++;
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual("Value", changes.Last().PropertyName);
+                    fake1.Next.Value++;
+                    Assert.AreEqual(1, changes.Count);
+                    Assert.AreEqual("Value", changes.Last().PropertyName);
 
-            fake2.Next.Value++;
-            Assert.AreEqual(2, changes.Count);
-            Assert.AreEqual("Value", changes.Last().PropertyName);
+                    fake2.Next.Value++;
+                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual("Value", changes.Last().PropertyName);
+                }
+            }
         }
 
         [Test]
@@ -151,17 +158,18 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake { Next = new Level() };
-            fake.ObservePropertyChangedSlim(x => x.Next.Value, signalInitial)
-                .Subscribe(changes.Add);
-
-            Assert.AreEqual(expected, changes.Count);
-            if (expected == 1)
+            using (fake.ObservePropertyChangedSlim(x => x.Next.Value, signalInitial)
+                       .Subscribe(changes.Add))
             {
-                Assert.AreEqual("Value", changes.Last().PropertyName);
-            }
+                Assert.AreEqual(expected, changes.Count);
+                if (expected == 1)
+                {
+                    Assert.AreEqual("Value", changes.Last().PropertyName);
+                }
 
-            fake.Next.Value++;
-            Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
+                fake.Next.Value++;
+                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing   
+            }
         }
 
         [TestCase(true, 1)]
@@ -170,17 +178,18 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake<int> { Next = new Level<int>() };
-            fake.ObservePropertyChangedSlim(x => x.Next.Value, signalInitial)
-                .Subscribe(changes.Add);
-
-            Assert.AreEqual(expected, changes.Count);
-            if (expected == 1)
+            using (fake.ObservePropertyChangedSlim(x => x.Next.Value, signalInitial)
+                       .Subscribe(changes.Add))
             {
-                Assert.AreEqual("Value", changes.Last().PropertyName);
-            }
+                Assert.AreEqual(expected, changes.Count);
+                if (expected == 1)
+                {
+                    Assert.AreEqual("Value", changes.Last().PropertyName);
+                }
 
-            fake.Next.Value++;
-            Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
+                fake.Next.Value++;
+                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing   
+            }
         }
 
         [TestCase(true, 1)]
@@ -189,17 +198,18 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake();
-            fake.ObservePropertyChangedSlim(x => x.Next.Value, signalInitial)
-                .Subscribe(changes.Add);
-
-            Assert.AreEqual(expected, changes.Count);
-            if (expected == 1)
+            using (fake.ObservePropertyChangedSlim(x => x.Next.Value, signalInitial)
+                       .Subscribe(changes.Add))
             {
-                Assert.AreEqual("Value", changes.Last().PropertyName);
-            }
+                Assert.AreEqual(expected, changes.Count);
+                if (expected == 1)
+                {
+                    Assert.AreEqual("Value", changes.Last().PropertyName);
+                }
 
-            fake.Next = new Level();
-            Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
+                fake.Next = new Level();
+                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing   
+            }
         }
 
         [TestCase(true, 1)]
@@ -208,17 +218,18 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake<int>();
-            fake.ObservePropertyChangedSlim(x => x.Next.Value, signalInitial)
-                .Subscribe(changes.Add);
-
-            Assert.AreEqual(expected, changes.Count);
-            if (expected == 1)
+            using (fake.ObservePropertyChangedSlim(x => x.Next.Value, signalInitial)
+                       .Subscribe(changes.Add))
             {
-                Assert.AreEqual("Value", changes.Last().PropertyName);
-            }
+                Assert.AreEqual(expected, changes.Count);
+                if (expected == 1)
+                {
+                    Assert.AreEqual("Value", changes.Last().PropertyName);
+                }
 
-            fake.Next = new Level<int>();
-            Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
+                fake.Next = new Level<int>();
+                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing   
+            }
         }
 
         [TestCase("")]
@@ -422,18 +433,20 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake<int>();
-            fake.ObservePropertyChangedSlim(x => x.Next.Value, true)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual("Value", changes.Last().PropertyName);
+            using (fake.ObservePropertyChangedSlim(x => x.Next.Value, true)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual("Value", changes.Last().PropertyName);
 
-            fake.Next = new Level<int>();
-            Assert.AreEqual(2, changes.Count);
-            Assert.AreEqual("Value", changes.Last().PropertyName);
+                fake.Next = new Level<int>();
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual("Value", changes.Last().PropertyName);
 
-            fake.Next.Value++;
-            Assert.AreEqual(3, changes.Count);
-            Assert.AreEqual("Value", changes.Last().PropertyName);
+                fake.Next.Value++;
+                Assert.AreEqual(3, changes.Count);
+                Assert.AreEqual("Value", changes.Last().PropertyName);
+            }
         }
 
         [Test]
@@ -481,14 +494,16 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake { Next = new Level() };
-            fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, true)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+            using (fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, true)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
 
-            fake.Next = null;
-            Assert.AreEqual(2, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                fake.Next = null;
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+            }
         }
 
         [Test]
@@ -496,14 +511,16 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake();
-            fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, true)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+            using (fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, true)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
 
-            fake.Next = new Level();
-            Assert.AreEqual(2, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                fake.Next = new Level();
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+            }
         }
 
         [Test]
@@ -511,14 +528,16 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake { Next = new Level() };
-            fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, true)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+            using (fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, true)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
 
-            fake.Next.IsTrue = !fake.Next.IsTrue;
-            Assert.AreEqual(2, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                fake.Next.IsTrue = !fake.Next.IsTrue;
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+            }
         }
 
         [Test]
@@ -526,18 +545,20 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake();
-            fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, true)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+            using (fake.ObservePropertyChangedSlim(x => x.Next.IsTrue, true)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
 
-            fake.Next = new Level();
-            Assert.AreEqual(2, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                fake.Next = new Level();
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
 
-            fake.Next.IsTrue = !fake.Next.IsTrue;
-            Assert.AreEqual(3, changes.Count);
-            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                fake.Next.IsTrue = !fake.Next.IsTrue;
+                Assert.AreEqual(3, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+            }
         }
 
         [TestCase(true, null)]
@@ -547,14 +568,16 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake { Next = new Level { IsTrueOrNull = first } };
-            fake.ObservePropertyChangedSlim(x => x.Next.IsTrueOrNull, true)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual("IsTrueOrNull", changes.Last().PropertyName);
+            using (fake.ObservePropertyChangedSlim(x => x.Next.IsTrueOrNull, true)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual("IsTrueOrNull", changes.Last().PropertyName);
 
-            fake.Next.IsTrueOrNull = other;
-            Assert.AreEqual(2, changes.Count);
-            Assert.AreEqual("IsTrueOrNull", changes.Last().PropertyName);
+                fake.Next.IsTrueOrNull = other;
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual("IsTrueOrNull", changes.Last().PropertyName);
+            }
         }
 
         [Test]
