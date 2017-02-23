@@ -16,13 +16,13 @@ namespace Gu.Reactive.Tests
         [Test]
         public void EqualityWhenSome()
         {
-            Assert.AreEqual(Maybe<int>.Some(1), Maybe<int>.Some(1));
-            Assert.AreNotEqual(Maybe<int>.Some(1), Maybe<int>.Some(2));
-            Assert.AreEqual(true, Maybe<int>.Some(1) == Maybe<int>.Some(1));
-            Assert.AreEqual(false, Maybe<int>.Some(1) == Maybe<int>.Some(2));
-            Assert.AreEqual(false, Maybe<int>.Some(1) != Maybe<int>.Some(1));
-            Assert.AreEqual(true, Maybe<int>.Some(1) != Maybe<int>.Some(2));
-            Assert.AreEqual(1, Maybe<int>.Some(1).GetHashCode());
+            Assert.AreEqual(Maybe.Some(1), Maybe.Some(1));
+            Assert.AreNotEqual(Maybe.Some(1), Maybe.Some(2));
+            Assert.AreEqual(true, Maybe.Some(1) == Maybe.Some(1));
+            Assert.AreEqual(false, Maybe.Some(1) == Maybe.Some(2));
+            Assert.AreEqual(false, Maybe.Some(1) != Maybe.Some(1));
+            Assert.AreEqual(true, Maybe.Some(1) != Maybe.Some(2));
+            Assert.AreEqual(1, Maybe.Some(1).GetHashCode());
         }
     }
 }

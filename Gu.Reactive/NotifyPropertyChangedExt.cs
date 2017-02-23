@@ -142,6 +142,36 @@
         }
 
         /// <summary>
+        /// Extension method for listening to property changes.
+        /// Handles nested x => x.Level1.Level2.Level3
+        /// Unsubscribes &amp; subscribes when each level changes.
+        /// Handles nulls.
+        /// </summary>
+        /// <param name="source">The source instance to track changes for. </param>
+        /// <param name="property">
+        /// An expression specifying the property path to track.
+        /// Example x => x.Foo.Bar.Meh
+        ///  </param>
+        /// <param name="signalInitial">
+        /// If true OnNext is called immediately on subscribe
+        /// </param>
+        public static IObservable<Maybe<TProperty>> ObserveValue<TNotifier, TProperty>(
+            this TNotifier source,
+            Expression<Func<TNotifier, TProperty>> property,
+            bool signalInitial = true)
+            where TNotifier : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            var verifiedPath = Cached.GetOrAdd(property, p => VerifiedPropertyPath.Create((Expression<Func<TNotifier, TProperty>>)p));
+            if (!string.IsNullOrEmpty(verifiedPath.ErrorMessage))
+            {
+                throw new ArgumentException($"Error found in {property}" + Environment.NewLine + verifiedPath.ErrorMessage, nameof(property));
+            }
+
+            return source.ObserveValue((PropertyPath<TNotifier, TProperty>)verifiedPath.Path, signalInitial);
+        }
+
+        /// <summary>
         /// Observe propertychanges with values.
         /// </summary>
         /// <param name="source">The source.</param>
@@ -263,6 +293,54 @@
                         path,
                         Disposable.Create(() => path.Last.TrackedPropertyChanged -= handler)
                     };
+                });
+        }
+
+        internal static IObservable<Maybe<TProperty>> ObserveValue<TNotifier, TProperty>(
+            this TNotifier source,
+            PropertyPath<TNotifier, TProperty> propertyPath,
+            bool signalInitial = true)
+            where TNotifier : class, INotifyPropertyChanged
+        {
+            if (signalInitial)
+            {
+                return Observable.Defer(() => Observable.Return(propertyPath.Last.GetValueFromRoot<TProperty>(source))
+                                                        .Concat(source.ObserveValue(propertyPath, false)));
+            }
+
+            if (propertyPath.Count > 1)
+            {
+                return Observable.Create<Maybe<TProperty>>(
+                    o =>
+                    {
+                        var path = new PropertyPathTracker(source, propertyPath);
+                        PropertyChangedEventHandler handler = (sender, _) =>
+                        {
+                            o.OnNext(propertyPath.Last.GetPropertyValue(sender)
+                                                 .Cast<TProperty>());
+                        };
+                        path.Last.TrackedPropertyChanged += handler;
+                        return new CompositeDisposable(2)
+                        {
+                            path,
+                            Disposable.Create(() => path.Last.TrackedPropertyChanged -= handler)
+                        };
+                    });
+            }
+
+            return Observable.Create<Maybe<TProperty>>(
+                o =>
+                {
+                    PropertyChangedEventHandler handler = (sender, _) =>
+                    {
+                        if (_.IsMatch(propertyPath.Last.PropertyInfo))
+                        {
+                            o.OnNext(propertyPath.Last.GetPropertyValue(sender)
+                                                 .Cast<TProperty>());
+                        }
+                    };
+                    source.PropertyChanged += handler;
+                    return Disposable.Create(() => source.PropertyChanged -= handler);
                 });
         }
 

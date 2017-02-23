@@ -63,6 +63,7 @@
     <Compile Include="Helpers\Level{T}.cs" />
     <Compile Include="MaybeTests.cs" />
     <Compile Include="NotifyPropertyChangedExt\ObservePropertyChangedSlim_NestedFilterTests.cs" />
+    <Compile Include="NotifyPropertyChangedExt\ObserveValueTests.cs" />
     <Compile Include="SerialDisposableTests.cs" />
     <Compile Include="Collections\ThrottledRefresherTests.cs" />
     <Compile Include="Collections\DiffTests.cs" />

@@ -45,7 +45,7 @@ namespace Gu.Reactive.Internals
 
         internal Maybe<object> GetPropertyValue(object source) => source == null
                                                                       ? Maybe<object>.None
-                                                                      : Maybe<object>.Some(this.getter.GetValue(source));
+                                                                      : Maybe.Some(this.getter.GetValue(source));
 
         /// <summary>
         /// Gets value all the way from the root recursively.
@@ -63,7 +63,7 @@ namespace Gu.Reactive.Internals
             if (this.Previous == null)
             {
                 var o = this.getter.GetValue(rootSource);
-                return Maybe<T>.Some((T)o);
+                return Maybe.Some((T)o);
             }
 
             var maybe = this.Previous.GetValueFromRoot<object>(rootSource);
@@ -73,7 +73,7 @@ namespace Gu.Reactive.Internals
             }
 
             var value = (T)this.getter.GetValue(maybe.Value);
-            return Maybe<T>.Some(value);
+            return Maybe.Some(value);
         }
     }
 }

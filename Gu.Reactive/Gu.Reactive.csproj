@@ -135,7 +135,7 @@
     <Compile Include="Reflection\Getter\IGetter.cs" />
     <Compile Include="Reflection\Getter\StructGetter{TSource,TValue}.cs" />
     <Compile Include="Internals\PropertyPathStuff\IPropertyPath.cs" />
-    <Compile Include="MaybeExt.cs" />
+    <Compile Include="Maybe.cs" />
     <Compile Include="Internals\RwLock.cs" />
     <Compile Include="Internals\PropertyTracker\PropertyPathTracker.cs" />
     <Compile Include="Internals\PropertyTracker\PathPropertyTracker.cs" />
