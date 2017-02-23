@@ -98,6 +98,15 @@ var subscription = this.ObservePropertyChangedSlim(nameof(this.Value"))
 ### SignalInitial
 Default true meaning that the observable will call OnNExt on Subscribe
 
+### ObserveValue
+Observe the value of a property.
+
+```c#
+var ints = new List<int>();
+fake.ObserveValue(x => x.Next.Value)
+	.Subscribe(ints.Add);
+```
+
 ### ObservePropertyChangedWithValue
 ```c#
 fake.ObservePropertyChangedWithValue(x => x.Collection)

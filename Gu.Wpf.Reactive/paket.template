@@ -4,7 +4,9 @@ projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  BUGFIX: Don't use PropertyInfoComparer.
+  FEATURE: ObserveValue.
+  FEATURE: ObservePropertyChangedSlim with lamda.
+  BUGFIX: PropertyTracker thread safe.
 
 excludeddependencies
   JetBrains.Annotations

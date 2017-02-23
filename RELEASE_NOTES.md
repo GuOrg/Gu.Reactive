@@ -1,3 +1,8 @@
+#### 2.1.0
+* FEATURE: ObserveValue.
+* FEATURE: ObservePropertyChangedSlim with lamda.
+* BUGFIX: PropertyTracker thread safe.
+
 #### 2.0.1
 * BUGFIX: Don't use PropertyInfoComparer.
 
