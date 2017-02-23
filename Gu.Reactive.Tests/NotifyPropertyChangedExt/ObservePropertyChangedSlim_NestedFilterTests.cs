@@ -748,8 +748,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var fake = new Fake { Next = new Level { Next = new Level() } };
-            var observable = fake.ObservePropertyChangedSlim(x => x.Next.Next.IsTrue);
-            using (observable.Subscribe(changes.Add))
+            using (fake.ObservePropertyChangedSlim(x => x.Next.Next.IsTrue).Subscribe(changes.Add))
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreEqual("IsTrue", changes.Last().PropertyName);

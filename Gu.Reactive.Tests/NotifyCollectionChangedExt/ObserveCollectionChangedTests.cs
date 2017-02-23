@@ -6,6 +6,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Linq;
+    using System.Reactive;
+
     using NUnit.Framework;
 
     // ReSharper disable once InconsistentNaming
@@ -38,10 +40,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var ints = new ObservableCollection<int>();
-            ints.ObserveCollectionChanged(false)
-                .Subscribe(x => changes.Add(x.EventArgs));
-            ints.Add(1);
-            Assert.AreEqual(1, changes.Count);
+            using (ints.ObserveCollectionChanged(false)
+                       .Subscribe(x => changes.Add(x.EventArgs)))
+            {
+                ints.Add(1);
+                Assert.AreEqual(1, changes.Count);
+            }
         }
 
         [Test]
@@ -69,14 +73,18 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public void ReactsOnView()
         {
-            var changes = new List<NotifyCollectionChangedEventArgs>();
+            var changes = new List<EventPattern<NotifyCollectionChangedEventArgs>>();
             var ints = new ObservableCollection<int>();
             using (var view = ints.AsReadOnlyFilteredView(x => true))
             {
-                view.ObserveCollectionChanged(false)
-                    .Subscribe(x => changes.Add(x.EventArgs));
-                ints.Add(1);
-                Assert.AreEqual(1, changes.Count);
+                using (view.ObserveCollectionChanged(false)
+                           .Subscribe(x => changes.Add(x)))
+                {
+                    ints.Add(1);
+                    Assert.AreEqual(1, changes.Count);
+                    Assert.AreEqual(ints, changes[0].Sender);
+                    Assert.AreEqual(NotifyCollectionChangedAction.Add, changes[0].EventArgs.Action);
+                }
             }
         }
 

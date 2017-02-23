@@ -202,17 +202,18 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake();
-            fake.ObservePropertyChanged(x => x.Next.Value, signalInitial)
-                .Subscribe(changes.Add);
-
-            Assert.AreEqual(expected, changes.Count);
-            if (expected == 1)
+            using (fake.ObservePropertyChanged(x => x.Next.Value, signalInitial)
+                       .Subscribe(changes.Add))
             {
-                AssertEventPattern(null, "Value", changes.Last());
-            }
+                Assert.AreEqual(expected, changes.Count);
+                if (expected == 1)
+                {
+                    AssertEventPattern(null, "Value", changes.Last());
+                }
 
-            fake.Next = new Level();
-            Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
+                fake.Next = new Level();
+                Assert.AreEqual(expected + 1, changes.Count); // Double check that we are subscribing
+            }
         }
 
         [TestCase(true, 1)]

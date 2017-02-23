@@ -1,3 +1,4 @@
+// ReSharper disable EqualExpressionComparison
 namespace Gu.Reactive.Tests
 {
     using NUnit.Framework;

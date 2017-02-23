@@ -82,14 +82,6 @@
             {
                 return ((IEnumerable)this.inner).GetEnumerator();
             }
-
-            private void ThrowIfDisposed()
-            {
-                if (this.disposed)
-                {
-                    throw new ObjectDisposedException(this.GetType().FullName);
-                }
-            }
         }
 
         private class Maybe<TNotifyCollectionChangedEventArgs> : IMaybe<TNotifyCollectionChangedEventArgs>

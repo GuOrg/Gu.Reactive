@@ -1,7 +1,5 @@
 namespace Gu.Reactive.Tests.Collections.Filter
 {
-    using Gu.Reactive.Tests.Helpers;
-
     using Microsoft.Reactive.Testing;
 
     using NUnit.Framework;

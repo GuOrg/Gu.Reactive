@@ -53,11 +53,13 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake();
-            fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(0, changes.Count);
-            fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
-            Assert.AreEqual(0, changes.Count);
+            using (fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
+                fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
+                Assert.AreEqual(0, changes.Count);
+            }
         }
 
         [TestCase("")]
@@ -66,15 +68,17 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake { Next = new Level { Next = new Level { Name = "Johan" } } };
-            fake.ObservePropertyChangedWithValue(x => x.Next.Next.Name, false)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(0, changes.Count);
-            fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
-            Assert.AreEqual(1, changes.Count);
-            Assert.IsTrue(changes.Single().EventArgs.HasValue);
-            Assert.AreEqual("Johan", changes.Single().EventArgs.Value);
-            Assert.AreSame(fake.Next.Next, changes.Single().Sender);
-            Assert.AreEqual(prop, changes.Last().EventArgs.PropertyName);
+            using (fake.ObservePropertyChangedWithValue(x => x.Next.Next.Name, false)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
+                fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
+                Assert.AreEqual(1, changes.Count);
+                Assert.IsTrue(changes.Single().EventArgs.HasValue);
+                Assert.AreEqual("Johan", changes.Single().EventArgs.Value);
+                Assert.AreSame(fake.Next.Next, changes.Single().Sender);
+                Assert.AreEqual(prop, changes.Last().EventArgs.PropertyName);
+            }
         }
 
         [TestCase("")]
@@ -132,13 +136,15 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake { Next = new Level { Name = value } };
-            fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreSame(fake.Next, changes.Single().Sender);
-            Assert.IsTrue(changes.Single().EventArgs.HasValue);
-            Assert.AreEqual(value, changes.Single().EventArgs.Value);
-            Assert.AreEqual("Name", changes.Last().EventArgs.PropertyName);
+            using (fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreSame(fake.Next, changes.Single().Sender);
+                Assert.IsTrue(changes.Single().EventArgs.HasValue);
+                Assert.AreEqual(value, changes.Single().EventArgs.Value);
+                Assert.AreEqual("Name", changes.Last().EventArgs.PropertyName);
+            }
         }
 
         [Test]
@@ -146,13 +152,15 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake();
-            fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreSame(null, changes.Single().Sender);
-            Assert.IsFalse(changes.Single().EventArgs.HasValue);
-            Assert.AreEqual(null, changes.Single().EventArgs.Value);
-            Assert.AreEqual("Name", changes.Last().EventArgs.PropertyName);
+            using (fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreSame(null, changes.Single().Sender);
+                Assert.IsFalse(changes.Single().EventArgs.HasValue);
+                Assert.AreEqual(null, changes.Single().EventArgs.Value);
+                Assert.AreEqual("Name", changes.Last().EventArgs.PropertyName);
+            }
         }
 
         [Test]
@@ -160,13 +168,15 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake { Next = new Level { Name = "Johan" } };
-            fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
-                .Subscribe(changes.Add);
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual("Johan", changes.Last().EventArgs.Value);
-            Assert.AreEqual("Name", changes.Last().EventArgs.PropertyName);
-            Assert.AreSame(fake.Next, changes.Last().Sender);
-            Assert.IsTrue(changes.Single().EventArgs.HasValue);
+            using (fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual("Johan", changes.Last().EventArgs.Value);
+                Assert.AreEqual("Name", changes.Last().EventArgs.PropertyName);
+                Assert.AreSame(fake.Next, changes.Last().Sender);
+                Assert.IsTrue(changes.Single().EventArgs.HasValue);
+            }
         }
 
         [Test]

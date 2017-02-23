@@ -17,89 +17,137 @@
         public void AsFilteredView()
         {
             var ints = new ObservableCollection<int>();
-            ints.AsFilteredView(x => true);
+            using (ints.AsFilteredView(x => true))
+            {
+            }
 
-            ints.AsThrottledView(TimeSpan.Zero)
-                .AsFilteredView(x => true);
+            using (ints.AsThrottledView(TimeSpan.Zero)
+                       .AsFilteredView(x => true))
+            {
+            }
         }
 
         [Test]
         public void AsReadOnlyFilteredView()
         {
             var ints = new ObservableCollection<int>();
-            ints.AsReadOnlyFilteredView(x => true);
+            using (ints.AsReadOnlyFilteredView(x => true))
+            {
+            }
 
-            ints.AsMappingView(x => x.ToString())
-                .AsReadOnlyFilteredView(x => true);
+            using (ints.AsMappingView(x => x.ToString())
+                       .AsReadOnlyFilteredView(x => true))
+            {
+            }
 
-            ints.AsThrottledView(TimeSpan.Zero)
-                .AsReadOnlyFilteredView(x => true);
+            using (ints.AsThrottledView(TimeSpan.Zero)
+                       .AsReadOnlyFilteredView(x => true))
+            {
+            }
 
             var readonlyInts = new ReadOnlyObservableCollection<int>(ints);
-            readonlyInts.AsReadOnlyFilteredView(x => true);
+            using (readonlyInts.AsReadOnlyFilteredView(x => true))
+            {
+            }
 
-            readonlyInts.AsMappingView(x => x.ToString())
-                        .AsReadOnlyFilteredView(x => true);
+            using (readonlyInts.AsMappingView(x => x.ToString())
+                               .AsReadOnlyFilteredView(x => true))
+            {
+            }
 
-            readonlyInts.AsReadOnlyThrottledView(TimeSpan.Zero)
-                        .AsReadOnlyFilteredView(x => true);
+            using (readonlyInts.AsReadOnlyThrottledView(TimeSpan.Zero)
+                               .AsReadOnlyFilteredView(x => true))
+            {
+            }
 
-            Enumerable.Range(0, 2)
-                      .AsReadOnlyFilteredView(x => true, Mock.Of<IObservable<object>>());
+            using (Enumerable.Range(0, 2)
+                             .AsReadOnlyFilteredView(x => true, Mock.Of<IObservable<object>>()))
+            {
+            }
         }
 
         [Test]
         public void AsThrottledView()
         {
             var ints = new ObservableCollection<int>();
-            ints.AsThrottledView(TimeSpan.Zero);
+            using (ints.AsThrottledView(TimeSpan.Zero))
+            {
+            }
 
-            ints.AsFilteredView(x => true)
-                .AsThrottledView(TimeSpan.Zero);
+            using (ints.AsFilteredView(x => true)
+                       .AsThrottledView(TimeSpan.Zero))
+            {
+            }
         }
 
         [Test]
         public void AsReadOnlyThrottledView()
         {
             var ints = new ObservableCollection<int>();
-            ints.AsReadOnlyThrottledView(TimeSpan.Zero);
+            using (ints.AsReadOnlyThrottledView(TimeSpan.Zero))
+            {
+            }
 
-            ints.AsFilteredView(x => true)
-                .AsReadOnlyThrottledView(TimeSpan.Zero);
+            using (ints.AsFilteredView(x => true)
+                       .AsReadOnlyThrottledView(TimeSpan.Zero))
+            {
+            }
 
-            ints.AsMappingView(x => x.ToString())
-                .AsReadOnlyThrottledView(TimeSpan.Zero);
+            using (ints.AsMappingView(x => x.ToString())
+                       .AsReadOnlyThrottledView(TimeSpan.Zero))
+            {
+            }
 
             var readonlyInts = new ReadOnlyObservableCollection<int>(ints);
-            readonlyInts.AsReadOnlyThrottledView(TimeSpan.Zero);
+            using (readonlyInts.AsReadOnlyThrottledView(TimeSpan.Zero))
+            {
+            }
 
-            readonlyInts.AsReadOnlyFilteredView(x => true)
-                        .AsReadOnlyThrottledView(TimeSpan.Zero);
+            using (readonlyInts.AsReadOnlyFilteredView(x => true)
+                               .AsReadOnlyThrottledView(TimeSpan.Zero))
+            {
+            }
 
-            readonlyInts.AsMappingView(x => x.ToString())
-                        .AsReadOnlyThrottledView(TimeSpan.Zero);
+            using (readonlyInts.AsMappingView(x => x.ToString())
+                               .AsReadOnlyThrottledView(TimeSpan.Zero))
+            {
+            }
         }
 
         [Test]
         public void AsMappingView()
         {
+            // just checking that the overloads are right.
+            // Will be compiler error if we dumb things.
             var ints = new ObservableCollection<int>();
-            ints.AsMappingView(x => x.ToString());
+            using (ints.AsMappingView(x => x.ToString()))
+            {
+            }
 
-            ints.AsFilteredView(x => true)
-                .AsMappingView(x => x.ToString());
+            using (ints.AsFilteredView(x => true)
+                       .AsMappingView(x => x.ToString()))
+            {
+            }
 
-            ints.AsThrottledView(TimeSpan.Zero)
-                .AsMappingView(x => x.ToString());
+            using (ints.AsThrottledView(TimeSpan.Zero)
+                       .AsMappingView(x => x.ToString()))
+            {
+            }
 
             var readonlyInts = new ReadOnlyObservableCollection<int>(ints);
-            readonlyInts.AsMappingView(x => x.ToString());
+            using (readonlyInts.AsMappingView(x => x.ToString()))
+            {
+            }
 
-            readonlyInts.AsReadOnlyFilteredView(x => true)
-                        .AsMappingView(x => x.ToString());
+            using (readonlyInts.AsReadOnlyFilteredView(x => true)
+                               .AsMappingView(x => x.ToString()))
+            {
+            }
 
-            readonlyInts.AsReadOnlyThrottledView(TimeSpan.Zero)
-                        .AsMappingView(x => x.ToString());
+            using (readonlyInts.AsReadOnlyThrottledView(TimeSpan.Zero)
+                               .AsMappingView(x => x.ToString()))
+            {
+            }
         }
     }
 }

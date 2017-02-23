@@ -14,7 +14,6 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             this.View?.Dispose();
 #pragma warning restore GU0036 // Don't dispose injected.
             this.View = this.Ints.AsFilteredView(x => true, TimeSpan.Zero);
-            this.ActualEventArgs = this.SubscribeAll(this.View);
         }
     }
 }
