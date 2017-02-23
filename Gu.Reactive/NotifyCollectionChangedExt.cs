@@ -20,23 +20,20 @@ namespace Gu.Reactive
         /// <summary>
         /// Observes collectionchanged events for <paramref name="source"/>.
         /// </summary>
-        public static IObservable<NotifyCollectionChangedEventArgs> ObserveCollectionChangedSlim(
-            this INotifyCollectionChanged source, bool signalInitial)
+        public static IObservable<NotifyCollectionChangedEventArgs> ObserveCollectionChangedSlim(this INotifyCollectionChanged source, bool signalInitial)
         {
-            var observable = Observable.Create<NotifyCollectionChangedEventArgs>(o =>
+            if (signalInitial)
             {
-                if (signalInitial)
-                {
-                    o.OnNext(CachedEventArgs.NotifyCollectionReset);
-                }
-                NotifyCollectionChangedEventHandler fsHandler = (_, e) =>
-                {
-                    o.OnNext(e);
-                };
-                source.CollectionChanged += fsHandler;
-                return Disposable.Create(() => source.CollectionChanged -= fsHandler);
+                return Observable.Return(CachedEventArgs.NotifyCollectionReset)
+                                 .Concat(source.ObserveCollectionChangedSlim(false));
+            }
+
+            return Observable.Create<NotifyCollectionChangedEventArgs>(o =>
+            {
+                NotifyCollectionChangedEventHandler handler = (_, e) => o.OnNext(e);
+                source.CollectionChanged += handler;
+                return Disposable.Create(() => source.CollectionChanged -= handler);
             });
-            return observable;
         }
 
         /// <summary>
@@ -47,25 +44,18 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TCollection : IEnumerable, INotifyCollectionChanged
         {
-            IObservable<EventPattern<NotifyCollectionChangedEventArgs>> observable =
-                Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
-                    x => source.CollectionChanged += x,
-                    x => source.CollectionChanged -= x);
             if (signalInitial)
             {
-                var wr = new WeakReference(source);
-                return Observable.Defer(
-                    () =>
-                    {
-                        var current = new EventPattern<NotifyCollectionChangedEventArgs>(
-                            wr.Target,
-                            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-                        return Observable.Return(current)
-                                         .Concat(observable);
-                    });
+                return Observable.Return(
+                                     new EventPattern<NotifyCollectionChangedEventArgs>(
+                                         source,
+                                         CachedEventArgs.NotifyCollectionReset))
+                                 .Concat(source.ObserveCollectionChanged(false));
             }
 
-            return observable;
+            return Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
+                x => source.CollectionChanged += x,
+                x => source.CollectionChanged -= x);
         }
 
         /// <summary>

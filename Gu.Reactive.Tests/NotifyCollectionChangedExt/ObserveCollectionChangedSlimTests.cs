@@ -14,9 +14,17 @@
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var source = new ObservableCollection<int>();
-            source.ObserveCollectionChangedSlim(true)
-                  .Subscribe(changes.Add);
+            var observable = source.ObserveCollectionChangedSlim(true);
+            using (observable.Subscribe(changes.Add))
+            {
+            }
+
             CollectionAssert.AreEqual(new[] { CachedEventArgs.NotifyCollectionReset }, changes);
+            using (observable.Subscribe(changes.Add))
+            {
+            }
+
+            CollectionAssert.AreEqual(new[] { CachedEventArgs.NotifyCollectionReset, CachedEventArgs.NotifyCollectionReset }, changes);
         }
 
         [Test]

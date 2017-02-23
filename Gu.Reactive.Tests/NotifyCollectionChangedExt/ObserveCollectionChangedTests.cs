@@ -5,7 +5,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
-
+    using System.Linq;
     using NUnit.Framework;
 
     // ReSharper disable once InconsistentNaming
@@ -16,17 +16,21 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var ints = new ObservableCollection<int> { 1, 2 };
-            ints.ObserveCollectionChanged()
-                .Subscribe(x => changes.Add(x.EventArgs));
+            var observable = ints.ObserveCollectionChanged();
+            using (observable.Subscribe(x => changes.Add(x.EventArgs)))
+            {
+            }
 
-            Assert.AreEqual(1, changes.Count);
-            Assert.AreEqual(NotifyCollectionChangedAction.Reset, changes[0].Action);
-            Assert.IsNull(changes[0].NewItems);
-            Assert.IsNull(changes[0].OldItems);
+            CollectionAssert.AreEqual(new[] { CachedEventArgs.NotifyCollectionReset }, changes);
 
-            ints.Add(1);
-            Assert.AreEqual(2, changes.Count);
-            Assert.AreEqual(NotifyCollectionChangedAction.Add, changes[1].Action);
+            using (observable.Subscribe(x => changes.Add(x.EventArgs)))
+            {
+                CollectionAssert.AreEqual(new[] { CachedEventArgs.NotifyCollectionReset, CachedEventArgs.NotifyCollectionReset }, changes);
+
+                ints.Add(1);
+                Assert.AreEqual(3, changes.Count);
+                Assert.AreEqual(NotifyCollectionChangedAction.Add, changes.Last().Action);
+            }
         }
 
         [Test]
