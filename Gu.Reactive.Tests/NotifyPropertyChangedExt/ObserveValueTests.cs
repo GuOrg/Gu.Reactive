@@ -47,6 +47,36 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         [TestCase(true, new[] { 1 })]
         [TestCase(false, new int[0])]
+        public void SimpleSignalInitialDifferent(bool signalInitial, int[] start)
+        {
+            var expected = start.Select(Maybe.Some).ToList();
+            var actuals1 = new List<Maybe<int>>();
+            var actuals2 = new List<Maybe<int>>();
+            var fake = new Fake { Value = 1 };
+            var observable = fake.ObserveValue(x => x.Value, signalInitial);
+            using (observable.Subscribe(actuals1.Add))
+            {
+                CollectionAssert.AreEqual(expected, actuals1);
+
+                fake.Value++;
+                expected.Add(Maybe.Some(fake.Value));
+                CollectionAssert.AreEqual(expected, actuals1);
+
+                using (observable.Subscribe(actuals2.Add))
+                {
+                    CollectionAssert.AreEqual(expected, actuals1);
+                    CollectionAssert.AreEqual(expected.Skip(1), actuals2);
+
+                    fake.Value++;
+                    expected.Add(Maybe.Some(fake.Value));
+                    CollectionAssert.AreEqual(expected, actuals1);
+                    CollectionAssert.AreEqual(expected.Skip(1), actuals2);
+                }
+            }
+        }
+
+        [TestCase(true, new[] { 1 })]
+        [TestCase(false, new int[0])]
         public void NestedSignalInitial(bool signalInitial, int[] start)
         {
             var expected = start.Select(Maybe.Some).ToList();
@@ -70,6 +100,43 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             fake.Next = null;
             expected.Add(Maybe<int>.None);
             CollectionAssert.AreEqual(expected, values);
+        }
+
+        [TestCase(true, new[] { 1 })]
+        [TestCase(false, new int[0])]
+        public void NestedSignalInitialDifferent(bool signalInitial, int[] start)
+        {
+            var expected = start.Select(Maybe.Some).ToList();
+            var actuals1 = new List<Maybe<int>>();
+            var actuals2 = new List<Maybe<int>>();
+            var fake = new Fake { Next = new Level { Value = 1 } };
+            var observable = fake.ObserveValue(x => x.Next.Value, signalInitial);
+            using (observable.Subscribe(actuals1.Add))
+            {
+                CollectionAssert.AreEqual(expected, actuals1);
+
+                fake.Next.Value++;
+                expected.Add(Maybe.Some(fake.Next.Value));
+                CollectionAssert.AreEqual(expected, actuals1);
+                using (observable.Subscribe(actuals2.Add))
+                {
+                    CollectionAssert.AreEqual(expected.Skip(1), actuals2);
+
+                    fake.Next.OnPropertyChanged("Value");
+                    expected.Add(Maybe.Some(fake.Next.Value));
+                    CollectionAssert.AreEqual(expected, actuals1);
+                    CollectionAssert.AreEqual(expected.Skip(1), actuals2);
+
+                    fake.Next.OnPropertyChanged("Next");
+                    CollectionAssert.AreEqual(expected, actuals1);
+                    CollectionAssert.AreEqual(expected.Skip(1), actuals2);
+
+                    fake.Next = null;
+                    expected.Add(Maybe<int>.None);
+                    CollectionAssert.AreEqual(expected, actuals1);
+                    CollectionAssert.AreEqual(expected.Skip(1), actuals2);
+                }
+            }
         }
 
         [Test]
