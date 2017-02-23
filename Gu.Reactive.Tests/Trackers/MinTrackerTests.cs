@@ -39,11 +39,13 @@ namespace Gu.Reactive.Tests.Trackers
             {
                 Assert.AreEqual(1, tracker.Value);
                 count = 0;
-                tracker.ObservePropertyChanged(x => x.Value, false)
-                       .Subscribe(_ => count++);
-                ints[index] = value;
-                Assert.AreEqual(expectedValue, tracker.Value);
-                Assert.AreEqual(expectedCount, count);
+                using (tracker.ObservePropertyChanged(x => x.Value, false)
+                              .Subscribe(_ => count++))
+                {
+                    ints[index] = value;
+                    Assert.AreEqual(expectedValue, tracker.Value);
+                    Assert.AreEqual(expectedCount, count);
+                }
             }
         }
 
@@ -55,23 +57,25 @@ namespace Gu.Reactive.Tests.Trackers
             {
                 Assert.AreEqual(1, tracker.Value);
                 int count = 0;
-                tracker.ObservePropertyChanged(x => x.Value, false)
-                       .Subscribe(_ => count++);
-                ints.Remove(2);
-                Assert.AreEqual(0, count);
-                Assert.AreEqual(1, tracker.Value);
+                using (tracker.ObservePropertyChanged(x => x.Value, false)
+                              .Subscribe(_ => count++))
+                {
+                    ints.Remove(2);
+                    Assert.AreEqual(0, count);
+                    Assert.AreEqual(1, tracker.Value);
 
-                ints.Remove(1);
-                Assert.AreEqual(1, count);
-                Assert.AreEqual(3, tracker.Value);
+                    ints.Remove(1);
+                    Assert.AreEqual(1, count);
+                    Assert.AreEqual(3, tracker.Value);
 
-                ints.Remove(3);
-                Assert.AreEqual(2, count);
-                Assert.AreEqual(-1, tracker.Value);
+                    ints.Remove(3);
+                    Assert.AreEqual(2, count);
+                    Assert.AreEqual(-1, tracker.Value);
 
-                ints.Add(2);
-                Assert.AreEqual(3, count);
-                Assert.AreEqual(2, tracker.Value);
+                    ints.Add(2);
+                    Assert.AreEqual(3, count);
+                    Assert.AreEqual(2, tracker.Value);
+                }
             }
         }
     }

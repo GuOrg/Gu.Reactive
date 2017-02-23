@@ -48,32 +48,34 @@ namespace Gu.Reactive.Tests.Conditions
             using (var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrue), () => fake3.IsTrue))
             using (var collection = new AndCondition(condition1, condition2, condition3))
             {
-                collection.ObserveIsSatisfiedChanged()
-                          .Subscribe(_ => count++);
-                Assert.AreEqual(false, collection.IsSatisfied);
-                fake1.IsTrue = !fake1.IsTrue;
-                Assert.AreEqual(false, collection.IsSatisfied);
-                Assert.AreEqual(0, count);
+                using (collection.ObserveIsSatisfiedChanged()
+                                 .Subscribe(_ => count++))
+                {
+                    Assert.AreEqual(false, collection.IsSatisfied);
+                    fake1.IsTrue = !fake1.IsTrue;
+                    Assert.AreEqual(false, collection.IsSatisfied);
+                    Assert.AreEqual(0, count);
 
-                fake2.IsTrue = !fake2.IsTrue;
-                Assert.AreEqual(false, collection.IsSatisfied);
-                Assert.AreEqual(0, count);
+                    fake2.IsTrue = !fake2.IsTrue;
+                    Assert.AreEqual(false, collection.IsSatisfied);
+                    Assert.AreEqual(0, count);
 
-                fake3.IsTrue = !fake3.IsTrue;
-                Assert.AreEqual(true, collection.IsSatisfied);
-                Assert.AreEqual(1, count);
+                    fake3.IsTrue = !fake3.IsTrue;
+                    Assert.AreEqual(true, collection.IsSatisfied);
+                    Assert.AreEqual(1, count);
 
-                fake1.IsTrue = !fake1.IsTrue;
-                Assert.AreEqual(false, collection.IsSatisfied);
-                Assert.AreEqual(2, count);
+                    fake1.IsTrue = !fake1.IsTrue;
+                    Assert.AreEqual(false, collection.IsSatisfied);
+                    Assert.AreEqual(2, count);
 
-                fake2.IsTrue = !fake2.IsTrue;
-                Assert.AreEqual(false, collection.IsSatisfied);
-                Assert.AreEqual(2, count);
+                    fake2.IsTrue = !fake2.IsTrue;
+                    Assert.AreEqual(false, collection.IsSatisfied);
+                    Assert.AreEqual(2, count);
 
-                fake3.IsTrue = !fake3.IsTrue;
-                Assert.AreEqual(false, collection.IsSatisfied);
-                Assert.AreEqual(2, count);
+                    fake3.IsTrue = !fake3.IsTrue;
+                    Assert.AreEqual(false, collection.IsSatisfied);
+                    Assert.AreEqual(2, count);
+                }
             }
         }
 

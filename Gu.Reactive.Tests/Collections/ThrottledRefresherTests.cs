@@ -27,26 +27,29 @@
             var scheduler = new TestScheduler();
             var observable = ThrottledRefresher.Create(Mock.Of<IUpdater>(x => x.CurrentlyUpdatingSourceItem == null), ints, TimeSpan.FromMilliseconds(10), scheduler, data.SignalInitial)
                                  .Timestamp(scheduler);
-            observable.Subscribe(results.Add);
-
-            foreach (var time in data.Times)
+            using (observable.Subscribe(results.Add))
             {
-                scheduler.Schedule(TimeSpan.FromMilliseconds(time), () => ints.Add(time));
+                foreach (var time in data.Times)
+                {
+                    scheduler.Schedule(TimeSpan.FromMilliseconds(time), () => ints.Add(time));
+                }
+
+                scheduler.Start();
+
+                Assert.AreEqual(data.Results.Count, results.Count);
+                for (int i = 0; i < data.Results.Count; i++)
+                {
+                    var expected = data.Results[i];
+                    var actual = results[i];
+                    Assert.AreEqual(expected.Count, actual.Value.Count);
+                }
+
+                var secondResults = new List<Timestamped<IReadOnlyList<NotifyCollectionChangedEventArgs>>>();
+                using (observable.Subscribe(secondResults.Add))
+                {
+                    CollectionAssert.IsEmpty(secondResults);
+                }
             }
-
-            scheduler.Start();
-
-            Assert.AreEqual(data.Results.Count, results.Count);
-            for (int i = 0; i < data.Results.Count; i++)
-            {
-                var expected = data.Results[i];
-                var actual = results[i];
-                Assert.AreEqual(expected.Count, actual.Value.Count);
-            }
-
-            var secondResults = new List<Timestamped<IReadOnlyList<NotifyCollectionChangedEventArgs>>>();
-            observable.Subscribe(secondResults.Add);
-            CollectionAssert.IsEmpty(secondResults);
         }
 
         [Test]
@@ -55,15 +58,12 @@
         {
             var ints = new ObservableCollection<int>();
             var results = new List<IReadOnlyList<NotifyCollectionChangedEventArgs>>();
-            var observable = ThrottledRefresher.Create(
-                Mock.Of<IUpdater>(x => x.CurrentlyUpdatingSourceItem == (object)1),
-                ints,
-                TimeSpan.Zero,
-                null,
-                false);
-            observable.Subscribe(results.Add);
-            ints.Add(1);
-            CollectionAssert.IsEmpty(results);
+            using (ThrottledRefresher.Create(Mock.Of<IUpdater>(x => x.CurrentlyUpdatingSourceItem == (object)1), ints, TimeSpan.Zero, null, false)
+                                     .Subscribe(results.Add))
+            {
+                ints.Add(1);
+                CollectionAssert.IsEmpty(results);
+            }
         }
 
         [Test]
@@ -75,13 +75,15 @@
             {
                 var results = new List<Timestamped<int>>();
                 var observable = subject.StartWithIf(true, scheduler, 0);
-                observable.Timestamp(scheduler)
-                          .Throttle(TimeSpan.FromSeconds(0.5), scheduler)
-                          .Subscribe(results.Add);
-                scheduler.Schedule(TimeSpan.FromSeconds(1), () => subject.OnNext(1));
-                scheduler.Schedule(TimeSpan.FromSeconds(2), () => subject.OnNext(1));
-                scheduler.Start();
-                Assert.AreEqual(3, results.Count);
+                using (observable.Timestamp(scheduler)
+                                 .Throttle(TimeSpan.FromSeconds(0.5), scheduler)
+                                 .Subscribe(results.Add))
+                {
+                    scheduler.Schedule(TimeSpan.FromSeconds(1), () => subject.OnNext(1));
+                    scheduler.Schedule(TimeSpan.FromSeconds(2), () => subject.OnNext(1));
+                    scheduler.Start();
+                    Assert.AreEqual(3, results.Count);
+                }
             }
         }
 

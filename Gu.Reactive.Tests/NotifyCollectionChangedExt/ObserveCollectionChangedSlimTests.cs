@@ -32,9 +32,11 @@
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var source = new ObservableCollection<int>();
-            source.ObserveCollectionChangedSlim(false)
-                  .Subscribe(changes.Add);
-            CollectionAssert.IsEmpty(changes);
+            using (source.ObserveCollectionChangedSlim(false)
+                         .Subscribe(changes.Add))
+            {
+                CollectionAssert.IsEmpty(changes);
+            }
         }
 
         [Test]
@@ -42,11 +44,12 @@
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var source = new ObservableCollection<int>();
-            source.ObserveCollectionChangedSlim(false)
-                  .Subscribe(changes.Add);
-
-            source.Add(1);
-            CollectionAssert.AreEqual(new[] { Diff.CreateAddEventArgs(1, 0) }, changes, EventArgsComparer.Default);
+            using (source.ObserveCollectionChangedSlim(false)
+                         .Subscribe(changes.Add))
+            {
+                source.Add(1);
+                CollectionAssert.AreEqual(new[] { Diff.CreateAddEventArgs(1, 0) }, changes, EventArgsComparer.Default);
+            }
         }
     }
 }

@@ -42,23 +42,25 @@
             {
                 Assert.AreEqual(1, tracker.Value);
                 int count = 0;
-                tracker.ObservePropertyChanged(x => x.Value, false)
-                       .Subscribe(_ => count++);
-                source.RemoveAt(1);
-                Assert.AreEqual(0, count);
-                Assert.AreEqual(1, tracker.Value);
+                using (tracker.ObservePropertyChanged(x => x.Value, false)
+                              .Subscribe(_ => count++))
+                {
+                    source.RemoveAt(1);
+                    Assert.AreEqual(0, count);
+                    Assert.AreEqual(1, tracker.Value);
 
-                source.RemoveAt(0);
-                Assert.AreEqual(1, count);
-                Assert.AreEqual(3, tracker.Value);
+                    source.RemoveAt(0);
+                    Assert.AreEqual(1, count);
+                    Assert.AreEqual(3, tracker.Value);
 
-                source.RemoveAt(0);
-                Assert.AreEqual(2, count);
-                Assert.AreEqual(-1, tracker.Value);
+                    source.RemoveAt(0);
+                    Assert.AreEqual(2, count);
+                    Assert.AreEqual(-1, tracker.Value);
 
-                source.Add(new Dummy(4));
-                Assert.AreEqual(3, count);
-                Assert.AreEqual(4, tracker.Value);
+                    source.Add(new Dummy(4));
+                    Assert.AreEqual(3, count);
+                    Assert.AreEqual(4, tracker.Value);
+                }
             }
         }
 
@@ -72,18 +74,20 @@
             {
                 Assert.AreEqual(1, tracker.Value);
                 int count = 0;
-                tracker.ObservePropertyChanged(x => x.Value, false)
-                       .Subscribe(_ => count++);
-                source[1].Value = -3;
-                if (trackItemChanges)
+                using (tracker.ObservePropertyChanged(x => x.Value, false)
+                              .Subscribe(_ => count++))
                 {
-                    Assert.AreEqual(1, count);
-                    Assert.AreEqual(-3, tracker.Value);
-                }
-                else
-                {
-                    Assert.AreEqual(0, count);
-                    Assert.AreEqual(1, tracker.Value);
+                    source[1].Value = -3;
+                    if (trackItemChanges)
+                    {
+                        Assert.AreEqual(1, count);
+                        Assert.AreEqual(-3, tracker.Value);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(0, count);
+                        Assert.AreEqual(1, tracker.Value);
+                    }
                 }
             }
         }

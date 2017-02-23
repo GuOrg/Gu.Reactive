@@ -25,14 +25,15 @@
             var source = scheduler.CreateColdObservable(pattern.Select(v => ReactiveTest.OnNext(v, v)).Concat(completeEvent).ToArray());
             var throttled = source.Throttle(TimeSpan.FromTicks(DueTime), TimeSpan.FromTicks(MaxTime), scheduler);
             var observer = scheduler.CreateObserver<int>();
-            throttled.Subscribe(observer);
+            using (throttled.Subscribe(observer))
+            {
+                // start the clock
+                scheduler.Start();
 
-            // start the clock
-            scheduler.Start();
-
-            // check the results
-            var expected = data.ExpectedMessages;
-            CollectionAssert.AreEqual(expected, observer.Messages);
+                // check the results
+                var expected = data.ExpectedMessages;
+                CollectionAssert.AreEqual(expected, observer.Messages);
+            }
         }
 
         public class ThrottleSource : List<ThrottleData>

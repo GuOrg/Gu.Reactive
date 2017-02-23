@@ -3,8 +3,6 @@ namespace Gu.Reactive.Tests.Collections
     using System;
     using System.Collections.ObjectModel;
 
-    using Gu.Reactive.Tests.Helpers;
-
     using NUnit.Framework;
 
     public class ReadOnlyFilteredViewNoScheduler : CrudSourceTests
@@ -14,8 +12,6 @@ namespace Gu.Reactive.Tests.Collections
             base.SetUp();
             (this.View as IDisposable)?.Dispose();
             this.View = new ReadOnlyFilteredView<int>(this.Ints, x => true, TimeSpan.Zero, null);
-            this.ActualEventArgs?.Dispose();
-            this.ActualEventArgs = this.View.SubscribeAll();
         }
 
         [Test]
