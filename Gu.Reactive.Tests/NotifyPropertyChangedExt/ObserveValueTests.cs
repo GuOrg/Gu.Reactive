@@ -2,6 +2,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
     using Gu.Reactive.Tests.Helpers;
@@ -145,6 +146,25 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     CollectionAssert.AreEqual(expected, actuals1);
                     CollectionAssert.AreEqual(expected.Skip(1), actuals2);
                 }
+            }
+        }
+
+        [Test]
+        public void ReadOnlyObservableCollectionCount()
+        {
+            var ints = new ObservableCollection<int>();
+            var source = new ReadOnlyObservableCollection<int>(ints);
+            var values = new List<Maybe<int>>();
+            using (source.ObserveValue(x => x.Count, false)
+                       .Subscribe(values.Add))
+            {
+                CollectionAssert.IsEmpty(values);
+
+                ints.Add(1);
+                CollectionAssert.AreEqual(new[] { Maybe.Some(1) }, values);
+
+                ints.Add(2);
+                CollectionAssert.AreEqual(new[] { Maybe.Some(1), Maybe.Some(2) }, values);
             }
         }
 

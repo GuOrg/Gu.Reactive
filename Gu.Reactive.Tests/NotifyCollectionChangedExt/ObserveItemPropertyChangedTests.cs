@@ -35,6 +35,24 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         }
 
         [Test]
+        public void ReadOnlyObservableCollectionCount()
+        {
+            var ints = new ObservableCollection<int>();
+            var item1 = new ReadOnlyObservableCollection<int>(ints);
+
+            var source = new ObservableCollection<ReadOnlyObservableCollection<int>>();
+            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<ReadOnlyObservableCollection<int>, int>>>();
+            using (source.ObserveItemPropertyChanged(x => x.Count, false)
+                         .Subscribe(x => changes.Add(x)))
+            {
+                CollectionAssert.IsEmpty(changes);
+
+                source.Add(item1);
+                AssertRx.AreEqual(item1, "Count", item1, 1, changes[0]);
+            }
+        }
+
+        [Test]
         public void DoesNotSignalInitial()
         {
             var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();

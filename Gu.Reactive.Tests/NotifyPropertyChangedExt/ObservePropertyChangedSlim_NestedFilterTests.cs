@@ -3,6 +3,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
@@ -150,6 +151,25 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Assert.AreEqual(2, changes.Count);
                 old.IsTrue = !old.IsTrue;
                 Assert.AreEqual(2, changes.Count);
+            }
+        }
+
+        [Test]
+        public void ReadOnlyObservableCollectionCount()
+        {
+            var ints = new ObservableCollection<int>();
+            var source = new ReadOnlyObservableCollection<int>(ints);
+            var values = new List<string>();
+            using (source.ObservePropertyChangedSlim(x => x.Count, false)
+                       .Subscribe(x => values.Add(x.PropertyName)))
+            {
+                CollectionAssert.IsEmpty(values);
+
+                ints.Add(1);
+                CollectionAssert.AreEqual(new[] { "Count" }, values);
+
+                ints.Add(2);
+                CollectionAssert.AreEqual(new[] { "Count", "Count" }, values);
             }
         }
 

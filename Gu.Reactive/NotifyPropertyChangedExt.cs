@@ -371,15 +371,28 @@
 
         private class VerifiedPropertyPath
         {
+            private readonly IPropertyPath path;
+
             private VerifiedPropertyPath(IPropertyPath path, string errorMessage)
             {
-                this.Path = path;
+                this.path = path;
                 this.ErrorMessage = errorMessage;
             }
 
-            internal IPropertyPath Path { get; }
-
             internal string ErrorMessage { get; }
+
+            internal IPropertyPath Path
+            {
+                get
+                {
+                    if (!string.IsNullOrEmpty(this.ErrorMessage))
+                    {
+                        throw new InvalidOperationException($"Error found in {this.path}" + Environment.NewLine + this.ErrorMessage);
+                    }
+
+                    return this.path;
+                }
+            }
 
             internal static VerifiedPropertyPath Create<TNotifier, TProperty>(Expression<Func<TNotifier, TProperty>> property)
             {
