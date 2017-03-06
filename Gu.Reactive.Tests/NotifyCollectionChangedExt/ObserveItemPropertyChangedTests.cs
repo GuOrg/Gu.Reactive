@@ -25,13 +25,13 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                              .Subscribe(changes.Add))
             {
                 Assert.AreEqual(2, changes.Count);
-                AssertRx.AreEqual(item1, "Name", item1, "1", changes[0]);
-                AssertRx.AreEqual(item2, "Name", item2, "2", changes[1]);
+                AssertRx.AreEqual(item1, string.Empty, item1, "1", changes[0]);
+                AssertRx.AreEqual(item2, string.Empty, item2, "2", changes[1]);
             }
 
             Assert.AreEqual(2, changes.Count);
-            AssertRx.AreEqual(item1, "Name", item1, "1", changes[0]);
-            AssertRx.AreEqual(item2, "Name", item2, "2", changes[1]);
+            AssertRx.AreEqual(item1, string.Empty, item1, "1", changes[0]);
+            AssertRx.AreEqual(item2, string.Empty, item2, "2", changes[1]);
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 CollectionAssert.IsEmpty(changes);
 
                 source.Add(item1);
-                AssertRx.AreEqual(item1, "Count", item1, 1, changes[0]);
+                AssertRx.AreEqual(item1, string.Empty, item1, 1, changes[0]);
             }
         }
 
@@ -274,7 +274,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item2 = new Fake { Name = "2" };
                 collection[1] = item2;
                 Assert.AreEqual(2, changes.Count);
-                AssertRx.AreEqual(item2, "Name", item2, "2", changes.Last());
+                AssertRx.AreEqual(item2,string.Empty, item2, "2", changes.Last());
             }
 
             Assert.AreEqual(2, changes.Count);
@@ -294,7 +294,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item3 = new Fake { Name = "3" };
                 collection.Add(item3);
                 Assert.AreEqual(1, changes.Count);
-                AssertRx.AreEqual(item3, "Name", item3, "3", changes.Last());
+                AssertRx.AreEqual(item3, string.Empty, item3, "3", changes.Last());
 
                 item3.Name = "new";
                 AssertRx.AreEqual(item3, "Name", item3, "new", changes.Last());
@@ -315,7 +315,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item3 = new Fake { Name = "3" };
                 collection[0] = item3;
                 Assert.AreEqual(1, changes.Count);
-                AssertRx.AreEqual(item3, "Name", item3, "3", changes.Last());
+                AssertRx.AreEqual(item3, string.Empty, item3, "3", changes.Last());
 
                 item1.Name = "new1";
                 Assert.AreEqual(1, changes.Count); // Stopped subscribing

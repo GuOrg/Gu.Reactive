@@ -11,6 +11,8 @@
     using System.Reactive.Linq;
     using System.Reactive.Subjects;
 
+    using Gu.Reactive.Internals;
+
     using Microsoft.Reactive.Testing;
 
     using Moq;
@@ -31,7 +33,7 @@
             {
                 foreach (var time in data.Times)
                 {
-                    scheduler.Schedule(TimeSpan.FromMilliseconds(time), () => ints.Add(time));
+                    scheduler.Schedule(TimeSpan.FromMilliseconds(time), () => ints.Add(time)).IgnoreReturnValue();
                 }
 
                 scheduler.Start();
@@ -79,8 +81,8 @@
                                  .Throttle(TimeSpan.FromSeconds(0.5), scheduler)
                                  .Subscribe(results.Add))
                 {
-                    scheduler.Schedule(TimeSpan.FromSeconds(1), () => subject.OnNext(1));
-                    scheduler.Schedule(TimeSpan.FromSeconds(2), () => subject.OnNext(1));
+                    scheduler.Schedule(TimeSpan.FromSeconds(1), () => subject.OnNext(1)).IgnoreReturnValue();
+                    scheduler.Schedule(TimeSpan.FromSeconds(2), () => subject.OnNext(1)).IgnoreReturnValue();
                     scheduler.Start();
                     Assert.AreEqual(3, results.Count);
                 }

@@ -143,7 +143,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Assert.AreSame(fake.Next, changes.Single().Sender);
                 Assert.IsTrue(changes.Single().EventArgs.HasValue);
                 Assert.AreEqual(value, changes.Single().EventArgs.Value);
-                Assert.AreEqual("Name", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
             }
         }
 
@@ -159,7 +159,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Assert.AreSame(null, changes.Single().Sender);
                 Assert.IsFalse(changes.Single().EventArgs.HasValue);
                 Assert.AreEqual(null, changes.Single().EventArgs.Value);
-                Assert.AreEqual("Name", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
             }
         }
 
@@ -173,7 +173,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreEqual("Johan", changes.Last().EventArgs.Value);
-                Assert.AreEqual("Name", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
                 Assert.AreSame(fake.Next, changes.Last().Sender);
                 Assert.IsTrue(changes.Single().EventArgs.HasValue);
             }

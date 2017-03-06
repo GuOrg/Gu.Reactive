@@ -247,12 +247,10 @@
         {
             if (signalInitial)
             {
-                return Observable.Defer(
-                    () => Observable.Return(
-                                        new EventPattern<PropertyChangedEventArgs>(
-                                            propertyPath.GetSender(source),
-                                            new PropertyChangedEventArgs(propertyPath.Last.PropertyInfo.Name)))
-                                    .Concat(source.ObservePropertyChanged(propertyPath, false)));
+                return Observable.Return(new EventPattern<PropertyChangedEventArgs>(
+                                         propertyPath.GetSender(source),
+                                         CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty)))
+                                 .Concat(source.ObservePropertyChanged(propertyPath, false));
             }
 
             return Observable.Create<EventPattern<PropertyChangedEventArgs>>(
@@ -277,9 +275,8 @@
         {
             if (signalInitial)
             {
-                return Observable.Defer(
-                    () => Observable.Return(CachedEventArgs.GetOrCreatePropertyChangedEventArgs(propertyPath.Last.PropertyInfo.Name))
-                                    .Concat(source.ObservePropertyChangedSlim(propertyPath, false)));
+                return Observable.Return(CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty))
+                                    .Concat(source.ObservePropertyChangedSlim(propertyPath, false));
             }
 
             return Observable.Create<PropertyChangedEventArgs>(

@@ -113,6 +113,7 @@
     <Compile Include="Internals\Ensure\Ensure.cs" />
     <Compile Include="Contracts\IWpfSchedulers.cs" />
     <Compile Include="Internals\Ensure\Ensure.String.cs" />
+    <Compile Include="Internals\Ignore.cs" />
     <Compile Include="Internals\ItemsPropertyObservable{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\LazyExt.cs" />
     <Compile Include="Maybe{T}.cs" />

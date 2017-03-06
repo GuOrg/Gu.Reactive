@@ -166,9 +166,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                        .Subscribe(changes.Add))
             {
                 Assert.AreEqual(expected, changes.Count);
-                if (expected == 1)
+                if (signalInitial)
                 {
-                    AssertEventPattern(fake.Next, "Value", changes.Last());
+                    AssertEventPattern(fake.Next, string.Empty, changes.Last());
                 }
 
                 fake.Next.Value++;
@@ -186,9 +186,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                        .Subscribe(changes.Add))
             {
                 Assert.AreEqual(expected, changes.Count);
-                if (expected == 1)
+                if (signalInitial)
                 {
-                    AssertEventPattern(fake.Next, "Value", changes.Last());
+                    AssertEventPattern(fake.Next, string.Empty, changes.Last());
                 }
 
                 fake.Next.Value++;
@@ -206,9 +206,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                        .Subscribe(changes.Add))
             {
                 Assert.AreEqual(expected, changes.Count);
-                if (expected == 1)
+                if (signalInitial)
                 {
-                    AssertEventPattern(null, "Value", changes.Last());
+                    AssertEventPattern(null, string.Empty, changes.Last());
                 }
 
                 fake.Next = new Level();
@@ -226,9 +226,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                        .Subscribe(changes.Add))
             {
                 Assert.AreEqual(expected, changes.Count);
-                if (expected == 1)
+                if (signalInitial)
                 {
-                    AssertEventPattern(null, "Value", changes.Last());
+                    AssertEventPattern(null, string.Empty, changes.Last());
                 }
 
                 fake.Next = new Level<int>();
@@ -294,7 +294,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreSame(null, changes.Single().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
 
                 fake.Next = new Level();
                 Assert.AreEqual(2, changes.Count);
@@ -325,8 +325,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     Assert.AreEqual(1, intChanges.Count);
                     Assert.AreSame(null, changes.Single().Sender);
                     Assert.AreSame(null, intChanges.Single().Sender);
-                    Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
-                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+                    Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
+                    Assert.AreEqual(string.Empty, intChanges.Last().EventArgs.PropertyName);
 
                     fake.Next = new Level();
                     Assert.AreEqual(2, changes.Count);
@@ -334,7 +334,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     Assert.AreSame(fake.Next, changes.Last().Sender);
                     Assert.AreSame(null, intChanges.Single().Sender);
                     Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
-                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+                    Assert.AreEqual(string.Empty, intChanges.Last().EventArgs.PropertyName);
 
                     fake.Next.Value++;
                     Assert.AreEqual(3, changes.Count);
@@ -342,7 +342,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     Assert.AreSame(fake.Next, changes.Last().Sender);
                     Assert.AreSame(null, intChanges.Single().Sender);
                     Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
-                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+                    Assert.AreEqual(string.Empty, intChanges.Last().EventArgs.PropertyName);
 
                     intfake.Next = new Level<int>();
                     Assert.AreEqual(3, changes.Count);
@@ -453,7 +453,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreSame(null, changes.Single().Sender);
-                Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
 
                 fake.Next = new Level<int>();
                 Assert.AreEqual(2, changes.Count);
@@ -483,7 +483,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     Assert.AreEqual(1, intChanges.Count);
                     Assert.AreEqual(1, doubleChanges.Count);
                     Assert.AreSame(null, intChanges.Single().Sender);
-                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+                    Assert.AreEqual(string.Empty, intChanges.Last().EventArgs.PropertyName);
 
                     intFake.Next = new Level<int>();
                     Assert.AreEqual(2, intChanges.Count);
@@ -497,7 +497,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                     Assert.AreEqual(1, doubleChanges.Count);
                     Assert.AreSame(null, doubleChanges.Single().Sender);
-                    Assert.AreEqual("Value", doubleChanges.Last().EventArgs.PropertyName);
+                    Assert.AreEqual(string.Empty, doubleChanges.Last().EventArgs.PropertyName);
 
                     doubleFake.Next = new Level<double>();
                     Assert.AreEqual(2, doubleChanges.Count);
@@ -523,7 +523,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreSame(fake.Next, changes.Single().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
 
                 fake.Next = null;
                 Assert.AreEqual(2, changes.Count);
@@ -542,7 +542,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreSame(null, changes.Single().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
 
                 fake.Next = new Level();
                 Assert.AreEqual(2, changes.Count);
@@ -561,7 +561,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreSame(fake.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
 
                 fake.Next.IsTrue = !fake.Next.IsTrue;
                 Assert.AreEqual(2, changes.Count);
@@ -580,7 +580,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreSame(fake.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
 
                 fake.Next = new Level();
                 Assert.AreEqual(2, changes.Count);
@@ -606,7 +606,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreSame(fake.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrueOrNull", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
 
                 fake.Next.IsTrueOrNull = other;
 
@@ -784,7 +784,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreSame(fake.Next.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
 
                 fake.Next.Next.IsTrue = !fake.Next.Next.IsTrue;
                 Assert.AreEqual(2, changes.Count);
@@ -802,7 +802,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreSame(fake.Next.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
 
                 fake.Next = null;
                 Assert.AreEqual(2, changes.Count);
@@ -820,7 +820,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreSame(fake.Next.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
 
                 fake.Next = new Level() { Next = new Level() };
                 Assert.AreEqual(2, changes.Count);
@@ -838,7 +838,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreSame(fake.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(string.Empty, changes.Last().EventArgs.PropertyName);
 
                 fake.Next = new Level { IsTrue = false };
                 Assert.AreEqual(2, changes.Count);
