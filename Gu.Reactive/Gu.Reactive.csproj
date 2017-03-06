@@ -130,6 +130,7 @@
     <Compile Include="ObservableExt.cs" />
     <Compile Include="EventArgs\PropertyChangedAndValueEventArgs{TProperty}.cs" />
     <Compile Include="Internals\ExpressionExt.cs" />
+    <Compile Include="Reflection\Comparers\MemberExpressionComparer.cs" />
     <Compile Include="Reflection\Getter\ClassGetter{TSource,TValue}.cs" />
     <Compile Include="Reflection\Getter\Getter.cs" />
     <Compile Include="Reflection\Getter\Getter{TSource,TValue}.cs" />

@@ -1,3 +1,4 @@
+// ReSharper disable RedundantArgumentDefaultValue
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
@@ -14,20 +15,272 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         public void Simple()
         {
             var fake = new Fake();
-            var values = new List<Maybe<int>>();
+            var actuals = new List<Maybe<int>>();
             using (fake.ObserveValue(x => x.Value, false)
-                       .Subscribe(values.Add))
+                       .Subscribe(actuals.Add))
             {
-                CollectionAssert.IsEmpty(values);
+                var expecteds = new List<Maybe<int>>();
+                CollectionAssert.AreEqual(expecteds, actuals);
 
                 fake.Value++;
-                CollectionAssert.AreEqual(new[] { Maybe.Some(1) }, values);
+                expecteds.Add(Maybe<int>.Some(1));
+                CollectionAssert.AreEqual(expecteds, actuals);
 
                 fake.Value++;
-                CollectionAssert.AreEqual(new[] { Maybe.Some(1), Maybe.Some(2) }, values);
+                expecteds.Add(Maybe<int>.Some(2));
+                CollectionAssert.AreEqual(expecteds, actuals);
 
                 fake.OnPropertyChanged("Value");
-                CollectionAssert.AreEqual(new[] { Maybe.Some(1), Maybe.Some(2), Maybe.Some(2) }, values);
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.OnPropertyChanged(string.Empty);
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.OnPropertyChanged(null);
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.OnPropertyChanged("Next");
+                CollectionAssert.AreEqual(expecteds, actuals);
+            }
+        }
+
+        [Test]
+        public void FakeOfIntValueDefault()
+        {
+            var fake = new Fake<int>();
+            var actuals = new List<Maybe<int>>();
+            using (fake.ObserveValue(x => x.Value)
+                       .Subscribe(actuals.Add))
+            {
+                var expecteds = new List<Maybe<int>> { Maybe.Some(0) };
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Value++;
+                expecteds.Add(Maybe.Some(1));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Value++;
+                expecteds.Add(Maybe.Some(2));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.OnPropertyChanged("Value");
+                CollectionAssert.AreEqual(expecteds, actuals);
+            }
+        }
+
+        [Test]
+        public void FakeOfIntValueSignalInitial()
+        {
+            var fake = new Fake<int>();
+            var actuals = new List<Maybe<int>>();
+            using (fake.ObserveValue(x => x.Value, true)
+                       .Subscribe(actuals.Add))
+            {
+                var expecteds = new List<Maybe<int>> { Maybe.Some(0) };
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Value++;
+                expecteds.Add(Maybe.Some(1));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Value++;
+                expecteds.Add(Maybe.Some(2));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.OnPropertyChanged("Value");
+                CollectionAssert.AreEqual(expecteds, actuals);
+            }
+        }
+
+        [Test]
+        public void FakeOfIntValueNoInitial()
+        {
+            var fake = new Fake<int>();
+            var actuals = new List<Maybe<int>>();
+            using (fake.ObserveValue(x => x.Value, false)
+                       .Subscribe(actuals.Add))
+            {
+                var expecteds = new List<Maybe<int>>();
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Value++;
+                expecteds.Add(Maybe.Some(1));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Value++;
+                expecteds.Add(Maybe.Some(2));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.OnPropertyChanged("Value");
+                CollectionAssert.AreEqual(expecteds, actuals);
+            }
+        }
+
+        [Test]
+        public void FakeNextValueDefault()
+        {
+            var fake = new Fake();
+            var actuals = new List<Maybe<string>>();
+            using (fake.ObserveValue(x => x.Next.Name)
+                       .Subscribe(actuals.Add))
+            {
+                var expecteds = new List<Maybe<string>> { Maybe<string>.None };
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = new Level();
+                expecteds.Add(Maybe<string>.Some(null));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.Name = "Johan";
+                expecteds.Add(Maybe<string>.Some("Johan"));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.OnPropertyChanged("Name");
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = null;
+                expecteds.Add(Maybe<string>.None);
+                CollectionAssert.AreEqual(expecteds, actuals);
+            }
+        }
+
+        [Test]
+        public void FakeNextValueSignalInitial()
+        {
+            var fake = new Fake();
+            var actuals = new List<Maybe<string>>();
+            using (fake.ObserveValue(x => x.Next.Name, true)
+                       .Subscribe(actuals.Add))
+            {
+                var expecteds = new List<Maybe<string>> { Maybe<string>.None };
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = new Level();
+                expecteds.Add(Maybe<string>.Some(null));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.Name = "Johan";
+                expecteds.Add(Maybe<string>.Some("Johan"));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.OnPropertyChanged("Name");
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = null;
+                expecteds.Add(Maybe<string>.None);
+                CollectionAssert.AreEqual(expecteds, actuals);
+            }
+        }
+
+        [Test]
+        public void FakenextValueValueNoInitial()
+        {
+            var fake = new Fake();
+            var actuals = new List<Maybe<string>>();
+            using (fake.ObserveValue(x => x.Next.Name, false)
+                       .Subscribe(actuals.Add))
+            {
+                var expecteds = new List<Maybe<string>>();
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = new Level();
+                expecteds.Add(Maybe<string>.Some(null));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.Name = "Johan";
+                expecteds.Add(Maybe<string>.Some("Johan"));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.OnPropertyChanged("Name");
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = null;
+                expecteds.Add(Maybe<string>.None);
+                CollectionAssert.AreEqual(expecteds, actuals);
+            }
+        }
+
+        [Test]
+        public void FakeOfIFakeValueDefault()
+        {
+            var fake = new Fake<IFake>();
+            var actuals = new List<Maybe<string>>();
+            using (fake.ObserveValue(x => x.Next.Name)
+                       .Subscribe(actuals.Add))
+            {
+                var expecteds = new List<Maybe<string>> { Maybe<string>.None };
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = new Level<IFake>();
+                expecteds.Add(Maybe<string>.Some(null));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.Name = "Johan";
+                expecteds.Add(Maybe<string>.Some("Johan"));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.OnPropertyChanged("Name");
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = null;
+                expecteds.Add(Maybe<string>.None);
+                CollectionAssert.AreEqual(expecteds, actuals);
+            }
+        }
+
+        [Test]
+        public void FakeOfIFakeValueSignalInitial()
+        {
+            var fake = new Fake<IFake>();
+            var actuals = new List<Maybe<string>>();
+            using (fake.ObserveValue(x => x.Next.Name, true)
+                       .Subscribe(actuals.Add))
+            {
+                var expecteds = new List<Maybe<string>> { Maybe<string>.None };
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = new Level<IFake>();
+                expecteds.Add(Maybe<string>.Some(null));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.Name = "Johan";
+                expecteds.Add(Maybe<string>.Some("Johan"));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.OnPropertyChanged("Name");
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = null;
+                expecteds.Add(Maybe<string>.None);
+                CollectionAssert.AreEqual(expecteds, actuals);
+            }
+        }
+
+        [Test]
+        public void FakeOfIFakeValueNoInitial()
+        {
+            var fake = new Fake<IFake>();
+            var actuals = new List<Maybe<string>>();
+            using (fake.ObserveValue(x => x.Next.Name, false)
+                       .Subscribe(actuals.Add))
+            {
+                var expecteds = new List<Maybe<string>>();
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = new Level<IFake>();
+                expecteds.Add(Maybe<string>.Some(null));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.Name = "Johan";
+                expecteds.Add(Maybe<string>.Some("Johan"));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next.OnPropertyChanged("Name");
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Next = null;
+                expecteds.Add(Maybe<string>.None);
+                CollectionAssert.AreEqual(expecteds, actuals);
             }
         }
 
@@ -87,12 +340,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(false, new int[0])]
         public void NestedSignalInitial(bool signalInitial, int[] start)
         {
-            var expected = start.Select(Maybe.Some).ToList();
             var values = new List<Maybe<int>>();
             var fake = new Fake { Next = new Level { Value = 1 } };
             using (fake.ObserveValue(x => x.Next.Value, signalInitial)
                        .Subscribe(values.Add))
             {
+                var expected = start.Select(Maybe.Some).ToList();
                 CollectionAssert.AreEqual(expected, values);
 
                 fake.Next.Value++;
@@ -100,7 +353,6 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 CollectionAssert.AreEqual(expected, values);
 
                 fake.Next.OnPropertyChanged("Value");
-                expected.Add(Maybe.Some(fake.Next.Value));
                 CollectionAssert.AreEqual(expected, values);
 
                 fake.Next.OnPropertyChanged("Next");
@@ -112,17 +364,16 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
         }
 
-        [TestCase(true, new[] { 1 })]
-        [TestCase(false, new int[0])]
-        public void NestedSignalInitialDifferent(bool signalInitial, int[] start)
+        [Test]
+        public void NestedSignalInitialDifferentWhenSubscribingSignalInitial()
         {
-            var expected = start.Select(Maybe.Some).ToList();
             var actuals1 = new List<Maybe<int>>();
             var actuals2 = new List<Maybe<int>>();
             var fake = new Fake { Next = new Level { Value = 1 } };
-            var observable = fake.ObserveValue(x => x.Next.Value, signalInitial);
+            var observable = fake.ObserveValue(x => x.Next.Value, true);
             using (observable.Subscribe(actuals1.Add))
             {
+                var expected = new List<Maybe<int>> { Maybe<int>.Some(1) };
                 CollectionAssert.AreEqual(expected, actuals1);
 
                 fake.Next.Value++;
@@ -130,10 +381,10 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 CollectionAssert.AreEqual(expected, actuals1);
                 using (observable.Subscribe(actuals2.Add))
                 {
+                    CollectionAssert.AreEqual(expected, actuals1);
                     CollectionAssert.AreEqual(expected.Skip(1), actuals2);
 
                     fake.Next.OnPropertyChanged("Value");
-                    expected.Add(Maybe.Some(fake.Next.Value));
                     CollectionAssert.AreEqual(expected, actuals1);
                     CollectionAssert.AreEqual(expected.Skip(1), actuals2);
 
@@ -145,6 +396,42 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     expected.Add(Maybe<int>.None);
                     CollectionAssert.AreEqual(expected, actuals1);
                     CollectionAssert.AreEqual(expected.Skip(1), actuals2);
+                }
+            }
+        }
+
+        [Test]
+        public void NestedSignalInitialDifferentWhenSubscribingNoInitial()
+        {
+            var actuals1 = new List<Maybe<int>>();
+            var actuals2 = new List<Maybe<int>>();
+            var fake = new Fake { Next = new Level { Value = 1 } };
+            var observable = fake.ObserveValue(x => x.Next.Value, false);
+            using (observable.Subscribe(actuals1.Add))
+            {
+                var expected = new List<Maybe<int>>();
+                CollectionAssert.AreEqual(expected, actuals1);
+
+                fake.Next.Value++;
+                expected.Add(Maybe.Some(fake.Next.Value));
+                CollectionAssert.AreEqual(expected, actuals1);
+                using (observable.Subscribe(actuals2.Add))
+                {
+                    CollectionAssert.AreEqual(expected, actuals1);
+                    CollectionAssert.AreEqual(expected.Skip(1), actuals2);
+
+                    fake.Next.OnPropertyChanged("Value");
+                    CollectionAssert.AreEqual(expected, actuals1);
+                    CollectionAssert.AreEqual(expected, actuals2);
+
+                    fake.Next.OnPropertyChanged("Next");
+                    CollectionAssert.AreEqual(expected, actuals1);
+                    CollectionAssert.AreEqual(expected, actuals2);
+
+                    fake.Next = null;
+                    expected.Add(Maybe<int>.None);
+                    CollectionAssert.AreEqual(expected, actuals1);
+                    CollectionAssert.AreEqual(expected, actuals2);
                 }
             }
         }

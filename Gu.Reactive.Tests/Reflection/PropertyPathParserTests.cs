@@ -1,10 +1,11 @@
 ﻿namespace Gu.Reactive.Tests.Reflection
 {
     using System;
-
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using Gu.Reactive.Internals;
     using Gu.Reactive.Tests.Helpers;
-
+    using Moq;
     using NUnit.Framework;
 
     public class PropertyPathParserTests
@@ -39,6 +40,55 @@
 
             var fake = new Fake();
             var actuals3 = PropertyPathParser.GetPath(() => fake.IsTrue);
+            Assert.AreSame(actuals1, actuals3);
+        }
+
+        [Test]
+        public void GetPathFromMock()
+        {
+            var fake = Mock.Of<IReadOnlyObservableCollection<int>>();
+            var actuals = PropertyPathParser.GetPath(() => fake.Count);
+            var expected = new[] { typeof(IReadOnlyCollection<int>).GetProperty("Count") };
+            CollectionAssert.AreEqual(expected, actuals);
+        }
+
+        [Test]
+        public void ReadOnlyObservableCollectionCount()
+        {
+            var actuals1 = PropertyPathParser.GetPath<ReadOnlyObservableCollection<int>, int>(x => x.Count);
+            CollectionAssert.AreEqual(new[] { typeof(ReadOnlyObservableCollection<int>).GetProperty("Count") }, actuals1);
+            var actuals2 = PropertyPathParser.GetPath<ReadOnlyObservableCollection<int>, int>(f => f.Count);
+            Assert.AreSame(actuals1, actuals2);
+
+            var ints = new ReadOnlyObservableCollection<int>(new ObservableCollection<int>());
+            var actuals3 = PropertyPathParser.GetPath(() => ints.Count);
+            Assert.AreSame(actuals1, actuals3);
+        }
+
+        [Test]
+        public void ReadOnlyCollectionAndReadOnlyObservableCollectionCount()
+        {
+            var actuals1 = PropertyPathParser.GetPath<ReadOnlyObservableCollection<int>, int>(x => x.Count);
+            CollectionAssert.AreEqual(new[] { typeof(ReadOnlyObservableCollection<int>).GetProperty("Count") }, actuals1);
+            var actuals2 = PropertyPathParser.GetPath<ReadOnlyCollection<int>, int>(f => f.Count);
+            CollectionAssert.AreEqual(new[] { typeof(ReadOnlyCollection<int>).GetProperty("Count") }, actuals2);
+        }
+
+        [Test]
+        public void FakeOfReadOnlyObservableCollectionCount()
+        {
+            var actuals1 = PropertyPathParser.GetPath<Fake<ReadOnlyObservableCollection<int>>, int>(x => x.Value.Count);
+            var expected = new[]
+            {
+                typeof(Fake<ReadOnlyObservableCollection<int>>).GetProperty("Value"),
+                typeof(ReadOnlyObservableCollection<int>).GetProperty("Count")
+            };
+            CollectionAssert.AreEqual(expected, actuals1);
+            var actuals2 = PropertyPathParser.GetPath<Fake<ReadOnlyObservableCollection<int>>, int>(f => f.Value.Count);
+            Assert.AreSame(actuals1, actuals2);
+
+            var ints = new Fake<ReadOnlyObservableCollection<int>>();
+            var actuals3 = PropertyPathParser.GetPath(() => ints.Value.Count);
             Assert.AreSame(actuals1, actuals3);
         }
 

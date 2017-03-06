@@ -18,7 +18,7 @@ namespace Gu.Reactive
         /// </summary>
         protected Getter(PropertyInfo property)
         {
-            Ensure.Equal(typeof(TSource), property.DeclaringType, nameof(property));
+            Ensure.Equal(typeof(TSource), property.ReflectedType, nameof(property));
             Ensure.Equal(typeof(TValue), property.PropertyType, nameof(property));
             if (property.GetMethod == null)
             {

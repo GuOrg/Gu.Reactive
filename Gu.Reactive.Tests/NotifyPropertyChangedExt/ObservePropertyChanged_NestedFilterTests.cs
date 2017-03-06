@@ -106,7 +106,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.StructLevel.Name, signalIntital));
             var expected = "Error found in x => x.StructLevel.Name\r\n" +
                            "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?\r\n" +
-                           "The type StructLevel is a value type not so x.StructLevel will not notify when it changes.\r\n" +
+                           "The type StructLevel is a value type not so StructLevel.Name will not notify when it changes.\r\n" +
                            "The path is: x => x.StructLevel.Name\r\n\r\n" +
                            "Parameter name: property";
             Assert.AreEqual(expected, exception.Message);
@@ -120,7 +120,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.Name.Length, signalIntital));
             var expected = "Error found in x => x.Name.Length\r\n" +
                            "All levels in the path must implement INotifyPropertyChanged.\r\n" +
-                           "The type string does not so x.Name will not notify when it changes.\r\n" +
+                           "The type string does not so Name.Length will not notify when it changes.\r\n" +
                            "The path is: x => x.Name.Length\r\n\r\n" +
                            "Parameter name: property";
             Assert.AreEqual(expected, exception.Message);
@@ -268,11 +268,32 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         [TestCase("")]
         [TestCase(null)]
-        public void ReactsOnStringEmptyOrNullFromSource(string propertyName)
+        [TestCase("IsTrue")]
+        public void ReactsOnStringEmptyOrNullFromSourceWhenHasValue(string propertyName)
         {
             var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Next = new Level() };
             using (fake.ObservePropertyChanged(x => x.Next.IsTrue, false).Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
+
+                fake.Next.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
+
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual(fake.Next, changes.Last().Sender);
+                Assert.AreEqual(propertyName, changes.Last().EventArgs.PropertyName);
+            }
+        }
+
+
+        [TestCase("")]
+        [TestCase(null)]
+        [TestCase("Name")]
+        public void ReactsOnStringEmptyOrNullFromSourceWhenNull(string propertyName)
+        {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
+            var fake = new Fake { Next = new Level { Name = null } };
+            using (fake.ObservePropertyChanged(x => x.Next.Name, false).Subscribe(changes.Add))
             {
                 Assert.AreEqual(0, changes.Count);
 
@@ -405,13 +426,23 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             using (fake.ObservePropertyChanged(x => x.Next.Next, false)
                        .Subscribe(changes.Add))
             {
+                CollectionAssert.IsEmpty(changes);
+
                 fake.Next = new Level();
-                Assert.AreEqual(0, changes.Count);
+                CollectionAssert.AreEqual(new[] { "Next" }, changes.Select(x => x.EventArgs.PropertyName));
+                Assert.AreEqual(fake.Next, changes.Single().Sender);
+
                 fake.Next.Next = new Level();
-                Assert.AreEqual(1, changes.Count);
+                CollectionAssert.AreEqual(new[] { "Next", "Next" }, changes.Select(x => x.EventArgs.PropertyName));
+                Assert.AreEqual(fake.Next, changes.Last().Sender);
+
                 fake.Next.Next = null;
-                Assert.AreEqual(2, changes.Count);
+                CollectionAssert.AreEqual(new[] { "Next", "Next", "Next" }, changes.Select(x => x.EventArgs.PropertyName));
+                Assert.AreEqual(fake.Next, changes.Last().Sender);
+
                 fake.Next = null;
+                CollectionAssert.AreEqual(new[] { "Next", "Next", "Next", "Next" }, changes.Select(x => x.EventArgs.PropertyName));
+                Assert.AreEqual(null, changes.Last().Sender);
             }
         }
 
@@ -427,19 +458,19 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Assert.AreEqual(0, changes.Count);
 
                 fake.Next.Next = new Level();
-                Assert.AreEqual(0, changes.Count);
-
-                fake.Next.Next.Next = new Level();
                 Assert.AreEqual(1, changes.Count);
 
-                fake.Next.Next.Next = null;
+                fake.Next.Next.Next = new Level();
                 Assert.AreEqual(2, changes.Count);
 
-                fake.Next.Next = null;
+                fake.Next.Next.Next = null;
                 Assert.AreEqual(3, changes.Count);
 
+                fake.Next.Next = null;
+                Assert.AreEqual(4, changes.Count);
+
                 fake.Next = null;
-                Assert.AreEqual(3, changes.Count);
+                Assert.AreEqual(4, changes.Count);
             }
         }
 

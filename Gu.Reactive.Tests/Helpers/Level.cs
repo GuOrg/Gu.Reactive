@@ -10,7 +10,7 @@
         private bool isTrue;
         private Level next;
         private Level<int> nextInt;
-        private NotInpc notInpc;
+        private NotNotifying notNotifying;
         private string name;
 
         private bool? isTrueOrNull;
@@ -173,21 +173,21 @@
             }
         }
 
-        public NotInpc NotInpc
+        public NotNotifying NotNotifying
         {
             get
             {
-                return this.notInpc;
+                return this.notNotifying;
             }
 
             set
             {
-                if (ReferenceEquals(value, this.notInpc))
+                if (ReferenceEquals(value, this.notNotifying))
                 {
                     return;
                 }
 
-                this.notInpc = value;
+                this.notNotifying = value;
                 this.OnPropertyChanged();
             }
         }

@@ -1,9 +1,9 @@
 ﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace Gu.Reactive.Tests.Helpers
 {
-    public class NotInpc
+    public class NotNotifying
     {
-        public NotInpc(bool isTrue, bool? isTrueOrNull, string name, int value)
+        public NotNotifying(bool isTrue, bool? isTrueOrNull, string name, int value)
         {
             this.IsTrue = isTrue;
             this.IsTrueOrNull = isTrueOrNull;

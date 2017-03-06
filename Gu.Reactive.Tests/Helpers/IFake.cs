@@ -4,7 +4,7 @@
 
     public interface IFake : INotifyPropertyChanged
     {
-        NotInpc NotInpc { get; }
+        NotNotifying NotNotifying { get; }
 
         int WriteOnly { set; }
 

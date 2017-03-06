@@ -21,7 +21,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChangedWithValue(x => x.StructLevel.Name, signalIntital));
             var expected = "Error found in x => x.StructLevel.Name\r\n" +
                            "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?\r\n" +
-                           "The type StructLevel is a value type not so x.StructLevel will not notify when it changes.\r\n" +
+                           "The type StructLevel is a value type not so StructLevel.Name will not notify when it changes.\r\n" +
                            "The path is: x => x.StructLevel.Name\r\n\r\n" +
                            "Parameter name: property";
             Assert.AreEqual(expected, exception.Message);
@@ -35,7 +35,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChangedWithValue(x => x.Name.Length, signalIntital));
             var expected = "Error found in x => x.Name.Length\r\n" +
                            "All levels in the path must implement INotifyPropertyChanged.\r\n" +
-                           "The type string does not so x.Name will not notify when it changes.\r\n" +
+                           "The type string does not so Name.Length will not notify when it changes.\r\n" +
                            "The path is: x => x.Name.Length\r\n\r\n" +
                            "Parameter name: property";
             Assert.AreEqual(expected, exception.Message);
@@ -43,7 +43,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         [Test]
         [Explicit("Implement")]
-        public void TypedEventargsTest()
+        public void TypedEventArgsTest()
         {
         }
 
@@ -196,15 +196,26 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
             var fake = new Fake();
-            using (fake.ObservePropertyChangedWithValue(x => x.Next.Name, false)
+            using (fake.ObservePropertyChangedWithValue(x => x.Next.Name, true)
                        .Subscribe(changes.Add))
             {
-                CollectionAssert.IsEmpty(changes);
+                Assert.AreEqual(string.Empty, changes.Single().EventArgs.PropertyName);
+                Assert.AreEqual(null, changes.Single().EventArgs.Value);
+                Assert.AreEqual(false, changes.Single().EventArgs.HasValue);
+                Assert.AreEqual(null, changes.Single().Sender);
+
                 fake.Next = new Level();
-                CollectionAssert.IsEmpty(changes);
-                fake.Next.Name = "El Kurro";
-                Assert.AreEqual("El Kurro", changes.Single().EventArgs.Value);
-                Assert.IsTrue(changes.Single().EventArgs.HasValue);
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual("Next", changes.Last().EventArgs.PropertyName);
+                Assert.AreEqual(null, changes.Last().EventArgs.Value);
+                Assert.AreEqual(true, changes.Last().EventArgs.HasValue);
+                Assert.AreEqual(fake, changes.Last().Sender);
+
+                fake.Next.Name = "Johan";
+                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual("Johan", changes.Last().EventArgs.Value);
+                Assert.IsTrue(changes.Last().EventArgs.HasValue);
+                Assert.AreEqual(fake.Next, changes.Last().Sender);
             }
         }
 

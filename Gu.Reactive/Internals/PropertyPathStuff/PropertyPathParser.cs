@@ -34,12 +34,30 @@
             var member = expression.GetRootProperty();
             while (member != null)
             {
-                path.Add((PropertyInfo)member.Member);
+                path.Add(member.Property());
                 member = member.GetPreviousProperty();
             }
 
             path.Reverse();
             return path;
+        }
+
+        private static PropertyInfo Property(this MemberExpression member)
+        {
+            var property = (PropertyInfo)member.Member;
+            var type = member.Expression.Type;
+            if (property.ReflectedType == type)
+            {
+                return property;
+            }
+
+            property = type.GetProperty(member.Member.Name);
+            if (property != null)
+            {
+                return property;
+            }
+
+            return (PropertyInfo)member.Member;
         }
     }
 }

@@ -6,12 +6,13 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
+    using System.Reactive;
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Tests.Helpers;
 
     using JetBrains.Annotations;
-
+    using Moq;
     using NUnit.Framework;
 
     public class ObservePropertyChangedSlimTests : INotifyPropertyChanged
@@ -180,6 +181,53 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 ints.Add(2);
                 CollectionAssert.AreEqual(new[] { "Count", "Count" }, values);
+            }
+        }
+
+        [Test]
+        public void ReactsOnMock()
+        {
+            var changes = new List<PropertyChangedEventArgs>();
+            var mock = new Mock<IReadOnlyObservableCollection<int>>();
+            using (mock.Object.ObservePropertyChangedSlim("Count", false)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
+
+                mock.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("Count"));
+                CollectionAssert.AreEqual(new[] { "Count" }, changes.Select(x => x.PropertyName));
+            }
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        [TestCase("Name")]
+        public void ReactsOnStringEmptyOrNullWhenHasValue(string propertyName)
+        {
+            var changes = new List<PropertyChangedEventArgs>();
+            var fake = new Fake { Name = "Johan" };
+            using (fake.ObservePropertyChangedSlim("Name", false)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
+                fake.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
+                CollectionAssert.AreEqual(new[] { propertyName }, changes.Select(x => x.PropertyName));
+            }
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        [TestCase("Name")]
+        public void ReactsOnStringEmptyOrNullWhenNull(string propertyName)
+        {
+            var changes = new List<PropertyChangedEventArgs>();
+            var fake = new Fake { Name = null };
+            using (fake.ObservePropertyChangedSlim("Name", false)
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
+                fake.OnPropertyChanged(propertyName); // This means all properties changed according to wpf convention
+                CollectionAssert.AreEqual(new[] { propertyName }, changes.Select(x => x.PropertyName));
             }
         }
 

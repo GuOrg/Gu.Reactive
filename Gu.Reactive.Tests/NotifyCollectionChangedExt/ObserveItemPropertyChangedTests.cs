@@ -1,3 +1,4 @@
+// ReSharper disable RedundantArgumentDefaultValue
 namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 {
     using System;
@@ -37,7 +38,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public void ReadOnlyObservableCollectionCount()
         {
-            var ints = new ObservableCollection<int>();
+            var ints = new ObservableCollection<int> { 1 };
             var item1 = new ReadOnlyObservableCollection<int>(ints);
 
             var source = new ObservableCollection<ReadOnlyObservableCollection<int>>();
@@ -274,7 +275,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item2 = new Fake { Name = "2" };
                 collection[1] = item2;
                 Assert.AreEqual(2, changes.Count);
-                AssertRx.AreEqual(item2,string.Empty, item2, "2", changes.Last());
+                AssertRx.AreEqual(item2, string.Empty, item2, "2", changes.Last());
             }
 
             Assert.AreEqual(2, changes.Count);

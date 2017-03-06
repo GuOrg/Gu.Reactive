@@ -57,15 +57,17 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 ints.Add(1);
                 Assert.AreEqual(1, changes.Count);
-                Assert.AreEqual("Count", changes.Single().EventArgs.Value);
+                Assert.AreEqual(1, changes.Single().EventArgs.Value);
+                Assert.AreEqual("Count", changes.Single().EventArgs.PropertyName);
                 Assert.AreSame(source, changes.Single().Sender);
                 Assert.IsTrue(changes.Single().EventArgs.HasValue);
 
                 ints.Add(2);
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreEqual("Count", changes.Single().EventArgs.Value);
-                Assert.AreSame(source, changes.Single().Sender);
-                Assert.IsTrue(changes.Single().EventArgs.HasValue);
+                Assert.AreEqual(2, changes.Last().EventArgs.Value);
+                Assert.AreEqual("Count", changes.Last().EventArgs.PropertyName);
+                Assert.AreSame(source, changes.Last().Sender);
+                Assert.IsTrue(changes.Last().EventArgs.HasValue);
             }
         }
 

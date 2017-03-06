@@ -30,7 +30,7 @@
                     }
             }
 
-            var member = lambda.Body as System.Linq.Expressions.MemberExpression;
+            var member = lambda.Body as MemberExpression;
             if (member == null)
             {
                 throw new ArgumentException($"Expected path to be properties only. Was {lambda}");
@@ -53,7 +53,7 @@
                 return null;
             }
 
-            var me = parent.Expression as System.Linq.Expressions.MemberExpression;
+            var me = parent.Expression as MemberExpression;
             if (me == null)
             {
                 throw new ArgumentException($"Expected path to be properties only. Was {parent}");

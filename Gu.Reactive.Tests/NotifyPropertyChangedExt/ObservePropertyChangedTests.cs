@@ -31,10 +31,26 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase("")]
         [TestCase(null)]
         [TestCase("Value")]
-        public void ReactsOnStringEmptyOrNull(string prop)
+        public void ReactsOnStringEmptyOrNullWhenHasValue(string prop)
         {
             var changes = new List<EventPattern<PropertyChangedEventArgs>>();
             var fake = new Fake { Value = 1 };
+            using (fake.ObservePropertyChanged()
+                       .Subscribe(changes.Add))
+            {
+                Assert.AreEqual(0, changes.Count);
+                fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
+                Assert.AreEqual(1, changes.Count);
+            }
+        }
+
+        [TestCase("")]
+        [TestCase(null)]
+        [TestCase("Name")]
+        public void ReactsOnStringEmptyOrNullWhenNull(string prop)
+        {
+            var changes = new List<EventPattern<PropertyChangedEventArgs>>();
+            var fake = new Fake { Name = null };
             using (fake.ObservePropertyChanged()
                        .Subscribe(changes.Add))
             {

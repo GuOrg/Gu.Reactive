@@ -113,12 +113,9 @@ namespace Gu.Reactive.Internals
                 if (value != null)
                 {
                     value.PropertyChanged += this.onTrackedPropertyChanged;
-                    if (!this.IsNullToNull(oldSource, value))
-                    {
-                        this.OnTrackedPropertyChanged(value, this.PropertyChangedEventArgs);
-                    }
+                    this.OnTrackedPropertyChanged(value, this.PropertyChangedEventArgs);
                 }
-                else
+                else if (oldSource != null)
                 {
                     this.OnTrackedPropertyChanged(null, this.PropertyChangedEventArgs);
                 }

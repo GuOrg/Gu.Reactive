@@ -88,7 +88,7 @@
     <Compile Include="Helpers\IFake.cs" />
     <Compile Include="Get\ValuePathTests.cs" />
     <Compile Include="Get\ValueOrDefaultTests.cs" />
-    <Compile Include="Helpers\NotInpc.cs" />
+    <Compile Include="Helpers\NotNotifying.cs" />
     <Compile Include="Helpers\StructLevel.cs" />
     <Compile Include="Helpers\TestExtensions.cs" />
     <Compile Include="Internals\EnsureTests\Ensure.Compare.Tests.cs" />

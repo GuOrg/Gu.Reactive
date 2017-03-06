@@ -11,6 +11,11 @@ namespace Gu.Reactive
         public static Maybe<T> Some<T>(T value) => Maybe<T>.Some(value);
 
         /// <summary>
+        /// The default instance when value is missing.
+        /// </summary>
+        public static Maybe<T> None<T>() => Maybe<T>.None;
+
+        /// <summary>
         /// Cast to Maybe{T}
         /// </summary>
         public static Maybe<T> Cast<T>(this Maybe<object> maybe)

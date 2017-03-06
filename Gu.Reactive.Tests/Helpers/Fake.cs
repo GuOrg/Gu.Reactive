@@ -5,7 +5,7 @@
 
     using JetBrains.Annotations;
 
-    public class Fake : INotifyPropertyChanged, IFake
+    public class Fake : IFake
     {
         private bool? isTrueOrNull;
         private bool isTrue;
@@ -14,7 +14,7 @@
         private string name;
 
         private StructLevel structLevel;
-        private NotInpc notInpc;
+        private NotNotifying notNotifying;
         private int value;
 
         // ReSharper disable once NotAccessedField.Local
@@ -144,21 +144,21 @@
             }
         }
 
-        public NotInpc NotInpc
+        public NotNotifying NotNotifying
         {
             get
             {
-                return this.notInpc;
+                return this.notNotifying;
             }
 
             set
             {
-                if (ReferenceEquals(value, this.notInpc))
+                if (ReferenceEquals(value, this.notNotifying))
                 {
                     return;
                 }
 
-                this.notInpc = value;
+                this.notNotifying = value;
                 this.OnPropertyChanged();
             }
         }
