@@ -19,28 +19,28 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void SignalsInitial()
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
-                var ints = new ObservableCollection<int> {1, 2};
+                var ints = new ObservableCollection<int> { 1, 2 };
                 var observable = ints.ObserveCollectionChanged();
                 using (observable.Subscribe(x => changes.Add(x.EventArgs)))
                 {
+                    CollectionAssert.AreEqual(new[] { CachedEventArgs.NotifyCollectionReset }, changes);
                 }
 
-                CollectionAssert.AreEqual(new[] {CachedEventArgs.NotifyCollectionReset}, changes);
+                CollectionAssert.AreEqual(new[] { CachedEventArgs.NotifyCollectionReset }, changes);
 
                 using (observable.Subscribe(x => changes.Add(x.EventArgs)))
                 {
-                    CollectionAssert.AreEqual(
-                        new[] {CachedEventArgs.NotifyCollectionReset, CachedEventArgs.NotifyCollectionReset}, changes);
+                    var expected = new[] { CachedEventArgs.NotifyCollectionReset, CachedEventArgs.NotifyCollectionReset };
+                    CollectionAssert.AreEqual(expected, changes);
 
                     ints.Add(1);
                     Assert.AreEqual(3, changes.Count);
-                    Assert.AreEqual(NotifyCollectionChangedAction.Add, changes.Last()
-                                                                              .Action);
+                    Assert.AreEqual(NotifyCollectionChangedAction.Add, changes.Last().Action);
                 }
             }
 
             [Test]
-            public void Reacts()
+            public void Add()
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var ints = new ObservableCollection<int>();

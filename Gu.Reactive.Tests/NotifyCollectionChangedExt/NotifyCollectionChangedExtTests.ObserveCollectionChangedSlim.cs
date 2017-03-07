@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
+﻿// ReSharper disable ClassNeverInstantiated.Global
+namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 {
     using System;
     using System.Collections.Generic;

@@ -1,3 +1,6 @@
+// ReSharper disable RedundantArgumentDefaultValue
+// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable once InconsistentNaming
 namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 {
     using System;
@@ -12,7 +15,6 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
     public partial class NotifyCollectionChangedExtTests
     {
-        // ReSharper disable once InconsistentNaming
         public class ItemPropertyChanged
         {
             [Test]
@@ -25,7 +27,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                            .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
-                    var collection = new ObservableCollection<Fake> {new Fake {Name = "Johan"}};
+                    var collection = new ObservableCollection<Fake> { new Fake { Name = "Johan" } };
                     fake.Collection = collection;
                     Assert.AreEqual(1, changes.Count);
                     EventPatternAssert.AreEqual(collection[0], string.Empty, collection[0], "Johan", changes.Last());
@@ -36,8 +38,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void SignalsOnSubscribe()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var collection = new ObservableCollection<Fake> {new Fake {Name = "Johan"}};
-                var fake = new FakeWithCollection {Collection = collection};
+                var collection = new ObservableCollection<Fake> { new Fake { Name = "Johan" } };
+                var fake = new FakeWithCollection { Collection = collection };
                 using (fake.ObservePropertyChangedWithValue(x => x.Collection, true)
                            .ItemPropertyChanged(x => x.Name)
                            .Subscribe(changes.Add))
@@ -51,8 +53,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void ReactsNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var collection = new ObservableCollection<Fake> {new Fake {Next = new Level {Name = "Johan"}}};
-                var fake = new FakeWithCollection {Collection = collection};
+                var collection = new ObservableCollection<Fake> { new Fake { Next = new Level { Name = "Johan" } } };
+                var fake = new FakeWithCollection { Collection = collection };
                 using (fake.ObservePropertyChangedWithValue(x => x.Collection, true)
                            .ItemPropertyChanged(x => x.Next.Name)
                            .Subscribe(changes.Add))
@@ -86,14 +88,14 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     using (observable.Subscribe(changes2.Add))
                     {
                         CollectionAssert.IsEmpty(changes1);
-                        var collection = new ObservableCollection<Fake> {new Fake {Name = "Johan"}};
+                        var collection = new ObservableCollection<Fake> { new Fake { Name = "Johan" } };
                         fake.Collection = collection;
                         Assert.AreEqual(1, changes1.Count);
                         Assert.AreEqual(1, changes2.Count);
                         EventPatternAssert.AreEqual(collection[0], string.Empty, collection[0], "Johan", changes1.Last());
                         EventPatternAssert.AreEqual(collection[0], string.Empty, collection[0], "Johan", changes2.Last());
 
-                        fake.Collection.Add(new Fake {Name = "Erik"});
+                        fake.Collection.Add(new Fake { Name = "Erik" });
 
                         Assert.AreEqual(2, changes1.Count);
                         Assert.AreEqual(2, changes2.Count);
@@ -114,8 +116,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             {
                 var changes1 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var changes2 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var collection = new ObservableCollection<Fake> {new Fake {Next = new Level {Name = "Johan"}}};
-                var fake = new FakeWithCollection {Collection = collection};
+                var collection = new ObservableCollection<Fake> { new Fake { Next = new Level { Name = "Johan" } } };
+                var fake = new FakeWithCollection { Collection = collection };
                 var observable = fake.ObservePropertyChangedWithValue(x => x.Collection, true)
                                      .ItemPropertyChanged(x => x.Next.Name);
                 using (observable.Subscribe(changes1.Add))
@@ -140,8 +142,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void StopsSubscribing()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var collection1 = new ObservableCollection<Fake> {new Fake {Name = "Johan"}};
-                var fake = new FakeWithCollection {Collection = collection1};
+                var collection1 = new ObservableCollection<Fake> { new Fake { Name = "Johan" } };
+                var fake = new FakeWithCollection { Collection = collection1 };
                 using (fake.ObservePropertyChangedWithValue(x => x.Collection, true)
                            .ItemPropertyChanged(x => x.Name)
                            .Subscribe(changes.Add))
@@ -154,7 +156,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     collection1[0].Name = "new";
                     Assert.AreEqual(1, changes.Count);
 
-                    var collection2 = new ObservableCollection<Fake> {new Fake {Name = "Kurt"}};
+                    var collection2 = new ObservableCollection<Fake> { new Fake { Name = "Kurt" } };
                     fake.Collection = collection2;
                     Assert.AreEqual(2, changes.Count);
                     EventPatternAssert.AreEqual(collection2[0], string.Empty, collection2[0], "Kurt", changes.Last());

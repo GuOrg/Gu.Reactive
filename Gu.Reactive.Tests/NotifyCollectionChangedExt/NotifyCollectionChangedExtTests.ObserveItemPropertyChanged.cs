@@ -97,25 +97,6 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void MoveDoesNotSignal()
-            {
-                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var item1 = new Fake { Name = "1" };
-                var item2 = new Fake { Name = "2" };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection.Move(0, 1);
-                    CollectionAssert.IsEmpty(changes);
-                }
-
-                CollectionAssert.IsEmpty(changes);
-            }
-
-            [Test]
             public void ReactsWhenPropertyChangesSameInstanceTwice()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
@@ -285,7 +266,33 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsToAdd()
+            public void HandlesMove()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection.Move(0, 1);
+                    CollectionAssert.IsEmpty(changes);
+
+                    item1.Name = "new 1";
+                    EventPatternAssert.AreEqual(item1, "Name", item1, "new 1", changes.Last());
+
+                    item2.Name = "new 2";
+                    Assert.AreEqual(2, changes.Count);
+                    EventPatternAssert.AreEqual(item2, "Name", item2, "new 2", changes.Last());
+                }
+
+                Assert.AreEqual(2, changes.Count);
+            }
+
+            [Test]
+            public void HandlesAdd()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -301,12 +308,13 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     EventPatternAssert.AreEqual(item3, string.Empty, item3, "3", changes.Last());
 
                     item3.Name = "new";
+                    Assert.AreEqual(2, changes.Count);
                     EventPatternAssert.AreEqual(item3, "Name", item3, "new", changes.Last());
                 }
             }
 
             [Test]
-            public void ReactsToReplace()
+            public void HandlesReplace()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -319,17 +327,21 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     var item3 = new Fake { Name = "3" };
                     collection[0] = item3;
                     Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(item3, string.Empty, item3, "3", changes.Last());
+                    EventPatternAssert.AreEqual(item3, string.Empty, item3, "3", changes.Single());
+
+                    item3.Name = "new";
+                    Assert.AreEqual(2, changes.Count);
+                    EventPatternAssert.AreEqual(item3, "Name", item3, "new", changes.Last());
 
                     item1.Name = "new1";
-                    Assert.AreEqual(1, changes.Count); // Stopped subscribing
+                    Assert.AreEqual(2, changes.Count); // Stopped subscribing
                 }
 
-                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual(2, changes.Count);
             }
 
             [Test]
-            public void RemoveRemovesSubscription()
+            public void HandlesRemove()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
