@@ -73,7 +73,7 @@ Nuget can generate redirects using PM> `Get-Project –All | Add-BindingRedirect`
 ## ObservePropertyChanged:
 
 ```c#
-var subscription = fake.ObservePropertyChanged(x => x.Next.Value)
+var subscription = fake.ObservePropertyChanged(x => x.Level1.Level2.Value)
 					   .Subscribe(...);
 ```
 
@@ -83,7 +83,9 @@ var subscription = fake.ObservePropertyChanged(x => x.Next.Value)
 4) Updates subscriptions for items in path and uses weak events.
 
 ### SignalInitial
-Default true meaning that the observable will call OnNExt on Subscribe
+Default true meaning that the observable will call OnNExt on Subscribe.
+The sender will be tha last node in the path that has a value, in the example above it would be the value of the property `Level2` if it is not null, then `Level1` if not null if the entire path is null the root item `fake`is used as sender for the first notifixcation.
+The eventags for the signal initial event is `string.Empty`
 
 ## ObservePropertyChangedSlim:
 
