@@ -38,6 +38,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\ScheduledCollection.cs" />
     <Compile Include="EventArgs\CachedEventArgs.cs" />
     <Compile Include="Collections\CollectionSynchronizer{T}.cs" />
     <Compile Include="Collections\EditableListView.cs" />

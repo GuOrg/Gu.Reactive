@@ -57,6 +57,7 @@
     <Compile Include="Collections\Filter\ThrowingEnumerable.cs" />
     <Compile Include="Collections\ObservableBatchCollectionTests.cs" />
     <Compile Include="Collections\ReadOnlySerialViewTests.cs" />
+    <Compile Include="Collections\ScheduledCollectionTests.cs" />
     <Compile Include="Helpers\DumpIfDebug.cs" />
     <Compile Include="Helpers\EventPatternAssert.cs" />
     <Compile Include="Helpers\Fake{T}.cs" />

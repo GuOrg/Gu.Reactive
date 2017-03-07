@@ -14,9 +14,9 @@ namespace Gu.Reactive
     [Serializable]
     public class ObservableBatchCollection<T> : ObservableCollection<T>
     {
-        private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = new PropertyChangedEventArgs(nameof(Count));
-        private static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = new PropertyChangedEventArgs("Item[]");
-        private static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+        private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = CachedEventArgs.GetOrCreatePropertyChangedEventArgs(nameof(Count));
+        private static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Item[]");
+        private static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = CachedEventArgs.NotifyCollectionReset;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableBatchCollection{T}"/> class.
@@ -63,6 +63,24 @@ namespace Gu.Reactive
         /// <param name="items">The items to add.</param>
         public void AddRange(IEnumerable<T> items)
         {
+            AddItems(items);
+        }
+
+        /// <summary>
+        /// Remove a range of elements. If the count is greater than 1 one reset event is raised when done.
+        /// </summary>
+        /// <param name="items">The items to add.</param>
+        public void RemoveRange(IEnumerable<T> items)
+        {
+            RemoveItems(items);
+        }
+
+        /// <summary>
+        /// Add a range of elements. If the count is greater than 1 one reset event is raised when done.
+        /// </summary>
+        /// <param name="items">The items to add.</param>
+        protected virtual void AddItems(IEnumerable<T> items)
+        {
             this.CheckReentrancy();
             var count = 0;
             var added = default(T);
@@ -90,7 +108,8 @@ namespace Gu.Reactive
             {
                 this.OnPropertyChanged(CountPropertyChangedEventArgs);
                 this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
-                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, added, this.Items.Count - 1));
+                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, added,
+                                                                              this.Items.Count - 1));
             }
             else
             {
@@ -102,7 +121,7 @@ namespace Gu.Reactive
         /// Remove a range of elements. If the count is greater than 1 one reset event is raised when done.
         /// </summary>
         /// <param name="items">The items to add.</param>
-        public void RemoveRange(IEnumerable<T> items)
+        protected virtual void RemoveItems(IEnumerable<T> items)
         {
             this.CheckReentrancy();
             var count = 0;
@@ -141,7 +160,10 @@ namespace Gu.Reactive
             }
         }
 
-        private void RaiseReset()
+        /// <summary>
+        /// Raise reset events, Count, Item[] then CollectionReset
+        /// </summary>
+        protected virtual void RaiseReset()
         {
             this.OnPropertyChanged(CountPropertyChangedEventArgs);
             this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
