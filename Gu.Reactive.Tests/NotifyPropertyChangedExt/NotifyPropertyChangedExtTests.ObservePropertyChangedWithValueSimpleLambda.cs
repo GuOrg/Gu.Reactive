@@ -1,3 +1,4 @@
+// ReSharper disable RedundantArgumentDefaultValue
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
@@ -15,41 +16,162 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     {
         public class ObservePropertyChangedWithValueSimpleLambda
         {
-            [Test]
-            public void SignalsInitialNull()
+            [TestCase(true)]
+            [TestCase(false)]
+            public void SignalInitialWhenValueIsNull(bool signalInitial)
             {
                 var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
                 var fake = new Fake();
-                using (fake.ObservePropertyChangedWithValue(x => x.Name, true)
+                using (fake.ObservePropertyChangedWithValue(x => x.Name, signalInitial)
                            .Subscribe(changes.Add))
                 {
-                    Assert.AreEqual(1, changes.Count);
-                    Assert.AreEqual(null, changes.Single().EventArgs.Value);
-                    Assert.AreSame(fake, changes.Single().Sender);
-                    Assert.IsTrue(changes.Single().EventArgs.HasValue);
+                    if (signalInitial)
+                    {
+                        EventPatternAssert.AreEqual(fake, string.Empty, Maybe<string>.Some(null), changes.Single());
+
+                        fake.Name = "Johan";
+                        Assert.AreEqual(2, changes.Count);
+                        EventPatternAssert.AreEqual(fake, "Name", Maybe<string>.Some("Johan"), changes.Last());
+
+                        using (fake.ObservePropertyChangedWithValue(x => x.Name, true)
+                                   .Subscribe(changes.Add))
+                        {
+                            Assert.AreEqual(3, changes.Count);
+                            EventPatternAssert.AreEqual(fake, string.Empty, Maybe<string>.Some("Johan"), changes.Last());
+                        }
+                    }
+                    else
+                    {
+                        CollectionAssert.IsEmpty(changes);
+                    }
                 }
             }
 
-            [Test]
-            public void SignalsInitialValue()
+            [TestCase(true)]
+            [TestCase(false)]
+            public void TwoLevelsSignalInitialWhenHasValue(bool signalInitial)
+            {
+                var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+                var fake = new Fake { Level1 = new Level1 { Name = "Johan" } };
+                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial)
+                           .Subscribe(changes.Add))
+                {
+                    if (signalInitial)
+                    {
+                        EventPatternAssert.AreEqual(fake.Level1, string.Empty, Maybe<string>.Some("Johan"), changes.Single());
+
+                        fake.Level1.Name = "Erik";
+                        Assert.AreEqual(2, changes.Count);
+                        EventPatternAssert.AreEqual(fake.Level1, "Name", Maybe<string>.Some("Erik"), changes.Last());
+
+                        using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, true)
+                                   .Subscribe(changes.Add))
+                        {
+                            Assert.AreEqual(3, changes.Count);
+                            EventPatternAssert.AreEqual(fake.Level1, string.Empty, Maybe<string>.Some("Erik"), changes.Last());
+                        }
+                    }
+                    else
+                    {
+                        CollectionAssert.IsEmpty(changes);
+                    }
+                }
+            }
+
+            [TestCase(true)]
+            [TestCase(false)]
+            public void TwoLevelsSignalInitialWhenMissing(bool signalInitial)
+            {
+                var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+                var fake = new Fake();
+                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial)
+                           .Subscribe(changes.Add))
+                {
+                    if (signalInitial)
+                    {
+                        EventPatternAssert.AreEqual(fake, string.Empty, Maybe<string>.None, changes.Single());
+
+                        fake.Level1 = new Level1 { Name = "Johan" };
+                        Assert.AreEqual(2, changes.Count);
+                        EventPatternAssert.AreEqual(fake, "Level1", Maybe<string>.Some("Johan"), changes.Last());
+
+                        fake.Level1.Name = "Erik";
+                        Assert.AreEqual(3, changes.Count);
+                        EventPatternAssert.AreEqual(fake.Level1, "Name", Maybe<string>.Some("Erik"), changes.Last());
+
+                        using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, true)
+                                   .Subscribe(changes.Add))
+                        {
+                            Assert.AreEqual(4, changes.Count);
+                            EventPatternAssert.AreEqual(fake.Level1, string.Empty, Maybe<string>.Some("Erik"), changes.Last());
+                        }
+                    }
+                    else
+                    {
+                        CollectionAssert.IsEmpty(changes);
+                    }
+                }
+            }
+
+            [TestCase(true)]
+            [TestCase(false)]
+            public void TwoLevelsSignalInitialWhenValueIsNull(bool signalInitial)
+            {
+                var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+                var fake = new Fake { Level1 = new Level1() };
+                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial)
+                           .Subscribe(changes.Add))
+                {
+                    if (signalInitial)
+                    {
+                        EventPatternAssert.AreEqual(fake.Level1, string.Empty, Maybe<string>.Some(null), changes.Single());
+
+                        fake.Level1.Name = "Johan";
+                        Assert.AreEqual(2, changes.Count);
+                        EventPatternAssert.AreEqual(fake.Level1, "Name", Maybe<string>.Some("Johan"), changes.Last());
+
+                        using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, true)
+                                   .Subscribe(changes.Add))
+                        {
+                            Assert.AreEqual(3, changes.Count);
+                            EventPatternAssert.AreEqual(fake.Level1, string.Empty, Maybe<string>.Some("Johan"), changes.Last());
+                        }
+                    }
+                    else
+                    {
+                        CollectionAssert.IsEmpty(changes);
+                    }
+                }
+            }
+
+            [TestCase(true)]
+            [TestCase(false)]
+            public void SignalInitialWhenHasValue(bool signalInitial)
             {
                 var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
                 var fake = new Fake { Name = "Johan" };
-                using (fake.ObservePropertyChangedWithValue(x => x.Name, true)
+                using (fake.ObservePropertyChangedWithValue(x => x.Name, signalInitial)
                            .Subscribe(changes.Add))
                 {
-                    Assert.AreEqual(1, changes.Count);
-                    Assert.AreEqual(
-                        "Johan",
-                        changes.Single()
-                               .EventArgs.Value);
-                    Assert.AreSame(
-                        fake,
-                        changes.Single()
-                               .Sender);
-                    Assert.IsTrue(
-                        changes.Single()
-                               .EventArgs.HasValue);
+                    if (signalInitial)
+                    {
+                        EventPatternAssert.AreEqual(fake, string.Empty, Maybe<string>.Some("Johan"), changes.Single());
+
+                        fake.Name = "Erik";
+                        Assert.AreEqual(2, changes.Count);
+                        EventPatternAssert.AreEqual(fake, "Name", Maybe<string>.Some("Erik"), changes.Last());
+
+                        using (fake.ObservePropertyChangedWithValue(x => x.Name, true)
+                                   .Subscribe(changes.Add))
+                        {
+                            Assert.AreEqual(3, changes.Count);
+                            EventPatternAssert.AreEqual(fake, string.Empty, Maybe<string>.Some("Erik"), changes.Last());
+                        }
+                    }
+                    else
+                    {
+                        CollectionAssert.IsEmpty(changes);
+                    }
                 }
             }
 
@@ -65,40 +187,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     CollectionAssert.IsEmpty(changes);
 
                     ints.Add(1);
-                    Assert.AreEqual(1, changes.Count);
-                    Assert.AreEqual(
-                        1,
-                        changes.Single()
-                               .EventArgs.Value);
-                    Assert.AreEqual(
-                        "Count",
-                        changes.Single()
-                               .EventArgs.PropertyName);
-                    Assert.AreSame(
-                        source,
-                        changes.Single()
-                               .Sender);
-                    Assert.IsTrue(
-                        changes.Single()
-                               .EventArgs.HasValue);
+                    EventPatternAssert.AreEqual(source, "Count", Maybe<int>.Some(1), changes.Single());
 
                     ints.Add(2);
                     Assert.AreEqual(2, changes.Count);
-                    Assert.AreEqual(
-                        2,
-                        changes.Last()
-                               .EventArgs.Value);
-                    Assert.AreEqual(
-                        "Count",
-                        changes.Last()
-                               .EventArgs.PropertyName);
-                    Assert.AreSame(
-                        source,
-                        changes.Last()
-                               .Sender);
-                    Assert.IsTrue(
-                        changes.Last()
-                               .EventArgs.HasValue);
+                    EventPatternAssert.AreEqual(source, "Count", Maybe<int>.Some(2), changes.Last());
                 }
             }
 
@@ -123,19 +216,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                            .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
-                    fake.Name = "El Kurro";
-                    Assert.AreEqual(1, changes.Count);
-                    Assert.AreEqual(
-                        "El Kurro",
-                        changes.Single()
-                               .EventArgs.Value);
-                    Assert.AreSame(
-                        fake,
-                        changes.Single()
-                               .Sender);
-                    Assert.IsTrue(
-                        changes.Single()
-                               .EventArgs.HasValue);
+
+                    fake.Name = "Johan";
+                    EventPatternAssert.AreEqual(fake, "Name", Maybe.Some("Johan"), changes.Single());
                 }
             }
 
@@ -148,19 +231,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                            .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
-                    fake.Name = "El Kurro";
-                    Assert.AreEqual(1, changes.Count);
-                    Assert.AreEqual(
-                        "El Kurro",
-                        changes.Single()
-                               .EventArgs.Value);
-                    Assert.AreSame(
-                        fake,
-                        changes.Single()
-                               .Sender);
-                    Assert.IsTrue(
-                        changes.Single()
-                               .EventArgs.HasValue);
+
+                    fake.Name = "Johan";
+                    EventPatternAssert.AreEqual(fake, "Name", Maybe.Some("Johan"), changes.Single());
                 }
             }
 

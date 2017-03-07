@@ -1,6 +1,7 @@
 // ReSharper disable RedundantArgumentDefaultValue
 // ReSharper disable NotResolvedInText
 // ReSharper disable HeuristicUnreachableCode
+// ReSharper disable ExplicitCallerInfoArgument
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;

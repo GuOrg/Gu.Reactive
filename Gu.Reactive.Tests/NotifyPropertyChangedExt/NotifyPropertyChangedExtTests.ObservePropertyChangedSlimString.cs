@@ -6,7 +6,6 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
-    using System.Reactive;
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Tests.Helpers;
