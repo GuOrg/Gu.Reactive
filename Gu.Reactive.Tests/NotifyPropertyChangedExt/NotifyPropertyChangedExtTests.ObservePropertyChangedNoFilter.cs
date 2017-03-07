@@ -73,7 +73,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     Assert.AreEqual(0, changes.Count);
                     fake.OnPropertyChanged("SomeProp");
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(fake, "SomeProp", changes.Last());
+                    EventPatternAssert.AreEqual(fake, "SomeProp", changes.Last());
                 }
             }
 
@@ -88,7 +88,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     Assert.AreEqual(0, changes.Count);
                     fake.OnPropertyChanged("SomeProp");
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(fake, "SomeProp", changes.Last());
+                    EventPatternAssert.AreEqual(fake, "SomeProp", changes.Last());
                 }
             }
 
@@ -103,7 +103,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     Assert.AreEqual(0, changes.Count);
                     fake.Value++;
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(fake, "Value", changes.Last());
+                    EventPatternAssert.AreEqual(fake, "Value", changes.Last());
                 }
             }
 
@@ -123,11 +123,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                         fake1.Value++;
                         Assert.AreEqual(1, changes.Count);
-                        AssertRx.AreEqual(fake1, "Value", changes.Last());
+                        EventPatternAssert.AreEqual(fake1, "Value", changes.Last());
 
                         fake2.Value++;
                         Assert.AreEqual(2, changes.Count);
-                        AssertRx.AreEqual(fake2, "Value", changes.Last());
+                        EventPatternAssert.AreEqual(fake2, "Value", changes.Last());
                     }
                 }
             }
@@ -144,15 +144,15 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                     fake.IsTrueOrNull = true;
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(fake, "IsTrueOrNull", changes.Last());
+                    EventPatternAssert.AreEqual(fake, "IsTrueOrNull", changes.Last());
 
                     fake.IsTrueOrNull = null;
                     Assert.AreEqual(2, changes.Count);
-                    AssertRx.AreEqual(fake, "IsTrueOrNull", changes.Last());
+                    EventPatternAssert.AreEqual(fake, "IsTrueOrNull", changes.Last());
                 }
 
                 Assert.AreEqual(2, changes.Count);
-                AssertRx.AreEqual(fake, "IsTrueOrNull", changes.Last());
+                EventPatternAssert.AreEqual(fake, "IsTrueOrNull", changes.Last());
             }
 
             [Test]

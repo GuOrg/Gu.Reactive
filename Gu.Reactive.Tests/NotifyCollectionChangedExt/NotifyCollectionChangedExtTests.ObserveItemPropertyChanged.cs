@@ -28,13 +28,13 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                  .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(2, changes.Count);
-                    AssertRx.AreEqual(item1, string.Empty, item1, "1", changes[0]);
-                    AssertRx.AreEqual(item2, string.Empty, item2, "2", changes[1]);
+                    EventPatternAssert.AreEqual(item1, string.Empty, item1, "1", changes[0]);
+                    EventPatternAssert.AreEqual(item2, string.Empty, item2, "2", changes[1]);
                 }
 
                 Assert.AreEqual(2, changes.Count);
-                AssertRx.AreEqual(item1, string.Empty, item1, "1", changes[0]);
-                AssertRx.AreEqual(item2, string.Empty, item2, "2", changes[1]);
+                EventPatternAssert.AreEqual(item1, string.Empty, item1, "1", changes[0]);
+                EventPatternAssert.AreEqual(item2, string.Empty, item2, "2", changes[1]);
             }
 
             [Test]
@@ -52,7 +52,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     CollectionAssert.IsEmpty(changes);
 
                     source.Add(item1);
-                    AssertRx.AreEqual(item1, string.Empty, item1, 1, changes[0]);
+                    EventPatternAssert.AreEqual(item1, string.Empty, item1, 1, changes[0]);
                 }
             }
 
@@ -85,15 +85,15 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     CollectionAssert.IsEmpty(changes);
                     item1.Name = "new1";
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(item1, "Name", item1, "new1", changes.Last());
+                    EventPatternAssert.AreEqual(item1, "Name", item1, "new1", changes.Last());
 
                     item2.Name = "new2";
                     Assert.AreEqual(2, changes.Count);
-                    AssertRx.AreEqual(item2, "Name", item2, "new2", changes.Last());
+                    EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes.Last());
                 }
 
                 Assert.AreEqual(2, changes.Count);
-                AssertRx.AreEqual(item2, "Name", item2, "new2", changes.Last());
+                EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes.Last());
             }
 
             [Test]
@@ -127,27 +127,27 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     CollectionAssert.IsEmpty(changes);
                     item.Name = "new1";
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(item, "Name", item, "new1", changes[0]);
+                    EventPatternAssert.AreEqual(item, "Name", item, "new1", changes[0]);
 
                     collection.Add(item);
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(item, "Name", item, "new1", changes[0]);
+                    EventPatternAssert.AreEqual(item, "Name", item, "new1", changes[0]);
 
                     item.Name = "new2";
                     Assert.AreEqual(2, changes.Count);
-                    AssertRx.AreEqual(item, "Name", item, "new2", changes.Last());
+                    EventPatternAssert.AreEqual(item, "Name", item, "new2", changes.Last());
 
                     collection.RemoveAt(1);
                     Assert.AreEqual(2, changes.Count);
-                    AssertRx.AreEqual(item, "Name", item, "new2", changes.Last());
+                    EventPatternAssert.AreEqual(item, "Name", item, "new2", changes.Last());
 
                     item.Name = "new3";
                     Assert.AreEqual(3, changes.Count);
-                    AssertRx.AreEqual(item, "Name", item, "new3", changes.Last());
+                    EventPatternAssert.AreEqual(item, "Name", item, "new3", changes.Last());
                 }
 
                 Assert.AreEqual(3, changes.Count);
-                AssertRx.AreEqual(item, "Name", item, "new3", changes.Last());
+                EventPatternAssert.AreEqual(item, "Name", item, "new3", changes.Last());
             }
 
             [Test]
@@ -169,21 +169,21 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                         item1.Name = "new1";
                         Assert.AreEqual(1, changes1.Count);
                         Assert.AreEqual(1, changes2.Count);
-                        AssertRx.AreEqual(item1, "Name", item1, "new1", changes1.Last());
-                        AssertRx.AreEqual(item1, "Name", item1, "new1", changes2.Last());
+                        EventPatternAssert.AreEqual(item1, "Name", item1, "new1", changes1.Last());
+                        EventPatternAssert.AreEqual(item1, "Name", item1, "new1", changes2.Last());
 
                         item2.Name = "new2";
                         Assert.AreEqual(2, changes1.Count);
                         Assert.AreEqual(2, changes2.Count);
-                        AssertRx.AreEqual(item2, "Name", item2, "new2", changes1.Last());
-                        AssertRx.AreEqual(item2, "Name", item2, "new2", changes2.Last());
+                        EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes1.Last());
+                        EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes2.Last());
                     }
                 }
 
                 Assert.AreEqual(2, changes1.Count);
                 Assert.AreEqual(2, changes2.Count);
-                AssertRx.AreEqual(item2, "Name", item2, "new2", changes1.Last());
-                AssertRx.AreEqual(item2, "Name", item2, "new2", changes2.Last());
+                EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes1.Last());
+                EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes2.Last());
             }
 
             [Test]
@@ -201,16 +201,16 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                         CollectionAssert.IsEmpty(changes);
                         item1.Name = "new1";
                         Assert.AreEqual(1, changes.Count);
-                        AssertRx.AreEqual(item1, "Name", item1, "new1", changes.Last());
+                        EventPatternAssert.AreEqual(item1, "Name", item1, "new1", changes.Last());
 
                         item2.Name = "new2";
                         Assert.AreEqual(2, changes.Count);
-                        AssertRx.AreEqual(item2, "Name", item2, "new2", changes.Last());
+                        EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes.Last());
                     }
                 }
 
                 Assert.AreEqual(2, changes.Count);
-                AssertRx.AreEqual(item2, "Name", item2, "new2", changes.Last());
+                EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes.Last());
             }
 
             [Test]
@@ -226,15 +226,15 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     CollectionAssert.IsEmpty(changes);
                     item1.Next.Name = "new1";
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(item1.Next, "Name", item1, "new1", changes.Last());
+                    EventPatternAssert.AreEqual(item1.Next, "Name", item1, "new1", changes.Last());
 
                     item2.Next = new Level { Name = "new2" };
                     Assert.AreEqual(2, changes.Count);
-                    AssertRx.AreEqual(item2, "Next", item2, "new2", changes.Last());
+                    EventPatternAssert.AreEqual(item2, "Next", item2, "new2", changes.Last());
                 }
 
                 Assert.AreEqual(2, changes.Count);
-                AssertRx.AreEqual(item2, "Next", item2, "new2", changes.Last());
+                EventPatternAssert.AreEqual(item2, "Next", item2, "new2", changes.Last());
             }
 
             [Test]
@@ -249,11 +249,11 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     CollectionAssert.IsEmpty(changes);
                     item.Name = "new";
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(item, "Name", item, "new", changes.Last());
+                    EventPatternAssert.AreEqual(item, "Name", item, "new", changes.Last());
                 }
 
                 Assert.AreEqual(1, changes.Count);
-                AssertRx.AreEqual(item, "Name", item, "new", changes.Last());
+                EventPatternAssert.AreEqual(item, "Name", item, "new", changes.Last());
             }
 
             [Test]
@@ -273,12 +273,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
                     item.Name = "new";
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(item, "Name", item, "new", changes.Last());
+                    EventPatternAssert.AreEqual(item, "Name", item, "new", changes.Last());
 
                     var item2 = new Fake { Name = "2" };
                     collection[1] = item2;
                     Assert.AreEqual(2, changes.Count);
-                    AssertRx.AreEqual(item2, string.Empty, item2, "2", changes.Last());
+                    EventPatternAssert.AreEqual(item2, string.Empty, item2, "2", changes.Last());
                 }
 
                 Assert.AreEqual(2, changes.Count);
@@ -298,10 +298,10 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     var item3 = new Fake { Name = "3" };
                     collection.Add(item3);
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(item3, string.Empty, item3, "3", changes.Last());
+                    EventPatternAssert.AreEqual(item3, string.Empty, item3, "3", changes.Last());
 
                     item3.Name = "new";
-                    AssertRx.AreEqual(item3, "Name", item3, "new", changes.Last());
+                    EventPatternAssert.AreEqual(item3, "Name", item3, "new", changes.Last());
                 }
             }
 
@@ -319,7 +319,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     var item3 = new Fake { Name = "3" };
                     collection[0] = item3;
                     Assert.AreEqual(1, changes.Count);
-                    AssertRx.AreEqual(item3, string.Empty, item3, "3", changes.Last());
+                    EventPatternAssert.AreEqual(item3, string.Empty, item3, "3", changes.Last());
 
                     item1.Name = "new1";
                     Assert.AreEqual(1, changes.Count); // Stopped subscribing
