@@ -105,8 +105,8 @@
     <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
     <Compile Include="NameOf_\MethodTests.cs" />
     <Compile Include="NotifyCollectionChangedEventArgsTests.cs" />
-    <Compile Include="NotifyCollectionChangedExt\ObserveCollectionChangedSlimTests.cs" />
-    <Compile Include="NotifyCollectionChangedExt\ObserveCollectionChangedTests.cs" />
+    <Compile Include="NotifyCollectionChangedExt\NotifyCollectionChangedExtTests.ObserveCollectionChangedSlim.cs" />
+    <Compile Include="NotifyCollectionChangedExt\NotifyCollectionChangedExtTests.ObserveCollectionChanged.cs" />
     <Compile Include="Collections\FixedSizedQueueTests.cs" />
     <Compile Include="NameOf_\PropertyTests.cs" />
     <Compile Include="Conditions\AndConditionTests.cs" />
@@ -115,8 +115,8 @@
     <Compile Include="Conditions\OrConditionTests.cs" />
     <Compile Include="Helpers\Fake.cs" />
     <Compile Include="Helpers\Level.cs" />
-    <Compile Include="NotifyCollectionChangedExt\ObserveItemPropertyChangedTests.cs" />
-    <Compile Include="NotifyCollectionChangedExt\ObserveItemPropertyChanged_ChainedTests.cs" />
+    <Compile Include="NotifyCollectionChangedExt\NotifyCollectionChangedExtTests.ObserveItemPropertyChanged.cs" />
+    <Compile Include="NotifyCollectionChangedExt\NotifyCollectionChangedExtTests.ItemPropertyChanged.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedWithValueNestedLambda.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedSlimString.cs" />
     <Compile Include="ObservableExtTests.cs" />
