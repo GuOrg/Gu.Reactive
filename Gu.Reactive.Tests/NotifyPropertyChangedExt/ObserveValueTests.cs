@@ -4,9 +4,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
     using System.Linq;
-
+    using System.Runtime.CompilerServices;
     using Gu.Reactive.Tests.Helpers;
+    using JetBrains.Annotations;
     using NUnit.Framework;
 
     public class ObserveValueTests
@@ -284,6 +286,27 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
         }
 
+        [Test]
+        public void VirtualProperty()
+        {
+            var fake = new Fake<A>();
+            var actuals = new List<Maybe<string>>();
+            using (fake.ObserveValue(x => x.Value.Value, false)
+                       .Subscribe(actuals.Add))
+            {
+                var expecteds = new List<Maybe<string>>();
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Value = new A();
+                expecteds.Add(Maybe<string>.Some("A"));
+                CollectionAssert.AreEqual(expecteds, actuals);
+
+                fake.Value = new B();
+                expecteds.Add(Maybe<string>.Some("B"));
+                CollectionAssert.AreEqual(expecteds, actuals);
+            }
+        }
+
         [TestCase(true, new[] { 1 })]
         [TestCase(false, new int[0])]
         public void SimpleSignalInitial(bool signalInitial, int[] start)
@@ -519,6 +542,18 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #pragma warning restore GU0030 // Use using.
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
+        }
+
+        public class A : INotifyPropertyChanged
+        {
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            public virtual string Value => "A";
+        }
+
+        public class B : A
+        {
+            public override string Value => "B";
         }
     }
 }
