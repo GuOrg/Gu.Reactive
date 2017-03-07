@@ -319,8 +319,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = new Level();
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreSame(fake.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreSame(fake, changes.Last().Sender);
+                Assert.AreEqual("Next", changes.Last().EventArgs.PropertyName);
 
                 fake.Next.IsTrue = !fake.Next.IsTrue;
                 Assert.AreEqual(3, changes.Count);
@@ -430,7 +430,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = new Level();
                 CollectionAssert.AreEqual(new[] { "Next" }, changes.Select(x => x.EventArgs.PropertyName));
-                Assert.AreEqual(fake.Next, changes.Single().Sender);
+                Assert.AreEqual(fake, changes.Single().Sender);
 
                 fake.Next.Next = new Level();
                 CollectionAssert.AreEqual(new[] { "Next", "Next" }, changes.Select(x => x.EventArgs.PropertyName));
@@ -442,7 +442,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = null;
                 CollectionAssert.AreEqual(new[] { "Next", "Next", "Next", "Next" }, changes.Select(x => x.EventArgs.PropertyName));
-                Assert.AreEqual(null, changes.Last().Sender);
+                Assert.AreEqual(fake, changes.Last().Sender);
             }
         }
 
@@ -488,8 +488,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = new Level<int>();
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreSame(fake.Next, changes.Last().Sender);
-                Assert.AreEqual("Value", changes.Last().EventArgs.PropertyName);
+                Assert.AreSame(fake, changes.Last().Sender);
+                Assert.AreEqual("Next", changes.Last().EventArgs.PropertyName);
 
                 fake.Next.Value++;
                 Assert.AreEqual(3, changes.Count);
@@ -518,8 +518,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                     intFake.Next = new Level<int>();
                     Assert.AreEqual(2, intChanges.Count);
-                    Assert.AreSame(intFake.Next, intChanges.Last().Sender);
-                    Assert.AreEqual("Value", intChanges.Last().EventArgs.PropertyName);
+                    Assert.AreSame(intFake, intChanges.Last().Sender);
+                    Assert.AreEqual("Next", intChanges.Last().EventArgs.PropertyName);
 
                     intFake.Next.Value++;
                     Assert.AreEqual(3, intChanges.Count);
@@ -532,8 +532,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                     doubleFake.Next = new Level<double>();
                     Assert.AreEqual(2, doubleChanges.Count);
-                    Assert.AreSame(doubleFake.Next, doubleChanges.Last().Sender);
-                    Assert.AreEqual("Value", doubleChanges.Last().EventArgs.PropertyName);
+                    Assert.AreSame(doubleFake, doubleChanges.Last().Sender);
+                    Assert.AreEqual("Next", doubleChanges.Last().EventArgs.PropertyName);
 
                     doubleFake.Next.Value++;
                     Assert.AreEqual(3, doubleChanges.Count);
@@ -577,8 +577,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = new Level();
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreSame(fake.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreSame(fake, changes.Last().Sender);
+                Assert.AreEqual("Next", changes.Last().EventArgs.PropertyName);
             }
         }
 
@@ -837,8 +837,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = null;
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreSame(null, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreSame(fake, changes.Last().Sender);
+                Assert.AreEqual("Next", changes.Last().EventArgs.PropertyName);
             }
         }
 
@@ -855,8 +855,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = new Level() { Next = new Level() };
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreSame(fake.Next.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreSame(fake.Next, changes.Last().Sender);
+                Assert.AreEqual("Next", changes.Last().EventArgs.PropertyName);
             }
         }
 
@@ -873,8 +873,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = new Level { IsTrue = false };
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreSame(fake.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreSame(fake, changes.Last().Sender);
+                Assert.AreEqual("Next", changes.Last().EventArgs.PropertyName);
 
                 fake.Next.IsTrue = true;
                 Assert.AreEqual(3, changes.Count);
@@ -884,13 +884,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Level level1 = fake.Next;
                 fake.Next = null;
                 Assert.AreEqual(4, changes.Count);
-                Assert.AreSame(fake.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
+                Assert.AreSame(fake, changes.Last().Sender);
+                Assert.AreEqual("Next", changes.Last().EventArgs.PropertyName);
 
                 level1.IsTrue = !level1.IsTrue;
                 Assert.AreEqual(4, changes.Count);
-                Assert.AreSame(fake.Next, changes.Last().Sender);
-                Assert.AreEqual("IsTrue", changes.Last().EventArgs.PropertyName);
             }
         }
 

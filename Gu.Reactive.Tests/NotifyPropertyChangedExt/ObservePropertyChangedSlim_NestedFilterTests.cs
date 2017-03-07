@@ -313,12 +313,20 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = new Level();
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                Assert.AreEqual("Next", changes.Last().PropertyName);
 
                 fake.Next.IsTrue = !fake.Next.IsTrue;
                 Assert.AreEqual(3, changes.Count);
                 Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+
+                fake.Next.IsTrue = !fake.Next.IsTrue;
+                Assert.AreEqual(4, changes.Count);
+                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
             }
+
+            fake.Next.IsTrue = !fake.Next.IsTrue;
+            Assert.AreEqual(4, changes.Count);
+            Assert.AreEqual("IsTrue", changes.Last().PropertyName);
         }
 
         [Test]
@@ -465,12 +473,20 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = new Level<int>();
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreEqual("Value", changes.Last().PropertyName);
+                Assert.AreEqual("Next", changes.Last().PropertyName);
 
                 fake.Next.Value++;
                 Assert.AreEqual(3, changes.Count);
                 Assert.AreEqual("Value", changes.Last().PropertyName);
+
+                fake.Next.Value++;
+                Assert.AreEqual(4, changes.Count);
+                Assert.AreEqual("Value", changes.Last().PropertyName);
             }
+
+            fake.Next.Value++;
+            Assert.AreEqual(4, changes.Count);
+            Assert.AreEqual("Value", changes.Last().PropertyName);
         }
 
         [Test]
@@ -492,7 +508,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                     intFake.Next = new Level<int>();
                     Assert.AreEqual(2, intChanges.Count);
-                    Assert.AreEqual("Value", intChanges.Last().PropertyName);
+                    Assert.AreEqual("Next", intChanges.Last().PropertyName);
 
                     intFake.Next.Value++;
                     Assert.AreEqual(3, intChanges.Count);
@@ -503,7 +519,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                     doubleFake.Next = new Level<double>();
                     Assert.AreEqual(2, doubleChanges.Count);
-                    Assert.AreEqual("Value", doubleChanges.Last().PropertyName);
+                    Assert.AreEqual("Next", doubleChanges.Last().PropertyName);
 
                     doubleFake.Next.Value++;
                     Assert.AreEqual(3, doubleChanges.Count);
@@ -628,9 +644,13 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             using (fake.ObservePropertyChangedSlim(x => x.Next.Next.IsTrue).Subscribe(changes.Add))
             {
                 Assert.AreEqual(1, changes.Count);
-                fake.Next = new Level { Next = new Level() };
+
+                fake.Next = new Level();
+                Assert.AreEqual(1, changes.Count);
+
+                fake.Next.Next = new Level();
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                Assert.AreEqual("Next", changes.Last().PropertyName);
 
                 fake.Next.Next.IsTrue = !fake.Next.Next.IsTrue;
                 Assert.AreEqual(3, changes.Count);
@@ -638,7 +658,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = null;
                 Assert.AreEqual(4, changes.Count);
-                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                Assert.AreEqual("Next", changes.Last().PropertyName);
             }
         }
 
@@ -652,7 +672,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Assert.AreEqual(1, changes.Count);
                 fake.Next = new Level { NextInt = new Level<int>() };
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreEqual("Value", changes.Last().PropertyName);
+                Assert.AreEqual("Next", changes.Last().PropertyName);
 
                 fake.Next.NextInt.Value++;
                 Assert.AreEqual(3, changes.Count);
@@ -660,7 +680,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = null;
                 Assert.AreEqual(4, changes.Count);
-                Assert.AreEqual("Value", changes.Last().PropertyName);
+                Assert.AreEqual("Next", changes.Last().PropertyName);
             }
         }
 
@@ -674,7 +694,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Assert.AreEqual(1, changes.Count);
                 fake.NextInt = new Level<int> { Next = new Level<int>() };
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreEqual("Value", changes.Last().PropertyName);
+                Assert.AreEqual("NextInt", changes.Last().PropertyName);
 
                 fake.NextInt.Next.Value++;
                 Assert.AreEqual(3, changes.Count);
@@ -682,7 +702,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.NextInt = null;
                 Assert.AreEqual(4, changes.Count);
-                Assert.AreEqual("Value", changes.Last().PropertyName);
+                Assert.AreEqual("NextInt", changes.Last().PropertyName);
             }
         }
 
@@ -781,7 +801,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = null;
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                Assert.AreEqual("Next", changes.Last().PropertyName);
             }
         }
 
@@ -795,9 +815,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Assert.AreEqual(1, changes.Count);
                 Assert.AreEqual(string.Empty, changes.Last().PropertyName);
 
-                fake.Next = new Level() { Next = new Level() };
+                fake.Next = new Level { Next = new Level() };
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                Assert.AreEqual("Next", changes.Last().PropertyName);
             }
         }
 
@@ -814,7 +834,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                 fake.Next = new Level { IsTrue = false };
                 Assert.AreEqual(2, changes.Count);
-                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                Assert.AreEqual("Next", changes.Last().PropertyName);
 
                 fake.Next.IsTrue = true;
                 Assert.AreEqual(3, changes.Count);
@@ -823,11 +843,10 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Level level1 = fake.Next;
                 fake.Next = null;
                 Assert.AreEqual(4, changes.Count);
-                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
+                Assert.AreEqual("Next", changes.Last().PropertyName);
 
                 level1.IsTrue = !level1.IsTrue;
                 Assert.AreEqual(4, changes.Count);
-                Assert.AreEqual("IsTrue", changes.Last().PropertyName);
             }
         }
 

@@ -227,11 +227,11 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
                 item2.Next = new Level { Name = "new2" };
                 Assert.AreEqual(2, changes.Count);
-                AssertRx.AreEqual(item2.Next, "Name", item2, "new2", changes.Last());
+                AssertRx.AreEqual(item2, "Next", item2, "new2", changes.Last());
             }
 
             Assert.AreEqual(2, changes.Count);
-            AssertRx.AreEqual(item2.Next, "Name", item2, "new2", changes.Last());
+            AssertRx.AreEqual(item2, "Next", item2, "new2", changes.Last());
         }
 
         [Test]

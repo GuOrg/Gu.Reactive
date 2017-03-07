@@ -58,13 +58,15 @@ namespace Gu.Reactive.Internals
                 };
         }
 
-        public event PropertyChangedEventHandler TrackedPropertyChanged;
+        public event TrackedPropertyChangedEventHandler TrackedPropertyChanged;
 
         public PathProperty PathProperty { get; }
 
         public PropertyChangedEventArgs PropertyChangedEventArgs => CachedEventArgs.GetOrCreatePropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
 
         public PathPropertyTracker Next => this.pathTracker.GetNext(this);
+
+        public PathPropertyTracker Previous => this.pathTracker.GetPrevious(this);
 
         /// <summary>
         /// Gets or sets the source.
@@ -113,16 +115,22 @@ namespace Gu.Reactive.Internals
                 if (value != null)
                 {
                     value.PropertyChanged += this.onTrackedPropertyChanged;
-                    this.OnTrackedPropertyChanged(value, this.PropertyChangedEventArgs);
+                    var previous = this.Previous;
+                    this.OnTrackedPropertyChanged(
+                        previous?.source,
+                        previous?.PropertyChangedEventArgs ??
+                        CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty));
                 }
                 else if (oldSource != null)
                 {
-                    this.OnTrackedPropertyChanged(null, this.PropertyChangedEventArgs);
+                    var previous = this.Previous;
+                    this.OnTrackedPropertyChanged(
+                        previous?.source,
+                        previous?.PropertyChangedEventArgs ??
+                        CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty));
                 }
             }
         }
-
-        public object Value() => this.PathProperty.GetPropertyValue(this.Source).GetValueOrDefault();
 
         /// <inheritdoc/>
         public void Dispose()
@@ -169,14 +177,7 @@ namespace Gu.Reactive.Internals
                 }
             }
 
-            this.TrackedPropertyChanged?.Invoke(sender, e);
-        }
-
-        private bool IsNullToNull(object oldSource, object newSource)
-        {
-            var oldValue = this.PathProperty.GetPropertyValue(oldSource);
-            var newValue = this.PathProperty.GetPropertyValue(newSource);
-            return oldValue.GetValueOrDefault() == null && newValue.GetValueOrDefault() == null;
+            this.TrackedPropertyChanged?.Invoke(sender, this.source, e);
         }
     }
 }

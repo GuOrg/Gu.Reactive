@@ -258,7 +258,7 @@
                 o =>
                     {
                         var path = new PropertyPathTracker(source, propertyPath);
-                        PropertyChangedEventHandler handler = (sender, e) => o.OnNext(new EventPattern<PropertyChangedEventArgs>(sender, e));
+                        TrackedPropertyChangedEventHandler handler = (sender, _, e) => o.OnNext(new EventPattern<PropertyChangedEventArgs>(sender, e));
                         path.Last.TrackedPropertyChanged += handler;
                         return new CompositeDisposable(2)
                         {
@@ -284,7 +284,7 @@
                 o =>
                 {
                     var path = new PropertyPathTracker(source, propertyPath);
-                    PropertyChangedEventHandler handler = (_, e) => o.OnNext(e);
+                    TrackedPropertyChangedEventHandler handler = (_, __, e) => o.OnNext(e);
                     path.Last.TrackedPropertyChanged += handler;
                     return new CompositeDisposable(2)
                     {
@@ -312,10 +312,9 @@
                     o =>
                     {
                         var path = new PropertyPathTracker(source, propertyPath);
-                        PropertyChangedEventHandler handler = (sender, e) =>
+                        TrackedPropertyChangedEventHandler handler = (_, last, __) =>
                         {
-                            o.OnNext(propertyPath.Last.GetPropertyValue(sender)
-                                                 .Cast<TProperty>());
+                            o.OnNext(path.GetPropertyValue<TProperty>(last));
                         };
                         path.Last.TrackedPropertyChanged += handler;
                         return new CompositeDisposable(2)

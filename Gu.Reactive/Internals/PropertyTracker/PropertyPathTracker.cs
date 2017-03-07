@@ -84,6 +84,26 @@ namespace Gu.Reactive.Internals
             return null;
         }
 
+        internal PathPropertyTracker GetPrevious(PathPropertyTracker pathPropertyTracker)
+        {
+            for (var i = 1; i < this.parts.Count; i++)
+            {
+                var tracker = this.parts[i];
+                if (ReferenceEquals(tracker, pathPropertyTracker))
+                {
+                    return this.parts[i - 1];
+                }
+            }
+
+            return null;
+        }
+
+        public Maybe<T> GetPropertyValue<T>(object source)
+        {
+            return this.parts[this.parts.Count - 1].PathProperty.GetPropertyValue(source)
+                       .Cast<T>();
+        }
+
         /// <summary>
         /// Refreshes the path recursively from source.
         /// This is for extra security in case changes are notified on different threads.
