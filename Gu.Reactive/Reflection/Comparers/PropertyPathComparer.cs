@@ -2,7 +2,6 @@ namespace Gu.Reactive
 {
     using System.Collections.Generic;
     using System.Linq.Expressions;
-    using System.Reflection;
 
     using Gu.Reactive.Internals;
 

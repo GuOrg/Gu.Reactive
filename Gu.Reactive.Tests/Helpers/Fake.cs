@@ -12,7 +12,7 @@
         private Level next;
         private Level<int> nextInt;
         private string name;
-
+        private Level1 level1;
         private StructLevel structLevel;
         private NotNotifying notNotifying;
         private int value;
@@ -83,6 +83,25 @@
                 }
 
                 this.name = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        public Level1 Level1
+        {
+            get
+            {
+                return this.level1;
+            }
+
+            set
+            {
+                if (ReferenceEquals(value, this.level1))
+                {
+                    return;
+                }
+
+                this.level1 = value;
                 this.OnPropertyChanged();
             }
         }

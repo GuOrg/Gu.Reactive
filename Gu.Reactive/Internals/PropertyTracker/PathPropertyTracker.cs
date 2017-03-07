@@ -27,7 +27,8 @@ namespace Gu.Reactive.Internals
             if (type.IsValueType)
             {
                 var message = string.Format(
-                    "Property path cannot have structs in it. Copy by value will make subscribing error prone." + Environment.NewLine +
+                    "Property path cannot have structs in it. Copy by value will make subscribing error prone." +
+                    Environment.NewLine +
                     "The type {0}.{1} is a value type not so {1}.{2} subscribing to changes is weird.",
                     type.Namespace,
                     type.PrettyName(),
@@ -85,49 +86,25 @@ namespace Gu.Reactive.Internals
                     return;
                 }
 
-                INotifyPropertyChanged oldSource;
                 lock (this.gate)
                 {
-                    if (this.disposed)
+                    if (this.disposed ||
+                        ReferenceEquals(value, this.source))
                     {
                         return;
                     }
 
-                    oldSource = this.source;
-                    this.source = value;
-                }
-
-                if (ReferenceEquals(oldSource, value))
-                {
-                    if (value != null)
+                    if (this.source != null)
                     {
-                        this.OnTrackedPropertyChanged(value, this.PropertyChangedEventArgs);
+                        this.source.PropertyChanged -= this.onTrackedPropertyChanged;
                     }
 
-                    return;
-                }
+                    if (value != null)
+                    {
+                        value.PropertyChanged += this.onTrackedPropertyChanged;
+                    }
 
-                if (oldSource != null)
-                {
-                    oldSource.PropertyChanged -= this.onTrackedPropertyChanged;
-                }
-
-                if (value != null)
-                {
-                    value.PropertyChanged += this.onTrackedPropertyChanged;
-                    var previous = this.Previous;
-                    this.OnTrackedPropertyChanged(
-                        previous?.source,
-                        previous?.PropertyChangedEventArgs ??
-                        CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty));
-                }
-                else if (oldSource != null)
-                {
-                    var previous = this.Previous;
-                    this.OnTrackedPropertyChanged(
-                        previous?.source,
-                        previous?.PropertyChangedEventArgs ??
-                        CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty));
+                    this.source = value;
                 }
             }
         }
@@ -161,23 +138,26 @@ namespace Gu.Reactive.Internals
 
         private void OnTrackedPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            this.OnTrackedPropertyChanged(sender, this.source, e);
+        }
+
+        private void OnTrackedPropertyChanged(object sender, INotifyPropertyChanged newSource, PropertyChangedEventArgs e)
+        {
+            this.Source = newSource;
+            var value = this.PathProperty.GetPropertyValue(this.source);
             var next = this.Next;
             if (next != null)
             {
-                var value = this.PathProperty.GetPropertyValue(this.source);
-                if (ReferenceEquals(value.GetValueOrDefault(), next.Source) && value.GetValueOrDefault() != null)
+                var nextSource = (INotifyPropertyChanged)value
+                                                             .GetValueOrDefault();
+                if (next.source != null ||
+                    nextSource != null)
                 {
-                    // The source signaled event without changing value.
-                    // We still bubble up since it is not our job to filter.
-                    next.OnTrackedPropertyChanged(next.Source, e);
-                }
-                else
-                {
-                    next.Source = (INotifyPropertyChanged)value.GetValueOrDefault(); // Let event bubble up this way.
+                    next.OnTrackedPropertyChanged(sender, nextSource, e);
                 }
             }
 
-            this.TrackedPropertyChanged?.Invoke(sender, this.source, e);
+            this.TrackedPropertyChanged?.Invoke(sender, newSource, e, value);
         }
     }
 }

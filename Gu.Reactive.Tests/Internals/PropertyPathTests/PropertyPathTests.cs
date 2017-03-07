@@ -10,8 +10,11 @@ namespace Gu.Reactive.Tests.Internals.PropertyPathTests
         [Test]
         public void ToStringTest()
         {
-            var path = PropertyPath.GetOrCreate<Fake, int>(x => x.Next.Value);
-            Assert.AreEqual("x => x.Next.Value", path.ToString());
+            var path = PropertyPath.GetOrCreate<Fake, int>(x => x.Level1.Value);
+            Assert.AreEqual("x => x.Level1.Value", path.ToString());
+
+            path = PropertyPath.GetOrCreate<Fake, int>(x => x.Level1.Level2.Value);
+            Assert.AreEqual("x => x.Level1.Level2.Value", path.ToString());
         }
     }
 }

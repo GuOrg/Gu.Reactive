@@ -21,6 +21,7 @@ namespace Gu.Reactive.Internals
 
             this.parts = items;
             items[0].Source = source;
+            this.Refresh();
         }
 
         public int Count => this.parts.Count;
@@ -98,7 +99,7 @@ namespace Gu.Reactive.Internals
             return null;
         }
 
-        public Maybe<T> GetPropertyValue<T>(object source)
+        internal Maybe<T> GetPropertyValue<T>(object source)
         {
             return this.parts[this.parts.Count - 1].PathProperty.GetPropertyValue(source)
                        .Cast<T>();
