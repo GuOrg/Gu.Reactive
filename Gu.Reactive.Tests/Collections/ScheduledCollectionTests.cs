@@ -3,6 +3,8 @@ namespace Gu.Reactive.Tests.Collections
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Threading.Tasks;
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
@@ -131,6 +133,31 @@ namespace Gu.Reactive.Tests.Collections
                     CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
                 }
             }
+        }
+
+        [Test]
+        public async Task ThreadTest()
+        {
+            var ints = new ScheduledCollection<int>();
+            await Task.WhenAll(Enumerable.Range(0, 8)
+                                         .Select(x =>
+                                                     Task.Run(() =>
+                                                     {
+                                                         if (x % 2 == 0)
+                                                         {
+                                                             for (var i = 0; i < 1000; i++)
+                                                             {
+                                                                 ints.Remove(i);
+                                                             }
+                                                         }
+                                                         else
+                                                         {
+                                                             for (var i = 0; i < 1000; i++)
+                                                             {
+                                                                 ints.Add(i);
+                                                             }
+                                                         }
+                                                     })));
         }
     }
 }
