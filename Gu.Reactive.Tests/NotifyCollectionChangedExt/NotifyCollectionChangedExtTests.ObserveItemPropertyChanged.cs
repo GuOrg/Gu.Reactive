@@ -112,7 +112,6 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
                     collection.Add(item);
                     Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(item, "Name", item, "new1", changes[0]);
 
                     item.Name = "new2";
                     Assert.AreEqual(2, changes.Count);
@@ -120,7 +119,6 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
                     collection.RemoveAt(1);
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item, "Name", item, "new2", changes.Last());
 
                     item.Name = "new3";
                     Assert.AreEqual(3, changes.Count);
@@ -128,7 +126,38 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 }
 
                 Assert.AreEqual(3, changes.Count);
-                EventPatternAssert.AreEqual(item, "Name", item, "new3", changes.Last());
+            }
+
+            [Test]
+            public void ReactsWhenPropertyChangesSameInstanceTwiceTwoLevels()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+                var item = new Fake { Level1 = new Level1 { Name = "1" } };
+                var collection = new ObservableCollection<Fake> { item };
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+                    item.Level1.Name = "new1";
+                    Assert.AreEqual(1, changes.Count);
+                    EventPatternAssert.AreEqual(item.Level1, "Name", item, "new1", changes[0]);
+
+                    collection.Add(item);
+                    Assert.AreEqual(1, changes.Count);
+
+                    item.Level1.Name = "new2";
+                    Assert.AreEqual(2, changes.Count);
+                    EventPatternAssert.AreEqual(item.Level1, "Name", item, "new2", changes.Last());
+
+                    collection.RemoveAt(1);
+                    Assert.AreEqual(2, changes.Count);
+
+                    item.Level1.Name = "new3";
+                    Assert.AreEqual(3, changes.Count);
+                    EventPatternAssert.AreEqual(item.Level1, "Name", item, "new3", changes.Last());
+                }
+
+                Assert.AreEqual(3, changes.Count);
             }
 
             [Test]
