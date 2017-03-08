@@ -56,6 +56,7 @@
 
                 foreach (var kvp in this.map)
                 {
+                    kvp.Value.Last.TrackedPropertyChanged -= this.OnTrackedItemChanged;
                     kvp.Value.Dispose();
                 }
 
@@ -90,6 +91,7 @@
                 {
                     foreach (var kvp in this.map)
                     {
+                        kvp.Value.Last.TrackedPropertyChanged -= this.OnTrackedItemChanged;
                         kvp.Value.Dispose();
                     }
 
