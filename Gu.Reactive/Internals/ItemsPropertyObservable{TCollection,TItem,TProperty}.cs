@@ -13,11 +13,12 @@
     {
         private readonly PropertyPath<TItem, TProperty> propertyPath;
         private readonly IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer;
-        private readonly WeakReference sourceReference = new WeakReference(null);
         private readonly Dictionary<TItem, IDisposable> map = new Dictionary<TItem, IDisposable>(ObjectIdentityComparer<TItem>.Default);
         private readonly HashSet<TItem> set = new HashSet<TItem>(ObjectIdentityComparer<TItem>.Default);
         private readonly System.Reactive.Disposables.SerialDisposable collectionChangedSubscription = new System.Reactive.Disposables.SerialDisposable();
         private readonly object gate = new object();
+
+        private TCollection source;
         private bool disposed;
 
         public ItemsPropertyObservable(
@@ -35,8 +36,6 @@
             }
         }
 
-        private TCollection Source => (TCollection)this.sourceReference.Target;
-
         /// <inheritdoc/>
         public void Dispose()
         {
@@ -53,25 +52,26 @@
             }
 
             this.map.Clear();
+            this.set.Clear();
         }
 
-        internal void UpdateSource(TCollection source)
+        internal void UpdateSource(TCollection newSource)
         {
             this.ThrowIfDisposed();
-            if (ReferenceEquals(source, this.sourceReference.Target))
+            if (ReferenceEquals(this.source, newSource))
             {
                 return;
             }
 
             lock (this.gate)
             {
-                if (ReferenceEquals(source, this.sourceReference.Target))
+                if (ReferenceEquals(this.source, newSource))
                 {
                     return;
                 }
 
-                this.sourceReference.Target = source;
-                if (source == null)
+                this.source = newSource;
+                if (newSource == null)
                 {
                     this.collectionChangedSubscription.Disposable.Dispose();
                     foreach (var kvp in this.map)
@@ -83,7 +83,7 @@
                 }
                 else
                 {
-                    this.collectionChangedSubscription.Disposable = source.ObserveCollectionChangedSlim(true)
+                    this.collectionChangedSubscription.Disposable = newSource.ObserveCollectionChangedSlim(true)
                                                                           .Subscribe(this.OnTrackedCollectionChanged);
                 }
             }
@@ -109,7 +109,7 @@
                         break;
                     case NotifyCollectionChangedAction.Reset:
                         this.RemoveItems(this.map.Keys);
-                        this.AddItems(this.Source, true);
+                        this.AddItems(this.source, true);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -136,7 +136,7 @@
         {
             this.set.Clear();
             this.set.UnionWith(items);
-            this.set.ExceptWith(this.Source ?? Enumerable.Empty<TItem>());
+            this.set.ExceptWith(this.source ?? Enumerable.Empty<TItem>());
             foreach (var item in this.set)
             {
                 if (item == null)
