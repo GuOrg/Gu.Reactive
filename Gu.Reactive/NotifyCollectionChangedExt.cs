@@ -62,8 +62,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Observes propertychanges for items of the collection.
         /// </summary>
-        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>
-            ObserveItemPropertyChanged<TCollection, TItem, TProperty>(
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TCollection, TItem, TProperty>(
                 TCollection source,
                 Expression<Func<TItem, TProperty>> property,
                 bool signalInitial = true)
@@ -74,35 +73,23 @@ namespace Gu.Reactive
             Ensure.NotNull(property, nameof(property));
 
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
-                o =>
-                {
-                    TrackedPropertyChangedEventHandler handler;
-                    var tracker = o.CreateTracker(
-                        source,
-                        property,
-                        signalInitial,
-                        (item, sender, args, sourceAndValue) =>
-                            new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
-                                sender,
-                                new ItemPropertyChangedEventArgs<TItem, TProperty>(
-                                    item,
-                                    sourceAndValue,
-                                    args.PropertyName)),
-                        out handler);
-
-                    return new CompositeDisposable(2)
-                    {
-                        tracker,
-                        Disposable.Create(() => tracker.TrackedItemChanged -= handler)
-                    };
-                });
+                o => source.ObserveItemPropertyChangedCore(
+                    o,
+                    property,
+                    signalInitial,
+                    (item, sender, args, sourceAndValue) =>
+                        new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
+                            sender,
+                            new ItemPropertyChangedEventArgs<TItem, TProperty>(
+                                item,
+                                sourceAndValue,
+                                args.PropertyName))));
         }
 
         /// <summary>
         /// Observes propertychanges for items of the collection.
         /// </summary>
-        public static IObservable<PropertyChangedEventArgs> ObserveItemPropertyChangedSlim
-            <TCollection, TItem, TProperty>(
+        public static IObservable<PropertyChangedEventArgs> ObserveItemPropertyChangedSlim<TCollection, TItem, TProperty>(
                 TCollection source,
                 Expression<Func<TItem, TProperty>> property,
                 bool signalInitial = true)
@@ -113,22 +100,11 @@ namespace Gu.Reactive
             Ensure.NotNull(property, nameof(property));
 
             return Observable.Create<PropertyChangedEventArgs>(
-                o =>
-                {
-                    TrackedPropertyChangedEventHandler handler;
-                    var tracker = o.CreateTracker(
-                        source,
-                        property,
-                        signalInitial,
-                        (item, sender, args, sourceAndValue) => args,
-                        out handler);
-
-                    return new CompositeDisposable(2)
-                    {
-                        tracker,
-                        Disposable.Create(() => tracker.TrackedItemChanged -= handler)
-                    };
-                });
+                o => source.ObserveItemPropertyChangedCore(
+                    o,
+                    property,
+                    signalInitial,
+                    (item, sender, args, sourceAndValue) => args));
         }
 
         /// <summary>
@@ -168,13 +144,12 @@ namespace Gu.Reactive
                 });
         }
 
-        private static ItemsTracker<TCollection, TItem, TProperty> CreateTracker<TCollection, TItem, TProperty, T>(
-            this IObserver<T> o,
-            TCollection source,
+        private static IDisposable ObserveItemPropertyChangedCore<TCollection, TItem, TProperty, T>(
+            this TCollection source,
+            IObserver<T> o,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial,
-            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<object>, T> create,
-            out TrackedPropertyChangedEventHandler handler)
+            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<object>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
@@ -184,7 +159,7 @@ namespace Gu.Reactive
                     : source,
                 NotifyingPath.GetOrCreate(property));
 
-            handler = (propertyTracker, sender, args, sourceAndValue) => o.OnNext(
+            TrackedPropertyChangedEventHandler handler = (propertyTracker, sender, args, sourceAndValue) => o.OnNext(
                 create(
                     (TItem)propertyTracker.PathTracker.First.Source,
                     sender,
@@ -197,7 +172,11 @@ namespace Gu.Reactive
                 tracker.UpdateSource(source);
             }
 
-            return tracker;
+            return new CompositeDisposable(2)
+            {
+                tracker,
+                Disposable.Create(() => tracker.TrackedItemChanged -= handler)
+            };
         }
     }
 }
