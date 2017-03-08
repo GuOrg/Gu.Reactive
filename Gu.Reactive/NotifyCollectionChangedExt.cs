@@ -62,7 +62,7 @@ namespace Gu.Reactive
         /// Observes propertychanges for items of the collection.
         /// </summary>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TCollection, TItem, TProperty>(
-            this TCollection source,
+            TCollection source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged

@@ -33,34 +33,7 @@
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));
 
-            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
-                    o =>
-                        {
-                            var tracker = new ItemsTracker<ObservableCollection<TItem>, TItem, TProperty>(
-                               signalInitial ? null : source,
-                                NotifyingPath.GetOrCreate(property));
-                            TrackedPropertyChangedEventHandler handler = (propertyTracker, sender, args, sourceAndValue) =>
-                            {
-                                o.OnNext(
-                                    new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
-                                        sender,
-                                        new ItemPropertyChangedEventArgs<TItem, TProperty>(
-                                            (TItem)propertyTracker.PathTracker.First.Source,
-                                            sourceAndValue,
-                                            args.PropertyName)));
-                            };
-                            tracker.TrackedItemChanged += handler;
-                            if (signalInitial)
-                            {
-                                tracker.UpdateSource(source);
-                            }
-
-                            return new CompositeDisposable(2)
-                                       {
-                                           tracker,
-                                           Disposable.Create(() => tracker.TrackedItemChanged -= handler)
-                                       };
-                        });
+            return ObserveItemPropertyChanged<ObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
         }
 
         /// <summary>
@@ -123,34 +96,7 @@
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));
 
-            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
-                    o =>
-                        {
-                            var tracker = new ItemsTracker<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(
-                               signalInitial ? null : source,
-                                NotifyingPath.GetOrCreate(property));
-                            TrackedPropertyChangedEventHandler handler = (propertyTracker, sender, args, sourceAndValue) =>
-                            {
-                                o.OnNext(
-                                    new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
-                                        sender,
-                                        new ItemPropertyChangedEventArgs<TItem, TProperty>(
-                                            (TItem)propertyTracker.PathTracker.First.Source,
-                                            sourceAndValue,
-                                            args.PropertyName)));
-                            };
-                            tracker.TrackedItemChanged += handler;
-                            if (signalInitial)
-                            {
-                                tracker.UpdateSource(source);
-                            }
-
-                            return new CompositeDisposable(2)
-                                       {
-                                           tracker,
-                                           Disposable.Create(() => tracker.TrackedItemChanged -= handler)
-                                       };
-                        });
+            return ObserveItemPropertyChanged<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
         }
 
         /// <summary>
@@ -213,34 +159,7 @@
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));
 
-            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
-                    o =>
-                        {
-                            var tracker = new ItemsTracker<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(
-                               signalInitial ? null : source,
-                                NotifyingPath.GetOrCreate(property));
-                            TrackedPropertyChangedEventHandler handler = (propertyTracker, sender, args, sourceAndValue) =>
-                            {
-                                o.OnNext(
-                                    new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
-                                        sender,
-                                        new ItemPropertyChangedEventArgs<TItem, TProperty>(
-                                            (TItem)propertyTracker.PathTracker.First.Source,
-                                            sourceAndValue,
-                                            args.PropertyName)));
-                            };
-                            tracker.TrackedItemChanged += handler;
-                            if (signalInitial)
-                            {
-                                tracker.UpdateSource(source);
-                            }
-
-                            return new CompositeDisposable(2)
-                                       {
-                                           tracker,
-                                           Disposable.Create(() => tracker.TrackedItemChanged -= handler)
-                                       };
-                        });
+            return ObserveItemPropertyChanged<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
         }
 
         /// <summary>
