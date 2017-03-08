@@ -1,14 +1,12 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.Collections.Concurrent;
     using System.ComponentModel;
     using System.Linq.Expressions;
     using System.Reactive;
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
     using System.Reflection;
-    using System.Text;
 
     using Gu.Reactive.Internals;
 
@@ -17,8 +15,6 @@
     /// </summary>
     public static class NotifyPropertyChangedExt
     {
-        private static readonly ConcurrentDictionary<LambdaExpression, VerifiedPropertyPath> Cached = new ConcurrentDictionary<LambdaExpression, VerifiedPropertyPath>(PropertyPathComparer.Default);
-
         /// <summary>
         /// Extension method for listening to property changes.
         /// Handles nested x => x.Level1.Level2.Level3
@@ -37,20 +33,17 @@
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
             bool signalInitial = true)
-            where TNotifier : INotifyPropertyChanged
+            where TNotifier : class, INotifyPropertyChanged
         {
-            var verifiedPath = Cached.GetOrAdd(property, p => VerifiedPropertyPath.Create((Expression<Func<TNotifier, TProperty>>)p));
-            if (!string.IsNullOrEmpty(verifiedPath.ErrorMessage))
-            {
-                throw new ArgumentException($"Error found in {property}" + Environment.NewLine + verifiedPath.ErrorMessage, nameof(property));
-            }
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
 
-            if (verifiedPath.Path.Count > 1)
-            {
-                return source.ObservePropertyChanged((PropertyPath<TNotifier, TProperty>)verifiedPath.Path, signalInitial);
-            }
-
-            return source.ObservePropertyChanged(verifiedPath.Path[0].PropertyInfo.Name, signalInitial);
+            var notifyingPath = NotifyingPath.GetOrCreate(property);
+            return ObservePropertyChangedCore(
+                source,
+                (PropertyPath<TNotifier, TProperty>)notifyingPath.Path,
+                (sender, args) => new EventPattern<PropertyChangedEventArgs>(sender, args),
+                signalInitial);
         }
 
         /// <summary>
@@ -109,15 +102,13 @@
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
             bool signalInitial = true)
-            where TNotifier : INotifyPropertyChanged
+            where TNotifier : class, INotifyPropertyChanged
         {
-            var verifiedPath = Cached.GetOrAdd(property, p => VerifiedPropertyPath.Create((Expression<Func<TNotifier, TProperty>>)p));
-            if (!string.IsNullOrEmpty(verifiedPath.ErrorMessage))
-            {
-                throw new ArgumentException($"Error found in {property}" + Environment.NewLine + verifiedPath.ErrorMessage, nameof(property));
-            }
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
 
-            return ObservePropertyChangedCore(source, (PropertyPath<TNotifier, TProperty>)verifiedPath.Path, (_, e) => e, signalInitial);
+            var notifyingPath = NotifyingPath.GetOrCreate(property);
+            return ObservePropertyChangedCore(source, (PropertyPath<TNotifier, TProperty>)notifyingPath.Path, (_, e) => e, signalInitial);
         }
 
         /// <summary>
@@ -130,6 +121,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNullOrEmpty(propertyName, nameof(propertyName));
+
             if (source.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) == null)
             {
                 throw new ArgumentException($"The type {source.GetType()} does not have a property named {propertyName}", propertyName);
@@ -180,14 +172,11 @@
             where TNotifier : class, INotifyPropertyChanged
         {
             Ensure.NotNull(source, nameof(source));
-            var verifiedPath = Cached.GetOrAdd(property, p => VerifiedPropertyPath.Create((Expression<Func<TNotifier, TProperty>>)p));
-            if (!string.IsNullOrEmpty(verifiedPath.ErrorMessage))
-            {
-                throw new ArgumentException($"Error found in {property}" + Environment.NewLine + verifiedPath.ErrorMessage, nameof(property));
-            }
+            Ensure.NotNull(property, nameof(property));
 
+            var notifyingPath = NotifyingPath.GetOrCreate(property);
             return source.ObserveValueCore(
-                             (PropertyPath<TNotifier, TProperty>)verifiedPath.Path,
+                             (PropertyPath<TNotifier, TProperty>)notifyingPath.Path,
                              (_, __, value) => value,
                              signalInitial)
                          .DistinctUntilChanged();
@@ -210,13 +199,9 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));
-            var verifiedPath = Cached.GetOrAdd(property, p => VerifiedPropertyPath.Create((Expression<Func<TNotifier, TProperty>>)p));
-            if (!string.IsNullOrEmpty(verifiedPath.ErrorMessage))
-            {
-                throw new ArgumentException($"Error found in {property}" + Environment.NewLine + verifiedPath.ErrorMessage, nameof(property));
-            }
 
-            return source.ObservePropertyChangedWithValue((PropertyPath<TNotifier, TProperty>)verifiedPath.Path, signalInitial);
+            var notifyingPath = NotifyingPath.GetOrCreate(property);
+            return source.ObservePropertyChangedWithValue((PropertyPath<TNotifier, TProperty>)notifyingPath.Path, signalInitial);
         }
 
         internal static bool IsMatch(this PropertyChangedEventArgs e, PropertyInfo property)
@@ -391,84 +376,6 @@
                         source.PropertyChanged += handler;
                         return Disposable.Create(() => source.PropertyChanged -= handler);
                     });
-        }
-
-        private class VerifiedPropertyPath
-        {
-            private readonly IPropertyPath path;
-
-            private VerifiedPropertyPath(IPropertyPath path, string errorMessage)
-            {
-                this.path = path;
-                this.ErrorMessage = errorMessage;
-            }
-
-            internal string ErrorMessage { get; }
-
-            internal IPropertyPath Path
-            {
-                get
-                {
-                    if (!string.IsNullOrEmpty(this.ErrorMessage))
-                    {
-                        throw new InvalidOperationException($"Error found in {this.path}" + Environment.NewLine + this.ErrorMessage);
-                    }
-
-                    return this.path;
-                }
-            }
-
-            internal static VerifiedPropertyPath Create<TNotifier, TProperty>(Expression<Func<TNotifier, TProperty>> property)
-            {
-                var path = PropertyPath.GetOrCreate(property);
-                var errorBuilder = new StringBuilder();
-                for (var i = 0; i < path.Count; i++)
-                {
-                    string errorMessage;
-                    if (TryGetError(path, i, out errorMessage))
-                    {
-                        errorBuilder.Append(errorMessage);
-                        errorBuilder.AppendLine();
-                    }
-                }
-
-                return new VerifiedPropertyPath(path, errorBuilder.ToString());
-            }
-
-            private static bool TryGetError(IPropertyPath path, int i, out string errorMessage)
-            {
-                var propertyInfo = path[i].PropertyInfo;
-                var reflectedType = propertyInfo.ReflectedType;
-                if (reflectedType?.IsValueType == true)
-                {
-                    errorMessage = string.Format(
-                            "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?" + Environment.NewLine +
-                            "The type {0} is a value type not so {1}.{2} will not notify when it changes." + Environment.NewLine +
-                            "The path is: {3}",
-                            reflectedType.PrettyName(),
-                            i == 0 ? "x" : path[i - 1].PropertyInfo.Name,
-                            propertyInfo.Name,
-                            path);
-                    return true;
-                }
-
-                if (reflectedType?.IsClass == true &&
-                    !typeof(INotifyPropertyChanged).IsAssignableFrom(reflectedType))
-                {
-                    errorMessage = string.Format(
-                        "All levels in the path must implement INotifyPropertyChanged." + Environment.NewLine +
-                        "The type {0} does not so {1}.{2} will not notify when it changes." + Environment.NewLine +
-                        "The path is: {3}",
-                        reflectedType.PrettyName(),
-                        i == 0 ? "x" : path[i - 1].PropertyInfo.Name,
-                        propertyInfo.Name,
-                        path);
-                    return true;
-                }
-
-                errorMessage = null;
-                return false;
-            }
         }
     }
 }

@@ -117,6 +117,7 @@
     <Compile Include="Internals\Ignore.cs" />
     <Compile Include="Internals\ItemsPropertyObservable{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\LazyExt.cs" />
+    <Compile Include="Internals\PropertyPathStuff\NotifyingPath.cs" />
     <Compile Include="Internals\PropertyTracker\TrackedPropertyChangedEventHandler.cs" />
     <Compile Include="Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
