@@ -78,6 +78,27 @@
         /// <summary>
         /// Used for chained subscriptions sample:
         /// source.ObservePropertyChangedWithValue(x => x.Collection, true)
+        ///       .ItemPropertyChanged(x => x.Name)
+        /// </summary>
+        /// <typeparam name="TItem">The type of <paramref name="source"/></typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The source instance.</param>
+        /// <param name="property">An expression with the property path.</param>
+        /// <returns>An observable that notifies when the property changes.</returns>
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
+             this IObservable<ObservableCollection<TItem>> source,
+             Expression<Func<TItem, TProperty>> property)
+             where TItem : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
+            return ItemPropertyChanged<ObservableCollection<TItem>, TItem, TProperty>(source, property);
+        }
+
+        /// <summary>
+        /// Used for chained subscriptions sample:
+        /// source.ObservePropertyChangedWithValue(x => x.Collection, true)
         ///       .ItemPropertyChangedSlim(x => x.Name)
         /// </summary>
         /// <typeparam name="TItem">The type of <paramref name="source"/></typeparam>
@@ -160,6 +181,27 @@
         /// <summary>
         /// Used for chained subscriptions sample:
         /// source.ObservePropertyChangedWithValue(x => x.Collection, true)
+        ///       .ItemPropertyChanged(x => x.Name)
+        /// </summary>
+        /// <typeparam name="TItem">The type of <paramref name="source"/></typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The source instance.</param>
+        /// <param name="property">An expression with the property path.</param>
+        /// <returns>An observable that notifies when the property changes.</returns>
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
+             this IObservable<ReadOnlyObservableCollection<TItem>> source,
+             Expression<Func<TItem, TProperty>> property)
+             where TItem : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
+            return ItemPropertyChanged<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+        }
+
+        /// <summary>
+        /// Used for chained subscriptions sample:
+        /// source.ObservePropertyChangedWithValue(x => x.Collection, true)
         ///       .ItemPropertyChangedSlim(x => x.Name)
         /// </summary>
         /// <typeparam name="TItem">The type of <paramref name="source"/></typeparam>
@@ -230,6 +272,27 @@
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
              this IObservable<EventPattern<PropertyChangedAndValueEventArgs<IReadOnlyObservableCollection<TItem>>>> source,
+             Expression<Func<TItem, TProperty>> property)
+             where TItem : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
+            return ItemPropertyChanged<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+        }
+
+        /// <summary>
+        /// Used for chained subscriptions sample:
+        /// source.ObservePropertyChangedWithValue(x => x.Collection, true)
+        ///       .ItemPropertyChanged(x => x.Name)
+        /// </summary>
+        /// <typeparam name="TItem">The type of <paramref name="source"/></typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The source instance.</param>
+        /// <param name="property">An expression with the property path.</param>
+        /// <returns>An observable that notifies when the property changes.</returns>
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
+             this IObservable<IReadOnlyObservableCollection<TItem>> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {

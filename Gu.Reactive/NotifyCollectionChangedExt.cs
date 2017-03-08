@@ -21,7 +21,8 @@ namespace Gu.Reactive
         /// Observes collectionchanged events for <paramref name="source"/>.
         /// </summary>
         public static IObservable<NotifyCollectionChangedEventArgs> ObserveCollectionChangedSlim(
-            this INotifyCollectionChanged source, bool signalInitial)
+            this INotifyCollectionChanged source,
+            bool signalInitial)
         {
             if (signalInitial)
             {
@@ -112,6 +113,31 @@ namespace Gu.Reactive
         /// </summary>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
                 this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
+                Expression<Func<TItem, TProperty>> property)
+            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TItem : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
+                o => source.ItemPropertyChangedCore(
+                    o,
+                    property,
+                    (item, sender, args, sourceAndValue) =>
+                        new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
+                            sender,
+                            new ItemPropertyChangedEventArgs<TItem, TProperty>(
+                                item,
+                                sourceAndValue,
+                                args.PropertyName))));
+        }
+
+        /// <summary>
+        /// Observes propertychanges for items of the collection.
+        /// </summary>
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
+                this IObservable<TCollection> source,
                 Expression<Func<TItem, TProperty>> property)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
