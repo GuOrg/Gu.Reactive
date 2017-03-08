@@ -64,8 +64,6 @@ namespace Gu.Reactive.Internals
 
         public PathProperty PathProperty { get; }
 
-        public PropertyChangedEventArgs PropertyChangedEventArgs => CachedEventArgs.GetOrCreatePropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
-
         public PathPropertyTracker Next => this.PathTracker.GetNext(this);
 
         public PathPropertyTracker Previous => this.PathTracker.GetPrevious(this);

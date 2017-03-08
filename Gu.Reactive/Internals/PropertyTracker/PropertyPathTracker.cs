@@ -101,12 +101,6 @@ namespace Gu.Reactive.Internals
             return null;
         }
 
-        internal Maybe<T> GetPropertyValue<T>(object source)
-        {
-            return this.parts[this.parts.Count - 1].PathProperty.GetPropertyValue(source)
-                       .Cast<T>();
-        }
-
         internal SourceAndValue<object> SourceAndValue()
         {
             for (var i = this.parts.Count - 1; i >= 0; i--)
