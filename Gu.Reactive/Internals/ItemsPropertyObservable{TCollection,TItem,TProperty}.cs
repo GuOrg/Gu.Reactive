@@ -11,7 +11,7 @@
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
-        private readonly PropertyPath<TItem, TProperty> propertyPath;
+        private readonly NotifyingPath<TItem, TProperty> propertyPath;
         private readonly IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer;
         private readonly Dictionary<TItem, IDisposable> map = new Dictionary<TItem, IDisposable>(ObjectIdentityComparer<TItem>.Default);
         private readonly HashSet<TItem> set = new HashSet<TItem>(ObjectIdentityComparer<TItem>.Default);
@@ -22,7 +22,7 @@
 
         public ItemsTracker(
             TCollection source,
-            PropertyPath<TItem, TProperty> propertyPath,
+            NotifyingPath<TItem, TProperty> propertyPath,
             IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer,
             bool signalInitial = true)
         {

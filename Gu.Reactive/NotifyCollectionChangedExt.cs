@@ -72,7 +72,7 @@ namespace Gu.Reactive
                     o =>
                         new ItemsTracker<TCollection, TItem, TProperty>(
                             source,
-                            PropertyPath.GetOrCreate(property),
+                            NotifyingPath.GetOrCreate(property),
                             o,
                             signalInitial));
         }
@@ -91,7 +91,7 @@ namespace Gu.Reactive
                     {
                         var tracker = new ItemsTracker<TCollection, TItem, TProperty>(
                             null,
-                            PropertyPath.GetOrCreate(property),
+                            NotifyingPath.GetOrCreate(property),
                             o,
                             false);
                         var subscription = source.Subscribe(x => tracker.UpdateSource(x.EventArgs.Value));

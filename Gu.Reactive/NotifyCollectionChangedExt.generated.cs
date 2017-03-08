@@ -34,7 +34,7 @@
                     o =>
                         new ItemsTracker<ObservableCollection<TItem>, TItem, TProperty>(
                             source,
-                            PropertyPath.GetOrCreate(property),
+                            NotifyingPath.GetOrCreate(property),
                             o,
                             signalInitial));
         }
@@ -57,13 +57,13 @@
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o =>
                     {
-                        var itemsPropertyObservable = new ItemsTracker<ObservableCollection<TItem>, TItem, TProperty>(
+                        var tracker = new ItemsTracker<ObservableCollection<TItem>, TItem, TProperty>(
                             null,
-                            PropertyPath.GetOrCreate(property),
+                            NotifyingPath.GetOrCreate(property),
                             o,
                             false);
-                        var subscription = source.Subscribe(x => itemsPropertyObservable.UpdateSource(x.EventArgs.Value));
-                        return new CompositeDisposable(2) { itemsPropertyObservable, subscription };
+                        var subscription = source.Subscribe(x => tracker.UpdateSource(x.EventArgs.Value));
+                        return new CompositeDisposable(2) { tracker, subscription };
                     });
         }
 
@@ -85,7 +85,7 @@
                     o =>
                         new ItemsTracker<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(
                             source,
-                            PropertyPath.GetOrCreate(property),
+                            NotifyingPath.GetOrCreate(property),
                             o,
                             signalInitial));
         }
@@ -108,13 +108,13 @@
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o =>
                     {
-                        var itemsPropertyObservable = new ItemsTracker<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(
+                        var tracker = new ItemsTracker<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(
                             null,
-                            PropertyPath.GetOrCreate(property),
+                            NotifyingPath.GetOrCreate(property),
                             o,
                             false);
-                        var subscription = source.Subscribe(x => itemsPropertyObservable.UpdateSource(x.EventArgs.Value));
-                        return new CompositeDisposable(2) { itemsPropertyObservable, subscription };
+                        var subscription = source.Subscribe(x => tracker.UpdateSource(x.EventArgs.Value));
+                        return new CompositeDisposable(2) { tracker, subscription };
                     });
         }
 
@@ -136,7 +136,7 @@
                     o =>
                         new ItemsTracker<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(
                             source,
-                            PropertyPath.GetOrCreate(property),
+                            NotifyingPath.GetOrCreate(property),
                             o,
                             signalInitial));
         }
@@ -159,13 +159,13 @@
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o =>
                     {
-                        var itemsPropertyObservable = new ItemsTracker<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(
+                        var tracker = new ItemsTracker<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(
                             null,
-                            PropertyPath.GetOrCreate(property),
+                            NotifyingPath.GetOrCreate(property),
                             o,
                             false);
-                        var subscription = source.Subscribe(x => itemsPropertyObservable.UpdateSource(x.EventArgs.Value));
-                        return new CompositeDisposable(2) { itemsPropertyObservable, subscription };
+                        var subscription = source.Subscribe(x => tracker.UpdateSource(x.EventArgs.Value));
+                        return new CompositeDisposable(2) { tracker, subscription };
                     });
         }
     }

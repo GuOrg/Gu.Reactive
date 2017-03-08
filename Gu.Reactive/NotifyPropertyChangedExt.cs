@@ -41,7 +41,7 @@
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             return ObservePropertyChangedCore(
                 source,
-                notifyingPath.Path,
+                notifyingPath,
                 (sender, args) => new EventPattern<PropertyChangedEventArgs>(sender, args),
                 signalInitial);
         }
@@ -108,7 +108,7 @@
             Ensure.NotNull(property, nameof(property));
 
             var notifyingPath = NotifyingPath.GetOrCreate(property);
-            return ObservePropertyChangedCore(source, notifyingPath.Path, (_, e) => e, signalInitial);
+            return ObservePropertyChangedCore(source, notifyingPath, (_, e) => e, signalInitial);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@
 
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             return source.ObserveValueCore(
-                             notifyingPath.Path,
+                             notifyingPath,
                              (_, __, value) => value,
                              signalInitial)
                          .DistinctUntilChanged();
@@ -201,7 +201,7 @@
             Ensure.NotNull(property, nameof(property));
 
             var notifyingPath = NotifyingPath.GetOrCreate(property);
-            return source.ObservePropertyChangedWithValue(notifyingPath.Path, signalInitial);
+            return source.ObservePropertyChangedWithValue(notifyingPath, signalInitial);
         }
 
         internal static bool IsMatch(this PropertyChangedEventArgs e, PropertyInfo property)
@@ -229,7 +229,7 @@
         /// </param>
         internal static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
             this TNotifier source,
-            PropertyPath<TNotifier, TProperty> propertyPath,
+            NotifyingPath<TNotifier, TProperty> propertyPath,
             bool signalInitial = true)
             where TNotifier : INotifyPropertyChanged
         {
@@ -242,7 +242,7 @@
 
         internal static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(
             this TNotifier source,
-            PropertyPath<TNotifier, TProperty> propertyPath,
+            NotifyingPath<TNotifier, TProperty> propertyPath,
             bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
@@ -256,7 +256,7 @@
 
         private static IObservable<T> ObserveValueCore<TNotifier, TProperty, T>(
             this TNotifier source,
-            PropertyPath<TNotifier, TProperty> propertyPath,
+            NotifyingPath<TNotifier, TProperty> notifyingPath,
             Func<object, PropertyChangedEventArgs, Maybe<TProperty>, T> create,
             bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
@@ -266,23 +266,23 @@
                 return Observable.Defer(
                                      () =>
                                          {
-                                             var sender = propertyPath.GetSender(source) ?? source;
-                                             var value = propertyPath.Last.GetValueFromRoot<TProperty>(source);
+                                             var sender = notifyingPath.Path.GetSender(source) ?? source;
+                                             var value = notifyingPath.Path.Last.GetValueFromRoot<TProperty>(source);
                                              return Observable.Return(
                                                  create(
                                                      sender,
                                                      CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty),
                                                      value));
                                          })
-                                 .Concat(source.ObserveValueCore(propertyPath, create, false));
+                                 .Concat(source.ObserveValueCore(notifyingPath, create, false));
             }
 
-            if (propertyPath.Count > 1)
+            if (notifyingPath.Count > 1)
             {
                 return Observable.Create<T>(
                     o =>
                     {
-                        var path = new PropertyPathTracker(source, propertyPath);
+                        var path = new PropertyPathTracker(source, notifyingPath.Path);
                         TrackedPropertyChangedEventHandler handler = (sender, _, args, value) =>
                             {
                                 o.OnNext(create(sender, args, value.Cast<TProperty>()));
@@ -301,9 +301,9 @@
                                  {
                                      PropertyChangedEventHandler handler = (sender, e) =>
                                      {
-                                         if (e.IsMatch(propertyPath.Last.PropertyInfo))
+                                         if (e.IsMatch(notifyingPath.Path.Last.PropertyInfo))
                                          {
-                                             var value = propertyPath.Last.GetPropertyValue(sender).Cast<TProperty>();
+                                             var value = notifyingPath.Path.Last.GetPropertyValue(sender).Cast<TProperty>();
                                              o.OnNext(create(sender, e, value));
                                          }
                                      };
@@ -314,7 +314,7 @@
 
         private static IObservable<T> ObservePropertyChangedCore<TNotifier, TProperty, T>(
             this TNotifier source,
-            PropertyPath<TNotifier, TProperty> propertyPath,
+            NotifyingPath<TNotifier, TProperty> notifyingPath,
             Func<object, PropertyChangedEventArgs, T> create,
             bool signalInitial = true)
             where TNotifier : INotifyPropertyChanged
@@ -323,17 +323,17 @@
             {
                 return Observable.Return(
                                      create(
-                                         propertyPath.GetSender(source) ?? source,
+                                         notifyingPath.Path.GetSender(source) ?? source,
                                          CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty)))
-                                 .Concat(source.ObservePropertyChangedCore(propertyPath, create, false));
+                                 .Concat(source.ObservePropertyChangedCore(notifyingPath, create, false));
             }
 
-            if (propertyPath.Count > 1)
+            if (notifyingPath.Count > 1)
             {
                 return Observable.Create<T>(
                     o =>
                         {
-                            var path = new PropertyPathTracker(source, propertyPath);
+                            var path = new PropertyPathTracker(source, notifyingPath.Path);
                             TrackedPropertyChangedEventHandler handler = (sender, _, e, __) => o.OnNext(create(sender, e));
                             path.Last.TrackedPropertyChanged += handler;
                             return new CompositeDisposable(2)
@@ -344,7 +344,7 @@
                         });
             }
 
-            return ObservePropertyChangedCore(source, propertyPath.Last.PropertyInfo.Name, create, false);
+            return ObservePropertyChangedCore(source, notifyingPath.Path.Last.PropertyInfo.Name, create, false);
         }
 
         private static IObservable<T> ObservePropertyChangedCore<TNotifier, T>(

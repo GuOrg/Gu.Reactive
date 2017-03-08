@@ -11,6 +11,7 @@ namespace Gu.Reactive.Internals
         private readonly IReadOnlyList<PathPropertyTracker> parts;
         private bool disposed;
 
+        [Obsolete("Use Notifying path instead of IPropertyPath")]
         internal PropertyPathTracker(INotifyPropertyChanged source, IPropertyPath path)
         {
             var items = new PathPropertyTracker[path.Count];

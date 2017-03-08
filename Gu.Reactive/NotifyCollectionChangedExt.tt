@@ -13,7 +13,6 @@ namespace Gu.Reactive
     using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
-    using Gu.Reactive.PropertyPathStuff;
 
     /// <summary>
     /// Factory methods for creating observables from notifying collections.
@@ -46,9 +45,9 @@ namespace Gu.Reactive
         {
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                     o =>
-                        new ItemsPropertyObservable<<#= typeName #><TItem>, TItem, TProperty>(
+                        new ItemsTracker<<#= typeName #><TItem>, TItem, TProperty>(
                             source,
-                            PropertyPath.GetOrCreate(property),
+                            NotifyingPath.GetOrCreate(property),
                             o,
                             signalInitial));
         }
@@ -71,13 +70,13 @@ namespace Gu.Reactive
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o =>
                     {
-                        var itemsPropertyObservable = new ItemsPropertyObservable<<#= typeName #><TItem>, TItem, TProperty>(
+                        var tracker = new ItemsTracker<<#= typeName #><TItem>, TItem, TProperty>(
                             null,
-                            PropertyPath.GetOrCreate(property),
+                            NotifyingPath.GetOrCreate(property),
                             o,
                             false);
-                        var subscription = source.Subscribe(x => itemsPropertyObservable.UpdateSource(x.EventArgs.Value));
-                        return new CompositeDisposable(2) { itemsPropertyObservable, subscription };
+                        var subscription = source.Subscribe(x => tracker.UpdateSource(x.EventArgs.Value));
+                        return new CompositeDisposable(2) { tracker, subscription };
                     });
         }
 <#    } #>
