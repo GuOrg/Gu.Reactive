@@ -6,8 +6,6 @@
     using System.Linq.Expressions;
 
     using System.Reactive;
-    using System.Reactive.Disposables;
-    using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
 
@@ -88,7 +86,7 @@
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
-             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> source,
+             this IObservable<ObservableCollection<TItem>> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
@@ -170,7 +168,7 @@
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
-             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ReadOnlyObservableCollection<TItem>>>> source,
+             this IObservable<ReadOnlyObservableCollection<TItem>> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
@@ -252,7 +250,7 @@
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
-             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<IReadOnlyObservableCollection<TItem>>>> source,
+             this IObservable<IReadOnlyObservableCollection<TItem>> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {

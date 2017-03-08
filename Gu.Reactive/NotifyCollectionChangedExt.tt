@@ -9,8 +9,6 @@ namespace Gu.Reactive
     using System.Linq.Expressions;
 
     using System.Reactive;
-    using System.Reactive.Disposables;
-    using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
 
@@ -106,7 +104,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
-             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<<#= typeName #><TItem>>>> source,
+             this IObservable<<#= typeName #><TItem>> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {

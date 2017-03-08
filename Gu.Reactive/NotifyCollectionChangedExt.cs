@@ -136,7 +136,7 @@ namespace Gu.Reactive
         /// Observes propertychanges for items of the collection.
         /// </summary>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TCollection, TItem, TProperty>(
-                this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
+                this IObservable<TCollection> source,
                 Expression<Func<TItem, TProperty>> property)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
@@ -159,10 +159,26 @@ namespace Gu.Reactive
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
+            return source.Select(x => x.EventArgs.Value)
+                     .ItemPropertyChangedCore(
+                         observer,
+                         property,
+                         create);
+        }
+
+        private static IDisposable ItemPropertyChangedCore<TCollection, TItem, TProperty, T>(
+            this IObservable<TCollection> source,
+            IObserver<T> observer,
+            Expression<Func<TItem, TProperty>> property,
+            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<TProperty>, T> create)
+            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TItem : class, INotifyPropertyChanged
+        {
             var tracker = ItemsTracker.Create((TCollection)null, NotifyingPath.GetOrCreate(property));
-            TrackedItemPropertyChangedEventHandler<TItem, TProperty> handler = (item, sender, args, sourceAndValue) => observer.OnNext(create(item, sender, args, sourceAndValue));
+            TrackedItemPropertyChangedEventHandler<TItem, TProperty> handler =
+                (item, sender, args, sourceAndValue) => observer.OnNext(create(item, sender, args, sourceAndValue));
             tracker.TrackedItemChanged += handler;
-            var subscription = source.Subscribe(x => tracker.UpdateSource(x.EventArgs.Value));
+            var subscription = source.Subscribe(x => tracker.UpdateSource(x));
             return new CompositeDisposable(3)
             {
                 tracker,
