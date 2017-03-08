@@ -115,7 +115,7 @@
     <Compile Include="Contracts\IWpfSchedulers.cs" />
     <Compile Include="Internals\Ensure\Ensure.String.cs" />
     <Compile Include="Internals\Ignore.cs" />
-    <Compile Include="Internals\ItemsPropertyObservable{TCollection,TItem,TProperty}.cs" />
+    <Compile Include="Internals\ItemsTracker{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\LazyExt.cs" />
     <Compile Include="Internals\PropertyPathStuff\NotifyingPath.cs" />
     <Compile Include="Internals\PropertyPathStuff\NotifyingPath{TNotifier,TProperty}.cs" />
