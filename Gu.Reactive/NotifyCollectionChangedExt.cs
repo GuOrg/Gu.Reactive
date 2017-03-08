@@ -120,28 +120,55 @@ namespace Gu.Reactive
             Ensure.NotNull(property, nameof(property));
 
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
-                o =>
-                {
-                    var tracker = ItemsTracker.Create((TCollection)null, NotifyingPath.GetOrCreate(property));
-                    TrackedItemPropertyChangedEventHandler<TItem, TProperty> handler = (item, sender, args, sourceAndValue) =>
-                    {
-                        o.OnNext(
-                            new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
-                                sender,
-                                new ItemPropertyChangedEventArgs<TItem, TProperty>(
-                                    item,
-                                    sourceAndValue,
-                                    args.PropertyName)));
-                    };
-                    tracker.TrackedItemChanged += handler;
-                    var subscription = source.Subscribe(x => tracker.UpdateSource(x.EventArgs.Value));
-                    return new CompositeDisposable(3)
-                    {
-                        tracker,
-                        subscription,
-                        Disposable.Create(() => tracker.TrackedItemChanged -= handler)
-                    };
-                });
+                o => source.ItemPropertyChangedCore(
+                    o,
+                    property,
+                    (item, sender, args, sourceAndValue) =>
+                        new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
+                            sender,
+                            new ItemPropertyChangedEventArgs<TItem, TProperty>(
+                                item,
+                                sourceAndValue,
+                                args.PropertyName))));
+        }
+
+        /// <summary>
+        /// Observes propertychanges for items of the collection.
+        /// </summary>
+        public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TCollection, TItem, TProperty>(
+                this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
+                Expression<Func<TItem, TProperty>> property)
+            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TItem : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
+            return Observable.Create<PropertyChangedEventArgs>(
+                o => source.ItemPropertyChangedCore(
+                    o,
+                    property,
+                    (item, sender, args, sourceAndValue) => args));
+        }
+
+        private static IDisposable ItemPropertyChangedCore<TCollection, TItem, TProperty, T>(
+            this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
+            IObserver<T> observer,
+            Expression<Func<TItem, TProperty>> property,
+            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<TProperty>, T> create)
+            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TItem : class, INotifyPropertyChanged
+        {
+            var tracker = ItemsTracker.Create((TCollection)null, NotifyingPath.GetOrCreate(property));
+            TrackedItemPropertyChangedEventHandler<TItem, TProperty> handler = (item, sender, args, sourceAndValue) => observer.OnNext(create(item, sender, args, sourceAndValue));
+            tracker.TrackedItemChanged += handler;
+            var subscription = source.Subscribe(x => tracker.UpdateSource(x.EventArgs.Value));
+            return new CompositeDisposable(3)
+            {
+                tracker,
+                subscription,
+                Disposable.Create(() => tracker.TrackedItemChanged -= handler)
+            };
         }
 
         private static IDisposable ObserveItemPropertyChangedCore<TCollection, TItem, TProperty, T>(
