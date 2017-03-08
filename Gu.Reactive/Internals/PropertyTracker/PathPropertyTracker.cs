@@ -150,7 +150,7 @@ namespace Gu.Reactive.Internals
             if (next != null)
             {
                 var nextSource = (INotifyPropertyChanged)value
-                                                             .GetValueOrDefault();
+                    .GetValueOrDefault();
                 if (next.source != null ||
                     nextSource != null)
                 {
@@ -158,7 +158,7 @@ namespace Gu.Reactive.Internals
                 }
             }
 
-            this.TrackedPropertyChanged?.Invoke(this, sender, e, newSource, value);
+            this.TrackedPropertyChanged?.Invoke(this, sender, e, new SourceAndValue<object>(newSource, value));
         }
     }
 }

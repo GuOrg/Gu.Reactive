@@ -63,7 +63,7 @@ namespace Gu.Reactive
         /// <param name="items">The items to add.</param>
         public void AddRange(IEnumerable<T> items)
         {
-            AddItems(items);
+            this.AddItems(items);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Gu.Reactive
         /// <param name="items">The items to add.</param>
         public void RemoveRange(IEnumerable<T> items)
         {
-            RemoveItems(items);
+            this.RemoveItems(items);
         }
 
         /// <summary>
