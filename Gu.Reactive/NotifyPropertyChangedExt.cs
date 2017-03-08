@@ -282,16 +282,13 @@
                 return Observable.Create<T>(
                     o =>
                     {
-                        var path = new PropertyPathTracker(source, notifyingPath.Path);
-                        TrackedPropertyChangedEventHandler handler = (sender, _, args, value) =>
-                            {
-                                o.OnNext(create(sender, args, value.Cast<TProperty>()));
-                            };
-                        path.Last.TrackedPropertyChanged += handler;
+                        var tracker = PropertyPathTracker.Create(source, notifyingPath);
+                        TrackedPropertyChangedEventHandler handler = (sender, _, args, value) => o.OnNext(create(sender, args, value.Cast<TProperty>()));
+                        tracker.Last.TrackedPropertyChanged += handler;
                         return new CompositeDisposable(2)
                         {
-                            path,
-                            Disposable.Create(() => path.Last.TrackedPropertyChanged -= handler)
+                            tracker,
+                            Disposable.Create(() => tracker.Last.TrackedPropertyChanged -= handler)
                         };
                     });
             }
@@ -333,13 +330,13 @@
                 return Observable.Create<T>(
                     o =>
                         {
-                            var path = new PropertyPathTracker(source, notifyingPath.Path);
+                            var tracker = PropertyPathTracker.Create(source, notifyingPath);
                             TrackedPropertyChangedEventHandler handler = (sender, _, e, __) => o.OnNext(create(sender, e));
-                            path.Last.TrackedPropertyChanged += handler;
+                            tracker.Last.TrackedPropertyChanged += handler;
                             return new CompositeDisposable(2)
                                        {
-                                           path,
-                                           Disposable.Create(() => path.Last.TrackedPropertyChanged -= handler)
+                                           tracker,
+                                           Disposable.Create(() => tracker.Last.TrackedPropertyChanged -= handler)
                                        };
                         });
             }

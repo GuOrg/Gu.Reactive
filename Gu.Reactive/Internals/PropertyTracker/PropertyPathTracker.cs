@@ -11,8 +11,7 @@ namespace Gu.Reactive.Internals
         private readonly IReadOnlyList<PathPropertyTracker> parts;
         private bool disposed;
 
-        [Obsolete("Use Notifying path instead of IPropertyPath")]
-        internal PropertyPathTracker(INotifyPropertyChanged source, IPropertyPath path)
+        private PropertyPathTracker(INotifyPropertyChanged source, IPropertyPath path)
         {
             var items = new PathPropertyTracker[path.Count];
             for (var i = 0; i < path.Count; i++)
@@ -71,6 +70,8 @@ namespace Gu.Reactive.Internals
         }
 
         public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.PathProperty.PropertyInfo.Name))}";
+
+        internal static PropertyPathTracker Create<TNotifier, TProperty>(INotifyPropertyChanged source, NotifyingPath<TNotifier, TProperty> notifyingPath) => new PropertyPathTracker(source, notifyingPath.Path);
 
         internal PathPropertyTracker GetNext(PathPropertyTracker pathPropertyTracker)
         {
