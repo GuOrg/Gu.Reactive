@@ -7,7 +7,6 @@ namespace Gu.Reactive.Internals
     [DebuggerDisplay("{this.PathProperty}")]
     internal sealed class PathPropertyTracker : IDisposable
     {
-        private readonly PropertyPathTracker pathTracker;
         private readonly PropertyChangedEventHandler onTrackedPropertyChanged;
         private readonly object gate = new object();
 
@@ -47,27 +46,29 @@ namespace Gu.Reactive.Internals
                 throw new ArgumentException(message, nameof(pathProperty));
             }
 
-            this.pathTracker = pathTracker;
+            this.PathTracker = pathTracker;
             this.PathProperty = pathProperty;
             this.onTrackedPropertyChanged = (o, e) =>
                 {
                     if (NotifyPropertyChangedExt.IsMatch(e, this.PathProperty.PropertyInfo))
                     {
                         this.OnTrackedPropertyChanged(o, e);
-                        this.pathTracker.Refresh();
+                        this.PathTracker.Refresh();
                     }
                 };
         }
 
         public event TrackedPropertyChangedEventHandler TrackedPropertyChanged;
 
+        public PropertyPathTracker PathTracker { get; }
+
         public PathProperty PathProperty { get; }
 
         public PropertyChangedEventArgs PropertyChangedEventArgs => CachedEventArgs.GetOrCreatePropertyChangedEventArgs(this.PathProperty.PropertyInfo.Name);
 
-        public PathPropertyTracker Next => this.pathTracker.GetNext(this);
+        public PathPropertyTracker Next => this.PathTracker.GetNext(this);
 
-        public PathPropertyTracker Previous => this.pathTracker.GetPrevious(this);
+        public PathPropertyTracker Previous => this.PathTracker.GetPrevious(this);
 
         /// <summary>
         /// Gets or sets the source.
@@ -157,7 +158,7 @@ namespace Gu.Reactive.Internals
                 }
             }
 
-            this.TrackedPropertyChanged?.Invoke(sender, e, newSource, value);
+            this.TrackedPropertyChanged?.Invoke(this, sender, e, newSource, value);
         }
     }
 }
