@@ -41,7 +41,7 @@
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             return ObservePropertyChangedCore(
                 source,
-                (PropertyPath<TNotifier, TProperty>)notifyingPath.Path,
+                notifyingPath.Path,
                 (sender, args) => new EventPattern<PropertyChangedEventArgs>(sender, args),
                 signalInitial);
         }
@@ -108,7 +108,7 @@
             Ensure.NotNull(property, nameof(property));
 
             var notifyingPath = NotifyingPath.GetOrCreate(property);
-            return ObservePropertyChangedCore(source, (PropertyPath<TNotifier, TProperty>)notifyingPath.Path, (_, e) => e, signalInitial);
+            return ObservePropertyChangedCore(source, notifyingPath.Path, (_, e) => e, signalInitial);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@
 
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             return source.ObserveValueCore(
-                             (PropertyPath<TNotifier, TProperty>)notifyingPath.Path,
+                             notifyingPath.Path,
                              (_, __, value) => value,
                              signalInitial)
                          .DistinctUntilChanged();
@@ -201,7 +201,7 @@
             Ensure.NotNull(property, nameof(property));
 
             var notifyingPath = NotifyingPath.GetOrCreate(property);
-            return source.ObservePropertyChangedWithValue((PropertyPath<TNotifier, TProperty>)notifyingPath.Path, signalInitial);
+            return source.ObservePropertyChangedWithValue(notifyingPath.Path, signalInitial);
         }
 
         internal static bool IsMatch(this PropertyChangedEventArgs e, PropertyInfo property)
