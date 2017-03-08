@@ -107,6 +107,23 @@ namespace Gu.Reactive.Internals
                        .Cast<T>();
         }
 
+        internal SourceAndValue<object> SourceAndValue()
+        {
+            for (var i = this.parts.Count - 1; i >= 0; i--)
+            {
+                var part = this.parts[i];
+                var source = part.Source;
+                if (source != null)
+                {
+                    return i == this.parts.Count - 1
+                               ? new SourceAndValue<object>(source, part.PathProperty.GetPropertyValue(source))
+                               : new SourceAndValue<object>(source, Maybe<object>.None);
+                }
+            }
+
+            return new SourceAndValue<object>(null, Maybe<object>.None);
+        }
+
         /// <summary>
         /// Refreshes the path recursively from source.
         /// This is for extra security in case changes are notified on different threads.

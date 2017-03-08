@@ -117,12 +117,12 @@
     <Compile Include="Internals\Ignore.cs" />
     <Compile Include="Internals\ItemsTracker{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\LazyExt.cs" />
-    <Compile Include="Internals\PropertyPathStuff\NotifyingPath.cs" />
-    <Compile Include="Internals\PropertyPathStuff\NotifyingPath{TNotifier,TProperty}.cs" />
+    <Compile Include="Internals\PropertyTracker\NotifyingPath.cs" />
+    <Compile Include="Internals\PropertyTracker\NotifyingPath{TNotifier,TProperty}.cs" />
     <Compile Include="Internals\PropertyTracker\TrackedPropertyChangedEventHandler.cs" />
     <Compile Include="Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
-    <Compile Include="Internals\PropertyTracker\SenderAndValue{TValue}.cs" />
+    <Compile Include="Internals\PropertyTracker\SourceAndValue{TValue}.cs" />
     <Compile Include="EventArgs\ItemPropertyChangedEventArgs{TItem,TValue}.cs" />
     <Compile Include="NotifyCollectionChangedEventArgs{T}.cs" />
     <Compile Include="EventArgs\NotifyCollectionChangedEventArgsExt.cs" />

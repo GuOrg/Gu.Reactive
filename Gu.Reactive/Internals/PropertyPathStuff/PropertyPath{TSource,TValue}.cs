@@ -8,50 +8,66 @@
     ////[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     internal class PropertyPath<TSource, TValue> : IValuePath<TSource, TValue>, IPropertyPath
     {
-        private readonly PropertyPath propertyPath;
+        private readonly PropertyPath path;
 
-        internal PropertyPath(PropertyPath propertyPath)
+        internal PropertyPath(PropertyPath path)
         {
-            var last = propertyPath.Last();
+            var last = path.Last();
             if (last.PropertyInfo.PropertyType != typeof(TValue))
             {
                 throw new InvalidOperationException($"Valuepath type does not match. Expected: {typeof(TValue).FullName} was: {last.PropertyInfo.PropertyType.FullName}");
             }
 
-            this.propertyPath = propertyPath;
+            this.path = path;
         }
 
-        public int Count => this.propertyPath.Count;
+        public int Count => this.path.Count;
 
-        public PathProperty Last => this.propertyPath.Last;
+        public PathProperty Last => this.path.Last;
 
-        public PathProperty this[int index] => this.propertyPath[index];
+        public PathProperty this[int index] => this.path[index];
 
         IMaybe<TValue> IValuePath<TSource, TValue>.GetValue(TSource source) => this.GetValueFromRoot(source);
+
+        public IEnumerator<PathProperty> GetEnumerator() => this.path.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
+        public override string ToString() => $"x => x.{string.Join(".", this.path.Select(x => x.PropertyInfo.Name))}";
 
         /// <summary>
         /// Get the source of the last item in the path.
         /// </summary>
-        /// <param name="source">The root instance for the path.</param>
-        public object GetSender(TSource source)
+        /// <param name="root">The root instance for the path.</param>
+        internal SourceAndValue<TValue> SourceAndValue(TSource root)
         {
             if (this.Count == 1)
             {
-                return source;
+                return new SourceAndValue<TValue>(root, this[0].GetPropertyValue(root).Cast<TValue>());
             }
 
-            var maybe = this.propertyPath[this.propertyPath.Count - 2].GetValueFromRoot<object>(source);
-            return maybe.HasValue
-                       ? maybe.Value
-                       : null;
+            object source = root;
+            for (var i = 0; i < this.path.Count; i++)
+            {
+                var value = this.path[i].GetPropertyValue(source);
+                if (i == this.path.Count - 1)
+                {
+                    return value.HasValue
+                               ? new SourceAndValue<TValue>(source, value.Cast<TValue>())
+                               : new SourceAndValue<TValue>(source, Maybe<TValue>.None);
+                }
+
+                if (value.GetValueOrDefault() == null)
+                {
+                    return new SourceAndValue<TValue>(source, Maybe<TValue>.None);
+                }
+
+                source = value.Value;
+            }
+
+            return new SourceAndValue<TValue>(source, Maybe<TValue>.None);
         }
 
-        public IEnumerator<PathProperty> GetEnumerator() => this.propertyPath.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-
-        public override string ToString() => $"x => x.{string.Join(".", this.propertyPath.Select(x => x.PropertyInfo.Name))}";
-
-        internal Maybe<TValue> GetValueFromRoot(object rootSource) => this.propertyPath.GetValueFromRoot<TValue>(rootSource);
+        internal Maybe<TValue> GetValueFromRoot(object rootSource) => this.path.GetValueFromRoot<TValue>(rootSource);
     }
 }

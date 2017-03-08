@@ -266,13 +266,12 @@
                 return Observable.Defer(
                                      () =>
                                          {
-                                             var sender = notifyingPath.Path.GetSender(source) ?? source;
-                                             var value = notifyingPath.Path.Last.GetValueFromRoot<TProperty>(source);
+                                             var sourceAndValue = notifyingPath.SourceAndValue(source);
                                              return Observable.Return(
                                                  create(
-                                                     sender,
+                                                     sourceAndValue.Source,
                                                      CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty),
-                                                     value));
+                                                     sourceAndValue.Value));
                                          })
                                  .Concat(source.ObserveValueCore(notifyingPath, create, false));
             }
@@ -320,7 +319,7 @@
             {
                 return Observable.Return(
                                      create(
-                                         notifyingPath.Path.GetSender(source) ?? source,
+                                         notifyingPath.Path.SourceAndValue(source).Source,
                                          CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty)))
                                  .Concat(source.ObservePropertyChangedCore(notifyingPath, create, false));
             }

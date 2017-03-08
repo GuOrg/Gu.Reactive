@@ -1,8 +1,8 @@
 ﻿namespace Gu.Reactive.Internals
 {
-    internal struct SenderAndValue<TValue>
+    internal struct SourceAndValue<TValue>
     {
-        public SenderAndValue(object source, Maybe<TValue> value)
+        public SourceAndValue(object source, Maybe<TValue> value)
         {
             this.Source = source;
             this.Value = value;
