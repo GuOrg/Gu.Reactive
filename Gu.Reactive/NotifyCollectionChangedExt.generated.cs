@@ -37,6 +37,26 @@
         }
 
         /// <summary>
+        /// Observes propertychanges for items in the collection.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the items in the collection</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The sopurce item to track changes for.</param>
+        /// <param name="property">Sample: item => item.SomeProp.SomeNestedProp</param>
+        /// <param name="signalInitial">When true a reset is singaled on subscribe.</param>
+        public static IObservable<PropertyChangedEventArgs> ObserveItemPropertyChangedSlim<TItem, TProperty>(
+            this ObservableCollection<TItem> source,
+            Expression<Func<TItem, TProperty>> property,
+            bool signalInitial = true)
+            where TItem : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
+            return ObserveItemPropertyChangedSlim<ObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+        }
+
+        /// <summary>
         /// Used for chained subscriptions sample:
         /// source.ObservePropertyChangedWithValue(x => x.Collection, true)
         ///       .ItemPropertyChanged(x => x.Name)
@@ -78,6 +98,26 @@
         }
 
         /// <summary>
+        /// Observes propertychanges for items in the collection.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the items in the collection</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The sopurce item to track changes for.</param>
+        /// <param name="property">Sample: item => item.SomeProp.SomeNestedProp</param>
+        /// <param name="signalInitial">When true a reset is singaled on subscribe.</param>
+        public static IObservable<PropertyChangedEventArgs> ObserveItemPropertyChangedSlim<TItem, TProperty>(
+            this ReadOnlyObservableCollection<TItem> source,
+            Expression<Func<TItem, TProperty>> property,
+            bool signalInitial = true)
+            where TItem : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
+            return ObserveItemPropertyChangedSlim<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+        }
+
+        /// <summary>
         /// Used for chained subscriptions sample:
         /// source.ObservePropertyChangedWithValue(x => x.Collection, true)
         ///       .ItemPropertyChanged(x => x.Name)
@@ -116,6 +156,26 @@
             Ensure.NotNull(property, nameof(property));
 
             return ObserveItemPropertyChanged<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+        }
+
+        /// <summary>
+        /// Observes propertychanges for items in the collection.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the items in the collection</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="source">The sopurce item to track changes for.</param>
+        /// <param name="property">Sample: item => item.SomeProp.SomeNestedProp</param>
+        /// <param name="signalInitial">When true a reset is singaled on subscribe.</param>
+        public static IObservable<PropertyChangedEventArgs> ObserveItemPropertyChangedSlim<TItem, TProperty>(
+            this IReadOnlyObservableCollection<TItem> source,
+            Expression<Func<TItem, TProperty>> property,
+            bool signalInitial = true)
+            where TItem : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
+            return ObserveItemPropertyChangedSlim<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
         }
 
         /// <summary>
