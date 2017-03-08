@@ -126,11 +126,6 @@
     <Compile Include="EventArgs\ItemPropertyChangedEventArgs{TItem,TValue}.cs" />
     <Compile Include="NotifyCollectionChangedEventArgs{T}.cs" />
     <Compile Include="EventArgs\NotifyCollectionChangedEventArgsExt.cs" />
-    <Compile Include="NotifyCollectionChangedExt.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>NotifyCollectionChangedExt.tt</DependentUpon>
-    </Compile>
     <Compile Include="ObservableExt.cs" />
     <Compile Include="EventArgs\PropertyChangedAndValueEventArgs{TProperty}.cs" />
     <Compile Include="Internals\ExpressionExt.cs" />
@@ -208,7 +203,7 @@
     <None Include="Gu.Reactive.ruleset" />
     <None Include="NotifyCollectionChangedExt.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>NotifyCollectionChangedExt.generated.cs</LastGenOutput>
+      <LastGenOutput>NotifyCollectionChangedExt.generated.txt</LastGenOutput>
     </None>
     <None Include="paket.references" />
     <None Include="paket.template" />
@@ -273,6 +268,13 @@
     <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll">
       <Paket>True</Paket>
     </Analyzer>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NotifyCollectionChangedExt.generated.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotifyCollectionChangedExt.tt</DependentUpon>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')">

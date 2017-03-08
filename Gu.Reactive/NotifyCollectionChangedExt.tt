@@ -1,6 +1,6 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ output extension="generated.cs" #>
+<#@ output extension="generated.txt" #>
 namespace Gu.Reactive
 {
     using System;
