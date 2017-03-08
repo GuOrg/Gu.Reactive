@@ -1,38 +1,48 @@
 ﻿namespace Gu.Reactive
 {
     using System.ComponentModel;
-    using System.Reactive;
+
+    using Gu.Reactive.Internals;
 
     /// <summary>
     /// The property changed event args.
     /// </summary>
     public class ItemPropertyChangedEventArgs<TItem, TValue> : PropertyChangedEventArgs
     {
+        private readonly SourceAndValue<object> sourceAndValue;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemPropertyChangedEventArgs{TItem, TValue}"/> class.
         /// </summary>
-        public ItemPropertyChangedEventArgs(TItem item, EventPattern<PropertyChangedAndValueEventArgs<TValue>> e)
-            : base(e.EventArgs.PropertyName)
+        internal ItemPropertyChangedEventArgs(TItem item, SourceAndValue<object> sourceAndValue, string propertyName)
+            : base(propertyName)
         {
+            this.sourceAndValue = sourceAndValue;
             this.Item = item;
-            this.Value = e.EventArgs.Value;
-            this.Sender = e.Sender;
         }
 
         /// <summary>
-        /// Gets the sender.
+        /// Gets the item in the collection.
+        /// Note that the item can be in many places in the collection.
         /// </summary>
         public TItem Item { get; }
 
         /// <summary>
-        /// Gets the current value.
-        /// This is not guaranteed to be the value when the event was raised in a multithreaded scenario.
+        /// The source for <see cref="Value"/> or a the first non null item in the property path.
         /// </summary>
-        public TValue Value { get; }
+        public object ValueSource => this.sourceAndValue.Source;
 
         /// <summary>
-        /// The original sender.
+        /// True if the last source in the property path was not null.
+        /// Note that it can be true even if <see cref="Value"/> is null.
         /// </summary>
-        public object Sender { get; }
+        public bool HasValue => this.sourceAndValue.Value.HasValue;
+
+        /// <summary>
+        /// Gets the current value.
+        /// This is not guaranteed to be the value when the event was raised in a multithreaded scenario.
+        /// Returns default(TValue) if <see cref="HasValue"/> is false.
+        /// </summary>
+        public TValue Value => (TValue)this.sourceAndValue.Value.GetValueOrDefault();
     }
 }

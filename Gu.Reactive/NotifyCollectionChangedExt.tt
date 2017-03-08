@@ -1,6 +1,6 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
-<#@ output extension="generated.txt" #>
+<#@ output extension="generated.cs" #>
 namespace Gu.Reactive
 {
     using System;
@@ -20,7 +20,12 @@ namespace Gu.Reactive
     public static partial class NotifyCollectionChangedExt
     {
 <#
-    var typeNames = new []{"ObservableCollection", "ReadOnlyObservableCollection", "IReadOnlyObservableCollection" };
+    var typeNames = new []
+                        {
+                            "ObservableCollection", 
+							"ReadOnlyObservableCollection", 
+							"IReadOnlyObservableCollection"
+                        };
     for(int i = 0; i < typeNames.Length; i++)
     {
         var typeName = typeNames[i];
@@ -43,13 +48,37 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                     o =>
-                        new ItemsTracker<<#= typeName #><TItem>, TItem, TProperty>(
-                            source,
-                            NotifyingPath.GetOrCreate(property),
-                            o,
-                            signalInitial));
+                        {
+                            var tracker = new ItemsTracker<<#= typeName #><TItem>, TItem, TProperty>(
+                               signalInitial ? null : source,
+                                NotifyingPath.GetOrCreate(property));
+                            TrackedPropertyChangedEventHandler handler = (propertyTracker, sender, args, sourceAndValue) =>
+                            {
+                                o.OnNext(
+                                    new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
+                                        sender,
+                                        new ItemPropertyChangedEventArgs<TItem, TProperty>(
+                                            (TItem)propertyTracker.PathTracker.First.Source,
+                                            sourceAndValue,
+                                            args.PropertyName)));
+                            };
+                            tracker.TrackedItemChanged += handler;
+                            if (signalInitial)
+                            {
+                                tracker.UpdateSource(source);
+                            }
+
+                            return new CompositeDisposable(2)
+                                       {
+                                           tracker,
+                                           Disposable.Create(() => tracker.TrackedItemChanged -= handler)
+                                       };
+                        });
         }
 
         /// <summary>
@@ -67,16 +96,31 @@ namespace Gu.Reactive
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o =>
                     {
-                        var tracker = new ItemsTracker<<#= typeName #><TItem>, TItem, TProperty>(
-                            null,
-                            NotifyingPath.GetOrCreate(property),
-                            o,
-                            false);
+                        var tracker = new ItemsTracker<<#= typeName #><TItem>, TItem, TProperty>(null, NotifyingPath.GetOrCreate(property));
+                        TrackedPropertyChangedEventHandler handler = (propertyTracker, sender, args, sourceAndValue) =>
+                        {
+                            o.OnNext(
+                                new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
+                                    sender,
+                                    new ItemPropertyChangedEventArgs<TItem, TProperty>(
+                                        (TItem)propertyTracker.PathTracker.First.Source,
+                                        sourceAndValue,
+                                        args.PropertyName)));
+                        };
+                        tracker.TrackedItemChanged += handler;
                         var subscription = source.Subscribe(x => tracker.UpdateSource(x.EventArgs.Value));
-                        return new CompositeDisposable(2) { tracker, subscription };
+                        return new CompositeDisposable(3)
+                                   {
+                                       tracker,
+                                       subscription,
+                                       Disposable.Create(() => tracker.TrackedItemChanged -= handler)
+                                   };
                     });
         }
 <#    } #>

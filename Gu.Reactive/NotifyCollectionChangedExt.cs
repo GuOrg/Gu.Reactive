@@ -68,13 +68,37 @@ namespace Gu.Reactive
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                     o =>
-                        new ItemsTracker<TCollection, TItem, TProperty>(
-                            source,
-                            NotifyingPath.GetOrCreate(property),
-                            o,
-                            signalInitial));
+                        {
+                            var tracker = new ItemsTracker<TCollection, TItem, TProperty>(
+                               signalInitial ? null : source,
+                                NotifyingPath.GetOrCreate(property));
+                            TrackedPropertyChangedEventHandler handler = (propertyTracker, sender, args, sourceAndValue) =>
+                            {
+                                o.OnNext(
+                                    new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
+                                        sender,
+                                        new ItemPropertyChangedEventArgs<TItem, TProperty>(
+                                            (TItem)propertyTracker.PathTracker.First.Source,
+                                            sourceAndValue,
+                                            args.PropertyName)));
+                            };
+                            tracker.TrackedItemChanged += handler;
+                            if (signalInitial)
+                            {
+                                tracker.UpdateSource(source);
+                            }
+
+                            return new CompositeDisposable(2)
+                                       {
+                                           tracker,
+                                           Disposable.Create(() => tracker.TrackedItemChanged -= handler)
+                                       };
+                        });
         }
 
         /// <summary>
@@ -86,16 +110,31 @@ namespace Gu.Reactive
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o =>
                     {
-                        var tracker = new ItemsTracker<TCollection, TItem, TProperty>(
-                            null,
-                            NotifyingPath.GetOrCreate(property),
-                            o,
-                            false);
+                        var tracker = new ItemsTracker<TCollection, TItem, TProperty>(null, NotifyingPath.GetOrCreate(property));
+                        TrackedPropertyChangedEventHandler handler = (propertyTracker, sender, args, sourceAndValue) =>
+                        {
+                            o.OnNext(
+                                new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
+                                    sender,
+                                    new ItemPropertyChangedEventArgs<TItem, TProperty>(
+                                        (TItem)propertyTracker.PathTracker.First.Source,
+                                        sourceAndValue,
+                                        args.PropertyName)));
+                        };
+                        tracker.TrackedItemChanged += handler;
                         var subscription = source.Subscribe(x => tracker.UpdateSource(x.EventArgs.Value));
-                        return new CompositeDisposable(2) { tracker, subscription };
+                        return new CompositeDisposable(3)
+                                   {
+                                       tracker,
+                                       subscription,
+                                       Disposable.Create(() => tracker.TrackedItemChanged -= handler)
+                                   };
                     });
         }
     }

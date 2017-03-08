@@ -6,35 +6,30 @@
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq;
-    using System.Reactive;
 
     internal sealed class ItemsTracker<TCollection, TItem, TProperty> : IDisposable
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
         private readonly NotifyingPath<TItem, TProperty> propertyPath;
-        private readonly IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer;
-        private readonly Dictionary<TItem, IDisposable> map = new Dictionary<TItem, IDisposable>(ObjectIdentityComparer<TItem>.Default);
+        private readonly Dictionary<TItem, PropertyPathTracker> map = new Dictionary<TItem, PropertyPathTracker>(ObjectIdentityComparer<TItem>.Default);
         private readonly HashSet<TItem> set = new HashSet<TItem>(ObjectIdentityComparer<TItem>.Default);
         private readonly object gate = new object();
 
         private TCollection source;
         private bool disposed;
 
-        public ItemsTracker(
-            TCollection source,
-            NotifyingPath<TItem, TProperty> propertyPath,
-            IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer,
-            bool signalInitial = true)
+        public ItemsTracker(TCollection source, NotifyingPath<TItem, TProperty> propertyPath)
         {
             this.propertyPath = propertyPath;
-            this.observer = observer;
             if (source != null)
             {
-                this.AddItems(source, signalInitial);
+                this.AddItems(source);
                 this.UpdateSource(source);
             }
         }
+
+        internal event TrackedPropertyChangedEventHandler TrackedItemChanged;
 
         /// <inheritdoc/>
         public void Dispose()
@@ -125,20 +120,20 @@
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        this.AddItems(e.NewItems, true);
+                        this.AddItems(e.NewItems);
                         break;
                     case NotifyCollectionChangedAction.Remove:
                         this.RemoveItems(e.OldItems.OfType<TItem>());
                         break;
                     case NotifyCollectionChangedAction.Replace:
-                        this.AddItems(e.NewItems, true);
+                        this.AddItems(e.NewItems);
                         this.RemoveItems(e.OldItems.OfType<TItem>());
                         break;
                     case NotifyCollectionChangedAction.Move:
                         break;
                     case NotifyCollectionChangedAction.Reset:
                         this.RemoveItems(this.map.Keys);
-                        this.AddItems(this.source, true);
+                        this.AddItems(this.source);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -146,7 +141,7 @@
             }
         }
 
-        private void AddItems(IEnumerable items, bool signalInitial)
+        private void AddItems(IEnumerable items)
         {
             foreach (TItem item in items)
             {
@@ -155,9 +150,12 @@
                     continue;
                 }
 
-                var subscription = item.ObservePropertyChangedWithValue(this.propertyPath, signalInitial)
-                                       .Subscribe(x => this.observer.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(x.Sender, new ItemPropertyChangedEventArgs<TItem, TProperty>(item, x))));
-                this.map.Add(item, subscription);
+                var tracker = PropertyPathTracker.Create(item, this.propertyPath);
+                //// Signaling initial before subscrinbing here to get the events in correct order
+                //// This can't be made entirely thread safe as an event can be raised on source bewteen signal initial & subscribe.
+                this.SignalInitial(tracker);
+                tracker.Last.TrackedPropertyChanged += this.OnTrackedItemChanged;
+                this.map.Add(item, tracker);
             }
         }
 
@@ -173,11 +171,27 @@
                     continue;
                 }
 
+                this.map[item].Last.TrackedPropertyChanged -= this.OnTrackedItemChanged;
                 this.map[item].Dispose();
                 this.map.Remove(item);
             }
 
             this.set.Clear();
+        }
+
+        private void OnTrackedItemChanged(PathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<object> sourceAndValue)
+        {
+            this.TrackedItemChanged?.Invoke(tracker, sender, e, sourceAndValue);
+        }
+
+        private void SignalInitial(PropertyPathTracker tracker)
+        {
+            var handler = this.TrackedItemChanged;
+            if (handler != null)
+            {
+                var sourceAndValue = tracker.SourceAndValue();
+                handler.Invoke(tracker.First, sourceAndValue.Source, CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty), sourceAndValue);
+            }
         }
     }
 }

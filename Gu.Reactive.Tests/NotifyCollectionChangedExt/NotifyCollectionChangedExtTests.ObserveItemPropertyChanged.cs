@@ -28,13 +28,29 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                  .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item1, string.Empty, item1, "1", changes[0]);
-                    EventPatternAssert.AreEqual(item2, string.Empty, item2, "2", changes[1]);
+                    EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some("1"), string.Empty, changes[0]);
+                    EventPatternAssert.AreEqual(item2, item2, item2, Maybe.Some("2"), string.Empty, changes[1]);
                 }
 
                 Assert.AreEqual(2, changes.Count);
-                EventPatternAssert.AreEqual(item1, string.Empty, item1, "1", changes[0]);
-                EventPatternAssert.AreEqual(item2, string.Empty, item2, "2", changes[1]);
+            }
+
+            [Test]
+            public void SignalsInitialNested()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, true)
+                                 .Subscribe(changes.Add))
+                {
+                    Assert.AreEqual(2, changes.Count);
+                    EventPatternAssert.AreEqual(item1, item1.Level1, item1.Level1, Maybe.Some("1"), string.Empty, changes[0]);
+                    EventPatternAssert.AreEqual(item2, item2.Level1, item2.Level1, Maybe.Some("2"), string.Empty, changes[1]);
+                }
+
+                Assert.AreEqual(2, changes.Count);
             }
 
             [Test]
@@ -52,7 +68,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     CollectionAssert.IsEmpty(changes);
 
                     source.Add(item1);
-                    EventPatternAssert.AreEqual(item1, string.Empty, item1, 1, changes[0]);
+                    EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some(1), string.Empty, changes.Single());
                 }
             }
 
@@ -83,17 +99,17 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
+
                     item1.Name = "new1";
                     Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(item1, "Name", item1, "new1", changes.Last());
+                    EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some("new1"), "Name", changes.Last());
 
                     item2.Name = "new2";
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes.Last());
+                    EventPatternAssert.AreEqual(item2, item2, item2, Maybe.Some("new2"), "Name", changes.Last());
                 }
 
                 Assert.AreEqual(2, changes.Count);
-                EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes.Last());
             }
 
             [Test]
@@ -106,23 +122,23 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
+
                     item.Name = "new1";
-                    Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(item, "Name", item, "new1", changes[0]);
+                    EventPatternAssert.AreEqual(item, item, item, Maybe.Some("new1"), "Name", changes.Single());
 
                     collection.Add(item);
                     Assert.AreEqual(1, changes.Count);
 
                     item.Name = "new2";
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item, "Name", item, "new2", changes.Last());
+                    EventPatternAssert.AreEqual(item, item, item, Maybe.Some("new2"), "Name", changes.Last());
 
                     collection.RemoveAt(1);
                     Assert.AreEqual(2, changes.Count);
 
                     item.Name = "new3";
                     Assert.AreEqual(3, changes.Count);
-                    EventPatternAssert.AreEqual(item, "Name", item, "new3", changes.Last());
+                    EventPatternAssert.AreEqual(item, item, item, Maybe.Some("new3"), "Name", changes.Last());
                 }
 
                 Assert.AreEqual(3, changes.Count);
@@ -139,22 +155,21 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 {
                     CollectionAssert.IsEmpty(changes);
                     item.Level1.Name = "new1";
-                    Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(item.Level1, "Name", item, "new1", changes[0]);
+                    EventPatternAssert.AreEqual(item, item.Level1, item.Level1, Maybe.Some("new1"), "Name", changes.Single());
 
                     collection.Add(item);
                     Assert.AreEqual(1, changes.Count);
 
                     item.Level1.Name = "new2";
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item.Level1, "Name", item, "new2", changes.Last());
+                    EventPatternAssert.AreEqual(item, item.Level1, item.Level1, Maybe.Some("new2"), "Name", changes.Last());
 
                     collection.RemoveAt(1);
                     Assert.AreEqual(2, changes.Count);
 
                     item.Level1.Name = "new3";
                     Assert.AreEqual(3, changes.Count);
-                    EventPatternAssert.AreEqual(item.Level1, "Name", item, "new3", changes.Last());
+                    EventPatternAssert.AreEqual(item, item.Level1, item.Level1, Maybe.Some("new3"), "Name", changes.Last());
                 }
 
                 Assert.AreEqual(3, changes.Count);
@@ -177,23 +192,19 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                         CollectionAssert.IsEmpty(changes2);
 
                         item1.Name = "new1";
-                        Assert.AreEqual(1, changes1.Count);
-                        Assert.AreEqual(1, changes2.Count);
-                        EventPatternAssert.AreEqual(item1, "Name", item1, "new1", changes1.Last());
-                        EventPatternAssert.AreEqual(item1, "Name", item1, "new1", changes2.Last());
+                        EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some("new1"), "Name", changes1.Single());
+                        EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some("new1"), "Name", changes2.Single());
 
                         item2.Name = "new2";
                         Assert.AreEqual(2, changes1.Count);
                         Assert.AreEqual(2, changes2.Count);
-                        EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes1.Last());
-                        EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes2.Last());
+                        EventPatternAssert.AreEqual(item2, item2, item2, Maybe.Some("new2"), "Name", changes1.Last());
+                        EventPatternAssert.AreEqual(item2, item2, item2, Maybe.Some("new2"), "Name", changes2.Last());
                     }
                 }
 
                 Assert.AreEqual(2, changes1.Count);
                 Assert.AreEqual(2, changes2.Count);
-                EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes1.Last());
-                EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes2.Last());
             }
 
             [Test]
@@ -209,18 +220,17 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                .Subscribe(changes.Add))
                     {
                         CollectionAssert.IsEmpty(changes);
+
                         item1.Name = "new1";
-                        Assert.AreEqual(1, changes.Count);
-                        EventPatternAssert.AreEqual(item1, "Name", item1, "new1", changes.Last());
+                        EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some("new1"), "Name", changes.Single());
 
                         item2.Name = "new2";
                         Assert.AreEqual(2, changes.Count);
-                        EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes.Last());
+                        EventPatternAssert.AreEqual(item2, item2, item2, Maybe.Some("new2"), "Name", changes.Last());
                     }
                 }
 
                 Assert.AreEqual(2, changes.Count);
-                EventPatternAssert.AreEqual(item2, "Name", item2, "new2", changes.Last());
             }
 
             [Test]
@@ -235,16 +245,14 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 {
                     CollectionAssert.IsEmpty(changes);
                     item1.Next.Name = "new1";
-                    Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(item1.Next, "Name", item1, "new1", changes.Last());
+                    EventPatternAssert.AreEqual(item1, item1.Next, item1.Next, Maybe.Some("new1"), "Name", changes.Single());
 
                     item2.Next = new Level { Name = "new2" };
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item2, "Next", item2, "new2", changes.Last());
+                    EventPatternAssert.AreEqual(item2, item2, item2.Next, Maybe.Some("new2"), "Next", changes.Last());
                 }
 
                 Assert.AreEqual(2, changes.Count);
-                EventPatternAssert.AreEqual(item2, "Next", item2, "new2", changes.Last());
             }
 
             [Test]
@@ -257,13 +265,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
+
                     item.Name = "new";
-                    Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(item, "Name", item, "new", changes.Last());
+                    EventPatternAssert.AreEqual(item, item, item, Maybe.Some("new"), "Name", changes.Single());
                 }
 
                 Assert.AreEqual(1, changes.Count);
-                EventPatternAssert.AreEqual(item, "Name", item, "new", changes.Last());
             }
 
             [Test]
@@ -281,14 +288,13 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     Assert.AreEqual(3, collection.Count);
                     Assert.AreEqual(0, changes.Count);
 
-                    item.Name = "new";
-                    Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(item, "Name", item, "new", changes.Last());
+                    item.Name = "new1";
+                    EventPatternAssert.AreEqual(item, item, item, Maybe.Some("new1"), "Name", changes.Single());
 
                     var item2 = new Fake { Name = "2" };
                     collection[1] = item2;
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item2, string.Empty, item2, "2", changes.Last());
+                    EventPatternAssert.AreEqual(item2, item2, item2, Maybe.Some("2"), string.Empty, changes.Last());
                 }
 
                 Assert.AreEqual(2, changes.Count);
@@ -310,11 +316,11 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     CollectionAssert.IsEmpty(changes);
 
                     item1.Name = "new 1";
-                    EventPatternAssert.AreEqual(item1, "Name", item1, "new 1", changes.Last());
+                    EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some("new 1"), "Name", changes.Single());
 
                     item2.Name = "new 2";
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item2, "Name", item2, "new 2", changes.Last());
+                    EventPatternAssert.AreEqual(item2, item2, item2, Maybe.Some("new 2"), "Name", changes.Last());
                 }
 
                 Assert.AreEqual(2, changes.Count);
@@ -331,14 +337,14 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
+
                     var item3 = new Fake { Name = "3" };
                     collection.Add(item3);
-                    Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(item3, string.Empty, item3, "3", changes.Last());
+                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("3"), string.Empty, changes.Single());
 
                     item3.Name = "new";
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item3, "Name", item3, "new", changes.Last());
+                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("new"), "Name", changes.Last());
                 }
             }
 
@@ -353,14 +359,14 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
+
                     var item3 = new Fake { Name = "3" };
                     collection[0] = item3;
-                    Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(item3, string.Empty, item3, "3", changes.Single());
+                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("3"), string.Empty, changes.Single());
 
                     item3.Name = "new";
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item3, "Name", item3, "new", changes.Last());
+                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("new"), "Name", changes.Last());
 
                     item1.Name = "new1";
                     Assert.AreEqual(2, changes.Count); // Stopped subscribing
@@ -380,11 +386,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
+
                     collection[0] = item1;
                     CollectionAssert.IsEmpty(changes);
 
                     item1.Value++;
-                    EventPatternAssert.AreEqual(item1, "Value", item1, item1.Value, changes.Single());
+                    EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some(item1.Value), "Value", changes.Single());
                 }
 
                 Assert.AreEqual(1, changes.Count);
@@ -401,7 +408,10 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
+
                     collection.Remove(item2);
+                    CollectionAssert.IsEmpty(changes);
+
                     item2.Name = "new";
                     CollectionAssert.IsEmpty(changes);
                 }
@@ -430,15 +440,14 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void MemoryLeakDisposeTest()
             {
 #if DEBUG
-            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+                Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var collection = new ObservableCollection<Fake> { new Fake { Name = "1" }, new Fake { Name = "2" } };
 
                 var collectionRef = new WeakReference(collection);
                 var item1Ref = new WeakReference(collection[0]);
-                IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable =
-                    collection.ObserveItemPropertyChanged(x => x.Name, false);
+                IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
                 Assert.IsTrue(collectionRef.IsAlive);
                 //// http://stackoverflow.com/a/579001/1069200
                 using (observable.Subscribe(changes.Add))
@@ -456,15 +465,14 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void MemoryLeakNoDisposeTest()
             {
 #if DEBUG
-            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+                Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var collection = new ObservableCollection<Fake> { new Fake { Name = "1" }, new Fake { Name = "2" } };
 
                 var collectionRef = new WeakReference(collection);
                 var item1Ref = new WeakReference(collection[0]);
-                IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable =
-                    collection.ObserveItemPropertyChanged(x => x.Name, false);
+                IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
                 Assert.IsTrue(collectionRef.IsAlive);
                 //// http://stackoverflow.com/a/579001/1069200
 #pragma warning disable GU0030 // Use using.
