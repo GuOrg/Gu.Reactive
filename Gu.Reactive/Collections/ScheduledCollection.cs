@@ -9,7 +9,7 @@ namespace Gu.Reactive
     /// An <see cref="ScheduledCollection{T}"/> with support for AddRange and RemoveRange
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
-    public class ScheduledCollection<T> : ObservableBatchCollection<T>
+    internal class ScheduledCollection<T> : ObservableBatchCollection<T>
     {
         private readonly IScheduler scheduler;
 

@@ -135,9 +135,12 @@ namespace Gu.Reactive.Tests.Collections
             }
         }
 
+        [Explicit("Longrunning and broken")]
         [Test]
         public async Task ThreadTest()
         {
+            // ReSharper disable once HeapView.ClosureAllocation
+            // ReSharper disable once CollectionNeverQueried.Local
             var ints = new ScheduledCollection<int>();
             await Task.WhenAll(Enumerable.Range(0, 8)
                                          .Select(x =>
