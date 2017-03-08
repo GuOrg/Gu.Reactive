@@ -7,7 +7,7 @@
     using System.Linq;
     using System.Reactive;
 
-    internal sealed class ItemsPropertyObservable<TCollection, TItem, TProperty> : IDisposable
+    internal sealed class ItemsTracker<TCollection, TItem, TProperty> : IDisposable
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
@@ -15,13 +15,12 @@
         private readonly IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer;
         private readonly Dictionary<TItem, IDisposable> map = new Dictionary<TItem, IDisposable>(ObjectIdentityComparer<TItem>.Default);
         private readonly HashSet<TItem> set = new HashSet<TItem>(ObjectIdentityComparer<TItem>.Default);
-        private readonly System.Reactive.Disposables.SerialDisposable collectionChangedSubscription = new System.Reactive.Disposables.SerialDisposable();
         private readonly object gate = new object();
 
         private TCollection source;
         private bool disposed;
 
-        public ItemsPropertyObservable(
+        public ItemsTracker(
             TCollection source,
             PropertyPath<TItem, TProperty> propertyPath,
             IObserver<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> observer,
@@ -44,36 +43,55 @@
                 return;
             }
 
-            this.disposed = true;
-            this.collectionChangedSubscription.Dispose();
-            foreach (var kvp in this.map)
+            lock (this.gate)
             {
-                kvp.Value.Dispose();
-            }
+                if (this.disposed)
+                {
+                    return;
+                }
 
-            this.map.Clear();
-            this.set.Clear();
+                this.disposed = true;
+                var collection = this.source;
+                if (collection != null)
+                {
+                    collection.CollectionChanged -= this.OnTrackedCollectionChanged;
+                    this.source = null;
+                }
+
+                foreach (var kvp in this.map)
+                {
+                    kvp.Value.Dispose();
+                }
+
+                this.map.Clear();
+                this.set.Clear();
+            }
         }
 
         internal void UpdateSource(TCollection newSource)
         {
-            this.ThrowIfDisposed();
-            if (ReferenceEquals(this.source, newSource))
+            if (this.disposed ||
+                ReferenceEquals(this.source, newSource))
             {
                 return;
             }
 
             lock (this.gate)
             {
-                if (ReferenceEquals(this.source, newSource))
+                if (this.disposed ||
+                    ReferenceEquals(this.source, newSource))
                 {
                     return;
+                }
+
+                if (this.source != null)
+                {
+                    this.source.CollectionChanged -= this.OnTrackedCollectionChanged;
                 }
 
                 this.source = newSource;
                 if (newSource == null)
                 {
-                    this.collectionChangedSubscription.Disposable.Dispose();
                     foreach (var kvp in this.map)
                     {
                         kvp.Value.Dispose();
@@ -83,16 +101,26 @@
                 }
                 else
                 {
-                    this.collectionChangedSubscription.Disposable = newSource.ObserveCollectionChangedSlim(true)
-                                                                          .Subscribe(this.OnTrackedCollectionChanged);
+                    this.source.CollectionChanged += this.OnTrackedCollectionChanged;
+                    this.OnTrackedCollectionChanged(this.source, CachedEventArgs.NotifyCollectionReset);
                 }
             }
         }
 
-        private void OnTrackedCollectionChanged(NotifyCollectionChangedEventArgs e)
+        private void OnTrackedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (this.disposed)
+            {
+                return;
+            }
+
             lock (this.gate)
             {
+                if (this.disposed)
+                {
+                    return;
+                }
+
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
@@ -147,14 +175,8 @@
                 this.map[item].Dispose();
                 this.map.Remove(item);
             }
-        }
 
-        private void ThrowIfDisposed()
-        {
-            if (this.disposed)
-            {
-                throw new ObjectDisposedException(this.GetType().FullName);
-            }
+            this.set.Clear();
         }
     }
 }

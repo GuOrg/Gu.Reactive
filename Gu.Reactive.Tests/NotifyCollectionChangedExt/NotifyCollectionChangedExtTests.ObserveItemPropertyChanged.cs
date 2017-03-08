@@ -370,6 +370,27 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
+            public void HandlesReplaceWithSame()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, int>>>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Value, false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+                    collection[0] = item1;
+                    CollectionAssert.IsEmpty(changes);
+
+                    item1.Value++;
+                    EventPatternAssert.AreEqual(item1, "Value", item1, item1.Value, changes.Single());
+                }
+
+                Assert.AreEqual(1, changes.Count);
+            }
+
+            [Test]
             public void HandlesRemove()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();

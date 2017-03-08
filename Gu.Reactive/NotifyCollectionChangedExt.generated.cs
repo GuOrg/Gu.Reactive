@@ -32,7 +32,7 @@
         {
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                     o =>
-                        new ItemsPropertyObservable<ObservableCollection<TItem>, TItem, TProperty>(
+                        new ItemsTracker<ObservableCollection<TItem>, TItem, TProperty>(
                             source,
                             PropertyPath.GetOrCreate(property),
                             o,
@@ -57,7 +57,7 @@
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o =>
                     {
-                        var itemsPropertyObservable = new ItemsPropertyObservable<ObservableCollection<TItem>, TItem, TProperty>(
+                        var itemsPropertyObservable = new ItemsTracker<ObservableCollection<TItem>, TItem, TProperty>(
                             null,
                             PropertyPath.GetOrCreate(property),
                             o,
@@ -83,7 +83,7 @@
         {
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                     o =>
-                        new ItemsPropertyObservable<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(
+                        new ItemsTracker<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(
                             source,
                             PropertyPath.GetOrCreate(property),
                             o,
@@ -108,7 +108,7 @@
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o =>
                     {
-                        var itemsPropertyObservable = new ItemsPropertyObservable<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(
+                        var itemsPropertyObservable = new ItemsTracker<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(
                             null,
                             PropertyPath.GetOrCreate(property),
                             o,
@@ -134,7 +134,7 @@
         {
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                     o =>
-                        new ItemsPropertyObservable<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(
+                        new ItemsTracker<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(
                             source,
                             PropertyPath.GetOrCreate(property),
                             o,
@@ -159,7 +159,7 @@
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o =>
                     {
-                        var itemsPropertyObservable = new ItemsPropertyObservable<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(
+                        var itemsPropertyObservable = new ItemsTracker<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(
                             null,
                             PropertyPath.GetOrCreate(property),
                             o,

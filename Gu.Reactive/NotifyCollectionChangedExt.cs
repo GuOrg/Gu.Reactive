@@ -70,7 +70,7 @@ namespace Gu.Reactive
         {
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                     o =>
-                        new ItemsPropertyObservable<TCollection, TItem, TProperty>(
+                        new ItemsTracker<TCollection, TItem, TProperty>(
                             source,
                             PropertyPath.GetOrCreate(property),
                             o,
@@ -89,13 +89,13 @@ namespace Gu.Reactive
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o =>
                     {
-                        var itemsPropertyObservable = new ItemsPropertyObservable<TCollection, TItem, TProperty>(
+                        var tracker = new ItemsTracker<TCollection, TItem, TProperty>(
                             null,
                             PropertyPath.GetOrCreate(property),
                             o,
                             false);
-                        var subscription = source.Subscribe(x => itemsPropertyObservable.UpdateSource(x.EventArgs.Value));
-                        return new CompositeDisposable(2) { itemsPropertyObservable, subscription };
+                        var subscription = source.Subscribe(x => tracker.UpdateSource(x.EventArgs.Value));
+                        return new CompositeDisposable(2) { tracker, subscription };
                     });
         }
     }
