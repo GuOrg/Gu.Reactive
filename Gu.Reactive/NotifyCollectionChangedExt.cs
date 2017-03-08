@@ -123,13 +123,13 @@ namespace Gu.Reactive
                 o =>
                 {
                     var tracker = ItemsTracker.Create((TCollection)null, NotifyingPath.GetOrCreate(property));
-                    TrackedPropertyChangedEventHandler handler = (propertyTracker, sender, args, sourceAndValue) =>
+                    TrackedItemPropertyChangedEventHandler<TItem, TProperty> handler = (item, sender, args, sourceAndValue) =>
                     {
                         o.OnNext(
                             new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
                                 sender,
                                 new ItemPropertyChangedEventArgs<TItem, TProperty>(
-                                    (TItem)propertyTracker.PathTracker.First.Source,
+                                    item,
                                     sourceAndValue,
                                     args.PropertyName)));
                     };
@@ -149,7 +149,7 @@ namespace Gu.Reactive
             IObserver<T> o,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial,
-            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<object>, T> create)
+            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<TProperty>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
@@ -159,12 +159,13 @@ namespace Gu.Reactive
                     : source,
                 NotifyingPath.GetOrCreate(property));
 
-            TrackedPropertyChangedEventHandler handler = (propertyTracker, sender, args, sourceAndValue) => o.OnNext(
-                create(
-                    (TItem)propertyTracker.PathTracker.First.Source,
-                    sender,
-                    args,
-                    sourceAndValue));
+            TrackedItemPropertyChangedEventHandler<TItem, TProperty> handler =
+                (item, sender, args, sourceAndValue) => o.OnNext(
+                    create(
+                        item,
+                        sender,
+                        args,
+                        sourceAndValue));
 
             tracker.TrackedItemChanged += handler;
             if (signalInitial)

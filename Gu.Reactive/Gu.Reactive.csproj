@@ -115,8 +115,11 @@
     <Compile Include="Contracts\IWpfSchedulers.cs" />
     <Compile Include="Internals\Ensure\Ensure.String.cs" />
     <Compile Include="Internals\Ignore.cs" />
-    <Compile Include="Internals\ItemsTracker.cs" />
-    <Compile Include="Internals\ItemsTracker{TCollection,TItem,TProperty}.cs" />
+    <Compile Include="Internals\ItemsTracker\ItemsTracker.cs" />
+    <Compile Include="Internals\ItemsTracker\ItemsTracker{TCollection,TItem,TProperty}.cs" />
+    <Compile Include="Internals\ItemsTracker\NestedItemsTracker{TCollection,TItem,TProperty}.cs" />
+    <Compile Include="Internals\ItemsTracker\SimpleItemsTracker{TCollection,TItem,TProperty}.cs" />
+    <Compile Include="Internals\ItemsTracker\TrackedItemPropertyChangedEventHandler.cs" />
     <Compile Include="Internals\LazyExt.cs" />
     <Compile Include="Internals\PropertyTracker\NotifyingPath.cs" />
     <Compile Include="Internals\PropertyTracker\NotifyingPath{TNotifier,TProperty}.cs" />

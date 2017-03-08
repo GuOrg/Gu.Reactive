@@ -11,7 +11,14 @@ namespace Gu.Reactive.Internals
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
-            return new ItemsTracker<TCollection, TItem, TProperty>(collection, path);
+            if (path.Count == 1)
+            {
+                return new SimpleItemsTracker<TCollection, TItem, TProperty>(
+                    collection,
+                   (Getter<TItem, TProperty>)Getter.GetOrCreate(path.Path[0].PropertyInfo));
+            }
+
+            return new NestedItemsTracker<TCollection, TItem, TProperty>(collection, path);
         }
     }
 }

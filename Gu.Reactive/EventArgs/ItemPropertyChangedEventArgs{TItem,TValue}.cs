@@ -9,12 +9,9 @@
     /// </summary>
     public class ItemPropertyChangedEventArgs<TItem, TValue> : PropertyChangedEventArgs
     {
-        private readonly SourceAndValue<object> sourceAndValue;
+        private readonly SourceAndValue<TValue> sourceAndValue;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ItemPropertyChangedEventArgs{TItem, TValue}"/> class.
-        /// </summary>
-        internal ItemPropertyChangedEventArgs(TItem item, SourceAndValue<object> sourceAndValue, string propertyName)
+        internal ItemPropertyChangedEventArgs(TItem item, SourceAndValue<TValue> sourceAndValue, string propertyName) 
             : base(propertyName)
         {
             this.sourceAndValue = sourceAndValue;
@@ -43,6 +40,6 @@
         /// This is not guaranteed to be the value when the event was raised in a multithreaded scenario.
         /// Returns default(TValue) if <see cref="HasValue"/> is false.
         /// </summary>
-        public TValue Value => (TValue)this.sourceAndValue.Value.GetValueOrDefault();
+        public TValue Value => this.sourceAndValue.Value.GetValueOrDefault();
     }
 }

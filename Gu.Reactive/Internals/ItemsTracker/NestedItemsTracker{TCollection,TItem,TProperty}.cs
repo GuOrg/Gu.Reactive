@@ -5,21 +5,20 @@
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.IO;
     using System.Linq;
 
-    internal sealed class ItemsTracker<TCollection, TItem, TProperty> : IDisposable
+    internal sealed class NestedItemsTracker<TCollection, TItem, TProperty> : ItemsTracker<TCollection, TItem, TProperty>
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
         private readonly NotifyingPath<TItem, TProperty> propertyPath;
         private readonly Dictionary<TItem, PropertyPathTracker> map = new Dictionary<TItem, PropertyPathTracker>(ObjectIdentityComparer<TItem>.Default);
         private readonly HashSet<TItem> set = new HashSet<TItem>(ObjectIdentityComparer<TItem>.Default);
-        private readonly object gate = new object();
 
         private TCollection source;
-        private bool disposed;
 
-        public ItemsTracker(TCollection source, NotifyingPath<TItem, TProperty> propertyPath)
+        public NestedItemsTracker(TCollection source, NotifyingPath<TItem, TProperty> propertyPath)
         {
             this.propertyPath = propertyPath;
             if (source != null)
@@ -29,53 +28,17 @@
             }
         }
 
-        internal event TrackedPropertyChangedEventHandler TrackedItemChanged;
-
-        /// <inheritdoc/>
-        public void Dispose()
+        internal override void UpdateSource(TCollection newSource)
         {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            lock (this.gate)
-            {
-                if (this.disposed)
-                {
-                    return;
-                }
-
-                this.disposed = true;
-                var collection = this.source;
-                if (collection != null)
-                {
-                    collection.CollectionChanged -= this.OnTrackedCollectionChanged;
-                    this.source = null;
-                }
-
-                foreach (var kvp in this.map)
-                {
-                    kvp.Value.Last.TrackedPropertyChanged -= this.OnTrackedItemChanged;
-                    kvp.Value.Dispose();
-                }
-
-                this.map.Clear();
-                this.set.Clear();
-            }
-        }
-
-        internal void UpdateSource(TCollection newSource)
-        {
-            if (this.disposed ||
+            if (this.Disposed ||
                 ReferenceEquals(this.source, newSource))
             {
                 return;
             }
 
-            lock (this.gate)
+            lock (this.Gate)
             {
-                if (this.disposed ||
+                if (this.Disposed ||
                     ReferenceEquals(this.source, newSource))
                 {
                     return;
@@ -105,16 +68,71 @@
             }
         }
 
-        private void OnTrackedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        protected override void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (this.Disposed)
             {
                 return;
             }
 
-            lock (this.gate)
+            this.Disposed = true;
+            if (disposing)
             {
-                if (this.disposed)
+                if (this.Disposed)
+                {
+                    return;
+                }
+
+                lock (this.Gate)
+                {
+                    if (this.Disposed)
+                    {
+                        return;
+                    }
+
+                    this.Disposed = true;
+                    var collection = this.source;
+                    if (collection != null)
+                    {
+                        collection.CollectionChanged -= this.OnTrackedCollectionChanged;
+                        this.source = null;
+                    }
+
+                    foreach (var kvp in this.map)
+                    {
+                        kvp.Value.Last.TrackedPropertyChanged -= this.OnTrackedItemChanged;
+                        kvp.Value.Dispose();
+                    }
+
+                    this.map.Clear();
+                    this.set.Clear();
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
+        private void OnTrackedItemChanged(PathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<object> sourceandvalue)
+        {
+            this.OnTrackedItemChanged(
+                (TItem) tracker.PathTracker.First.Source,
+                sender,
+                e,
+                new SourceAndValue<TProperty>(
+                    sourceandvalue.Source,
+                    sourceandvalue.Value.Cast<TProperty>()));
+        }
+
+        private void OnTrackedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (this.Disposed)
+            {
+                return;
+            }
+
+            lock (this.Gate)
+            {
+                if (this.Disposed)
                 {
                     return;
                 }
@@ -147,7 +165,8 @@
         {
             foreach (TItem item in items)
             {
-                if (item == null || this.map.ContainsKey(item))
+                if (item == null ||
+                    this.map.ContainsKey(item))
                 {
                     continue;
                 }
@@ -181,19 +200,19 @@
             this.set.Clear();
         }
 
-        private void OnTrackedItemChanged(PathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<object> sourceAndValue)
-        {
-            this.TrackedItemChanged?.Invoke(tracker, sender, e, sourceAndValue);
-        }
-
         private void SignalInitial(PropertyPathTracker tracker)
         {
-            var handler = this.TrackedItemChanged;
-            if (handler != null)
+            if (!this.HasSubscribers)
             {
-                var sourceAndValue = tracker.SourceAndValue();
-                handler.Invoke(tracker.First, sourceAndValue.Source, CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty), sourceAndValue);
+                return;
             }
+
+            var sourceAndValue = tracker.SourceAndValue();
+            this.OnTrackedItemChanged(
+                tracker.First,
+                sourceAndValue.Source,
+                CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty),
+                sourceAndValue);
         }
     }
 }
