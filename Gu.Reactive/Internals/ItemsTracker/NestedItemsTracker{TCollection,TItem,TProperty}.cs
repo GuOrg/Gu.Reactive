@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -12,9 +13,10 @@
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
+        private static readonly ConcurrentQueue<HashSet<TItem>> SetPool = new ConcurrentQueue<HashSet<TItem>>();
+
         private readonly NotifyingPath<TItem, TProperty> propertyPath;
         private readonly Dictionary<TItem, PropertyPathTracker> map = new Dictionary<TItem, PropertyPathTracker>(ObjectIdentityComparer<TItem>.Default);
-        private readonly HashSet<TItem> set = new HashSet<TItem>(ObjectIdentityComparer<TItem>.Default);
 
         private TCollection source;
 
@@ -105,7 +107,6 @@
                     }
 
                     this.map.Clear();
-                    this.set.Clear();
                 }
             }
 
@@ -182,10 +183,10 @@
 
         private void RemoveItems(IEnumerable<TItem> items)
         {
-            this.set.Clear();
-            this.set.UnionWith(items);
-            this.set.ExceptWith(this.source ?? Enumerable.Empty<TItem>());
-            foreach (var item in this.set)
+            var set = SetPool.GetOrCreate(() => new HashSet<TItem>(ObjectIdentityComparer<TItem>.Default));
+            set.UnionWith(items);
+            set.ExceptWith(this.source ?? Enumerable.Empty<TItem>());
+            foreach (var item in set)
             {
                 if (item == null)
                 {
@@ -197,7 +198,8 @@
                 this.map.Remove(item);
             }
 
-            this.set.Clear();
+            set.Clear();
+            SetPool.Enqueue(set);
         }
 
         private void SignalInitial(PropertyPathTracker tracker)

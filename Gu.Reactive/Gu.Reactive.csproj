@@ -109,6 +109,7 @@
     <Compile Include="ForegroundScheduler.cs" />
     <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />
+    <Compile Include="Internals\ConcurrentQueueExt.cs" />
     <Compile Include="Internals\Ensure\Ensure.Collection.cs" />
     <Compile Include="Internals\Ensure\Ensure.Compare.cs" />
     <Compile Include="Internals\Ensure\Ensure.cs" />
