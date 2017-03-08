@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive.Internals
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -124,13 +125,13 @@
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        this.AddItems(e.NewItems.OfType<TItem>(), true);
+                        this.AddItems(e.NewItems, true);
                         break;
                     case NotifyCollectionChangedAction.Remove:
                         this.RemoveItems(e.OldItems.OfType<TItem>());
                         break;
                     case NotifyCollectionChangedAction.Replace:
-                        this.AddItems(e.NewItems.OfType<TItem>(), true);
+                        this.AddItems(e.NewItems, true);
                         this.RemoveItems(e.OldItems.OfType<TItem>());
                         break;
                     case NotifyCollectionChangedAction.Move:
@@ -145,9 +146,9 @@
             }
         }
 
-        private void AddItems(IEnumerable<TItem> items, bool signalInitial)
+        private void AddItems(IEnumerable items, bool signalInitial)
         {
-            foreach (var item in items)
+            foreach (TItem item in items)
             {
                 if (item == null || this.map.ContainsKey(item))
                 {
