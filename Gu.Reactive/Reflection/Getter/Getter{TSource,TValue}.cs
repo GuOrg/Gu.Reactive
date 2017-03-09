@@ -1,6 +1,5 @@
 namespace Gu.Reactive
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection;
 
@@ -20,11 +19,6 @@ namespace Gu.Reactive
         {
             Ensure.Equal(typeof(TSource), property.ReflectedType, nameof(property));
             Ensure.Equal(typeof(TValue), property.PropertyType, nameof(property));
-            if (property.GetMethod == null)
-            {
-                throw new ArgumentException($"Expected get method to not be null. Property: {property}");
-            }
-
             this.Property = property;
         }
 
@@ -43,6 +37,18 @@ namespace Gu.Reactive
         /// Get the value of the property for <paramref name="source"/>
         /// </summary>
         public abstract TValue GetValue(TSource source);
+
+        /// <summary>
+        /// Get the value of the property for <paramref name="source"/>
+        /// </summary>
+        public Maybe<TValue> GetMaybe(TSource source) => source == null
+                                                             ? Maybe<TValue>.None
+                                                             : Maybe<TValue>.Some(this.GetValue(source));
+
+        /// <inheritdoc/>
+        Maybe<object> IGetter.GetMaybe(object source) => source == null
+                                                             ? Maybe<object>.None
+                                                             : Maybe<object>.Some(this.GetValue((TSource)source));
 
         /// <inheritdoc/>
         public override string ToString() => $"{this.Property.ReflectedType?.Name}.{this.Property.Name}";

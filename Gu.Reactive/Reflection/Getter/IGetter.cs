@@ -9,5 +9,10 @@ namespace Gu.Reactive
         /// Get the value of the property for <paramref name="source"/>
         /// </summary>
         object GetValue(object source);
+
+        /// <summary>
+        /// Get the value of the property for <paramref name="source"/>
+        /// </summary>
+        Maybe<object> GetMaybe(object source);
     }
 }
