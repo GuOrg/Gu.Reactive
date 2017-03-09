@@ -18,5 +18,9 @@ group Test
   nuget Moq
   nuget NUnit
   nuget Microsoft.Reactive.Testing
-  nuget BenchmarkDotNet.Diagnostics.Windows
   nuget FlaUI.UIA3
+
+group Benchmark
+  source http://nuget.org/api/v2
+  framework: >= net45
+  nuget BenchmarkDotNet.Diagnostics.Windows

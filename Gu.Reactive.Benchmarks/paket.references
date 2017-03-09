@@ -3,6 +3,6 @@ Gu.Wpf.ToolTips
 group Analyzers
 JetBrains.Annotations
 StyleCop.Analyzers
-group Test
-System.Reflection.Metadata
-BenchmarkDotNet.Diagnostics.Windows
+
+group Benchmark
+  BenchmarkDotNet.Diagnostics.Windows
