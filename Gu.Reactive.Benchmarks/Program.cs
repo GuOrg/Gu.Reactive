@@ -12,7 +12,7 @@
     public class Program
     {
         //// ReSharper disable PossibleNullReferenceException
-        private static readonly string DesinationDirectory = System.IO.Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "Benchmarks");
+        private static readonly string DesinationDirectory = Path.Combine(new DirectoryInfo(Directory.GetCurrentDirectory()).Parent.Parent.FullName, "Benchmarks");
         //// ReSharper restore PossibleNullReferenceException
 
         public static void Main()
@@ -40,9 +40,9 @@
         {
 #if DEBUG
 #else
-            var sourceFileName = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "BenchmarkDotNet.Artifacts", "results", name + "-report-github.md");
-            System.IO.Directory.CreateDirectory(DesinationDirectory);
-            var destinationFileName = System.IO.Path.Combine(DesinationDirectory, name + ".md");
+            var sourceFileName = Path.Combine(Directory.GetCurrentDirectory(), "BenchmarkDotNet.Artifacts", "results", name + "-report-github.md");
+            Directory.CreateDirectory(DesinationDirectory);
+            var destinationFileName = Path.Combine(DesinationDirectory, name + ".md");
             File.Copy(sourceFileName, destinationFileName, true);
 #endif
         }
