@@ -112,15 +112,13 @@
             base.Dispose(disposing);
         }
 
-        private void OnTrackedItemChanged(PathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<object> sourceandvalue)
+        private void OnTrackedItemChanged(PathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, object> sourceAndValue)
         {
             this.OnTrackedItemChanged(
-                (TItem) tracker.PathTracker.First.Source,
+                (TItem)tracker.PathTracker.First.Source,
                 sender,
                 e,
-                new SourceAndValue<TProperty>(
-                    sourceandvalue.Source,
-                    sourceandvalue.Value.Cast<TProperty>()));
+                SourceAndValue.Create((INotifyPropertyChanged)sourceAndValue.Source, sourceAndValue.Value.Cast<TProperty>()));
         }
 
         private void OnTrackedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -210,10 +208,10 @@
 
             var sourceAndValue = tracker.SourceAndValue();
             this.OnTrackedItemChanged(
-                tracker.First,
+                (TItem)tracker.First.Source,
                 sourceAndValue.Source,
                 CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty),
-                sourceAndValue);
+                SourceAndValue.Create(sourceAndValue.Source, sourceAndValue.Value.Cast<TProperty>()));
         }
     }
 }

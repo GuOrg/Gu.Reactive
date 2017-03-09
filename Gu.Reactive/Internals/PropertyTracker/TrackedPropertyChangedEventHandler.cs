@@ -9,5 +9,5 @@ namespace Gu.Reactive.Internals
     /// <param name="sender">The instance that raised the event.</param>
     /// <param name="e">The property changed event args.</param>
     /// <param name="sourceAndValue">The source and of the value. Can be null.</param>
-    internal delegate void TrackedPropertyChangedEventHandler(PathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<object> sourceAndValue);
+    internal delegate void TrackedPropertyChangedEventHandler(PathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, object> sourceAndValue);
 }

@@ -33,18 +33,19 @@ namespace Gu.Reactive.Tests.Helpers
         {
             Assert.AreSame(sender, actual.Sender);
             Assert.AreSame(item, actual.EventArgs.Item);
-            Assert.AreSame(source, actual.EventArgs.ValueSource);
+            Assert.AreSame(source, actual.EventArgs.SourceAndValue.Source);
             Assert.AreEqual(propertyName, actual.EventArgs.PropertyName);
 
             if (value.HasValue)
             {
+                Assert.AreEqual(true, actual.EventArgs.SourceAndValue.Value.HasValue);
                 Assert.AreEqual(value.Value, actual.EventArgs.Value);
-                Assert.AreEqual(true, actual.EventArgs.HasValue);
+                Assert.AreEqual(value, actual.EventArgs.SourceAndValue.Value);
             }
             else
             {
+                Assert.AreEqual(false, actual.EventArgs.SourceAndValue.Value.HasValue);
                 Assert.AreEqual(default(TProperty), actual.EventArgs.Value);
-                Assert.AreEqual(false, actual.EventArgs.HasValue);
             }
         }
     }

@@ -125,7 +125,8 @@
     <Compile Include="Internals\PropertyTracker\TrackedPropertyChangedEventHandler.cs" />
     <Compile Include="Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
-    <Compile Include="SourceAndValue{TValue}.cs" />
+    <Compile Include="SourceAndValue.cs" />
+    <Compile Include="SourceAndValue{TSource,TValue}.cs" />
     <Compile Include="EventArgs\ItemPropertyChangedEventArgs{TItem,TValue}.cs" />
     <Compile Include="NotifyCollectionChangedEventArgs{T}.cs" />
     <Compile Include="EventArgs\NotifyCollectionChangedEventArgsExt.cs" />

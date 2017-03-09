@@ -181,7 +181,7 @@ namespace Gu.Reactive
             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
             IObserver<T> observer,
             Expression<Func<TItem, TProperty>> property,
-            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<TProperty>, T> create)
+            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged, TProperty>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
@@ -196,7 +196,7 @@ namespace Gu.Reactive
             this IObservable<TCollection> source,
             IObserver<T> observer,
             Expression<Func<TItem, TProperty>> property,
-            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<TProperty>, T> create)
+            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged, TProperty>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
@@ -218,7 +218,7 @@ namespace Gu.Reactive
             IObserver<T> o,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial,
-            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<TProperty>, T> create)
+            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged, TProperty>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {

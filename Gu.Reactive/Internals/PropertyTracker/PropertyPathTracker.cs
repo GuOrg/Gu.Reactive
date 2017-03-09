@@ -101,7 +101,7 @@ namespace Gu.Reactive.Internals
             return null;
         }
 
-        internal SourceAndValue<object> SourceAndValue()
+        internal SourceAndValue<INotifyPropertyChanged, object> SourceAndValue()
         {
             for (var i = this.parts.Count - 1; i >= 0; i--)
             {
@@ -110,12 +110,12 @@ namespace Gu.Reactive.Internals
                 if (source != null)
                 {
                     return i == this.parts.Count - 1
-                               ? new SourceAndValue<object>(source, part.PathProperty.GetPropertyValue(source))
-                               : new SourceAndValue<object>(source, Maybe<object>.None);
+                               ? Reactive.SourceAndValue.Create(source, part.PathProperty.GetPropertyValue(source))
+                               : Reactive.SourceAndValue.Create(source, Maybe<object>.None);
                 }
             }
 
-            return new SourceAndValue<object>(null, Maybe<object>.None);
+            return Reactive.SourceAndValue.Create((INotifyPropertyChanged)null, Maybe<object>.None);
         }
 
         /// <summary>

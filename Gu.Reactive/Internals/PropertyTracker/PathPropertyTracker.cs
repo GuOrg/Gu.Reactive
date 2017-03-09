@@ -156,7 +156,7 @@ namespace Gu.Reactive.Internals
                 }
             }
 
-            this.TrackedPropertyChanged?.Invoke(this, sender, e, new SourceAndValue<object>(newSource, value));
+            this.TrackedPropertyChanged?.Invoke(this, sender, e, SourceAndValue.Create(newSource, value));
         }
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
 
     ////[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
@@ -35,33 +36,33 @@
         /// Get the source of the last item in the path.
         /// </summary>
         /// <param name="root">The root instance for the path.</param>
-        internal SourceAndValue<TValue> SourceAndValue(TSource root)
+        internal SourceAndValue<INotifyPropertyChanged, TValue> SourceAndValue(TSource root)
         {
             if (this.Count == 1)
             {
-                return new SourceAndValue<TValue>(root, this[0].GetPropertyValue(root).Cast<TValue>());
+                return Reactive.SourceAndValue.Create((INotifyPropertyChanged)root, this[0].GetPropertyValue(root).Cast<TValue>());
             }
 
-            object source = root;
+            var source = (INotifyPropertyChanged)root;
             for (var i = 0; i < this.path.Count; i++)
             {
                 var value = this.path[i].GetPropertyValue(source);
                 if (i == this.path.Count - 1)
                 {
                     return value.HasValue
-                               ? new SourceAndValue<TValue>(source, value.Cast<TValue>())
-                               : new SourceAndValue<TValue>(source, Maybe<TValue>.None);
+                               ? Reactive.SourceAndValue.Create(source, value.Cast<TValue>())
+                               : Reactive.SourceAndValue.Create(source, Maybe<TValue>.None);
                 }
 
                 if (value.GetValueOrDefault() == null)
                 {
-                    return new SourceAndValue<TValue>(source, Maybe<TValue>.None);
+                    return Reactive.SourceAndValue.Create(source, Maybe<TValue>.None);
                 }
 
-                source = value.Value;
+                source = (INotifyPropertyChanged)value.Value;
             }
 
-            return new SourceAndValue<TValue>(source, Maybe<TValue>.None);
+            return Reactive.SourceAndValue.Create(source, Maybe<TValue>.None);
         }
     }
 }

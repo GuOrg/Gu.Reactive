@@ -49,7 +49,7 @@
             return new NotifyingPath<TNotifier, TProperty>(path, errorBuilder.ToString());
         }
 
-        internal SourceAndValue<TProperty> SourceAndValue(INotifyPropertyChanged root) => this.path.SourceAndValue((TNotifier)root);
+        internal SourceAndValue<INotifyPropertyChanged, TProperty> SourceAndValue(INotifyPropertyChanged root) => this.path.SourceAndValue((TNotifier)root);
 
         private static bool TryGetError(IPropertyPath path, int i, out string errorMessage)
         {

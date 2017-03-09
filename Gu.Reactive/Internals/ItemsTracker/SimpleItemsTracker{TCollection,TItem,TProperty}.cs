@@ -184,9 +184,9 @@ namespace Gu.Reactive.Internals
                 item,
                 sender,
                 e,
-                new SourceAndValue<TProperty>(
-                    sender,
-                    Maybe.Some(this.getter.GetValue(item))));
+                SourceAndValue.Create(
+                    (INotifyPropertyChanged)sender,
+                    this.getter.GetMaybe(item)));
         }
 
         private void SignalInitial(TItem item)
@@ -200,9 +200,9 @@ namespace Gu.Reactive.Internals
                 item,
                 item,
                 CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty),
-                new SourceAndValue<TProperty>(
-                    item, 
-                    Maybe.Some(this.getter.GetValue(item))));
+                SourceAndValue.Create(
+                    (INotifyPropertyChanged)item,
+                    this.getter.GetMaybe(item)));
         }
     }
 }
