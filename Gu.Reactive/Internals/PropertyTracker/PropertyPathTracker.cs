@@ -122,7 +122,7 @@ namespace Gu.Reactive.Internals
             return Reactive.SourceAndValue.Create(valueSource, Maybe<TValue>.None);
         }
 
-        internal void Refresh()
+        private void Refresh()
         {
             // Called for side effect of refreshing the path
             this.SourceAndValue().IgnoreReturnValue();

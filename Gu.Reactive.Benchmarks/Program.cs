@@ -17,7 +17,7 @@
 
         public static void Main()
         {
-            foreach (var summary in RunSingle<ObservePropertyChangedThenSubscribeThenReact>())
+            foreach (var summary in RunAll())
             {
                 CopyResult(summary.Title);
             }
