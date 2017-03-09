@@ -12,13 +12,11 @@
 
         internal PropertyPath(PropertyPath path)
         {
-            var last = path.Last();
-            if (last.PropertyInfo.PropertyType != typeof(TValue))
-            {
-                throw new InvalidOperationException($"Valuepath type does not match. Expected: {typeof(TValue).FullName} was: {last.PropertyInfo.PropertyType.FullName}");
-            }
-
             this.path = path;
+            if (this.Last.PropertyInfo.PropertyType != typeof(TValue))
+            {
+                throw new InvalidOperationException($"Valuepath type does not match. Expected: {typeof(TValue).FullName} was: {this.Last.PropertyInfo.PropertyType.FullName}");
+            }
         }
 
         public int Count => this.path.Count;
@@ -65,7 +63,5 @@
 
             return new SourceAndValue<TValue>(source, Maybe<TValue>.None);
         }
-
-        internal Maybe<TValue> GetValueFromRoot(object rootSource) => this.path.GetValueFromRoot<TValue>(rootSource);
     }
 }

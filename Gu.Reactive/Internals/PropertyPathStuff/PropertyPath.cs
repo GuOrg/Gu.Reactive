@@ -30,8 +30,6 @@ namespace Gu.Reactive.Internals
             return (PropertyPath<TSource, TValue>)Cache.GetOrAdd(propertyPath, Create<TSource, TValue>);
         }
 
-        public Maybe<T> GetValueFromRoot<T>(object rootSource) => this.Last.GetValueFromRoot<T>(rootSource);
-
         public IEnumerator<PathProperty> GetEnumerator() => this.parts.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.parts.GetEnumerator();
