@@ -6,35 +6,30 @@
     using System.ComponentModel;
     using System.Linq;
 
-    internal abstract class PropertyPath<TSource, TValue, TPart> : IPropertyPath
-        where TPart : IPathProperty
+    internal abstract class PropertyPath<TSource, TValue> : IPropertyPath
     {
-        private readonly IReadOnlyList<TPart> parts;
+        private readonly IReadOnlyList<IGetter> parts;
 
-        internal PropertyPath(IReadOnlyList<TPart> parts)
+        internal PropertyPath(IReadOnlyList<IGetter> parts)
         {
             this.parts = parts;
-            if (this.Last.Getter.Property.PropertyType != typeof(TValue))
+            if (this.Last.Property.PropertyType != typeof(TValue))
             {
-                throw new InvalidOperationException($"Valuepath type does not match. Expected: {typeof(TValue).FullName} was: {this.Last.Getter.Property.PropertyType.FullName}");
+                throw new InvalidOperationException($"Valuepath type does not match. Expected: {typeof(TValue).FullName} was: {this.Last.Property.PropertyType.FullName}");
             }
         }
 
         public int Count => this.parts.Count;
 
-        public TPart Last => this.parts[this.parts.Count - 1];
+        public IGetter<TValue> Last => (IGetter<TValue>)this.parts[this.parts.Count - 1];
 
-        public TPart this[int index] => this.parts[index];
+        public IGetter this[int index] => this.parts[index];
 
-        IPathProperty IReadOnlyList<IPathProperty>.this[int index] => this.parts[index];
-
-        public IEnumerator<TPart> GetEnumerator() => this.parts.GetEnumerator();
-
-        IEnumerator<IPathProperty> IEnumerable<IPathProperty>.GetEnumerator() => this.parts.Cast<IPathProperty>().GetEnumerator();
+        public IEnumerator<IGetter> GetEnumerator() => this.parts.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Getter.Property.Name))}";
+        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Property.Name))}";
 
         /// <summary>
         /// Get the source of the last item in the path.
@@ -44,17 +39,17 @@
         {
             if (this.Count == 1)
             {
-                return Reactive.SourceAndValue.Create((INotifyPropertyChanged)root, ((IPathProperty<TValue>)this.Last).GetMaybe(root));
+                return Reactive.SourceAndValue.Create((INotifyPropertyChanged)root, this.Last.GetMaybe(root));
             }
 
             var source = (INotifyPropertyChanged)root;
             for (var i = 0; i < this.parts.Count; i++)
             {
-                var value = this.parts[i].Getter.GetMaybe(source);
+                var value = this.parts[i].GetMaybe(source);
                 if (i == this.parts.Count - 1)
                 {
                     return value.HasValue
-                               ? Reactive.SourceAndValue.Create(source, ((IPathProperty<TValue>)this.Last).GetMaybe(source))
+                               ? Reactive.SourceAndValue.Create(source, this.Last.GetMaybe(source))
                                : Reactive.SourceAndValue.Create(source, Maybe<TValue>.None);
                 }
 

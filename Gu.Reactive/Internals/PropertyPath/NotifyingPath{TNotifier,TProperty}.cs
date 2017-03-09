@@ -3,10 +3,10 @@
     using System.Collections.Generic;
     using System.ComponentModel;
 
-    internal class NotifyingPath<TNotifier, TProperty> : PropertyPath<TNotifier, TProperty, INotifyingProperty>
+    internal class NotifyingPath<TNotifier, TProperty> : PropertyPath<TNotifier, TProperty>
         where TNotifier : class, INotifyPropertyChanged
     {
-        internal NotifyingPath(IReadOnlyList<INotifyingProperty> parts)
+        internal NotifyingPath(IReadOnlyList<INotifyingGetter> parts)
             : base(parts)
         {
         }

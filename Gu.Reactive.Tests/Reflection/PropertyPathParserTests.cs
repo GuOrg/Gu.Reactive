@@ -12,8 +12,6 @@
     {
         public bool IsTrue { get; } = true;
 
-        public Level Level { get; } = null;
-
         public bool Method() => true;
 
         [Test]

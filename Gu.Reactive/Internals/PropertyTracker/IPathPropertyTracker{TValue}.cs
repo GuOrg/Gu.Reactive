@@ -1,9 +1,9 @@
 ﻿namespace Gu.Reactive.Internals
 {
-    internal interface IPathPropertyTracker<TValue> : IPathPropertyTracker
+    internal interface IPropertyTracker<TValue> : IPropertyTracker
     {
         event TrackedPropertyChangedEventHandler<TValue> TrackedPropertyChanged;
 
-        Maybe<TValue> GetValue();
+        Maybe<TValue> GetMaybe();
     }
 }

@@ -297,9 +297,9 @@
                                  {
                                      PropertyChangedEventHandler handler = (sender, e) =>
                                      {
-                                         if (e.IsMatch(notifyingPath.Last.Getter.Property))
+                                         if (e.IsMatch(notifyingPath.Last.Property))
                                          {
-                                             var value = ((IPathProperty<TProperty>)notifyingPath.Last).GetMaybe(sender);
+                                             var value = notifyingPath.Last.GetMaybe(sender);
                                              o.OnNext(create(sender, e, value));
                                          }
                                      };
@@ -340,7 +340,7 @@
                         });
             }
 
-            return ObservePropertyChangedCore(source, notifyingPath.Last.Getter.Property.Name, create, false);
+            return ObservePropertyChangedCore(source, notifyingPath.Last.Property.Name, create, false);
         }
 
         private static IObservable<T> ObservePropertyChangedCore<TNotifier, T>(

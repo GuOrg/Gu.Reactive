@@ -1,6 +1,7 @@
 namespace Gu.Reactive
 {
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Reflection;
 
     using Gu.Reactive.Internals;
@@ -10,7 +11,7 @@ namespace Gu.Reactive
     /// </summary>
     /// <typeparam name="TSource">The source type.</typeparam>
     /// <typeparam name="TValue">The property type.</typeparam>
-    public abstract class Getter<TSource, TValue> : IGetter
+    public abstract class Getter<TSource, TValue> : IGetter<TValue>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Getter{TSource, TValue}"/> class.
@@ -50,6 +51,12 @@ namespace Gu.Reactive
         Maybe<object> IGetter.GetMaybe(object source) => source == null
                                                              ? Maybe<object>.None
                                                              : Maybe<object>.Some(this.GetValue((TSource)source));
+
+        /// <inheritdoc/>
+        TValue IGetter<TValue>.GetValue(object source) => this.GetValue((TSource)source);
+
+        /// <inheritdoc/>
+        Maybe<TValue> IGetter<TValue>.GetMaybe(object source) => this.GetMaybe((TSource)source);
 
         /// <inheritdoc/>
         public override string ToString() => $"{this.Property.ReflectedType?.Name}.{this.Property.Name}";

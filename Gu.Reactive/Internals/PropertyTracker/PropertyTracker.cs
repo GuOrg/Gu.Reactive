@@ -4,9 +4,9 @@ namespace Gu.Reactive.Internals
     using System.ComponentModel;
     using System.Diagnostics;
 
-    [DebuggerDisplay("{this.Property}")]
-    internal sealed class PathPropertyTracker<TSource, TValue> : IPathPropertyTracker<TValue>
-        where TSource : class , INotifyPropertyChanged
+    [DebuggerDisplay("{this.Getter.Property}")]
+    internal sealed class PropertyTracker<TSource, TValue> : IPropertyTracker<TValue>
+        where TSource : class, INotifyPropertyChanged
     {
         private readonly PropertyChangedEventHandler onTrackedPropertyChanged;
         private readonly object gate = new object();
@@ -14,13 +14,13 @@ namespace Gu.Reactive.Internals
         private TSource source;
         private bool disposed;
 
-        public PathPropertyTracker(IPropertyPathTracker pathTracker, PathProperty<TSource, TValue> property)
+        public PropertyTracker(IPropertyPathTracker pathTracker, Getter<TSource, TValue> getter)
         {
             Ensure.NotNull(pathTracker, nameof(pathTracker));
-            Ensure.NotNull(property, nameof(property));
+            Ensure.NotNull(getter, nameof(getter));
 
-            Ensure.NotNull(property.Getter?.Property.ReflectedType, nameof(property));
-            var type = property.Getter.Property.ReflectedType;
+            Ensure.NotNull(getter.Property.ReflectedType, nameof(getter));
+            var type = getter.Property.ReflectedType;
             if (type == null)
             {
                 throw new ArgumentException("PathProperty.ReflectedType == null");
@@ -34,8 +34,8 @@ namespace Gu.Reactive.Internals
                     "The type {0}.{1} is a value type not so {1}.{2} subscribing to changes is weird.",
                     type.Namespace,
                     type.PrettyName(),
-                    property.Getter.Property.Name);
-                throw new ArgumentException(message, nameof(property));
+                    getter.Property.Name);
+                throw new ArgumentException(message, nameof(getter));
             }
 
             if (!typeof(INotifyPropertyChanged).IsAssignableFrom(type))
@@ -45,15 +45,15 @@ namespace Gu.Reactive.Internals
                     "The type {0}.{1} does not so the property {1}.{2} will not notify when value changes.",
                     type.Namespace,
                     type.PrettyName(),
-                    property.Getter.Property.Name);
-                throw new ArgumentException(message, nameof(property));
+                    getter.Property.Name);
+                throw new ArgumentException(message, nameof(getter));
             }
 
             this.PathTracker = pathTracker;
-            this.Property = property;
+            this.Getter = getter;
             this.onTrackedPropertyChanged = (o, e) =>
                 {
-                    if (NotifyPropertyChangedExt.IsMatch(e, this.Property.Getter.Property))
+                    if (NotifyPropertyChangedExt.IsMatch(e, this.Getter.Property))
                     {
                         this.OnTrackedPropertyChanged(o, e);
                     }
@@ -64,13 +64,11 @@ namespace Gu.Reactive.Internals
 
         public IPropertyPathTracker PathTracker { get; }
 
-        public PathProperty<TSource, TValue> Property { get; }
+        public Getter<TSource, TValue> Getter { get; }
 
-        IPathProperty IPathPropertyTracker.Property => this.Property;
+        IGetter IPropertyTracker.Property => this.Getter;
 
-        public IPathPropertyTracker Next => this.PathTracker.GetNext(this);
-
-        public IPathPropertyTracker Previous => this.PathTracker.GetPrevious(this);
+        public IPropertyTracker Next => this.PathTracker.GetNext(this);
 
         /// <summary>
         /// Gets or sets the source.
@@ -112,13 +110,13 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        INotifyPropertyChanged IPathPropertyTracker.Source
+        INotifyPropertyChanged IPropertyTracker.Source
         {
             get { return this.source; }
             set { this.Source = (TSource)value; }
         }
 
-        Maybe<TValue> IPathPropertyTracker<TValue>.GetValue() => this.Property.Getter.GetMaybe(this.source);
+        Maybe<TValue> IPropertyTracker<TValue>.GetMaybe() => this.Getter.GetMaybe(this.source);
 
         /// <inheritdoc/>
         public void Dispose()
@@ -147,7 +145,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        void IPathPropertyTracker.OnTrackedPropertyChanged(object sender, INotifyPropertyChanged newSource, PropertyChangedEventArgs e) => this.OnTrackedPropertyChanged(sender, newSource, e);
+        void IPropertyTracker.OnTrackedPropertyChanged(object sender, INotifyPropertyChanged newSource, PropertyChangedEventArgs e) => this.OnTrackedPropertyChanged(sender, newSource, e);
 
         private void OnTrackedPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -157,7 +155,7 @@ namespace Gu.Reactive.Internals
         private void OnTrackedPropertyChanged(object sender, INotifyPropertyChanged newSource, PropertyChangedEventArgs e)
         {
             this.Source = (TSource)newSource;
-            var value = this.Property.Getter.GetMaybe(this.source);
+            var value = this.Getter.GetMaybe(this.source);
             var next = this.Next;
             if (next != null)
             {

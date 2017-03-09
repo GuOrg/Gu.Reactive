@@ -3,6 +3,7 @@ namespace Gu.Reactive
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
 
@@ -58,17 +59,27 @@ namespace Gu.Reactive
         private static IGetter Create(PropertyInfo property)
         {
             Ensure.NotNull(property.ReflectedType, nameof(property));
-            var typeDef = property.ReflectedType.IsValueType
-                ? typeof(StructGetter<,>)
-                : typeof(ClassGetter<,>);
 
-            var ctor = typeDef.MakeGenericType(property.ReflectedType, property.PropertyType)
-                              .GetConstructor(
-                                  bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance,
-                                  binder: null,
-                                  types: new[] { typeof(PropertyInfo) },
-                                  modifiers: null);
+            var ctor = GetGetterType(property)
+                .MakeGenericType(property.ReflectedType, property.PropertyType)
+                .GetConstructor(
+                    bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance,
+                    binder: null,
+                    types: new[] { typeof(PropertyInfo) },
+                    modifiers: null);
             return (IGetter)ctor.Invoke(new object[] { property });
+        }
+
+        private static Type GetGetterType(PropertyInfo property)
+        {
+            if (property.ReflectedType?.IsValueType == true)
+            {
+                return typeof(StructGetter<,>);
+            }
+
+            return typeof(INotifyPropertyChanged).IsAssignableFrom(property.ReflectedType)
+                ? typeof(NotifyingGetter<,>)
+                : typeof(ClassGetter<,>);
         }
 
         internal struct CacheItem

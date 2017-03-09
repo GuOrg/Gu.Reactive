@@ -6,18 +6,18 @@ namespace Gu.Reactive.Internals
     using System.ComponentModel;
     using System.Linq;
 
-    internal sealed class PropertyPathTracker<TSource, TValue> : IReadOnlyList<IPathPropertyTracker>, IPropertyPathTracker
+    internal sealed class PropertyPathTracker<TSource, TValue> : IReadOnlyList<IPropertyTracker>, IPropertyPathTracker
         where TSource : class, INotifyPropertyChanged
     {
-        private readonly IReadOnlyList<IPathPropertyTracker> parts;
+        private readonly IReadOnlyList<IPropertyTracker> parts;
         private bool disposed;
 
         internal PropertyPathTracker(TSource source, NotifyingPath<TSource, TValue> path)
         {
-            var items = new IPathPropertyTracker[path.Count];
+            var items = new IPropertyTracker[path.Count];
             for (var i = 0; i < path.Count; i++)
             {
-                items[i] = path[i].CreateTracker(this);
+                items[i] = ((INotifyingGetter)path[i]).CreateTracker(this);
             }
 
             this.parts = items;
@@ -32,9 +32,9 @@ namespace Gu.Reactive.Internals
 
         public TSource Source => (TSource)this.parts[0].Source;
 
-        private IPathPropertyTracker<TValue> Last => (IPathPropertyTracker<TValue>)this.parts[this.parts.Count - 1];
+        private IPropertyTracker<TValue> Last => (IPropertyTracker<TValue>)this.parts[this.parts.Count - 1];
 
-        public IPathPropertyTracker this[int index]
+        public IPropertyTracker this[int index]
         {
             get
             {
@@ -43,7 +43,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        IPathPropertyTracker IPropertyPathTracker.GetNext(IPathPropertyTracker tracker)
+        IPropertyTracker IPropertyPathTracker.GetNext(IPropertyTracker tracker)
         {
             for (var i = 0; i < this.parts.Count - 1; i++)
             {
@@ -57,7 +57,7 @@ namespace Gu.Reactive.Internals
             return null;
         }
 
-        IPathPropertyTracker IPropertyPathTracker.GetPrevious(IPathPropertyTracker tracker)
+        IPropertyTracker IPropertyPathTracker.GetPrevious(IPropertyTracker tracker)
         {
             for (var i = 1; i < this.parts.Count; i++)
             {
@@ -71,7 +71,7 @@ namespace Gu.Reactive.Internals
             return null;
         }
 
-        public IEnumerator<IPathPropertyTracker> GetEnumerator()
+        public IEnumerator<IPropertyTracker> GetEnumerator()
         {
             this.ThrowIfDisposed();
             return this.parts.GetEnumerator();
@@ -102,7 +102,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Property.Getter.Property.Name))}";
+        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Property.Property.Name))}";
 
         /// <summary>
         /// Gets the value recursively from the root.
@@ -125,12 +125,12 @@ namespace Gu.Reactive.Internals
 
                 if (i == this.parts.Count - 1)
                 {
-                    return Reactive.SourceAndValue.Create(valueSource, this.Last.GetValue());
+                    return Reactive.SourceAndValue.Create(valueSource, this.Last.GetMaybe());
                 }
 
                 value = newSource == null
                             ? Maybe<INotifyPropertyChanged>.None
-                            : Maybe<INotifyPropertyChanged>.Some((INotifyPropertyChanged)part.Property.Getter.GetValue(newSource));
+                            : Maybe<INotifyPropertyChanged>.Some((INotifyPropertyChanged)part.Property.GetValue(newSource));
             }
 
             return Reactive.SourceAndValue.Create(valueSource, Maybe<TValue>.None);
@@ -150,7 +150,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        private void OnTrackedPropertyChanged(IPathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TValue> sourceandvalue)
+        private void OnTrackedPropertyChanged(IPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TValue> sourceandvalue)
         {
             this.TrackedPropertyChanged?.Invoke(tracker, sender, e, sourceandvalue);
         }

@@ -3,9 +3,9 @@ namespace Gu.Reactive.Internals
     using System;
     using System.ComponentModel;
 
-    internal interface IPathPropertyTracker : IDisposable
+    internal interface IPropertyTracker : IDisposable
     {
-        IPathProperty Property { get; }
+        IGetter Property { get; }
 
         IPropertyPathTracker PathTracker { get; }
 

@@ -4,8 +4,8 @@
 
     internal interface IPropertyPathTracker : IDisposable
     {
-        IPathPropertyTracker GetNext(IPathPropertyTracker pathPropertyTracker);
+        IPropertyTracker GetNext(IPropertyTracker propertyTracker);
 
-        IPathPropertyTracker GetPrevious(IPathPropertyTracker pathPropertyTracker);
+        IPropertyTracker GetPrevious(IPropertyTracker propertyTracker);
     }
 }

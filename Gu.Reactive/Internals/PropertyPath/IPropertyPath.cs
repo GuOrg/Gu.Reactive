@@ -3,7 +3,7 @@ namespace Gu.Reactive.Internals
 {
     using System.Collections.Generic;
 
-    internal interface IPropertyPath : IReadOnlyList<IPathProperty>
+    internal interface IPropertyPath : IReadOnlyList<IGetter>
     {
     }
 }

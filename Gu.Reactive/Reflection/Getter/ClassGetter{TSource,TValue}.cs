@@ -4,10 +4,11 @@ namespace Gu.Reactive
     using System.Reflection;
 
     internal class ClassGetter<TSource, TValue> : Getter<TSource, TValue>
+        where TSource : class
     {
         private readonly Func<TSource, TValue> getter;
 
-        private ClassGetter(PropertyInfo property)
+        protected ClassGetter(PropertyInfo property)
             : base(property)
         {
             this.getter = (Func<TSource, TValue>)Delegate.CreateDelegate(typeof(Func<TSource, TValue>), property.GetMethod, true);

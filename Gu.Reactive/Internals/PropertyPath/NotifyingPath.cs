@@ -31,8 +31,7 @@ namespace Gu.Reactive.Internals
         {
             var properties = PropertyPathParser.GetPath(propertyPath);
             var errorBuilder = new StringBuilder();
-            var parts = new INotifyingProperty[properties.Count];
-            INotifyingProperty previous = null;
+            var parts = new INotifyingGetter[properties.Count];
             for (var i = 0; i < properties.Count; i++)
             {
                 string errorMessage;
@@ -45,9 +44,8 @@ namespace Gu.Reactive.Internals
                 if (errorBuilder.Length == 0)
                 {
                     var property = properties[i];
-                    var item = NotifyingProperty.Create(previous, property);
-                    parts[i] = item;
-                    previous = item;
+                    var item = Getter.GetOrCreate(property);
+                    parts[i] = (INotifyingGetter)item;
                 }
             }
 
