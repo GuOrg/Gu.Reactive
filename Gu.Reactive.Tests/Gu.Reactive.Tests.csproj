@@ -91,8 +91,6 @@
     <Compile Include="Helpers\EventArgsComparer.cs" />
     <Compile Include="Helpers\FakeWithCollection.cs" />
     <Compile Include="Helpers\IFake.cs" />
-    <Compile Include="Get\ValuePathTests.cs" />
-    <Compile Include="Get\ValueOrDefaultTests.cs" />
     <Compile Include="Helpers\NotNotifying.cs" />
     <Compile Include="Helpers\StructLevel.cs" />
     <Compile Include="Helpers\TestExtensions.cs" />

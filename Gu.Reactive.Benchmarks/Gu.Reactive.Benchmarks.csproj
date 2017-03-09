@@ -61,7 +61,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Benchmarks\Diff.cs" />
-    <Compile Include="Benchmarks\Get.cs" />
     <Compile Include="Benchmarks\MinTrackerProperty.cs" />
     <Compile Include="Benchmarks\MinTrackerSimple.cs" />
     <Compile Include="Benchmarks\ObservePropertyChangedReact.cs" />
@@ -83,7 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Benchmarks\Diff.md" />
-    <None Include="Benchmarks\Get.md" />
     <None Include="Benchmarks\MinTrackerProperty.md" />
     <None Include="Benchmarks\MinTrackerSimple.md" />
     <None Include="Benchmarks\NameOf.md" />

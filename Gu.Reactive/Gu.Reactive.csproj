@@ -105,9 +105,7 @@
     <Compile Include="Collections\WeakCompositeDisposable.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
     <Compile Include="Contracts\IThrottledView{T}.cs" />
-    <Compile Include="Contracts\IValuePath{TSource,TValue}.cs" />
     <Compile Include="ForegroundScheduler.cs" />
-    <Compile Include="Get.cs" />
     <Compile Include="Contracts\IMaybe.cs" />
     <Compile Include="Internals\ConcurrentQueueExt.cs" />
     <Compile Include="Internals\Ensure\Ensure.Collection.cs" />
@@ -152,7 +150,6 @@
     <Compile Include="Internals\PropertyTracker\PathPropertyTracker.cs" />
     <Compile Include="Reflection\Comparers\PropertyPathComparer.cs" />
     <Compile Include="Internals\PropertyPathStuff\PropertyPath{TSource,TValue}.cs" />
-    <Compile Include="Internals\PropertyPathStuff\PropertyPath{TValue}.cs" />
     <Compile Include="NotifyCollectionChangedExt.cs" />
     <Compile Include="NameOf.cs" />
     <Compile Include="Conditions\AndCondition.cs" />

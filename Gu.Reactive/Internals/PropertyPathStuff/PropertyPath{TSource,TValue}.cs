@@ -6,7 +6,7 @@
     using System.Linq;
 
     ////[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    internal class PropertyPath<TSource, TValue> : IValuePath<TSource, TValue>, IPropertyPath
+    internal class PropertyPath<TSource, TValue> : IPropertyPath
     {
         private readonly PropertyPath path;
 
@@ -26,8 +26,6 @@
         public PathProperty Last => this.path.Last;
 
         public PathProperty this[int index] => this.path[index];
-
-        IMaybe<TValue> IValuePath<TSource, TValue>.GetValue(TSource source) => this.GetValueFromRoot(source);
 
         public IEnumerator<PathProperty> GetEnumerator() => this.path.GetEnumerator();
 
