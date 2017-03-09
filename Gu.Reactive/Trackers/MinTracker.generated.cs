@@ -25,7 +25,7 @@
             where TValue : struct, IComparable<TValue>
         {
             var onItemChanged = trackItemChanges
-                                    ? source.ObserveItemPropertyChanged(selector, false)
+                                    ? source.ObserveItemPropertyChangedSlim(selector, false)
                                     : null;
             var mapped = source.AsMappingView(selector.Compile(), onItemChanged);
             return new MinTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
@@ -59,7 +59,7 @@
             where TValue : struct, IComparable<TValue>
         {
             var onItemChanged = trackItemChanges
-                                    ? source.ObserveItemPropertyChanged(selector, false)
+                                    ? source.ObserveItemPropertyChangedSlim(selector, false)
                                     : null;
             var mapped = source.AsMappingView(selector.Compile(), onItemChanged);
             return new MinTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
@@ -93,7 +93,7 @@
             where TValue : struct, IComparable<TValue>
         {
             var onItemChanged = trackItemChanges
-                                    ? source.ObserveItemPropertyChanged(selector, false)
+                                    ? source.ObserveItemPropertyChangedSlim(selector, false)
                                     : null;
             var mapped = source.AsMappingView(selector.Compile(), onItemChanged);
             return new MinTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
