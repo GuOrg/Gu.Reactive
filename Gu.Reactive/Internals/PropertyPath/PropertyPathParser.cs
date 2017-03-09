@@ -120,6 +120,44 @@
 
             /// <inheritdoc />
             public override object[] GetCustomAttributes(Type attributeType, bool inherit) => this.property.GetCustomAttributes(attributeType, inherit);
+
+            /// <inheritdoc />
+            public override bool Equals(object obj)
+            {
+                if (ReferenceEquals(null, obj))
+                {
+                    return false;
+                }
+
+                if (ReferenceEquals(this, obj))
+                {
+                    return true;
+                }
+
+                if (obj.GetType() != this.GetType())
+                {
+                    return false;
+                }
+
+                return this.Equals((InterfaceProperty) obj);
+            }
+
+            /// <inheritdoc />
+            public override int GetHashCode()
+            {
+                unchecked
+                {
+                    var hashCode = base.GetHashCode();
+                    hashCode = (hashCode * 397) ^ this.property.GetHashCode();
+                    hashCode = (hashCode * 397) ^ this.reflectedType.GetHashCode();
+                    return hashCode;
+                }
+            }
+
+            protected bool Equals(InterfaceProperty other)
+            {
+                return base.Equals(other) && this.property.Equals(other.property) && this.reflectedType.Equals(other.reflectedType);
+            }
         }
     }
 }
