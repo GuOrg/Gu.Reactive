@@ -1,6 +1,6 @@
 namespace Gu.Reactive.Internals
 {
-    internal class PathProperty<TSource, TValue> : IPathProperty
+    internal class PathProperty<TSource, TValue> : IPathProperty<TValue>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PathProperty{TSource,TValue}"/> class.
@@ -21,6 +21,8 @@ namespace Gu.Reactive.Internals
         public Getter<TSource, TValue> Getter { get; }
 
         IGetter IPathProperty.Getter => this.Getter;
+
+        public Maybe<TValue> GetMaybe(object source) => this.Getter.GetMaybe((TSource)source);
 
         public override string ToString() => $"PathItem for: {this.Getter.Property.DeclaringType.PrettyName()}.{this.Getter.Property.Name}";
     }

@@ -44,7 +44,7 @@
         {
             if (this.Count == 1)
             {
-                return Reactive.SourceAndValue.Create((INotifyPropertyChanged)root, this[0].Getter.GetMaybe(root).Cast<TValue>());
+                return Reactive.SourceAndValue.Create((INotifyPropertyChanged)root, ((IPathProperty<TValue>)this.Last).GetMaybe(root));
             }
 
             var source = (INotifyPropertyChanged)root;
@@ -54,7 +54,7 @@
                 if (i == this.parts.Count - 1)
                 {
                     return value.HasValue
-                               ? Reactive.SourceAndValue.Create(source, value.Cast<TValue>())
+                               ? Reactive.SourceAndValue.Create(source, ((IPathProperty<TValue>)this.Last).GetMaybe(source))
                                : Reactive.SourceAndValue.Create(source, Maybe<TValue>.None);
                 }
 
