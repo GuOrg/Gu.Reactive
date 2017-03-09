@@ -108,8 +108,7 @@ namespace Gu.Reactive
             {
                 this.OnPropertyChanged(CountPropertyChangedEventArgs);
                 this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
-                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, added,
-                                                                              this.Items.Count - 1));
+                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, added, this.Items.Count - 1));
             }
             else
             {

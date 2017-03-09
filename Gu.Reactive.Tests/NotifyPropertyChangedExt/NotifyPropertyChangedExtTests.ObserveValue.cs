@@ -482,7 +482,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     CollectionAssert.AreEqual(expecteds, actuals);
 
                     fake.Level1.Level2 = new Level2();
-                    expecteds.Add( Maybe<bool>.Some(fake.Level1.Level2.IsTrue));
+                    expecteds.Add(Maybe<bool>.Some(fake.Level1.Level2.IsTrue));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
                     fake.Level1.Level2.IsTrue = !fake.Level1.Level2.IsTrue;

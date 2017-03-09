@@ -310,8 +310,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     Assert.AreEqual(0, changes.Count);
 
                     fake.Next.OnPropertyChanged(propertyName);
-                    // This means all properties changed according to wpf convention
 
+                    // This means all properties changed according to wpf convention
                     Assert.AreEqual(1, changes.Count);
                     Assert.AreEqual(propertyName, changes.Last().PropertyName);
                 }

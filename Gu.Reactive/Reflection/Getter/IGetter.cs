@@ -7,6 +7,9 @@ namespace Gu.Reactive
     /// </summary>
     public interface IGetter
     {
+        /// <summary>
+        /// The <see cref="PropertyInfo"/> that this instance is a getter for.
+        /// </summary>
         PropertyInfo Property { get; }
 
         /// <summary>

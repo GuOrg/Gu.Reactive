@@ -8,17 +8,12 @@ namespace Gu.Reactive.Internals
     {
         private static readonly ConcurrentDictionary<PropertyInfo, Func<IPathProperty, IGetter, IPathProperty>> Factories = new ConcurrentDictionary<PropertyInfo, Func<IPathProperty, IGetter, IPathProperty>>();
 
-        internal static IPathProperty Create(IPathProperty previous, PropertyInfo propertyInfo)
+        internal static IPathProperty Create(IPathProperty previous, PropertyInfo property)
         {
-            Getter.VerifyProperty(propertyInfo);
-            var getter = Getter.GetOrCreate(propertyInfo);
-            var factory = Factories.GetOrAdd(propertyInfo, CreateFactory);
+            Getter.VerifyProperty(property);
+            var getter = Getter.GetOrCreate(property);
+            var factory = Factories.GetOrAdd(property, CreateFactory);
             return factory(previous, getter);
-        }
-
-        internal static PathProperty<TSource, TValue> Create<TSource, TValue>(IPathProperty previous, Getter<TSource, TValue> getter)
-        {
-            return new PathProperty<TSource, TValue>(previous, getter);
         }
 
         private static PathProperty<TSource, TValue> CastAndCreate<TSource, TValue>(IPathProperty previous, IGetter getter)
@@ -26,10 +21,10 @@ namespace Gu.Reactive.Internals
             return new PathProperty<TSource, TValue>(previous, (Getter<TSource, TValue>)getter);
         }
 
-        private static Func<IPathProperty, IGetter, IPathProperty> CreateFactory(PropertyInfo arg)
+        private static Func<IPathProperty, IGetter, IPathProperty> CreateFactory(PropertyInfo property)
         {
             var method = typeof(PathProperty).GetMethod(nameof(CastAndCreate), BindingFlags.Static | BindingFlags.NonPublic)
-                                             .MakeGenericMethod(arg.ReflectedType, arg.PropertyType);
+                                             .MakeGenericMethod(property.ReflectedType, property.PropertyType);
 
             return (Func<IPathProperty, IGetter, IPathProperty>)Delegate.CreateDelegate(typeof(Func<IPathProperty, IGetter, IPathProperty>), method);
         }

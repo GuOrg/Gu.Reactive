@@ -6,11 +6,12 @@
     using System.ComponentModel;
     using System.Linq;
 
-    internal class PropertyPath<TSource, TValue> : IPropertyPath
+    internal abstract class PropertyPath<TSource, TValue, TPart> : IPropertyPath
+        where TPart : IPathProperty
     {
-        private readonly IReadOnlyList<IPathProperty> parts;
+        private readonly IReadOnlyList<TPart> parts;
 
-        internal PropertyPath(IReadOnlyList<IPathProperty> parts)
+        internal PropertyPath(IReadOnlyList<TPart> parts)
         {
             this.parts = parts;
             if (this.Last.Getter.Property.PropertyType != typeof(TValue))
@@ -21,11 +22,15 @@
 
         public int Count => this.parts.Count;
 
-        public IPathProperty Last => this.parts[this.parts.Count - 1];
+        public TPart Last => this.parts[this.parts.Count - 1];
 
-        public IPathProperty this[int index] => this.parts[index];
+        public TPart this[int index] => this.parts[index];
 
-        public IEnumerator<IPathProperty> GetEnumerator() => this.parts.GetEnumerator();
+        IPathProperty IReadOnlyList<IPathProperty>.this[int index] => this.parts[index];
+
+        public IEnumerator<TPart> GetEnumerator() => this.parts.GetEnumerator();
+
+        IEnumerator<IPathProperty> IEnumerable<IPathProperty>.GetEnumerator() => this.parts.Cast<IPathProperty>().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 

@@ -12,7 +12,7 @@ namespace Gu.Reactive.Internals
         private readonly IReadOnlyList<IPathPropertyTracker> parts;
         private bool disposed;
 
-        internal PropertyPathTracker(TSource source, PropertyPath<TSource, TValue> path)
+        internal PropertyPathTracker(TSource source, NotifyingPath<TSource, TValue> path)
         {
             var items = new IPathPropertyTracker[path.Count];
             for (var i = 0; i < path.Count; i++)
@@ -26,15 +26,13 @@ namespace Gu.Reactive.Internals
             this.Last.TrackedPropertyChanged += this.OnTrackedPropertyChanged;
         }
 
-        public event TrackedPropertyChangedEventHandler TrackedPropertyChanged;
+        public event TrackedPropertyChangedEventHandler<TValue> TrackedPropertyChanged;
 
         public int Count => this.parts.Count;
 
-        public IPathPropertyTracker First => this.parts[0];
-
-        public IPathPropertyTracker Last => this.parts[this.parts.Count - 1];
-
         public TSource Source => (TSource)this.parts[0].Source;
+
+        private IPathPropertyTracker<TValue> Last => (IPathPropertyTracker<TValue>)this.parts[this.parts.Count - 1];
 
         public IPathPropertyTracker this[int index]
         {
@@ -106,42 +104,42 @@ namespace Gu.Reactive.Internals
 
         public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Property.Getter.Property.Name))}";
 
-        internal SourceAndValue<INotifyPropertyChanged, object> SourceAndValue()
-        {
-            for (var i = this.parts.Count - 1; i >= 0; i--)
-            {
-                var part = this.parts[i];
-                var source = part.Source;
-                if (source != null)
-                {
-                    return i == this.parts.Count - 1
-                               ? Reactive.SourceAndValue.Create(source, part.Property.Getter.GetMaybe(source))
-                               : Reactive.SourceAndValue.Create(source, Maybe<object>.None);
-                }
-            }
-
-            return Reactive.SourceAndValue.Create((INotifyPropertyChanged)null, Maybe<object>.None);
-        }
-
         /// <summary>
-        /// Refreshes the path recursively from source.
+        /// Gets the value recursively from the root.
         /// This is for extra security in case changes are notified on different threads.
         /// </summary>
+        internal SourceAndValue<INotifyPropertyChanged, TValue> SourceAndValue()
+        {
+            var valueSource = (INotifyPropertyChanged)this.Source;
+            var value = Maybe.Some(valueSource);
+            for (var i = 0; i < this.parts.Count; i++)
+            {
+                var part = this.parts[i];
+                var newSource = value.GetValueOrDefault();
+
+                part.Source = newSource;
+                if (newSource != null)
+                {
+                    valueSource = newSource;
+                }
+
+                if (i == this.parts.Count - 1)
+                {
+                    return Reactive.SourceAndValue.Create(valueSource, this.Last.GetValue());
+                }
+
+                value = newSource == null
+                            ? Maybe<INotifyPropertyChanged>.None
+                            : Maybe<INotifyPropertyChanged>.Some((INotifyPropertyChanged)part.Property.Getter.GetValue(newSource));
+            }
+
+            return Reactive.SourceAndValue.Create(valueSource, Maybe<TValue>.None);
+        }
+
         internal void Refresh()
         {
-            var source = this.parts[0].Source;
-            for (var i = 1; i < this.parts.Count; i++)
-            {
-                source = (INotifyPropertyChanged)this.parts[i - 1].Property
-                                                     .Getter
-                                                     .GetMaybe(source)
-                                                     .GetValueOrDefault();
-                var part = this.parts[i];
-                if (!ReferenceEquals(part.Source, source))
-                {
-                    part.Source = source;
-                }
-            }
+            // Called for side effect of refreshing the path
+            this.SourceAndValue().IgnoreReturnValue();
         }
 
         private void ThrowIfDisposed()
@@ -152,7 +150,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        private void OnTrackedPropertyChanged(IPathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, object> sourceandvalue)
+        private void OnTrackedPropertyChanged(IPathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TValue> sourceandvalue)
         {
             this.TrackedPropertyChanged?.Invoke(tracker, sender, e, sourceandvalue);
         }

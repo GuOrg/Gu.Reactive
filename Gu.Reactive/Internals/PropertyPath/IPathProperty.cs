@@ -16,11 +16,6 @@ namespace Gu.Reactive.Internals
         IGetter Getter { get; }
 
         /// <summary>
-        /// Create a tracker for this item.
-        /// </summary>
-        IPathPropertyTracker CreateTracker(IPropertyPathTracker tracker);
-
-        /// <summary>
         /// Gets value all the way from the root recursively.
         /// Checks for null along the way.
         /// </summary>

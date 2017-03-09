@@ -5,15 +5,15 @@ namespace Gu.Reactive.Tests.Internals.PropertyPathTests
 
     using NUnit.Framework;
 
-    public class PropertyPathTests
+    public class NotifyingPathTests
     {
         [Test]
         public void ToStringTest()
         {
-            var path = PropertyPath.GetOrCreate<Fake, int>(x => x.Level1.Value);
+            var path = NotifyingPath.GetOrCreate<Fake, int>(x => x.Level1.Value);
             Assert.AreEqual("x => x.Level1.Value", path.ToString());
 
-            path = PropertyPath.GetOrCreate<Fake, int>(x => x.Level1.Level2.Value);
+            path = NotifyingPath.GetOrCreate<Fake, int>(x => x.Level1.Level2.Value);
             Assert.AreEqual("x => x.Level1.Level2.Value", path.ToString());
         }
     }

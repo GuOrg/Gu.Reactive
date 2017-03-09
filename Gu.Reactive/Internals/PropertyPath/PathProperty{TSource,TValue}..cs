@@ -1,8 +1,6 @@
 namespace Gu.Reactive.Internals
 {
-    using System.Reflection;
-
-    internal sealed class PathProperty<TSource, TValue> : IPathProperty
+    internal class PathProperty<TSource, TValue> : IPathProperty
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PathProperty{TSource,TValue}"/> class.
@@ -35,9 +33,5 @@ namespace Gu.Reactive.Internals
 
             return this.Previous.Getter.GetValue(this.Previous.GetSourceFromRoot(rootSource));
         }
-
-        public PathPropertyTracker<TSource, TValue> CreateTracker(IPropertyPathTracker tracker) => new PathPropertyTracker<TSource, TValue>(tracker, this);
-
-        IPathPropertyTracker IPathProperty.CreateTracker(IPropertyPathTracker tracker) => this.CreateTracker(tracker);
     }
 }

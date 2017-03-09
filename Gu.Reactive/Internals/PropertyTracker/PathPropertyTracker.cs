@@ -5,12 +5,13 @@ namespace Gu.Reactive.Internals
     using System.Diagnostics;
 
     [DebuggerDisplay("{this.Property}")]
-    internal sealed class PathPropertyTracker<TSource, TValue> : IPathPropertyTracker
+    internal sealed class PathPropertyTracker<TSource, TValue> : IPathPropertyTracker<TValue>
+        where TSource : class , INotifyPropertyChanged
     {
         private readonly PropertyChangedEventHandler onTrackedPropertyChanged;
         private readonly object gate = new object();
 
-        private INotifyPropertyChanged source;
+        private TSource source;
         private bool disposed;
 
         public PathPropertyTracker(IPropertyPathTracker pathTracker, PathProperty<TSource, TValue> property)
@@ -59,11 +60,13 @@ namespace Gu.Reactive.Internals
                 };
         }
 
-        public event TrackedPropertyChangedEventHandler TrackedPropertyChanged;
+        public event TrackedPropertyChangedEventHandler<TValue> TrackedPropertyChanged;
 
         public IPropertyPathTracker PathTracker { get; }
 
-        public IPathProperty Property { get; }
+        public PathProperty<TSource, TValue> Property { get; }
+
+        IPathProperty IPathPropertyTracker.Property => this.Property;
 
         public IPathPropertyTracker Next => this.PathTracker.GetNext(this);
 
@@ -72,7 +75,7 @@ namespace Gu.Reactive.Internals
         /// <summary>
         /// Gets or sets the source.
         /// </summary>
-        public INotifyPropertyChanged Source
+        public TSource Source
         {
             get
             {
@@ -108,6 +111,14 @@ namespace Gu.Reactive.Internals
                 }
             }
         }
+
+        INotifyPropertyChanged IPathPropertyTracker.Source
+        {
+            get { return this.source; }
+            set { this.Source = (TSource)value; }
+        }
+
+        Maybe<TValue> IPathPropertyTracker<TValue>.GetValue() => this.Property.Getter.GetMaybe(this.source);
 
         /// <inheritdoc/>
         public void Dispose()
@@ -145,7 +156,7 @@ namespace Gu.Reactive.Internals
 
         private void OnTrackedPropertyChanged(object sender, INotifyPropertyChanged newSource, PropertyChangedEventArgs e)
         {
-            this.Source = newSource;
+            this.Source = (TSource)newSource;
             var value = this.Property.Getter.GetMaybe(this.source);
             var next = this.Next;
             if (next != null)
