@@ -23,7 +23,7 @@ namespace Gu.Reactive.Internals
         /// <summary>
         /// Create a tracker for this item.
         /// </summary>
-        IPathPropertyTracker CreateTracker(PropertyPathTracker tracker);
+        IPathPropertyTracker CreateTracker(IPropertyPathTracker tracker);
 
         /// <summary>
         /// Gets value all the way from the root recursively.

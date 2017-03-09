@@ -14,14 +14,14 @@
     {
         private static readonly ConcurrentQueue<HashSet<TItem>> SetPool = new ConcurrentQueue<HashSet<TItem>>();
 
-        private readonly NotifyingPath<TItem, TProperty> propertyPath;
-        private readonly Dictionary<TItem, PropertyPathTracker> map = new Dictionary<TItem, PropertyPathTracker>(ObjectIdentityComparer<TItem>.Default);
+        private readonly NotifyingPath<TItem, TProperty> path;
+        private readonly Dictionary<TItem, PropertyPathTracker<TItem, TProperty>> map = new Dictionary<TItem, PropertyPathTracker<TItem, TProperty>>(ObjectIdentityComparer<TItem>.Default);
 
         private TCollection source;
 
-        public NestedItemsTracker(TCollection source, NotifyingPath<TItem, TProperty> propertyPath)
+        public NestedItemsTracker(TCollection source, NotifyingPath<TItem, TProperty> path)
         {
-            this.propertyPath = propertyPath;
+            this.path = path;
             if (source != null)
             {
                 this.AddItems(source);
@@ -115,10 +115,10 @@
         private void OnTrackedItemChanged(IPathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, object> sourceAndValue)
         {
             this.OnTrackedItemChanged(
-                (TItem)tracker.PathTracker.First.Source,
+                ((PropertyPathTracker<TItem, TProperty>)tracker.PathTracker).Source,
                 sender,
                 e,
-                SourceAndValue.Create((INotifyPropertyChanged)sourceAndValue.Source, sourceAndValue.Value.Cast<TProperty>()));
+                SourceAndValue.Create(sourceAndValue.Source, sourceAndValue.Value.Cast<TProperty>()));
         }
 
         private void OnTrackedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -169,7 +169,7 @@
                     continue;
                 }
 
-                var tracker = PropertyPathTracker.Create(item, this.propertyPath);
+                var tracker = this.path.CreateTracker(item);
                 //// Signaling initial before subscrinbing here to get the events in correct order
                 //// This can't be made entirely thread safe as an event can be raised on source bewteen signal initial & subscribe.
                 this.SignalInitial(tracker);
@@ -199,7 +199,7 @@
             SetPool.Enqueue(set);
         }
 
-        private void SignalInitial(PropertyPathTracker tracker)
+        private void SignalInitial(PropertyPathTracker<TItem, TProperty> tracker)
         {
             if (!this.HasSubscribers)
             {
@@ -208,7 +208,7 @@
 
             var sourceAndValue = tracker.SourceAndValue();
             this.OnTrackedItemChanged(
-                (TItem)tracker.First.Source,
+                (TItem)tracker.Source,
                 sourceAndValue.Source,
                 CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty),
                 SourceAndValue.Create(sourceAndValue.Source, sourceAndValue.Value.Cast<TProperty>()));

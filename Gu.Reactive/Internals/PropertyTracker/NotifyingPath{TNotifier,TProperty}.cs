@@ -6,6 +6,7 @@
     using System.Text;
 
     internal class NotifyingPath<TNotifier, TProperty>
+        where TNotifier : class, INotifyPropertyChanged
     {
         private readonly PropertyPath<TNotifier, TProperty> path;
 
@@ -48,6 +49,8 @@
 
             return new NotifyingPath<TNotifier, TProperty>(path, errorBuilder.ToString());
         }
+
+        internal PropertyPathTracker<TNotifier, TProperty> CreateTracker(TNotifier item) => new PropertyPathTracker<TNotifier, TProperty>(item, this.path);
 
         internal SourceAndValue<INotifyPropertyChanged, TProperty> SourceAndValue(INotifyPropertyChanged root) => this.path.SourceAndValue((TNotifier)root);
 

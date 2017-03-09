@@ -2,13 +2,15 @@ namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections.Concurrent;
+    using System.ComponentModel;
     using System.Linq.Expressions;
 
     internal static class NotifyingPath
     {
         private static readonly ConcurrentDictionary<LambdaExpression, object> Cached = new ConcurrentDictionary<LambdaExpression, object>(PropertyPathComparer.Default);
 
-        internal static NotifyingPath<TNotifier, TProperty> GetOrCreate<TNotifier, TProperty>(Expression<Func<TNotifier, TProperty>> property)
+        internal static NotifyingPath<TNotifier, TProperty> GetOrCreate<TNotifier, TProperty>(Expression<Func<TNotifier, TProperty>> property) 
+            where TNotifier : class, INotifyPropertyChanged
         {
             var notifyingPath = (NotifyingPath<TNotifier, TProperty>)Cached.GetOrAdd(property, p => NotifyingPath<TNotifier, TProperty>.Create((Expression<Func<TNotifier, TProperty>>)p));
             if (!string.IsNullOrEmpty(notifyingPath.ErrorMessage))

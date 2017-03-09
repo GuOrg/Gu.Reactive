@@ -13,7 +13,7 @@ namespace Gu.Reactive.Internals
         private INotifyPropertyChanged source;
         private bool disposed;
 
-        public PathPropertyTracker(PropertyPathTracker pathTracker, PathProperty<TSource, TValue> property)
+        public PathPropertyTracker(IPropertyPathTracker pathTracker, PathProperty<TSource, TValue> property)
         {
             Ensure.NotNull(property, nameof(property));
             Ensure.NotNull(property.PropertyInfo.ReflectedType, nameof(property));
@@ -53,14 +53,13 @@ namespace Gu.Reactive.Internals
                     if (NotifyPropertyChangedExt.IsMatch(e, this.Property.PropertyInfo))
                     {
                         this.OnTrackedPropertyChanged(o, e);
-                        this.PathTracker.Refresh();
                     }
                 };
         }
 
         public event TrackedPropertyChangedEventHandler TrackedPropertyChanged;
 
-        public PropertyPathTracker PathTracker { get; }
+        public IPropertyPathTracker PathTracker { get; }
 
         public IPathProperty Property { get; }
 

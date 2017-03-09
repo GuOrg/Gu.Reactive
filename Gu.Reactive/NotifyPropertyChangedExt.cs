@@ -231,7 +231,7 @@
             this TNotifier source,
             NotifyingPath<TNotifier, TProperty> propertyPath,
             bool signalInitial = true)
-            where TNotifier : INotifyPropertyChanged
+            where TNotifier : class, INotifyPropertyChanged
         {
             return ObservePropertyChangedCore(
                 source,
@@ -281,7 +281,7 @@
                 return Observable.Create<T>(
                     o =>
                     {
-                        var tracker = PropertyPathTracker.Create(source, notifyingPath);
+                        var tracker = notifyingPath.CreateTracker(source);
                         TrackedPropertyChangedEventHandler handler = (_, sender, args, sourceAndValue) => o.OnNext(create(sender, args, sourceAndValue.Value.Cast<TProperty>()));
                         tracker.TrackedPropertyChanged += handler;
                         return new CompositeDisposable(2)
@@ -313,7 +313,7 @@
             NotifyingPath<TNotifier, TProperty> notifyingPath,
             Func<object, PropertyChangedEventArgs, T> create,
             bool signalInitial = true)
-            where TNotifier : INotifyPropertyChanged
+            where TNotifier : class, INotifyPropertyChanged
         {
             if (signalInitial)
             {
@@ -329,7 +329,7 @@
                 return Observable.Create<T>(
                     o =>
                         {
-                            var tracker = PropertyPathTracker.Create(source, notifyingPath);
+                            var tracker = notifyingPath.CreateTracker(source);
                             TrackedPropertyChangedEventHandler handler = (_, sender, e, __) => o.OnNext(create(sender, e));
                             tracker.TrackedPropertyChanged += handler;
                             return new CompositeDisposable(2)

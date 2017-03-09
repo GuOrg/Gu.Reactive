@@ -123,6 +123,7 @@
     <Compile Include="Internals\PropertyPathStuff\IPathProperty.cs" />
     <Compile Include="Internals\PropertyPathStuff\PathProperty{TSource,TValue}..cs" />
     <Compile Include="Internals\PropertyTracker\IPathPropertyTracker.cs" />
+    <Compile Include="Internals\PropertyTracker\IPropertyPathTracker.cs" />
     <Compile Include="Internals\PropertyTracker\NotifyingPath.cs" />
     <Compile Include="Internals\PropertyTracker\NotifyingPath{TNotifier,TProperty}.cs" />
     <Compile Include="Internals\PropertyTracker\TrackedPropertyChangedEventHandler.cs" />

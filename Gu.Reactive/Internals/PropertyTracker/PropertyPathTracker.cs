@@ -6,12 +6,13 @@ namespace Gu.Reactive.Internals
     using System.ComponentModel;
     using System.Linq;
 
-    internal sealed class PropertyPathTracker : IReadOnlyList<IPathPropertyTracker>, IDisposable
+    internal sealed class PropertyPathTracker<TSource, TValue> : IReadOnlyList<IPathPropertyTracker>, IPropertyPathTracker
+        where TSource : class, INotifyPropertyChanged
     {
         private readonly IReadOnlyList<IPathPropertyTracker> parts;
         private bool disposed;
 
-        private PropertyPathTracker(INotifyPropertyChanged source, IPropertyPath path)
+        internal PropertyPathTracker(TSource source, PropertyPath<TSource, TValue> path)
         {
             var items = new IPathPropertyTracker[path.Count];
             for (var i = 0; i < path.Count; i++)
@@ -33,6 +34,8 @@ namespace Gu.Reactive.Internals
 
         public IPathPropertyTracker Last => this.parts[this.parts.Count - 1];
 
+        public TSource Source => (TSource)this.parts[0].Source;
+
         public IPathPropertyTracker this[int index]
         {
             get
@@ -40,6 +43,34 @@ namespace Gu.Reactive.Internals
                 this.ThrowIfDisposed();
                 return this.parts[index];
             }
+        }
+
+        IPathPropertyTracker IPropertyPathTracker.GetNext(IPathPropertyTracker tracker)
+        {
+            for (var i = 0; i < this.parts.Count - 1; i++)
+            {
+                var candidate = this.parts[i];
+                if (ReferenceEquals(candidate, tracker))
+                {
+                    return this.parts[i + 1];
+                }
+            }
+
+            return null;
+        }
+
+        IPathPropertyTracker IPropertyPathTracker.GetPrevious(IPathPropertyTracker tracker)
+        {
+            for (var i = 1; i < this.parts.Count; i++)
+            {
+                var candidate = this.parts[i];
+                if (ReferenceEquals(candidate, tracker))
+                {
+                    return this.parts[i - 1];
+                }
+            }
+
+            return null;
         }
 
         public IEnumerator<IPathPropertyTracker> GetEnumerator()
@@ -74,36 +105,6 @@ namespace Gu.Reactive.Internals
         }
 
         public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Property.PropertyInfo.Name))}";
-
-        internal static PropertyPathTracker Create<TNotifier, TProperty>(INotifyPropertyChanged source, NotifyingPath<TNotifier, TProperty> notifyingPath) => new PropertyPathTracker(source, notifyingPath.Path);
-
-        internal IPathPropertyTracker GetNext(IPathPropertyTracker tracker)
-        {
-            for (var i = 0; i < this.parts.Count - 1; i++)
-            {
-                var candidate = this.parts[i];
-                if (ReferenceEquals(candidate, tracker))
-                {
-                    return this.parts[i + 1];
-                }
-            }
-
-            return null;
-        }
-
-        internal IPathPropertyTracker GetPrevious(IPathPropertyTracker tracker)
-        {
-            for (var i = 1; i < this.parts.Count; i++)
-            {
-                var candidate = this.parts[i];
-                if (ReferenceEquals(candidate, tracker))
-                {
-                    return this.parts[i - 1];
-                }
-            }
-
-            return null;
-        }
 
         internal SourceAndValue<INotifyPropertyChanged, object> SourceAndValue()
         {

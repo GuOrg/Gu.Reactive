@@ -9,7 +9,7 @@
 
         IPathProperty Property { get; }
 
-        PropertyPathTracker PathTracker { get; }
+        IPropertyPathTracker PathTracker { get; }
 
         INotifyPropertyChanged Source { get; set; }
 
