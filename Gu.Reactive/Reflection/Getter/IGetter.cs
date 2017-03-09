@@ -1,7 +1,6 @@
 namespace Gu.Reactive
 {
     using System.Reflection;
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// A wrapper around a delegate created from a <see cref="System.Reflection.PropertyInfo.GetMethod"/>

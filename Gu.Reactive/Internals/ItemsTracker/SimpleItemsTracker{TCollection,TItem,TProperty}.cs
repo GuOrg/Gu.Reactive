@@ -15,6 +15,7 @@ namespace Gu.Reactive.Internals
         private readonly HashSet<TItem> set = new HashSet<TItem>(ObjectIdentityComparer<TItem>.Default);
 
         private TCollection source;
+        private bool disposed;
 
         public SimpleItemsTracker(TCollection source, Getter<TItem, TProperty> getter)
         {
@@ -28,7 +29,7 @@ namespace Gu.Reactive.Internals
 
         internal override void UpdateSource(TCollection newSource)
         {
-            if (this.Disposed ||
+            if (this.disposed ||
                 ReferenceEquals(this.source, newSource))
             {
                 return;
@@ -36,7 +37,7 @@ namespace Gu.Reactive.Internals
 
             lock (this.Gate)
             {
-                if (this.Disposed ||
+                if (this.disposed ||
                     ReferenceEquals(this.source, newSource))
                 {
                     return;
@@ -67,27 +68,27 @@ namespace Gu.Reactive.Internals
 
         protected override void Dispose(bool disposing)
         {
-            if (this.Disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            this.Disposed = true;
+            this.disposed = true;
             if (disposing)
             {
-                if (this.Disposed)
+                if (this.disposed)
                 {
                     return;
                 }
 
                 lock (this.Gate)
                 {
-                    if (this.Disposed)
+                    if (this.disposed)
                     {
                         return;
                     }
 
-                    this.Disposed = true;
+                    this.disposed = true;
                     var collection = this.source;
                     if (collection != null)
                     {
@@ -109,14 +110,14 @@ namespace Gu.Reactive.Internals
 
         private void OnTrackedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (this.Disposed)
+            if (this.disposed)
             {
                 return;
             }
 
             lock (this.Gate)
             {
-                if (this.Disposed)
+                if (this.disposed)
                 {
                     return;
                 }

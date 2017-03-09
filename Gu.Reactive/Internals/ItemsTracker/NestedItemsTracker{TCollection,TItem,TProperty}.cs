@@ -18,6 +18,7 @@
         private readonly Dictionary<TItem, PropertyPathTracker<TItem, TProperty>> map = new Dictionary<TItem, PropertyPathTracker<TItem, TProperty>>(ObjectIdentityComparer<TItem>.Default);
 
         private TCollection source;
+        private bool disposed;
 
         public NestedItemsTracker(TCollection source, NotifyingPath<TItem, TProperty> path)
         {
@@ -31,7 +32,7 @@
 
         internal override void UpdateSource(TCollection newSource)
         {
-            if (this.Disposed ||
+            if (this.disposed ||
                 ReferenceEquals(this.source, newSource))
             {
                 return;
@@ -39,7 +40,7 @@
 
             lock (this.Gate)
             {
-                if (this.Disposed ||
+                if (this.disposed ||
                     ReferenceEquals(this.source, newSource))
                 {
                     return;
@@ -71,27 +72,27 @@
 
         protected override void Dispose(bool disposing)
         {
-            if (this.Disposed)
+            if (this.disposed)
             {
                 return;
             }
 
-            this.Disposed = true;
+            this.disposed = true;
             if (disposing)
             {
-                if (this.Disposed)
+                if (this.disposed)
                 {
                     return;
                 }
 
                 lock (this.Gate)
                 {
-                    if (this.Disposed)
+                    if (this.disposed)
                     {
                         return;
                     }
 
-                    this.Disposed = true;
+                    this.disposed = true;
                     var collection = this.source;
                     if (collection != null)
                     {
@@ -123,14 +124,14 @@
 
         private void OnTrackedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (this.Disposed)
+            if (this.disposed)
             {
                 return;
             }
 
             lock (this.Gate)
             {
-                if (this.Disposed)
+                if (this.disposed)
                 {
                     return;
                 }

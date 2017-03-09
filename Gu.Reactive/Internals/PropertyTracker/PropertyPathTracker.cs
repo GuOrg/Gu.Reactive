@@ -12,12 +12,12 @@ namespace Gu.Reactive.Internals
         private readonly IReadOnlyList<IPropertyTracker> parts;
         private bool disposed;
 
-        internal PropertyPathTracker(TSource source, NotifyingPath<TSource, TValue> path)
+        internal PropertyPathTracker(TSource source, IReadOnlyList<INotifyingGetter> path)
         {
             var items = new IPropertyTracker[path.Count];
             for (var i = 0; i < path.Count; i++)
             {
-                items[i] = ((INotifyingGetter)path[i]).CreateTracker(this);
+                items[i] = path[i].CreateTracker(this);
             }
 
             this.parts = items;
@@ -57,20 +57,6 @@ namespace Gu.Reactive.Internals
             return null;
         }
 
-        IPropertyTracker IPropertyPathTracker.GetPrevious(IPropertyTracker tracker)
-        {
-            for (var i = 1; i < this.parts.Count; i++)
-            {
-                var candidate = this.parts[i];
-                if (ReferenceEquals(candidate, tracker))
-                {
-                    return this.parts[i - 1];
-                }
-            }
-
-            return null;
-        }
-
         public IEnumerator<IPropertyTracker> GetEnumerator()
         {
             this.ThrowIfDisposed();
@@ -102,7 +88,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Property.Property.Name))}";
+        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Getter.Property.Name))}";
 
         /// <summary>
         /// Gets the value recursively from the root.
@@ -130,7 +116,7 @@ namespace Gu.Reactive.Internals
 
                 value = newSource == null
                             ? Maybe<INotifyPropertyChanged>.None
-                            : Maybe<INotifyPropertyChanged>.Some((INotifyPropertyChanged)part.Property.GetValue(newSource));
+                            : Maybe<INotifyPropertyChanged>.Some((INotifyPropertyChanged)part.Getter.GetValue(newSource));
             }
 
             return Reactive.SourceAndValue.Create(valueSource, Maybe<TValue>.None);

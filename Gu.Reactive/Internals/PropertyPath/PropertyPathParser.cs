@@ -139,7 +139,7 @@
                     return false;
                 }
 
-                return this.Equals((InterfaceProperty) obj);
+                return this.Equals((InterfaceProperty)obj);
             }
 
             /// <inheritdoc />

@@ -123,10 +123,10 @@
     <Compile Include="Internals\PropertyPath\INotifyingGetter.cs" />
     <Compile Include="Internals\PropertyPath\NotifyingGetter.cs" />
     <Compile Include="Internals\PropertyTracker\IPropertyTracker.cs" />
-    <Compile Include="Internals\PropertyTracker\IPathPropertyTracker{TValue}.cs" />
     <Compile Include="Internals\PropertyTracker\IPropertyPathTracker.cs" />
     <Compile Include="Internals\PropertyPath\NotifyingPath.cs" />
     <Compile Include="Internals\PropertyPath\NotifyingPath{TNotifier,TProperty}.cs" />
+    <Compile Include="Internals\PropertyTracker\IPropertyTracker{TValue}.cs" />
     <Compile Include="Internals\PropertyTracker\TrackedPropertyChangedEventHandler.cs" />
     <Compile Include="Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />

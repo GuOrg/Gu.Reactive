@@ -11,8 +11,6 @@
     {
         protected readonly object Gate = new object();
 
-        protected bool Disposed;
-
         internal event TrackedItemPropertyChangedEventHandler<TItem, TProperty> TrackedItemChanged;
 
         protected bool HasSubscribers => this.TrackedItemChanged != null;
@@ -26,15 +24,7 @@
 
         protected virtual void Dispose(bool disposing)
         {
-            if (this.Disposed)
-            {
-                return;
-            }
-
-            this.Disposed = true;
-            if (disposing)
-            {
-            }
+            // nop
         }
 
         protected void OnTrackedItemChanged(TItem item, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)

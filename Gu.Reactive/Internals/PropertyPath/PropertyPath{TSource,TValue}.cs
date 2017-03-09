@@ -4,6 +4,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
 
     internal abstract class PropertyPath<TSource, TValue> : IPropertyPath
@@ -12,11 +13,9 @@
 
         internal PropertyPath(IReadOnlyList<IGetter> parts)
         {
+            Debug.Assert(parts[0].Property.DeclaringType == typeof(TSource), "parts[0].Property.DeclaringType == typeof(TSource)");
+            Debug.Assert(parts[parts.Count - 1].Property.PropertyType == typeof(TValue), "parts[0].Property.DeclaringType == typeof(TSource)");
             this.parts = parts;
-            if (this.Last.Property.PropertyType != typeof(TValue))
-            {
-                throw new InvalidOperationException($"Valuepath type does not match. Expected: {typeof(TValue).FullName} was: {this.Last.Property.PropertyType.FullName}");
-            }
         }
 
         public int Count => this.parts.Count;

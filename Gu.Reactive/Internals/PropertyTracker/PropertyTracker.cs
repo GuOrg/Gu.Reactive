@@ -66,7 +66,7 @@ namespace Gu.Reactive.Internals
 
         public Getter<TSource, TValue> Getter { get; }
 
-        IGetter IPropertyTracker.Property => this.Getter;
+        IGetter IPropertyTracker.Getter => this.Getter;
 
         public IPropertyTracker Next => this.PathTracker.GetNext(this);
 
