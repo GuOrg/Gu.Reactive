@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq.Expressions;
     using System.Reflection;
 
@@ -19,11 +20,6 @@
         }
 
         internal static IReadOnlyList<PropertyInfo> GetPath<T>(Expression<Func<T>> propertyPath)
-        {
-            return Cache.GetOrAdd(propertyPath, Create);
-        }
-
-        internal static IReadOnlyList<PropertyInfo> GetPath(LambdaExpression propertyPath)
         {
             return Cache.GetOrAdd(propertyPath, Create);
         }
@@ -57,7 +53,73 @@
                 return property;
             }
 
-            return (PropertyInfo)member.Member;
+            return new InterfaceProperty((PropertyInfo)member.Member, type);
+        }
+
+        private class InterfaceProperty : PropertyInfo
+        {
+            private readonly PropertyInfo property;
+            private readonly Type reflectedType;
+
+            public InterfaceProperty(PropertyInfo property, Type reflectedType)
+            {
+                this.property = property;
+                this.reflectedType = reflectedType;
+            }
+
+            /// <inheritdoc />
+            public override string Name => this.property.Name;
+
+            /// <inheritdoc />
+            public override Type DeclaringType => this.property.DeclaringType;
+
+            /// <inheritdoc />
+            public override Type ReflectedType => this.reflectedType;
+
+            /// <inheritdoc />
+            public override Type PropertyType => this.property.PropertyType;
+
+            /// <inheritdoc />
+            public override PropertyAttributes Attributes => this.property.Attributes;
+
+            /// <inheritdoc />
+            public override bool CanRead => this.property.CanRead;
+
+            /// <inheritdoc />
+            public override bool CanWrite => this.property.CanWrite;
+
+            /// <inheritdoc />
+            public override object[] GetCustomAttributes(bool inherit) => this.property.GetCustomAttributes(inherit);
+
+            /// <inheritdoc />
+            public override bool IsDefined(Type attributeType, bool inherit) => this.property.IsDefined(attributeType, inherit);
+
+            /// <inheritdoc />
+            public override object GetValue(object obj, BindingFlags invokeAttr, Binder binder, object[] index, CultureInfo culture)
+            {
+                return this.property.GetValue(obj, invokeAttr, binder, index, culture);
+            }
+
+            /// <inheritdoc />
+            public override void SetValue(object obj, object value, BindingFlags invokeAttr, Binder binder, object[] index, CultureInfo culture)
+            {
+                this.property.SetValue(obj, value, invokeAttr, binder, index, culture);
+            }
+
+            /// <inheritdoc />
+            public override MethodInfo[] GetAccessors(bool nonPublic) => this.property.GetAccessors(nonPublic);
+
+            /// <inheritdoc />
+            public override MethodInfo GetGetMethod(bool nonPublic) => this.property.GetGetMethod(nonPublic);
+
+            /// <inheritdoc />
+            public override MethodInfo GetSetMethod(bool nonPublic) => this.property.GetSetMethod(nonPublic);
+
+            /// <inheritdoc />
+            public override ParameterInfo[] GetIndexParameters() => this.property.GetIndexParameters();
+
+            /// <inheritdoc />
+            public override object[] GetCustomAttributes(Type attributeType, bool inherit) => this.property.GetCustomAttributes(attributeType, inherit);
         }
     }
 }
