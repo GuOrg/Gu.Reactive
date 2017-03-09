@@ -6,31 +6,34 @@ namespace Gu.Reactive.Internals
     using System.ComponentModel;
     using System.Linq;
 
-    internal sealed class PropertyPathTracker : IReadOnlyList<PathPropertyTracker>, IDisposable
+    internal sealed class PropertyPathTracker : IReadOnlyList<IPathPropertyTracker>, IDisposable
     {
-        private readonly IReadOnlyList<PathPropertyTracker> parts;
+        private readonly IReadOnlyList<IPathPropertyTracker> parts;
         private bool disposed;
 
         private PropertyPathTracker(INotifyPropertyChanged source, IPropertyPath path)
         {
-            var items = new PathPropertyTracker[path.Count];
+            var items = new IPathPropertyTracker[path.Count];
             for (var i = 0; i < path.Count; i++)
             {
-                items[i] = new PathPropertyTracker(this, path[i]);
+                items[i] = path[i].CreateTracker(this);
             }
 
             this.parts = items;
             items[0].Source = source;
             this.Refresh();
+            this.Last.TrackedPropertyChanged += this.OnTrackedPropertyChanged;
         }
+
+        public event TrackedPropertyChangedEventHandler TrackedPropertyChanged;
 
         public int Count => this.parts.Count;
 
-        public PathPropertyTracker First => this.parts[0];
+        public IPathPropertyTracker First => this.parts[0];
 
-        public PathPropertyTracker Last => this.parts[this.parts.Count - 1];
+        public IPathPropertyTracker Last => this.parts[this.parts.Count - 1];
 
-        public PathPropertyTracker this[int index]
+        public IPathPropertyTracker this[int index]
         {
             get
             {
@@ -39,7 +42,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        public IEnumerator<PathPropertyTracker> GetEnumerator()
+        public IEnumerator<IPathPropertyTracker> GetEnumerator()
         {
             this.ThrowIfDisposed();
             return this.parts.GetEnumerator();
@@ -63,22 +66,23 @@ namespace Gu.Reactive.Internals
             }
 
             this.disposed = true;
+            this.Last.TrackedPropertyChanged -= this.OnTrackedPropertyChanged;
             foreach (var part in this.parts)
             {
                 part.Dispose();
             }
         }
 
-        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.PathProperty.PropertyInfo.Name))}";
+        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Property.PropertyInfo.Name))}";
 
         internal static PropertyPathTracker Create<TNotifier, TProperty>(INotifyPropertyChanged source, NotifyingPath<TNotifier, TProperty> notifyingPath) => new PropertyPathTracker(source, notifyingPath.Path);
 
-        internal PathPropertyTracker GetNext(PathPropertyTracker pathPropertyTracker)
+        internal IPathPropertyTracker GetNext(IPathPropertyTracker tracker)
         {
             for (var i = 0; i < this.parts.Count - 1; i++)
             {
-                var tracker = this.parts[i];
-                if (ReferenceEquals(tracker, pathPropertyTracker))
+                var candidate = this.parts[i];
+                if (ReferenceEquals(candidate, tracker))
                 {
                     return this.parts[i + 1];
                 }
@@ -87,12 +91,12 @@ namespace Gu.Reactive.Internals
             return null;
         }
 
-        internal PathPropertyTracker GetPrevious(PathPropertyTracker pathPropertyTracker)
+        internal IPathPropertyTracker GetPrevious(IPathPropertyTracker tracker)
         {
             for (var i = 1; i < this.parts.Count; i++)
             {
-                var tracker = this.parts[i];
-                if (ReferenceEquals(tracker, pathPropertyTracker))
+                var candidate = this.parts[i];
+                if (ReferenceEquals(candidate, tracker))
                 {
                     return this.parts[i - 1];
                 }
@@ -110,7 +114,7 @@ namespace Gu.Reactive.Internals
                 if (source != null)
                 {
                     return i == this.parts.Count - 1
-                               ? Reactive.SourceAndValue.Create(source, part.PathProperty.Getter.GetMaybe(source))
+                               ? Reactive.SourceAndValue.Create(source, part.Property.Getter.GetMaybe(source))
                                : Reactive.SourceAndValue.Create(source, Maybe<object>.None);
                 }
             }
@@ -127,7 +131,7 @@ namespace Gu.Reactive.Internals
             var source = this.parts[0].Source;
             for (var i = 1; i < this.parts.Count; i++)
             {
-                source = (INotifyPropertyChanged)this.parts[i - 1].PathProperty
+                source = (INotifyPropertyChanged)this.parts[i - 1].Property
                                                      .Getter
                                                      .GetMaybe(source)
                                                      .GetValueOrDefault();
@@ -145,6 +149,11 @@ namespace Gu.Reactive.Internals
             {
                 throw new ObjectDisposedException(this.GetType().FullName);
             }
+        }
+
+        private void OnTrackedPropertyChanged(IPathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, object> sourceandvalue)
+        {
+            this.TrackedPropertyChanged?.Invoke(tracker, sender, e, sourceandvalue);
         }
     }
 }

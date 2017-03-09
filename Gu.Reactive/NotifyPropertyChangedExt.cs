@@ -283,11 +283,11 @@
                     {
                         var tracker = PropertyPathTracker.Create(source, notifyingPath);
                         TrackedPropertyChangedEventHandler handler = (_, sender, args, sourceAndValue) => o.OnNext(create(sender, args, sourceAndValue.Value.Cast<TProperty>()));
-                        tracker.Last.TrackedPropertyChanged += handler;
+                        tracker.TrackedPropertyChanged += handler;
                         return new CompositeDisposable(2)
                         {
                             tracker,
-                            Disposable.Create(() => tracker.Last.TrackedPropertyChanged -= handler)
+                            Disposable.Create(() => tracker.TrackedPropertyChanged -= handler)
                         };
                     });
             }
@@ -331,11 +331,11 @@
                         {
                             var tracker = PropertyPathTracker.Create(source, notifyingPath);
                             TrackedPropertyChangedEventHandler handler = (_, sender, e, __) => o.OnNext(create(sender, e));
-                            tracker.Last.TrackedPropertyChanged += handler;
+                            tracker.TrackedPropertyChanged += handler;
                             return new CompositeDisposable(2)
                                        {
                                            tracker,
-                                           Disposable.Create(() => tracker.Last.TrackedPropertyChanged -= handler)
+                                           Disposable.Create(() => tracker.TrackedPropertyChanged -= handler)
                                        };
                         });
             }

@@ -6,7 +6,6 @@
     using System.ComponentModel;
     using System.Linq;
 
-    ////[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     internal class PropertyPath<TSource, TValue> : IPropertyPath
     {
         private readonly IReadOnlyList<IPathProperty> parts;

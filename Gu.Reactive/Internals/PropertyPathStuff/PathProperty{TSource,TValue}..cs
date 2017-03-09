@@ -43,6 +43,10 @@ namespace Gu.Reactive.Internals
             return this.Previous.Getter.GetValue(this.Previous.GetSourceFromRoot(rootSource));
         }
 
+        public PathPropertyTracker<TSource, TValue> CreateTracker(PropertyPathTracker tracker) => new PathPropertyTracker<TSource, TValue>(tracker, this);
+
+        IPathPropertyTracker IPathProperty.CreateTracker(PropertyPathTracker tracker) => this.CreateTracker(tracker);
+
         /// <summary>
         /// Gets value all the way from the root recursively.
         /// Checks for null along the way.

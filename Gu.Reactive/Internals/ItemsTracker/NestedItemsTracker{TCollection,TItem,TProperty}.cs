@@ -55,7 +55,7 @@
                 {
                     foreach (var kvp in this.map)
                     {
-                        kvp.Value.Last.TrackedPropertyChanged -= this.OnTrackedItemChanged;
+                        kvp.Value.TrackedPropertyChanged -= this.OnTrackedItemChanged;
                         kvp.Value.Dispose();
                     }
 
@@ -101,7 +101,7 @@
 
                     foreach (var kvp in this.map)
                     {
-                        kvp.Value.Last.TrackedPropertyChanged -= this.OnTrackedItemChanged;
+                        kvp.Value.TrackedPropertyChanged -= this.OnTrackedItemChanged;
                         kvp.Value.Dispose();
                     }
 
@@ -112,7 +112,7 @@
             base.Dispose(disposing);
         }
 
-        private void OnTrackedItemChanged(PathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, object> sourceAndValue)
+        private void OnTrackedItemChanged(IPathPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, object> sourceAndValue)
         {
             this.OnTrackedItemChanged(
                 (TItem)tracker.PathTracker.First.Source,
@@ -173,7 +173,7 @@
                 //// Signaling initial before subscrinbing here to get the events in correct order
                 //// This can't be made entirely thread safe as an event can be raised on source bewteen signal initial & subscribe.
                 this.SignalInitial(tracker);
-                tracker.Last.TrackedPropertyChanged += this.OnTrackedItemChanged;
+                tracker.TrackedPropertyChanged += this.OnTrackedItemChanged;
                 this.map.Add(item, tracker);
             }
         }
@@ -190,7 +190,7 @@
                     continue;
                 }
 
-                this.map[item].Last.TrackedPropertyChanged -= this.OnTrackedItemChanged;
+                this.map[item].TrackedPropertyChanged -= this.OnTrackedItemChanged;
                 this.map[item].Dispose();
                 this.map.Remove(item);
             }

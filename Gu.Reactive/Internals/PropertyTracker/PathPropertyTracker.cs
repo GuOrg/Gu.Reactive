@@ -4,8 +4,8 @@ namespace Gu.Reactive.Internals
     using System.ComponentModel;
     using System.Diagnostics;
 
-    [DebuggerDisplay("{this.PathProperty}")]
-    internal sealed class PathPropertyTracker : IDisposable
+    [DebuggerDisplay("{this.Property}")]
+    internal sealed class PathPropertyTracker<TSource, TValue> : IPathPropertyTracker
     {
         private readonly PropertyChangedEventHandler onTrackedPropertyChanged;
         private readonly object gate = new object();
@@ -13,11 +13,11 @@ namespace Gu.Reactive.Internals
         private INotifyPropertyChanged source;
         private bool disposed;
 
-        public PathPropertyTracker(PropertyPathTracker pathTracker, IPathProperty pathProperty)
+        public PathPropertyTracker(PropertyPathTracker pathTracker, PathProperty<TSource, TValue> property)
         {
-            Ensure.NotNull(pathProperty, nameof(pathProperty));
-            Ensure.NotNull(pathProperty.PropertyInfo.ReflectedType, nameof(pathProperty));
-            var type = pathProperty.PropertyInfo.ReflectedType;
+            Ensure.NotNull(property, nameof(property));
+            Ensure.NotNull(property.PropertyInfo.ReflectedType, nameof(property));
+            var type = property.PropertyInfo.ReflectedType;
             if (type == null)
             {
                 throw new ArgumentException("PathProperty.ReflectedType == null");
@@ -31,8 +31,8 @@ namespace Gu.Reactive.Internals
                     "The type {0}.{1} is a value type not so {1}.{2} subscribing to changes is weird.",
                     type.Namespace,
                     type.PrettyName(),
-                    pathProperty.PropertyInfo.Name);
-                throw new ArgumentException(message, nameof(pathProperty));
+                    property.PropertyInfo.Name);
+                throw new ArgumentException(message, nameof(property));
             }
 
             if (!typeof(INotifyPropertyChanged).IsAssignableFrom(type))
@@ -42,15 +42,15 @@ namespace Gu.Reactive.Internals
                     "The type {0}.{1} does not so the property {1}.{2} will not notify when value changes.",
                     type.Namespace,
                     type.PrettyName(),
-                    pathProperty.PropertyInfo.Name);
-                throw new ArgumentException(message, nameof(pathProperty));
+                    property.PropertyInfo.Name);
+                throw new ArgumentException(message, nameof(property));
             }
 
             this.PathTracker = pathTracker;
-            this.PathProperty = pathProperty;
+            this.Property = property;
             this.onTrackedPropertyChanged = (o, e) =>
                 {
-                    if (NotifyPropertyChangedExt.IsMatch(e, this.PathProperty.PropertyInfo))
+                    if (NotifyPropertyChangedExt.IsMatch(e, this.Property.PropertyInfo))
                     {
                         this.OnTrackedPropertyChanged(o, e);
                         this.PathTracker.Refresh();
@@ -62,11 +62,11 @@ namespace Gu.Reactive.Internals
 
         public PropertyPathTracker PathTracker { get; }
 
-        public IPathProperty PathProperty { get; }
+        public IPathProperty Property { get; }
 
-        public PathPropertyTracker Next => this.PathTracker.GetNext(this);
+        public IPathPropertyTracker Next => this.PathTracker.GetNext(this);
 
-        public PathPropertyTracker Previous => this.PathTracker.GetPrevious(this);
+        public IPathPropertyTracker Previous => this.PathTracker.GetPrevious(this);
 
         /// <summary>
         /// Gets or sets the source.
@@ -135,6 +135,8 @@ namespace Gu.Reactive.Internals
             }
         }
 
+        void IPathPropertyTracker.OnTrackedPropertyChanged(object sender, INotifyPropertyChanged newSource, PropertyChangedEventArgs e) => this.OnTrackedPropertyChanged(sender, newSource, e);
+
         private void OnTrackedPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             this.OnTrackedPropertyChanged(sender, this.source, e);
@@ -143,12 +145,12 @@ namespace Gu.Reactive.Internals
         private void OnTrackedPropertyChanged(object sender, INotifyPropertyChanged newSource, PropertyChangedEventArgs e)
         {
             this.Source = newSource;
-            var value = this.PathProperty.Getter.GetMaybe(this.source);
+            var value = this.Property.Getter.GetMaybe(this.source);
             var next = this.Next;
             if (next != null)
             {
                 var nextSource = (INotifyPropertyChanged)value.GetValueOrDefault();
-                if (next.source != null ||
+                if (next.Source != null ||
                     nextSource != null)
                 {
                     next.OnTrackedPropertyChanged(sender, nextSource, e);
