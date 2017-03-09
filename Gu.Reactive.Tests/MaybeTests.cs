@@ -25,5 +25,21 @@ namespace Gu.Reactive.Tests
             Assert.AreEqual(true, Maybe.Some(1) != Maybe.Some(2));
             Assert.AreEqual(1, Maybe.Some(1).GetHashCode());
         }
+
+        [Test]
+        public void GetValueOrDefaultWhenSome()
+        {
+            var maybe = Maybe.Some(1);
+            Assert.AreEqual(1, maybe.GetValueOrDefault());
+            Assert.AreEqual(1, maybe.GetValueOrDefault(2));
+        }
+
+        [Test]
+        public void GetValueOrDefaultWhenNone()
+        {
+            var maybe = Maybe.None<int>();
+            Assert.AreEqual(0, maybe.GetValueOrDefault());
+            Assert.AreEqual(2, maybe.GetValueOrDefault(2));
+        }
     }
 }

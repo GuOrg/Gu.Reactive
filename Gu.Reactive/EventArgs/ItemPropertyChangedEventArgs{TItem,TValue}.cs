@@ -2,8 +2,6 @@
 {
     using System.ComponentModel;
 
-    using Gu.Reactive.Internals;
-
     /// <summary>
     /// The property changed event args.
     /// </summary>
