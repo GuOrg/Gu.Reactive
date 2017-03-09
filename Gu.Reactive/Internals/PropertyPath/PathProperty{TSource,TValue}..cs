@@ -5,7 +5,7 @@ namespace Gu.Reactive.Internals
         /// <summary>
         /// Initializes a new instance of the <see cref="PathProperty{TSource,TValue}"/> class.
         /// </summary>
-        /// <param name="previous">The preivous property in the <see cref="PropertyPath"/></param>
+        /// <param name="previous">The preivous property in the <see cref="IPropertyPath"/></param>
         /// <param name="getter">
         /// The getter for the property.
         /// </param>
@@ -23,15 +23,5 @@ namespace Gu.Reactive.Internals
         IGetter IPathProperty.Getter => this.Getter;
 
         public override string ToString() => $"PathItem for: {this.Getter.Property.DeclaringType.PrettyName()}.{this.Getter.Property.Name}";
-
-        public object GetSourceFromRoot(object rootSource)
-        {
-            if (this.Previous == null)
-            {
-                return rootSource;
-            }
-
-            return this.Previous.Getter.GetValue(this.Previous.GetSourceFromRoot(rootSource));
-        }
     }
 }
