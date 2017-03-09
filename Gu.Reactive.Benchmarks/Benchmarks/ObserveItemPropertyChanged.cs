@@ -11,10 +11,12 @@
         {
             int count = 0;
             var source = new ObservableCollection<Fake>();
-            source.ObserveItemPropertyChanged(x => x.Value)
-                  .Subscribe(_ => count++);
-            source.Add(new Fake());
-            return count;
+            using (source.ObserveItemPropertyChanged(x => x.Value)
+                         .Subscribe(_ => count++))
+            {
+                source.Add(new Fake());
+                return count;
+            }
         }
 
         [Benchmark]
@@ -22,10 +24,12 @@
         {
             int count = 0;
             var source = new ObservableCollection<Fake>();
-            source.ObserveItemPropertyChanged(x => x.Next.Next.Value)
-                  .Subscribe(_ => count++);
-            source.Add(new Fake());
-            return count;
+            using (source.ObserveItemPropertyChanged(x => x.Next.Next.Value)
+                         .Subscribe(_ => count++))
+            {
+                source.Add(new Fake());
+                return count;
+            }
         }
 
         [Benchmark]
@@ -33,12 +37,14 @@
         {
             int count = 0;
             var source = new ObservableCollection<Fake>();
-            source.ObserveItemPropertyChanged(x => x.Next.Next.Value)
-                  .Subscribe(_ => count++);
-            var fake = new Fake();
-            source.Add(fake);
-            fake.Next = new Level { Next = new Level { Value = 1 } };
-            return count;
+            using (source.ObserveItemPropertyChanged(x => x.Next.Next.Value)
+                         .Subscribe(_ => count++))
+            {
+                var fake = new Fake();
+                source.Add(fake);
+                fake.Next = new Level { Next = new Level { Value = 1 } };
+                return count;
+            }
         }
     }
 }

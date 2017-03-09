@@ -1,14 +1,16 @@
 namespace Gu.Reactive.Benchmarks
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Linq;
 
     using BenchmarkDotNet.Attributes;
 
-    public class MinTrackerSimple
+    public sealed class MinTrackerSimple : IDisposable
     {
         private ObservableCollection<int> ints;
         private MinTracker<int> tracker;
+        private bool disposed;
 
         [Setup]
         public void SetupData()
@@ -30,6 +32,17 @@ namespace Gu.Reactive.Benchmarks
         {
             this.ints.Add(5);
             return this.tracker.Value;
+        }
+
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.tracker?.Dispose();
         }
     }
 }

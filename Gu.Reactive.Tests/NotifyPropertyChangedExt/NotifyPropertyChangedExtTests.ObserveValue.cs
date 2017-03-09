@@ -386,7 +386,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     fake.Level1.OnPropertyChanged("Value");
                     CollectionAssert.AreEqual(expected, actuals);
 
-                    fake.Level1.OnPropertyChanged("Next");
+                    fake.Level1.OnPropertyChanged("IsTrue");
                     CollectionAssert.AreEqual(expected, actuals);
 
                     fake.Level1 = null;
@@ -419,7 +419,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected.Skip(1), actuals2);
 
-                        fake.Level1.OnPropertyChanged("Next");
+                        fake.Level1.OnPropertyChanged("IsTrue");
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected.Skip(1), actuals2);
 

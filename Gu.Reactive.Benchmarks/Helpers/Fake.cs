@@ -89,13 +89,20 @@
 
             set
             {
+                if (System.Collections.Generic.EqualityComparer<StructLevel>.Default.Equals(value, this.structLevel))
+                {
+                    return;
+                }
+
                 this.structLevel = value;
                 this.OnPropertyChanged();
             }
         }
 
+#pragma warning disable WPF1010 // Mutable public property should notify.
         [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
         public NotInpc NotInpc { get; private set; }
+#pragma warning restore WPF1010 // Mutable public property should notify.
 
         public int Value
         {
@@ -106,6 +113,11 @@
 
             set
             {
+                if (value == this.value)
+                {
+                    return;
+                }
+
                 this.value = value;
                 this.OnPropertyChanged();
             }

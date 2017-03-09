@@ -1,8 +1,11 @@
 System.Reactive
 Gu.Wpf.ToolTips
+
 group Analyzers
-JetBrains.Annotations
-StyleCop.Analyzers
+  JetBrains.Annotations
+  StyleCop.Analyzers
+  WpfAnalyzers
+  Gu.Analyzers
 
 group Benchmark
   BenchmarkDotNet.Diagnostics.Windows
