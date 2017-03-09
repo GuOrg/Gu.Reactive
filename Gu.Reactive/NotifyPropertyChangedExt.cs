@@ -299,7 +299,7 @@
                                      {
                                          if (e.IsMatch(notifyingPath.Path.Last.PropertyInfo))
                                          {
-                                             var value = notifyingPath.Path.Last.GetPropertyValue(sender).Cast<TProperty>();
+                                             var value = notifyingPath.Path.Last.Getter.GetMaybe(sender).Cast<TProperty>();
                                              o.OnNext(create(sender, e, value));
                                          }
                                      };

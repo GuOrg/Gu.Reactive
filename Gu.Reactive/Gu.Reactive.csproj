@@ -120,6 +120,8 @@
     <Compile Include="Internals\ItemsTracker\SimpleItemsTracker{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\ItemsTracker\TrackedItemPropertyChangedEventHandler.cs" />
     <Compile Include="Internals\LazyExt.cs" />
+    <Compile Include="Internals\PropertyPathStuff\IPathProperty.cs" />
+    <Compile Include="Internals\PropertyPathStuff\PathProperty{TSource,TValue}..cs" />
     <Compile Include="Internals\PropertyTracker\NotifyingPath.cs" />
     <Compile Include="Internals\PropertyTracker\NotifyingPath{TNotifier,TProperty}.cs" />
     <Compile Include="Internals\PropertyTracker\TrackedPropertyChangedEventHandler.cs" />

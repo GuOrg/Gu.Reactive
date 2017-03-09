@@ -9,45 +9,46 @@
     ////[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     internal class PropertyPath<TSource, TValue> : IPropertyPath
     {
-        private readonly PropertyPath path;
+        private readonly IReadOnlyList<IPathProperty> parts;
 
-        internal PropertyPath(PropertyPath path)
+        internal PropertyPath(IReadOnlyList<IPathProperty> parts)
         {
-            this.path = path;
+            this.parts = parts;
             if (this.Last.PropertyInfo.PropertyType != typeof(TValue))
             {
                 throw new InvalidOperationException($"Valuepath type does not match. Expected: {typeof(TValue).FullName} was: {this.Last.PropertyInfo.PropertyType.FullName}");
             }
         }
 
-        public int Count => this.path.Count;
+        public int Count => this.parts.Count;
 
-        public PathProperty Last => this.path.Last;
+        public IPathProperty Last => this.parts[this.parts.Count - 1];
 
-        public PathProperty this[int index] => this.path[index];
+        public IPathProperty this[int index] => this.parts[index];
 
-        public IEnumerator<PathProperty> GetEnumerator() => this.path.GetEnumerator();
+        public IEnumerator<IPathProperty> GetEnumerator() => this.parts.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        public override string ToString() => $"x => x.{string.Join(".", this.path.Select(x => x.PropertyInfo.Name))}";
+        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.PropertyInfo.Name))}";
 
         /// <summary>
         /// Get the source of the last item in the path.
         /// </summary>
         /// <param name="root">The root instance for the path.</param>
+        [Obsolete("Don't use this.")]
         internal SourceAndValue<INotifyPropertyChanged, TValue> SourceAndValue(TSource root)
         {
             if (this.Count == 1)
             {
-                return Reactive.SourceAndValue.Create((INotifyPropertyChanged)root, this[0].GetPropertyValue(root).Cast<TValue>());
+                return Reactive.SourceAndValue.Create((INotifyPropertyChanged)root, this[0].Getter.GetMaybe(root).Cast<TValue>());
             }
 
             var source = (INotifyPropertyChanged)root;
-            for (var i = 0; i < this.path.Count; i++)
+            for (var i = 0; i < this.parts.Count; i++)
             {
-                var value = this.path[i].GetPropertyValue(source);
-                if (i == this.path.Count - 1)
+                var value = this.parts[i].Getter.GetMaybe(source);
+                if (i == this.parts.Count - 1)
                 {
                     return value.HasValue
                                ? Reactive.SourceAndValue.Create(source, value.Cast<TValue>())

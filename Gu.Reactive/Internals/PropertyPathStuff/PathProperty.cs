@@ -1,79 +1,37 @@
 namespace Gu.Reactive.Internals
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Reflection;
 
-    internal sealed class PathProperty
+    internal static class PathProperty
     {
-        private readonly IGetter getter;
+        private static readonly ConcurrentDictionary<PropertyInfo, Func<IPathProperty, IGetter, IPathProperty>> Factories = new ConcurrentDictionary<PropertyInfo, Func<IPathProperty, IGetter, IPathProperty>>();
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PathProperty"/> class.
-        /// </summary>
-        /// <param name="previous">The preivous property in the <see cref="PropertyPath"/></param>
-        /// <param name="propertyInfo">
-        /// The property info.
-        /// </param>
-        public PathProperty(PathProperty previous, PropertyInfo propertyInfo)
+        internal static IPathProperty Create(IPathProperty previous, PropertyInfo propertyInfo)
         {
-            Ensure.NotNull(propertyInfo, nameof(propertyInfo));
-
-            if (!propertyInfo.CanRead)
-            {
-                var message = string.Format(
-                    "Property cannot be write only." + Environment.NewLine +
-                    "The property {0}.{1}.{2} does not have a getter.",
-                    propertyInfo.ReflectedType?.Namespace,
-                    propertyInfo.ReflectedType?.PrettyName(),
-                    propertyInfo.Name);
-                throw new ArgumentException(message, nameof(propertyInfo));
-            }
-
-            this.Previous = previous;
-            this.PropertyInfo = propertyInfo;
-            this.getter = Getter.GetOrCreate(propertyInfo);
+            Getter.VerifyProperty(propertyInfo);
+            var getter = Getter.GetOrCreate(propertyInfo);
+            var factory = Factories.GetOrAdd(propertyInfo, CreateFactory);
+            return factory(previous, getter);
         }
 
-        public PathProperty Previous { get; }
-
-        /// <summary>
-        /// Gets the property info.
-        /// </summary>
-        public PropertyInfo PropertyInfo { get; }
-
-        public override string ToString() => $"PathItem for: {this.PropertyInfo.DeclaringType.PrettyName()}.{this.PropertyInfo.Name}";
-
-        internal Maybe<object> GetPropertyValue(object source) => source == null
-                                                                      ? Maybe<object>.None
-                                                                      : Maybe.Some(this.getter.GetValue(source));
-
-        /// <summary>
-        /// Gets value all the way from the root recursively.
-        /// Checks for null along the way.
-        /// </summary>
-        /// <param name="rootSource">The source object</param>
-        /// <returns>The value of the property.</returns>
-        internal Maybe<T> GetValueFromRoot<T>(object rootSource)
+        internal static PathProperty<TSource, TValue> Create<TSource, TValue>(IPathProperty previous, Getter<TSource, TValue> getter)
         {
-            if (rootSource == null)
-            {
-                return Maybe<T>.None;
-            }
+            return new PathProperty<TSource, TValue>(previous, getter);
+        }
 
-            if (this.Previous == null)
-            {
-                var o = this.getter.GetValue(rootSource);
-                return Maybe.Some((T)o);
-            }
+        private static PathProperty<TSource, TValue> CastAndCreate<TSource, TValue>(IPathProperty previous, IGetter getter)
+        {
+            return new PathProperty<TSource, TValue>(previous, (Getter<TSource, TValue>)getter);
+        }
 
-            var maybe = this.Previous.GetValueFromRoot<object>(rootSource);
-            if (maybe.GetValueOrDefault() == null)
-            {
-                return Maybe<T>.None;
-            }
+        private static Func<IPathProperty, IGetter, IPathProperty> CreateFactory(PropertyInfo arg)
+        {
+            var method = typeof(PathProperty).GetMethod(nameof(CastAndCreate), BindingFlags.Static | BindingFlags.NonPublic)
+                                             .MakeGenericMethod(arg.ReflectedType, arg.PropertyType);
 
-            var value = (T)this.getter.GetValue(maybe.Value);
-            return Maybe.Some(value);
+            return (Func<IPathProperty, IGetter, IPathProperty>)Delegate.CreateDelegate(typeof(Func<IPathProperty, IGetter, IPathProperty>), method);
         }
     }
 }

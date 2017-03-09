@@ -1,10 +1,12 @@
 #pragma warning disable SA1600 // Elements must be documented, internal
 namespace Gu.Reactive.Internals
 {
+    using System;
     using System.Collections.Generic;
 
-    internal interface IPropertyPath : IReadOnlyList<PathProperty>
+    internal interface IPropertyPath : IReadOnlyList<IPathProperty>
     {
-        PathProperty Last { get; }
+        [Obsolete("Remove")]
+        IPathProperty Last { get; }
     }
 }

@@ -110,7 +110,7 @@ namespace Gu.Reactive.Internals
                 if (source != null)
                 {
                     return i == this.parts.Count - 1
-                               ? Reactive.SourceAndValue.Create(source, part.PathProperty.GetPropertyValue(source))
+                               ? Reactive.SourceAndValue.Create(source, part.PathProperty.Getter.GetMaybe(source))
                                : Reactive.SourceAndValue.Create(source, Maybe<object>.None);
                 }
             }
@@ -128,8 +128,9 @@ namespace Gu.Reactive.Internals
             for (var i = 1; i < this.parts.Count; i++)
             {
                 source = (INotifyPropertyChanged)this.parts[i - 1].PathProperty
-                                                      .GetPropertyValue(source)
-                                                      .GetValueOrDefault();
+                                                     .Getter
+                                                     .GetMaybe(source)
+                                                     .GetValueOrDefault();
                 var part = this.parts[i];
                 if (!ReferenceEquals(part.Source, source))
                 {

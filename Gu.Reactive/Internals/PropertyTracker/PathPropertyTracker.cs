@@ -13,7 +13,7 @@ namespace Gu.Reactive.Internals
         private INotifyPropertyChanged source;
         private bool disposed;
 
-        public PathPropertyTracker(PropertyPathTracker pathTracker, PathProperty pathProperty)
+        public PathPropertyTracker(PropertyPathTracker pathTracker, IPathProperty pathProperty)
         {
             Ensure.NotNull(pathProperty, nameof(pathProperty));
             Ensure.NotNull(pathProperty.PropertyInfo.ReflectedType, nameof(pathProperty));
@@ -62,7 +62,7 @@ namespace Gu.Reactive.Internals
 
         public PropertyPathTracker PathTracker { get; }
 
-        public PathProperty PathProperty { get; }
+        public IPathProperty PathProperty { get; }
 
         public PathPropertyTracker Next => this.PathTracker.GetNext(this);
 
@@ -143,12 +143,11 @@ namespace Gu.Reactive.Internals
         private void OnTrackedPropertyChanged(object sender, INotifyPropertyChanged newSource, PropertyChangedEventArgs e)
         {
             this.Source = newSource;
-            var value = this.PathProperty.GetPropertyValue(this.source);
+            var value = this.PathProperty.Getter.GetMaybe(this.source);
             var next = this.Next;
             if (next != null)
             {
-                var nextSource = (INotifyPropertyChanged)value
-                    .GetValueOrDefault();
+                var nextSource = (INotifyPropertyChanged)value.GetValueOrDefault();
                 if (next.source != null ||
                     nextSource != null)
                 {

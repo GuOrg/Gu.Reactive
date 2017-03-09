@@ -66,6 +66,7 @@
     <Compile Include="Helpers\Level3.cs" />
     <Compile Include="Helpers\Level4.cs" />
     <Compile Include="Helpers\Level{T}.cs" />
+    <Compile Include="Internals\PropertyPathTests\PathPropertyTests.cs" />
     <Compile Include="MaybeTests.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedSlimLamda.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObserveValue.cs" />
@@ -98,7 +99,6 @@
     <Compile Include="Internals\EnsureTests\Ensure.Tests.cs" />
     <Compile Include="Internals\EnsureTests\Ensure.String.Tests.cs" />
     <Compile Include="Reflection\GetterTests.cs" />
-    <Compile Include="Internals\PropertyPathTests\PathItemTests.cs" />
     <Compile Include="Internals\PropertyPathTests\PropertyPathTests.cs" />
     <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
     <Compile Include="NameOf_\MethodTests.cs" />
