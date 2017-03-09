@@ -10,35 +10,31 @@ namespace Gu.Reactive.Tests.NameOf_
     public class MethodTests
     {
         [Test]
-        public void MethodAction()
+        public void MethodAction1()
+        {
+            var actual = NameOf.Method(() => this.DummyMethodVoid(0));
+            Assert.AreEqual(nameof(this.DummyMethodVoid), actual);
+        }
+
+        [Test]
+        public void MethodAction2()
         {
             var actual = NameOf.Method(() => this.DummyMethod(0));
             Assert.AreEqual(nameof(this.DummyMethod), actual);
         }
 
         [Test]
-        public void MethodFunc()
+        public void MethodFunc1()
         {
             var actual = NameOf.Method<MethodTests>(x => this.DummyMethod(0));
             Assert.AreEqual(nameof(this.DummyMethod), actual);
         }
 
         [Test]
-        public void ArgumentsAction()
+        public void MethodFunc2()
         {
-            int i = 0;
-            var actual = NameOf.Arguments(() => this.DummyMethodVoid(i));
-            CollectionAssert.AreEqual(new[] { "arg" }, actual.Select(x => x.Name));
-            CollectionAssert.AreEqual(new[] { 0 }, actual.Select(x => x.Value));
-        }
-
-        [Test]
-        public void ArgumentsFunc()
-        {
-            int i = 0;
-            var actual = NameOf.Arguments(() => this.DummyMethod(i));
-            CollectionAssert.AreEqual(new[] { "arg" }, actual.Select(x => x.Name));
-            CollectionAssert.AreEqual(new[] { 0 }, actual.Select(x => x.Value));
+            var actual = NameOf.Method<MethodTests, int>(x => this.DummyMethod(0));
+            Assert.AreEqual(nameof(this.DummyMethod), actual);
         }
 
         public int DummyMethod(int arg)
