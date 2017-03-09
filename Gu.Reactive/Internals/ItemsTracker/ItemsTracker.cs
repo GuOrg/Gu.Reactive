@@ -15,7 +15,7 @@ namespace Gu.Reactive.Internals
             {
                 return new SimpleItemsTracker<TCollection, TItem, TProperty>(
                     collection,
-                   (Getter<TItem, TProperty>)Getter.GetOrCreate(path.Path[0].PropertyInfo));
+                   (Getter<TItem, TProperty>)path.Path[0].Getter);
             }
 
             return new NestedItemsTracker<TCollection, TItem, TProperty>(collection, path);

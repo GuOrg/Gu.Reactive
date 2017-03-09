@@ -104,7 +104,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Property.PropertyInfo.Name))}";
+        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Property.Getter.Property.Name))}";
 
         internal SourceAndValue<INotifyPropertyChanged, object> SourceAndValue()
         {

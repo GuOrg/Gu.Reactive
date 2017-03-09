@@ -297,7 +297,7 @@
                                  {
                                      PropertyChangedEventHandler handler = (sender, e) =>
                                      {
-                                         if (e.IsMatch(notifyingPath.Path.Last.PropertyInfo))
+                                         if (e.IsMatch(notifyingPath.Path.Last.Getter.Property))
                                          {
                                              var value = notifyingPath.Path.Last.Getter.GetMaybe(sender).Cast<TProperty>();
                                              o.OnNext(create(sender, e, value));
@@ -340,7 +340,7 @@
                         });
             }
 
-            return ObservePropertyChangedCore(source, notifyingPath.Path.Last.PropertyInfo.Name, create, false);
+            return ObservePropertyChangedCore(source, notifyingPath.Path.Last.Getter.Property.Name, create, false);
         }
 
         private static IObservable<T> ObservePropertyChangedCore<TNotifier, T>(

@@ -56,7 +56,7 @@
 
         private static bool TryGetError(IPropertyPath path, int i, out string errorMessage)
         {
-            var propertyInfo = path[i].PropertyInfo;
+            var propertyInfo = path[i].Getter.Property;
             var reflectedType = propertyInfo.ReflectedType;
             if (reflectedType?.IsValueType == true)
             {
@@ -65,7 +65,7 @@
                     "The type {0} is a value type not so {1}.{2} will not notify when it changes." + Environment.NewLine +
                     "The path is: {3}",
                     reflectedType.PrettyName(),
-                    i == 0 ? "x" : path[i - 1].PropertyInfo.Name,
+                    i == 0 ? "x" : path[i - 1].Getter.Property.Name,
                     propertyInfo.Name,
                     path);
                 return true;
@@ -79,7 +79,7 @@
                     "The type {0} does not so {1}.{2} will not notify when it changes." + Environment.NewLine +
                     "The path is: {3}",
                     reflectedType.PrettyName(),
-                    i == 0 ? "x" : path[i - 1].PropertyInfo.Name,
+                    i == 0 ? "x" : path[i - 1].Getter.Property.Name,
                     propertyInfo.Name,
                     path);
                 return true;

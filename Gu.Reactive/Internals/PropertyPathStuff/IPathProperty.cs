@@ -11,11 +11,6 @@ namespace Gu.Reactive.Internals
         IPathProperty Previous { get; }
 
         /// <summary>
-        /// The <see cref="PropertyInfo"/>
-        /// </summary>
-        PropertyInfo PropertyInfo { get; }
-
-        /// <summary>
         /// The getter for the <see cref="PropertyInfo"/>
         /// </summary>
         IGetter Getter { get; }

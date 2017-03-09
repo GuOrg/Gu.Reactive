@@ -15,9 +15,11 @@ namespace Gu.Reactive.Internals
 
         public PathPropertyTracker(IPropertyPathTracker pathTracker, PathProperty<TSource, TValue> property)
         {
+            Ensure.NotNull(pathTracker, nameof(pathTracker));
             Ensure.NotNull(property, nameof(property));
-            Ensure.NotNull(property.PropertyInfo.ReflectedType, nameof(property));
-            var type = property.PropertyInfo.ReflectedType;
+
+            Ensure.NotNull(property.Getter?.Property.ReflectedType, nameof(property));
+            var type = property.Getter.Property.ReflectedType;
             if (type == null)
             {
                 throw new ArgumentException("PathProperty.ReflectedType == null");
@@ -31,7 +33,7 @@ namespace Gu.Reactive.Internals
                     "The type {0}.{1} is a value type not so {1}.{2} subscribing to changes is weird.",
                     type.Namespace,
                     type.PrettyName(),
-                    property.PropertyInfo.Name);
+                    property.Getter.Property.Name);
                 throw new ArgumentException(message, nameof(property));
             }
 
@@ -42,7 +44,7 @@ namespace Gu.Reactive.Internals
                     "The type {0}.{1} does not so the property {1}.{2} will not notify when value changes.",
                     type.Namespace,
                     type.PrettyName(),
-                    property.PropertyInfo.Name);
+                    property.Getter.Property.Name);
                 throw new ArgumentException(message, nameof(property));
             }
 
@@ -50,7 +52,7 @@ namespace Gu.Reactive.Internals
             this.Property = property;
             this.onTrackedPropertyChanged = (o, e) =>
                 {
-                    if (NotifyPropertyChangedExt.IsMatch(e, this.Property.PropertyInfo))
+                    if (NotifyPropertyChangedExt.IsMatch(e, this.Property.Getter.Property))
                     {
                         this.OnTrackedPropertyChanged(o, e);
                     }

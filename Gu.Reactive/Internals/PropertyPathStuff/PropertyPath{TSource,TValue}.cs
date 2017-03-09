@@ -13,9 +13,9 @@
         internal PropertyPath(IReadOnlyList<IPathProperty> parts)
         {
             this.parts = parts;
-            if (this.Last.PropertyInfo.PropertyType != typeof(TValue))
+            if (this.Last.Getter.Property.PropertyType != typeof(TValue))
             {
-                throw new InvalidOperationException($"Valuepath type does not match. Expected: {typeof(TValue).FullName} was: {this.Last.PropertyInfo.PropertyType.FullName}");
+                throw new InvalidOperationException($"Valuepath type does not match. Expected: {typeof(TValue).FullName} was: {this.Last.Getter.Property.PropertyType.FullName}");
             }
         }
 
@@ -29,13 +29,12 @@
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.PropertyInfo.Name))}";
+        public override string ToString() => $"x => x.{string.Join(".", this.parts.Select(x => x.Getter.Property.Name))}";
 
         /// <summary>
         /// Get the source of the last item in the path.
         /// </summary>
         /// <param name="root">The root instance for the path.</param>
-        [Obsolete("Don't use this.")]
         internal SourceAndValue<INotifyPropertyChanged, TValue> SourceAndValue(TSource root)
         {
             if (this.Count == 1)
