@@ -45,10 +45,10 @@ namespace Gu.Reactive
 
         internal static void Notify(
             object sender,
-                                   NotifyCollectionChangedEventArgs change,
-                                   IScheduler scheduler,
-                                   PropertyChangedEventHandler propHandler,
-                                   NotifyCollectionChangedEventHandler colHandler)
+            NotifyCollectionChangedEventArgs change,
+            IScheduler scheduler,
+            PropertyChangedEventHandler propHandler,
+            NotifyCollectionChangedEventHandler colHandler)
         {
             if ((propHandler == null && colHandler == null) || change == null)
             {
@@ -69,7 +69,8 @@ namespace Gu.Reactive
                     colHandler.Notify(sender, change, scheduler);
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    propHandler.Notify(sender, CachedEventArgs.CountPropertyChanged); // not sure if specialcasing is needed here.
+                    propHandler.Notify(sender, CachedEventArgs.CountPropertyChanged);
+                        // not sure if specialcasing is needed here.
                     propHandler.Notify(sender, CachedEventArgs.IndexerPropertyChanged);
                     colHandler.Notify(sender, change, scheduler);
                     break;
@@ -83,7 +84,11 @@ namespace Gu.Reactive
             handler?.Invoke(sender, e);
         }
 
-        internal static void Notify(this NotifyCollectionChangedEventHandler handler, object sender, NotifyCollectionChangedEventArgs e, IScheduler scheduler)
+        internal static void Notify(
+            this NotifyCollectionChangedEventHandler handler,
+            object sender,
+            NotifyCollectionChangedEventArgs e,
+            IScheduler scheduler)
         {
             if (handler == null)
             {

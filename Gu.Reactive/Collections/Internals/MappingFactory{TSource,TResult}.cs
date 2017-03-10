@@ -26,15 +26,9 @@
         public TResult GetOrCreateValue(TSource key, int index)
         {
             this.ThrowIfDisposed();
-            TResult mapped;
-            if (this.indexSelector != null)
-            {
-                mapped = this.indexSelector(key, index);
-            }
-            else
-            {
-                mapped = this.selector(key);
-            }
+            var mapped = this.indexSelector != null
+                                 ? this.indexSelector(key, index)
+                                 : this.selector(key);
 
             var disposable = mapped as IDisposable;
             if (disposable != null)

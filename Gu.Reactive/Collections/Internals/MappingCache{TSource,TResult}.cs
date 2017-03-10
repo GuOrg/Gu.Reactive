@@ -44,14 +44,9 @@
                 return (TResult)mapped;
             }
 
-            if (this.indexSelector != null)
-            {
-                mapped = this.indexSelector(key, index);
-            }
-            else
-            {
-                mapped = this.selector(key);
-            }
+            mapped = this.indexSelector != null
+                         ? this.indexSelector(key, index)
+                         : this.selector(key);
 
             this.cache.Add(key, mapped);
             var disposable = mapped as IDisposable;
@@ -105,9 +100,7 @@
         {
             if (this.disposed)
             {
-                throw new ObjectDisposedException(
-                    this.GetType()
-                        .FullName);
+                throw new ObjectDisposedException(this.GetType().FullName);
             }
         }
     }

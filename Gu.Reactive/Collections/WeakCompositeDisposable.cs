@@ -96,6 +96,8 @@
                         disposable.Dispose();
                     }
                 }
+
+                this.disposables.Clear();
             }
         }
 

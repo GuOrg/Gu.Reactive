@@ -65,7 +65,6 @@
         }
 
         [TestCase(true)]
-        [Explicit("Rewrite to use scheduler")]
         [TestCase(false)]
         public void ReactsAndNotifiesOnItemChanges(bool trackItemChanges)
         {
