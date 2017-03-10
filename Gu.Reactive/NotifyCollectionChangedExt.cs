@@ -207,9 +207,9 @@ namespace Gu.Reactive
             var subscription = source.Subscribe(x => tracker.UpdateSource(x));
             return new CompositeDisposable(3)
             {
+                Disposable.Create(() => tracker.TrackedItemChanged -= handler),
                 tracker,
                 subscription,
-                Disposable.Create(() => tracker.TrackedItemChanged -= handler)
             };
         }
 
@@ -244,8 +244,8 @@ namespace Gu.Reactive
 
             return new CompositeDisposable(2)
             {
-                tracker,
-                Disposable.Create(() => tracker.TrackedItemChanged -= handler)
+                Disposable.Create(() => tracker.TrackedItemChanged -= handler),
+                tracker
             };
         }
     }

@@ -191,8 +191,9 @@
                     continue;
                 }
 
-                this.map[item].TrackedPropertyChanged -= this.OnTrackedItemChanged;
-                this.map[item].Dispose();
+                var tracker = this.map[item];
+                tracker.TrackedPropertyChanged -= this.OnTrackedItemChanged;
+                tracker.Dispose();
                 this.map.Remove(item);
             }
 
