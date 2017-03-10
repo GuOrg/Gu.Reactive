@@ -42,9 +42,11 @@
         }
 
         /// <inheritdoc/>
+        [field: NonSerialized]
         public virtual event PropertyChangedEventHandler PropertyChanged;
 
         /// <inheritdoc/>
+        [field: NonSerialized]
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <inheritdoc/>
