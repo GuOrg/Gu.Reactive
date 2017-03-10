@@ -6,7 +6,7 @@ namespace Gu.Reactive.Benchmarks
 
     using BenchmarkDotNet.Attributes;
 
-    public sealed class MinTrackerProperty : IDisposable
+    public class MinTrackerProperty : IDisposable
     {
         private ObservableCollection<Fake> fakes;
         private MinTracker<int> tracker;

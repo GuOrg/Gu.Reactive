@@ -79,7 +79,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\StructLevel.cs" />
-    <Compile Include="Benchmarks\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -93,7 +92,6 @@
     <None Include="Benchmarks\ObservePropertyChangedThenSubscribe.md" />
     <None Include="Benchmarks\ObservePropertyChangedThenSubscribeThenReact.md" />
     <None Include="Benchmarks\ThrottledView.md" />
-    <None Include="Benchmarks\Timer.md" />
     <None Include="Gu.Reactive.Benchmarks.ruleset" />
     <None Include="paket.references" />
   </ItemGroup>

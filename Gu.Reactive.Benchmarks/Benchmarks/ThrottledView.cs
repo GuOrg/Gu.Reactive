@@ -4,7 +4,7 @@
     using System.Collections.ObjectModel;
     using BenchmarkDotNet.Attributes;
 
-    public sealed class ThrottledView : IDisposable
+    public class ThrottledView : IDisposable
     {
         // ReSharper disable once CollectionNeverQueried.Local
         private readonly ObservableCollection<int> reference = new ObservableCollection<int>();
