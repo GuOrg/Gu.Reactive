@@ -42,6 +42,9 @@
     <Compile Include="Collections\Internals\Mapping\MappingCache{TSource,TResult}.cs" />
     <Compile Include="Collections\Internals\Mapping\MappingFactory.cs" />
     <Compile Include="Collections\Internals\Mapping\MappingFactory{TSource,TResult}.cs" />
+    <Compile Include="Collections\Internals\Mapping\SimpleDisposingUpdatingFactory.cs" />
+    <Compile Include="Collections\Internals\Mapping\SimpleFactory.cs" />
+    <Compile Include="Collections\Internals\Mapping\SimpleUpdatingFactory.cs" />
     <Compile Include="Collections\ScheduledCollection.cs" />
     <Compile Include="EventArgs\CachedEventArgs.cs" />
     <Compile Include="Collections\CollectionSynchronizer{T}.cs" />

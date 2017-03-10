@@ -193,6 +193,7 @@ namespace Gu.Reactive
             this.disposed = true;
             if (disposing)
             {
+                this.Source = Empty;
             }
         }
 

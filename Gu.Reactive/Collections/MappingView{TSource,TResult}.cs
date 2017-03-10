@@ -308,6 +308,11 @@
             {
                 this.updateSubscription.Dispose();
                 this.factory.Dispose();
+                foreach (var item in this)
+                {
+                    (item as IDisposable)?.Dispose();
+                }
+
             }
 
             base.Dispose(disposing);

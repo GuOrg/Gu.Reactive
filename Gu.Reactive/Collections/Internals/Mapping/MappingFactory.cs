@@ -11,7 +11,7 @@ namespace Gu.Reactive
                 return new MappingCache<TSource, TResult>(selector);
             }
 
-            return new MappingFactory<TSource, TResult>(selector);
+            return new SimpleFactory<TSource, TResult>(selector);
         }
 
         internal static IMappingFactory<TSource, TResult> Create<TSource, TResult>(Func<TSource, int, TResult> indexSelector, Func<TResult, int, TResult> indexUpdater)
@@ -21,7 +21,13 @@ namespace Gu.Reactive
                 return new MappingCache<TSource, TResult>(indexSelector, indexUpdater);
             }
 
-            return new MappingFactory<TSource, TResult>(indexSelector); // no caching so indexUpdater is omitted
+            if (indexUpdater != null &&
+                typeof(IDisposable).IsAssignableFrom(typeof(TResult)))
+            {
+                return new SimpleDisposingUpdatingFactory<TSource, TResult>(indexSelector, indexUpdater);
+            }
+
+            return new SimpleUpdatingFactory<TSource, TResult>(indexSelector, indexUpdater);
         }
     }
 }
