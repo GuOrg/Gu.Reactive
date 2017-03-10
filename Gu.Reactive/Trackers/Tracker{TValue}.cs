@@ -126,7 +126,7 @@
                     {
                         if (this.Source.Count > 1 && e.IsSingleNewItem())
                         {
-                            var newValue = e.NewItem<TValue>();
+                            var newValue = e.SingleNewItem<TValue>();
                             this.OnAdd(newValue);
                         }
                         else
@@ -141,7 +141,7 @@
                     {
                         if (e.IsSingleOldItem())
                         {
-                            var oldValue = e.OldItem<TValue>();
+                            var oldValue = e.SingleOldItem<TValue>();
                             this.OnRemove(oldValue);
                         }
                         else
@@ -156,8 +156,8 @@
                     {
                         if (e.IsSingleOldItem() && e.IsSingleOldItem())
                         {
-                            var oldValue = e.OldItem<TValue>();
-                            var newValue = e.NewItem<TValue>();
+                            var oldValue = e.SingleOldItem<TValue>();
+                            var newValue = e.SingleNewItem<TValue>();
                             this.OnReplace(oldValue, newValue);
                         }
                         else

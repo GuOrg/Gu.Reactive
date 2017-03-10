@@ -36,7 +36,7 @@
                                 return;
                             }
                             var newItem = e.IsSingleNewItem()
-                                              ? e.NewItem<object>()
+                                              ? e.SingleNewItem<object>()
                                               : null;
                             if (ReferenceEquals(isUpdatingSourceItem, newItem))
                             {
@@ -44,7 +44,7 @@
                             }
 
                             var oldItem = e.IsSingleOldItem()
-                                              ? e.OldItem<object>()
+                                              ? e.SingleOldItem<object>()
                                               : null;
                             if (ReferenceEquals(isUpdatingSourceItem, oldItem))
                             {

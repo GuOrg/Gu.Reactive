@@ -17,13 +17,11 @@
     /// A view of a collection that maps the values.
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")]
-    public class MappingView<TSource, TResult> : ReadonlySerialViewBase<TResult>, IReadOnlyObservableCollection<TResult>, IUpdater
+    [DebuggerDisplay("Count = {this.Count}")]
+    public class MappingView<TSource, TResult> : ReadonlySerialViewBase<TSource, TResult>, IReadOnlyObservableCollection<TResult>, IUpdater
     {
-        private readonly IEnumerable<TSource> source;
         private readonly CompositeDisposable updateSubscription = new CompositeDisposable();
         private readonly IMappingFactory<TSource, TResult> factory;
-        private readonly List<TResult> mapped = new List<TResult>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
@@ -133,14 +131,12 @@
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private MappingView(IEnumerable<TSource> source, IScheduler scheduler, IMappingFactory<TSource, TResult> factory, params IObservable<object>[] triggers)
+            : base(source, s => s.Select(factory.GetOrCreateValue))
         {
-            Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(source as INotifyCollectionChanged, nameof(source));
             Ensure.NotNull(factory, nameof(factory));
 
-            this.source = source;
             this.factory = factory;
-            this.mapped.AddRange(source.Select(this.GetOrCreateValue));
             this.updateSubscription.Add(ThrottledRefresher.Create(this, source, TimeSpan.Zero, scheduler, false)
                                                           .ObserveOn(scheduler ?? Scheduler.Immediate)
                                                           .Subscribe(this.OnSourceCollectionChanged));
@@ -151,8 +147,6 @@
                                                   .Subscribe(_ => this.Refresh());
                 this.updateSubscription.Add(triggerSubscription);
             }
-
-            this.SetSourceCore(this.mapped);
         }
 
         /// <inheritdoc/>
@@ -161,17 +155,18 @@
         /// <inheritdoc/>
         public override void Refresh()
         {
-            lock (this.Source.SyncRootOrDefault(this.mapped.SyncRoot()))
-            {
-                lock (this.mapped.SyncRoot())
-                {
-                    (this.Source as IRefreshAble)?.Refresh();
-                    this.mapped.Clear();
-                    this.mapped.AddRange(this.source.Select(this.GetOrCreateValue));
-                    base.Refresh();
-                    this.factory.Refresh(this.source, this.mapped);
-                }
-            }
+            throw new NotImplementedException();
+            //lock (this.Source.SyncRootOrDefault(this.mapped.SyncRoot()))
+            //{
+            //    lock (this.mapped.SyncRoot())
+            //    {
+            //        (this.Source as IRefreshAble)?.Refresh();
+            //        this.mapped.Clear();
+            //        this.mapped.AddRange(this.source.Select(this.GetOrCreateValue));
+            //        base.Refresh();
+            //        this.factory.Refresh(this.source, this.mapped);
+            //    }
+            //}
         }
 
         /// <summary>
@@ -186,15 +181,16 @@
         /// <returns>The collection changed args the update causes. Can be null.</returns>
         protected virtual NotifyCollectionChangedEventArgs UpdateIndex(int index)
         {
-            var old = this.mapped[index];
-            var updated = this.factory.UpdateIndex(this.source.ElementAt(index), old, index);
-            if (ReferenceEquals(updated, old))
-            {
-                return null;
-            }
+            throw new NotImplementedException();
+            //var old = this.mapped[index];
+            //var updated = this.factory.UpdateIndex(this.source.ElementAt(index), old, index);
+            //if (ReferenceEquals(updated, old))
+            //{
+            //    return null;
+            //}
 
-            this.mapped[index] = updated;
-            return Diff.CreateReplaceEventArgs(updated, old, index);
+            //this.mapped[index] = updated;
+            //return Diff.CreateReplaceEventArgs(updated, old, index);
         }
 
         /// <summary>
@@ -204,18 +200,19 @@
         /// <returns>The collection changed args the update causes.</returns>
         protected virtual List<NotifyCollectionChangedEventArgs> UpdateIndicesFrom(int index)
         {
-            var count = this.source.Count();
-            var changes = new List<NotifyCollectionChangedEventArgs>();
-            for (var i = index; i < count; i++)
-            {
-                var change = this.UpdateIndex(i);
-                if (change != null)
-                {
-                    changes.Add(change);
-                }
-            }
+            throw new NotImplementedException();
+            //var count = this.source.Count();
+            //var changes = new List<NotifyCollectionChangedEventArgs>();
+            //for (var i = index; i < count; i++)
+            //{
+            //    var change = this.UpdateIndex(i);
+            //    if (change != null)
+            //    {
+            //        changes.Add(change);
+            //    }
+            //}
 
-            return changes;
+            //return changes;
         }
 
         /// <summary>
@@ -224,73 +221,74 @@
         /// <param name="changeCollection">The changes accumulated during the buffer time.</param>
         protected virtual void OnSourceCollectionChanged(IReadOnlyList<NotifyCollectionChangedEventArgs> changeCollection)
         {
-            if (changeCollection == null || changeCollection.Count == 0)
-            {
-                return;
-            }
+            throw new NotImplementedException();
+            //if (changeCollection == null || changeCollection.Count == 0)
+            //{
+            //    return;
+            //}
 
-            if (changeCollection.Count > 1)
-            {
-                this.Refresh();
-                return;
-            }
+            //if (changeCollection.Count > 1)
+            //{
+            //    this.Refresh();
+            //    return;
+            //}
 
-            var singleChange = changeCollection[0];
-            switch (singleChange.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    {
-                        var index = singleChange.NewStartingIndex;
-                        var value = this.GetOrCreateValue(this.source.ElementAt(index), index);
-                        this.mapped.Insert(index, value);
-                        var changes = this.UpdateIndicesFrom(index + 1);
-                        var change = Diff.CreateAddEventArgs(value, index);
-                        changes.Add(change);
-                        this.Refresh(changes);
-                        break;
-                    }
+            //var singleChange = changeCollection[0];
+            //switch (singleChange.Action)
+            //{
+            //    case NotifyCollectionChangedAction.Add:
+            //        {
+            //            var index = singleChange.NewStartingIndex;
+            //            var value = this.GetOrCreateValue(this.source.ElementAt(index), index);
+            //            this.mapped.Insert(index, value);
+            //            var changes = this.UpdateIndicesFrom(index + 1);
+            //            var change = Diff.CreateAddEventArgs(value, index);
+            //            changes.Add(change);
+            //            this.Refresh(changes);
+            //            break;
+            //        }
 
-                case NotifyCollectionChangedAction.Remove:
-                    {
-                        var index = singleChange.OldStartingIndex;
-                        var value = this.mapped[index];
-                        this.mapped.RemoveAt(index);
-                        var changes = this.UpdateIndicesFrom(index);
-                        var change = Diff.CreateRemoveEventArgs(value, index);
-                        changes.Add(change);
-                        this.Refresh(changes);
-                        break;
-                    }
+            //    case NotifyCollectionChangedAction.Remove:
+            //        {
+            //            var index = singleChange.OldStartingIndex;
+            //            var value = this.mapped[index];
+            //            this.mapped.RemoveAt(index);
+            //            var changes = this.UpdateIndicesFrom(index);
+            //            var change = Diff.CreateRemoveEventArgs(value, index);
+            //            changes.Add(change);
+            //            this.Refresh(changes);
+            //            break;
+            //        }
 
-                case NotifyCollectionChangedAction.Replace:
-                    {
-                        var index = singleChange.NewStartingIndex;
-                        var value = this.GetOrCreateValue(this.source.ElementAt(index), index);
-                        var oldValue = this.mapped[singleChange.OldStartingIndex];
-                        this.mapped[index] = value;
-                        var change = Diff.CreateReplaceEventArgs(value, oldValue, index);
-                        this.Refresh(new[] { change });
-                        break;
-                    }
+            //    case NotifyCollectionChangedAction.Replace:
+            //        {
+            //            var index = singleChange.NewStartingIndex;
+            //            var value = this.GetOrCreateValue(this.source.ElementAt(index), index);
+            //            var oldValue = this.mapped[singleChange.OldStartingIndex];
+            //            this.mapped[index] = value;
+            //            var change = Diff.CreateReplaceEventArgs(value, oldValue, index);
+            //            this.Refresh(new[] { change });
+            //            break;
+            //        }
 
-                case NotifyCollectionChangedAction.Move:
-                    {
-                        var value = this.mapped[singleChange.OldStartingIndex];
-                        this.mapped.RemoveAt(singleChange.OldStartingIndex);
-                        this.mapped.Insert(singleChange.NewStartingIndex, value);
-                        this.UpdateIndex(singleChange.OldStartingIndex);
-                        this.UpdateIndex(singleChange.NewStartingIndex);
-                        var change = Diff.CreateMoveEventArgs(this.mapped[singleChange.NewStartingIndex], singleChange.NewStartingIndex, singleChange.OldStartingIndex);
-                        this.Refresh(new[] { change });
-                        break;
-                    }
+            //    case NotifyCollectionChangedAction.Move:
+            //        {
+            //            var value = this.mapped[singleChange.OldStartingIndex];
+            //            this.mapped.RemoveAt(singleChange.OldStartingIndex);
+            //            this.mapped.Insert(singleChange.NewStartingIndex, value);
+            //            this.UpdateIndex(singleChange.OldStartingIndex);
+            //            this.UpdateIndex(singleChange.NewStartingIndex);
+            //            var change = Diff.CreateMoveEventArgs(this.mapped[singleChange.NewStartingIndex], singleChange.NewStartingIndex, singleChange.OldStartingIndex);
+            //            this.Refresh(new[] { change });
+            //            break;
+            //        }
 
-                case NotifyCollectionChangedAction.Reset:
-                    this.Refresh();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            //    case NotifyCollectionChangedAction.Reset:
+            //        this.Refresh();
+            //        break;
+            //    default:
+            //        throw new ArgumentOutOfRangeException();
+            //}
         }
 
         /// <summary>

@@ -194,7 +194,7 @@
                                 break;
                             }
 
-                            var newItem = e.NewItem<T>();
+                            var newItem = e.SingleNewItem<T>();
                             if (!currentFilter(newItem))
                             {
                                 return; // added item that is not visible
@@ -210,7 +210,7 @@
                                 break;
                             }
 
-                            var item = e.OldItem<T>();
+                            var item = e.SingleOldItem<T>();
                             if (!currentFilter(item))
                             {
                                 return; // removed item that is not visible
@@ -226,8 +226,8 @@
                                 break;
                             }
 
-                            var newItem = e.NewItem<T>();
-                            var oldItem = e.OldItem<T>();
+                            var newItem = e.SingleNewItem<T>();
+                            var oldItem = e.SingleOldItem<T>();
                             if (!(currentFilter(newItem) || currentFilter(oldItem)))
                             {
                                 return; // replaced item that is not visible
@@ -243,7 +243,7 @@
                                 break;
                             }
 
-                            var newItem = e.NewItem<T>();
+                            var newItem = e.SingleNewItem<T>();
                             if (!currentFilter(newItem))
                             {
                                 return; // moved item that is not visible

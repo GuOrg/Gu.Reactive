@@ -81,7 +81,6 @@
     <Compile Include="Collections\FilteredViewTriggersTests.cs" />
     <Compile Include="Collections\CrudSource\CrudSourceTests.cs" />
     <Compile Include="Collections\CrudSource\ReadOnlyThrottledView.cs" />
-    <Compile Include="Collections\NotifierTests.cs" />
     <Compile Include="Collections\ObservableFixedSizeQueueTests.cs" />
     <Compile Include="Conditions\AbstractConditionTests.cs" />
     <Compile Include="Conditions\ConditionExtTests.cs" />

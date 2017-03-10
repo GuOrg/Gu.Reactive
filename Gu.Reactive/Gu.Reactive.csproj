@@ -90,7 +90,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MappingView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\Internals\Notifier.cs" />
     <Compile Include="Collections\ReadOnlyFilteredView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
