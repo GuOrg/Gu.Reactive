@@ -2,15 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Reactive.Disposables;
 
     /// <summary>
     /// A view where the source can be updated that notifies about changes.
     /// </summary>
-    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")]
     public sealed class ReadOnlySerialView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyObservableCollection<T>, IUpdater
     {
         private readonly SerialDisposable refreshSubscription = new SerialDisposable();

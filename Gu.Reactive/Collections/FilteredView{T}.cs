@@ -10,17 +10,12 @@
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
 
-    using Gu.Reactive.Internals;
-
     /// <summary>
     /// Typed filtered CollectionView for intellisense in xaml
     /// </summary>
-    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")]
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
         private readonly ObservableCollection<IObservable<object>> triggers;
-        private readonly IScheduler scheduler;
         private readonly SerialDisposable refreshSubscription = new SerialDisposable();
         private readonly IDisposable triggerSubscription;
 
@@ -49,7 +44,6 @@
                 filter = x => true;
             }
 
-            this.scheduler = scheduler;
             this.bufferTime = bufferTime;
             this.filter = filter;
             if (triggers == null || triggers.Length == 0)
@@ -62,11 +56,11 @@
             }
 
             this.refreshSubscription.Disposable = FilteredRefresher.Create(this, source, bufferTime, triggers, scheduler, false)
-                                                               .ObserveOn(scheduler ?? Scheduler.Immediate)
-                                                               .Subscribe(this.Refresh);
+                                                                   .ObserveOn(scheduler ?? Scheduler.Immediate)
+                                                                   .Subscribe(this.Refresh);
             var observables = new IObservable<object>[]
                                             {
-                                                this.Triggers.ObserveCollectionChanged(false),
+                                                this.Triggers.ObserveCollectionChangedSlim(false),
                                                 this.ObservePropertyChangedSlim(nameof(this.Filter), false),
                                                 this.ObservePropertyChangedSlim(nameof(this.BufferTime), false)
                                             };
@@ -141,21 +135,15 @@
         public override void Refresh()
         {
             this.ThrowIfDisposed();
-            lock (this.Source.SyncRootOrDefault(this.Tracker.SyncRoot))
-            {
-                lock (this.Tracker.SyncRoot)
-                {
-                    (this.Source as IRefreshAble)?.Refresh();
+            (this.Source as IRefreshAble)?.Refresh();
 
-                    if (this.HasListeners)
-                    {
-                        this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
-                    }
-                    else
-                    {
-                        this.Tracker.Reset(this.Filtered());
-                    }
-                }
+            if (this.HasListeners)
+            {
+                this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
+            }
+            else
+            {
+                this.Tracker.Reset(this.Filtered());
             }
         }
 
@@ -259,38 +247,26 @@
                 }
             }
 
-            lock (this.Source.SyncRootOrDefault(this.Tracker.SyncRoot))
+            if (this.HasListeners)
             {
-                lock (this.Tracker.SyncRoot)
-                {
-                    if (this.HasListeners)
-                    {
-                        this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset, this.OnPropertyChanged, this.OnCollectionChanged);
-                    }
-                    else
-                    {
-                        this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset);
-                    }
-                }
+                this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset, this.OnPropertyChanged, this.OnCollectionChanged);
+            }
+            else
+            {
+                this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset);
             }
         }
 
         /// <inheritdoc/>
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            lock (this.Source.SyncRootOrDefault(this.Tracker.SyncRoot))
+            if (this.HasListeners)
             {
-                lock (this.Tracker.SyncRoot)
-                {
-                    if (this.HasListeners)
-                    {
-                        this.Tracker.Refresh(this.Filtered(), null, this.OnPropertyChanged, this.OnCollectionChanged);
-                    }
-                    else
-                    {
-                        this.Tracker.Refresh(this.Filtered());
-                    }
-                }
+                this.Tracker.Refresh(this.Filtered(), null, this.OnPropertyChanged, this.OnCollectionChanged);
+            }
+            else
+            {
+                this.Tracker.Refresh(this.Filtered());
             }
         }
 

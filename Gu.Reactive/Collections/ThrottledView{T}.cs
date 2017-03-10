@@ -4,15 +4,12 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
-    using System.Diagnostics;
     using System.Reactive.Concurrency;
     using System.Reactive.Disposables;
 
     /// <summary>
     /// A view of a collection that buffers changes before notifying.
     /// </summary>
-    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")]
     public class ThrottledView<T> : SynchronizedEditableView<T>, IThrottledView<T>, IReadOnlyThrottledView<T>
     {
         private readonly IScheduler scheduler;

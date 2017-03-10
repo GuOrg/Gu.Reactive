@@ -65,10 +65,10 @@
     <Compile Include="Contracts\IFilteredView{T}.cs" />
     <Compile Include="Contracts\IObservableCollection{T}.cs" />
     <Compile Include="Contracts\IObservableSet.cs" />
-    <Compile Include="Collections\ObservableSet.cs" />
+    <Compile Include="Collections\ObservableSet{T}.cs" />
     <Compile Include="Collections\ReadonlyIListView.cs" />
     <Compile Include="Internals\ListExt.cs" />
-    <Compile Include="Collections\ReadonlySerialViewBase.cs" />
+    <Compile Include="Collections\ReadonlySerialViewBase{TSource,TMapped}.cs" />
     <Compile Include="Collections\Internals\ThrowHelper.cs" />
     <Compile Include="Conditions\ConditionExt.cs" />
     <Compile Include="Contracts\IReadOnlyFilteredView{T}.cs" />

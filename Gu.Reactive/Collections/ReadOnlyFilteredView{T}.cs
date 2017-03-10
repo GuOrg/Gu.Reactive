@@ -12,8 +12,6 @@
     using Gu.Reactive.Internals;
 
     /// <inheritdoc/>
-    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {this.Count}")]
     public class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyFilteredView<T>, IUpdater
     {
         private readonly IDisposable refreshSubscription;

@@ -21,7 +21,7 @@
         {
             var source = new[] { 1, 2, 3 };
             var synchronizer = new CollectionSynchronizer<int>(source);
-            CollectionAssert.AreEqual(source, synchronizer.Current);
+            CollectionAssert.AreEqual(source, synchronizer);
         }
 
         [Test]
@@ -29,10 +29,8 @@
         {
             var source = new[] { 1, 2, 3 };
             var synchronizer = new CollectionSynchronizer<int>(new int[0]);
-            var current = synchronizer.Current;
             synchronizer.Refresh(source);
-            CollectionAssert.AreEqual(source, synchronizer.Current);
-            Assert.AreSame(current, synchronizer.Current);
+            CollectionAssert.AreEqual(source, synchronizer);
         }
 
         [Test]
@@ -46,7 +44,7 @@
                 {
                     source.Add(1);
                     synchronizer.Refresh(source, null, this.OnPropertyChanged, this.OnCollectionChanged);
-                    CollectionAssert.AreEqual(source, synchronizer.Current);
+                    CollectionAssert.AreEqual(source, synchronizer);
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }

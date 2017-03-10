@@ -13,12 +13,12 @@ namespace Gu.Reactive
     /// <summary>
     /// A base class for swapping out an <see cref="IEnumerable{T}"/> source and get notifications.
     /// </summary>
-    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")]
+    [Serializable]
     public abstract class ReadonlySerialViewBase<TSourceItem, TITem> : IRefreshAble, IList, IReadOnlyList<TITem>, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        private readonly Func<IEnumerable<TSourceItem>, IEnumerable<TITem>> mapper;
         private static readonly IReadOnlyList<TSourceItem> EmptySource = new TSourceItem[0];
+
+        private readonly Func<IEnumerable<TSourceItem>, IEnumerable<TITem>> mapper;
         private readonly CollectionSynchronizer<TITem> tracker;
 
         private bool disposed;
@@ -35,9 +35,11 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
+        [field: NonSerialized]
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <inheritdoc/>
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <inheritdoc/>
@@ -50,10 +52,10 @@ namespace Gu.Reactive
         public int Count => this.ThrowIfDisposed(() => this.tracker.Count);
 
         /// <inheritdoc/>
-        object ICollection.SyncRoot => this.tracker.SyncRoot;
+        object ICollection.SyncRoot => this.tracker;
 
         /// <inheritdoc/>
-        bool ICollection.IsSynchronized => this.tracker.IsSynchronized;
+        bool ICollection.IsSynchronized => false;
 
         /// <summary>
         /// Returns true if there are any subscribers to the <see cref="PropertyChanged"/> or <see cref="CollectionChanged"/> events.
@@ -61,12 +63,17 @@ namespace Gu.Reactive
         protected bool HasListeners => this.PropertyChanged != null || this.CollectionChanged != null;
 
         /// <summary>
+        /// The collection synchronizer.
+        /// </summary>
+        protected CollectionSynchronizer<TITem> Tracker => this.tracker;
+
+        /// <summary>
         /// The source collection.
         /// </summary>
         protected IEnumerable<TSourceItem> Source { get; private set; }
 
         /// <inheritdoc/>
-        public TITem this[int index] => this.ThrowIfDisposed(() => this.tracker.Current[index]);
+        public TITem this[int index] => this.ThrowIfDisposed(() => this.tracker[index]);
 
         /// <inheritdoc/>
         object IList.this[int index]
@@ -111,7 +118,7 @@ namespace Gu.Reactive
         void IList.RemoveAt(int index) => ThrowHelper.ThrowCollectionIsReadonly();
 
         /// <inheritdoc/>
-        void ICollection.CopyTo(Array array, int index) => this.tracker.CopyTo(array, index);
+        void ICollection.CopyTo(Array array, int index) => ((ICollection)this.tracker).CopyTo(array, index);
 
         /// <inheritdoc/>
         public void Dispose()
@@ -125,19 +132,16 @@ namespace Gu.Reactive
         public virtual void Refresh()
         {
             this.ThrowIfDisposed();
-            lock (this.Source.SyncRootOrDefault(this.tracker.SyncRoot))
+            lock (this.Source.SyncRootOrDefault(this.tracker))
             {
-                lock (this.tracker.SyncRoot)
+                (this.Source as IRefreshAble)?.Refresh();
+                if (this.HasListeners)
                 {
-                    (this.Source as IRefreshAble)?.Refresh();
-                    if (this.HasListeners)
-                    {
-                        this.tracker.Reset(this.mapper(this.Source ?? EmptySource), this.OnPropertyChanged, this.OnCollectionChanged);
-                    }
-                    else
-                    {
-                        this.tracker.Reset(this.mapper(this.Source ?? EmptySource));
-                    }
+                    this.tracker.Reset(this.mapper(this.Source ?? EmptySource), this.OnPropertyChanged, this.OnCollectionChanged);
+                }
+                else
+                {
+                    this.tracker.Reset(this.mapper(this.Source ?? EmptySource));
                 }
             }
         }
@@ -226,18 +230,16 @@ namespace Gu.Reactive
         /// </summary>
         protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            lock (this.Source.SyncRootOrDefault(this.tracker.SyncRoot))
+            lock (this.Source.SyncRootOrDefault(this.tracker))
             {
-                lock (this.tracker.SyncRoot)
+                if (this.HasListeners)
                 {
-                    if (this.HasListeners)
-                    {
-                        this.tracker.Refresh(this.mapper(this.Source ?? EmptySource), changes, this.OnPropertyChanged, this.OnCollectionChanged);
-                    }
-                    else
-                    {
-                        this.tracker.Refresh(this.mapper(this.Source ?? EmptySource), changes);
-                    }
+                    this.tracker.Refresh(this.mapper(this.Source ?? EmptySource), changes, this.OnPropertyChanged,
+                                         this.OnCollectionChanged);
+                }
+                else
+                {
+                    this.tracker.Refresh(this.mapper(this.Source ?? EmptySource), changes);
                 }
             }
         }

@@ -12,6 +12,7 @@ namespace Gu.Reactive
     /// A set that notifies about changes.
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
+    [DebuggerDisplay("Count = {this.Count}")]
     [Serializable]
     public class ObservableSet<T> : IObservableSet<T>, IReadOnlyCollection<T>, IReadonlySet<T>
     {

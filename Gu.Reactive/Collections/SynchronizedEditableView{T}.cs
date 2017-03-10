@@ -13,7 +13,8 @@
     /// A synchronized view of a collection that supports two way bindings.
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")]
+    [DebuggerDisplay("Count = {this.Count}")]
+    [Serializable]
     public abstract class SynchronizedEditableView<T> : IList, IList<T>, IUpdater, IRefreshAble, IDisposable, INotifyPropertyChanged, INotifyCollectionChanged
     {
         private readonly object syncRoot;
@@ -47,7 +48,7 @@
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <inheritdoc/>
-        public int Count => this.Tracker.Current.Count;
+        public int Count => this.Tracker.Count;
 
         /// <inheritdoc/>
         public bool IsReadOnly => false;
@@ -84,12 +85,12 @@
         {
             get
             {
-                return this.Tracker.Current[index];
+                return this.Tracker[index];
             }
 
             set
             {
-                var sourceIndex = this.Source.IndexOf(this.Tracker.Current[index]);
+                var sourceIndex = this.Source.IndexOf(this.Tracker[index]);
                 this.Source[sourceIndex] = value;
             }
         }
@@ -113,7 +114,7 @@
         }
 
         /// <inheritdoc/>
-        public IEnumerator<T> GetEnumerator() => this.Tracker.Current.GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => this.Tracker.GetEnumerator();
 
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
@@ -192,7 +193,7 @@
         }
 
         /// <inheritdoc/>
-        void ICollection.CopyTo(Array array, int index) => this.Tracker.CopyTo(array, index);
+        void ICollection.CopyTo(Array array, int index) => ((ICollection)this.Tracker).CopyTo(array, index);
 
         /// <inheritdoc/>
         public void Dispose()
@@ -269,12 +270,12 @@
 
         private void RemoveAtCore(int index)
         {
-            this.Source.Remove(this.Tracker.Current[index]);
+            this.Source.Remove(this.Tracker[index]);
         }
 
         private void InsertCore(int index, T value)
         {
-            var i = this.Source.IndexOf(this.Tracker.Current[index]);
+            var i = this.Source.IndexOf(this.Tracker[index]);
             this.Source.Insert(i, value);
         }
     }

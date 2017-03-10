@@ -3,15 +3,12 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Reactive.Concurrency;
 
     /// <summary>
     /// A readonly view of a collection that buffers changes before notifying.
     /// </summary>
-    [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")]
     public class ReadOnlyThrottledView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyThrottledView<T>, IUpdater
     {
         private readonly IDisposable refreshSubscription;
