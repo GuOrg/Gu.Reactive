@@ -75,14 +75,9 @@
         protected CollectionSynchronizer<T> Tracker { get; }
 
         /// <summary>
-        /// The <see cref="PropertyChangedEventHandler"/>
+        /// Returns true if there are any subscribers to the <see cref="PropertyChanged"/> or <see cref="CollectionChanged"/> events.
         /// </summary>
-        protected PropertyChangedEventHandler PropertyChangedEventHandler => this.PropertyChanged;
-
-        /// <summary>
-        /// The <see cref="NotifyCollectionChangedEventHandler"/>
-        /// </summary>
-        protected NotifyCollectionChangedEventHandler NotifyCollectionChangedEventHandler => this.CollectionChanged;
+        protected bool HasListeners => this.PropertyChanged != null || this.CollectionChanged != null;
 
         /// <inheritdoc/>
         public T this[int index]
@@ -260,6 +255,16 @@
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Raise CollectionChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="EditableListView{T}"/> will raise
+        /// a collection changed event through this virtual method.
+        /// </summary>
+        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            this.CollectionChanged?.Invoke(this, e);
         }
 
         private void RemoveAtCore(int index)

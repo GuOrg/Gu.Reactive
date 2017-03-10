@@ -8,7 +8,6 @@
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using System.Reactive.Concurrency;
 
     /// <summary>
     /// Helper for synchronizing two coillections and notifying about diffs.
@@ -26,7 +25,7 @@
         /// </summary>
         public CollectionSynchronizer(IEnumerable<T> source)
         {
-            this.Update(source ?? Enumerable.Empty<T>(), null, false);
+            this.Reset(source ?? Enumerable.Empty<T>());
         }
 
         /// <summary>
@@ -160,52 +159,72 @@
         /// <summary>
         /// Set <see cref="Current"/> to <paramref name="updated"/> and notify about changes.
         /// </summary>
-        /// <param name="sender">The sender to use when notifying.</param>
         /// <param name="updated">The updated collection.</param>
-        /// <param name="scheduler">The scheduler to notify on.</param>
-        /// <param name="propertyChanged">The <see cref="PropertyChangedEventHandler"/> to notify on.</param>
-        /// <param name="collectionChanged">The <see cref="NotifyCollectionChangedEventHandler"/> to notify on.</param>
-        public void Reset(
-            object sender,
-            IEnumerable<T> updated,
-            IScheduler scheduler,
-            PropertyChangedEventHandler propertyChanged,
-            NotifyCollectionChangedEventHandler collectionChanged)
+        public void Reset(IEnumerable<T> updated)
         {
             lock (this.SyncRoot)
             {
-                this.Refresh(sender, updated, CachedEventArgs.EmptyArgs, scheduler, propertyChanged, collectionChanged);
+                this.Refresh(updated, CachedEventArgs.EmptyArgs, null, null);
             }
         }
 
         /// <summary>
         /// Set <see cref="Current"/> to <paramref name="updated"/> and notify about changes.
         /// </summary>
-        /// <param name="sender">The sender to use when notifying.</param>
+        /// <param name="updated">The updated collection.</param>
+        /// <param name="propertyChanged">The <see cref="Action{PropertyChangedEventArgs}"/> to notify on.</param>
+        /// <param name="collectionChanged">The <see cref="Action{NotifyCollectionChangedEventArgs}"/> to notify on.</param>
+        public void Reset(IEnumerable<T> updated, Action<PropertyChangedEventArgs> propertyChanged, Action<NotifyCollectionChangedEventArgs> collectionChanged)
+        {
+            lock (this.SyncRoot)
+            {
+                this.Refresh(updated, CachedEventArgs.EmptyArgs, propertyChanged, collectionChanged);
+            }
+        }
+
+        /// <summary>
+        /// Set <see cref="Current"/> to <paramref name="updated"/> and notify about changes.
+        /// </summary>
         /// <param name="updated">The updated collection.</param>
         /// <param name="collectionChanges">The captured collection change args.</param>
-        /// <param name="scheduler">The scheduler to notify on.</param>
-        /// <param name="propertyChanged">The <see cref="PropertyChangedEventHandler"/> to notify on.</param>
-        /// <param name="collectionChanged">The <see cref="NotifyCollectionChangedEventHandler"/> to notify on.</param>
-        public void Refresh(
-            object sender,
-            IEnumerable<T> updated,
-            IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges,
-            IScheduler scheduler,
-            PropertyChangedEventHandler propertyChanged,
-            NotifyCollectionChangedEventHandler collectionChanged)
+        /// <param name="propertyChanged">The <see cref="Action{PropertyChangedEventArgs}"/> to notify on.</param>
+        /// <param name="collectionChanged">The <see cref="Action{NotifyCollectionChangedEventArgs}"/> to notify on.</param>
+        public void Refresh(IEnumerable<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges = null, Action<PropertyChangedEventArgs> propertyChanged = null, Action<NotifyCollectionChangedEventArgs> collectionChanged = null)
         {
             lock (this.SyncRoot)
             {
                 lock (updated.SyncRootOrDefault(this.SyncRoot))
                 {
-                    var change = this.Update(updated, collectionChanges, propertyChanged != null || collectionChanged != null);
-                    Notifier.Notify(sender, change, scheduler, propertyChanged, collectionChanged);
+                    var change = this.Update(updated, collectionChanges, propertyChanged, collectionChanged);
+                    if (change != null)
+                    {
+                        switch (change.Action)
+                        {
+                            case NotifyCollectionChangedAction.Add:
+                            case NotifyCollectionChangedAction.Remove:
+                                propertyChanged.Invoke(CachedEventArgs.CountPropertyChanged);
+                                propertyChanged.Invoke(CachedEventArgs.IndexerPropertyChanged);
+                                collectionChanged.Invoke(change);
+                                break;
+                            case NotifyCollectionChangedAction.Replace:
+                            case NotifyCollectionChangedAction.Move:
+                                propertyChanged.Invoke(CachedEventArgs.IndexerPropertyChanged);
+                                collectionChanged.Invoke(change);
+                                break;
+                            case NotifyCollectionChangedAction.Reset:
+                                propertyChanged.Invoke(CachedEventArgs.CountPropertyChanged);
+                                propertyChanged.Invoke(CachedEventArgs.IndexerPropertyChanged);
+                                collectionChanged.Invoke(change);
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    }
                 }
             }
         }
 
-        private NotifyCollectionChangedEventArgs Update(IEnumerable<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges, bool calculateDiff)
+        private NotifyCollectionChangedEventArgs Update(IEnumerable<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges, Action<PropertyChangedEventArgs> propertyChanged, Action<NotifyCollectionChangedEventArgs> collectionChanged)
         {
             lock (this.inner)
             {
@@ -223,17 +242,19 @@
                     }
                 }
 
-                var change = calculateDiff
-                                 ? Diff.CollectionChange(this.inner, this.temp, collectionChanges)
-                                 : null;
-                if (!calculateDiff || change != null)
+                if (propertyChanged != null || collectionChanged != null)
                 {
+                    var change = Diff.CollectionChange(this.inner, this.temp, collectionChanges);
                     this.inner.Clear();
                     this.inner.AddRange(this.temp);
+                    this.temp.Clear();
+                    return change;
                 }
 
+                this.inner.Clear();
+                this.inner.AddRange(this.temp);
                 this.temp.Clear();
-                return change;
+                return null;
             }
         }
     }

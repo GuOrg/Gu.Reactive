@@ -41,7 +41,7 @@
             this.scheduler = scheduler;
             this.bufferTime = bufferTime;
             this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, bufferTime, scheduler, false)
-                                                                .Subscribe(this.Refresh);
+                                                                    .Subscribe(this.Refresh);
         }
 
         /// <summary>
@@ -73,20 +73,41 @@
         {
             this.ThrowIfDisposed();
             (this.Source as IRefreshAble)?.Refresh();
-            this.Tracker.Reset(this, this.Source, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+            if (this.HasListeners)
+            {
+                this.Tracker.Reset( this.Source,  this.OnPropertyChanged, this.OnCollectionChanged);
+            }
+            else
+            {
+                this.Tracker.Reset(this.Source);
+            }
         }
 
         /// <inheritdoc/>
         protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
         {
-            this.Tracker.Refresh(this, this.Source, new[] { e }, null, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+            if (this.HasListeners)
+            {
+                this.Tracker.Refresh(this.Source, new[] { e }, this.OnPropertyChanged, this.OnCollectionChanged);
+            }
+            else
+            {
+                this.Tracker.Refresh(this.Source, new[] { e });
+            }
         }
 
         /// <inheritdoc/>
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             this.ThrowIfDisposed();
-            this.Tracker.Refresh(this, this.Source, changes, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+            if (this.HasListeners)
+            {
+                this.Tracker.Refresh(this.Source, changes, this.OnPropertyChanged, this.OnCollectionChanged);
+            }
+            else
+            {
+                this.Tracker.Refresh(this.Source, changes);
+            }
         }
 
         /// <summary>

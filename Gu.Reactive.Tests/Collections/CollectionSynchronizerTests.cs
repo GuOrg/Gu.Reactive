@@ -33,7 +33,7 @@
             var source = new[] { 1, 2, 3 };
             var synchronizer = new CollectionSynchronizer<int>(new int[0]);
             var current = synchronizer.Current;
-            synchronizer.Refresh(this, source, null, null, null, null);
+            synchronizer.Refresh(source);
             CollectionAssert.AreEqual(source, synchronizer.Current);
             Assert.AreSame(current, synchronizer.Current);
         }
@@ -48,28 +48,8 @@
                 using (var actual = this.SubscribeAll())
                 {
                     source.Add(1);
-                    synchronizer.Refresh(this, source, null, null, this.PropertyChanged, this.CollectionChanged);
+                    synchronizer.Refresh(source, null, this.OnPropertyChanged, this.OnCollectionChanged);
                     CollectionAssert.AreEqual(source, synchronizer.Current);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
-        }
-
-        [Test]
-        public void RefreshSignalsWithScheduler()
-        {
-            var source = new ObservableCollection<int>();
-            var synchronizer = new CollectionSynchronizer<int>(source);
-            using (var expected = source.SubscribeAll())
-            {
-                using (var actual = this.SubscribeAll())
-                {
-                    source.Add(1);
-                    var scheduler = new TestScheduler();
-                    synchronizer.Refresh(this, source, null, scheduler, this.PropertyChanged, this.CollectionChanged);
-                    CollectionAssert.AreEqual(source, synchronizer.Current);
-                    CollectionAssert.IsEmpty(actual.OfType<NotifyCollectionChangedEventArgs>());
-                    scheduler.Start();
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
@@ -78,6 +58,16 @@
         public IEnumerator GetEnumerator()
         {
             throw new NotImplementedException();
+        }
+
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            this.PropertyChanged?.Invoke(this, e);
+        }
+
+        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            this.CollectionChanged?.Invoke(this, e);
         }
     }
 }

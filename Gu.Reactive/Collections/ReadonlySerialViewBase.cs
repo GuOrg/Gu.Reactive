@@ -77,6 +77,11 @@ namespace Gu.Reactive
         bool ICollection.IsSynchronized => this.tracker.IsSynchronized;
 
         /// <summary>
+        /// Returns true if there are any subscribers to the <see cref="PropertyChanged"/> or <see cref="CollectionChanged"/> events.
+        /// </summary>
+        protected bool HasListeners => this.PropertyChanged != null || this.CollectionChanged != null;
+
+        /// <summary>
         /// The source collection.
         /// </summary>
         protected IEnumerable<T> Source { get; private set; }
@@ -146,7 +151,14 @@ namespace Gu.Reactive
                 lock (this.tracker.SyncRoot)
                 {
                     (this.Source as IRefreshAble)?.Refresh();
-                    this.tracker.Reset(this, this.Source, null, this.PropertyChanged, this.CollectionChanged);
+                    if (this.HasListeners)
+                    {
+                        this.tracker.Reset(this.Source, this.OnPropertyChanged, this.OnCollectionChanged);
+                    }
+                    else
+                    {
+                        this.tracker.Reset(this.Source);
+                    }
                 }
             }
         }
@@ -249,7 +261,14 @@ namespace Gu.Reactive
             {
                 lock (this.tracker.SyncRoot)
                 {
-                    this.tracker.Refresh(this, this.Source, changes, null, this.PropertyChanged, this.CollectionChanged);
+                    if (this.HasListeners)
+                    {
+                        this.tracker.Refresh(this.Source, changes, this.OnPropertyChanged, this.OnCollectionChanged);
+                    }
+                    else
+                    {
+                        this.tracker.Refresh(this.Source, changes);
+                    }
                 }
             }
         }

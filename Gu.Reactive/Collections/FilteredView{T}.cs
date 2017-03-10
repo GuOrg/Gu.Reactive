@@ -144,7 +144,15 @@
                 lock (this.Tracker.SyncRoot)
                 {
                     (this.Source as IRefreshAble)?.Refresh();
-                    this.Tracker.Reset(this, this.Filtered(), this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+
+                    if (this.HasListeners)
+                    {
+                        this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
+                    }
+                    else
+                    {
+                        this.Tracker.Reset(this.Filtered());
+                    }
                 }
             }
         }
@@ -253,7 +261,14 @@
             {
                 lock (this.Tracker.SyncRoot)
                 {
-                    this.Tracker.Refresh(this, this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+                    if (this.HasListeners)
+                    {
+                        this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset, this.OnPropertyChanged, this.OnCollectionChanged);
+                    }
+                    else
+                    {
+                        this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset);
+                    }
                 }
             }
         }
@@ -265,7 +280,14 @@
             {
                 lock (this.Tracker.SyncRoot)
                 {
-                    this.Tracker.Refresh(this, this.Filtered(), null, this.scheduler, this.PropertyChangedEventHandler, this.NotifyCollectionChangedEventHandler);
+                    if (this.HasListeners)
+                    {
+                        this.Tracker.Refresh(this.Filtered(), null, this.OnPropertyChanged, this.OnCollectionChanged);
+                    }
+                    else
+                    {
+                        this.Tracker.Refresh(this.Filtered());
+                    }
                 }
             }
         }

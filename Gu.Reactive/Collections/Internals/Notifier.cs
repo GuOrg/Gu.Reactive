@@ -34,7 +34,7 @@ namespace Gu.Reactive
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     propHandler.Notify(sender, CachedEventArgs.CountPropertyChanged);
-                        // not sure if specialcasing is needed here.
+                    // not sure if specialcasing is needed here.
                     propHandler.Notify(sender, CachedEventArgs.IndexerPropertyChanged);
                     colHandler.Notify(sender, change, scheduler);
                     break;
