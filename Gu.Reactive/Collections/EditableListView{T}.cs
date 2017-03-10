@@ -8,6 +8,8 @@ namespace Gu.Reactive
     using System.ComponentModel;
     using System.Reactive.Disposables;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// Decorate an <see cref="IObservableCollection{T}"/> with <see cref="IList"/>
     /// </summary>

@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// A factory for mapping values from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>
@@ -21,5 +22,10 @@
         /// Update index for <paramref name="key"/>
         /// </summary>
         TResult UpdateIndex(TSource key, TResult oldResult, int index);
+
+        /// <summary>
+        /// Dispose old disposables or remove from cache.
+        /// </summary>
+        void Refresh(IEnumerable<TSource> source, IReadOnlyList<TResult> mapped);
     }
 }

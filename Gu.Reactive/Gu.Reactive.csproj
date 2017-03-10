@@ -66,7 +66,7 @@
     <Compile Include="Contracts\IObservableSet.cs" />
     <Compile Include="Collections\ObservableSet.cs" />
     <Compile Include="Collections\ReadonlyIListView.cs" />
-    <Compile Include="Collections\Internals\ListExt.cs" />
+    <Compile Include="Internals\ListExt.cs" />
     <Compile Include="Collections\ReadonlySerialViewBase.cs" />
     <Compile Include="Collections\Internals\ThrowHelper.cs" />
     <Compile Include="Conditions\ConditionExt.cs" />

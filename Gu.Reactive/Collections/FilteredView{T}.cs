@@ -10,6 +10,8 @@
     using System.Reactive.Disposables;
     using System.Reactive.Linq;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// Typed filtered CollectionView for intellisense in xaml
     /// </summary>

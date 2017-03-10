@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive
 {
     using System;
+    using System.Collections.Generic;
 
     internal class SimpleDisposingUpdatingFactory<TSource, TResult> : SimpleUpdatingFactory<TSource, TResult>
     {
@@ -23,6 +24,11 @@
             }
 
             return updated;
+        }
+
+        public override void Refresh(IEnumerable<TSource> source, IReadOnlyList<TResult> mapped)
+        {
+            base.Refresh(source, mapped);
         }
     }
 }

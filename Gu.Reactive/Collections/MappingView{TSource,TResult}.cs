@@ -169,6 +169,7 @@
                     this.mapped.Clear();
                     this.mapped.AddRange(this.source.Select(this.GetOrCreateValue));
                     base.Refresh();
+                    this.factory.Refresh(this.source, this.mapped);
                 }
             }
         }

@@ -1,11 +1,9 @@
-﻿namespace Gu.Reactive
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Gu.Reactive.Internals;
 
     internal static class ListExt
     {

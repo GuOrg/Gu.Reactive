@@ -8,6 +8,8 @@ namespace Gu.Reactive
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// A base class for swapping out an <see cref="IEnumerable{T}"/> source and get notifications.
     /// </summary>

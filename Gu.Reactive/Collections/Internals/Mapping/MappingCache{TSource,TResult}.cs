@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive
 {
     using System;
+    using System.Collections.Generic;
     using System.Reactive.Disposables;
     using System.Runtime.CompilerServices;
 
@@ -103,6 +104,11 @@
             {
                 throw new ObjectDisposedException(this.GetType().FullName);
             }
+        }
+
+        /// <inheritdoc/>
+        public void Refresh(IEnumerable<TSource> source, IReadOnlyList<TResult> mapped)
+        {
         }
     }
 }

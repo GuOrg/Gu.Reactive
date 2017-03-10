@@ -9,6 +9,8 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// Helper for synchronizing two coillections and notifying about diffs.
     /// </summary>

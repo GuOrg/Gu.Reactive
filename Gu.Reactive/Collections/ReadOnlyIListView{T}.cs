@@ -8,6 +8,8 @@
     using System.ComponentModel;
     using System.Reactive.Disposables;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// For exposing a source collection as a readonly list.
     /// For example DataGrid needs <see cref="IList"/> for elrmrnts to be editable.

@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive
 {
     using System;
+    using System.Collections.Generic;
     using System.Reactive.Disposables;
 
     internal class MappingFactory<TSource, TResult> : IMappingFactory<TSource, TResult>
@@ -63,6 +64,10 @@
             {
                 throw new ObjectDisposedException(this.GetType().FullName);
             }
+        }
+
+        public void Refresh(IEnumerable<TSource> source, IReadOnlyList<TResult> mapped)
+        {
         }
     }
 }
