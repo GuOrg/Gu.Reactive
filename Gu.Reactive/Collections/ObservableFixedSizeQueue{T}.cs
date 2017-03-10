@@ -63,10 +63,10 @@
 
             if (count >= this.Size)
             {
-                this.CollectionChanged.Notify(this, Diff.CreateRemoveEventArgs(overflow, 0), this.scheduler);
+                this.OnCollectionChanged(Diff.CreateRemoveEventArgs(overflow, 0));
             }
 
-            this.CollectionChanged.Notify(this, Diff.CreateAddEventArgs(item, this.Count - 1), this.scheduler);
+            this.OnCollectionChanged(Diff.CreateAddEventArgs(item, this.Count - 1));
         }
 
         /// <summary>
@@ -77,6 +77,26 @@
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Raise CollectionChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="ObservableSet{T}"/> will raise
+        /// a collection changed event through this virtual method.
+        /// </summary>
+        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            if (this.scheduler == null)
+            {
+                this.CollectionChanged?.Invoke(this, e);
+                return;
+            }
+
+            var handler = this.CollectionChanged;
+            if (handler != null)
+            {
+                this.scheduler.Schedule(() => handler.Invoke(this, e));
+            }
         }
     }
 }

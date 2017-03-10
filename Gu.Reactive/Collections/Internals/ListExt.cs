@@ -27,19 +27,6 @@
             return -1;
         }
 
-        internal static int IndexOf<T>(this IList<T> source, object value)
-        {
-            for (var i = 0; i < source.Count; i++)
-            {
-                if (Equals(value, source[i]))
-                {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
         internal static void CopyTo<T>(this IReadOnlyList<T> source, Array array, int index)
         {
             Ensure.NotNull(array, nameof(array));

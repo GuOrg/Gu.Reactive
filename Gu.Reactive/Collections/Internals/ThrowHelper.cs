@@ -16,14 +16,14 @@
             throw new InvalidOperationException(CollectionIsReadonly);
         }
 
-        internal static void ThrowNotSupportedException()
+        internal static void ThrowNotSupportedException(string message)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException(message);
         }
 
-        internal static TResult ThrowNotSupportedException<TResult>()
+        internal static TResult ThrowNotSupportedException<TResult>(string message)
         {
-            throw new NotSupportedException();
+            throw new NotSupportedException(message);
         }
     }
 }
