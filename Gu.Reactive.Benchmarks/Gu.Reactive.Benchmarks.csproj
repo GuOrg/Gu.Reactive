@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Benchmarks\Caching.md" />
     <None Include="Benchmarks\Diff.md" />
     <None Include="Benchmarks\MinTrackerProperty.md" />
     <None Include="Benchmarks\MinTrackerSimple.md" />
