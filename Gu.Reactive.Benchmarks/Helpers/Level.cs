@@ -90,8 +90,8 @@
             }
         }
 
-        // ReSharper disable once UnusedAutoPropertyAccessor.Local
 #pragma warning disable WPF1010 // Mutable public property should notify.
+        // ReSharper disable once UnusedAutoPropertyAccessor.Local
         public NotInpc NotInpc { get; private set; }
 #pragma warning restore WPF1010 // Mutable public property should notify.
 

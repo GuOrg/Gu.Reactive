@@ -2,8 +2,6 @@
 #pragma warning disable CS0619 // Type or member is obsolete
 namespace Gu.Reactive.Tests.NameOf_
 {
-    using System.Linq;
-
     using NUnit.Framework;
 
     //// ReSharper disable once InconsistentNaming
