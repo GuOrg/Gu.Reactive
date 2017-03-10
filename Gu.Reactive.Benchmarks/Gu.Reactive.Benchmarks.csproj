@@ -61,6 +61,7 @@
     </When>
   </Choose>
   <ItemGroup>
+    <Compile Include="Benchmarks\Caching.cs" />
     <Compile Include="Benchmarks\Diff.cs" />
     <Compile Include="Benchmarks\MinTrackerProperty.cs" />
     <Compile Include="Benchmarks\MinTrackerSimple.cs" />
