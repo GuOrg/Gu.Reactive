@@ -204,19 +204,19 @@
                         {
                             case NotifyCollectionChangedAction.Add:
                             case NotifyCollectionChangedAction.Remove:
-                                propertyChanged.Invoke(CachedEventArgs.CountPropertyChanged);
-                                propertyChanged.Invoke(CachedEventArgs.IndexerPropertyChanged);
-                                collectionChanged.Invoke(change);
+                                propertyChanged?.Invoke(CachedEventArgs.CountPropertyChanged);
+                                propertyChanged?.Invoke(CachedEventArgs.IndexerPropertyChanged);
+                                collectionChanged?.Invoke(change);
                                 break;
                             case NotifyCollectionChangedAction.Replace:
                             case NotifyCollectionChangedAction.Move:
-                                propertyChanged.Invoke(CachedEventArgs.IndexerPropertyChanged);
-                                collectionChanged.Invoke(change);
+                                propertyChanged?.Invoke(CachedEventArgs.IndexerPropertyChanged);
+                                collectionChanged?.Invoke(change);
                                 break;
                             case NotifyCollectionChangedAction.Reset:
-                                propertyChanged.Invoke(CachedEventArgs.CountPropertyChanged);
-                                propertyChanged.Invoke(CachedEventArgs.IndexerPropertyChanged);
-                                collectionChanged.Invoke(change);
+                                propertyChanged?.Invoke(CachedEventArgs.CountPropertyChanged);
+                                propertyChanged?.Invoke(CachedEventArgs.IndexerPropertyChanged);
+                                collectionChanged?.Invoke(change);
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();

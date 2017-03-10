@@ -17,19 +17,21 @@ namespace Gu.Reactive
     [DebuggerDisplay("Count = {Count}")]
     public abstract class ReadonlySerialViewBase<TSourceItem, TITem> : IRefreshAble, IList, IReadOnlyList<TITem>, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        private static readonly IReadOnlyList<TSourceItem> Empty = new TSourceItem[0];
-        private readonly CollectionSynchronizer<TITem> tracker = new CollectionSynchronizer<TITem>(Empty);
+        private readonly Func<IEnumerable<TSourceItem>, IEnumerable<TITem>> mapper;
+        private static readonly IReadOnlyList<TSourceItem> EmptySource = new TSourceItem[0];
+        private readonly CollectionSynchronizer<TITem> tracker;
 
         private bool disposed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{T}"/> class.
+        /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{TSourceItem, TITem}"/> class.
         /// </summary>
-        protected ReadonlySerialViewBase(IEnumerable<TSourceItem> source, bool isReadOnly = true, bool isFixedSize = true)
+        protected ReadonlySerialViewBase(IEnumerable<TSourceItem> source, Func<IEnumerable<TSourceItem>, IEnumerable<TITem>> mapper)
         {
-            this.IsReadOnly = isReadOnly;
-            this.IsFixedSize = isFixedSize;
-            this.Source = source ?? Empty;
+            Ensure.NotNull(mapper, nameof(mapper));
+            this.mapper = mapper;
+            this.Source = source ?? EmptySource;
+            this.tracker = new CollectionSynchronizer<TITem>(mapper(source));
         }
 
         /// <inheritdoc/>
@@ -39,10 +41,10 @@ namespace Gu.Reactive
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <inheritdoc/>
-        public bool IsReadOnly { get; }
+        public bool IsReadOnly => true;
 
         /// <inheritdoc/>
-        public bool IsFixedSize { get; }
+        public bool IsFixedSize => true;
 
         /// <inheritdoc/>
         public int Count => this.ThrowIfDisposed(() => this.tracker.Count);
@@ -130,19 +132,14 @@ namespace Gu.Reactive
                     (this.Source as IRefreshAble)?.Refresh();
                     if (this.HasListeners)
                     {
-                        this.tracker.Reset(this.GetItems(), this.OnPropertyChanged, this.OnCollectionChanged);
+                        this.tracker.Reset(this.mapper(this.Source ?? EmptySource), this.OnPropertyChanged, this.OnCollectionChanged);
                     }
                     else
                     {
-                        this.tracker.Reset(this.GetItems());
+                        this.tracker.Reset(this.mapper(this.Source ?? EmptySource));
                     }
                 }
             }
-        }
-
-        protected IEnumerable<TITem> GetItems()
-        {
-            return this.Source;
         }
 
         /// <summary>
@@ -159,7 +156,7 @@ namespace Gu.Reactive
         protected void SetSourceCore(IEnumerable<TSourceItem> source)
         {
             this.ThrowIfDisposed();
-            this.Source = source ?? Empty;
+            this.Source = source ?? EmptySource;
             this.Refresh();
         }
 
@@ -177,7 +174,7 @@ namespace Gu.Reactive
             this.disposed = true;
             if (disposing)
             {
-                this.Source = Empty;
+                this.Source = EmptySource;
             }
         }
 
@@ -187,7 +184,7 @@ namespace Gu.Reactive
         protected virtual void ClearSource()
         {
             this.ThrowIfDisposed();
-            this.Source = Empty;
+            this.Source = EmptySource;
             this.Refresh();
         }
 
@@ -235,11 +232,11 @@ namespace Gu.Reactive
                 {
                     if (this.HasListeners)
                     {
-                        this.tracker.Refresh(this.GetItems(), changes, this.OnPropertyChanged, this.OnCollectionChanged);
+                        this.tracker.Refresh(this.mapper(this.Source ?? EmptySource), changes, this.OnPropertyChanged, this.OnCollectionChanged);
                     }
                     else
                     {
-                        this.tracker.Refresh(this.GetItems(), changes);
+                        this.tracker.Refresh(this.mapper(this.Source ?? EmptySource), changes);
                     }
                 }
             }

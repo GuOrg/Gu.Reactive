@@ -12,7 +12,7 @@
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
-    public class ReadOnlyThrottledView<T> : ReadonlySerialViewBase<T>, IReadOnlyThrottledView<T>, IUpdater
+    public class ReadOnlyThrottledView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyThrottledView<T>, IUpdater
     {
         private readonly IDisposable refreshSubscription;
         private bool disposed;
@@ -51,7 +51,7 @@
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler scheduler, IEnumerable<T> source)
-            : base(source, true, true)
+            : base(source, s => s)
         {
             this.BufferTime = bufferTime;
             this.refreshSubscription = ThrottledRefresher.Create(this, source, bufferTime, scheduler, false)

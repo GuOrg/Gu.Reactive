@@ -8,15 +8,14 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive.Concurrency;
-
+    using System.Reactive.Linq;
     using Gu.Reactive.Internals;
 
     /// <inheritdoc/>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")]
-    public class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T>, IReadOnlyFilteredView<T>, IUpdater
+    [DebuggerDisplay("Count = {this.Count}")]
+    public class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyFilteredView<T>, IUpdater
     {
-        private readonly IEnumerable<T> source;
         private readonly IDisposable refreshSubscription;
         private bool disposed;
 
@@ -71,16 +70,14 @@
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, IScheduler scheduler, TimeSpan bufferTime, IReadOnlyList<IObservable<object>> triggers)
-            : base(source, true, true)
+            : base(source, x => x.Where(filter))
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
-            this.source = source;
             this.Filter = filter;
             this.BufferTime = bufferTime;
-            this.SetSourceCore(this.Filtered());
             this.refreshSubscription = FilteredRefresher.Create(this, source, bufferTime, triggers ?? Enumerable.Empty<IObservable<object>>(), scheduler, false)
-                                                        .Subscribe(this.Refresh);
+                                                        .Subscribe(_ => this.Refresh());
         }
 
         /// <inheritdoc/>
@@ -91,30 +88,6 @@
 
         /// <inheritdoc/>
         object IUpdater.CurrentlyUpdatingSourceItem => null;
-
-        /// <summary>
-        /// Force a refresh.
-        /// May be deferred if there is a buffer time.
-        /// </summary>
-        public new void Refresh()
-        {
-            (this.source as IRefreshAble)?.Refresh();
-            this.SetSource(this.Filtered());
-        }
-
-        /// <inheritdoc/>
-        protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
-        {
-            this.SetSource(this.Filtered());
-        }
-
-        /// <summary>
-        /// Get the filtered items.
-        /// </summary>
-        protected IEnumerable<T> Filtered()
-        {
-            return this.source.Where(this.Filter);
-        }
 
         /// <summary>
         /// Protected implementation of Dispose pattern.

@@ -11,7 +11,7 @@
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
-    public sealed class ReadOnlySerialView<T> : ReadonlySerialViewBase<T>, IReadOnlyObservableCollection<T>, IUpdater
+    public sealed class ReadOnlySerialView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyObservableCollection<T>, IUpdater
     {
         private readonly SerialDisposable refreshSubscription = new SerialDisposable();
 
@@ -28,7 +28,7 @@
         /// </summary>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public ReadOnlySerialView(IEnumerable<T> source)
-            : base(source, true, true)
+            : base(source, s => s)
         {
             this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, TimeSpan.Zero, null, false)
                                                                     .Subscribe(this.Refresh);
