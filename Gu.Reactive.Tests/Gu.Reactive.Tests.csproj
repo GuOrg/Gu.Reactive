@@ -83,7 +83,6 @@
     <Compile Include="Collections\CrudSource\ReadOnlyThrottledView.cs" />
     <Compile Include="Collections\NotifierTests.cs" />
     <Compile Include="Collections\ObservableFixedSizeQueueTests.cs" />
-    <Compile Include="Collections\WeakCompositeDisposableTests.cs" />
     <Compile Include="Conditions\AbstractConditionTests.cs" />
     <Compile Include="Conditions\ConditionExtTests.cs" />
     <Compile Include="Helpers\AssertEx.cs" />

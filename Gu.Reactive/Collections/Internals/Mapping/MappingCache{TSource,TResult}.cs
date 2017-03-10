@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive
 {
     using System;
+    using System.Reactive.Disposables;
     using System.Runtime.CompilerServices;
 
     internal sealed class MappingCache<TSource, TResult> : IMappingFactory<TSource, TResult>
@@ -9,7 +10,7 @@
         private readonly Func<TResult, int, TResult> indexUpdater;
         private readonly Func<TSource, TResult> selector;
         private readonly ConditionalWeakTable<object, object> cache;
-        private readonly WeakCompositeDisposable itemDisposables = new WeakCompositeDisposable();
+        private readonly CompositeDisposable itemDisposables = new CompositeDisposable();
         private bool disposed;
 
         public MappingCache(Func<TSource, TResult> selector)

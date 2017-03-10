@@ -38,6 +38,10 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Internals\Mapping\IMappingFactory{TSource,TResult}.cs" />
+    <Compile Include="Collections\Internals\Mapping\MappingCache{TSource,TResult}.cs" />
+    <Compile Include="Collections\Internals\Mapping\MappingFactory.cs" />
+    <Compile Include="Collections\Internals\Mapping\MappingFactory{TSource,TResult}.cs" />
     <Compile Include="Collections\ScheduledCollection.cs" />
     <Compile Include="EventArgs\CachedEventArgs.cs" />
     <Compile Include="Collections\CollectionSynchronizer{T}.cs" />
@@ -45,9 +49,6 @@
     <Compile Include="Collections\EditableListView{T}.cs" />
     <Compile Include="Collections\FilteredView{T}.cs" />
     <Compile Include="Collections\FixedSizedQueue{T}.cs" />
-    <Compile Include="Collections\Internals\IMappingFactory{TSource,TResult}.cs" />
-    <Compile Include="Collections\Internals\MappingCache{TSource,TResult}.cs" />
-    <Compile Include="Collections\Internals\MappingFactory{TSource,TResult}.cs" />
     <Compile Include="Collections\MappingView{TSource,TResult}.cs" />
     <Compile Include="Collections\ObservableBatchCollection{T}.cs" />
     <Compile Include="Collections\ObservableFixedSizeQueue{T}.cs" />
@@ -80,7 +81,6 @@
       <DependentUpon>FilteredView.tt</DependentUpon>
     </Compile>
     <Compile Include="Collections\Internals\IUpdater.cs" />
-    <Compile Include="Collections\Internals\MappingFactory.cs" />
     <Compile Include="Collections\MappingView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -102,7 +102,6 @@
     <Compile Include="Collections\Internals\FilteredRefresher.cs" />
     <Compile Include="Collections\FilteredView.cs" />
     <Compile Include="Collections\ReadOnlyThrottledView.cs" />
-    <Compile Include="Collections\WeakCompositeDisposable.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
     <Compile Include="Contracts\IThrottledView{T}.cs" />
     <Compile Include="ForegroundScheduler.cs" />

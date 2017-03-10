@@ -236,67 +236,60 @@
             }
 
             var singleChange = changeCollection[0];
-            try
+            switch (singleChange.Action)
             {
-                switch (singleChange.Action)
-                {
-                    case NotifyCollectionChangedAction.Add:
-                        {
-                            var index = singleChange.NewStartingIndex;
-                            var value = this.GetOrCreateValue(this.source.ElementAt(index), index);
-                            this.mapped.Insert(index, value);
-                            var changes = this.UpdateIndicesFrom(index + 1);
-                            var change = Diff.CreateAddEventArgs(value, index);
-                            changes.Add(change);
-                            this.Refresh(changes);
-                            break;
-                        }
-
-                    case NotifyCollectionChangedAction.Remove:
-                        {
-                            var index = singleChange.OldStartingIndex;
-                            var value = this.mapped[index];
-                            this.mapped.RemoveAt(index);
-                            var changes = this.UpdateIndicesFrom(index);
-                            var change = Diff.CreateRemoveEventArgs(value, index);
-                            changes.Add(change);
-                            this.Refresh(changes);
-                            break;
-                        }
-
-                    case NotifyCollectionChangedAction.Replace:
-                        {
-                            var index = singleChange.NewStartingIndex;
-                            var value = this.GetOrCreateValue(this.source.ElementAt(index), index);
-                            var oldValue = this.mapped[singleChange.OldStartingIndex];
-                            this.mapped[index] = value;
-                            var change = Diff.CreateReplaceEventArgs(value, oldValue, index);
-                            this.Refresh(new[] { change });
-                            break;
-                        }
-
-                    case NotifyCollectionChangedAction.Move:
-                        {
-                            var value = this.mapped[singleChange.OldStartingIndex];
-                            this.mapped.RemoveAt(singleChange.OldStartingIndex);
-                            this.mapped.Insert(singleChange.NewStartingIndex, value);
-                            this.UpdateIndex(singleChange.OldStartingIndex);
-                            this.UpdateIndex(singleChange.NewStartingIndex);
-                            var change = Diff.CreateMoveEventArgs(this.mapped[singleChange.NewStartingIndex], singleChange.NewStartingIndex, singleChange.OldStartingIndex);
-                            this.Refresh(new[] { change });
-                            break;
-                        }
-
-                    case NotifyCollectionChangedAction.Reset:
-                        this.Refresh();
+                case NotifyCollectionChangedAction.Add:
+                    {
+                        var index = singleChange.NewStartingIndex;
+                        var value = this.GetOrCreateValue(this.source.ElementAt(index), index);
+                        this.mapped.Insert(index, value);
+                        var changes = this.UpdateIndicesFrom(index + 1);
+                        var change = Diff.CreateAddEventArgs(value, index);
+                        changes.Add(change);
+                        this.Refresh(changes);
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-            catch (Exception)
-            {
-                this.Refresh(); // Resetting
+                    }
+
+                case NotifyCollectionChangedAction.Remove:
+                    {
+                        var index = singleChange.OldStartingIndex;
+                        var value = this.mapped[index];
+                        this.mapped.RemoveAt(index);
+                        var changes = this.UpdateIndicesFrom(index);
+                        var change = Diff.CreateRemoveEventArgs(value, index);
+                        changes.Add(change);
+                        this.Refresh(changes);
+                        break;
+                    }
+
+                case NotifyCollectionChangedAction.Replace:
+                    {
+                        var index = singleChange.NewStartingIndex;
+                        var value = this.GetOrCreateValue(this.source.ElementAt(index), index);
+                        var oldValue = this.mapped[singleChange.OldStartingIndex];
+                        this.mapped[index] = value;
+                        var change = Diff.CreateReplaceEventArgs(value, oldValue, index);
+                        this.Refresh(new[] { change });
+                        break;
+                    }
+
+                case NotifyCollectionChangedAction.Move:
+                    {
+                        var value = this.mapped[singleChange.OldStartingIndex];
+                        this.mapped.RemoveAt(singleChange.OldStartingIndex);
+                        this.mapped.Insert(singleChange.NewStartingIndex, value);
+                        this.UpdateIndex(singleChange.OldStartingIndex);
+                        this.UpdateIndex(singleChange.NewStartingIndex);
+                        var change = Diff.CreateMoveEventArgs(this.mapped[singleChange.NewStartingIndex], singleChange.NewStartingIndex, singleChange.OldStartingIndex);
+                        this.Refresh(new[] { change });
+                        break;
+                    }
+
+                case NotifyCollectionChangedAction.Reset:
+                    this.Refresh();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

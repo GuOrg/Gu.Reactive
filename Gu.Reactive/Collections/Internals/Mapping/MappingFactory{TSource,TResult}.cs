@@ -1,12 +1,13 @@
 ﻿namespace Gu.Reactive
 {
     using System;
+    using System.Reactive.Disposables;
 
     internal class MappingFactory<TSource, TResult> : IMappingFactory<TSource, TResult>
     {
         private readonly Func<TSource, int, TResult> indexSelector;
         private readonly Func<TSource, TResult> selector;
-        private readonly WeakCompositeDisposable itemDisposables = new WeakCompositeDisposable();
+        private readonly CompositeDisposable itemDisposables = new CompositeDisposable();
         private bool disposed;
 
         internal MappingFactory(Func<TSource, TResult> selector)
