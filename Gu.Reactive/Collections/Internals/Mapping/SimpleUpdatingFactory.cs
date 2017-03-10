@@ -9,17 +9,17 @@
         private readonly Func<TSource, int, TResult> selector;
         private readonly Func<TResult, int, TResult> updater;
 
-        protected SimpleUpdatingFactory(Func<TSource, int, TResult> selector)
-            : this(selector, null)
-        {
-        }
-
         internal SimpleUpdatingFactory(Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater)
         {
             Ensure.NotNull(selector, nameof(selector));
 
             this.selector = selector;
             this.updater = updater ?? Id;
+        }
+
+        protected SimpleUpdatingFactory(Func<TSource, int, TResult> selector)
+            : this(selector, null)
+        {
         }
 
         public virtual bool CanUpdateIndex => true;
