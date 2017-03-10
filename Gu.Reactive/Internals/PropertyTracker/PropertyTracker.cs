@@ -14,7 +14,7 @@ namespace Gu.Reactive.Internals
         private TSource source;
         private bool disposed;
 
-        public PropertyTracker(IPropertyPathTracker pathTracker, Getter<TSource, TValue> getter)
+        public PropertyTracker(IPropertyPathTracker pathTracker, NotifyingGetter<TSource, TValue> getter)
         {
             Ensure.NotNull(pathTracker, nameof(pathTracker));
             Ensure.NotNull(getter, nameof(getter));
