@@ -155,18 +155,8 @@
         /// <inheritdoc/>
         public override void Refresh()
         {
-            throw new NotImplementedException();
-            //lock (this.Source.SyncRootOrDefault(this.mapped.SyncRoot()))
-            //{
-            //    lock (this.mapped.SyncRoot())
-            //    {
-            //        (this.Source as IRefreshAble)?.Refresh();
-            //        this.mapped.Clear();
-            //        this.mapped.AddRange(this.source.Select(this.GetOrCreateValue));
-            //        base.Refresh();
-            //        this.factory.Refresh(this.source, this.mapped);
-            //    }
-            //}
+            base.Refresh();
+            this.factory.Refresh(this.Source, this.Tracker);
         }
 
         /// <summary>
@@ -178,41 +168,46 @@
         /// Delegates updating of item at index to mapping factory.
         /// </summary>
         /// <param name="index">The index to update the item for.</param>
-        /// <returns>The collection changed args the update causes. Can be null.</returns>
-        protected virtual NotifyCollectionChangedEventArgs UpdateIndex(int index)
+        /// <param name="createEventArgOnUpdate">If a <see cref="NotifyCollectionChangedEventArgs"/> for the update should be created.</param>
+        /// <returns>
+        /// The <see cref="NotifyCollectionChangedEventArgs"/> update causes or null.
+        /// If the updated instance is the same reference null is returned.
+        /// </returns>
+        protected virtual NotifyCollectionChangedEventArgs UpdateAt(int index, bool createEventArgOnUpdate)
         {
-            throw new NotImplementedException();
-            //var old = this.mapped[index];
-            //var updated = this.factory.UpdateIndex(this.source.ElementAt(index), old, index);
-            //if (ReferenceEquals(updated, old))
-            //{
-            //    return null;
-            //}
+            var old = this.Tracker[index];
+            var updated = this.factory.UpdateIndex(this.Source.ElementAt(index), old, index);
+            if (ReferenceEquals(updated, old))
+            {
+                return null;
+            }
 
-            //this.mapped[index] = updated;
-            //return Diff.CreateReplaceEventArgs(updated, old, index);
+            this.Tracker[index] = updated;
+            return createEventArgOnUpdate
+                ? Diff.CreateReplaceEventArgs(updated, old, index)
+                : null;
         }
 
         /// <summary>
         /// Delegates updating of items at and above index to mapping factory.
+        /// This happens after an item is inserted, removed or moved.
         /// </summary>
-        /// <param name="index">The index to update the item for.</param>
+        /// <param name="from">The index to start update of the item for.</param>
+        /// <param name="to">The index to end update of the item for.</param>
         /// <returns>The collection changed args the update causes.</returns>
-        protected virtual List<NotifyCollectionChangedEventArgs> UpdateIndicesFrom(int index)
+        protected virtual List<NotifyCollectionChangedEventArgs> UpdateRange(int @from, int to)
         {
-            throw new NotImplementedException();
-            //var count = this.source.Count();
-            //var changes = new List<NotifyCollectionChangedEventArgs>();
-            //for (var i = index; i < count; i++)
-            //{
-            //    var change = this.UpdateIndex(i);
-            //    if (change != null)
-            //    {
-            //        changes.Add(change);
-            //    }
-            //}
+            var changes = new List<NotifyCollectionChangedEventArgs>();
+            for (var i = @from; i < Math.Min(this.Count, to + 1); i++)
+            {
+                var change = this.UpdateAt(i, changes.Count < 2);
+                if (change != null)
+                {
+                    changes.Add(change);
+                }
+            }
 
-            //return changes;
+            return changes;
         }
 
         /// <summary>
@@ -221,74 +216,72 @@
         /// <param name="changeCollection">The changes accumulated during the buffer time.</param>
         protected virtual void OnSourceCollectionChanged(IReadOnlyList<NotifyCollectionChangedEventArgs> changeCollection)
         {
-            throw new NotImplementedException();
-            //if (changeCollection == null || changeCollection.Count == 0)
-            //{
-            //    return;
-            //}
+            if (changeCollection == null || changeCollection.Count == 0)
+            {
+                return;
+            }
 
-            //if (changeCollection.Count > 1)
-            //{
-            //    this.Refresh();
-            //    return;
-            //}
+            if (changeCollection.Count > 1)
+            {
+                this.Refresh();
+                return;
+            }
 
-            //var singleChange = changeCollection[0];
-            //switch (singleChange.Action)
-            //{
-            //    case NotifyCollectionChangedAction.Add:
-            //        {
-            //            var index = singleChange.NewStartingIndex;
-            //            var value = this.GetOrCreateValue(this.source.ElementAt(index), index);
-            //            this.mapped.Insert(index, value);
-            //            var changes = this.UpdateIndicesFrom(index + 1);
-            //            var change = Diff.CreateAddEventArgs(value, index);
-            //            changes.Add(change);
-            //            this.Refresh(changes);
-            //            break;
-            //        }
+            var singleChange = changeCollection[0];
+            switch (singleChange.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    {
+                        var index = singleChange.NewStartingIndex;
+                        var value = this.GetOrCreateValue(this.Source.ElementAt(index), index);
+                        this.Tracker.Insert(index, value);
+                        var changes = this.UpdateRange(index + 1, this.Count - 1);
+                        changes.Add(Diff.CreateAddEventArgs(value, index));
+                        this.Notify(changes);
+                        break;
+                    }
 
-            //    case NotifyCollectionChangedAction.Remove:
-            //        {
-            //            var index = singleChange.OldStartingIndex;
-            //            var value = this.mapped[index];
-            //            this.mapped.RemoveAt(index);
-            //            var changes = this.UpdateIndicesFrom(index);
-            //            var change = Diff.CreateRemoveEventArgs(value, index);
-            //            changes.Add(change);
-            //            this.Refresh(changes);
-            //            break;
-            //        }
+                case NotifyCollectionChangedAction.Remove:
+                    {
+                        var index = singleChange.OldStartingIndex;
+                        var value = this.Tracker[index];
+                        this.Tracker.RemoveAt(index);
+                        var changes = this.UpdateRange(index, this.Count - 1);
+                        changes.Add(Diff.CreateRemoveEventArgs(value, index));
+                        this.Notify(changes);
+                        break;
+                    }
 
-            //    case NotifyCollectionChangedAction.Replace:
-            //        {
-            //            var index = singleChange.NewStartingIndex;
-            //            var value = this.GetOrCreateValue(this.source.ElementAt(index), index);
-            //            var oldValue = this.mapped[singleChange.OldStartingIndex];
-            //            this.mapped[index] = value;
-            //            var change = Diff.CreateReplaceEventArgs(value, oldValue, index);
-            //            this.Refresh(new[] { change });
-            //            break;
-            //        }
+                case NotifyCollectionChangedAction.Replace:
+                    {
+                        var index = singleChange.NewStartingIndex;
+                        var value = this.GetOrCreateValue(this.Source.ElementAt(index), index);
+                        var oldValue = this.Tracker[singleChange.OldStartingIndex];
+                        this.Tracker[index] = value;
+                        var change = Diff.CreateReplaceEventArgs(value, oldValue, index);
+                        this.Notify(change);
+                        break;
+                    }
 
-            //    case NotifyCollectionChangedAction.Move:
-            //        {
-            //            var value = this.mapped[singleChange.OldStartingIndex];
-            //            this.mapped.RemoveAt(singleChange.OldStartingIndex);
-            //            this.mapped.Insert(singleChange.NewStartingIndex, value);
-            //            this.UpdateIndex(singleChange.OldStartingIndex);
-            //            this.UpdateIndex(singleChange.NewStartingIndex);
-            //            var change = Diff.CreateMoveEventArgs(this.mapped[singleChange.NewStartingIndex], singleChange.NewStartingIndex, singleChange.OldStartingIndex);
-            //            this.Refresh(new[] { change });
-            //            break;
-            //        }
+                case NotifyCollectionChangedAction.Move:
+                    {
+                        var value = this.Tracker[singleChange.OldStartingIndex];
+                        this.Tracker.RemoveAt(singleChange.OldStartingIndex);
+                        this.Tracker.Insert(singleChange.NewStartingIndex, value);
+                        this.UpdateAt(singleChange.OldStartingIndex, false);
+                        this.UpdateAt(singleChange.NewStartingIndex, false);
+                        var changes = this.UpdateRange(Math.Min(singleChange.OldStartingIndex, singleChange.NewStartingIndex), Math.Min(singleChange.OldStartingIndex, singleChange.NewStartingIndex));
+                        changes.Add(Diff.CreateMoveEventArgs(value, singleChange.NewStartingIndex, singleChange.OldStartingIndex));
+                        this.Notify(changes);
+                        break;
+                    }
 
-            //    case NotifyCollectionChangedAction.Reset:
-            //        this.Refresh();
-            //        break;
-            //    default:
-            //        throw new ArgumentOutOfRangeException();
-            //}
+                case NotifyCollectionChangedAction.Reset:
+                    this.Refresh();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         /// <summary>

@@ -37,6 +37,29 @@ namespace Gu.Reactive.Tests.Collections
             }
         }
 
+        [Test]
+        public void UpdatesValueType()
+        {
+            var source = new ObservableCollection<double>();
+            using (var view = source.AsMappingView((x, i) => i + x, (x, i) => i + x))
+            {
+                source.Add(0.1);
+                CollectionAssert.AreEqual(new[] { 1.1 }, view);
+
+                source.Add(0.2);
+                CollectionAssert.AreEqual(new[] { 1.1, 2.2 }, view);
+
+                source.Move(1, 0);
+                CollectionAssert.AreEqual(new[] { 1.2, 2.1 }, view);
+
+                source.Clear();
+                CollectionAssert.IsEmpty(view);
+
+                source.Add(3);
+                CollectionAssert.AreEqual(new[] { 3.1 }, view);
+            }
+        }
+
         [TestCase(0)]
         [TestCase(1)]
         public void UpdatesOnRemoveTwoItems(int removeAt)

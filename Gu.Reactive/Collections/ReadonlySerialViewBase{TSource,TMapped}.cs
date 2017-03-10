@@ -52,7 +52,7 @@ namespace Gu.Reactive
         public int Count => this.ThrowIfDisposed(() => this.tracker.Count);
 
         /// <inheritdoc/>
-        object ICollection.SyncRoot => this.tracker;
+        object ICollection.SyncRoot => ((ICollection)this.tracker).SyncRoot;
 
         /// <inheritdoc/>
         bool ICollection.IsSynchronized => false;
@@ -132,7 +132,7 @@ namespace Gu.Reactive
         public virtual void Refresh()
         {
             this.ThrowIfDisposed();
-            lock (this.Source.SyncRootOrDefault(this.tracker))
+            lock (this.Source.SyncRootOrDefault(this.SyncRoot()))
             {
                 (this.Source as IRefreshAble)?.Refresh();
                 if (this.HasListeners)
@@ -230,12 +230,11 @@ namespace Gu.Reactive
         /// </summary>
         protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            lock (this.Source.SyncRootOrDefault(this.tracker))
+            lock (this.Source.SyncRootOrDefault(this.SyncRoot()))
             {
                 if (this.HasListeners)
                 {
-                    this.tracker.Refresh(this.mapper(this.Source ?? EmptySource), changes, this.OnPropertyChanged,
-                                         this.OnCollectionChanged);
+                    this.tracker.Refresh(this.mapper(this.Source ?? EmptySource), changes, this.OnPropertyChanged, this.OnCollectionChanged);
                 }
                 else
                 {
@@ -272,6 +271,64 @@ namespace Gu.Reactive
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Notify about the changes [PropertyChanged("Count"), PropertyChanged("Item[]", CollectionChanged].
+        /// Count is not signalled for move and replace.
+        ///  If the list has more than one change a reste notification is performed.
+        /// </summary>
+        protected virtual void Notify(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        {
+            if (changes == null ||
+                changes.Count == 0)
+            {
+                return;
+            }
+
+            if (changes.Count == 1)
+            {
+                var change = changes[0];
+                this.Notify(change);
+            }
+            else
+            {
+                this.Notify(CachedEventArgs.NotifyCollectionReset);
+            }
+        }
+
+        /// <summary>
+        /// Notify about the changes [PropertyChanged("Count"), PropertyChanged("Item[]", CollectionChanged].
+        /// Count is not signalled for move and replace.
+        /// </summary>
+        protected virtual void Notify(NotifyCollectionChangedEventArgs change)
+        {
+            if (change == null)
+            {
+                return;
+            }
+
+            switch (change.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                case NotifyCollectionChangedAction.Remove:
+                    this.OnPropertyChanged(CachedEventArgs.CountPropertyChanged);
+                    this.OnPropertyChanged(CachedEventArgs.IndexerPropertyChanged);
+                    this.OnCollectionChanged(change);
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                case NotifyCollectionChangedAction.Move:
+                    this.OnPropertyChanged(CachedEventArgs.IndexerPropertyChanged);
+                    this.OnCollectionChanged(change);
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    this.OnPropertyChanged(CachedEventArgs.CountPropertyChanged);
+                    this.OnPropertyChanged(CachedEventArgs.IndexerPropertyChanged);
+                    this.OnCollectionChanged(change);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

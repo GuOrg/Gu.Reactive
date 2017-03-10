@@ -35,7 +35,7 @@ namespace Gu.Reactive.Tests.Collections
         }
 
         [Test]
-        public void Updates()
+        public void UpdatesReferenceType()
         {
             var models = new ObservableCollection<Model>();
             using (var view = models.AsMappingView((x, i) => new Vm { Model = x, Index = i }))
@@ -49,6 +49,29 @@ namespace Gu.Reactive.Tests.Collections
                 CollectionAssert.IsEmpty(view);
                 models.Add(model);
                 Assert.AreEqual(1, view.Count);
+            }
+        }
+
+        [Test]
+        public void UpdatesValueType()
+        {
+            var source = new ObservableCollection<int>();
+            using (var view = source.AsMappingView(x => x * x))
+            {
+                source.Add(1);
+                CollectionAssert.AreEqual(new[] { 1 }, view);
+
+                source.Add(2);
+                CollectionAssert.AreEqual(new[] { 1, 4 }, view);
+
+                source.Move(1, 0);
+                CollectionAssert.AreEqual(new[] { 4, 1 }, view);
+
+                source.Clear();
+                CollectionAssert.IsEmpty(view);
+
+                source.Add(3);
+                CollectionAssert.AreEqual(new[] { 9 }, view);
             }
         }
 

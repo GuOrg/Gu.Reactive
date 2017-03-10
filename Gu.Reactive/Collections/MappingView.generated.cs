@@ -111,8 +111,6 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             params IObservable<object>[] triggers)
-            where TSource : class
-            where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
@@ -141,8 +139,6 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             IScheduler scheduler)
-            where TSource : class
-            where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
@@ -251,8 +247,6 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             params IObservable<object>[] triggers)
-            where TSource : class
-            where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
@@ -281,8 +275,6 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             IScheduler scheduler)
-            where TSource : class
-            where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
@@ -391,8 +383,6 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             params IObservable<object>[] triggers)
-            where TSource : class
-            where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
@@ -421,8 +411,6 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             IScheduler scheduler)
-            where TSource : class
-            where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
