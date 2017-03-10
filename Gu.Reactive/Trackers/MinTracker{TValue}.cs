@@ -49,7 +49,8 @@
             var current = this.Value;
             if (current == null)
             {
-                throw new InvalidOperationException();
+                this.Reset();
+                return;
             }
 
             if (Comparer<TValue>.Default.Compare(value, current.Value) == 0)
@@ -64,7 +65,8 @@
             var current = this.Value;
             if (current == null)
             {
-                throw new InvalidOperationException();
+                this.Reset();
+                return;
             }
 
             if (Comparer<TValue>.Default.Compare(oldValue, current.Value) == 0)
