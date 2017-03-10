@@ -5,7 +5,7 @@
     /// <summary>
     /// A factory for mapping values from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>
     /// </summary>
-    internal interface IMappingFactory<in TSource, out TResult> : IDisposable
+    internal interface IMappingFactory<in TSource, TResult> : IDisposable
     {
         /// <summary>
         /// True if this factory supports updating index.
@@ -20,6 +20,6 @@
         /// <summary>
         /// Update index for <paramref name="key"/>
         /// </summary>
-        TResult UpdateIndex(TSource key, int index);
+        TResult UpdateIndex(TSource key, TResult oldResult, int index);
     }
 }

@@ -185,9 +185,8 @@
         /// <returns>The collection changed args the update causes. Can be null.</returns>
         protected virtual NotifyCollectionChangedEventArgs UpdateIndex(int index)
         {
-            var key = this.source.ElementAt(index);
-            var updated = this.factory.UpdateIndex(key, index);
             var old = this.mapped[index];
+            var updated = this.factory.UpdateIndex(this.source.ElementAt(index), old, index);
             if (ReferenceEquals(updated, old))
             {
                 return null;

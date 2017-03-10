@@ -39,7 +39,7 @@
             {
                 if (this.CanUpdateIndex)
                 {
-                    return this.UpdateIndex(key, index);
+                    return this.UpdateIndex(key, (TResult)mapped, index);
                 }
 
                 return (TResult)mapped;
@@ -59,7 +59,7 @@
             return (TResult)mapped;
         }
 
-        public TResult UpdateIndex(TSource key, int index)
+        public TResult UpdateIndex(TSource key, TResult oldResult, int index)
         {
             if (this.indexUpdater == null)
             {

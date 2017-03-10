@@ -40,7 +40,7 @@
             return mapped;
         }
 
-        public TResult UpdateIndex(TSource key, int index)
+        public TResult UpdateIndex(TSource key, TResult oldResult, int index)
         {
             return this.GetOrCreateValue(key, index);
         }
