@@ -29,15 +29,15 @@
         {
         }
 
-        public TResult GetOrCreateValue(TSource key, int index) => this.selector(key, index);
+        public virtual TResult GetOrCreateValue(TSource key, int index) => this.selector(key, index);
 
         public virtual TResult UpdateIndex(TSource key, TResult oldResult, int index) => this.updater(oldResult, index);
-
-        private static TResult Id(TResult olResult, int index) => olResult;
 
         public virtual void Refresh(IEnumerable<TSource> source, IReadOnlyList<TResult> mapped)
         {
             // nop
         }
+
+        private static TResult Id(TResult olResult, int index) => olResult;
     }
 }

@@ -15,46 +15,21 @@ namespace Gu.Reactive
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
-    public abstract class ReadonlySerialViewBase<T> : IRefreshAble, IList, IReadOnlyList<T>, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
+    public abstract class ReadonlySerialViewBase<TSourceItem, TITem> : IRefreshAble, IList, IReadOnlyList<TITem>, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        private static readonly IReadOnlyList<T> Empty = new T[0];
-        private readonly CollectionSynchronizer<T> tracker;
+        private static readonly IReadOnlyList<TSourceItem> Empty = new TSourceItem[0];
+        private readonly CollectionSynchronizer<TITem> tracker = new CollectionSynchronizer<TITem>(Empty);
 
         private bool disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{T}"/> class.
         /// </summary>
-        protected ReadonlySerialViewBase()
-            : this(null, true, true)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{T}"/> class.
-        /// </summary>
-        protected ReadonlySerialViewBase(IEnumerable<T> source)
-            : this(source, true, true)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{T}"/> class.
-        /// </summary>
-        protected ReadonlySerialViewBase(bool isReadOnly, bool isFixedSize)
-            : this(null, isReadOnly, isFixedSize)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{T}"/> class.
-        /// </summary>
-        protected ReadonlySerialViewBase(IEnumerable<T> source, bool isReadOnly, bool isFixedSize)
+        protected ReadonlySerialViewBase(IEnumerable<TSourceItem> source, bool isReadOnly = true, bool isFixedSize = true)
         {
             this.IsReadOnly = isReadOnly;
             this.IsFixedSize = isFixedSize;
             this.Source = source ?? Empty;
-            this.tracker = new CollectionSynchronizer<T>(source ?? Empty);
         }
 
         /// <inheritdoc/>
@@ -86,10 +61,10 @@ namespace Gu.Reactive
         /// <summary>
         /// The source collection.
         /// </summary>
-        protected IEnumerable<T> Source { get; private set; }
+        protected IEnumerable<TSourceItem> Source { get; private set; }
 
         /// <inheritdoc/>
-        public T this[int index] => this.ThrowIfDisposed(() => this.tracker.Current[index]);
+        public TITem this[int index] => this.ThrowIfDisposed(() => this.tracker.Current[index]);
 
         /// <inheritdoc/>
         object IList.this[int index]
@@ -107,7 +82,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public IEnumerator<T> GetEnumerator() => this.ThrowIfDisposed(() => this.tracker.GetEnumerator());
+        public IEnumerator<TITem> GetEnumerator() => this.ThrowIfDisposed(() => this.tracker.GetEnumerator());
 
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
@@ -155,30 +130,25 @@ namespace Gu.Reactive
                     (this.Source as IRefreshAble)?.Refresh();
                     if (this.HasListeners)
                     {
-                        this.tracker.Reset(this.Source, this.OnPropertyChanged, this.OnCollectionChanged);
+                        this.tracker.Reset(this.GetItems(), this.OnPropertyChanged, this.OnCollectionChanged);
                     }
                     else
                     {
-                        this.tracker.Reset(this.Source);
+                        this.tracker.Reset(this.GetItems());
                     }
                 }
             }
         }
 
-        /// <summary>
-        /// Raise PropertyChanged event to any listeners.
-        /// Properties/methods modifying this <see cref="ReadonlySerialViewBase{T}"/> will raise
-        /// a property changed event through this virtual method.
-        /// </summary>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected IEnumerable<TITem> GetItems()
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            return this.Source;
         }
 
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
-        protected virtual void SetSource(IEnumerable<T> source)
+        protected virtual void SetSource(IEnumerable<TSourceItem> source)
         {
             this.SetSourceCore(source);
         }
@@ -186,7 +156,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
-        protected void SetSourceCore(IEnumerable<T> source)
+        protected void SetSourceCore(IEnumerable<TSourceItem> source)
         {
             this.ThrowIfDisposed();
             this.Source = source ?? Empty;
@@ -265,11 +235,11 @@ namespace Gu.Reactive
                 {
                     if (this.HasListeners)
                     {
-                        this.tracker.Refresh(this.Source, changes, this.OnPropertyChanged, this.OnCollectionChanged);
+                        this.tracker.Refresh(this.GetItems(), changes, this.OnPropertyChanged, this.OnCollectionChanged);
                     }
                     else
                     {
-                        this.tracker.Refresh(this.Source, changes);
+                        this.tracker.Refresh(this.GetItems(), changes);
                     }
                 }
             }
@@ -283,6 +253,16 @@ namespace Gu.Reactive
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             this.CollectionChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// Properties/methods modifying this <see cref="ReadonlySerialViewBase{T}"/> will raise
+        /// a property changed event through this virtual method.
+        /// </summary>
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

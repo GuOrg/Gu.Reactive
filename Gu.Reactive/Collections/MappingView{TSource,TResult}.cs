@@ -18,7 +18,7 @@
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
-    public class MappingView<TSource, TResult> : ReadonlySerialViewBase<TResult>, IReadOnlyObservableCollection<TResult>, IUpdater, IRefreshAble
+    public class MappingView<TSource, TResult> : ReadonlySerialViewBase<TResult>, IReadOnlyObservableCollection<TResult>, IUpdater
     {
         private readonly IEnumerable<TSource> source;
         private readonly CompositeDisposable updateSubscription = new CompositeDisposable();

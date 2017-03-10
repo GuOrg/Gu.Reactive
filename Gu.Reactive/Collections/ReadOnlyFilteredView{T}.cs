@@ -71,6 +71,7 @@
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, IScheduler scheduler, TimeSpan bufferTime, IReadOnlyList<IObservable<object>> triggers)
+            : base(source, true, true)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));

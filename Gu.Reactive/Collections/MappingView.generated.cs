@@ -26,7 +26,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
+            return new MappingView<TSource, TResult>(source, selector, null, triggers);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
+            return new MappingView<TSource, TResult>(source, selector, null, triggers);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
+            return new MappingView<TSource, TResult>(source, selector, null, triggers);
         }
 
         /// <summary>
@@ -206,7 +206,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
+            return new MappingView<TSource, TResult>(source, selector, null, triggers);
         }
 
         /// <summary>
@@ -306,7 +306,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
+            return new MappingView<TSource, TResult>(source, selector, null, triggers);
         }
 
         /// <summary>
@@ -346,7 +346,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, selector,  null, triggers);
+            return new MappingView<TSource, TResult>(source, selector, null, triggers);
         }
 
         /// <summary>

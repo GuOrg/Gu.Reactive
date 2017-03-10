@@ -3,16 +3,19 @@
     using System;
     using System.Collections.Generic;
 
-    internal class SimpleDisposingUpdatingFactory<TSource, TResult> : SimpleUpdatingFactory<TSource, TResult>
+    internal class TrackingUpdatingFactory<TSource, TResult> : SimpleUpdatingFactory<TSource, TResult>
     {
-        protected SimpleDisposingUpdatingFactory(Func<TSource, int, TResult> selector)
-            : base(selector)
-        {
-        }
+        private readonly Action<TResult> onRemove;
 
-        internal SimpleDisposingUpdatingFactory(Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater)
+        internal TrackingUpdatingFactory(Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, Action<TResult> onRemove)
             : base(selector, updater)
         {
+            this.onRemove = onRemove;
+        }
+
+        public override TResult GetOrCreateValue(TSource key, int index)
+        {
+            return base.GetOrCreateValue(key, index);
         }
 
         public override TResult UpdateIndex(TSource key, TResult oldResult, int index)
@@ -20,7 +23,7 @@
             var updated = base.UpdateIndex(key, oldResult, index);
             if (!ReferenceEquals(oldResult, updated))
             {
-                (oldResult as IDisposable)?.Dispose();
+                this.onRemove(oldResult);
             }
 
             return updated;
