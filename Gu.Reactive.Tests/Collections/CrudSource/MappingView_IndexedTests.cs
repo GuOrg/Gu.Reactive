@@ -41,7 +41,7 @@ namespace Gu.Reactive.Tests.Collections
         public void UpdatesValueType()
         {
             var source = new ObservableCollection<double>();
-            using (var view = source.AsMappingView((x, i) => i + x, (x, i) => i + x))
+            using (var view = source.AsMappingView((x, i) => i + 1 + x, (x, i) => i + 1 + x))
             {
                 source.Add(0.1);
                 CollectionAssert.AreEqual(new[] { 1.1 }, view);

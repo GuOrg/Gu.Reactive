@@ -178,7 +178,7 @@
 
         private void RemoveItems(IEnumerable<TItem> items)
         {
-            var set = SetPool<TItem>.Borrow();
+            var set = SetPool.Borrow<TItem>();
             set.UnionWith(items);
             set.ExceptWith(this.source ?? Enumerable.Empty<TItem>());
             foreach (var item in set)
@@ -195,7 +195,7 @@
             }
 
             set.Clear();
-            SetPool<TItem>.Return(set);
+            SetPool.Return(set);
         }
 
         private void SignalInitial(PropertyPathTracker<TItem, TProperty> tracker)

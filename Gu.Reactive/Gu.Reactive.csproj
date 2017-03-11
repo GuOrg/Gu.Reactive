@@ -38,8 +38,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\Mapping\IMappingFactory{TSource,TResult}.cs" />
-    <Compile Include="Collections\Mapping\MappingFactory.cs" />
+    <Compile Include="Collections\Mapping\IMapper{TSource,TResult}.cs" />
+    <Compile Include="Collections\Mapping\Mapper.cs" />
     <Compile Include="Collections\Mapping\CreatingCaching.cs" />
     <Compile Include="Collections\Mapping\CreatingRemoving.cs" />
     <Compile Include="Collections\Mapping\UpdatingRemoving.cs" />

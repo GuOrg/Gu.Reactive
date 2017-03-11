@@ -120,12 +120,12 @@
         }
 
         private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, TResult> selector, params IObservable<object>[] triggers)
-           : this(source, scheduler, MappingFactory.Create(selector), triggers)
+           : this(source, scheduler, Mapper.Create(selector), triggers)
         {
         }
 
         private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, params IObservable<object>[] triggers)
-            : this(source, scheduler, MappingFactory.Create(selector, updater), triggers)
+            : this(source, scheduler, Mapper.Create(selector, updater), triggers)
         {
         }
 
@@ -168,6 +168,11 @@
         /// </returns>
         protected virtual NotifyCollectionChangedEventArgs UpdateAt(int index, bool createEventArgOnUpdate)
         {
+            if (!this.factory.CanUpdateIndex)
+            {
+                return null;
+            }
+
             var old = this.Tracker[index];
             var updated = this.factory.UpdateIndex(this.Source.ElementAt(index), old, index);
             if (ReferenceEquals(updated, old))
@@ -190,6 +195,11 @@
         /// <returns>The collection changed args the update causes.</returns>
         protected virtual List<NotifyCollectionChangedEventArgs> UpdateRange(int @from, int to)
         {
+            if (!this.factory.CanUpdateIndex)
+            {
+                return new List<NotifyCollectionChangedEventArgs>();
+            }
+
             var changes = new List<NotifyCollectionChangedEventArgs>();
             for (var i = @from; i < Math.Min(this.Count, to + 1); i++)
             {
