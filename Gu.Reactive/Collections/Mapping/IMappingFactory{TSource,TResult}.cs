@@ -2,11 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
 
     /// <summary>
     /// A factory for mapping values from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>
     /// </summary>
-    internal interface IMappingFactory<in TSource, TResult> : IDisposable
+    internal interface IMapper<in TSource, TResult> : IDisposable
     {
         /// <summary>
         /// True if this factory supports updating index.
@@ -26,6 +27,6 @@
         /// <summary>
         /// Dispose old disposables or remove from cache.
         /// </summary>
-        void Refresh(IEnumerable<TSource> source, IReadOnlyList<TResult> mapped);
+        void Refresh(IEnumerable<TSource> source, IReadOnlyList<TResult> mapped, NotifyCollectionChangedEventArgs e);
     }
 }

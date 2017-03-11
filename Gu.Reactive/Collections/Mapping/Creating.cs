@@ -2,9 +2,9 @@
 {
     using System;
 
-    internal sealed class SimpleFactory<TSource, TResult> : SimpleUpdatingFactory<TSource, TResult>
+    internal sealed class Creating<TSource, TResult> : Updating<TSource, TResult>
     {
-        internal SimpleFactory(Func<TSource, TResult> selector)
+        internal Creating(Func<TSource, TResult> selector)
             : base((o, _) => selector(o))
         {
         }

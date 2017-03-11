@@ -38,14 +38,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\Internals\Mapping\IMappingFactory{TSource,TResult}.cs" />
-    <Compile Include="Collections\Internals\Mapping\MappingCache{TSource,TResult}.cs" />
-    <Compile Include="Collections\Internals\Mapping\MappingFactory.cs" />
-    <Compile Include="Collections\Internals\Mapping\MappingFactory{TSource,TResult}.cs" />
-    <Compile Include="Collections\Internals\Mapping\TrackingFactory.cs" />
-    <Compile Include="Collections\Internals\Mapping\TrackingUpdatingFactory.cs" />
-    <Compile Include="Collections\Internals\Mapping\SimpleFactory.cs" />
-    <Compile Include="Collections\Internals\Mapping\SimpleUpdatingFactory.cs" />
+    <Compile Include="Collections\Mapping\IMappingFactory{TSource,TResult}.cs" />
+    <Compile Include="Collections\Mapping\MappingFactory.cs" />
+    <Compile Include="Collections\Mapping\CreatingCaching.cs" />
+    <Compile Include="Collections\Mapping\CreatingRemoving.cs" />
+    <Compile Include="Collections\Mapping\UpdatingRemoving.cs" />
+    <Compile Include="Collections\Mapping\Creating.cs" />
+    <Compile Include="Collections\Mapping\Updating.cs" />
     <Compile Include="Collections\ScheduledCollection.cs" />
     <Compile Include="EventArgs\CachedEventArgs.cs" />
     <Compile Include="Collections\CollectionSynchronizer{T}.cs" />
@@ -67,6 +66,7 @@
     <Compile Include="Contracts\IObservableSet.cs" />
     <Compile Include="Collections\ObservableSet{T}.cs" />
     <Compile Include="Collections\ReadonlyIListView.cs" />
+    <Compile Include="Internals\SetPool.cs" />
     <Compile Include="Internals\ListExt.cs" />
     <Compile Include="Collections\ReadonlySerialViewBase{TSource,TMapped}.cs" />
     <Compile Include="Collections\Internals\ThrowHelper.cs" />
