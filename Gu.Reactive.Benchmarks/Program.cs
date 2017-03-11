@@ -17,7 +17,7 @@
 
         public static void Main()
         {
-            foreach (var summary in RunSingle<ObserveItemPropertyChanged>())
+            foreach (var summary in RunSingle<Caching>())
             {
                 CopyResult(summary.Title);
             }

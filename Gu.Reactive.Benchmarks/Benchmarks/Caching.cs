@@ -14,9 +14,35 @@
         private static readonly PropertyInfo Property = typeof(Fake).GetProperty("Next");
 
         [Benchmark(Baseline = true)]
+        public object NewSetPoolIdentitySet()
+        {
+            return new SetPool.IdentitySet<string>();
+        }
+
+        [Benchmark]
+        public object NewSetPoolBorrowReturn()
+        {
+            var set = SetPool.Borrow<string>();
+            SetPool.Return(set);
+            return set;
+        }
+
+        [Benchmark(Baseline = false)]
         public int StringGetHashCode()
         {
             return "x => x.Value".GetHashCode();
+        }
+
+        [Benchmark]
+        public Expression<Func<Fake, int>> OneLevelExpression()
+        {
+            return x => x.Value;
+        }
+
+        [Benchmark]
+        public Expression<Func<Fake, int>> TwoLevelExpression()
+        {
+            return x => x.Next.Value;
         }
 
         [Benchmark]

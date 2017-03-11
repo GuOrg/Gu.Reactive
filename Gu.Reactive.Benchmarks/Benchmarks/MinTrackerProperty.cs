@@ -6,21 +6,18 @@ namespace Gu.Reactive.Benchmarks
 
     using BenchmarkDotNet.Attributes;
 
-    public class MinTrackerProperty : IDisposable
+    public class MinTrackerProperty
     {
-        private ObservableCollection<Fake> fakes;
-        private MinTracker<int> tracker;
-        private MinTracker<int> changeTracker;
-        private bool disposed;
+        private readonly ObservableCollection<Fake> fakes = new ObservableCollection<Fake>();
 
         [Setup]
         public void SetupData()
         {
-            this.fakes = new ObservableCollection<Fake>(Enumerable.Range(-5, 10).Select(x => new Fake { Value = x }));
-            this.tracker?.Dispose();
-            this.tracker = this.fakes.TrackMin(x => x.Value, -1, false);
-            this.changeTracker?.Dispose();
-            this.changeTracker = this.fakes.TrackMin(x => x.Value, -1, true);
+            this.fakes.Clear();
+            for (int i = -5; i < 10; i++)
+            {
+                this.fakes.Add(new Fake { Value = i });
+            }
         }
 
         [Benchmark(Baseline = true)]
@@ -33,27 +30,21 @@ namespace Gu.Reactive.Benchmarks
         [Benchmark]
         public int? Tracker()
         {
-            this.fakes.Add(new Fake { Value = 5 });
-            return this.tracker.Value;
+            using (var tracker = this.fakes.TrackMin(x => x.Value, -1, false))
+            {
+                this.fakes.Add(new Fake { Value = 5 });
+                return tracker.Value;
+            }
         }
 
         [Benchmark]
         public int? TrackerChanges()
         {
-            this.fakes.Add(new Fake { Value = 5 });
-            return this.changeTracker.Value;
-        }
-
-        public void Dispose()
-        {
-            if (this.disposed)
+            using (var changeTracker = this.fakes.TrackMin(x => x.Value, -1, true))
             {
-                return;
+                this.fakes.Add(new Fake { Value = 5 });
+                return changeTracker.Value;
             }
-
-            this.disposed = true;
-            this.tracker?.Dispose();
-            this.changeTracker?.Dispose();
         }
     }
 }
