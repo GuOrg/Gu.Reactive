@@ -61,7 +61,7 @@
                 Cached cached;
                 if (this.cache.TryGetValue(source, out cached))
                 {
-                    if (cached.Decrement() != 0)
+                    if (cached.Decrement() > 0)
                     {
                         return;
                     }
@@ -184,7 +184,7 @@
                 return this.Item;
             }
 
-            internal int Decrement() => this.count--;
+            internal int Decrement() => --this.count;
         }
     }
 }

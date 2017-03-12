@@ -19,20 +19,11 @@
         }
 
         internal class IdentitySet<T> : HashSet<T>
+            where T : class
         {
             public IdentitySet()
                 : base(ObjectIdentityComparer<T>.Default)
             {
-            }
-
-            public T AddAndReturn(T item)
-            {
-                if (item != null)
-                {
-                    this.Add(item);
-                }
-
-                return item;
             }
         }
 

@@ -4,6 +4,7 @@
     using System.Runtime.CompilerServices;
 
     internal sealed class ObjectIdentityComparer<T> : IEqualityComparer<T>
+        where T : class
     {
         internal static readonly ObjectIdentityComparer<T> Default = new ObjectIdentityComparer<T>();
 

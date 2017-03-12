@@ -153,7 +153,7 @@ namespace Gu.Reactive.Tests.Collections
             }
         }
 
-        private class Model
+        public class Model
         {
             public Model(int value)
             {
@@ -163,6 +163,11 @@ namespace Gu.Reactive.Tests.Collections
             public int Value { get; }
 
             public int Index { get; set; }
+
+            public override string ToString()
+            {
+                return $"{nameof(Value)}: {Value}, {nameof(Index)}: {Index}";
+            }
         }
 
         private class Vm
