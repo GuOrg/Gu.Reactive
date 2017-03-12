@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Concurrent;
+    using System.Collections.Generic;
 
     using Gu.Reactive.Internals;
 
@@ -10,7 +11,10 @@
         where TResult : class
     {
         private readonly Func<TSource, TResult> selector;
-        private readonly ConcurrentDictionary<TSource, Cached> cache = new ConcurrentDictionary<TSource, Cached>(ObjectIdentityComparer<TSource>.Default);
+        private readonly Dictionary<TSource, Cached> cache = new Dictionary<TSource, Cached>(ObjectIdentityComparer<TSource>.Default);
+        private readonly Dictionary<TSource, Cached> transactionCache = new Dictionary<TSource, Cached>(ObjectIdentityComparer<TSource>.Default);
+
+        private bool isRefreshing;
 
         public Cache(Func<TSource, TResult> selector)
         {
@@ -21,7 +25,20 @@
 
         internal TResult GetOrCreate(TSource key)
         {
-            return this.cache.AddOrUpdate(key, this.Create, this.Update).Item;
+            if (this.isRefreshing)
+            {
+                return this.transactionCache.AddOrUpdate(key, this.RefreshCreate, this.Update).Item;
+            }
+
+            Cached cached;
+            if (this.cache.TryGetValue(key, out cached))
+            {
+                return cached.Increment();
+            }
+
+            cached = new Cached(this.selector(key));
+            this.cache.Add(key, cached);
+            return cached.Item;
         }
 
         internal void Remove(TSource source, TResult mapped)
@@ -64,15 +81,46 @@
             this.cache.Clear();
         }
 
-        private Cached Create(TSource source)
+        internal IDisposable RefreshTransaction()
         {
-            var result = new Cached(this.selector(source));
-            return result;
+            this.isRefreshing = true;
+            return new Transaction(this);
         }
 
-        private Cached Update(TSource source, Cached cached)
+        private void EndRefresh()
         {
-            return cached.Increment();
+            throw new NotImplementedException("Get removed if OnRemove != null");
+            this.cache.Clear();
+            foreach (var kvp in this.transactionCache)
+            {
+                this.cache.Add(kvp.Key, kvp.Value);
+            }
+
+            this.transactionCache.Clear();
+            this.isRefreshing = false;
+        }
+
+        private sealed class Transaction : IDisposable
+        {
+            private readonly Cache<TSource, TResult> cache;
+
+            private bool disposed;
+
+            public Transaction(Cache<TSource, TResult> cache)
+            {
+                this.cache = cache;
+            }
+
+            public void Dispose()
+            {
+                if (this.disposed)
+                {
+                    return;
+                }
+
+                this.disposed = true;
+                this.cache.EndRefresh();
+            }
         }
 
         private class Cached
@@ -86,10 +134,10 @@
                 this.count = 1;
             }
 
-            internal Cached Increment()
+            internal TResult Increment()
             {
                 this.count++;
-                return this;
+                return this.Item;
             }
 
             internal int Decrement() => this.count--;

@@ -33,7 +33,7 @@ namespace Gu.Reactive
 
         public IDisposable RefreshTransaction()
         {
-            throw new NotImplementedException();
+            return cache.RefreshTransaction();
         }
 
         /// <inheritdoc />
