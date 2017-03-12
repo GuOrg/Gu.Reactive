@@ -13,7 +13,7 @@ namespace Gu.Reactive.Tests.Collections
         public void Initializes()
         {
             var models = new ObservableCollection<Model>(new[] { new Model(1, -1), new Model(2, -1), });
-            using (var indexed = models.AsMappingView((x, i) => new Vm { Index = i, Model = x }))
+            using (var indexed = models.AsMappingView((x, i) => new Vm { Index = i, Model = x }, (x, i) => x))
             {
                 using (var indexedUpdating = models.AsMappingView((x, i) => new Vm { Index = i, Model = x }, (x, i) => x.UpdateIndex(i)))
                 {
@@ -65,7 +65,7 @@ namespace Gu.Reactive.Tests.Collections
         public void UpdatesReferenceType()
         {
             var models = new ObservableCollection<Model>();
-            using (var view = models.AsMappingView((x, i) => new Vm { Model = x, Index = i }))
+            using (var view = models.AsMappingView((x, i) => new Vm { Model = x, Index = i }, (x, i) => x))
             {
                 var model = new Model(1, -1);
                 models.Add(model);

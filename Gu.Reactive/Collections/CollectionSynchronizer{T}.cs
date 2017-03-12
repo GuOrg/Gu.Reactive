@@ -28,8 +28,8 @@
 
         /// <summary>
         /// Returns the index of the last occurrence of a given value in a range of
-        /// this list. The list is searched backwards, starting at the end 
-        /// and ending at the first element in the list. The elements of the list 
+        /// this list. The list is searched backwards, starting at the end
+        /// and ending at the first element in the list. The elements of the list
         /// are compared to the given value using the Object.Equals method.
         ///
         /// This method uses the Array.LastIndexOf method to perform the

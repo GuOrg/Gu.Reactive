@@ -9,7 +9,7 @@ namespace Gu.Reactive.Tests.Collections
 
     using NUnit.Framework;
 
-    public class MappingViewTests
+    public partial class MappingViewTests
     {
         [Test]
         public void InitializesValueType()
@@ -26,101 +26,10 @@ namespace Gu.Reactive.Tests.Collections
                     CollectionAssert.AreEqual(view, vmView.Select(x => x.Model));
                 }
 
-                using (var indexedView = view.AsMappingView((x, i) => new Vm { Model = x, Index = i }))
+                using (var indexedView = view.AsMappingView((x, i) => new Vm { Model = x, Index = i }, (x, i) => x))
                 {
                     CollectionAssert.AreEqual(view, indexedView.Select(x => x.Model));
                     CollectionAssert.AreEqual(Enumerable.Range(0, 9), indexedView.Select(x => x.Index));
-                }
-            }
-        }
-
-        [Test]
-        public void InitializesReferenceType()
-        {
-            var model1 = new Model(1);
-            var model2 = new Model(2);
-            var model3 = new Model(3);
-            var source = new ObservableCollection<Model>(
-                new[]
-                    {
-                        model1,
-                        model1,
-                        model1,
-                        model2,
-                        model2,
-                        model2,
-                        model3,
-                        model3,
-                        model3,
-                    });
-            using (var view = source.AsMappingView(x => new Vm { Model = x }))
-            {
-                Assert.AreSame(view[0], view[1]);
-                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-
-                using (var indexedView = view.AsMappingView((x, i) => new Vm { Model = x.Model, Index = i }))
-                {
-                    Assert.AreSame(indexedView[0], indexedView[1]);
-                    CollectionAssert.AreEqual(view.Select(x => x.Model), indexedView.Select(x => x.Model));
-                    CollectionAssert.AreEqual(Enumerable.Range(0, 9), indexedView.Select(x => x.Index));
-                }
-            }
-        }
-
-        [Test]
-        public void UpdatesReferenceType()
-        {
-            var source = new ObservableCollection<Model>();
-            using (var view = source.AsMappingView(x => new Vm { Model = x }))
-            {
-                var model = new Model(1);
-                source.Add(model);
-                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-
-                source.Clear();
-                CollectionAssert.IsEmpty(view);
-
-                source.Add(model);
-                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-            }
-        }
-
-        [Test]
-        public void ReferenceTypeRefresh()
-        {
-            var model1 = new Model(1);
-            var model2 = new Model(2);
-            var model3 = new Model(3);
-            var source = new ObservableBatchCollection<Model>(
-                new[]
-                    {
-                        model1,
-                        model1,
-                        model1,
-                        model2,
-                        model2,
-                        model2,
-                        model3,
-                        model3,
-                        model3,
-                    });
-            using (var view = source.AsMappingView(x => new Vm { Model = x }))
-            {
-                using (var expected = source.SubscribeAll())
-                {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        CollectionAssert.IsEmpty(actual);
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-
-                        source.AddRange(new[] { model1, model2, model2 });
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-                        CollectionAssert.AreEqual(expected, actual);
-
-                        source.Clear();
-                        CollectionAssert.IsEmpty(view);
-                        CollectionAssert.AreEqual(expected, actual);
-                    }
                 }
             }
         }
@@ -145,29 +54,6 @@ namespace Gu.Reactive.Tests.Collections
 
                 source.Add(3);
                 CollectionAssert.AreEqual(new[] { 9 }, view);
-            }
-        }
-
-        [Test]
-        public void CachesRefTypes()
-        {
-            var models = new ObservableCollection<Model>();
-            using (var view = models.AsMappingView(x => new Vm { Model = x }))
-            {
-                var model = new Model(1);
-                models.Add(model);
-                Assert.AreEqual(1, view.Count);
-
-                models.Add(model);
-                Assert.AreEqual(2, view.Count);
-                Assert.AreSame(view[0], view[1]);
-
-                var vm = view[0];
-                models.Clear();
-                CollectionAssert.IsEmpty(view);
-                models.Add(model);
-                Assert.AreSame(vm, view[0]);
-                Assert.AreSame(vm.Model, view[0].Model);
             }
         }
 
@@ -203,7 +89,7 @@ namespace Gu.Reactive.Tests.Collections
             {
                 using (var modelViewChanges = modelView.SubscribeAll())
                 {
-                    using (var indexedView = modelView.AsMappingView((x, i) => new Vm { Model = x, Index = i }))
+                    using (var indexedView = modelView.AsMappingView((x, i) => new Vm { Model = x, Index = i }, (x, i) => x))
                     {
                         using (var indexedChanges = indexedView.SubscribeAll())
                         {

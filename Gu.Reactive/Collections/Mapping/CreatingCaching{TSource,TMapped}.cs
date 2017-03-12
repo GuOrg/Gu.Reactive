@@ -6,21 +6,21 @@ namespace Gu.Reactive
         where TSource : class
         where TResult : class
     {
-        private readonly Cache<TSource, TResult> cache;
-
         private bool disposed;
 
         public CreatingCaching(Func<TSource, TResult> selector)
         {
-            this.cache = new Cache<TSource, TResult>(selector);
+            this.Cache = new Cache<TSource, TResult>(selector);
         }
 
         public bool CanUpdateIndex => false;
 
+        protected Cache<TSource, TResult> Cache { get; }
+
         public TResult GetOrCreate(TSource key, int index)
         {
             this.ThrowIfDisposed();
-            return this.cache.GetOrCreate(key);
+            return this.Cache.GetOrCreate(key);
         }
 
         /// <inheritdoc />
@@ -28,12 +28,12 @@ namespace Gu.Reactive
 
         public void Remove(TSource source, TResult mapped)
         {
-            this.cache.Remove(source, mapped);
+            this.Cache.Remove(source, mapped);
         }
 
         public IDisposable RefreshTransaction()
         {
-            return cache.RefreshTransaction();
+            return this.Cache.RefreshTransaction();
         }
 
         /// <inheritdoc />
@@ -52,7 +52,7 @@ namespace Gu.Reactive
             this.disposed = true;
             if (disposing)
             {
-                this.cache.Clear();
+                this.Cache.Clear();
             }
         }
 
