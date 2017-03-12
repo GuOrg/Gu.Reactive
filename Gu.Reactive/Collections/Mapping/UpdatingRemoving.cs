@@ -1,82 +1,63 @@
-﻿namespace Gu.Reactive
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using Gu.Reactive.Internals;
+﻿//namespace Gu.Reactive
+//{
+//    using System;
 
-    internal class UpdatingRemoving<TSource, TResult> : Updating<TSource, TResult>
-        where TSource : class
-        where TResult : class
-    {
-        private readonly Action<TResult> onRemove;
-        private readonly SetPool.IdentitySet<TResult> items = SetPool.Borrow<TResult>();
+//    using Gu.Reactive.Internals;
 
-        private bool disposed;
+//    internal class UpdatingRemoving<TSource, TResult> : Updating<TSource, TResult>
+//        where TSource : class
+//        where TResult : class
+//    {
+//        private readonly Action<TResult> onRemove;
+//        private readonly Cache<TSource, TResult> cache = new Cache<TSource, TResult>();
 
-        internal UpdatingRemoving(Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, Action<TResult> onRemove)
-            : base(selector, updater)
-        {
-            this.onRemove = onRemove;
-        }
+//        private bool disposed;
 
-        public override TResult GetOrCreateValue(TSource key, int index)
-        {
-            return this.items.AddAndReturn(base.GetOrCreateValue(key, index));
-        }
+//        internal UpdatingRemoving(Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, Action<TResult> onRemove)
+//            : base(selector, updater)
+//        {
+//            this.onRemove = onRemove;
+//            this.cache.OnRemove += onRemove;
+//        }
 
-        public override TResult UpdateIndex(TSource key, TResult oldResult, int index)
-        {
-            var updated = base.UpdateIndex(key, oldResult, index);
-            if (ReferenceEquals(oldResult, updated))
-            {
-                return updated;
-            }
+//        public override TResult GetOrCreate(TSource key, int index)
+//        {
+//            var result = base.GetOrCreate(key, index);
+//            return this.cache.GetOrCreate(key, k => );
+//        }
 
-            if (oldResult != null)
-            {
-                this.onRemove(oldResult);
-                this.items.Remove(oldResult);
-            }
+//        public override TResult Update(TSource key, TResult oldResult, int index)
+//        {
+//            var updated = base.Update(key, oldResult, index);
+//            if (ReferenceEquals(oldResult, updated))
+//            {
+//                return updated;
+//            }
 
-            return this.items.AddAndReturn(updated);
-        }
+//            if (oldResult != null)
+//            {
+//                throw new NotImplementedException("We don't know that this was the last instance.");
+//                this.onRemove(oldResult);
+//                this.items.Remove(oldResult);
+//            }
 
-        /// <inheritdoc/>
-        public override void Refresh(IEnumerable<TSource> source, IReadOnlyList<TResult> mapped, NotifyCollectionChangedEventArgs e)
-        {
-            this.ThrowIfDisposed();
-            var set = SetPool.Borrow<TResult>();
-            set.UnionWith(this.items);
-            set.ExceptWith(mapped);
-            foreach (var item in set)
-            {
-                this.onRemove(item);
-            }
+//            return this.items.AddAndReturn(updated);
+//        }
 
-            SetPool.Return(set);
-            base.Refresh(source, mapped, e);
-        }
+//        /// <inheritdoc/>
+//        protected override void Dispose(bool disposing)
+//        {
+//            if (this.disposed)
+//            {
+//                return;
+//            }
 
-        /// <inheritdoc/>
-        protected override void Dispose(bool disposing)
-        {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            this.disposed = true;
-            if (disposing)
-            {
-                foreach (var item in this.items)
-                {
-                    this.onRemove(item);
-                }
-
-                this.items.Clear();
-                SetPool.Return(this.items);
-            }
-        }
-    }
-}
+//            this.disposed = true;
+//            if (disposing)
+//            {
+//                this.cache.Clear();
+//                this.cache.OnRemove -= this.onRemove;
+//            }
+//        }
+//    }
+//}

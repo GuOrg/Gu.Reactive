@@ -131,7 +131,7 @@
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private MappingView(IEnumerable<TSource> source, IScheduler scheduler, IMapper<TSource, TResult> factory, params IObservable<object>[] triggers)
-            : base(source, s => s.Select(factory.GetOrCreateValue))
+            : base(source, s => s.Select(factory.GetOrCreate))
         {
             Ensure.NotNull(source as INotifyCollectionChanged, nameof(source));
             Ensure.NotNull(factory, nameof(factory));
@@ -152,10 +152,19 @@
         /// <inheritdoc/>
         object IUpdater.CurrentlyUpdatingSourceItem => null;
 
+        /// <inheritdoc/>
+        public override void Refresh()
+        {
+            using (this.factory.RefreshTransaction())
+            {
+                base.Refresh();
+            }
+        }
+
         /// <summary>
         /// Delegates creation to mapping factory.
         /// </summary>
-        protected virtual TResult GetOrCreateValue(TSource key, int index) => this.factory.GetOrCreateValue(key, index);
+        protected virtual TResult GetOrCreate(TSource key, int index) => this.factory.GetOrCreate(key, index);
 
         /// <summary>
         /// Delegates updating of item at index to mapping factory.
@@ -174,7 +183,7 @@
             }
 
             var old = this.Tracker[index];
-            var updated = this.factory.UpdateIndex(this.Source.ElementAt(index), old, index);
+            var updated = this.factory.Update(this.Source.ElementAt(index), old, index);
             if (ReferenceEquals(updated, old))
             {
                 return null;
@@ -193,7 +202,7 @@
         /// <param name="from">The index to start update of the item for.</param>
         /// <param name="to">The index to end update of the item for.</param>
         /// <returns>The collection changed args the update causes.</returns>
-        protected virtual List<NotifyCollectionChangedEventArgs> UpdateRange(int @from, int to)
+        protected virtual List<NotifyCollectionChangedEventArgs> UpdateRange(int from, int to)
         {
             if (!this.factory.CanUpdateIndex)
             {
@@ -201,7 +210,7 @@
             }
 
             var changes = new List<NotifyCollectionChangedEventArgs>();
-            for (var i = @from; i < Math.Min(this.Count, to + 1); i++)
+            for (var i = from; i < Math.Min(this.Count, to + 1); i++)
             {
                 var change = this.UpdateAt(i, changes.Count < 2);
                 if (change != null)
@@ -236,7 +245,7 @@
                 case NotifyCollectionChangedAction.Add:
                     {
                         var index = singleChange.NewStartingIndex;
-                        var value = this.GetOrCreateValue(this.Source.ElementAt(index), index);
+                        var value = this.GetOrCreate(this.Source.ElementAt(index), index);
                         this.Tracker.Insert(index, value);
                         var changes = this.UpdateRange(index + 1, this.Count - 1);
                         changes.Add(Diff.CreateAddEventArgs(value, index));
@@ -252,17 +261,19 @@
                         var changes = this.UpdateRange(index, this.Count - 1);
                         changes.Add(Diff.CreateRemoveEventArgs(value, index));
                         this.Notify(changes);
+                        this.factory.Remove(singleChange.SingleOldItem<TSource>(), value);
                         break;
                     }
 
                 case NotifyCollectionChangedAction.Replace:
                     {
                         var index = singleChange.NewStartingIndex;
-                        var value = this.GetOrCreateValue(this.Source.ElementAt(index), index);
+                        var value = this.GetOrCreate(this.Source.ElementAt(index), index);
                         var oldValue = this.Tracker[singleChange.OldStartingIndex];
                         this.Tracker[index] = value;
                         var change = Diff.CreateReplaceEventArgs(value, oldValue, index);
                         this.Notify(change);
+                        this.factory.Remove(singleChange.SingleOldItem<TSource>(), oldValue);
                         break;
                     }
 
@@ -287,12 +298,6 @@
             }
         }
 
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            this.factory.Refresh(this.Source, this.Tracker, e);
-            base.OnCollectionChanged(e);
-        }
-
         /// <summary>
         /// Disposes of a <see cref="MappingView{TSource,TResult}"/>.
         /// </summary>
@@ -309,10 +314,6 @@
             {
                 this.updateSubscription.Dispose();
                 this.factory.Dispose();
-                foreach (var item in this)
-                {
-                    (item as IDisposable)?.Dispose();
-                }
             }
 
             base.Dispose(disposing);

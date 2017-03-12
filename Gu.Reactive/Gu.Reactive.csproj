@@ -38,6 +38,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\Mapping\Cache.cs" />
     <Compile Include="Collections\Mapping\IMapper{TSource,TResult}.cs" />
     <Compile Include="Collections\Mapping\Mapper.cs" />
     <Compile Include="Collections\Mapping\CreatingCaching.cs" />

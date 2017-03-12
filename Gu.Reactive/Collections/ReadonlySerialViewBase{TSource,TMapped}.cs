@@ -178,6 +178,7 @@ namespace Gu.Reactive
             if (disposing)
             {
                 this.Source = EmptySource;
+                this.tracker.Clear();
             }
         }
 

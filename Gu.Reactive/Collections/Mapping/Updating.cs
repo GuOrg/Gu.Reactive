@@ -1,8 +1,7 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.Specialized;
+    using System.Reactive.Disposables;
 
     internal class Updating<TSource, TResult> : IMapper<TSource, TResult>
     {
@@ -23,14 +22,15 @@
 
         public virtual bool CanUpdateIndex => true;
 
-        public virtual TResult GetOrCreateValue(TSource key, int index) => this.selector(key, index);
+        public virtual TResult GetOrCreate(TSource key, int index) => this.selector(key, index);
 
-        public virtual TResult UpdateIndex(TSource key, TResult oldResult, int index) => this.updater(oldResult, index);
+        public virtual TResult Update(TSource key, TResult oldResult, int index) => this.updater(oldResult, index);
 
-        public virtual void Refresh(IEnumerable<TSource> source, IReadOnlyList<TResult> mapped, NotifyCollectionChangedEventArgs e)
+        void IMapper<TSource, TResult>.Remove(TSource source, TResult mapped)
         {
-            // nop
         }
+
+        IDisposable IMapper<TSource, TResult>.RefreshTransaction() => Disposable.Empty;
 
         public void Dispose()
         {
