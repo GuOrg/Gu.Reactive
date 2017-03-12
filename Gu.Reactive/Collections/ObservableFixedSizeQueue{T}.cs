@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Reactive.Concurrency;
+    using Gu.Reactive.Internals;
 
     /// <summary>
     /// A fixed size queue that notifies.
@@ -95,7 +96,7 @@
             var handler = this.CollectionChanged;
             if (handler != null)
             {
-                this.scheduler.Schedule(() => handler.Invoke(this, e));
+                this.scheduler.Schedule(() => handler.Invoke(this, e)).IgnoreReturnValue();
             }
         }
     }

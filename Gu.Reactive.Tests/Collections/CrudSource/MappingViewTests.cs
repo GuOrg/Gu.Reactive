@@ -83,6 +83,12 @@ namespace Gu.Reactive.Tests.Collections
             {
                 var model = new Model(1);
                 models.Add(model);
+                Assert.AreEqual(1, view.Count);
+
+                models.Add(model);
+                Assert.AreEqual(2, view.Count);
+                Assert.AreSame(view[0], view[1]);
+
                 var vm = view[0];
                 models.Clear();
                 CollectionAssert.IsEmpty(view);
@@ -99,6 +105,14 @@ namespace Gu.Reactive.Tests.Collections
             using (var view = models.AsMappingView(x => new Vm { Value = x }))
             {
                 models.Add(1);
+                Assert.AreEqual(1, view.Count);
+
+                models.Add(1);
+                Assert.AreEqual(2, view.Count);
+                Assert.AreNotSame(view[0], view[1]);
+                Assert.AreEqual(1, view[0].Value);
+                Assert.AreEqual(1, view[1].Value);
+
                 var vm = view[0];
                 models.Clear();
                 CollectionAssert.IsEmpty(view);

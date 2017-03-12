@@ -3,7 +3,7 @@ namespace Gu.Reactive.Tests.Collections
     using System;
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
-
+    using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
@@ -58,6 +58,89 @@ namespace Gu.Reactive.Tests.Collections
 
                 source.Add(0.3);
                 CollectionAssert.AreEqual(new[] { 1.3 }, view);
+            }
+        }
+
+        [Test]
+        public void UpdatesDifferentReferenceType()
+        {
+            var source = new ObservableCollection<Fake>();
+            using (var view = source.AsMappingView(
+                (x, i) => new Indexed<Fake>(x, i),
+                (x, i) =>
+                {
+                    x.Index = i;
+                    return x;
+                }))
+            {
+                source.Add(new Fake { Name = "1" });
+                Assert.AreEqual(1, view.Count);
+                Assert.AreSame(view[0].Item, source[0]);
+                Assert.AreEqual(view[0].Index, 0);
+
+                source.Add(new Fake { Name = "2" });
+                Assert.AreEqual(2, view.Count);
+                Assert.AreSame(view[0].Item, source[0]);
+                Assert.AreEqual(view[0].Index, 0);
+                Assert.AreSame(view[1].Item, source[1]);
+                Assert.AreEqual(view[1].Index, 1);
+
+                source.Move(1, 0);
+                Assert.AreEqual(2, view.Count);
+                Assert.AreSame(view[0].Item, source[0]);
+                Assert.AreEqual(view[0].Index, 0);
+                Assert.AreSame(view[1].Item, source[1]);
+                Assert.AreEqual(view[1].Index, 1);
+
+                source.Clear();
+                CollectionAssert.IsEmpty(view);
+
+                source.Add(new Fake { Name = "3" });
+                Assert.AreEqual(1, view.Count);
+                Assert.AreSame(view[0].Item, source[0]);
+                Assert.AreEqual(view[0].Index, 0);
+            }
+        }
+
+        [Test]
+        public void UpdatesSameReferenceType()
+        {
+            var source = new ObservableCollection<Fake>();
+            using (var view = source.AsMappingView(
+                (x, i) => new Indexed<Fake>(x, i),
+                (x, i) =>
+                {
+                    x.Index = i;
+                    return x;
+                }))
+            {
+                var fake = new Fake { Name = "1" };
+                source.Add(fake);
+                Assert.AreEqual(1, view.Count);
+                Assert.AreSame(view[0].Item, fake);
+                Assert.AreEqual(view[0].Index, 0);
+
+                source.Add(fake);
+                Assert.AreEqual(2, view.Count);
+                Assert.AreSame(view[0].Item, fake);
+                Assert.AreEqual(view[0].Index, 0);
+                Assert.AreSame(view[1].Item, fake);
+                Assert.AreEqual(view[1].Index, 1);
+
+                source.Move(1, 0);
+                Assert.AreEqual(2, view.Count);
+                Assert.AreSame(view[0].Item, fake);
+                Assert.AreEqual(view[0].Index, 0);
+                Assert.AreSame(view[1].Item, fake);
+                Assert.AreEqual(view[1].Index, 1);
+
+                source.Clear();
+                CollectionAssert.IsEmpty(view);
+
+                source.Add(fake);
+                Assert.AreEqual(1, view.Count);
+                Assert.AreSame(view[0].Item, fake);
+                Assert.AreEqual(view[0].Index, 0);
             }
         }
 
