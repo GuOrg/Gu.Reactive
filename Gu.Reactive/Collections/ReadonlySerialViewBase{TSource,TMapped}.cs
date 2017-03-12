@@ -5,7 +5,6 @@ namespace Gu.Reactive
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Internals;
@@ -255,7 +254,7 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Raise PropertyChanged event to any listeners.
-        /// Properties/methods modifying this <see cref="ReadonlySerialViewBase{T}"/> will raise
+        /// Properties/methods modifying this <see cref="ReadonlySerialViewBase{TSource,TMapped}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

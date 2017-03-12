@@ -1,6 +1,5 @@
 namespace Gu.Reactive.Benchmarks
 {
-    using System;
     using System.Collections.ObjectModel;
     using System.Linq;
 

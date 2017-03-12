@@ -8,6 +8,8 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// Helper for synchronizing two coillections and notifying about diffs.
     /// </summary>
@@ -48,7 +50,7 @@
         }
 
         /// <summary>
-        /// Set <see cref="Current"/> to <paramref name="updated"/> and notify about changes.
+        /// Set to <paramref name="updated"/> and notify about changes.
         /// </summary>
         /// <param name="updated">The updated collection.</param>
         /// <param name="propertyChanged">The <see cref="Action{PropertyChangedEventArgs}"/> to notify on.</param>
@@ -59,7 +61,7 @@
         }
 
         /// <summary>
-        /// Set <see cref="Current"/> to <paramref name="updated"/> and notify about changes.
+        /// Set to <paramref name="updated"/> and notify about changes.
         /// </summary>
         /// <param name="updated">The updated collection.</param>
         /// <param name="collectionChanges">The captured collection change args.</param>
@@ -130,35 +132,6 @@
             ((List<T>)this.Items).AddRange(this.temp);
             this.temp.Clear();
             return null;
-        }
-
-        private static class Exceptions
-        {
-            private static InvalidOperationException collectionWasModified;
-
-            public static InvalidOperationException CollectionWasModified => collectionWasModified ?? (collectionWasModified = Create());
-
-            private static InvalidOperationException Create()
-            {
-                var ints = new List<int>(1);
-                try
-                {
-                    using (var enumerator = ints.GetEnumerator())
-                    {
-                        // this increments version of the list.
-                        ints.Clear();
-
-                        // this throws collection was modified.
-                        enumerator.MoveNext();
-                    }
-                }
-                catch (InvalidOperationException e)
-                {
-                    return e;
-                }
-
-                throw new NotImplementedException("Should never get here.");
-            }
         }
     }
 }

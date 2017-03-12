@@ -66,6 +66,7 @@
     <Compile Include="Contracts\IObservableSet.cs" />
     <Compile Include="Collections\ObservableSet{T}.cs" />
     <Compile Include="Collections\ReadonlyIListView.cs" />
+    <Compile Include="Internals\Exceptions.cs" />
     <Compile Include="Internals\SetPool.cs" />
     <Compile Include="Internals\ListExt.cs" />
     <Compile Include="Collections\ReadonlySerialViewBase{TSource,TMapped}.cs" />
