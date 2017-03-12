@@ -418,6 +418,44 @@ namespace Gu.Reactive.Tests.Collections
                 }
             }
 
+            [Test]
+            public void Dispose()
+            {
+                var model1 = new Model(1);
+                var model2 = new Model(2);
+                var model3 = new Model(3);
+                var source = new ObservableCollection<Model>(
+                    new[]
+                        {
+                        model1,
+                        model1,
+                        model1,
+                        model2,
+                        model2,
+                        model2,
+                        model3,
+                        model3,
+                        model3,
+                        });
+                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                {
+                    var mocks = view.ToArray();
+                    foreach (var mock in mocks)
+                    {
+                        mock.Setup(x => x.Dispose());
+                    }
+
+                    view.Dispose();
+                    foreach (var mock in mocks)
+                    {
+                        mock.Verify(x => x.Dispose(), Times.Once);
+                    }
+
+                    Assert.Throws<ObjectDisposedException>(() => CollectionAssert.IsEmpty(view));
+                    Assert.Throws<ObjectDisposedException>(() => Assert.AreEqual(0, view.Count));
+                }
+            }
+
             private static Mock<IDisposableVm> CreateMock(Model model)
             {
                 var mock = new Mock<IDisposableVm>(MockBehavior.Strict);
