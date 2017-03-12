@@ -2,26 +2,28 @@
 {
     using System;
 
-    internal class CreatingRemoving<TSource, TResult> : CreatingCaching<TSource, TResult>
+    internal class CreatingCachingRemoving<TSource, TResult> : CreatingCaching<TSource, TResult>
         where TSource : class
         where TResult : class
     {
         private readonly Action<TResult> onRemove;
 
-        internal CreatingRemoving(Func<TSource, TResult> selector, Action<TResult> onRemove)
+        internal CreatingCachingRemoving(Func<TSource, TResult> selector, Action<TResult> onRemove)
             : base(selector)
         {
-            this.Cache.OnRemove += onRemove;
             this.onRemove = onRemove;
+            this.Cache.OnRemove += onRemove;
         }
 
         protected override void Dispose(bool disposing)
         {
-            base.Dispose(disposing);
             if (disposing)
             {
+                this.Cache.Clear();
                 this.Cache.OnRemove -= this.onRemove;
             }
+
+            base.Dispose(disposing);
         }
     }
 }

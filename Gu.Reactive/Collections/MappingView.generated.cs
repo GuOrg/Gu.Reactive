@@ -65,7 +65,6 @@
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             params IObservable<object>[] triggers)
-            where TSource : class
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
@@ -91,7 +90,6 @@
             Action<TResult> onRemove,
             IScheduler scheduler,
             params IObservable<object>[] triggers)
-            where TSource : class
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
@@ -211,7 +209,6 @@
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             params IObservable<object>[] triggers)
-            where TSource : class
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
@@ -237,7 +234,6 @@
             Action<TResult> onRemove,
             IScheduler scheduler,
             params IObservable<object>[] triggers)
-            where TSource : class
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
@@ -357,7 +353,6 @@
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             params IObservable<object>[] triggers)
-            where TSource : class
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
@@ -383,7 +378,6 @@
             Action<TResult> onRemove,
             IScheduler scheduler,
             params IObservable<object>[] triggers)
-            where TSource : class
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));

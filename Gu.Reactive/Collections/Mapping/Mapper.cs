@@ -1,6 +1,8 @@
 namespace Gu.Reactive
 {
     using System;
+    using System.Linq;
+    using System.Reflection;
 
     internal static class Mapper
     {
@@ -15,13 +17,6 @@ namespace Gu.Reactive
             return new Creating<TSource, TResult>(selector);
         }
 
-        private static IMapper<TSource, TResult> CreatingCaching<TSource, TResult>(Func<TSource, TResult> selector)
-        {
-            return (IMapper<TSource, TResult>)Activator.CreateInstance(
-                typeof(CreatingCaching<,>).MakeGenericType(typeof(TSource), typeof(TResult)),
-                new object[] { selector });
-        }
-
         internal static IMapper<TSource, TResult> Create<TSource, TResult>(
             Func<TSource, int, TResult> indexSelector,
             Func<TResult, int, TResult> indexUpdater)
@@ -33,9 +28,18 @@ namespace Gu.Reactive
             Func<TSource, TResult> selector,
             Action<TResult> onRemove)
             where TResult : class
-            where TSource : class
         {
-            return new CreatingRemoving<TSource, TResult>(selector, onRemove);
+            var type = typeof(TSource).IsValueType
+                ? typeof(CreatingRemoving<,>).MakeGenericType(typeof(TSource), typeof(TResult))
+                : typeof(CreatingCachingRemoving<,>).MakeGenericType(typeof(TSource), typeof(TResult));
+
+            var args = new object[] { selector, onRemove };
+            var constructor =  type.GetConstructor(
+                bindingAttr: BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.CreateInstance,
+                binder: null,
+                types: Type.GetTypeArray(args),
+                modifiers: null);
+            return (IMapper<TSource, TResult>) constructor.Invoke(args);
         }
 
         //internal static IMapper<TSource, TResult> Create<TSource, TResult>(
@@ -47,5 +51,12 @@ namespace Gu.Reactive
         //{
         //    return new UpdatingRemoving<TSource, TResult>(indexSelector, indexUpdater, onRemove);
         //}
+
+        private static IMapper<TSource, TResult> CreatingCaching<TSource, TResult>(Func<TSource, TResult> selector)
+        {
+            return (IMapper<TSource, TResult>)Activator.CreateInstance(
+                typeof(CreatingCaching<,>).MakeGenericType(typeof(TSource), typeof(TResult)),
+                new object[] { selector });
+        }
     }
 }

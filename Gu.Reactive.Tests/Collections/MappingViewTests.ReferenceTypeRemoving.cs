@@ -31,10 +31,15 @@ namespace Gu.Reactive.Tests.Collections
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     Assert.AreSame(view[0], view[1]);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
+
+                    foreach (var mock in view)
+                    {
+                        mock.Setup(x => x.Dispose());
+                    }
                 }
             }
 
@@ -42,7 +47,7 @@ namespace Gu.Reactive.Tests.Collections
             public void Updates()
             {
                 var source = new ObservableCollection<Model>();
-                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     var model = new Model(1);
                     source.Add(model);
@@ -57,6 +62,11 @@ namespace Gu.Reactive.Tests.Collections
 
                     source.Add(model);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
+
+                    foreach (var toDispose in view)
+                    {
+                        toDispose.Setup(x => x.Dispose());
+                    }
                 }
             }
 
@@ -79,7 +89,7 @@ namespace Gu.Reactive.Tests.Collections
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var expected = source.SubscribeAll())
                     {
@@ -114,7 +124,7 @@ namespace Gu.Reactive.Tests.Collections
             public void Caches()
             {
                 var source = new ObservableCollection<Model>();
-                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     var model = new Model(1);
                     source.Add(model);
@@ -138,11 +148,10 @@ namespace Gu.Reactive.Tests.Collections
                         mock.Verify(x => x.Dispose(), Times.Once);
                     }
 
-                    source.Clear();
-                    CollectionAssert.IsEmpty(view);
                     source.Add(model);
                     Assert.AreNotSame(vm, view[0]);
                     Assert.AreSame(vm.Object.Model, view[0].Object.Model);
+                    view[0].Setup(x => x.Dispose());
                 }
             }
 
@@ -166,7 +175,7 @@ namespace Gu.Reactive.Tests.Collections
                         model3,
                         });
 
-                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
 
@@ -199,7 +208,7 @@ namespace Gu.Reactive.Tests.Collections
             public void Add()
             {
                 var source = new ObservableCollection<Model>();
-                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var actual = view.SubscribeAll())
                     {
@@ -233,6 +242,11 @@ namespace Gu.Reactive.Tests.Collections
                             Diff.CreateAddEventArgs(view[2], 2)
                         });
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                        foreach (var mock in view)
+                        {
+                            mock.Setup(x => x.Dispose());
+                        }
                     }
                 }
             }
@@ -256,7 +270,7 @@ namespace Gu.Reactive.Tests.Collections
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var actual = view.SubscribeAll())
                     {
@@ -294,6 +308,11 @@ namespace Gu.Reactive.Tests.Collections
                             Diff.CreateRemoveEventArgs(mock, 0)
                         });
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                        foreach (var toDispose in view)
+                        {
+                            toDispose.Setup(x => x.Dispose());
+                        }
                     }
                 }
             }
@@ -317,7 +336,7 @@ namespace Gu.Reactive.Tests.Collections
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var actual = view.SubscribeAll())
                     {
@@ -331,6 +350,11 @@ namespace Gu.Reactive.Tests.Collections
                             Diff.CreateReplaceEventArgs(@new, old, 0)
                         };
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                        foreach (var mock in view)
+                        {
+                            mock.Setup(x => x.Dispose());
+                        }
                     }
                 }
             }
@@ -354,7 +378,7 @@ namespace Gu.Reactive.Tests.Collections
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var actual = view.SubscribeAll())
                     {
@@ -366,6 +390,11 @@ namespace Gu.Reactive.Tests.Collections
                             Diff.CreateMoveEventArgs(view[4], 4, 0)
                         };
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
+
+                    foreach (var mock in view)
+                    {
+                        mock.Setup(x => x.Dispose());
                     }
                 }
             }
@@ -389,7 +418,7 @@ namespace Gu.Reactive.Tests.Collections
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var actual = view.SubscribeAll())
                     {
@@ -437,7 +466,7 @@ namespace Gu.Reactive.Tests.Collections
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(CreateMock, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     var mocks = view.ToArray();
                     foreach (var mock in mocks)
@@ -456,7 +485,7 @@ namespace Gu.Reactive.Tests.Collections
                 }
             }
 
-            private static Mock<IDisposableVm> CreateMock(Model model)
+            private static Mock<IDisposableVm> CreateStrictMock(Model model)
             {
                 var mock = new Mock<IDisposableVm>(MockBehavior.Strict);
                 mock.SetupGet(x => x.Model)

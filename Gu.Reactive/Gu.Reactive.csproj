@@ -39,10 +39,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Mapping\Cache{TSource,TMapped}.cs" />
+    <Compile Include="Collections\Mapping\CreatingRemoving.cs" />
     <Compile Include="Collections\Mapping\IMapper{TSource,TResult}.cs" />
     <Compile Include="Collections\Mapping\Mapper.cs" />
     <Compile Include="Collections\Mapping\CreatingCaching{TSource,TMapped}.cs" />
-    <Compile Include="Collections\Mapping\CreatingRemoving{TSource,TMapped}.cs" />
+    <Compile Include="Collections\Mapping\CreatingCachingRemoving{TSource,TMapped}.cs" />
     <Compile Include="Collections\Mapping\UpdatingRemoving{TSource,TMapped}.cs" />
     <Compile Include="Collections\Mapping\Creating{TSource,TMapped}.cs" />
     <Compile Include="Collections\Mapping\Updating{TSource,TMapped}.cs" />
