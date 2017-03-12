@@ -1,5 +1,6 @@
 namespace Gu.Reactive.Tests.Collections
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.Diagnostics.CodeAnalysis;
 
@@ -41,7 +42,7 @@ namespace Gu.Reactive.Tests.Collections
         public void UpdatesValueType()
         {
             var source = new ObservableCollection<double>();
-            using (var view = source.AsMappingView((x, i) => i + 1 + x, (x, i) => i + 1 + x))
+            using (var view = source.AsMappingView((x, i) => i + 1 + x, (x, i) => i + 1 + Math.Round(x - (int)x, 1)))
             {
                 source.Add(0.1);
                 CollectionAssert.AreEqual(new[] { 1.1 }, view);
@@ -55,8 +56,8 @@ namespace Gu.Reactive.Tests.Collections
                 source.Clear();
                 CollectionAssert.IsEmpty(view);
 
-                source.Add(3);
-                CollectionAssert.AreEqual(new[] { 3.1 }, view);
+                source.Add(0.3);
+                CollectionAssert.AreEqual(new[] { 1.3 }, view);
             }
         }
 

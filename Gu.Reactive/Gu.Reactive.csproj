@@ -132,6 +132,8 @@
     <Compile Include="Internals\PropertyTracker\TrackedPropertyChangedEventHandler.cs" />
     <Compile Include="Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
+    <Compile Include="Reflection\Getter\IdentityGetter.cs" />
+    <Compile Include="Reflection\Getter\IGetter.cs" />
     <Compile Include="Reflection\Getter\IGetter{TValue}.cs" />
     <Compile Include="SourceAndValue.cs" />
     <Compile Include="SourceAndValue{TSource,TValue}.cs" />
@@ -150,7 +152,7 @@
     <Compile Include="Reflection\Getter\ClassGetter{TSource,TValue}.cs" />
     <Compile Include="Reflection\Getter\Getter.cs" />
     <Compile Include="Reflection\Getter\Getter{TSource,TValue}.cs" />
-    <Compile Include="Reflection\Getter\IGetter.cs" />
+    <Compile Include="Reflection\Getter\IGetter{TSource,TValue}.cs" />
     <Compile Include="Reflection\Getter\StructGetter{TSource,TValue}.cs" />
     <Compile Include="Internals\PropertyPath\IPropertyPath.cs" />
     <Compile Include="Maybe.cs" />

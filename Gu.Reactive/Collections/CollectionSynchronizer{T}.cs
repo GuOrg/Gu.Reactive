@@ -1,16 +1,12 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// Helper for synchronizing two coillections and notifying about diffs.
@@ -43,7 +39,7 @@
         }
 
         /// <summary>
-        /// Set <see cref="Current"/> to <paramref name="updated"/> and notify about changes.
+        /// Set this to <paramref name="updated"/> and notify about changes.
         /// </summary>
         /// <param name="updated">The updated collection.</param>
         public void Reset(IEnumerable<T> updated)
@@ -105,8 +101,8 @@
 
         private NotifyCollectionChangedEventArgs Update(IEnumerable<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges, Action<PropertyChangedEventArgs> propertyChanged, Action<NotifyCollectionChangedEventArgs> collectionChanged)
         {
-            const int retries = 5;
-            for (var i = 1; i <= retries; i++)
+            var retry = 0;
+            while (true)
             {
                 this.temp.Clear();
                 try
@@ -114,12 +110,10 @@
                     this.temp.AddRange(updated);
                     break;
                 }
-                catch (InvalidOperationException e) when (e.Message == Exceptions.CollectionWasModified.Message)
+                catch (InvalidOperationException e) when (e.Message == Exceptions.CollectionWasModified.Message &&
+                                                          retry < 5)
                 {
-                    if (i >= retries)
-                    {
-                        throw;
-                    }
+                    retry++;
                 }
             }
 
