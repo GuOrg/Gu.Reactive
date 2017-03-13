@@ -1,6 +1,7 @@
 namespace Gu.Reactive
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Threading;
 
@@ -11,7 +12,6 @@ namespace Gu.Reactive
     {
         private readonly Dictionary<T, int> cache = new Dictionary<T, int>(ObjectIdentityComparer<T>.Default);
         private readonly Dictionary<T, int> transactionCache = new Dictionary<T, int>(ObjectIdentityComparer<T>.Default);
-        private readonly object gate = new object();
 
         private bool isRefreshing;
 
@@ -21,9 +21,11 @@ namespace Gu.Reactive
 
         public event Action<T> OnRemove;
 
+        private object Gate => ((ICollection)this.cache).SyncRoot;
+
         public void Clear()
         {
-            lock (this.gate)
+            lock (this.Gate)
             {
                 var handler = this.OnRemove;
                 if (handler != null)
@@ -40,7 +42,7 @@ namespace Gu.Reactive
 
         public void Decrement(T mapped)
         {
-            lock (this.gate)
+            lock (this.Gate)
             {
                 this.cache[mapped]--;
                 if (this.cache[mapped] <= 0)
@@ -53,7 +55,7 @@ namespace Gu.Reactive
 
         public T Increment(T item)
         {
-            lock (this.gate)
+            lock (this.Gate)
             {
                 var currentCache = this.isRefreshing
                                        ? this.transactionCache
@@ -73,7 +75,7 @@ namespace Gu.Reactive
 
         internal IDisposable RefreshTransaction()
         {
-            Monitor.Enter(this.gate);
+            Monitor.Enter(this.Gate);
             this.isRefreshing = true;
             return new Transaction(this);
         }
@@ -100,7 +102,7 @@ namespace Gu.Reactive
 
             this.transactionCache.Clear();
             this.isRefreshing = false;
-            Monitor.Exit(this.gate);
+            Monitor.Exit(this.Gate);
         }
 
         private sealed class Transaction : IDisposable
