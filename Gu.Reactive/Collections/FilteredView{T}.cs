@@ -176,15 +176,11 @@
                 {
                     case NotifyCollectionChangedAction.Add:
                         {
-                            if (!e.IsSingleNewItem())
+                            if (e.TryGetSingleNewItem(out T item) &&
+                                !currentFilter(item))
                             {
-                                break;
-                            }
-
-                            var newItem = e.SingleNewItem<T>();
-                            if (!currentFilter(newItem))
-                            {
-                                return; // added item that is not visible
+                                // added item that is not visible
+                                return; 
                             }
 
                             break;
@@ -192,15 +188,11 @@
 
                     case NotifyCollectionChangedAction.Remove:
                         {
-                            if (!e.IsSingleOldItem())
+                            if (e.TryGetSingleOldItem(out T item) &&
+                                !currentFilter(item))
                             {
-                                break;
-                            }
-
-                            var item = e.SingleOldItem<T>();
-                            if (!currentFilter(item))
-                            {
-                                return; // removed item that is not visible
+                                // removed item that is not visible
+                                return; 
                             }
 
                             break;
@@ -208,14 +200,10 @@
 
                     case NotifyCollectionChangedAction.Replace:
                         {
-                            if (!(e.IsSingleNewItem() && e.IsSingleOldItem()))
-                            {
-                                break;
-                            }
-
-                            var newItem = e.SingleNewItem<T>();
-                            var oldItem = e.SingleOldItem<T>();
-                            if (!(currentFilter(newItem) || currentFilter(oldItem)))
+                            if (e.TryGetSingleNewItem(out T newItem) &&
+                                !currentFilter(newItem) &&
+                                e.TryGetSingleOldItem(out T oldItem) &&
+                                !currentFilter(oldItem))
                             {
                                 return; // replaced item that is not visible
                             }
@@ -225,15 +213,11 @@
 
                     case NotifyCollectionChangedAction.Move:
                         {
-                            if (!e.IsSingleNewItem())
+                            if (e.TryGetSingleNewItem(out T item) &&
+                                !currentFilter(item))
                             {
-                                break;
-                            }
-
-                            var newItem = e.SingleNewItem<T>();
-                            if (!currentFilter(newItem))
-                            {
-                                return; // moved item that is not visible
+                                // added item that is not visible
+                                return;
                             }
 
                             break;

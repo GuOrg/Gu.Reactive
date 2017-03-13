@@ -19,7 +19,6 @@ namespace Gu.Reactive
 
         private readonly Func<IEnumerable<TSourceItem>, IEnumerable<TITem>> mapper;
         private readonly CollectionSynchronizer<TITem> tracker;
-
         private bool disposed;
 
         /// <summary>

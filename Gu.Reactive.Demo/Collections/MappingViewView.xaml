@@ -40,7 +40,7 @@
                     Content="Add to source" />
             
             <Button Grid.Column="1"
-                    Command="{Binding AddOneToSourceCommand}"
+                    Command="{Binding AddTenToSourceCommand}"
                     Content="Add ten to source" />
             
             <Button Grid.Column="2"

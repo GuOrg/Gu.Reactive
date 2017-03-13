@@ -1,6 +1,5 @@
 ﻿namespace Gu.Reactive
 {
-    using System;
     using System.Collections.Specialized;
 
     /// <summary>
@@ -8,34 +7,30 @@
     /// </summary>
     public static class NotifyCollectionChangedEventArgsExt
     {
-        internal static bool IsSingleNewItem(this NotifyCollectionChangedEventArgs e)
+        internal static bool TryGetSingleNewItem<T>(this NotifyCollectionChangedEventArgs e, out T result)
         {
-            return e?.NewItems?.Count == 1;
-        }
-
-        internal static T SingleNewItem<T>(this NotifyCollectionChangedEventArgs e)
-        {
-            if (!e.IsSingleNewItem())
+            if (e?.NewItems?.Count == 1 &&
+                e.NewItems[0] is T)
             {
-                throw new InvalidOperationException("Expected single new item");
+                result = (T) e.NewItems[0];
+                return true;
             }
 
-            return (T)e.NewItems[0];
+            result = default(T);
+            return false;
         }
 
-        internal static bool IsSingleOldItem(this NotifyCollectionChangedEventArgs e)
+        internal static bool TryGetSingleOldItem<T>(this NotifyCollectionChangedEventArgs e, out T result)
         {
-            return e?.OldItems?.Count == 1;
-        }
-
-        internal static T SingleOldItem<T>(this NotifyCollectionChangedEventArgs e)
-        {
-            if (!e.IsSingleOldItem())
+            if (e?.OldItems?.Count == 1 &&
+                e.OldItems[0] is T)
             {
-                throw new InvalidOperationException("Expected single old item");
+                result = (T)e.OldItems[0];
+                return true;
             }
 
-            return (T)e.OldItems[0];
+            result = default(T);
+            return false;
         }
 
         /// <summary>

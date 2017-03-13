@@ -35,18 +35,15 @@
                                 o.OnNext(e);
                                 return;
                             }
-                            var newItem = e.IsSingleNewItem()
-                                              ? e.SingleNewItem<object>()
-                                              : null;
-                            if (ReferenceEquals(isUpdatingSourceItem, newItem))
+
+                            if (e.TryGetSingleNewItem(out object newItem) &&
+                                ReferenceEquals(isUpdatingSourceItem, newItem))
                             {
                                 return;
                             }
 
-                            var oldItem = e.IsSingleOldItem()
-                                              ? e.SingleOldItem<object>()
-                                              : null;
-                            if (ReferenceEquals(isUpdatingSourceItem, oldItem))
+                            if (e.TryGetSingleOldItem(out object oldItem) && 
+                                ReferenceEquals(isUpdatingSourceItem, oldItem))
                             {
                                 return;
                             }

@@ -244,8 +244,13 @@
             {
                 case NotifyCollectionChangedAction.Add:
                     {
+                        if (!singleChange.TryGetSingleNewItem(out TSource newSource))
+                        {
+                            goto case NotifyCollectionChangedAction.Reset;
+                        }
+
                         var index = singleChange.NewStartingIndex;
-                        var value = this.GetOrCreate(this.Source.ElementAt(index), index);
+                        var value = this.GetOrCreate(newSource, index);
                         this.Tracker.Insert(index, value);
                         var changes = this.UpdateRange(index + 1, this.Count - 1);
                         changes.Add(Diff.CreateAddEventArgs(value, index));
@@ -255,25 +260,40 @@
 
                 case NotifyCollectionChangedAction.Remove:
                     {
+                        if (!singleChange.TryGetSingleOldItem(out TSource oldSource))
+                        {
+                            goto case NotifyCollectionChangedAction.Reset;
+                        }
+
                         var index = singleChange.OldStartingIndex;
                         var value = this.Tracker[index];
                         this.Tracker.RemoveAt(index);
                         var changes = this.UpdateRange(index, this.Count - 1);
                         changes.Add(Diff.CreateRemoveEventArgs(value, index));
                         this.Notify(changes);
-                        this.factory.Remove(singleChange.SingleOldItem<TSource>(), value);
+                        this.factory.Remove(oldSource, value);
                         break;
                     }
 
                 case NotifyCollectionChangedAction.Replace:
                     {
+                        if (!singleChange.TryGetSingleNewItem(out TSource newSource))
+                        {
+                            goto case NotifyCollectionChangedAction.Reset;
+                        }
+
+                        if (!singleChange.TryGetSingleOldItem(out TSource oldSource))
+                        {
+                            goto case NotifyCollectionChangedAction.Reset;
+                        }
+
                         var index = singleChange.NewStartingIndex;
-                        var value = this.GetOrCreate(this.Source.ElementAt(index), index);
+                        var value = this.GetOrCreate(newSource, index);
                         var oldValue = this.Tracker[singleChange.OldStartingIndex];
                         this.Tracker[index] = value;
                         var change = Diff.CreateReplaceEventArgs(value, oldValue, index);
                         this.Notify(change);
-                        this.factory.Remove(singleChange.SingleOldItem<TSource>(), oldValue);
+                        this.factory.Remove(oldSource, oldValue);
                         break;
                     }
 

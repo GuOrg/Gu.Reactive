@@ -124,10 +124,10 @@
             {
                 case NotifyCollectionChangedAction.Add:
                     {
-                        if (this.Source.Count > 1 && e.IsSingleNewItem())
+                        if (this.Source.Count > 1 &&
+                            e.TryGetSingleNewItem(out TValue item))
                         {
-                            var newValue = e.SingleNewItem<TValue>();
-                            this.OnAdd(newValue);
+                            this.OnAdd(item);
                         }
                         else
                         {
@@ -139,10 +139,9 @@
 
                 case NotifyCollectionChangedAction.Remove:
                     {
-                        if (e.IsSingleOldItem())
+                        if (e.TryGetSingleOldItem(out TValue item))
                         {
-                            var oldValue = e.SingleOldItem<TValue>();
-                            this.OnRemove(oldValue);
+                            this.OnRemove(item);
                         }
                         else
                         {
@@ -154,10 +153,9 @@
 
                 case NotifyCollectionChangedAction.Replace:
                     {
-                        if (e.IsSingleOldItem() && e.IsSingleOldItem())
+                        if (e.TryGetSingleNewItem(out TValue newValue) &&
+                            e.TryGetSingleOldItem(out TValue oldValue))
                         {
-                            var oldValue = e.SingleOldItem<TValue>();
-                            var newValue = e.SingleNewItem<TValue>();
                             this.OnReplace(oldValue, newValue);
                         }
                         else

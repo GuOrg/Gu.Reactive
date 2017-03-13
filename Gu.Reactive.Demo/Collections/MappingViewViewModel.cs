@@ -21,32 +21,42 @@
         {
             this.Ints = this.source.AsDispatchingView();
 
-            this.FilteredMappedInts = this.source.AsReadOnlyFilteredView(x => x % 2 == 0).AsMappingView(x => new MappedVm { Value = x }, WpfSchedulers.Dispatcher);
-            this.MappedInts = this.source.AsMappingView(x => new MappedVm { Value = x }, WpfSchedulers.Dispatcher);
-            this.MappedIndexedInts = this.source.AsMappingView(
-                (x, i) => new MappedVm { Value = x, Index = i },
-                (x, i) =>
-                {
-                    x.Index = i;
-                    return x;
-                },
+            this.FilteredMappedInts = this.source.AsReadOnlyFilteredView(x => x % 2 == 0)
+                                          .AsMappingView(
+                                              x => new MappedVm { Value = x },
+                                              WpfSchedulers.Dispatcher);
+
+            this.MappedInts = this.source.AsMappingView(
+                x => new MappedVm { Value = x },
                 WpfSchedulers.Dispatcher);
 
-            this.FilteredMappedMapped = this.MappedInts.AsReadOnlyFilteredView(x => x.Value % 2 == 0)
-                                             .AsMappingView(x => new MappedVm { Value = x.Value * 2 }, WpfSchedulers.Dispatcher);
+            this.MappedIndexedInts = this.source.AsMappingView(
+                (x, i) => new MappedVm { Value = x, Index = i },
+                (x, i) => x.UpdateIndex(i),
+                WpfSchedulers.Dispatcher);
+
+            this.FilteredMappedMapped = this.MappedInts
+                                            .AsReadOnlyFilteredView(x => x.Value % 2 == 0)
+                                            .AsMappingView(
+                                                x => new MappedVm { Value = x.Value * 2 },
+                                                WpfSchedulers.Dispatcher);
 
             this.MappedMapped = this.MappedInts.AsMappingView(x => new MappedVm { Value = x.Value * 2 }, WpfSchedulers.Dispatcher);
-            this.MappedMappedIndexed =
-                this.MappedInts.AsMappingView(
-                    (x, i) => new MappedVm { Value = x.Value * 2, Index = i },
-                    (x, i) =>
-                    {
-                        x.Index = i;
-                        return x;
-                    },
-                    WpfSchedulers.Dispatcher);
-            this.MappedMappedUpdateIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => x.UpdateIndex(i), WpfSchedulers.Dispatcher);
-            this.MappedMappedUpdateNewIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => new MappedVm { Value = x.Value * 2, Index = i }, WpfSchedulers.Dispatcher);
+            this.MappedMappedIndexed = this.MappedInts.AsMappingView(
+                (x, i) => new MappedVm { Value = x.Value * 2, Index = i },
+                (x, i) => x.UpdateIndex(i),
+                WpfSchedulers.Dispatcher);
+
+            this.MappedMappedUpdateIndexed = this.MappedInts.AsMappingView(
+                (x, i) => new MappedVm { Value = x.Value * 2, Index = i },
+                (x, i) => x.UpdateIndex(i),
+                WpfSchedulers.Dispatcher);
+
+            this.MappedMappedUpdateNewIndexed = this.MappedInts.AsMappingView(
+                selector: (x, i) => new MappedVm { Value = x.Value * 2, Index = i },
+                updater: (x, i) => new MappedVm { Value = x.Value * 2, Index = i },
+                onRemove: x => x.UpdateIndex(0),
+                scheduler: WpfSchedulers.Dispatcher);
 
             this.AddOneToSourceCommand = new RelayCommand(() => this.source.Add(this.source.Count + 1));
             this.AddTenToSourceCommand = new RelayCommand(this.AddTen, () => true);
