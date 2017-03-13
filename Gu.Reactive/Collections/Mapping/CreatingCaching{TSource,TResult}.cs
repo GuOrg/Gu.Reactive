@@ -1,6 +1,7 @@
 namespace Gu.Reactive
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Threading;
     using Gu.Reactive.Internals;
@@ -72,7 +73,6 @@ namespace Gu.Reactive
             private readonly Func<TSource, TResult> selector;
             private readonly Dictionary<TSource, Cached> cache = new Dictionary<TSource, Cached>(ObjectIdentityComparer<TSource>.Default);
             private readonly Dictionary<TSource, Cached> transactionCache = new Dictionary<TSource, Cached>(ObjectIdentityComparer<TSource>.Default);
-            private readonly object gate = new object();
 
             private bool isRefreshing;
 
@@ -83,9 +83,11 @@ namespace Gu.Reactive
 
             public event Action<TResult> OnRemove;
 
+            private object Gate => ((ICollection)this.cache).SyncRoot;
+
             internal TResult GetOrCreate(TSource key)
             {
-                lock (this.gate)
+                lock (this.Gate)
                 {
                     Cached cached;
                     if (this.isRefreshing)
@@ -116,7 +118,7 @@ namespace Gu.Reactive
 
             internal void Remove(TSource source, TResult mapped)
             {
-                lock (this.gate)
+                lock (this.Gate)
                 {
                     Cached cached;
                     if (this.cache.TryGetValue(source, out cached))
@@ -126,10 +128,10 @@ namespace Gu.Reactive
                             return;
                         }
 
-                        var handler = this.OnRemove;
-                        if (handler != null)
+                        if (this.cache.Remove(source))
                         {
-                            if (this.cache.Remove(source))
+                            var handler = this.OnRemove;
+                            if (handler != null)
                             {
                                 // one mapped can be created from many sources.
                                 foreach (var kvp in this.cache)
@@ -149,7 +151,7 @@ namespace Gu.Reactive
 
             internal void Clear()
             {
-                lock (this.gate)
+                lock (this.Gate)
                 {
                     var handler = this.OnRemove;
                     if (handler != null)
@@ -166,7 +168,7 @@ namespace Gu.Reactive
 
             internal IDisposable RefreshTransaction()
             {
-                Monitor.Enter(this.gate);
+                Monitor.Enter(this.Gate);
                 this.isRefreshing = true;
                 return new Transaction(this);
             }
@@ -201,7 +203,7 @@ namespace Gu.Reactive
 
                 this.transactionCache.Clear();
                 this.isRefreshing = false;
-                Monitor.Exit(this.gate);
+                Monitor.Exit(this.Gate);
             }
 
             private sealed class Transaction : IDisposable
