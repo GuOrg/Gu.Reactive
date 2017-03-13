@@ -10,7 +10,7 @@ namespace Gu.Reactive.Tests.Collections
 
     public partial class MappingViewTests
     {
-        public class ReferenceTypeRemoving
+        public class ReferenceTypeCreatingCachingRemoving
         {
             [Test]
             public void Initializes()

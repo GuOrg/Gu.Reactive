@@ -1,8 +1,9 @@
-﻿<Application x:Class="Gu.Reactive.Demo.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
-             xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System">
+﻿<Application
+    x:Class="Gu.Reactive.Demo.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
+    xmlns:specialized="clr-namespace:System.Collections.Specialized;assembly=System">
     <!--<Application.StartupUri>UiTestWindows/AsyncCommandsWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/CommandsWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/DispatchingCollectionWindow.xaml</Application.StartupUri>-->
@@ -42,61 +43,77 @@
                         <ColumnDefinition Width="150" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="0"
-                               Text="Status:" />
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="1"
-                               Text="{Binding Status}" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Status:" />
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Text="{Binding Status}" />
 
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="0"
-                               Text="IsCompleted:" />
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="1"
-                               Text="{Binding IsCompleted}" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Text="IsCompleted:" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Text="{Binding IsCompleted}" />
 
-                    <TextBlock Grid.Row="2"
-                               Grid.Column="0"
-                               Text="IsNotCompleted:) " />
-                    <TextBlock Grid.Row="2"
-                               Grid.Column="1"
-                               Text="{Binding IsNotCompleted}" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Text="IsNotCompleted:) " />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Text="{Binding IsNotCompleted}" />
 
-                    <TextBlock Grid.Row="3"
-                               Grid.Column="0"
-                               Text="IsSuccessfullyCompleted:) " />
-                    <TextBlock Grid.Row="3"
-                               Grid.Column="1"
-                               Text="{Binding IsSuccessfullyCompleted}" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Text="IsSuccessfullyCompleted:) " />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Text="{Binding IsSuccessfullyCompleted}" />
 
-                    <TextBlock Grid.Row="4"
-                               Grid.Column="0"
-                               Text="IsCanceled: " />
-                    <TextBlock Grid.Row="4"
-                               Grid.Column="1"
-                               Text="{Binding IsCanceled}" />
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Text="IsCanceled: " />
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Text="{Binding IsCanceled}" />
 
-                    <TextBlock Grid.Row="5"
-                               Grid.Column="0"
-                               Text="IsFaulted: " />
-                    <TextBlock Grid.Row="5"
-                               Grid.Column="1"
-                               Text="{Binding IsFaulted}" />
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Text="IsFaulted: " />
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Text="{Binding IsFaulted}" />
 
-                    <TextBlock Grid.Row="6"
-                               Grid.Column="0"
-                               Text="Exception: " />
-                    <TextBlock Grid.Row="6"
-                               Grid.Column="1"
-                               Text="{Binding Exception}" />
+                    <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        Text="Exception: " />
+                    <TextBlock
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        Text="{Binding Exception}" />
 
-                    <TextBlock Grid.Row="8"
-                               Grid.Column="0"
-                               Text="InnerException: " />
-                    <TextBlock Grid.Row="8"
-                               Grid.Column="1"
-                               Text="{Binding InnerException}" />
+                    <TextBlock
+                        Grid.Row="8"
+                        Grid.Column="0"
+                        Text="InnerException: " />
+                    <TextBlock
+                        Grid.Row="8"
+                        Grid.Column="1"
+                        Text="{Binding InnerException}" />
                 </Grid>
             </DataTemplate>
 
@@ -119,17 +136,19 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <Button Width="100"
-                                Height="50"
-                                VerticalAlignment="Top"
-                                Command="{Binding}"
-                                Content="Run" />
+                        <Button
+                            Width="100"
+                            Height="50"
+                            VerticalAlignment="Top"
+                            Command="{Binding}"
+                            Content="Run" />
 
-                        <Button Width="100"
-                                Height="50"
-                                VerticalAlignment="Top"
-                                Command="{Binding CancelCommand}"
-                                Content="Cancel" />
+                        <Button
+                            Width="100"
+                            Height="50"
+                            VerticalAlignment="Top"
+                            Command="{Binding CancelCommand}"
+                            Content="Cancel" />
                     </StackPanel>
 
                     <Expander Grid.Column="1" Header="Task">
@@ -147,17 +166,19 @@
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <StackPanel>
-                            <Button Width="100"
-                                    Height="50"
-                                    VerticalAlignment="Top"
-                                    Command="{Binding}"
-                                    CommandParameter="4"
-                                    Content="Run" />
-                            <Button Width="100"
-                                    Height="50"
-                                    VerticalAlignment="Top"
-                                    Command="{Binding CancelCommand}"
-                                    Content="Cancel" />
+                            <Button
+                                Width="100"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                Command="{Binding}"
+                                CommandParameter="4"
+                                Content="Run" />
+                            <Button
+                                Width="100"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                Command="{Binding CancelCommand}"
+                                Content="Cancel" />
                         </StackPanel>
 
                         <Expander Grid.Column="1" Header="Task">
@@ -171,11 +192,12 @@
                 <!--  ReSharper disable once Xaml.BindingWithContextNotResolved  -->
                 <GroupBox Header="{Binding ToolTipText}">
                     <StackPanel Orientation="Horizontal">
-                        <Button Width="100"
-                                Height="50"
-                                VerticalAlignment="Top"
-                                Command="{Binding}"
-                                Content="Click" />
+                        <Button
+                            Width="100"
+                            Height="50"
+                            VerticalAlignment="Top"
+                            Command="{Binding}"
+                            Content="Click" />
                         <Expander Header="Task">
                             <ContentPresenter Content="{Binding Execution}" ContentTemplate="{StaticResource ResultCompletionTemplate}" />
                         </Expander>

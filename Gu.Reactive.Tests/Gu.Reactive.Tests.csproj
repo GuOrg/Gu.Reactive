@@ -42,10 +42,11 @@
   <ItemGroup>
     <Compile Include="Collections\CollectionSynchronizerTests.cs" />
     <Compile Include="Collections\CrudSource\FilteredMappedView.cs" />
+    <Compile Include="Collections\MappingViewTests.Creating.cs" />
     <Compile Include="Collections\MappingViewTests.ReferenceType.cs" />
-    <Compile Include="Collections\MappingViewTests.ReferenceTypeRemoving.cs" />
-    <Compile Include="Collections\MappingViewTests.ValueTypeRemoving.cs" />
-    <Compile Include="Collections\MappingView_IndexedTests.cs" />
+    <Compile Include="Collections\MappingViewTests.ReferenceTypeCreatingCachingRemoving.cs" />
+    <Compile Include="Collections\MappingViewTests.ValueTypeCreatingRemoving.cs" />
+    <Compile Include="Collections\MappingViewTests.CreatingUpdating.cs" />
     <Compile Include="Collections\CrudSource\ThrottledView.cs" />
     <Compile Include="Collections\CrudSource\ThrottledViewNoScheduler.cs" />
     <Compile Include="Collections\CrudSource\FilteredView.cs" />

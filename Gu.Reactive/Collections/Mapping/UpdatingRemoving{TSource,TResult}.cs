@@ -1,63 +1,85 @@
-﻿//namespace Gu.Reactive
-//{
-//    using System;
+﻿namespace Gu.Reactive
+{
+    using System;
 
-//    using Gu.Reactive.Internals;
+    internal class UpdatingRemoving<TSource, TResult> : IMapper<TSource, TResult>
+        where TResult : class
+    {
+        private readonly RefCounter<TResult> refCounter = new RefCounter<TResult>();
+        private readonly Func<TSource, int, TResult> selector;
+        private readonly Func<TResult, int, TResult> updater;
+        private readonly Action<TResult> onRemove;
 
-//    internal class UpdatingRemoving<TSource, TResult> : Updating<TSource, TResult>
-//        where TSource : class
-//        where TResult : class
-//    {
-//        private readonly Action<TResult> onRemove;
-//        private readonly Cache<TSource, TResult> cache = new Cache<TSource, TResult>();
+        private bool disposed;
 
-//        private bool disposed;
+        internal UpdatingRemoving(Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, Action<TResult> onRemove)
+        {
+            this.selector = selector;
+            this.updater = updater;
+            this.onRemove = onRemove;
+            this.refCounter.OnRemove += onRemove;
+        }
 
-//        internal UpdatingRemoving(Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, Action<TResult> onRemove)
-//            : base(selector, updater)
-//        {
-//            this.onRemove = onRemove;
-//            this.cache.OnRemove += onRemove;
-//        }
+        public bool CanUpdateIndex => false;
 
-//        public override TResult GetOrCreate(TSource key, int index)
-//        {
-//            var result = base.GetOrCreate(key, index);
-//            return this.cache.GetOrCreate(key, k => );
-//        }
+        public TResult GetOrCreate(TSource key, int index)
+        {
+            this.ThrowIfDisposed();
+            return this.refCounter.Increment(this.selector(key, index));
+        }
 
-//        public override TResult Update(TSource key, TResult oldResult, int index)
-//        {
-//            var updated = base.Update(key, oldResult, index);
-//            if (ReferenceEquals(oldResult, updated))
-//            {
-//                return updated;
-//            }
+        /// <inheritdoc />
+        TResult IMapper<TSource, TResult>.Update(TSource key, TResult old, int index)
+        {
+            this.ThrowIfDisposed();
+            var updated = updater(old, index);
+            if (ReferenceEquals(old, updated))
+            {
+                return updated;
+            }
 
-//            if (oldResult != null)
-//            {
-//                throw new NotImplementedException("We don't know that this was the last instance.");
-//                this.onRemove(oldResult);
-//                this.items.Remove(oldResult);
-//            }
+            this.refCounter.Decrement(old);
+            this.refCounter.Increment(updated);
+            return updated;
+        }
 
-//            return this.items.AddAndReturn(updated);
-//        }
+        public void Remove(TSource source, TResult mapped)
+        {
+            this.refCounter.Decrement(mapped);
+        }
 
-//        /// <inheritdoc/>
-//        protected override void Dispose(bool disposing)
-//        {
-//            if (this.disposed)
-//            {
-//                return;
-//            }
+        public IDisposable RefreshTransaction()
+        {
+            return this.refCounter.RefreshTransaction();
+        }
 
-//            this.disposed = true;
-//            if (disposing)
-//            {
-//                this.cache.Clear();
-//                this.cache.OnRemove -= this.onRemove;
-//            }
-//        }
-//    }
-//}
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            if (disposing)
+            {
+                this.refCounter.Clear();
+                this.refCounter.OnRemove -= this.onRemove;
+            }
+        }
+
+        protected void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
+        }
+    }
+}

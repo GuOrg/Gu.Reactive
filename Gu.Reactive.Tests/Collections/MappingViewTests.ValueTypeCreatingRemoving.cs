@@ -10,7 +10,7 @@ namespace Gu.Reactive.Tests.Collections
 
     public partial class MappingViewTests
     {
-        public class ValueTypeRemoving
+        public class ValueTypeCreatingRemoving
         {
             [Test]
             public void Initializes()

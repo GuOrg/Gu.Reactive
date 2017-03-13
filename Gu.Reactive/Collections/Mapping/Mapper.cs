@@ -41,15 +41,14 @@ namespace Gu.Reactive
             return (IMapper<TSource, TResult>)constructor.Invoke(args);
         }
 
-        //internal static IMapper<TSource, TResult> Create<TSource, TResult>(
-        //    Func<TSource, int, TResult> indexSelector,
-        //    Func<TResult, int, TResult> indexUpdater,
-        //    Action<TResult> onRemove)
-        //    where TSource : class
-        //    where TResult : class
-        //{
-        //    return new UpdatingRemoving<TSource, TResult>(indexSelector, indexUpdater, onRemove);
-        //}
+        internal static IMapper<TSource, TResult> Create<TSource, TResult>(
+            Func<TSource, int, TResult> indexSelector,
+            Func<TResult, int, TResult> indexUpdater,
+            Action<TResult> onRemove)
+            where TResult : class
+        {
+            return new UpdatingRemoving<TSource, TResult>(indexSelector, indexUpdater, onRemove);
+        }
 
         private static IMapper<TSource, TResult> CreatingCaching<TSource, TResult>(Func<TSource, TResult> selector)
         {

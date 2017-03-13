@@ -6,17 +6,17 @@ namespace Gu.Reactive
         where TSource : struct
         where TResult : class
     {
-        private readonly RefCounter<TResult> tracker;
+        private readonly RefCounter<TResult> refCounter;
         private readonly Func<TSource, TResult> selector;
         private readonly Action<TResult> onRemove;
         private bool disposed;
 
         internal CreatingRemoving(Func<TSource, TResult> selector, Action<TResult> onRemove)
         {
-            this.tracker = new RefCounter<TResult>();
+            this.refCounter = new RefCounter<TResult>();
             this.selector = selector;
             this.onRemove = onRemove;
-            this.tracker.OnRemove += onRemove;
+            this.refCounter.OnRemove += onRemove;
         }
 
         public bool CanUpdateIndex => false;
@@ -24,7 +24,7 @@ namespace Gu.Reactive
         public TResult GetOrCreate(TSource key, int index)
         {
             this.ThrowIfDisposed();
-            return this.tracker.Increment(this.selector(key));
+            return this.refCounter.Increment(this.selector(key));
         }
 
         /// <inheritdoc />
@@ -32,12 +32,12 @@ namespace Gu.Reactive
 
         public void Remove(TSource source, TResult mapped)
         {
-            this.tracker.Decrement(mapped);
+            this.refCounter.Decrement(mapped);
         }
 
         public IDisposable RefreshTransaction()
         {
-            return this.tracker.RefreshTransaction();
+            return this.refCounter.RefreshTransaction();
         }
 
         /// <inheritdoc />
@@ -56,8 +56,8 @@ namespace Gu.Reactive
             this.disposed = true;
             if (disposing)
             {
-                this.tracker.Clear();
-                this.tracker.OnRemove -= this.onRemove;
+                this.refCounter.Clear();
+                this.refCounter.OnRemove -= this.onRemove;
             }
         }
 
