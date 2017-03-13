@@ -222,6 +222,7 @@ namespace Gu.Reactive.Tests.Collections
                 this.Index = index;
             }
 
+            // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Local
             public int Value { get; set; }
 
             public int Index { get; set; }

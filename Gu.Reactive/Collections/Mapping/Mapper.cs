@@ -1,7 +1,6 @@
 namespace Gu.Reactive
 {
     using System;
-    using System.Linq;
     using System.Reflection;
 
     internal static class Mapper
@@ -34,12 +33,12 @@ namespace Gu.Reactive
                 : typeof(CreatingCachingRemoving<,>).MakeGenericType(typeof(TSource), typeof(TResult));
 
             var args = new object[] { selector, onRemove };
-            var constructor =  type.GetConstructor(
+            var constructor = type.GetConstructor(
                 bindingAttr: BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.CreateInstance,
                 binder: null,
                 types: Type.GetTypeArray(args),
                 modifiers: null);
-            return (IMapper<TSource, TResult>) constructor.Invoke(args);
+            return (IMapper<TSource, TResult>)constructor.Invoke(args);
         }
 
         //internal static IMapper<TSource, TResult> Create<TSource, TResult>(
