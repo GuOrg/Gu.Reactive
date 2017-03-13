@@ -15,10 +15,6 @@ namespace Gu.Reactive
 
         private bool isRefreshing;
 
-        public RefCounter()
-        {
-        }
-
         public event Action<T> OnRemove;
 
         private object Gate => ((ICollection)this.cache).SyncRoot;

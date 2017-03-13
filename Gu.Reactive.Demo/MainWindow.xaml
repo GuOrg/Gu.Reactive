@@ -69,10 +69,6 @@
             <demo:NinjaBindingView />
         </TabItem>
 
-        <TabItem Header="Converters">
-            <demo:ConvertersDemoView />
-        </TabItem>
-
         <TabItem Header="ToolTips">
             <demo:ToolTipsView />
         </TabItem>

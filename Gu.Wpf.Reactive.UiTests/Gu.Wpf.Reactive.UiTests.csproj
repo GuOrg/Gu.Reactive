@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="AsyncCommandsWindowTests.cs" />
     <Compile Include="CommandsWindowTests.cs" />
-    <Compile Include="ConvertersDemoWindowTests.cs" />
     <Compile Include="DispatchingCollectionWindowTests.cs" />
     <Compile Include="DispatchingViewWindowTests.cs" />
     <Compile Include="Helpers\GridCellExt.cs" />

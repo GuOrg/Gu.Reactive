@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
+             xmlns:converters="clr-namespace:Gu.Reactive.Demo.Converters"
              d:DataContext="{d:DesignInstance demo:FilteredViewViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -52,7 +52,7 @@
                     <Border BorderBrush="LightBlue"
                             BorderThickness="5"
                             Visibility="{Binding HasSearchText,
-                                                 Converter={reactive:BooleanToVisibilityConverter WhenTrue=Visible,
+                                                 Converter={converters:BooleanToVisibilityConverter WhenTrue=Visible,
                                                                                                   WhenFalse=Hidden}}" />
                 </Grid>
             </GroupBox>
