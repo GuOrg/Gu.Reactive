@@ -27,7 +27,7 @@
 
             var observable = Observable.Create<NotifyCollectionChangedEventArgs>(o =>
                 {
-                    NotifyCollectionChangedEventHandler fsHandler = (_, e) =>
+                    NotifyCollectionChangedEventHandler handler = (_, e) =>
                         {
                             var isUpdatingSourceItem = updater.CurrentlyUpdatingSourceItem;
                             if (isUpdatingSourceItem == null)
@@ -53,8 +53,8 @@
 
                             o.OnNext(e);
                         };
-                    incc.CollectionChanged += fsHandler;
-                    return Disposable.Create(() => incc.CollectionChanged -= fsHandler);
+                    incc.CollectionChanged += handler;
+                    return Disposable.Create(() => incc.CollectionChanged -= handler);
                 });
             return observable.Buffer(throttleTime, scheduler, signalInitial);
         }

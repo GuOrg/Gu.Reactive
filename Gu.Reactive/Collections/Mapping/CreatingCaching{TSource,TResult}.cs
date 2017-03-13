@@ -75,8 +75,6 @@ namespace Gu.Reactive
             private readonly RefCounter<TResult> resultCounter = new RefCounter<TResult>();
             private readonly RefCounter<TSource> sourceCounter = new RefCounter<TSource>();
 
-            private bool isRefreshing;
-
             public InstanceCache(Func<TSource, TResult> selector)
             {
                 this.selector = selector;
@@ -130,13 +128,11 @@ namespace Gu.Reactive
             internal IDisposable RefreshTransaction()
             {
                 Monitor.Enter(this.Gate);
-                this.isRefreshing = true;
                 return new Transaction(this);
             }
 
             private void EndRefresh()
             {
-                this.isRefreshing = false;
                 Monitor.Exit(this.Gate);
             }
 

@@ -12,18 +12,18 @@
 
     public sealed class MappingViewViewModel : INotifyPropertyChanged, IDisposable
     {
-        private readonly ObservableCollection<int> ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+        private readonly ObservableCollection<int> source = new ObservableCollection<int>(new[] { 1, 2, 3 });
 
         private int removeAt;
         private bool disposed;
 
         public MappingViewViewModel()
         {
-            this.Ints = this.ints.AsDispatchingView();
+            this.Ints = this.source.AsDispatchingView();
 
-            this.FilteredMappedInts = this.ints.AsReadOnlyFilteredView(x => x % 2 == 0).AsMappingView(x => new MappedVm { Value = x }, WpfSchedulers.Dispatcher);
-            this.MappedInts = this.ints.AsMappingView(x => new MappedVm { Value = x }, WpfSchedulers.Dispatcher);
-            this.MappedIndexedInts = this.ints.AsMappingView(
+            this.FilteredMappedInts = this.source.AsReadOnlyFilteredView(x => x % 2 == 0).AsMappingView(x => new MappedVm { Value = x }, WpfSchedulers.Dispatcher);
+            this.MappedInts = this.source.AsMappingView(x => new MappedVm { Value = x }, WpfSchedulers.Dispatcher);
+            this.MappedIndexedInts = this.source.AsMappingView(
                 (x, i) => new MappedVm { Value = x, Index = i },
                 (x, i) =>
                 {
@@ -48,15 +48,15 @@
             this.MappedMappedUpdateIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => x.UpdateIndex(i), WpfSchedulers.Dispatcher);
             this.MappedMappedUpdateNewIndexed = this.MappedInts.AsMappingView((x, i) => new MappedVm { Value = x.Value * 2, Index = i }, (x, i) => new MappedVm { Value = x.Value * 2, Index = i }, WpfSchedulers.Dispatcher);
 
-            this.AddOneToSourceCommand = new RelayCommand(() => this.ints.Add(this.ints.Count + 1));
-
-            this.AddOneToSourceOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.ints.Add(this.ints.Count + 1)));
+            this.AddOneToSourceCommand = new RelayCommand(() => this.source.Add(this.source.Count + 1));
+            this.AddTenToSourceCommand = new RelayCommand(this.AddTen, () => true);
+            this.AddOneToSourceOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.source.Add(this.source.Count + 1)));
 
             this.ClearCommand = new RelayCommand(this.Clear);
 
             this.RemoveAtCommand = new ConditionRelayCommand(
-                () => this.ints.RemoveAt(this.RemoveAt >= this.ints.Count ? this.ints.Count - 1 : this.RemoveAt),
-                new Condition(() => this.ints.Any(), this.ints.ObserveCollectionChanged()));
+                () => this.source.RemoveAt(this.RemoveAt >= this.source.Count ? this.source.Count - 1 : this.RemoveAt),
+                new Condition(() => this.source.Any(), this.source.ObserveCollectionChanged()));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -80,6 +80,8 @@
         public MappingView<MappedVm, MappedVm> MappedMappedUpdateNewIndexed { get; }
 
         public ICommand AddOneToSourceCommand { get; }
+
+        public ICommand AddTenToSourceCommand { get; }
 
         public ICommand AddOneToSourceOnOtherThreadCommand { get; }
 
@@ -137,7 +139,7 @@
 
         private void Clear()
         {
-            this.ints.Clear();
+            this.source.Clear();
             this.OnPropertyChanged(string.Empty);
         }
 
@@ -145,6 +147,14 @@
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void AddTen()
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                this.source.Add(this.source.Count + 1);
+            }
         }
     }
 }
