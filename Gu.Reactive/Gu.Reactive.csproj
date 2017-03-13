@@ -43,6 +43,7 @@
     <Compile Include="Collections\Mapping\Mapper.cs" />
     <Compile Include="Collections\Mapping\CreatingCaching{TSource,TResult}.cs" />
     <Compile Include="Collections\Mapping\CreatingCachingRemoving{TSource,TResult}.cs" />
+    <Compile Include="Collections\Mapping\RefCounter{T}.cs" />
     <Compile Include="Collections\Mapping\UpdatingRemoving{TSource,TResult}.cs" />
     <Compile Include="Collections\Mapping\Creating{TSource,TResult}.cs" />
     <Compile Include="Collections\Mapping\Updating{TSource,TResult}.cs" />
