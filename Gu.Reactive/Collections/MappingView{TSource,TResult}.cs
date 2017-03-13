@@ -282,9 +282,7 @@
                         var value = this.Tracker[singleChange.OldStartingIndex];
                         this.Tracker.RemoveAt(singleChange.OldStartingIndex);
                         this.Tracker.Insert(singleChange.NewStartingIndex, value);
-                        this.UpdateAt(singleChange.OldStartingIndex, false);
-                        this.UpdateAt(singleChange.NewStartingIndex, false);
-                        var changes = this.UpdateRange(Math.Min(singleChange.OldStartingIndex, singleChange.NewStartingIndex), Math.Min(singleChange.OldStartingIndex, singleChange.NewStartingIndex));
+                        var changes = this.UpdateRange(Math.Min(singleChange.OldStartingIndex, singleChange.NewStartingIndex), Math.Max(singleChange.OldStartingIndex, singleChange.NewStartingIndex));
                         changes.Add(Diff.CreateMoveEventArgs(value, singleChange.NewStartingIndex, singleChange.OldStartingIndex));
                         this.Notify(changes);
                         break;

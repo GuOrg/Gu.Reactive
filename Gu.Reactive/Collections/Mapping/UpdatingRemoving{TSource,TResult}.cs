@@ -20,7 +20,7 @@
             this.refCounter.OnRemove += onRemove;
         }
 
-        public bool CanUpdateIndex => false;
+        public bool CanUpdateIndex => true;
 
         public TResult GetOrCreate(TSource key, int index)
         {
@@ -32,7 +32,7 @@
         TResult IMapper<TSource, TResult>.Update(TSource key, TResult old, int index)
         {
             this.ThrowIfDisposed();
-            var updated = updater(old, index);
+            var updated = this.updater(old, index);
             if (ReferenceEquals(old, updated))
             {
                 return updated;
