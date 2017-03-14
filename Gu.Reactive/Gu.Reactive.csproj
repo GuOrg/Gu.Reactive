@@ -49,29 +49,29 @@
     <Compile Include="Collections\Mapping\Updating{TSource,TResult}.cs" />
     <Compile Include="Collections\ScheduledCollection.cs" />
     <Compile Include="EventArgs\CachedEventArgs.cs" />
-    <Compile Include="Collections\CollectionSynchronizer{T}.cs" />
-    <Compile Include="Collections\EditableListView.cs" />
-    <Compile Include="Collections\EditableListView{T}.cs" />
-    <Compile Include="Collections\FilteredView{T}.cs" />
+    <Compile Include="Collections\MutableViews\CollectionSynchronizer{T}.cs" />
+    <Compile Include="Collections\MutableViews\EditableListView.cs" />
+    <Compile Include="Collections\MutableViews\EditableListView{T}.cs" />
+    <Compile Include="Collections\MutableViews\FilteredView{T}.cs" />
     <Compile Include="Collections\FixedSizedQueue{T}.cs" />
-    <Compile Include="Collections\MappingView{TSource,TResult}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\MappingView{TSource,TResult}.cs" />
     <Compile Include="Collections\ObservableBatchCollection{T}.cs" />
     <Compile Include="Collections\ObservableFixedSizeQueue{T}.cs" />
-    <Compile Include="Collections\ReadOnlyFilteredView{T}.cs" />
-    <Compile Include="Collections\ReadOnlyIListView{T}.cs" />
-    <Compile Include="Collections\ReadOnlySerialView{T}.cs" />
-    <Compile Include="Collections\SynchronizedEditableView{T}.cs" />
-    <Compile Include="Collections\ThrottledView{T}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\ReadOnlyFilteredView{T}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\ReadOnlyIListView{T}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\ReadOnlySerialView{T}.cs" />
+    <Compile Include="Collections\MutableViews\SynchronizedEditableView{T}.cs" />
+    <Compile Include="Collections\MutableViews\ThrottledView{T}.cs" />
     <Compile Include="Contracts\IConditionsService.cs" />
     <Compile Include="Contracts\IFilteredView{T}.cs" />
     <Compile Include="Contracts\IObservableCollection{T}.cs" />
     <Compile Include="Contracts\IObservableSet.cs" />
     <Compile Include="Collections\ObservableSet{T}.cs" />
-    <Compile Include="Collections\ReadonlyIListView.cs" />
+    <Compile Include="Collections\ReadOnlyViews\ReadonlyIListView.cs" />
     <Compile Include="Internals\Exceptions.cs" />
     <Compile Include="Internals\SetPool.cs" />
     <Compile Include="Internals\ListExt.cs" />
-    <Compile Include="Collections\ReadonlySerialViewBase{TSource,TMapped}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\ReadonlySerialViewBase{TSource,TMapped}.cs" />
     <Compile Include="Collections\Internals\ThrowHelper.cs" />
     <Compile Include="Conditions\ConditionExt.cs" />
     <Compile Include="Contracts\IReadOnlyFilteredView{T}.cs" />
@@ -82,32 +82,32 @@
     <Compile Include="Contracts\ISatisfied.cs" />
     <Compile Include="Contracts\ISchedulers.cs" />
     <Compile Include="Collections\Internals\CollectionDebugView.cs" />
-    <Compile Include="Collections\FilteredView.generated.cs">
+    <Compile Include="Collections\MutableViews\FilteredView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FilteredView.tt</DependentUpon>
     </Compile>
     <Compile Include="Collections\Internals\IUpdater.cs" />
-    <Compile Include="Collections\MappingView.generated.cs">
+    <Compile Include="Collections\ReadOnlyViews\MappingView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MappingView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\ReadOnlyFilteredView.generated.cs">
+    <Compile Include="Collections\ReadOnlyViews\ReadOnlyFilteredView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ReadOnlyFilteredView.tt</DependentUpon>
     </Compile>
     <Compile Include="Collections\Internals\ThrottledRefresher.cs" />
-    <Compile Include="Collections\ThrottledView.generated.cs">
+    <Compile Include="Collections\MutableViews\ThrottledView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ThrottledView.tt</DependentUpon>
     </Compile>
     <Compile Include="Collections\Internals\Diff.cs" />
     <Compile Include="Collections\Internals\FilteredRefresher.cs" />
-    <Compile Include="Collections\FilteredView.cs" />
-    <Compile Include="Collections\ReadOnlyThrottledView{T}.cs" />
+    <Compile Include="Collections\MutableViews\FilteredView.cs" />
+    <Compile Include="Collections\ReadOnlyViews\ReadOnlyThrottledView{T}.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
     <Compile Include="Contracts\IThrottledView{T}.cs" />
     <Compile Include="ForegroundScheduler.cs" />
@@ -203,19 +203,19 @@
     <AdditionalFiles Include="..\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
-    <None Include="Collections\ThrottledView.tt">
+    <None Include="Collections\MutableViews\ThrottledView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ThrottledView.generated.cs</LastGenOutput>
     </None>
-    <None Include="Collections\FilteredView.tt">
+    <None Include="Collections\MutableViews\FilteredView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>FilteredView.generated.cs</LastGenOutput>
     </None>
-    <None Include="Collections\MappingView.tt">
+    <None Include="Collections\ReadOnlyViews\MappingView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MappingView.generated.cs</LastGenOutput>
     </None>
-    <None Include="Collections\ReadOnlyFilteredView.tt">
+    <None Include="Collections\ReadOnlyViews\ReadOnlyFilteredView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ReadOnlyFilteredView.generated.cs</LastGenOutput>
     </None>

@@ -235,7 +235,11 @@
 
             if (changeCollection.Count > 1)
             {
-                this.Refresh();
+                using (this.factory.RefreshTransaction())
+                {
+                    base.Refresh(changeCollection);
+                }
+
                 return;
             }
 
@@ -277,12 +281,8 @@
 
                 case NotifyCollectionChangedAction.Replace:
                     {
-                        if (!singleChange.TryGetSingleNewItem(out TSource newSource))
-                        {
-                            goto case NotifyCollectionChangedAction.Reset;
-                        }
-
-                        if (!singleChange.TryGetSingleOldItem(out TSource oldSource))
+                        if (!singleChange.TryGetSingleNewItem(out TSource newSource) ||
+                            !singleChange.TryGetSingleOldItem(out TSource oldSource))
                         {
                             goto case NotifyCollectionChangedAction.Reset;
                         }
@@ -309,7 +309,11 @@
                     }
 
                 case NotifyCollectionChangedAction.Reset:
-                    this.Refresh();
+                    using (this.factory.RefreshTransaction())
+                    {
+                        base.Refresh(changeCollection);
+                    }
+
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
