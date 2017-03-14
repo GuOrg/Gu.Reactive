@@ -51,6 +51,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
                 var scheduler = new TestScheduler();
                 using (var view = source.AsReadOnlyFilteredView(this.Filter, scheduler, subject))
                 {
+                    scheduler.Start();
                     CollectionAssert.AreEqual(new[] { 1, 2, 3, 4, 0 }, view);
                     using (var actual = view.SubscribeAll())
                     {
@@ -80,6 +81,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
                 var scheduler = new TestScheduler();
                 using (var view = source.AsReadOnlyFilteredView(this.Filter, scheduler, subject))
                 {
+                    scheduler.Start();
                     CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
                     using (var actual = view.SubscribeAll())
                     {
