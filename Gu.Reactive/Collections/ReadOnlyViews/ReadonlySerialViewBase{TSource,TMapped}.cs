@@ -27,12 +27,12 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{TSourceItem, TITem}"/> class.
         /// </summary>
-        protected ReadonlySerialViewBase(IEnumerable<TSourceItem> source, Func<IEnumerable<TSourceItem>, IEnumerable<TITem>> mapper)
+        protected ReadonlySerialViewBase(IEnumerable<TSourceItem> source, Func<IEnumerable<TSourceItem>, IEnumerable<TITem>> mapper, bool starteEmpty = false)
         {
             Ensure.NotNull(mapper, nameof(mapper));
             this.mapper = mapper;
             this.source = source ?? EmptySource;
-            this.tracker = new CollectionSynchronizer<TITem>(mapper(source));
+            this.tracker = new CollectionSynchronizer<TITem>(starteEmpty ? mapper(EmptySource) : mapper(source));
         }
 
         /// <inheritdoc/>

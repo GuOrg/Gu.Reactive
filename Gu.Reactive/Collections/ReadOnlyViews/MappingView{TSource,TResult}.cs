@@ -135,7 +135,7 @@
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         internal MappingView(IEnumerable<TSource> source, TimeSpan bufferTime, IScheduler scheduler, IMapper<TSource, TResult> factory, params IObservable<object>[] triggers)
-            : base(source, s => s.Select(factory.GetOrCreate))
+            : base(source, s => s.Select(factory.GetOrCreate), true)
         {
             Ensure.NotNull(source as INotifyCollectionChanged, nameof(source));
             Ensure.NotNull(factory, nameof(factory));

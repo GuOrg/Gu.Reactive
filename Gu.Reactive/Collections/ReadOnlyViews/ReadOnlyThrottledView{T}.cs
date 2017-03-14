@@ -50,7 +50,7 @@
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler scheduler, IEnumerable<T> source)
-            : base(source, s => s)
+            : base(source, s => s, true)
         {
             this.BufferTime = bufferTime;
             this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(true)
