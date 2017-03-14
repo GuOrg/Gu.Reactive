@@ -102,7 +102,7 @@
             {
                 if (!this.AffectsFilteredOnly(change))
                 {
-                    base.Refresh();
+                    base.Refresh(changes);
                 }
             }
         }
