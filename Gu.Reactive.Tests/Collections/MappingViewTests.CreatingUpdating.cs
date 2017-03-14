@@ -159,19 +159,19 @@ namespace Gu.Reactive.Tests.Collections
             [TestCase(1)]
             public void UpdatesOnRemoveTwoItems(int removeAt)
             {
-                var models = new ObservableCollection<Model>(new[] { new Model(1), new Model(2) });
-                using (var view = models.AsMappingView(
+                var source = new ObservableCollection<Model> { new Model(1), new Model(2) };
+                using (var view = source.AsMappingView(
                         (x, i) => new Vm { Index = i, Model = x },
                         (x, i) => x.WithIndex(i)))
                 {
-                    var old = view[removeAt == 0
-                                       ? 1
-                                       : 0];
+                    var old = removeAt == 0
+                        ? view[1]
+                        : view[0];
 
-                    models.RemoveAt(removeAt);
+                    source.RemoveAt(removeAt);
 
                     Assert.AreEqual(1, view.Count);
-                    Assert.AreSame(models[0], view[0].Model);
+                    Assert.AreSame(source[0], view[0].Model);
                     Assert.AreSame(old, view[0]);
                     Assert.AreEqual(0, view[0].Index);
                 }
@@ -181,19 +181,17 @@ namespace Gu.Reactive.Tests.Collections
             [TestCase(1)]
             public void UpdatesOnRemoveThreeItems(int removeAt)
             {
-                var models =
-                    new ObservableCollection<Model>(new[] { new Model(1), new Model(2), new Model(3) });
-                using (
-                    var view = models.AsMappingView(
+                var source = new ObservableCollection<Model> { new Model(1), new Model(2), new Model(3) };
+                using (var view = source.AsMappingView(
                         (x, i) => new Vm { Index = i, Model = x },
                         (x, i) => x.WithIndex(i)))
                 {
                     var old = view[2];
 
-                    models.RemoveAt(removeAt);
+                    source.RemoveAt(removeAt);
 
                     Assert.AreEqual(2, view.Count);
-                    Assert.AreSame(models[0], view[0].Model);
+                    Assert.AreSame(source[0], view[0].Model);
                     Assert.AreSame(old, view[1]);
                     Assert.AreEqual(0, view[0].Index);
                     Assert.AreEqual(1, view[1].Index);
@@ -204,16 +202,15 @@ namespace Gu.Reactive.Tests.Collections
             [TestCase(1)]
             public void NewsOnRemoveTwoItems(int removeAt)
             {
-                var models = new ObservableCollection<Model>(new[] { new Model(1), new Model(2) });
-                using (
-                    var view = models.AsMappingView(
+                var source = new ObservableCollection<Model> { new Model(1), new Model(2) };
+                using (var view = source.AsMappingView(
                         (x, i) => new Vm { Index = i, Model = x },
                         (x, i) => new Vm { Model = x.Model, Index = i }))
                 {
-                    models.RemoveAt(removeAt);
+                    source.RemoveAt(removeAt);
 
                     Assert.AreEqual(1, view.Count);
-                    Assert.AreSame(models[0], view[0].Model);
+                    Assert.AreSame(source[0], view[0].Model);
                     Assert.AreEqual(0, view[0].Index);
                 }
             }

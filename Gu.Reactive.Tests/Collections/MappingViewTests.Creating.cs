@@ -16,11 +16,11 @@ namespace Gu.Reactive.Tests.Collections
             [Test]
             public void InitializesValueType()
             {
-                var ints = new ObservableCollection<int>(new[] { 1, 1, 1, 2, 2, 2, 3, 3, 3 });
-                using (var view = ints.AsMappingView(x => new Model(x)))
+                var source = new ObservableCollection<int>(new[] { 1, 1, 1, 2, 2, 2, 3, 3, 3 });
+                using (var view = source.AsMappingView(x => new Model(x)))
                 {
                     Assert.AreNotSame(view[0], view[1]);
-                    CollectionAssert.AreEqual(ints, view.Select(x => x.Value));
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Value));
 
                     using (var vmView = view.AsMappingView(x => new Vm { Model = x }))
                     {
@@ -62,22 +62,22 @@ namespace Gu.Reactive.Tests.Collections
             [Test]
             public void DoesNotCacheValueTypes()
             {
-                var models = new ObservableCollection<int>();
-                using (var view = models.AsMappingView(x => new Vm { Value = x }))
+                var source = new ObservableCollection<int>();
+                using (var view = source.AsMappingView(x => new Vm { Value = x }))
                 {
-                    models.Add(1);
+                    source.Add(1);
                     Assert.AreEqual(1, view.Count);
 
-                    models.Add(1);
+                    source.Add(1);
                     Assert.AreEqual(2, view.Count);
                     Assert.AreNotSame(view[0], view[1]);
                     Assert.AreEqual(1, view[0].Value);
                     Assert.AreEqual(1, view[1].Value);
 
                     var vm = view[0];
-                    models.Clear();
+                    source.Clear();
                     CollectionAssert.IsEmpty(view);
-                    models.Add(1);
+                    source.Add(1);
                     Assert.AreNotSame(vm, view[0]);
                     Assert.AreEqual(1, view[0].Value);
                 }
@@ -86,8 +86,8 @@ namespace Gu.Reactive.Tests.Collections
             [Test]
             public void Add()
             {
-                var ints = new ObservableCollection<int>();
-                using (var modelView = ints.AsMappingView(x => new Model(x)))
+                var source = new ObservableCollection<int>();
+                using (var modelView = source.AsMappingView(x => new Model(x)))
                 {
                     using (var modelViewChanges = modelView.SubscribeAll())
                     {
@@ -99,13 +99,13 @@ namespace Gu.Reactive.Tests.Collections
                                 {
                                     using (var vmViewChanges = vmView.SubscribeAll())
                                     {
-                                        ints.Add(1);
+                                        source.Add(1);
                                         var expected = new EventArgs[]
-                                                           {
-                                                           CachedEventArgs.CountPropertyChanged,
-                                                           CachedEventArgs.IndexerPropertyChanged,
-                                                           null
-                                                           };
+                                        {
+                                            CachedEventArgs.CountPropertyChanged,
+                                            CachedEventArgs.IndexerPropertyChanged,
+                                            null
+                                        };
 
                                         expected[2] = Diff.CreateAddEventArgs(modelView[0], 0);
                                         CollectionAssert.AreEqual(expected, modelViewChanges, EventArgsComparer.Default);
@@ -126,8 +126,8 @@ namespace Gu.Reactive.Tests.Collections
             [Test]
             public void Remove()
             {
-                var ints = new ObservableCollection<int>(new[] { 1 });
-                using (var modelView = ints.AsMappingView(x => new Model(x)))
+                var source = new ObservableCollection<int>(new[] { 1 });
+                using (var modelView = source.AsMappingView(x => new Model(x)))
                 {
                     using (var modelViewChanges = modelView.SubscribeAll())
                     {
@@ -137,7 +137,7 @@ namespace Gu.Reactive.Tests.Collections
                             {
                                 var oldModel = modelView[0];
                                 var oldView = vmView[0];
-                                ints.Remove(1);
+                                source.Remove(1);
 
                                 var expected = new EventArgs[]
                                                    {

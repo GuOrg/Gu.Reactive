@@ -49,6 +49,11 @@ namespace Gu.Reactive.Tests.Collections
                 this.Index = i;
                 return this;
             }
+
+            public override string ToString()
+            {
+                return $"{nameof(Value)}: {Value}, {nameof(Index)}: {Index}, {nameof(Model)}: {Model}";
+            }
         }
     }
 }

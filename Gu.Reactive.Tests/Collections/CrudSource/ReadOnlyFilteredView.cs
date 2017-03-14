@@ -46,85 +46,41 @@ namespace Gu.Reactive.Tests.Collections
         }
 
         [Test]
-        public void NotifiesWithOnlyPropertyChangedSubscription()
+        public void NotifiesAdd()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => true, scheduler))
             {
-                var changes = new List<EventArgs>();
-                using (view.ObservePropertyChanged()
-                           .Subscribe(x => changes.Add(x.EventArgs)))
+                scheduler.Start();
+                using (var expected = source.SubscribeAll())
                 {
-                    source.Add(1);
-                    scheduler.Start();
-                    var expected = new[]
-                                       {
-                                           CachedEventArgs.CountPropertyChanged,
-                                           CachedEventArgs.IndexerPropertyChanged
-                                       };
-                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                    using (var actual = view.SubscribeAll())
+                    {
+                        source.Add(1);
+                        scheduler.Start();
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
                 }
             }
         }
 
         [Test]
-        public void NotifiesWithOnlyPropertyChangedSubscriptionBuffered()
+        public void NotifiesAddBuffered()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => true, TimeSpan.FromMilliseconds(100), scheduler))
             {
-                var changes = new List<EventArgs>();
-                using (view.ObservePropertyChanged()
-                           .Subscribe(x => changes.Add(x.EventArgs)))
+                scheduler.Start();
+                using (var expected = source.SubscribeAll())
                 {
-                    source.Add(1);
-                    scheduler.Start();
-                    var expected = new[]
-                                       {
-                                           CachedEventArgs.CountPropertyChanged,
-                                           CachedEventArgs.IndexerPropertyChanged
-                                       };
-                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
-                }
-            }
-        }
-
-        [Test]
-        public void NotifiesWithOnlyCollectionChangedSubscription()
-        {
-            var source = new ObservableCollection<int>();
-            var scheduler = new TestScheduler();
-            using (var view = source.AsReadOnlyFilteredView(x => true, scheduler))
-            {
-                var actual = new List<EventArgs>();
-                using (view.ObserveCollectionChangedSlim(false)
-                           .Subscribe(x => actual.Add(x)))
-                {
-                    source.Add(1);
-                    scheduler.Start();
-                    var expected = new[] { Diff.CreateAddEventArgs(1, 0) };
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
-        }
-
-        [Test]
-        public void NotifiesWithOnlyCollectionChangedSubscriptionBuffered()
-        {
-            var source = new ObservableCollection<int>();
-            var scheduler = new TestScheduler();
-            using (var view = source.AsReadOnlyFilteredView(x => true, TimeSpan.FromMilliseconds(100), scheduler))
-            {
-                var changes = new List<EventArgs>();
-                using (view.ObserveCollectionChangedSlim(false)
-                           .Subscribe(x => changes.Add(x)))
-                {
-                    source.Add(1);
-                    scheduler.Start();
-                    var expected = new[] { Diff.CreateAddEventArgs(1, 0) };
-                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                    using (var actual = view.SubscribeAll())
+                    {
+                        source.Add(1);
+                        scheduler.Start();
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
                 }
             }
         }
@@ -380,18 +336,16 @@ namespace Gu.Reactive.Tests.Collections
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
-                using (var changes = view.SubscribeAll())
+                scheduler.Start();
+                using (var expected = source.SubscribeAll())
                 {
-                    source.Remove(2);
-                    scheduler.Start();
-                    CollectionAssert.IsEmpty(view);
-                    var expected = new EventArgs[]
-                                       {
-                                           CachedEventArgs.CountPropertyChanged,
-                                           CachedEventArgs.IndexerPropertyChanged,
-                                           Diff.CreateRemoveEventArgs(2, 0)
-                                       };
-                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                    using (var actual = view.SubscribeAll())
+                    {
+                        source.Remove(2);
+                        scheduler.Start();
+                        CollectionAssert.IsEmpty(view);
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
                 }
             }
         }
