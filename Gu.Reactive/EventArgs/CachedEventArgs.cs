@@ -17,6 +17,7 @@ namespace Gu.Reactive
 
         internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> SingleNotifyCollectionReset = new[] { NotifyCollectionReset };
 
+        [Obsolete("Remove")]
         internal static readonly IReadOnlyList<EventArgs> ResetEventArgsCollection = new EventArgs[]
                                                                                          {
                                                                                              CountPropertyChanged,

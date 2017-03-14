@@ -2,21 +2,23 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Diagnostics.CodeAnalysis;
-    using System.Reactive.Disposables;
+    using System.Reactive.Concurrency;
+    using System.Reactive.Linq;
 
     /// <summary>
     /// A view where the source can be updated that notifies about changes.
     /// </summary>
-    public sealed class ReadOnlySerialView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyObservableCollection<T>, IUpdater
+    public sealed class ReadOnlySerialView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyObservableCollection<T>
     {
-        private readonly SerialDisposable refreshSubscription = new SerialDisposable();
+        private readonly IDisposable refreshSubscription;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
         /// </summary>
-        public ReadOnlySerialView()
-            : this(null)
+        public ReadOnlySerialView(IScheduler scheduler = null)
+            : this(null, TimeSpan.Zero, scheduler)
         {
         }
 
@@ -24,24 +26,34 @@
         /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
         /// </summary>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        public ReadOnlySerialView(IEnumerable<T> source)
-            : base(source, s => s)
+        public ReadOnlySerialView(IEnumerable<T> source, IScheduler scheduler = null)
+            : this(source, TimeSpan.Zero, scheduler)
         {
-            this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, TimeSpan.Zero, null, false)
-                                                                    .Subscribe(this.Refresh);
         }
 
-        /// <inheritdoc/>
-        object IUpdater.CurrentlyUpdatingSourceItem => null;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
+        /// </summary>
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+        public ReadOnlySerialView(IEnumerable<T> source, TimeSpan bufferTime, IScheduler scheduler)
+            : base(source, s => s)
+        {
+            this.refreshSubscription = this.ObserveValue(x => x.Source, true)
+                                           .Select(x => x.GetValueOrDefault().ObserveCollectionChangedSlimOrDefault(true))
+                                           .Switch()
+                                           .Chunks(bufferTime, scheduler)
+                                           .Cast<IReadOnlyList<NotifyCollectionChangedEventArgs>>()
+                                           .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
+                                           .Subscribe(this.Refresh);
+        }
 
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
         public new void SetSource(IEnumerable<T> source)
         {
+            // new to change it to public.
             base.SetSource(source);
-            this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, this.Source, TimeSpan.Zero, null, false)
-                                                                    .Subscribe(this.Refresh);
         }
 
         /// <summary>
@@ -50,19 +62,9 @@
         public new void ClearSource()
         {
             base.ClearSource();
-            this.refreshSubscription.Disposable = null;
         }
 
-        /// <summary>
-        /// Disposes of a <see cref="ReadOnlySerialView{T}"/>.
-        /// </summary>
-        /// <remarks>
-        /// Called from Dispose() with disposing=true.
-        /// Guidelines:
-        /// 1. We may be called more than once: do nothing after the first call.
-        /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.
-        /// </remarks>
-        /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

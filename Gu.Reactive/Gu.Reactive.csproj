@@ -107,7 +107,7 @@
     <Compile Include="Collections\Internals\Diff.cs" />
     <Compile Include="Collections\Internals\FilteredRefresher.cs" />
     <Compile Include="Collections\FilteredView.cs" />
-    <Compile Include="Collections\ReadOnlyThrottledView.cs" />
+    <Compile Include="Collections\ReadOnlyThrottledView{T}.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
     <Compile Include="Contracts\IThrottledView{T}.cs" />
     <Compile Include="ForegroundScheduler.cs" />

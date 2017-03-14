@@ -7,12 +7,20 @@
     /// </summary>
     public static class NotifyCollectionChangedEventArgsExt
     {
+        /// <summary>
+        /// Create a generic wrapper for <paramref name="args"/>
+        /// </summary>
+        public static NotifyCollectionChangedEventArgs<T> As<T>(this NotifyCollectionChangedEventArgs args)
+        {
+            return new NotifyCollectionChangedEventArgs<T>(args);
+        }
+
         internal static bool TryGetSingleNewItem<T>(this NotifyCollectionChangedEventArgs e, out T result)
         {
             if (e?.NewItems?.Count == 1 &&
                 e.NewItems[0] is T)
             {
-                result = (T) e.NewItems[0];
+                result = (T)e.NewItems[0];
                 return true;
             }
 
@@ -31,14 +39,6 @@
 
             result = default(T);
             return false;
-        }
-
-        /// <summary>
-        /// Create a generic wrapper for <paramref name="args"/>
-        /// </summary>
-        public static NotifyCollectionChangedEventArgs<T> As<T>(this NotifyCollectionChangedEventArgs args)
-        {
-            return new NotifyCollectionChangedEventArgs<T>(args);
         }
     }
 }

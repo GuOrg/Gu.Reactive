@@ -180,7 +180,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Observes collectionchanged events for <paramref name="source"/>.
         /// </summary>
-        internal static IObservable<NotifyCollectionChangedEventArgs> ObserveCollectionChangedSlimOrNever(
+        internal static IObservable<NotifyCollectionChangedEventArgs> ObserveCollectionChangedSlimOrDefault(
             this IEnumerable source,
             bool signalInitial)
         {

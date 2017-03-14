@@ -76,7 +76,7 @@
             this.Filter = filter;
             this.BufferTime = bufferTime;
             this.refreshSubscription = Observable.Merge(
-                                                     source.ObserveCollectionChangedSlimOrNever(true),
+                                                     source.ObserveCollectionChangedSlimOrDefault(true),
                                                      triggers.MergeOrNever()
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
                                                  .Chunks(bufferTime, scheduler)

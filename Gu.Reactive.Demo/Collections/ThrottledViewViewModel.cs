@@ -19,7 +19,7 @@
             this.ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(this.observableCollection);
             this.ThrottledView = this.observableCollection.AsThrottledView(this.DeferTime, WpfSchedulers.Dispatcher);
             this.ReadOnlyThrottledView = this.observableCollection.AsReadOnlyThrottledView(this.DeferTime, WpfSchedulers.Dispatcher);
-            this.ReadOnlyIlistThrottledView = this.ReadOnlyThrottledView.AsReadonlyIListView();
+            this.ReadOnlyIListThrottledView = this.ReadOnlyThrottledView.AsReadonlyIListView();
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddOneToViewCommand = new RelayCommand(this.AddOneToView, () => true);
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
@@ -32,7 +32,7 @@
 
         public IReadOnlyObservableCollection<DummyItem> ReadOnlyThrottledView { get; }
 
-        public IReadOnlyObservableCollection<DummyItem> ReadOnlyIlistThrottledView { get; }
+        public IReadOnlyObservableCollection<DummyItem> ReadOnlyIListThrottledView { get; }
 
         public TimeSpan DeferTime { get; }
 
@@ -56,7 +56,7 @@
             this.disposed = true;
             this.ThrottledView.Dispose();
             (this.ReadOnlyThrottledView as IDisposable)?.Dispose();
-            (this.ReadOnlyIlistThrottledView as IDisposable)?.Dispose();
+            (this.ReadOnlyIListThrottledView as IDisposable)?.Dispose();
         }
 
         private void AddOne()

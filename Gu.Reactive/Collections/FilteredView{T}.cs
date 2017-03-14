@@ -180,7 +180,7 @@
                                 !currentFilter(item))
                             {
                                 // added item that is not visible
-                                return; 
+                                return;
                             }
 
                             break;
@@ -192,7 +192,7 @@
                                 !currentFilter(item))
                             {
                                 // removed item that is not visible
-                                return; 
+                                return;
                             }
 
                             break;

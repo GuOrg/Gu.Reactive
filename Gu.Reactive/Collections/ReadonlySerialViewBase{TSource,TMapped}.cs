@@ -22,6 +22,7 @@ namespace Gu.Reactive
         private readonly CollectionSynchronizer<TITem> tracker;
 
         private bool disposed;
+        private IEnumerable<TSourceItem> source;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{TSourceItem, TITem}"/> class.
@@ -30,7 +31,7 @@ namespace Gu.Reactive
         {
             Ensure.NotNull(mapper, nameof(mapper));
             this.mapper = mapper;
-            this.Source = source ?? EmptySource;
+            this.source = source ?? EmptySource;
             this.tracker = new CollectionSynchronizer<TITem>(mapper(source));
         }
 
@@ -70,7 +71,24 @@ namespace Gu.Reactive
         /// <summary>
         /// The source collection.
         /// </summary>
-        protected IEnumerable<TSourceItem> Source { get; private set; }
+        protected IEnumerable<TSourceItem> Source
+        {
+            get
+            {
+                return this.source;
+            }
+
+            private set
+            {
+                if (ReferenceEquals(value, this.source))
+                {
+                    return;
+                }
+
+                this.source = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         /// <inheritdoc/>
         public TITem this[int index] => this.ThrowIfDisposed(() => this.tracker[index]);
@@ -125,12 +143,12 @@ namespace Gu.Reactive
         public virtual void Refresh()
         {
             this.ThrowIfDisposed();
-            lock (this.Source.SyncRootOrDefault(this.SyncRoot()))
+            lock (this.source.SyncRootOrDefault(this.SyncRoot()))
             {
                 (this.Source as IRefreshAble)?.Refresh();
                 if (this.HasListeners)
                 {
-                    this.tracker.Reset(this.mapper(this.Source ?? EmptySource), this.OnPropertyChanged, this.OnCollectionChanged);
+                    this.tracker.Reset(this.mapper(this.source ?? EmptySource), this.OnPropertyChanged, this.OnCollectionChanged);
                 }
                 else
                 {
@@ -142,19 +160,18 @@ namespace Gu.Reactive
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
-        protected virtual void SetSource(IEnumerable<TSourceItem> source)
+        protected virtual void SetSource(IEnumerable<TSourceItem> newSource)
         {
-            this.SetSourceCore(source);
+            this.SetSourceCore(newSource);
         }
 
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
-        protected void SetSourceCore(IEnumerable<TSourceItem> source)
+        protected void SetSourceCore(IEnumerable<TSourceItem> newSource)
         {
             this.ThrowIfDisposed();
-            this.Source = source ?? EmptySource;
-            this.Refresh();
+            this.Source = newSource ?? EmptySource;
         }
 
         /// <summary>
@@ -183,7 +200,6 @@ namespace Gu.Reactive
         {
             this.ThrowIfDisposed();
             this.Source = EmptySource;
-            this.Refresh();
         }
 
         /// <summary>
@@ -224,15 +240,15 @@ namespace Gu.Reactive
         /// </summary>
         protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            lock (this.Source.SyncRootOrDefault(this.SyncRoot()))
+            lock (this.source.SyncRootOrDefault(this.SyncRoot()))
             {
                 if (this.HasListeners)
                 {
-                    this.tracker.Refresh(this.mapper(this.Source ?? EmptySource), changes, this.OnPropertyChanged, this.OnCollectionChanged);
+                    this.tracker.Refresh(this.mapper(this.source ?? EmptySource), changes, this.OnPropertyChanged, this.OnCollectionChanged);
                 }
                 else
                 {
-                    this.tracker.Refresh(this.mapper(this.Source ?? EmptySource), changes);
+                    this.tracker.Refresh(this.mapper(this.source ?? EmptySource), changes);
                 }
             }
         }

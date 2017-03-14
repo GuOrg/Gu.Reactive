@@ -90,7 +90,7 @@
         /// </summary>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="dueTime">Throttling duration for each element</param>
-        /// <param name="maxTime">Max throttling time</param>        
+        /// <param name="maxTime">Max throttling time</param>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime)
         {
             Ensure.NotNull(source, nameof(source));

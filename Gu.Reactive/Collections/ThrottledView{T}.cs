@@ -72,7 +72,7 @@
             (this.Source as IRefreshAble)?.Refresh();
             if (this.HasListeners)
             {
-                this.Tracker.Reset( this.Source,  this.OnPropertyChanged, this.OnCollectionChanged);
+                this.Tracker.Reset(this.Source, this.OnPropertyChanged, this.OnCollectionChanged);
             }
             else
             {
