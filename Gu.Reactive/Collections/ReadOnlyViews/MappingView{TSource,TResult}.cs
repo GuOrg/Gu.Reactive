@@ -8,7 +8,6 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive.Concurrency;
-    using System.Reactive.Disposables;
     using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
@@ -20,7 +19,7 @@
     [DebuggerDisplay("Count = {this.Count}")]
     public class MappingView<TSource, TResult> : ReadonlySerialViewBase<TSource, TResult>, IReadOnlyObservableCollection<TResult>, IUpdater
     {
-        private readonly CompositeDisposable updateSubscription = new CompositeDisposable();
+        private readonly IDisposable refreshSubscription;
         private readonly IMapper<TSource, TResult> factory;
 
         /// <summary>
@@ -114,8 +113,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
         /// </summary>
-        public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, updater, triggers)
+        public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, IScheduler scheduler = null, params IObservable<object>[] triggers)
+            : this(source, TimeSpan.Zero, scheduler, Mapper.Create(selector, updater), triggers)
         {
         }
 
@@ -129,24 +128,27 @@
         {
         }
 
-        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         internal MappingView(IEnumerable<TSource> source, IScheduler scheduler, IMapper<TSource, TResult> factory, params IObservable<object>[] triggers)
+            : this(source, TimeSpan.Zero, scheduler, factory, triggers)
+        {
+        }
+
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+        internal MappingView(IEnumerable<TSource> source, TimeSpan bufferTime, IScheduler scheduler, IMapper<TSource, TResult> factory, params IObservable<object>[] triggers)
             : base(source, s => s.Select(factory.GetOrCreate))
         {
             Ensure.NotNull(source as INotifyCollectionChanged, nameof(source));
             Ensure.NotNull(factory, nameof(factory));
 
             this.factory = factory;
-            this.updateSubscription.Add(ThrottledRefresher.Create(this, source, TimeSpan.Zero, scheduler, false)
-                                                          .ObserveOn(scheduler ?? Scheduler.Immediate)
-                                                          .Subscribe(this.OnSourceCollectionChanged));
-            if (triggers != null && triggers.Any(t => t != null))
-            {
-                var triggerSubscription = triggers.Merge()
-                                                  .ObserveOn(scheduler ?? Scheduler.Immediate)
-                                                  .Subscribe(_ => this.Refresh());
-                this.updateSubscription.Add(triggerSubscription);
-            }
+
+            this.refreshSubscription = Observable.Merge(
+                                                     source.ObserveCollectionChangedSlimOrDefault(true),
+                                                     triggers.MergeOrNever()
+                                                             .Select(x => CachedEventArgs.NotifyCollectionReset))
+                                                 .Chunks(bufferTime, scheduler)
+                                                 .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
+                                                 .Subscribe(this.Refresh);
         }
 
         /// <inheritdoc/>
@@ -334,7 +336,7 @@
         {
             if (disposing)
             {
-                this.updateSubscription.Dispose();
+                this.refreshSubscription.Dispose();
                 this.factory.Dispose();
             }
 
