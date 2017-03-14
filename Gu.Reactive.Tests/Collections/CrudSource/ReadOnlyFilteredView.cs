@@ -98,14 +98,14 @@ namespace Gu.Reactive.Tests.Collections
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => true, scheduler))
             {
-                var changes = new List<EventArgs>();
+                var actual = new List<EventArgs>();
                 using (view.ObserveCollectionChangedSlim(false)
-                           .Subscribe(x => changes.Add(x)))
+                           .Subscribe(x => actual.Add(x)))
                 {
                     source.Add(1);
                     scheduler.Start();
                     var expected = new[] { Diff.CreateAddEventArgs(1, 0) };
-                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }

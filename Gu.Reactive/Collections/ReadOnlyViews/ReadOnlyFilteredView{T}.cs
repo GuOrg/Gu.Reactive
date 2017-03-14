@@ -103,6 +103,7 @@
                 if (!this.AffectsFilteredOnly(change))
                 {
                     base.Refresh(changes);
+                    return;
                 }
             }
         }
