@@ -106,7 +106,10 @@
 
                 public int Value
                 {
-                    get { return this.value; }
+                    get
+                    {
+                        return this.value;
+                    }
 
                     set
                     {

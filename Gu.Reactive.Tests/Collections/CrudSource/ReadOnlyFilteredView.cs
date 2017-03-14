@@ -218,8 +218,6 @@ namespace Gu.Reactive.Tests.Collections
             }
         }
 
-
-
         [Test]
         public void AddManyVisibleWhenFiltered()
         {
@@ -291,8 +289,6 @@ namespace Gu.Reactive.Tests.Collections
                 }
             }
         }
-
-
 
         [Test]
         public void RemoveFiltered()
