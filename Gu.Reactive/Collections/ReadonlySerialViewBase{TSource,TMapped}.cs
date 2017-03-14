@@ -5,6 +5,7 @@ namespace Gu.Reactive
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive.Internals;
@@ -19,6 +20,7 @@ namespace Gu.Reactive
 
         private readonly Func<IEnumerable<TSourceItem>, IEnumerable<TITem>> mapper;
         private readonly CollectionSynchronizer<TITem> tracker;
+
         private bool disposed;
 
         /// <summary>
@@ -74,18 +76,11 @@ namespace Gu.Reactive
         public TITem this[int index] => this.ThrowIfDisposed(() => this.tracker[index]);
 
         /// <inheritdoc/>
+        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
         object IList.this[int index]
         {
-            get
-            {
-                return this[index];
-            }
-
-            // ReSharper disable once ValueParameterNotUsed
-            set
-            {
-                ThrowHelper.ThrowCollectionIsReadonly();
-            }
+            get { return this[index]; }
+            set { ThrowHelper.ThrowCollectionIsReadonly(); }
         }
 
         /// <inheritdoc/>
@@ -225,7 +220,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Syncronize with source and notify about changes.
+        /// Synchronize with source and notify about changes.
         /// </summary>
         protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {

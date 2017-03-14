@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive;
@@ -26,7 +25,7 @@
         /// <param name="maxTime">Max throttling time</param>
         public static IObservable<T> Throttle<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime)
         {
-            return source.Throttle(dueTime, maxTime, Scheduler.Default);
+            return source.Throttle(dueTime, maxTime, DefaultScheduler.Instance);
         }
 
         /// <summary>
@@ -62,10 +61,27 @@
         /// <param name="dueTime">Throttling duration for each element</param>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime)
         {
+            return source.Chunks(dueTime, DefaultScheduler.Instance);
+        }
+
+        /// <summary>
+        /// Like throttle but returning all elements captured during the throttle time.
+        /// </summary>
+        /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
+        /// <param name="dueTime">Throttling duration for each element</param>
+        /// <param name="scheduler">Scheduler to run the timers on.</param>
+        public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, IScheduler scheduler)
+        {
             Ensure.NotNull(source, nameof(source));
+            if (dueTime == TimeSpan.Zero)
+            {
+                return source.Select(x => new[] { x })
+                             .ObserveOnOrDefault(scheduler);
+            }
+
             var shared = source.Publish()
                                .RefCount();
-            return shared.Buffer(() => shared.Throttle(dueTime))
+            return shared.Buffer(() => shared.Throttle(dueTime, scheduler))
                          .Cast<IReadOnlyList<T>>();
         }
 
@@ -78,25 +94,12 @@
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime)
         {
             Ensure.NotNull(source, nameof(source));
-            var shared = source.Publish()
-                               .RefCount();
-            return shared.Buffer(() => shared.Throttle(dueTime, maxTime))
-                         .Cast<IReadOnlyList<T>>();
-        }
+            if (dueTime == TimeSpan.Zero)
+            {
+                return source.Select(x => new[] { x });
+            }
 
-        /// <summary>
-        /// Like throttle but returning all elements captured during the throttle time.
-        /// </summary>
-        /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
-        /// <param name="dueTime">Throttling duration for each element</param>
-        /// <param name="scheduler">Scheduler to run the timers on.</param>
-        public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, IScheduler scheduler)
-        {
-            Ensure.NotNull(source, nameof(source));
-            var shared = source.Publish()
-                               .RefCount();
-            return shared.Buffer(() => shared.Throttle(dueTime, scheduler))
-                         .Cast<IReadOnlyList<T>>();
+            return source.Chunks(dueTime, maxTime, DefaultScheduler.Instance);
         }
 
         /// <summary>
@@ -109,6 +112,12 @@
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime, IScheduler scheduler)
         {
             Ensure.NotNull(source, nameof(source));
+            if (dueTime == TimeSpan.Zero)
+            {
+                return source.Select(x => new[] { x })
+                             .ObserveOnOrDefault(scheduler);
+            }
+
             var shared = source.Publish()
                                .RefCount();
             return shared.Buffer(() => shared.Throttle(dueTime, maxTime, scheduler))
@@ -166,6 +175,16 @@
             }
 
             return Observable.Never<T>();
+        }
+
+        internal static IObservable<T> ObserveOnOrDefault<T>(this IObservable<T> source, IScheduler scheduler)
+        {
+            if (scheduler == null)
+            {
+                return source;
+            }
+
+            return source.ObserveOn(scheduler);
         }
     }
 }

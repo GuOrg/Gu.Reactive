@@ -7,6 +7,8 @@ namespace Gu.Reactive.Tests.Collections.Filter
 
     using Gu.Reactive.Tests.Helpers;
 
+    using Microsoft.Reactive.Testing;
+
     using NUnit.Framework;
 
     public class ReadOnlyFilteredViewTests
@@ -46,13 +48,15 @@ namespace Gu.Reactive.Tests.Collections.Filter
             using (var subject = new Subject<object>())
             {
                 var source = new ThrowingEnumerable<int>(new[] { 1, 2, 3, 4 }, new Queue<bool>(new[] { true }));
-                using (var view = source.AsReadOnlyFilteredView(this.Filter, subject))
+                var scheduler = new TestScheduler();
+                using (var view = source.AsReadOnlyFilteredView(this.Filter, scheduler, subject))
                 {
                     CollectionAssert.AreEqual(new[] { 1, 2, 3, 4, 0 }, view);
                     using (var actual = view.SubscribeAll())
                     {
                         this.filter = x => x > 0;
                         subject.OnNext(null);
+                        scheduler.Start();
                         CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
                         var expected = new EventArgs[]
                                            {
@@ -73,13 +77,15 @@ namespace Gu.Reactive.Tests.Collections.Filter
             using (var subject = new Subject<object>())
             {
                 var source = new ThrowingEnumerable<int>(new[] { 1, 2, 3, 4 }, new Queue<bool>(new[] { false, true }));
-                using (var view = source.AsReadOnlyFilteredView(this.Filter, subject))
+                var scheduler = new TestScheduler();
+                using (var view = source.AsReadOnlyFilteredView(this.Filter, scheduler, subject))
                 {
                     CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
                     using (var actual = view.SubscribeAll())
                     {
                         this.filter = x => x > 0;
                         subject.OnNext(null);
+                        scheduler.Start();
                         CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
                         CollectionAssert.IsEmpty(actual);
                     }

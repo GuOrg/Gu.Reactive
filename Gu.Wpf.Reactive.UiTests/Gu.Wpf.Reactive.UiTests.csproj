@@ -62,6 +62,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FilteredDispatchingWindowTests.cs" />
     <Compile Include="ReadonlyFilteredDispatchingWindowTests.cs" />
+    <Compile Include="ReadOnlyFilteredViewWindowTests.cs" />
     <Compile Include="ReadOnlySerialViewWindowTests.cs" />
   </ItemGroup>
   <ItemGroup>

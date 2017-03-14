@@ -84,6 +84,12 @@
     <Compile Include="Collections\ReadonlyFilteredDispatchingViewModel.cs">
       <DependentUpon>ReadonlyFilteredDispatchingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Collections\ReadOnlyFilteredViewView.xaml.cs">
+      <DependentUpon>ReadOnlyFilteredViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\ReadOnlyFilteredViewViewModel.cs">
+      <DependentUpon>ReadOnlyFilteredViewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Collections\ReadOnlySerialViewView.xaml.cs">
       <DependentUpon>ReadOnlySerialViewView.xaml</DependentUpon>
     </Compile>
@@ -200,6 +206,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Collections\ReadOnlyFilteredViewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Collections\ReadOnlySerialViewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -295,6 +305,10 @@
     <Page Include="UiTestWindows\MappingViewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\ReadOnlyFilteredViewWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UiTestWindows\ReadonlyFilteredDispatchingWindow.xaml">
       <SubType>Designer</SubType>

@@ -3,16 +3,19 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive.Concurrency;
+    using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
 
     /// <inheritdoc/>
-    public class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyFilteredView<T>, IUpdater
+    public class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyFilteredView<T>
     {
         private readonly IDisposable refreshSubscription;
+
         private bool disposed;
 
         /// <summary>
@@ -65,15 +68,21 @@
         }
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        private ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, IScheduler scheduler, TimeSpan bufferTime, IReadOnlyList<IObservable<object>> triggers)
+        private ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, IScheduler scheduler, TimeSpan bufferTime, IEnumerable<IObservable<object>> triggers)
             : base(source, x => x.Where(filter))
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
             this.Filter = filter;
             this.BufferTime = bufferTime;
-            this.refreshSubscription = FilteredRefresher.Create(this, source, bufferTime, triggers ?? Enumerable.Empty<IObservable<object>>(), scheduler, false)
-                                                        .Subscribe(_ => this.Refresh());
+            this.refreshSubscription = Observable.Merge(
+                                                     source.ObserveCollectionChangedSlimOrNever(true),
+                                                     triggers.MergeOrNever()
+                                                             .Select(x => CachedEventArgs.NotifyCollectionReset))
+                                                 .Chunks(bufferTime, scheduler)
+                                                 .Cast<IReadOnlyList<NotifyCollectionChangedEventArgs>>()
+                                                 .ObserveOnOrDefault(scheduler ?? ImmediateScheduler.Instance)
+                                                 .Subscribe(this.Refresh);
         }
 
         /// <inheritdoc/>
@@ -83,12 +92,23 @@
         public Func<T, bool> Filter { get; }
 
         /// <inheritdoc/>
-        object IUpdater.CurrentlyUpdatingSourceItem => null;
+        protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        {
+            if (changes == null || changes.Count == 0)
+            {
+                return;
+            }
 
-        /// <summary>
-        /// Protected implementation of Dispose pattern.
-        /// </summary>
-        /// <param name="disposing">true: safe to free managed resources</param>
+            foreach (var change in changes)
+            {
+                if (!this.AffectsFilteredOnly(change))
+                {
+                    base.Refresh();
+                }
+            }
+        }
+
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if (this.disposed)
@@ -103,6 +123,29 @@
             }
 
             base.Dispose(disposing);
+        }
+
+        private bool AffectsFilteredOnly(NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                case NotifyCollectionChangedAction.Move:
+                    return e.TryGetSingleNewItem(out T item) &&
+                           !this.Filter(item);
+                case NotifyCollectionChangedAction.Remove:
+                    return e.TryGetSingleOldItem(out T removed) &&
+                           !this.Filter(removed);
+                case NotifyCollectionChangedAction.Replace:
+                    return e.TryGetSingleOldItem(out T newItem) &&
+                           !this.Filter(newItem) &&
+                           e.TryGetSingleOldItem(out T oldItem) &&
+                           !this.Filter(oldItem);
+                case NotifyCollectionChangedAction.Reset:
+                    return false;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

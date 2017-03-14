@@ -15,19 +15,19 @@
 #pragma warning disable SA1306 // Field names must begin with lower-case letter
         protected TestScheduler Scheduler;
         protected IReadOnlyObservableCollection<int> View;
-        protected ObservableCollection<int> Ints;
+        protected ObservableCollection<int> Source;
 #pragma warning restore SA1306 // Field names must begin with lower-case letter
 
         [SetUp]
         public virtual void SetUp()
         {
-            this.Ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            this.Source = new ObservableCollection<int>(new[] { 1, 2, 3 });
         }
 
         [Test]
         public void Ctor()
         {
-            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(this.Source, this.View);
         }
 
         [Test]
@@ -35,11 +35,11 @@
         {
             using (var actual = this.View.SubscribeAll())
             {
-                CollectionAssert.AreEqual(this.Ints, this.View);
+                CollectionAssert.AreEqual(this.Source, this.View);
                 (this.View as IRefreshAble)?.Refresh();
                 this.Scheduler?.Start();
 
-                CollectionAssert.AreEqual(this.Ints, this.View);
+                CollectionAssert.AreEqual(this.Source, this.View);
                 CollectionAssert.IsEmpty(actual);
             }
         }
@@ -52,14 +52,14 @@
             using (this.View.ObserveCollectionChanged(false)
                        .Subscribe(_ => { actual = this.View.ToArray(); }))
             {
-                using (this.Ints.ObserveCollectionChanged(false)
-                           .Subscribe(_ => { expected = this.Ints.ToArray(); }))
+                using (this.Source.ObserveCollectionChanged(false)
+                           .Subscribe(_ => { expected = this.Source.ToArray(); }))
                 {
-                    this.Ints.Add(5);
+                    this.Source.Add(5);
                     this.Scheduler?.Start();
                     CollectionAssert.AreEqual(expected, actual);
 
-                    this.Ints.Clear();
+                    this.Source.Clear();
                     this.Scheduler?.Start();
                     CollectionAssert.AreEqual(expected, actual);
                 }
@@ -69,14 +69,14 @@
         [Test]
         public void Add()
         {
-            using (var expected = this.Ints.SubscribeAll())
+            using (var expected = this.Source.SubscribeAll())
             {
                 using (var actual = this.View.SubscribeAll())
                 {
-                    this.Ints.Add(4);
+                    this.Source.Add(4);
                     this.Scheduler?.Start();
 
-                    CollectionAssert.AreEqual(this.Ints, this.View);
+                    CollectionAssert.AreEqual(this.Source, this.View);
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
@@ -94,12 +94,12 @@
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    this.Ints.Add(i);
+                    this.Source.Add(i);
                 }
 
                 this.Scheduler.Start();
 
-                CollectionAssert.AreEqual(this.Ints, this.View);
+                CollectionAssert.AreEqual(this.Source, this.View);
                 CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, actual, EventArgsComparer.Default);
             }
         }
@@ -108,14 +108,14 @@
         [TestCase(2)]
         public void Remove(int toRemove)
         {
-            using (var expected = this.Ints.SubscribeAll())
+            using (var expected = this.Source.SubscribeAll())
             {
                 using (var actual = this.View.SubscribeAll())
                 {
-                    this.Ints.Remove(toRemove);
+                    this.Source.Remove(toRemove);
                     this.Scheduler?.Start();
 
-                    CollectionAssert.AreEqual(this.Ints, this.View);
+                    CollectionAssert.AreEqual(this.Source, this.View);
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
@@ -125,15 +125,15 @@
         [TestCase(0, 2)]
         public void Replace(int index, int value)
         {
-            using (var expected = this.Ints.SubscribeAll())
+            using (var expected = this.Source.SubscribeAll())
             {
                 using (var actual = this.View.SubscribeAll())
                 {
-                    this.Ints[index] = value;
+                    this.Source[index] = value;
                     this.Scheduler?.Start();
 
                     Assert.AreEqual(value, this.View[index]);
-                    CollectionAssert.AreEqual(this.Ints, this.View);
+                    CollectionAssert.AreEqual(this.Source, this.View);
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
@@ -142,14 +142,14 @@
         [TestCase(0, 1)]
         public void Move(int fromIndex, int toIndex)
         {
-            using (var expected = this.Ints.SubscribeAll())
+            using (var expected = this.Source.SubscribeAll())
             {
                 using (var actual = this.View.SubscribeAll())
                 {
-                    this.Ints.Move(fromIndex, toIndex);
+                    this.Source.Move(fromIndex, toIndex);
                     this.Scheduler?.Start();
 
-                    CollectionAssert.AreEqual(this.Ints, this.View);
+                    CollectionAssert.AreEqual(this.Source, this.View);
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }

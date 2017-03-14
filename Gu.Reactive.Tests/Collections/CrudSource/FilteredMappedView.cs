@@ -11,7 +11,7 @@ namespace Gu.Reactive.Tests.Collections
             base.SetUp();
             this.Scheduler = new TestScheduler();
             (this.View as IDisposable)?.Dispose();
-            this.View = this.Ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), this.Scheduler)
+            this.View = this.Source.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), this.Scheduler)
                                  .AsMappingView(x => x);
             this.Scheduler.Start();
         }
