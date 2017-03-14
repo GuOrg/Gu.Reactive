@@ -17,10 +17,10 @@ namespace Gu.Reactive
         }
 
         internal static IMapper<TSource, TResult> Create<TSource, TResult>(
-            Func<TSource, int, TResult> indexSelector,
-            Func<TResult, int, TResult> indexUpdater)
+            Func<TSource, int, TResult> selector,
+            Func<TResult, int, TResult> updater)
         {
-            return new Updating<TSource, TResult>(indexSelector, indexUpdater);
+            return new Updating<TSource, TResult>(selector, updater);
         }
 
         internal static IMapper<TSource, TResult> Create<TSource, TResult>(

@@ -38,15 +38,15 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\Mapping\CreatingRemoving{TSource,TResult}.cs" />
-    <Compile Include="Collections\Mapping\IMapper{TSource,TResult}.cs" />
-    <Compile Include="Collections\Mapping\Mapper.cs" />
-    <Compile Include="Collections\Mapping\CreatingCaching{TSource,TResult}.cs" />
-    <Compile Include="Collections\Mapping\CreatingCachingRemoving{TSource,TResult}.cs" />
-    <Compile Include="Collections\Mapping\RefCounter{T}.cs" />
-    <Compile Include="Collections\Mapping\UpdatingRemoving{TSource,TResult}.cs" />
-    <Compile Include="Collections\Mapping\Creating{TSource,TResult}.cs" />
-    <Compile Include="Collections\Mapping\Updating{TSource,TResult}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\Mapping\CreatingRemoving{TSource,TResult}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\Mapping\IMapper{TSource,TResult}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\Mapping\Mapper.cs" />
+    <Compile Include="Collections\ReadOnlyViews\Mapping\CreatingCaching{TSource,TResult}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\Mapping\CreatingCachingRemoving{TSource,TResult}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\Mapping\RefCounter{T}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\Mapping\UpdatingRemoving{TSource,TResult}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\Mapping\Creating{TSource,TResult}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\Mapping\Updating{TSource,TResult}.cs" />
     <Compile Include="Collections\ScheduledCollection.cs" />
     <Compile Include="EventArgs\CachedEventArgs.cs" />
     <Compile Include="Collections\MutableViews\CollectionSynchronizer{T}.cs" />
