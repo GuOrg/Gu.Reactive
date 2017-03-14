@@ -7,6 +7,7 @@ namespace Gu.Reactive
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq.Expressions;
+    using System.Reactive.Linq;
 
     /// <summary>
     /// Factory methods for creating trackers for max value.
@@ -39,7 +40,7 @@ namespace Gu.Reactive
         {
             var onItemChanged = trackItemChanges
                                     ? source.ObserveItemPropertyChangedSlim(selector, false)
-                                    : null;
+                                    : Observable.Never<PropertyChangedEventArgs>();
             var mapped = source.AsMappingView(selector.Compile(), onItemChanged);
             return new MaxTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
         }

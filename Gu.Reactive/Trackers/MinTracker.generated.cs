@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq.Expressions;
+    using System.Reactive.Linq;
 
     /// <summary>
     /// Factory methods for creating trackers for min value.
@@ -26,7 +27,7 @@
         {
             var onItemChanged = trackItemChanges
                                     ? source.ObserveItemPropertyChangedSlim(selector, false)
-                                    : null;
+                                    : Observable.Never<PropertyChangedEventArgs>();
             var mapped = source.AsMappingView(selector.Compile(), onItemChanged);
             return new MinTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
         }
@@ -60,7 +61,7 @@
         {
             var onItemChanged = trackItemChanges
                                     ? source.ObserveItemPropertyChangedSlim(selector, false)
-                                    : null;
+                                    : Observable.Never<PropertyChangedEventArgs>();
             var mapped = source.AsMappingView(selector.Compile(), onItemChanged);
             return new MinTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
         }
@@ -94,7 +95,7 @@
         {
             var onItemChanged = trackItemChanges
                                     ? source.ObserveItemPropertyChangedSlim(selector, false)
-                                    : null;
+                                    : Observable.Never<PropertyChangedEventArgs>();
             var mapped = source.AsMappingView(selector.Compile(), onItemChanged);
             return new MinTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
         }
