@@ -79,9 +79,7 @@
                              .ObserveOnOrDefault(scheduler);
             }
 
-            var shared = source.Publish()
-                               .RefCount();
-            return shared.Buffer(() => shared.Throttle(dueTime, scheduler))
+            return source.Publish(shared => shared.Buffer(() => shared.Throttle(dueTime, scheduler)))
                          .Cast<IReadOnlyList<T>>();
         }
 
@@ -118,9 +116,7 @@
                              .ObserveOnOrDefault(scheduler);
             }
 
-            var shared = source.Publish()
-                               .RefCount();
-            return shared.Buffer(() => shared.Throttle(dueTime, maxTime, scheduler))
+            return source.Publish(shared => shared.Buffer(() => shared.Throttle(dueTime, maxTime, scheduler)))
                          .Cast<IReadOnlyList<T>>();
         }
 
