@@ -11,7 +11,7 @@
     /// <summary>
     /// A readonly view of a collection that buffers changes before notifying.
     /// </summary>
-    public class ReadOnlyThrottledView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyThrottledView<T>, IUpdater
+    public class ReadOnlyThrottledView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyThrottledView<T>
     {
         private readonly IDisposable refreshSubscription;
         private bool disposed;
@@ -55,7 +55,6 @@
             this.BufferTime = bufferTime;
             this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(true)
                                                                          .Chunks(bufferTime, scheduler)
-                                                                         .Cast<IReadOnlyList<NotifyCollectionChangedEventArgs>>()
                                                                          .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
                                                                          .Subscribe(this.Refresh);
         }
@@ -64,9 +63,6 @@
         /// The time to buffer changes before notifying.
         /// </summary>
         public TimeSpan BufferTime { get; }
-
-        /// <inheritdoc/>
-        object IUpdater.CurrentlyUpdatingSourceItem => null;
 
         /// <summary>
         /// Protected implementation of Dispose pattern.

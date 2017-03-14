@@ -85,8 +85,16 @@ namespace Gu.Reactive
                     return;
                 }
 
-                this.source = value;
-                this.OnPropertyChanged();
+                lock (this.source.SyncRootOrDefault(this.SyncRoot()))
+                {
+                    if (ReferenceEquals(value, this.source))
+                    {
+                        return;
+                    }
+
+                    this.source = value;
+                    this.OnPropertyChanged();
+                }
             }
         }
 

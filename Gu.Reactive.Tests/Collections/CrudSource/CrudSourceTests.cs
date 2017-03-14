@@ -100,7 +100,13 @@
                 this.Scheduler.Start();
 
                 CollectionAssert.AreEqual(this.Source, this.View);
-                CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, actual, EventArgsComparer.Default);
+                var expected = new EventArgs[]
+                                   {
+                                       CachedEventArgs.CountPropertyChanged,
+                                       CachedEventArgs.IndexerPropertyChanged,
+                                       CachedEventArgs.NotifyCollectionReset
+                                   };
+                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
             }
         }
 

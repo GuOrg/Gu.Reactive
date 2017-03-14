@@ -38,14 +38,25 @@ namespace Gu.Reactive.Tests.Collections
             var scheduledCollection = new ScheduledCollection<int>();
             using (var actualChanges = scheduledCollection.SubscribeAll())
             {
-                var expectedChanges = new List<EventArgs>(CachedEventArgs.ResetEventArgsCollection);
+                var expectedChanges = new List<EventArgs>
+                                          {
+                                              CachedEventArgs.CountPropertyChanged,
+                                              CachedEventArgs.IndexerPropertyChanged,
+                                              CachedEventArgs.NotifyCollectionReset
+                                          };
                 scheduledCollection.AddRange(new[] { 1, 2 });
                 CollectionAssert.AreEqual(new[] { 1, 2 }, scheduledCollection);
                 CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
 
                 scheduledCollection.AddRange(new[] { 3, 4 });
                 CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, scheduledCollection);
-                expectedChanges.AddRange(CachedEventArgs.ResetEventArgsCollection);
+                expectedChanges.AddRange(
+                    new EventArgs[]
+                        {
+                            CachedEventArgs.CountPropertyChanged,
+                            CachedEventArgs.IndexerPropertyChanged,
+                            CachedEventArgs.NotifyCollectionReset
+                        });
                 CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
             }
         }
@@ -100,7 +111,12 @@ namespace Gu.Reactive.Tests.Collections
             var scheduledCollection = new ScheduledCollection<int> { 1, 2, 3, 4 };
             using (var actualChanges = scheduledCollection.SubscribeAll())
             {
-                var expectedChanges = new List<EventArgs>(CachedEventArgs.ResetEventArgsCollection);
+                var expectedChanges = new List<EventArgs>
+                                          {
+                                              CachedEventArgs.CountPropertyChanged,
+                                              CachedEventArgs.IndexerPropertyChanged,
+                                              CachedEventArgs.NotifyCollectionReset
+                                          };
 
                 scheduledCollection.RemoveRange(new[] { 1, 2 });
                 CollectionAssert.AreEqual(new[] { 3, 4 }, scheduledCollection);
@@ -108,7 +124,13 @@ namespace Gu.Reactive.Tests.Collections
 
                 scheduledCollection.RemoveRange(new[] { 3, 4 });
                 CollectionAssert.IsEmpty(scheduledCollection);
-                expectedChanges.AddRange(CachedEventArgs.ResetEventArgsCollection);
+                expectedChanges.AddRange(
+                    new EventArgs[]
+                        {
+                            CachedEventArgs.CountPropertyChanged,
+                            CachedEventArgs.IndexerPropertyChanged,
+                            CachedEventArgs.NotifyCollectionReset
+                        });
                 CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
             }
         }

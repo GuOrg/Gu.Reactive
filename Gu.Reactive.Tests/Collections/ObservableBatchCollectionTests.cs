@@ -40,14 +40,25 @@
             var batchCollection = new ObservableBatchCollection<int>();
             using (var actualChanges = batchCollection.SubscribeAll())
             {
-                var expectedChanges = new List<EventArgs>(CachedEventArgs.ResetEventArgsCollection);
+                var expectedChanges = new List<EventArgs>
+                                          {
+                                              CachedEventArgs.CountPropertyChanged,
+                                              CachedEventArgs.IndexerPropertyChanged,
+                                              CachedEventArgs.NotifyCollectionReset
+                                          };
                 batchCollection.AddRange(new[] { 1, 2 });
                 CollectionAssert.AreEqual(new[] { 1, 2 }, batchCollection);
                 CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
 
                 batchCollection.AddRange(new[] { 3, 4 });
                 CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, batchCollection);
-                expectedChanges.AddRange(CachedEventArgs.ResetEventArgsCollection);
+                expectedChanges.AddRange(
+                    new EventArgs[]
+                        {
+                            CachedEventArgs.CountPropertyChanged,
+                            CachedEventArgs.IndexerPropertyChanged,
+                            CachedEventArgs.NotifyCollectionReset
+                        });
                 CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
             }
         }
@@ -102,7 +113,12 @@
             var batchCollection = new ObservableBatchCollection<int> { 1, 2, 3, 4 };
             using (var actualChanges = batchCollection.SubscribeAll())
             {
-                var expectedChanges = new List<EventArgs>(CachedEventArgs.ResetEventArgsCollection);
+                var expectedChanges = new List<EventArgs>
+                                          {
+                                              CachedEventArgs.CountPropertyChanged,
+                                              CachedEventArgs.IndexerPropertyChanged,
+                                              CachedEventArgs.NotifyCollectionReset
+                                          };
 
                 batchCollection.RemoveRange(new[] { 1, 2 });
                 CollectionAssert.AreEqual(new[] { 3, 4 }, batchCollection);
@@ -110,7 +126,13 @@
 
                 batchCollection.RemoveRange(new[] { 3, 4 });
                 CollectionAssert.IsEmpty(batchCollection);
-                expectedChanges.AddRange(CachedEventArgs.ResetEventArgsCollection);
+                expectedChanges.AddRange(
+                    new EventArgs[]
+                        {
+                            CachedEventArgs.CountPropertyChanged,
+                            CachedEventArgs.IndexerPropertyChanged,
+                            CachedEventArgs.NotifyCollectionReset
+                        });
                 CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
             }
         }

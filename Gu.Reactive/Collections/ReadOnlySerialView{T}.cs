@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
     using System.Diagnostics.CodeAnalysis;
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
@@ -42,7 +41,6 @@
                                            .Select(x => x.GetValueOrDefault().ObserveCollectionChangedSlimOrDefault(true))
                                            .Switch()
                                            .Chunks(bufferTime, scheduler)
-                                           .Cast<IReadOnlyList<NotifyCollectionChangedEventArgs>>()
                                            .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
                                            .Subscribe(this.Refresh);
         }

@@ -64,7 +64,6 @@
     <Compile Include="FakesAndHelpers\DumpIfDebug.cs" />
     <Compile Include="FakesAndHelpers\TestExtensions.cs" />
     <Compile Include="CollectionViews\DispatchingViewTests.cs" />
-    <Compile Include="FakesAndHelpers\EventArgsComparer.cs" />
     <Compile Include="NamespacesTests.cs" />
     <Compile Include="CollectionViews\ObservableCollectionExtensionsTests.cs" />
     <Compile Include="Commands\AsyncCommandTests.cs" />

@@ -80,7 +80,6 @@
                                                      triggers.MergeOrNever()
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
                                                  .Chunks(bufferTime, scheduler)
-                                                 .Cast<IReadOnlyList<NotifyCollectionChangedEventArgs>>()
                                                  .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
                                                  .Subscribe(this.Refresh);
         }

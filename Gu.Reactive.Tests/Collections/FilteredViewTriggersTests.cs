@@ -35,7 +35,13 @@ namespace Gu.Reactive.Tests.Collections
                     CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
                     scheduler.Start();
 
-                    CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, actualChanges, EventArgsComparer.Default);
+                    var expected = new EventArgs[]
+                                          {
+                                              CachedEventArgs.CountPropertyChanged,
+                                              CachedEventArgs.IndexerPropertyChanged,
+                                              CachedEventArgs.NotifyCollectionReset
+                                          };
+                    CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
                     CollectionAssert.IsEmpty(view);
                 }
             }
