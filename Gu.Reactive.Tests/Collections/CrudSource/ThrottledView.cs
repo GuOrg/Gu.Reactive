@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // Type or member is obsolete
 namespace Gu.Reactive.Tests.Collections
 {
     using System;
@@ -11,7 +12,7 @@ namespace Gu.Reactive.Tests.Collections
             base.SetUp();
             this.Scheduler = new TestScheduler();
             (this.View as IDisposable)?.Dispose();
-            this.View = new ThrottledView<int>(this.Source, TimeSpan.FromMilliseconds(10), this.Scheduler);
+            this.View = this.Source.AsThrottledView(TimeSpan.FromMilliseconds(10), this.Scheduler);
             this.Scheduler.Start();
         }
     }

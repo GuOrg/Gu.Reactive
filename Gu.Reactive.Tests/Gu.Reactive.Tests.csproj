@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\CollectionSynchronizerTests.cs" />
-    <Compile Include="Collections\CrudSource\FilteredMappedView.cs" />
+    <Compile Include="Collections\CrudSource\ReadOnlyFilteredViewMappedView.cs" />
     <Compile Include="Collections\MappingViewTests.Creating.cs" />
     <Compile Include="Collections\MappingViewTests.CreatingUpdatingRemoving.cs" />
     <Compile Include="Collections\MappingViewTests.Nested.cs" />

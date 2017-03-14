@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // Type or member is obsolete
 namespace Gu.Wpf.Reactive.Tests.CollectionViews
 {
     using System.Collections.Generic;

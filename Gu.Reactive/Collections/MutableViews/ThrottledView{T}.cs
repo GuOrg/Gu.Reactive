@@ -10,6 +10,7 @@
     /// <summary>
     /// A view of a collection that buffers changes before notifying.
     /// </summary>
+    [Obsolete("Candidate for removal, broken.")]
     public class ThrottledView<T> : SynchronizedEditableView<T>, IThrottledView<T>, IReadOnlyThrottledView<T>
     {
         private readonly IScheduler scheduler;

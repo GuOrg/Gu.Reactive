@@ -38,6 +38,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\ReadOnlyViews\ReadOnlyThrottledView.generated.cs">
+      <DependentUpon>ReadOnlyThrottledView.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Collections\ReadOnlyViews\Mapping\CreatingRemoving{TSource,TResult}.cs" />
     <Compile Include="Collections\ReadOnlyViews\Mapping\IMapper{TSource,TResult}.cs" />
     <Compile Include="Collections\ReadOnlyViews\Mapping\Mapper.cs" />
@@ -287,6 +292,12 @@
     <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll">
       <Paket>True</Paket>
     </Analyzer>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Collections\ReadOnlyViews\ReadOnlyThrottledView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReadOnlyThrottledView.generated.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')">

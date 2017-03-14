@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.Collections.Filter
+﻿#pragma warning disable CS0618 // Type or member is obsolete
+namespace Gu.Reactive.Tests.Collections.Filter
 {
     using System;
     using System.Collections.Generic;

@@ -44,7 +44,7 @@ namespace Gu.Reactive.Tests.Collections
 
             public override string ToString()
             {
-                return $"{nameof(Value)}: {Value}, {nameof(Index)}: {Index}, {nameof(Model)}: {Model}";
+                return $"{nameof(this.Value)}: {this.Value}, {nameof(this.Index)}: {this.Index}, {nameof(this.Model)}: {this.Model}";
             }
         }
     }

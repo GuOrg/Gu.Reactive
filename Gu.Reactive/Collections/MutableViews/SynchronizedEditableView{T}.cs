@@ -15,6 +15,7 @@
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
     [Serializable]
+    [Obsolete("Candidate for removal, broken.")]
     public abstract class SynchronizedEditableView<T> : IList, IList<T>, IUpdater, IRefreshAble, IDisposable, INotifyPropertyChanged, INotifyCollectionChanged
     {
         private readonly object syncRoot;

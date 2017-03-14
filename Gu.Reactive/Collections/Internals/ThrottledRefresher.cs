@@ -42,7 +42,7 @@
                                 return;
                             }
 
-                            if (e.TryGetSingleOldItem(out object oldItem) && 
+                            if (e.TryGetSingleOldItem(out object oldItem) &&
                                 ReferenceEquals(isUpdatingSourceItem, oldItem))
                             {
                                 return;

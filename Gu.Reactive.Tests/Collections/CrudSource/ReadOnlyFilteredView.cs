@@ -161,7 +161,7 @@ namespace Gu.Reactive.Tests.Collections
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
-            using (var view = source.AsFilteredView(x => x % 2 == 0, scheduler))
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
                 using (var changes = view.SubscribeAll())
                 {
@@ -192,7 +192,7 @@ namespace Gu.Reactive.Tests.Collections
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
-            using (var view = source.AsFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
             {
                 using (var changes = view.SubscribeAll())
                 {
@@ -225,7 +225,7 @@ namespace Gu.Reactive.Tests.Collections
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
-            using (var view = source.AsFilteredView(x => x % 2 == 0, scheduler))
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
                 using (var changes = view.SubscribeAll())
                 {
@@ -261,7 +261,7 @@ namespace Gu.Reactive.Tests.Collections
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
-            using (var view = source.AsFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
             {
                 using (var changes = view.SubscribeAll())
                 {
