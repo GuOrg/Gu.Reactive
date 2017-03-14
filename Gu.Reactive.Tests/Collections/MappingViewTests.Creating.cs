@@ -86,39 +86,35 @@ namespace Gu.Reactive.Tests.Collections
             [Test]
             public void Add()
             {
-                var source = new ObservableCollection<int>();
-                using (var modelView = source.AsMappingView(x => new Model(x)))
+                var source = new ObservableCollection<int> { 1, 2, 3 };
+                using (var view = source.AsMappingView(x => new Model(x)))
                 {
-                    using (var modelViewChanges = modelView.SubscribeAll())
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Value));
+
+                    using (var actual = view.SubscribeAll())
                     {
-                        using (var indexedView = modelView.AsMappingView((x, i) => new Vm { Model = x, Index = i }, (x, i) => x))
-                        {
-                            using (var indexedChanges = indexedView.SubscribeAll())
-                            {
-                                using (var vmView = modelView.AsMappingView(x => new Vm { Model = x }))
+                        source.Add(4);
+                        var expected = new List<EventArgs>
+                                           {
+                                               CachedEventArgs.CountPropertyChanged,
+                                               CachedEventArgs.IndexerPropertyChanged,
+                                               Diff.CreateAddEventArgs(view[3], 3)
+                                           };
+
+                        CollectionAssert.AreEqual(source, view.Select(x => x.Value));
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                        source.Add(5);
+                        expected.AddRange(
+                            new EventArgs[]
                                 {
-                                    using (var vmViewChanges = vmView.SubscribeAll())
-                                    {
-                                        source.Add(1);
-                                        var expected = new EventArgs[]
-                                        {
-                                            CachedEventArgs.CountPropertyChanged,
-                                            CachedEventArgs.IndexerPropertyChanged,
-                                            null
-                                        };
+                                    CachedEventArgs.CountPropertyChanged,
+                                    CachedEventArgs.IndexerPropertyChanged,
+                                    Diff.CreateAddEventArgs(view[4], 4)
+                                });
 
-                                        expected[2] = Diff.CreateAddEventArgs(modelView[0], 0);
-                                        CollectionAssert.AreEqual(expected, modelViewChanges, EventArgsComparer.Default);
-
-                                        expected[2] = Diff.CreateAddEventArgs(vmView[0], 0);
-                                        CollectionAssert.AreEqual(expected, vmViewChanges, EventArgsComparer.Default);
-
-                                        expected[2] = Diff.CreateAddEventArgs(indexedView[0], 0);
-                                        CollectionAssert.AreEqual(expected, indexedChanges, EventArgsComparer.Default);
-                                    }
-                                }
-                            }
-                        }
+                        CollectionAssert.AreEqual(source, view.Select(x => x.Value));
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     }
                 }
             }

@@ -164,6 +164,100 @@
         }
 
         /// <summary>
+        /// Called when the source collection changed.
+        /// </summary>
+        /// <param name="changes">The changes accumulated during the buffer time.</param>
+        protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        {
+            if (changes == null || changes.Count == 0)
+            {
+                return;
+            }
+
+            if (changes.Count > 1)
+            {
+                this.Refresh(changes);
+                return;
+            }
+
+            var e = changes[0];
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    {
+                        if (!e.TryGetSingleNewItem(out TSource newSource))
+                        {
+                            goto case NotifyCollectionChangedAction.Reset;
+                        }
+
+                        var index = e.NewStartingIndex;
+                        var value = this.GetOrCreate(newSource, index);
+                        this.Tracker.Insert(index, value);
+                        var args = this.UpdateRange(index + 1, this.Count - 1);
+                        args.Add(Diff.CreateAddEventArgs(value, index));
+                        this.Notify(args);
+                        break;
+                    }
+
+                case NotifyCollectionChangedAction.Remove:
+                    {
+                        if (!e.TryGetSingleOldItem(out TSource oldSource))
+                        {
+                            goto case NotifyCollectionChangedAction.Reset;
+                        }
+
+                        var index = e.OldStartingIndex;
+                        var value = this.Tracker[index];
+                        this.Tracker.RemoveAt(index);
+                        var argses = this.UpdateRange(index, this.Count - 1);
+                        argses.Add(Diff.CreateRemoveEventArgs(value, index));
+                        this.Notify(argses);
+                        this.factory.Remove(oldSource, value);
+                        break;
+                    }
+
+                case NotifyCollectionChangedAction.Replace:
+                    {
+                        if (!e.TryGetSingleNewItem(out TSource newSource) ||
+                            !e.TryGetSingleOldItem(out TSource oldSource))
+                        {
+                            goto case NotifyCollectionChangedAction.Reset;
+                        }
+
+                        var index = e.NewStartingIndex;
+                        var value = this.GetOrCreate(newSource, index);
+                        var oldValue = this.Tracker[e.OldStartingIndex];
+                        this.Tracker[index] = value;
+                        var arg = Diff.CreateReplaceEventArgs(value, oldValue, index);
+                        this.Notify(arg);
+                        this.factory.Remove(oldSource, oldValue);
+                        break;
+                    }
+
+                case NotifyCollectionChangedAction.Move:
+                    {
+                        var value = this.Tracker[e.OldStartingIndex];
+                        this.Tracker.RemoveAt(e.OldStartingIndex);
+                        this.Tracker.Insert(e.NewStartingIndex, value);
+                        var args = this.UpdateRange(Math.Min(e.OldStartingIndex, e.NewStartingIndex), Math.Max(e.OldStartingIndex, e.NewStartingIndex));
+                        args.Add(Diff.CreateMoveEventArgs(value, e.NewStartingIndex, e.OldStartingIndex));
+                        this.Notify(args);
+                        break;
+                    }
+
+                case NotifyCollectionChangedAction.Reset:
+                    using (this.factory.RefreshTransaction())
+                    {
+                        base.Refresh(changes);
+                    }
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
         /// Delegates creation to mapping factory.
         /// </summary>
         protected virtual TResult GetOrCreate(TSource key, int index) => this.factory.GetOrCreate(key, index);
@@ -222,104 +316,6 @@
             }
 
             return changes;
-        }
-
-        /// <summary>
-        /// Called when the source collection changed.
-        /// </summary>
-        /// <param name="changeCollection">The changes accumulated during the buffer time.</param>
-        protected virtual void OnSourceCollectionChanged(IReadOnlyList<NotifyCollectionChangedEventArgs> changeCollection)
-        {
-            if (changeCollection == null || changeCollection.Count == 0)
-            {
-                return;
-            }
-
-            if (changeCollection.Count > 1)
-            {
-                using (this.factory.RefreshTransaction())
-                {
-                    base.Refresh(changeCollection);
-                }
-
-                return;
-            }
-
-            var singleChange = changeCollection[0];
-            switch (singleChange.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    {
-                        if (!singleChange.TryGetSingleNewItem(out TSource newSource))
-                        {
-                            goto case NotifyCollectionChangedAction.Reset;
-                        }
-
-                        var index = singleChange.NewStartingIndex;
-                        var value = this.GetOrCreate(newSource, index);
-                        this.Tracker.Insert(index, value);
-                        var changes = this.UpdateRange(index + 1, this.Count - 1);
-                        changes.Add(Diff.CreateAddEventArgs(value, index));
-                        this.Notify(changes);
-                        break;
-                    }
-
-                case NotifyCollectionChangedAction.Remove:
-                    {
-                        if (!singleChange.TryGetSingleOldItem(out TSource oldSource))
-                        {
-                            goto case NotifyCollectionChangedAction.Reset;
-                        }
-
-                        var index = singleChange.OldStartingIndex;
-                        var value = this.Tracker[index];
-                        this.Tracker.RemoveAt(index);
-                        var changes = this.UpdateRange(index, this.Count - 1);
-                        changes.Add(Diff.CreateRemoveEventArgs(value, index));
-                        this.Notify(changes);
-                        this.factory.Remove(oldSource, value);
-                        break;
-                    }
-
-                case NotifyCollectionChangedAction.Replace:
-                    {
-                        if (!singleChange.TryGetSingleNewItem(out TSource newSource) ||
-                            !singleChange.TryGetSingleOldItem(out TSource oldSource))
-                        {
-                            goto case NotifyCollectionChangedAction.Reset;
-                        }
-
-                        var index = singleChange.NewStartingIndex;
-                        var value = this.GetOrCreate(newSource, index);
-                        var oldValue = this.Tracker[singleChange.OldStartingIndex];
-                        this.Tracker[index] = value;
-                        var change = Diff.CreateReplaceEventArgs(value, oldValue, index);
-                        this.Notify(change);
-                        this.factory.Remove(oldSource, oldValue);
-                        break;
-                    }
-
-                case NotifyCollectionChangedAction.Move:
-                    {
-                        var value = this.Tracker[singleChange.OldStartingIndex];
-                        this.Tracker.RemoveAt(singleChange.OldStartingIndex);
-                        this.Tracker.Insert(singleChange.NewStartingIndex, value);
-                        var changes = this.UpdateRange(Math.Min(singleChange.OldStartingIndex, singleChange.NewStartingIndex), Math.Max(singleChange.OldStartingIndex, singleChange.NewStartingIndex));
-                        changes.Add(Diff.CreateMoveEventArgs(value, singleChange.NewStartingIndex, singleChange.OldStartingIndex));
-                        this.Notify(changes);
-                        break;
-                    }
-
-                case NotifyCollectionChangedAction.Reset:
-                    using (this.factory.RefreshTransaction())
-                    {
-                        base.Refresh(changeCollection);
-                    }
-
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
 
         /// <summary>

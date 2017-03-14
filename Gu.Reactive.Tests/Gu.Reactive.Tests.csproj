@@ -44,6 +44,7 @@
     <Compile Include="Collections\CrudSource\FilteredMappedView.cs" />
     <Compile Include="Collections\MappingViewTests.Creating.cs" />
     <Compile Include="Collections\MappingViewTests.CreatingUpdatingRemoving.cs" />
+    <Compile Include="Collections\MappingViewTests.Nested.cs" />
     <Compile Include="Collections\MappingViewTests.ReferenceType.cs" />
     <Compile Include="Collections\MappingViewTests.ReferenceTypeCreatingCachingRemoving.cs" />
     <Compile Include="Collections\MappingViewTests.ValueTypeCreatingRemoving.cs" />
