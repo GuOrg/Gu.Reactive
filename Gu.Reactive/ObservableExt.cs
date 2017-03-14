@@ -1,6 +1,9 @@
 ﻿namespace Gu.Reactive
 {
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Reactive;
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
@@ -86,6 +89,20 @@
                                 observer.OnCompleted();
                             });
                 });
+        }
+
+        /// <summary>
+        /// Return Observable.Merge if <paramref name="source"/> is not null or empty
+        /// </summary>
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+        internal static IObservable<T> MergeOrNever<T>(this IEnumerable<IObservable<T>> source)
+        {
+            if (source?.Any() == true)
+            {
+                return Observable.Merge(source);
+            }
+
+            return Observable.Never<T>();
         }
     }
 }

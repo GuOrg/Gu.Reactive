@@ -177,6 +177,24 @@ namespace Gu.Reactive
                     (item, sender, args, sourceAndValue) => args));
         }
 
+        /// <summary>
+        /// Observes collectionchanged events for <paramref name="source"/>.
+        /// </summary>
+        internal static IObservable<NotifyCollectionChangedEventArgs> ObserveCollectionChangedSlimOrNever(
+            this IEnumerable source,
+            bool signalInitial)
+        {
+            var notifyingSource = source as INotifyCollectionChanged;
+            if (notifyingSource == null)
+            {
+                return signalInitial
+                           ? Observable.Return(CachedEventArgs.NotifyCollectionReset)
+                           : Observable.Never<NotifyCollectionChangedEventArgs>();
+            }
+
+            return notifyingSource.ObserveCollectionChangedSlim(signalInitial);
+        }
+
         private static IDisposable ItemPropertyChangedCore<TCollection, TItem, TProperty, T>(
             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
             IObserver<T> observer,
