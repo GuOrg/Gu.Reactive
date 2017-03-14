@@ -3,8 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
     using System.Diagnostics.CodeAnalysis;
     using System.Reactive.Concurrency;
+    using System.Reactive.Linq;
 
     /// <summary>
     /// A readonly view of a collection that buffers changes before notifying.
@@ -51,8 +53,11 @@
             : base(source, s => s)
         {
             this.BufferTime = bufferTime;
-            this.refreshSubscription = ThrottledRefresher.Create(this, source, bufferTime, scheduler, false)
-                                                         .Subscribe(this.Refresh);
+            this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(true)
+                                                                         .Chunks(bufferTime, scheduler)
+                                                                         .Cast<IReadOnlyList<NotifyCollectionChangedEventArgs>>()
+                                                                         .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
+                                                                         .Subscribe(this.Refresh);
         }
 
         /// <summary>

@@ -81,7 +81,7 @@
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
                                                  .Chunks(bufferTime, scheduler)
                                                  .Cast<IReadOnlyList<NotifyCollectionChangedEventArgs>>()
-                                                 .ObserveOnOrDefault(scheduler ?? ImmediateScheduler.Instance)
+                                                 .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
                                                  .Subscribe(this.Refresh);
         }
 
