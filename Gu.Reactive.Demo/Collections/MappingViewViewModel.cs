@@ -35,7 +35,7 @@
                 (x, i) => x.UpdateIndex(i),
                 WpfSchedulers.Dispatcher);
 
-            this.FilteredMappedMapped = this.MappedInts
+            this.MappedFilteredMapped = this.MappedInts
                                             .AsReadOnlyFilteredView(x => x.Value % 2 == 0)
                                             .AsMappingView(
                                                 x => new MappedVm { Value = x.Value * 2 },
@@ -79,7 +79,7 @@
 
         public MappingView<int, MappedVm> MappedIndexedInts { get; }
 
-        public MappingView<MappedVm, MappedVm> FilteredMappedMapped { get; }
+        public MappingView<MappedVm, MappedVm> MappedFilteredMapped { get; }
 
         public MappingView<MappedVm, MappedVm> MappedMapped { get; }
 
@@ -140,7 +140,7 @@
             this.FilteredMappedInts.Dispose();
             this.MappedInts.Dispose();
             this.MappedIndexedInts.Dispose();
-            this.FilteredMappedMapped.Dispose();
+            this.MappedFilteredMapped.Dispose();
             this.MappedMapped.Dispose();
             (this.MappedMappedIndexed as IDisposable)?.Dispose();
             this.MappedMappedUpdateIndexed.Dispose();

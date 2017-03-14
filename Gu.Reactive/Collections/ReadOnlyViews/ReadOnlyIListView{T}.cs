@@ -12,7 +12,7 @@
 
     /// <summary>
     /// For exposing a source collection as a readonly list.
-    /// For example DataGrid needs <see cref="IList"/> for elrmrnts to be editable.
+    /// For example DataGrid needs <see cref="IList"/> for elements to be editable.
     /// </summary>
     public class ReadOnlyIListView<T> : IReadOnlyObservableCollection<T>, IList, IDisposable
     {

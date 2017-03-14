@@ -82,7 +82,7 @@
 
             <demo:DataGridAndEventsView Header="MappedMappedUpdateNewIndexed" Source="{Binding MappedMappedUpdateNewIndexed}" />
 
-            <demo:DataGridAndEventsView Header="FilteredMappedMapped" Source="{Binding FilteredMappedMapped}" />
+            <demo:DataGridAndEventsView Header="FilteredMappedMapped" Source="{Binding MappedFilteredMapped}" />
         </UniformGrid>
     </Grid>
 </UserControl>
