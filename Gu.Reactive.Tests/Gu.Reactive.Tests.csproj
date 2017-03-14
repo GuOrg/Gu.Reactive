@@ -75,6 +75,7 @@
     <Compile Include="MaybeTests.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedSlimLamda.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObserveValue.cs" />
+    <Compile Include="ObservableExtTests.Chunks.cs" />
     <Compile Include="SerialDisposableTests.cs" />
     <Compile Include="Collections\ThrottledRefresherTests.cs" />
     <Compile Include="Collections\DiffTests.cs" />
@@ -120,7 +121,7 @@
     <Compile Include="NotifyCollectionChangedExt\NotifyCollectionChangedExtTests.ItemPropertyChanged.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedWithValueNestedLambda.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedSlimString.cs" />
-    <Compile Include="ObservableExtTests.cs" />
+    <Compile Include="ObservableExtTests.Throttle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.OnPropertyChangedSimpleLamda.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.OnPropertyChangedNestedLamda.cs" />
