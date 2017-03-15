@@ -48,7 +48,7 @@ namespace Gu.Reactive
         public static MaxTracker<TValue> TrackMax<TValue>(this <#= typeName #><TValue> source)
             where TValue : struct, IComparable<TValue>
         {
-            return new MaxTracker<TValue>(new Changes<<#= typeName #><TValue>, TValue>(source));
+            return new MaxTracker<TValue>(new SimpleChanges<<#= typeName #><TValue>, TValue>(source));
         }
 <#      }    
 #>

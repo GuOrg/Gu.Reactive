@@ -61,7 +61,7 @@
         public virtual void Reset()
         {
             this.ThrowIfDisposed();
-            this.Value = this.GetValueOrDefault(this.source.Values);
+            this.OnReset(this.source.Values);
         }
 
         /// <inheritdoc/>
@@ -88,13 +88,13 @@
                 this.source.Add -= this.OnAdd;
                 this.source.Remove -= this.OnRemove;
                 this.source.Reset -= this.OnReset;
+                this.source.Dispose();
             }
         }
 
         /// <summary>
         /// Called when the source collection notifies about collection changes.
         /// </summary>
-        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/></param>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         protected virtual void OnReset(IEnumerable<TValue> values)
         {
