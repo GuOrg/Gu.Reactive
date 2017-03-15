@@ -6,6 +6,8 @@
     using System.Linq.Expressions;
     using System.Reactive.Linq;
 
+    using Gu.Reactive.Internals;
+
     /// <summary>
     /// Factory methods for creating trackers for min value.
     /// </summary>
@@ -19,16 +21,13 @@
         /// <param name="source">The source collection.</param>
         /// <param name="selector">The function used when producing a value from an item.</param>
         /// <param name="whenEmpty">The value to return <paramref name="source"/> is empty.</param>
-        /// <param name="trackItemChanges">If true we subscribe to property changes for each item. This is much slower.</param>
         /// <returns>A tracker with Value synced with source.Min()</returns>
-        public static MinTracker<TValue> TrackMin<TItem, TValue>(this ObservableCollection<TItem> source, Expression<Func<TItem, TValue>> selector, TValue? whenEmpty, bool trackItemChanges)
+        public static MinTracker<TValue> TrackMin<TItem, TValue>(this ObservableCollection<TItem> source, Expression<Func<TItem, TValue>> selector, TValue? whenEmpty)
             where TItem : class, INotifyPropertyChanged
             where TValue : struct, IComparable<TValue>
         {
-            var onItemChanged = trackItemChanges
-                                    ? source.ObserveItemPropertyChangedSlim(selector, false)
-                                    : Observable.Never<PropertyChangedEventArgs>();
-            var mapped = source.AsMappingView(selector.Compile(), onItemChanged);
+            var path = NotifyingPath.GetOrCreate(selector);
+            IReadOnlyObservableCollection<PropertyPathTracker<TItem, TValue>> mapped = source.AsMappingView(path.CreateTracker, x => x.Dispose());
             return new MinTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
         }
 

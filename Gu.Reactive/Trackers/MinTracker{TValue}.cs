@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
-    using System.Linq;
 
     /// <summary>
     /// A tracker for minimum value in a collection.
@@ -12,18 +10,17 @@
     public sealed class MinTracker<TValue> : Tracker<TValue>
         where TValue : struct, IComparable<TValue>
     {
+        private readonly TValue? whenEmpty;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MinTracker{TValue}"/> class.
         /// </summary>
-        /// <param name="source">The source collection.</param>
-        /// <param name="onChanged">The </param>
+        /// <param name="source">The changes of the source collection.</param>
         /// <param name="whenEmpty">The Value to use when <paramref name="source"/> is empty.</param>
-        public MinTracker(
-            IReadOnlyList<TValue> source,
-            IObservable<NotifyCollectionChangedEventArgs> onChanged,
-            TValue? whenEmpty)
-            : base(source, onChanged, whenEmpty)
+        public MinTracker(IChanges<TValue> source, TValue? whenEmpty)
+            : base(source)
         {
+            this.whenEmpty = whenEmpty;
             this.Reset();
         }
 
@@ -59,32 +56,30 @@
         }
 
         /// <inheritdoc/>
-        protected override void OnReplace(TValue oldValue, TValue newValue)
+        protected override TValue? GetValueOrDefault(IEnumerable<TValue> source)
         {
-            var current = this.Value;
-            if (current == null)
+            var comparer = Comparer<TValue>.Default;
+            var value = default(TValue);
+            var hasValue = false;
+            foreach (var x in source)
             {
-                this.Reset();
-                return;
+                if (hasValue)
+                {
+                    if (comparer.Compare(x, value) < 0)
+                    {
+                        value = x;
+                    }
+                }
+                else
+                {
+                    value = x;
+                    hasValue = true;
+                }
             }
 
-            if (Comparer<TValue>.Default.Compare(oldValue, current.Value) == 0)
-            {
-                this.Reset();
-            }
-            else
-            {
-                this.OnAdd(newValue);
-            }
-        }
-
-        /// <inheritdoc/>
-        protected override TValue GetValue(IReadOnlyList<TValue> source)
-        {
-            lock (this.Gate)
-            {
-                return source.Min();
-            }
+            return hasValue
+                       ? value
+                       : this.whenEmpty;
         }
     }
 }
