@@ -6,43 +6,40 @@ namespace Gu.Reactive.Benchmarks
 
     using BenchmarkDotNet.Attributes;
 
-    public class MinTrackerSimple : IDisposable
+    public class MinTrackerSimple
     {
-        private ObservableCollection<int> ints;
-        private MinTracker<int> tracker;
-        private bool disposed;
+        private ObservableCollection<int> ints1 = new ObservableBatchCollection<int>();
+        private ObservableCollection<int> ints2 = new ObservableBatchCollection<int>();
 
         [Setup]
         public void SetupData()
         {
-            this.ints = new ObservableCollection<int>(Enumerable.Range(-5, 10));
-            this.tracker?.Dispose();
-            this.tracker = this.ints.TrackMin(-1);
+            foreach (var ints in new[] { this.ints1, this.ints2 })
+            {
+                ints.Clear();
+                for (int i = 0; i < 10; i++)
+                {
+                    ints.Add(i);
+                }
+            }
         }
 
         [Benchmark(Baseline = true)]
         public int? Linq()
         {
-            this.ints.Add(5);
-            return this.ints.Min(x => x);
+            var min = this.ints1.Min(x => x);
+            this.ints1.Add(5);
+            return Math.Min(min, this.ints1.Min(x => x));
         }
 
         [Benchmark]
         public int? Tracker()
         {
-            this.ints.Add(5);
-            return this.tracker.Value;
-        }
-
-        public void Dispose()
-        {
-            if (this.disposed)
+            using (var tracker = this.ints2.TrackMin(-1))
             {
-                return;
+                this.ints2.Add(5);
+                return tracker.Value;
             }
-
-            this.disposed = true;
-            this.tracker?.Dispose();
         }
     }
 }

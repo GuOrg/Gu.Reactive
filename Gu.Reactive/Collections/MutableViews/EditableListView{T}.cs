@@ -20,14 +20,14 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="EditableListView{T}"/> class.
         /// </summary>
-        public EditableListView(IObservableCollection<T> source)
-            : base(source)
+        public EditableListView(IObservableCollection<T> list)
+            : base(list)
         {
             this.subscriptions = new CompositeDisposable(2)
                                      {
-                                         source.ObservePropertyChangedSlim()
+                                         list.ObservePropertyChangedSlim()
                                                .Subscribe(this.OnPropertyChanged),
-                                         source.ObserveCollectionChangedSlim(false)
+                                         list.ObserveCollectionChangedSlim(false)
                                                .Subscribe(this.OnCollectionChanged)
                                      };
         }

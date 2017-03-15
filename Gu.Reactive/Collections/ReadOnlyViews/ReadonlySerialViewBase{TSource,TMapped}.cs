@@ -14,25 +14,25 @@ namespace Gu.Reactive
     /// A base class for swapping out an <see cref="IEnumerable{T}"/> source and get notifications.
     /// </summary>
     [Serializable]
-    public abstract class ReadonlySerialViewBase<TSourceItem, TITem> : IRefreshAble, IList, IReadOnlyList<TITem>, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
+    public abstract class ReadonlySerialViewBase<TSource, TMapped> : IRefreshAble, IList, IReadOnlyList<TMapped>, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        private static readonly IReadOnlyList<TSourceItem> EmptySource = new TSourceItem[0];
+        private static readonly IReadOnlyList<TSource> EmptySource = new TSource[0];
 
-        private readonly Func<IEnumerable<TSourceItem>, IEnumerable<TITem>> mapper;
-        private readonly CollectionSynchronizer<TITem> tracker;
+        private readonly Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper;
+        private readonly CollectionSynchronizer<TMapped> tracker;
 
         private bool disposed;
-        private IEnumerable<TSourceItem> source;
+        private IEnumerable<TSource> source;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{TSourceItem, TITem}"/> class.
         /// </summary>
-        protected ReadonlySerialViewBase(IEnumerable<TSourceItem> source, Func<IEnumerable<TSourceItem>, IEnumerable<TITem>> mapper, bool starteEmpty = false)
+        protected ReadonlySerialViewBase(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper, bool starteEmpty = false)
         {
             Ensure.NotNull(mapper, nameof(mapper));
             this.mapper = mapper;
             this.source = source ?? EmptySource;
-            this.tracker = new CollectionSynchronizer<TITem>(starteEmpty ? mapper(EmptySource) : mapper(source));
+            this.tracker = new CollectionSynchronizer<TMapped>(starteEmpty ? mapper(EmptySource) : mapper(source));
         }
 
         /// <inheritdoc/>
@@ -66,12 +66,12 @@ namespace Gu.Reactive
         /// <summary>
         /// The collection synchronizer.
         /// </summary>
-        protected CollectionSynchronizer<TITem> Tracker => this.tracker;
+        protected CollectionSynchronizer<TMapped> Tracker => this.tracker;
 
         /// <summary>
         /// The source collection.
         /// </summary>
-        protected IEnumerable<TSourceItem> Source
+        protected IEnumerable<TSource> Source
         {
             get
             {
@@ -99,7 +99,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public TITem this[int index] => this.ThrowIfDisposed(() => this.tracker[index]);
+        public TMapped this[int index] => this.ThrowIfDisposed(() => this.tracker[index]);
 
         /// <inheritdoc/>
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
@@ -110,7 +110,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public IEnumerator<TITem> GetEnumerator() => this.ThrowIfDisposed(() => this.tracker.GetEnumerator());
+        public IEnumerator<TMapped> GetEnumerator() => this.ThrowIfDisposed(() => this.tracker.GetEnumerator());
 
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
@@ -168,7 +168,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
-        protected virtual void SetSource(IEnumerable<TSourceItem> newSource)
+        protected virtual void SetSource(IEnumerable<TSource> newSource)
         {
             this.SetSourceCore(newSource);
         }
@@ -176,7 +176,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
-        protected void SetSourceCore(IEnumerable<TSourceItem> newSource)
+        protected void SetSourceCore(IEnumerable<TSource> newSource)
         {
             this.ThrowIfDisposed();
             this.Source = newSource ?? EmptySource;
