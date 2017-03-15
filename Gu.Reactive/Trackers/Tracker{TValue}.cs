@@ -14,21 +14,9 @@
     public abstract class Tracker<TValue> : ITracker<TValue?>
         where TValue : struct
     {
-        /// <summary>
-        /// The source collection.
-        /// </summary>
         protected readonly IReadOnlyList<TValue> Source;
-
-        /// <summary>
-        /// For locking.
-        /// </summary>
         protected readonly object Gate;
-
-        /// <summary>
-        /// The value to use when the <see cref="Source"/> is empty.
-        /// </summary>
         protected readonly TValue? WhenEmpty;
-
         private readonly IDisposable subscription;
 
         private TValue? value;
@@ -64,7 +52,7 @@
 
             protected set
             {
-                if (Equals(value, this.value))
+                if (Nullable.Equals(value, this.value))
                 {
                     return;
                 }
