@@ -8,7 +8,7 @@
     /// <summary>
     /// Factory methods for creating <see cref="FilteredView{T}"/>
     /// </summary>
-    [Obsolete("Candidate for removal, broken.")]
+    [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
     public static partial class FilteredView
     {
         /// <summary>
@@ -19,7 +19,7 @@
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
-        [Obsolete("Candidate for removal, broken.")]
+        [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
         public static FilteredView<T> AsFilteredView<T>(
             this ObservableCollection<T> collection,
             Func<T, bool> filter,
@@ -38,7 +38,7 @@
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
-        [Obsolete("Candidate for removal, broken.")]
+        [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
         public static FilteredView<T> AsFilteredView<T>(
             this ObservableCollection<T> collection,
             Func<T, bool> filter,
@@ -59,7 +59,7 @@
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
-        [Obsolete("Candidate for removal, broken.")]
+        [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
         public static FilteredView<T> AsFilteredView<T>(
             this ObservableCollection<T> collection,
             Func<T, bool> filter,
@@ -82,7 +82,7 @@
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
-        [Obsolete("Candidate for removal, broken.")]
+        [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
         public static FilteredView<T> AsFilteredView<T>(
             this ObservableCollection<T> collection,
             Func<T, bool> filter,
@@ -104,7 +104,7 @@
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
-        [Obsolete("Candidate for removal, broken.")]
+        [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
         public static FilteredView<T> AsFilteredView<T>(
             this IObservableCollection<T> collection,
             Func<T, bool> filter,
@@ -123,7 +123,7 @@
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
-        [Obsolete("Candidate for removal, broken.")]
+        [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
         public static FilteredView<T> AsFilteredView<T>(
             this IObservableCollection<T> collection,
             Func<T, bool> filter,
@@ -144,7 +144,7 @@
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
-        [Obsolete("Candidate for removal, broken.")]
+        [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
         public static FilteredView<T> AsFilteredView<T>(
             this IObservableCollection<T> collection,
             Func<T, bool> filter,
@@ -167,7 +167,7 @@
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
-        [Obsolete("Candidate for removal, broken.")]
+        [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
         public static FilteredView<T> AsFilteredView<T>(
             this IObservableCollection<T> collection,
             Func<T, bool> filter,

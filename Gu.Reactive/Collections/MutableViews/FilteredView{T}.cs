@@ -12,6 +12,7 @@
     /// <summary>
     /// Typed filtered CollectionView for intellisense in xaml
     /// </summary>
+    [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
         private readonly ObservableCollection<IObservable<object>> triggers;

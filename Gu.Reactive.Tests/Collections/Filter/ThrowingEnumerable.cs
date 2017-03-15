@@ -2,7 +2,6 @@ namespace Gu.Reactive.Tests.Collections.Filter
 {
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
     public class ThrowingEnumerable<T> : IEnumerable<T>
     {
