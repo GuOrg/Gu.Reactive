@@ -73,7 +73,7 @@ namespace Gu.Wpf.Reactive.UiTests
             CollectionAssert.AreEqual(new[] { "0", "1", "2" }, this.MappedMappedUpdateIndexed.DataGrid.ColumnValues(1));
             CollectionAssert.IsEmpty(this.MappedMappedUpdateIndexed.Events.RowValues());
 
-            CollectionAssert.AreEqual(new[] { "4", "8", "12" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "2", "4", "6" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "0", "1", "2" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(1));
             CollectionAssert.IsEmpty(this.MappedMappedUpdateNewIndexed.Events.RowValues());
         }

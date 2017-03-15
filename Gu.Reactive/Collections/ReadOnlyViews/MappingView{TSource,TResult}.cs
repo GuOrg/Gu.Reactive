@@ -32,11 +32,12 @@
 
             this.factory = factory;
             this.refreshSubscription = Observable.Merge(
-                                                     source.ObserveCollectionChangedSlimOrDefault(true),
+                                                     source.ObserveCollectionChangedSlimOrDefault(false),
                                                      triggers.MergeOrNever()
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
                                                  .Chunks(bufferTime, scheduler)
                                                  .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
+                                                 .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
                                                  .Subscribe(this.Refresh);
         }
 
