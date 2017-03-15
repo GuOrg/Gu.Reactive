@@ -18,10 +18,12 @@ namespace Gu.Wpf.Reactive.Tests
         [Test]
         public void CanExecuteNoCondition()
         {
-            var command = new AsyncCommand<int>(x => Task.FromResult(1));
-            Assert.IsTrue(command.CanExecute(0));
-            Assert.IsFalse(command.CancelCommand.CanExecute());
-            Assert.IsInstanceOf<Condition>(command.Condition);
+            using (var command = new AsyncCommand<int>(x => Task.FromResult(1)))
+            {
+                Assert.IsTrue(command.CanExecute(0));
+                Assert.IsFalse(command.CancelCommand.CanExecute());
+                Assert.IsInstanceOf<Condition>(command.Condition);
+            }
         }
 
         [Test]

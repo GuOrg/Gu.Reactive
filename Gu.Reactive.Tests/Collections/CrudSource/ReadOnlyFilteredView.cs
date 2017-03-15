@@ -1,6 +1,7 @@
 namespace Gu.Reactive.Tests.Collections
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
     using Gu.Reactive.Tests.Helpers;
@@ -163,26 +164,22 @@ namespace Gu.Reactive.Tests.Collections
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
-                using (var changes = view.SubscribeAll())
+                scheduler.Start();
+                using (var actual = view.SubscribeAll())
                 {
-                    var countChanges = 0;
-                    using (view.ObservePropertyChanged(x => x.Count, false)
-                               .Subscribe(_ => countChanges++))
-                    {
-                        Assert.AreEqual(0, countChanges);
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(actual);
 
-                        source.Add(2);
-                        scheduler.Start();
-                        CollectionAssert.AreEqual(new[] { 2 }, view);
-                        var expected = new EventArgs[]
-                                           {
-                                               CachedEventArgs.CountPropertyChanged,
-                                               CachedEventArgs.IndexerPropertyChanged,
-                                               Diff.CreateAddEventArgs(2, 0)
-                                           };
-                        CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
-                        Assert.AreEqual(1, countChanges);
-                    }
+                    source.Add(2);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateAddEventArgs(2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }
@@ -194,26 +191,22 @@ namespace Gu.Reactive.Tests.Collections
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
             {
-                using (var changes = view.SubscribeAll())
+                scheduler.Start();
+                using (var actual = view.SubscribeAll())
                 {
-                    var countChanges = 0;
-                    using (view.ObservePropertyChanged(x => x.Count, false)
-                               .Subscribe(_ => countChanges++))
-                    {
-                        Assert.AreEqual(0, countChanges);
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(actual);
 
-                        source.Add(2);
-                        scheduler.Start();
-                        CollectionAssert.AreEqual(new[] { 2 }, view);
-                        var expected = new EventArgs[]
-                                           {
+                    source.Add(2);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    var expected = new EventArgs[]
+                                       {
                                                CachedEventArgs.CountPropertyChanged,
                                                CachedEventArgs.IndexerPropertyChanged,
                                                Diff.CreateAddEventArgs(2, 0)
-                                           };
-                        CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
-                        Assert.AreEqual(1, countChanges);
-                    }
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }
@@ -225,31 +218,61 @@ namespace Gu.Reactive.Tests.Collections
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
-                using (var changes = view.SubscribeAll())
+                scheduler.Start();
+                CollectionAssert.IsEmpty(view);
+                using (var actual = view.SubscribeAll())
                 {
-                    var countChanges = 0;
-                    using (view.ObservePropertyChanged(x => x.Count, false)
-                               .Subscribe(_ => countChanges++))
-                    {
-                        Assert.AreEqual(0, countChanges);
+                    source.Add(1);
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    var expected = new List<EventArgs>();
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
-                        source.Add(1);
-                        source.Add(2);
-                        source.Add(3);
-                        source.Add(4);
-                        source.Add(5);
-                        source.Add(6);
-                        scheduler.Start();
-                        CollectionAssert.AreEqual(new[] { 2, 4, 6 }, view);
-                        var expected = new EventArgs[]
-                                           {
-                                               CachedEventArgs.CountPropertyChanged,
-                                               CachedEventArgs.IndexerPropertyChanged,
-                                                CachedEventArgs.NotifyCollectionReset
-                                           };
-                        CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
-                        Assert.AreEqual(1, countChanges);
-                    }
+                    source.Add(2);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    expected.AddRange(
+                        new EventArgs[]
+                            {
+                                CachedEventArgs.CountPropertyChanged,
+                                CachedEventArgs.IndexerPropertyChanged,
+                                Diff.CreateAddEventArgs(2, 0),
+                            });
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    source.Add(3);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    source.Add(4);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2, 4 }, view);
+                    expected.AddRange(
+                        new EventArgs[]
+                            {
+                                CachedEventArgs.CountPropertyChanged,
+                                CachedEventArgs.IndexerPropertyChanged,
+                                Diff.CreateAddEventArgs(4, 1),
+                            });
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    source.Add(5);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2, 4 }, view);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    source.Add(6);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2, 4, 6 }, view);
+                    expected.AddRange(
+                        new EventArgs[]
+                            {
+                                CachedEventArgs.CountPropertyChanged,
+                                CachedEventArgs.IndexerPropertyChanged,
+                                Diff.CreateAddEventArgs(6, 2),
+                            });
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }
@@ -263,29 +286,21 @@ namespace Gu.Reactive.Tests.Collections
             {
                 using (var changes = view.SubscribeAll())
                 {
-                    var countChanges = 0;
-                    using (view.ObservePropertyChanged(x => x.Count, false)
-                               .Subscribe(_ => countChanges++))
-                    {
-                        Assert.AreEqual(0, countChanges);
-
-                        source.Add(1);
-                        source.Add(2);
-                        source.Add(3);
-                        source.Add(4);
-                        source.Add(5);
-                        source.Add(6);
-                        scheduler.Start();
-                        CollectionAssert.AreEqual(new[] { 2, 4, 6 }, view);
-                        var expected = new EventArgs[]
-                                           {
+                    source.Add(1);
+                    source.Add(2);
+                    source.Add(3);
+                    source.Add(4);
+                    source.Add(5);
+                    source.Add(6);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2, 4, 6 }, view);
+                    var expected = new EventArgs[]
+                                       {
                                                CachedEventArgs.CountPropertyChanged,
                                                CachedEventArgs.IndexerPropertyChanged,
                                                CachedEventArgs.NotifyCollectionReset
-                                           };
-                        CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
-                        Assert.AreEqual(1, countChanges);
-                    }
+                                       };
+                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
                 }
             }
         }
@@ -332,15 +347,18 @@ namespace Gu.Reactive.Tests.Collections
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
                 scheduler.Start();
-                using (var expected = source.SubscribeAll())
+                using (var actual = view.SubscribeAll())
                 {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Remove(2);
-                        scheduler.Start();
-                        CollectionAssert.IsEmpty(view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
+                    source.Remove(2);
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateRemoveEventArgs(2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }
@@ -353,15 +371,21 @@ namespace Gu.Reactive.Tests.Collections
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
             {
                 scheduler.Start();
-                using (var expected = source.SubscribeAll())
+                using (var actual = view.SubscribeAll())
                 {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Remove(2);
-                        scheduler.Start();
-                        CollectionAssert.IsEmpty(view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    CollectionAssert.IsEmpty(actual);
+
+                    source.Remove(2);
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateRemoveEventArgs(2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }
@@ -408,15 +432,20 @@ namespace Gu.Reactive.Tests.Collections
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
                 scheduler.Start();
-                using (var expected = source.SubscribeAll())
+                using (var actual = view.SubscribeAll())
                 {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source[1] = 4;
-                        scheduler.Start();
-                        CollectionAssert.AreEqual(new[] { 4 }, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    CollectionAssert.IsEmpty(actual);
+
+                    source[1] = 4;
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 4 }, view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateReplaceEventArgs(4, 2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }
@@ -429,15 +458,21 @@ namespace Gu.Reactive.Tests.Collections
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
             {
                 scheduler.Start();
-                using (var expected = source.SubscribeAll())
+                scheduler.Start();
+                using (var actual = view.SubscribeAll())
                 {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source[1] = 4;
-                        scheduler.Start();
-                        CollectionAssert.AreEqual(new[] { 4 }, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    CollectionAssert.IsEmpty(actual);
+
+                    source[1] = 4;
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 4 }, view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateReplaceEventArgs(4, 2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }

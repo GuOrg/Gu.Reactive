@@ -102,7 +102,7 @@
             {
                 if (!this.AffectsFilteredOnly(change))
                 {
-                    base.Refresh(changes);
+                    base.Refresh(CachedEventArgs.SingleNotifyCollectionReset);
                     return;
                 }
             }

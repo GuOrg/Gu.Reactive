@@ -4,6 +4,8 @@ System.Reactive
 group Analyzers
   JetBrains.Annotations
   StyleCop.Analyzers
+  Gu.Analyzers
+  WpfAnalyzers
 
 group Test
   Moq

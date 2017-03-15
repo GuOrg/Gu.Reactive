@@ -12,8 +12,7 @@
         {
             int count = 0;
             var fake = new Fake { IsTrue = false };
-            var observable = fake.ObservePropertyChanged(x => x.IsTrue);
-            using (var condition = new Condition(observable, () => fake.IsTrue))
+            using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrue), () => fake.IsTrue))
             {
                 using (var command = new ConditionRelayCommand(() => { }, condition))
                 {
@@ -33,8 +32,7 @@
         public void CanExecute(bool expected)
         {
             var fake = new Fake { IsTrue = false };
-            var observable = fake.ObservePropertyChanged(x => x.IsTrue);
-            using (var condition = new Condition(observable, () => fake.IsTrue))
+            using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrue), () => fake.IsTrue))
             {
                 using (var command = new ConditionRelayCommand(() => { }, condition))
                 {
@@ -48,8 +46,7 @@
         public void Execute()
         {
             var fake = new Fake { IsTrue = true };
-            var observable = fake.ObservePropertyChanged(x => x.IsTrue);
-            using (var condition = new Condition(observable, () => fake.IsTrue))
+            using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrue), () => fake.IsTrue))
             {
                 var i = 0;
                 using (var command = new ConditionRelayCommand(() => i++, condition))
