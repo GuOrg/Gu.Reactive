@@ -10,17 +10,13 @@
     public sealed class MinTracker<TValue> : Tracker<TValue>
         where TValue : struct, IComparable<TValue>
     {
-        private readonly TValue? whenEmpty;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MinTracker{TValue}"/> class.
         /// </summary>
         /// <param name="source">The changes of the source collection.</param>
-        /// <param name="whenEmpty">The Value to use when <paramref name="source"/> is empty.</param>
-        public MinTracker(IChanges<TValue> source, TValue? whenEmpty)
+        public MinTracker(IChanges<TValue> source)
             : base(source)
         {
-            this.whenEmpty = whenEmpty;
             this.Reset();
         }
 
@@ -59,13 +55,12 @@
         protected override TValue? GetValueOrDefault(IEnumerable<TValue> source)
         {
             var comparer = Comparer<TValue>.Default;
-            var value = default(TValue);
-            var hasValue = false;
+            TValue? value = null;
             foreach (var x in source)
             {
-                if (hasValue)
+                if (value != null)
                 {
-                    if (comparer.Compare(x, value) < 0)
+                    if (comparer.Compare(x, value.Value) < 0)
                     {
                         value = x;
                     }
@@ -73,13 +68,10 @@
                 else
                 {
                     value = x;
-                    hasValue = true;
                 }
             }
 
-            return hasValue
-                       ? value
-                       : this.whenEmpty;
+            return value;
         }
     }
 }

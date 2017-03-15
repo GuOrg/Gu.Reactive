@@ -13,7 +13,7 @@ namespace Gu.Reactive.Tests.Trackers
             public void InitializesWithValues()
             {
                 var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-                using (var tracker = ints.TrackMin(-1))
+                using (var tracker = ints.TrackMin())
                 {
                     Assert.AreEqual(1, tracker.Value);
                 }
@@ -23,9 +23,9 @@ namespace Gu.Reactive.Tests.Trackers
             public void InitializesWhenEmpty()
             {
                 var ints = new ObservableCollection<int>(new int[0]);
-                using (var tracker = ints.TrackMin(-1))
+                using (var tracker = ints.TrackMin())
                 {
-                    Assert.AreEqual(-1, tracker.Value);
+                    Assert.AreEqual(null, tracker.Value);
                 }
             }
 
@@ -37,7 +37,7 @@ namespace Gu.Reactive.Tests.Trackers
             {
                 var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
                 int count;
-                using (var tracker = ints.TrackMin(-1))
+                using (var tracker = ints.TrackMin())
                 {
                     Assert.AreEqual(1, tracker.Value);
                     count = 0;
@@ -55,7 +55,7 @@ namespace Gu.Reactive.Tests.Trackers
             public void ReactsAndNotifiesOnSourceChanges()
             {
                 var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-                using (var tracker = MinTracker.TrackMin(ints, -1))
+                using (var tracker = MinTracker.TrackMin(ints))
                 {
                     Assert.AreEqual(1, tracker.Value);
                     int count = 0;
@@ -72,7 +72,7 @@ namespace Gu.Reactive.Tests.Trackers
 
                         ints.Remove(3);
                         Assert.AreEqual(2, count);
-                        Assert.AreEqual(-1, tracker.Value);
+                        Assert.AreEqual(null, tracker.Value);
 
                         ints.Add(2);
                         Assert.AreEqual(3, count);

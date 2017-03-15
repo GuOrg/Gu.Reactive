@@ -25,7 +25,7 @@
 
         public event Action<IEnumerable<TValue>> Reset;
 
-        internal IEnumerable<TValue> Values => this.source;
+        public IEnumerable<TValue> Values => this.source;
 
         public void Dispose()
         {
