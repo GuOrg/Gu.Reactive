@@ -1,10 +1,10 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
 
@@ -14,22 +14,7 @@
     public abstract class Tracker<TValue> : ITracker<TValue?>
         where TValue : struct
     {
-        /// <summary>
-        /// The source collection.
-        /// </summary>
-        protected readonly IReadOnlyList<TValue> Source;
-
-        /// <summary>
-        /// For locking.
-        /// </summary>
-        protected readonly object Gate;
-
-        /// <summary>
-        /// The value to use when the <see cref="Source"/> is empty.
-        /// </summary>
-        protected readonly TValue? WhenEmpty;
-
-        private readonly IDisposable subscription;
+        private readonly IChanges<TValue> source;
 
         private TValue? value;
         private bool disposed;
@@ -37,17 +22,13 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Tracker{TValue}"/> class.
         /// </summary>
-        protected Tracker(
-            IReadOnlyList<TValue> source,
-            IObservable<NotifyCollectionChangedEventArgs> onChanged,
-            TValue? whenEmpty)
+        protected Tracker(IChanges<TValue> source)
         {
             Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(onChanged, nameof(onChanged));
-            this.Source = source;
-            this.Gate = (source as ICollection)?.SyncRoot ?? new object();
-            this.WhenEmpty = whenEmpty;
-            this.subscription = onChanged.Subscribe(this.Refresh);
+            this.source = source;
+            source.Add += this.OnAdd;
+            source.Remove += this.OnRemove;
+            source.Reset += this.OnReset;
         }
 
         /// <inheritdoc/>
@@ -64,7 +45,7 @@
 
             protected set
             {
-                if (Equals(value, this.value))
+                if (Nullable.Equals(value, this.value))
                 {
                     return;
                 }
@@ -77,16 +58,10 @@
         /// <summary>
         /// Reset calculation of <see cref="Value"/>
         /// </summary>
-        public void Reset()
+        public virtual void Reset()
         {
             this.ThrowIfDisposed();
-            if (this.Source.Count == 0)
-            {
-                this.Value = this.WhenEmpty;
-                return;
-            }
-
-            this.Value = this.GetValue(this.Source);
+            this.Value = this.GetValueOrDefault(this.source.Values);
         }
 
         /// <inheritdoc/>
@@ -110,7 +85,9 @@
             this.disposed = true;
             if (disposing)
             {
-                this.subscription.Dispose();
+                this.source.Add -= this.OnAdd;
+                this.source.Remove -= this.OnRemove;
+                this.source.Reset -= this.OnReset;
             }
         }
 
@@ -118,64 +95,22 @@
         /// Called when the source collection notifies about collection changes.
         /// </summary>
         /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/></param>
-        protected virtual void Refresh(NotifyCollectionChangedEventArgs e)
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+        protected virtual void OnReset(IEnumerable<TValue> values)
         {
-            switch (e.Action)
+            var retry = 0;
+            while (true)
             {
-                case NotifyCollectionChangedAction.Add:
-                    {
-                        if (this.Source.Count > 1 &&
-                            e.TryGetSingleNewItem(out TValue item))
-                        {
-                            this.OnAdd(item);
-                        }
-                        else
-                        {
-                            this.Reset();
-                        }
-
-                        break;
-                    }
-
-                case NotifyCollectionChangedAction.Remove:
-                    {
-                        if (e.TryGetSingleOldItem(out TValue item))
-                        {
-                            this.OnRemove(item);
-                        }
-                        else
-                        {
-                            this.Reset();
-                        }
-
-                        break;
-                    }
-
-                case NotifyCollectionChangedAction.Replace:
-                    {
-                        if (e.TryGetSingleNewItem(out TValue newValue) &&
-                            e.TryGetSingleOldItem(out TValue oldValue))
-                        {
-                            this.OnReplace(oldValue, newValue);
-                        }
-                        else
-                        {
-                            this.Reset();
-                        }
-
-                        break;
-                    }
-
-                case NotifyCollectionChangedAction.Move:
+                try
+                {
+                    this.Value = this.GetValueOrDefault(values);
                     break;
-                case NotifyCollectionChangedAction.Reset:
-                    {
-                        this.Reset();
-                        break;
-                    }
-
-                default:
-                    throw new ArgumentOutOfRangeException();
+                }
+                catch (InvalidOperationException e) when (e.Message == Exceptions.CollectionWasModified.Message &&
+                                                          retry < 5)
+                {
+                    retry++;
+                }
             }
         }
 
@@ -192,18 +127,12 @@
         protected abstract void OnRemove(TValue value);
 
         /// <summary>
-        /// Called when a value is replaced in the source collection.
-        /// </summary>
-        /// <param name="oldValue">The new value.</param>
-        /// <param name="newValue">The removed value.</param>
-        protected abstract void OnReplace(TValue oldValue, TValue newValue);
-
-        /// <summary>
         /// Produce a <see cref="Value"/> from the source collection.
+        /// Must handle empty collection.
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <returns>The value.</returns>
-        protected abstract TValue GetValue(IReadOnlyList<TValue> source);
+        protected abstract TValue? GetValueOrDefault(IEnumerable<TValue> source);
 
         /// <summary>
         /// Check if the instance is disposed and throw ObjectDisposedException if it is.

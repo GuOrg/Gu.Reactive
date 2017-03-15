@@ -18,18 +18,12 @@
         /// <typeparam name="TValue">The type of the max value.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="selector">The function used when producing a value from an item.</param>
-        /// <param name="whenEmpty">The value to return <paramref name="source"/> is empty.</param>
-        /// <param name="trackItemChanges">If true we subscribe to property changes for each item. This is much slower.</param>
         /// <returns>A tracker with Value synced with source.Max()</returns>
-        public static MaxTracker<TValue> TrackMax<TItem, TValue>(this ObservableCollection<TItem> source, Expression<Func<TItem, TValue>> selector, TValue? whenEmpty, bool trackItemChanges)
+        public static MaxTracker<TValue> TrackMax<TItem, TValue>(this ObservableCollection<TItem> source, Expression<Func<TItem, TValue>> selector)
             where TItem : class, INotifyPropertyChanged
             where TValue : struct, IComparable<TValue>
         {
-            var onItemChanged = trackItemChanges
-                                    ? source.ObserveItemPropertyChangedSlim(selector, false)
-                                    : Observable.Never<PropertyChangedEventArgs>();
-            var mapped = source.AsMappingView(selector.Compile(), onItemChanged);
-            return new MaxTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
+            return new MaxTracker<TValue>(new NestedChanges<ObservableCollection<TItem>, TItem, TValue>(source, selector));
         }
 
         /// <summary>
@@ -37,12 +31,11 @@
         /// </summary>
         /// <typeparam name="TValue">The type of the max value.</typeparam>
         /// <param name="source">The source collection.</param>
-        /// <param name="whenEmpty">The value to return <paramref name="source"/> is empty.</param>
         /// <returns>A tracker with Value synced with source.Max()</returns>
-        public static MaxTracker<TValue> TrackMax<TValue>(this ObservableCollection<TValue> source, TValue? whenEmpty)
+        public static MaxTracker<TValue> TrackMax<TValue>(this ObservableCollection<TValue> source)
             where TValue : struct, IComparable<TValue>
         {
-            return new MaxTracker<TValue>(source, source.ObserveCollectionChangedSlim(false), whenEmpty);
+            return new MaxTracker<TValue>(new Changes<ObservableCollection<TValue>, TValue>(source));
         }
 
         /// <summary>
@@ -52,18 +45,12 @@
         /// <typeparam name="TValue">The type of the max value.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="selector">The function used when producing a value from an item.</param>
-        /// <param name="whenEmpty">The value to return <paramref name="source"/> is empty.</param>
-        /// <param name="trackItemChanges">If true we subscribe to property changes for each item. This is much slower.</param>
         /// <returns>A tracker with Value synced with source.Max()</returns>
-        public static MaxTracker<TValue> TrackMax<TItem, TValue>(this ReadOnlyObservableCollection<TItem> source, Expression<Func<TItem, TValue>> selector, TValue? whenEmpty, bool trackItemChanges)
+        public static MaxTracker<TValue> TrackMax<TItem, TValue>(this ReadOnlyObservableCollection<TItem> source, Expression<Func<TItem, TValue>> selector)
             where TItem : class, INotifyPropertyChanged
             where TValue : struct, IComparable<TValue>
         {
-            var onItemChanged = trackItemChanges
-                                    ? source.ObserveItemPropertyChangedSlim(selector, false)
-                                    : Observable.Never<PropertyChangedEventArgs>();
-            var mapped = source.AsMappingView(selector.Compile(), onItemChanged);
-            return new MaxTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
+            return new MaxTracker<TValue>(new NestedChanges<ReadOnlyObservableCollection<TItem>, TItem, TValue>(source, selector));
         }
 
         /// <summary>
@@ -71,12 +58,11 @@
         /// </summary>
         /// <typeparam name="TValue">The type of the max value.</typeparam>
         /// <param name="source">The source collection.</param>
-        /// <param name="whenEmpty">The value to return <paramref name="source"/> is empty.</param>
         /// <returns>A tracker with Value synced with source.Max()</returns>
-        public static MaxTracker<TValue> TrackMax<TValue>(this ReadOnlyObservableCollection<TValue> source, TValue? whenEmpty)
+        public static MaxTracker<TValue> TrackMax<TValue>(this ReadOnlyObservableCollection<TValue> source)
             where TValue : struct, IComparable<TValue>
         {
-            return new MaxTracker<TValue>(source, source.ObserveCollectionChangedSlim(false), whenEmpty);
+            return new MaxTracker<TValue>(new Changes<ReadOnlyObservableCollection<TValue>, TValue>(source));
         }
 
         /// <summary>
@@ -86,18 +72,12 @@
         /// <typeparam name="TValue">The type of the max value.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="selector">The function used when producing a value from an item.</param>
-        /// <param name="whenEmpty">The value to return <paramref name="source"/> is empty.</param>
-        /// <param name="trackItemChanges">If true we subscribe to property changes for each item. This is much slower.</param>
         /// <returns>A tracker with Value synced with source.Max()</returns>
-        public static MaxTracker<TValue> TrackMax<TItem, TValue>(this IReadOnlyObservableCollection<TItem> source, Expression<Func<TItem, TValue>> selector, TValue? whenEmpty, bool trackItemChanges)
+        public static MaxTracker<TValue> TrackMax<TItem, TValue>(this IReadOnlyObservableCollection<TItem> source, Expression<Func<TItem, TValue>> selector)
             where TItem : class, INotifyPropertyChanged
             where TValue : struct, IComparable<TValue>
         {
-            var onItemChanged = trackItemChanges
-                                    ? source.ObserveItemPropertyChangedSlim(selector, false)
-                                    : Observable.Never<PropertyChangedEventArgs>();
-            var mapped = source.AsMappingView(selector.Compile(), onItemChanged);
-            return new MaxTracker<TValue>(mapped, mapped.ObserveCollectionChangedSlim(false), whenEmpty);
+            return new MaxTracker<TValue>(new NestedChanges<IReadOnlyObservableCollection<TItem>, TItem, TValue>(source, selector));
         }
 
         /// <summary>
@@ -105,12 +85,11 @@
         /// </summary>
         /// <typeparam name="TValue">The type of the max value.</typeparam>
         /// <param name="source">The source collection.</param>
-        /// <param name="whenEmpty">The value to return <paramref name="source"/> is empty.</param>
         /// <returns>A tracker with Value synced with source.Max()</returns>
-        public static MaxTracker<TValue> TrackMax<TValue>(this IReadOnlyObservableCollection<TValue> source, TValue? whenEmpty)
+        public static MaxTracker<TValue> TrackMax<TValue>(this IReadOnlyObservableCollection<TValue> source)
             where TValue : struct, IComparable<TValue>
         {
-            return new MaxTracker<TValue>(source, source.ObserveCollectionChangedSlim(false), whenEmpty);
+            return new MaxTracker<TValue>(new Changes<IReadOnlyObservableCollection<TValue>, TValue>(source));
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Gu.Reactive.Benchmarks
         [Benchmark]
         public int? Tracker()
         {
-            using (var tracker = this.ints2.TrackMin(-1))
+            using (var tracker = this.ints2.TrackMin())
             {
                 this.ints2.Add(5);
                 return tracker.Value;
