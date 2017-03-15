@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.Reactive.Tests.CollectionViews
+﻿#pragma warning disable 618
+namespace Gu.Wpf.Reactive.Tests.CollectionViews
 {
     using System;
     using System.Collections.ObjectModel;

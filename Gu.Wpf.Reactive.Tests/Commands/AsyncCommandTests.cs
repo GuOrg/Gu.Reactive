@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.Reactive.Tests
+﻿// ReSharper disable AccessToDisposedClosure
+namespace Gu.Wpf.Reactive.Tests
 {
     using System;
     using System.Collections.Generic;
