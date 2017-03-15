@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
@@ -17,131 +16,21 @@
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
-    public class MappingView<TSource, TResult> : ReadonlySerialViewBase<TSource, TResult>, IReadOnlyObservableCollection<TResult>, IUpdater
+    public partial class MappingView<TSource, TResult> : ReadonlySerialViewBase<TSource, TResult>, IReadOnlyObservableCollection<TResult>, IUpdater
     {
         private readonly IDisposable refreshSubscription;
+#pragma warning disable GU0037 // Don't assign member with injected and created disposables.
         private readonly IMapper<TSource, TResult> factory;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(ObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(IObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(ObservableCollection<TSource> source, Func<TSource, int, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, null, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(IObservableCollection<TSource> source, Func<TSource, int, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, null, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, null, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> selector, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, null, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(ObservableCollection<TSource> source, Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, updater, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(IObservableCollection<TSource> source, Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, updater, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(ReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this(source, scheduler, selector, updater, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingView{TSource, TResult}"/> class.
-        /// </summary>
-        public MappingView(IReadOnlyObservableCollection<TSource> source, Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, IScheduler scheduler = null, params IObservable<object>[] triggers)
-            : this(source, TimeSpan.Zero, scheduler, Mapper.Create(selector, updater), triggers)
-        {
-        }
-
-        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, TResult> selector, params IObservable<object>[] triggers)
-           : this(source, scheduler, Mapper.Create(selector), triggers)
-        {
-        }
-
-        private MappingView(IEnumerable<TSource> source, IScheduler scheduler, Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater, params IObservable<object>[] triggers)
-            : this(source, scheduler, Mapper.Create(selector, updater), triggers)
-        {
-        }
-
-        internal MappingView(IEnumerable<TSource> source, IScheduler scheduler, IMapper<TSource, TResult> factory, params IObservable<object>[] triggers)
-            : this(source, TimeSpan.Zero, scheduler, factory, triggers)
-        {
-        }
+#pragma warning restore GU0037 // Don't assign member with injected and created disposables.
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        internal MappingView(IEnumerable<TSource> source, TimeSpan bufferTime, IScheduler scheduler, IMapper<TSource, TResult> factory, params IObservable<object>[] triggers)
+        internal MappingView(IEnumerable<TSource> source, IMapper<TSource, TResult> factory, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
             : base(source, s => s.Select(factory.GetOrCreate), true)
         {
             Ensure.NotNull(source as INotifyCollectionChanged, nameof(source));
             Ensure.NotNull(factory, nameof(factory));
 
             this.factory = factory;
-
             this.refreshSubscription = Observable.Merge(
                                                      source.ObserveCollectionChangedSlimOrDefault(true),
                                                      triggers.MergeOrNever()
@@ -333,7 +222,9 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
+#pragma warning disable GU0036 // Don't dispose injected.
                 this.factory.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
             }
 
             base.Dispose(disposing);

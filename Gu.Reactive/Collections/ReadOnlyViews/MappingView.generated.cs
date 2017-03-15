@@ -26,7 +26,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector), triggers);
+            return new MappingView<TSource, TResult>(source, selector, null, triggers);
         }
 
         /// <summary>
@@ -42,12 +42,35 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector), triggers);
+            return new MappingView<TSource, TResult>(source, selector, TimeSpan.Zero, scheduler, triggers);
+        }
+
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ObservableCollection<TSource> source,
+            Func<TSource, TResult> selector,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
+            params IObservable<object>[] triggers)
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(selector, nameof(selector));
+            return new MappingView<TSource, TResult>(source, selector, bufferTime, scheduler, triggers);
         }
 
         /// <summary>
@@ -58,19 +81,21 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(onRemove, nameof(onRemove));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector, onRemove), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), TimeSpan.Zero, scheduler, triggers);
         }
 
         /// <summary>
@@ -81,6 +106,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
@@ -88,42 +114,15 @@
             this ObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
-            IScheduler scheduler,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(onRemove, nameof(onRemove));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector, onRemove), triggers);
-        }
-
-        /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
-        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
-        /// <param name="selector">
-        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
-        /// The second parameter is the index of the element.
-        /// </param>
-        /// <param name="updater">
-        /// The function updating an element for which the index changed.
-        /// The second parameter is the index of the element.
-        /// </param>
-        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this ObservableCollection<TSource> source,
-            Func<TSource, int, TResult> selector,
-            Func<TResult, int, TResult> updater,
-            params IObservable<object>[] triggers)
-        {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector, updater), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), bufferTime, scheduler, triggers);
         }
 
         /// <summary>
@@ -147,13 +146,13 @@
             this ObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            IScheduler scheduler,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector, updater), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), TimeSpan.Zero, scheduler, triggers);
         }
 
         /// <summary>
@@ -170,21 +169,22 @@
         /// The function updating an element for which the index changed.
         /// The second parameter is the index of the element.
         /// </param>
-        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            Action<TResult> onRemove,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
-            where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector, updater, onRemove), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), bufferTime, scheduler, triggers);
         }
 
         /// <summary>
@@ -210,14 +210,49 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
-            IScheduler scheduler,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector, updater, onRemove), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), TimeSpan.Zero, scheduler, triggers);
+        }
+
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">
+        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="updater">
+        /// The function updating an element for which the index changed.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            Func<TResult, int, TResult> updater,
+            Action<TResult> onRemove,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
+            params IObservable<object>[] triggers)
+            where TResult : class
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(selector, nameof(selector));
+            Ensure.NotNull(updater, nameof(updater));
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), bufferTime, scheduler, triggers);
         }
 
         /// <summary>
@@ -236,7 +271,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector), triggers);
+            return new MappingView<TSource, TResult>(source, selector, null, triggers);
         }
 
         /// <summary>
@@ -252,12 +287,35 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector), triggers);
+            return new MappingView<TSource, TResult>(source, selector, TimeSpan.Zero, scheduler, triggers);
+        }
+
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ReadOnlyObservableCollection<TSource> source,
+            Func<TSource, TResult> selector,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
+            params IObservable<object>[] triggers)
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(selector, nameof(selector));
+            return new MappingView<TSource, TResult>(source, selector, bufferTime, scheduler, triggers);
         }
 
         /// <summary>
@@ -268,19 +326,21 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(onRemove, nameof(onRemove));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector, onRemove), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), TimeSpan.Zero, scheduler, triggers);
         }
 
         /// <summary>
@@ -291,6 +351,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
@@ -298,42 +359,15 @@
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
-            IScheduler scheduler,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(onRemove, nameof(onRemove));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector, onRemove), triggers);
-        }
-
-        /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
-        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
-        /// <param name="selector">
-        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
-        /// The second parameter is the index of the element.
-        /// </param>
-        /// <param name="updater">
-        /// The function updating an element for which the index changed.
-        /// The second parameter is the index of the element.
-        /// </param>
-        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this ReadOnlyObservableCollection<TSource> source,
-            Func<TSource, int, TResult> selector,
-            Func<TResult, int, TResult> updater,
-            params IObservable<object>[] triggers)
-        {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector, updater), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), bufferTime, scheduler, triggers);
         }
 
         /// <summary>
@@ -357,13 +391,45 @@
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            IScheduler scheduler,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector, updater), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), TimeSpan.Zero, scheduler, triggers);
+        }
+
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">
+        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="updater">
+        /// The function updating an element for which the index changed.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this ReadOnlyObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            Func<TResult, int, TResult> updater,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
+            params IObservable<object>[] triggers)
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(selector, nameof(selector));
+            Ensure.NotNull(updater, nameof(updater));
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), bufferTime, scheduler, triggers);
         }
 
         /// <summary>
@@ -381,6 +447,7 @@
         /// The second parameter is the index of the element.
         /// </param>
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
@@ -388,13 +455,14 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector, updater, onRemove), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), TimeSpan.Zero, scheduler, triggers);
         }
 
         /// <summary>
@@ -412,6 +480,7 @@
         /// The second parameter is the index of the element.
         /// </param>
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
@@ -420,14 +489,15 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
-            IScheduler scheduler,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector, updater, onRemove), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), bufferTime, scheduler, triggers);
         }
 
         /// <summary>
@@ -446,7 +516,7 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector), triggers);
+            return new MappingView<TSource, TResult>(source, selector, null, triggers);
         }
 
         /// <summary>
@@ -462,12 +532,35 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector), triggers);
+            return new MappingView<TSource, TResult>(source, selector, TimeSpan.Zero, scheduler, triggers);
+        }
+
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this IReadOnlyObservableCollection<TSource> source,
+            Func<TSource, TResult> selector,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
+            params IObservable<object>[] triggers)
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(selector, nameof(selector));
+            return new MappingView<TSource, TResult>(source, selector, bufferTime, scheduler, triggers);
         }
 
         /// <summary>
@@ -478,19 +571,21 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(onRemove, nameof(onRemove));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector, onRemove), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), TimeSpan.Zero, scheduler, triggers);
         }
 
         /// <summary>
@@ -501,6 +596,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
@@ -508,42 +604,15 @@
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
-            IScheduler scheduler,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(onRemove, nameof(onRemove));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector, onRemove), triggers);
-        }
-
-        /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
-        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
-        /// <param name="selector">
-        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
-        /// The second parameter is the index of the element.
-        /// </param>
-        /// <param name="updater">
-        /// The function updating an element for which the index changed.
-        /// The second parameter is the index of the element.
-        /// </param>
-        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IReadOnlyObservableCollection<TSource> source,
-            Func<TSource, int, TResult> selector,
-            Func<TResult, int, TResult> updater,
-            params IObservable<object>[] triggers)
-        {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector, updater), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), bufferTime, scheduler, triggers);
         }
 
         /// <summary>
@@ -567,13 +636,13 @@
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            IScheduler scheduler,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector, updater), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), TimeSpan.Zero, scheduler, triggers);
         }
 
         /// <summary>
@@ -590,21 +659,22 @@
         /// The function updating an element for which the index changed.
         /// The second parameter is the index of the element.
         /// </param>
-        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            Action<TResult> onRemove,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
-            where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, null, Mapper.Create(selector, updater, onRemove), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), bufferTime, scheduler, triggers);
         }
 
         /// <summary>
@@ -630,14 +700,49 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
-            IScheduler scheduler,
+            IScheduler scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, scheduler, Mapper.Create(selector, updater, onRemove), triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), TimeSpan.Zero, scheduler, triggers);
+        }
+
+        /// <summary>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="selector">
+        /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="updater">
+        /// The function updating an element for which the index changed.
+        /// The second parameter is the index of the element.
+        /// </param>
+        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="triggers">Additional triggers for when mapping is updated.</param>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
+            this IReadOnlyObservableCollection<TSource> source,
+            Func<TSource, int, TResult> selector,
+            Func<TResult, int, TResult> updater,
+            Action<TResult> onRemove,
+            TimeSpan bufferTime,
+            IScheduler scheduler = null,
+            params IObservable<object>[] triggers)
+            where TResult : class
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(selector, nameof(selector));
+            Ensure.NotNull(updater, nameof(updater));
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), bufferTime, scheduler, triggers);
         }
     }
 }
