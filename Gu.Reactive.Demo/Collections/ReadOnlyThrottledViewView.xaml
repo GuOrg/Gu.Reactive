@@ -41,11 +41,11 @@
 
             <demo:DataGridAndEventsView Header="DataGridIList" Source="{Binding ReadOnlyIListThrottledView}" />
 
-            <GroupBox Grid.Column="2" Header="ViewChanges">
+            <GroupBox Header="ViewChanges">
                 <ItemsControl ItemsSource="{Binding ViewChanges}" />
             </GroupBox>
 
-            <GroupBox Grid.Column="3" Header="SourceChanges">
+            <GroupBox Header="SourceChanges">
                 <ItemsControl ItemsSource="{Binding SourceChanges}" />
             </GroupBox>
         </UniformGrid>
