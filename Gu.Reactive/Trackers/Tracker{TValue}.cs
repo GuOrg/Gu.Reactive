@@ -9,7 +9,7 @@
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// A base class for trackers of aggretages of the values in a collection.
+    /// A base class for trackers of aggregates of the values in a collection.
     /// </summary>
     public abstract class Tracker<TValue> : ITracker<TValue?>
         where TValue : struct

@@ -49,7 +49,6 @@
             var current = this.Value;
             if (current == null)
             {
-                this.Reset();
                 return;
             }
 
