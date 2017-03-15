@@ -15,6 +15,15 @@ namespace Gu.Reactive.Tests.Collections
     {
         public class CreatingUpdatingRemoving
         {
+            public interface IDisposableVm : IDisposable
+            {
+                int Value { get; }
+
+                string Name { get; }
+
+                int Index { get; set; }
+            }
+
             [Test]
             public void Initializes()
             {
@@ -528,15 +537,6 @@ namespace Gu.Reactive.Tests.Collections
                 newMock.SetupGet(x => x.Index)
                        .Returns(index);
                 return newMock;
-            }
-
-            public interface IDisposableVm : IDisposable
-            {
-                int Value { get; }
-
-                string Name { get; }
-
-                int Index { get; set; }
             }
         }
     }

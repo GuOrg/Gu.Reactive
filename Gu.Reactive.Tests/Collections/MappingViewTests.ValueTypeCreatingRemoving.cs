@@ -12,6 +12,11 @@ namespace Gu.Reactive.Tests.Collections
     {
         public class ValueTypeCreatingRemoving
         {
+            public interface IDisposableVm : IDisposable
+            {
+                int Value { get; }
+            }
+
             [Test]
             public void Initializes()
             {
@@ -427,11 +432,6 @@ namespace Gu.Reactive.Tests.Collections
                 mock.SetupGet(x => x.Value)
                     .Returns(value);
                 return mock;
-            }
-
-            public interface IDisposableVm : IDisposable
-            {
-                int Value { get; }
             }
         }
     }

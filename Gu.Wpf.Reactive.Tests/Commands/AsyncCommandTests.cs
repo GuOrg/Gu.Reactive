@@ -78,8 +78,8 @@
                 await command.Execution.Task.ConfigureAwait(false);
                 Assert.AreEqual(2, isExecutingCount);
                 Assert.IsFalse(command.IsExecuting);
+                Assert.AreEqual(2, count);
             }
-            Assert.AreEqual(2, count);
         }
 
         [Test]
