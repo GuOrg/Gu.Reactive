@@ -1,3 +1,4 @@
+#pragma warning disable CS0618 // Type or member is obsolete
 namespace Gu.Reactive.Tests.Collections
 {
     using System;
@@ -8,7 +9,7 @@ namespace Gu.Reactive.Tests.Collections
         {
             base.SetUp();
             (this.View as IDisposable)?.Dispose();
-            this.View = new FilteredView<int>(this.Ints, x => true, TimeSpan.Zero, null);
+            this.View = new FilteredView<int>(this.Source, x => true, TimeSpan.Zero, null);
         }
     }
 }

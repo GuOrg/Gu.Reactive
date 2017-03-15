@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="AsyncCommandsWindowTests.cs" />
     <Compile Include="CommandsWindowTests.cs" />
-    <Compile Include="ConvertersDemoWindowTests.cs" />
     <Compile Include="DispatchingCollectionWindowTests.cs" />
     <Compile Include="DispatchingViewWindowTests.cs" />
     <Compile Include="Helpers\GridCellExt.cs" />
@@ -63,7 +62,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FilteredDispatchingWindowTests.cs" />
     <Compile Include="ReadonlyFilteredDispatchingWindowTests.cs" />
+    <Compile Include="ReadOnlyFilteredViewWindowTests.cs" />
     <Compile Include="ReadOnlySerialViewWindowTests.cs" />
+    <Compile Include="ReadOnlyThrottledViewWindowTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Gu.Wpf.Reactive.UiTests.ruleset" />

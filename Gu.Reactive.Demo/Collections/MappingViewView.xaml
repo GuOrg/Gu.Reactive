@@ -1,12 +1,13 @@
-﻿<UserControl x:Class="Gu.Reactive.Demo.MappingViewView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:demo="clr-namespace:Gu.Reactive.Demo"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DataContext="{d:DesignInstance demo:MappingViewViewModel}"
-             d:DesignHeight="300"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="Gu.Reactive.Demo.MappingViewView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:demo="clr-namespace:Gu.Reactive.Demo"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance demo:MappingViewViewModel}"
+    d:DesignHeight="300"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type demo:MappedVm}">
             <GroupBox Header="Mapped">
@@ -33,28 +34,39 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0"
-                    Command="{Binding AddOneToSourceCommand}"
-                    Content="Add to source" />
+            <Button
+                Grid.Column="0"
+                Command="{Binding AddOneToSourceCommand}"
+                Content="Add to source" />
 
-            <Button Grid.Column="1"
-                    Command="{Binding AddOneToSourceOnOtherThreadCommand}"
-                    Content="Add to source on thread" />
+            <Button
+                Grid.Column="1"
+                Command="{Binding AddTenToSourceCommand}"
+                Content="Add ten to source" />
 
-            <Slider x:Name="RemoveAt"
-                    Grid.Column="2"
-                    Maximum="{Binding Ints.Count}"
-                    Minimum="0"
-                    Value="{Binding RemoveAt}" />
+            <Button
+                Grid.Column="2"
+                Command="{Binding AddOneToSourceOnOtherThreadCommand}"
+                Content="Add to source on thread" />
 
-            <Button Grid.Column="3"
-                    Command="{Binding RemoveAtCommand}"
-                    Content="RemoveAt" />
+            <Slider
+                x:Name="RemoveAt"
+                Grid.Column="3"
+                Maximum="{Binding Ints.Count}"
+                Minimum="0"
+                Value="{Binding RemoveAt}" />
 
-            <Button Grid.Column="4"
-                    Command="{Binding ClearCommand}"
-                    Content="Clear" />
+            <Button
+                Grid.Column="4"
+                Command="{Binding RemoveAtCommand}"
+                Content="RemoveAt" />
+
+            <Button
+                Grid.Column="5"
+                Command="{Binding ClearCommand}"
+                Content="Clear" />
 
         </Grid>
 
@@ -77,7 +89,7 @@
 
             <demo:DataGridAndEventsView Header="MappedMappedUpdateNewIndexed" Source="{Binding MappedMappedUpdateNewIndexed}" />
 
-            <demo:DataGridAndEventsView Header="FilteredMappedMapped" Source="{Binding FilteredMappedMapped}" />
+            <demo:DataGridAndEventsView Header="FilteredMappedMapped" Source="{Binding MappedFilteredMapped}" />
         </UniformGrid>
     </Grid>
 </UserControl>

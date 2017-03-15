@@ -12,7 +12,7 @@
 
         internal PropertyPath(IReadOnlyList<IGetter> parts)
         {
-            Debug.Assert(parts[0].Property.DeclaringType == typeof(TSource), "parts[0].Property.DeclaringType == typeof(TSource)");
+            Debug.Assert(parts[0].Property.ReflectedType == typeof(TSource), "parts[0].Property.ReflectedType == typeof(TSource)");
             Debug.Assert(parts[parts.Count - 1].Property.PropertyType == typeof(TValue), "parts[0].Property.DeclaringType == typeof(TSource)");
             this.parts = parts;
         }

@@ -1,12 +1,13 @@
-﻿<UserControl x:Class="Gu.Reactive.Demo.ThrottledViewView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:demo="clr-namespace:Gu.Reactive.Demo"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             d:DataContext="{d:DesignInstance demo:ThrottledViewViewModel}"
-             d:DesignHeight="300"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="Gu.Reactive.Demo.ThrottledViewView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:demo="clr-namespace:Gu.Reactive.Demo"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance demo:ThrottledViewViewModel}"
+    d:DesignHeight="300"
+    mc:Ignorable="d">
     <UserControl.DataContext>
         <demo:ThrottledViewViewModel />
     </UserControl.DataContext>
@@ -26,7 +27,7 @@
 
             <!--<Button Command="{Binding ClearCommand}" Content="Clear" />-->
         </WrapPanel>
-        
+
         <UniformGrid Grid.Row="1" Columns="4">
             <GroupBox Header="ThrottledView ListBox">
                 <ListBox ItemsSource="{Binding ThrottledView}" />
@@ -35,8 +36,8 @@
             <demo:DataGridAndEventsView Header="ThrottledView" Source="{Binding ThrottledView}" />
 
             <demo:DataGridAndEventsView Header="ReadOnlyThrottledView" Source="{Binding ReadOnlyThrottledView}" />
-          
-            <demo:DataGridAndEventsView Header="ReadOnlyIlistThrottledView" Source="{Binding ReadOnlyIlistThrottledView}" />
+
+            <demo:DataGridAndEventsView Header="ReadOnlyIListThrottledView" Source="{Binding ReadOnlyIListThrottledView}" />
         </UniformGrid>
     </Grid>
 </UserControl>

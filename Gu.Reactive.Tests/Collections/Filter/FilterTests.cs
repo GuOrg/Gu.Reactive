@@ -81,7 +81,13 @@ namespace Gu.Reactive.Tests.Collections.Filter
             this.scheduler?.Start();
             CollectionAssert.IsEmpty(this.view);
             var expected = new List<EventArgs>();
-            expected.AddRange(CachedEventArgs.ResetEventArgsCollection);
+            expected.AddRange(
+                new EventArgs[]
+                    {
+                        CachedEventArgs.CountPropertyChanged,
+                        CachedEventArgs.IndexerPropertyChanged,
+                        CachedEventArgs.NotifyCollectionReset
+                    });
             Assert.AreEqual(1, actual.Count(x => EventArgsComparer.Equals(x, FilterChangedEventArgs)));
             CollectionAssert.AreEqual(expected, actual.Where(x => !EventArgsComparer.Equals(x, FilterChangedEventArgs)), EventArgsComparer.Default);
         }

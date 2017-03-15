@@ -41,8 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\CollectionSynchronizerTests.cs" />
-    <Compile Include="Collections\CrudSource\FilteredMappedView.cs" />
-    <Compile Include="Collections\CrudSource\MappingView_IndexedTests.cs" />
+    <Compile Include="Collections\CrudSource\ReadOnlyFilteredViewMappedView.cs" />
+    <Compile Include="Collections\MappingViewTests.Creating.cs" />
+    <Compile Include="Collections\MappingViewTests.CreatingUpdatingRemoving.cs" />
+    <Compile Include="Collections\MappingViewTests.Nested.cs" />
+    <Compile Include="Collections\MappingViewTests.ReferenceType.cs" />
+    <Compile Include="Collections\MappingViewTests.ReferenceTypeCreatingCachingRemoving.cs" />
+    <Compile Include="Collections\MappingViewTests.ValueTypeCreatingRemoving.cs" />
+    <Compile Include="Collections\MappingViewTests.CreatingUpdating.cs" />
     <Compile Include="Collections\CrudSource\ThrottledView.cs" />
     <Compile Include="Collections\CrudSource\ThrottledViewNoScheduler.cs" />
     <Compile Include="Collections\CrudSource\FilteredView.cs" />
@@ -61,6 +67,7 @@
     <Compile Include="Helpers\DumpIfDebug.cs" />
     <Compile Include="Helpers\EventPatternAssert.cs" />
     <Compile Include="Helpers\Fake{T}.cs" />
+    <Compile Include="Helpers\Indexed.cs" />
     <Compile Include="Helpers\Level1.cs" />
     <Compile Include="Helpers\Level2.cs" />
     <Compile Include="Helpers\Level3.cs" />
@@ -69,6 +76,7 @@
     <Compile Include="MaybeTests.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedSlimLamda.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObserveValue.cs" />
+    <Compile Include="ObservableExtTests.Chunks.cs" />
     <Compile Include="SerialDisposableTests.cs" />
     <Compile Include="Collections\ThrottledRefresherTests.cs" />
     <Compile Include="Collections\DiffTests.cs" />
@@ -81,7 +89,6 @@
     <Compile Include="Collections\FilteredViewTriggersTests.cs" />
     <Compile Include="Collections\CrudSource\CrudSourceTests.cs" />
     <Compile Include="Collections\CrudSource\ReadOnlyThrottledView.cs" />
-    <Compile Include="Collections\NotifierTests.cs" />
     <Compile Include="Collections\ObservableFixedSizeQueueTests.cs" />
     <Compile Include="Conditions\AbstractConditionTests.cs" />
     <Compile Include="Conditions\ConditionExtTests.cs" />
@@ -98,7 +105,7 @@
     <Compile Include="Internals\EnsureTests\Ensure.String.Tests.cs" />
     <Compile Include="Reflection\GetterTests.cs" />
     <Compile Include="Internals\PropertyPathTests\NotifyingPathTests.cs" />
-    <Compile Include="Collections\CrudSource\MappingViewTests.cs" />
+    <Compile Include="Collections\MappingViewTests.cs" />
     <Compile Include="NameOf_\MethodTests.cs" />
     <Compile Include="NotifyCollectionChangedEventArgsTests.cs" />
     <Compile Include="NotifyCollectionChangedExt\NotifyCollectionChangedExtTests.ObserveCollectionChangedSlim.cs" />
@@ -115,7 +122,7 @@
     <Compile Include="NotifyCollectionChangedExt\NotifyCollectionChangedExtTests.ItemPropertyChanged.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedWithValueNestedLambda.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedSlimString.cs" />
-    <Compile Include="ObservableExtTests.cs" />
+    <Compile Include="ObservableExtTests.Throttle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.OnPropertyChangedSimpleLamda.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.OnPropertyChangedNestedLamda.cs" />
@@ -125,8 +132,8 @@
     <Compile Include="Reflection\PropertyPathParserTests.cs" />
     <Compile Include="Sandbox\ItemsObservableBox.cs" />
     <Compile Include="Trackers\AverageTracker_PrimitiveTests.cs" />
-    <Compile Include="Trackers\MinTrackerTests.cs" />
-    <Compile Include="Trackers\MinTracker_NestedTests.cs" />
+    <Compile Include="Trackers\MinTrackerTests.Primitive.cs" />
+    <Compile Include="Trackers\MinTrackerTests.Nested.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Gu.Reactive.Tests.ruleset" />

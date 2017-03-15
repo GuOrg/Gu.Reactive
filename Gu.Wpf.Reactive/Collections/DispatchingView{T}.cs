@@ -12,6 +12,7 @@
     /// <typeparam name="T">The type of the items in the source collection.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
+    [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
     public class DispatchingView<T> : ThrottledView<T>
     {
         /// <summary>

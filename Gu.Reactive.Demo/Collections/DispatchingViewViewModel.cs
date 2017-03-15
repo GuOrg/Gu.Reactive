@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Demo
+﻿#pragma warning disable 618
+namespace Gu.Reactive.Demo
 {
     using System;
     using System.Collections.ObjectModel;

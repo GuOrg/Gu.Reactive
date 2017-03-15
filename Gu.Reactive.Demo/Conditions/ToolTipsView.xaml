@@ -6,6 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:reactive="clr-namespace:Gu.Wpf.Reactive;assembly=Gu.Wpf.Reactive"
              xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips"
+             xmlns:converters="clr-namespace:Gu.Reactive.Demo.Converters"
              DataContext="{x:Static demo:ConditionsViewModel.Instance}"
              mc:Ignorable="d">
     <AdornerDecorator>
@@ -14,9 +15,9 @@
             <Ellipse Width="50"
                      Height="50"
                      Fill="{Binding StopCommand.Condition.IsSatisfied,
-                                    Converter={reactive:BooleanToBrushConverter WhenTrue=GreenYellow,
-                                                                                WhenFalse=Red,
-                                                                                WhenNull=Gray}}"
+                                    Converter={converters:BooleanToBrushConverter WhenTrue=GreenYellow,
+                                                                                  WhenFalse=Red,
+                                                                                  WhenNull=Gray}}"
                      toolTips:TouchToolTipService.IsOverlayVisible="False">
                 <toolTips:TouchToolTipService.ToolTip>
                     <reactive:ConditionToolTip Condition="{reactive:NinjaBinding {Binding StopCommand.Condition}}" InferConditionFromCommand="False">
@@ -29,7 +30,7 @@
             <Ellipse Width="50"
                      Height="50"
                      Fill="{Binding StopCommand.Condition.IsSatisfied,
-                                    Converter={reactive:BooleanToBrushConverter WhenTrue=GreenYellow,
+                                    Converter={converters:BooleanToBrushConverter WhenTrue=GreenYellow,
                                                                                 WhenFalse=Red,
                                                                                 WhenNull=Gray}}"
                      toolTips:TouchToolTipService.IsOverlayVisible="True">

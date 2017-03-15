@@ -6,15 +6,26 @@
 
     public class ObserveItemPropertyChanged
     {
+        private readonly ObservableCollection<Fake> source = new ObservableCollection<Fake>();
+
+        [Setup]
+        public void SetupData()
+        {
+            this.source.Clear();
+            for (int i = -5; i < 10; i++)
+            {
+                this.source.Add(new Fake { Value = i });
+            }
+        }
+
         [Benchmark]
         public int ObserveItemPropertyChangedSlimSimpleLambdaAddOne()
         {
             int count = 0;
-            var source = new ObservableCollection<Fake>();
-            using (source.ObserveItemPropertyChangedSlim(x => x.Value)
+            using (this.source.ObserveItemPropertyChangedSlim(x => x.Value)
                          .Subscribe(_ => count++))
             {
-                source.Add(new Fake());
+                this.source.Add(new Fake { Value = 0 });
                 return count;
             }
         }
@@ -23,11 +34,10 @@
         public int ObserveItemPropertyChangedSlimThreeLevelLambdaAddOne()
         {
             int count = 0;
-            var source = new ObservableCollection<Fake>();
-            using (source.ObserveItemPropertyChangedSlim(x => x.Next.Next.Value)
+            using (this.source.ObserveItemPropertyChangedSlim(x => x.Next.Value)
                          .Subscribe(_ => count++))
             {
-                source.Add(new Fake());
+                this.source.Add(new Fake { Value = 0 });
                 return count;
             }
         }
@@ -36,12 +46,11 @@
         public int ObserveItemPropertyChangedSlimThreeLevelLambdaAddOneThenUpdate()
         {
             int count = 0;
-            var source = new ObservableCollection<Fake>();
-            using (source.ObserveItemPropertyChangedSlim(x => x.Next.Next.Value)
+            using (this.source.ObserveItemPropertyChangedSlim(x => x.Next.Next.Value)
                          .Subscribe(_ => count++))
             {
                 var fake = new Fake();
-                source.Add(fake);
+                this.source.Add(fake);
                 fake.Next = new Level { Next = new Level { Value = 1 } };
                 return count;
             }
@@ -51,11 +60,10 @@
         public int ObserveItemPropertyChangedSimpleLambdaAddOne()
         {
             int count = 0;
-            var source = new ObservableCollection<Fake>();
-            using (source.ObserveItemPropertyChanged(x => x.Value)
+            using (this.source.ObserveItemPropertyChanged(x => x.Value)
                          .Subscribe(_ => count++))
             {
-                source.Add(new Fake());
+                this.source.Add(new Fake { Value = 0 });
                 return count;
             }
         }
@@ -64,11 +72,10 @@
         public int ObserveItemPropertyChangedThreeLevelLambdaAddOne()
         {
             int count = 0;
-            var source = new ObservableCollection<Fake>();
-            using (source.ObserveItemPropertyChanged(x => x.Next.Next.Value)
+            using (this.source.ObserveItemPropertyChanged(x => x.Next.Next.Value)
                          .Subscribe(_ => count++))
             {
-                source.Add(new Fake());
+                this.source.Add(new Fake { Value = 0 });
                 return count;
             }
         }
@@ -77,12 +84,11 @@
         public int ObserveItemPropertyChangedThreeLevelLambdaAddOneThenUpdate()
         {
             int count = 0;
-            var source = new ObservableCollection<Fake>();
-            using (source.ObserveItemPropertyChanged(x => x.Next.Next.Value)
+            using (this.source.ObserveItemPropertyChanged(x => x.Next.Next.Value)
                          .Subscribe(_ => count++))
             {
                 var fake = new Fake();
-                source.Add(fake);
+                this.source.Add(fake);
                 fake.Next = new Level { Next = new Level { Value = 1 } };
                 return count;
             }

@@ -1,6 +1,5 @@
 namespace Gu.Reactive
 {
-    using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -16,13 +15,6 @@ namespace Gu.Reactive
         internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionReset = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 
         internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> SingleNotifyCollectionReset = new[] { NotifyCollectionReset };
-
-        internal static readonly IReadOnlyList<EventArgs> ResetEventArgsCollection = new EventArgs[]
-                                                                                         {
-                                                                                             CountPropertyChanged,
-                                                                                             IndexerPropertyChanged,
-                                                                                             NotifyCollectionReset
-                                                                                         };
 
         internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];
 

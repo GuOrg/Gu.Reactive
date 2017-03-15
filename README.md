@@ -240,7 +240,7 @@ Se demo for more code samples.
 
 # Collections
 
-## FilteredView<T>
+## ReadOnlyFilteredView<T>
 
 A typed filtered view of a collection. Sample usage:
 
@@ -252,7 +252,7 @@ public sealed class ViewModel : INotifyPropertyChanged, IDisposable
 
     public ViewModel(ObservableCollection<Person> people, IWpfSchedulers schedulers)
     {
-        this.FilteredPeople = people.AsFilteredView(
+        this.FilteredPeople = people.AsReadOnlyFilteredView(
             this.IsMatch,
             TimeSpan.FromMilliseconds(10),
             schedulers.Dispatcher,
@@ -261,7 +261,7 @@ public sealed class ViewModel : INotifyPropertyChanged, IDisposable
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public FilteredView<Person> FilteredPeople { get; }
+    public IReadOnlyObservableCollection<Person> FilteredPeople { get; }
 
     public string FilterText
     {
@@ -318,7 +318,9 @@ public sealed class ViewModel : INotifyPropertyChanged, IDisposable
 
 ## MappingView<TSource, TResult>
 
-A view that maps from one type to another.
+A view that maps from one type to another. If thge source type is a reference type the same instance produces the same mapped instance if the item appears more than once in the collection.
+
+### Simple
 
 ```c#
 public sealed class ViewModel : IDisposable
@@ -345,7 +347,38 @@ public sealed class ViewModel : IDisposable
 }
 ```
 
-## ThrottledView<T>
+### When creating `IDisposable`
+
+Pass in an action that is invoked when the last instance is removed from the mapped collection.
+
+```c#
+public sealed class ViewModel : IDisposable
+{
+    private bool disposed;
+
+    public ViewModel(ObservableCollection<Person> people)
+    {
+        this.PersonViewModels = people.AsMappingView(
+            x => new PersonViewModel(x),
+            x => x.Dispose());
+    }
+
+    public IReadOnlyObservableCollection<PersonViewModel> PersonViewModels { get; }
+
+    public void Dispose()
+    {
+        if (this.disposed)
+        {
+            return;
+        }
+
+        this.disposed = true;
+        (this.PersonViewModels as IDisposable)?.Dispose();
+    }
+}
+```
+
+## ReadOnlyThrottledView<T>
 
 A view that buffers changes. If there are many changes within the buffer time one reset event is raised instead of on event per change.
 
@@ -356,10 +389,10 @@ public sealed class ViewModel : IDisposable
 
     public ViewModel(ObservableCollection<Person> people)
     {
-        this.PersonViewModels = people.AsThrottledView(TimeSpan.FromMilliseconds(100));
+        this.PersonViewModels = people.AsReadOnlyThrottledView(TimeSpan.FromMilliseconds(100));
     }
 
-    public ThrottledView<Person> PersonViewModels { get; }
+    public IReadOnlyObservableCollection<Person> PersonViewModels { get; }
 
     public void Dispose()
     {
@@ -374,7 +407,7 @@ public sealed class ViewModel : IDisposable
 }
 ```
 
-## DispatchingView<T>
+## ReadOnlyDispatchingView<T>
 
 A view that notifies on the dispatcher. Useful if the collection is updated on another thread.
 
@@ -385,10 +418,10 @@ public sealed class ViewModel : IDisposable
 
     public ViewModel(ObservableCollection<Person> people)
     {
-        this.PersonViewModels = people.AsDispatchingView();
+        this.PersonViewModels = people.AsReadOnlyDispatchingView();
     }
 
-    public DispatchingView<Person> PersonViewModels { get; }
+    public IReadOnlyObservableCollection<Person> PersonViewModels { get; }
 
     public void Dispose()
     {
@@ -438,7 +471,86 @@ public sealed class ViewModel : IDisposable
 }
 ```
 
+## Sample
 
+The following sample filters a list and then maps it to another type. This happens on the task pool.
+Then changhes are notified to the view on the dispatcher.
+
+```c#
+public sealed class ViewModel : INotifyPropertyChanged, IDisposable
+{
+    private string filterText;
+    private bool disposed;
+
+    public ViewModel(ObservableCollection<Person> people, IWpfSchedulers schedulers)
+    {
+        this.FilteredPeople = people.AsReadOnlyFilteredView(
+                                        this.IsMatch,
+                                        TimeSpan.FromMilliseconds(10),
+                                        schedulers.TaskPool,
+                                        this.ObservePropertyChangedSlim(nameof(this.FilterText)))
+                                    .AsMappingView(
+                                        x => new PersonViewModel(x),
+                                        x => x.Dispose())
+                                    .AsReadOnlyDispatchingView();
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public IReadOnlyObservableCollection<PersonViewModel> FilteredPeople { get; }
+
+    public string FilterText
+    {
+        get
+        {
+            return this.filterText;
+        }
+
+        set
+        {
+            if (value == this.filterText)
+            {
+                return;
+            }
+
+            this.filterText = value;
+            this.OnPropertyChanged();
+        }
+    }
+
+    public void Dispose()
+    {
+        if (this.disposed)
+        {
+            return;
+        }
+
+        this.disposed = true;
+        (this.FilteredPeople as IDisposable)?.Dispose();
+    }
+
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private bool IsMatch(Person person)
+    {
+        if (string.IsNullOrEmpty(this.filterText))
+        {
+            return true;
+        }
+
+        var indexOf = CultureInfo.InvariantCulture.CompareInfo.IndexOf(person.FirstName, this.filterText, CompareOptions.OrdinalIgnoreCase);
+        if (this.filterText.Length == 1)
+        {
+            return indexOf == 0;
+        }
+
+        return indexOf >= 0;
+    }
+}
+```
 Gu.Wpf.Reactive
 ===========
 

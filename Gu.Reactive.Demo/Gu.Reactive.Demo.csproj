@@ -84,11 +84,23 @@
     <Compile Include="Collections\ReadonlyFilteredDispatchingViewModel.cs">
       <DependentUpon>ReadonlyFilteredDispatchingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Collections\ReadOnlyFilteredViewView.xaml.cs">
+      <DependentUpon>ReadOnlyFilteredViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\ReadOnlyFilteredViewViewModel.cs">
+      <DependentUpon>ReadOnlyFilteredViewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Collections\ReadOnlySerialViewView.xaml.cs">
       <DependentUpon>ReadOnlySerialViewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Collections\ReadOnlySerialViewViewModel.cs">
       <DependentUpon>ReadOnlySerialViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\ReadOnlyThrottledViewView.xaml.cs">
+      <DependentUpon>ReadOnlyThrottledViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\ReadOnlyThrottledViewViewModel.cs">
+      <DependentUpon>ReadOnlyThrottledViewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="CommandsView.xaml.cs">
       <DependentUpon>CommandsView.xaml</DependentUpon>
@@ -118,12 +130,8 @@
     <Compile Include="Conditions\IsMotorRunning.cs" />
     <Compile Include="Conditions\IsRightDoorOpen.cs" />
     <Compile Include="Conditions\SyncErrorCondition.cs" />
-    <Compile Include="ConverterDemoViewmodel.cs">
-      <DependentUpon>ConvertersDemoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ConvertersDemoView.xaml.cs">
-      <DependentUpon>ConvertersDemoView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Converters\BooleanToBrushConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="DataGridAndEventsView.xaml.cs">
       <DependentUpon>DataGridAndEventsView.xaml</DependentUpon>
     </Compile>
@@ -180,9 +188,6 @@
     <Compile Include="Collections\Person.cs">
       <DependentUpon>FilteredViewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StringComparisonToBoolConverter.cs">
-      <DependentUpon>ConvertersDemoView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Conditions\ToolTipsView.xaml.cs">
       <DependentUpon>ToolTipsView.xaml</DependentUpon>
     </Compile>
@@ -207,7 +212,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Collections\ReadOnlyFilteredViewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Collections\ReadOnlySerialViewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Collections\ReadOnlyThrottledViewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -224,10 +237,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Conditions\EitherCommandsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ConvertersDemoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -295,10 +304,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UiTestWindows\ConvertersDemoWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UiTestWindows\DispatchingViewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -311,9 +316,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UiTestWindows\ReadOnlyFilteredViewWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UiTestWindows\ReadonlyFilteredDispatchingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\ReadOnlyThrottledViewWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UiTestWindows\ReadOnlySerialViewWindow.xaml">
       <SubType>Designer</SubType>

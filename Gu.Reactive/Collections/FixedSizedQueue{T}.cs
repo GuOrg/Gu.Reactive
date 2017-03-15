@@ -12,7 +12,7 @@
     /// </summary>
     [Serializable]
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")]
+    [DebuggerDisplay("Count = {this.Count}")]
     public class FixedSizedQueue<T> : IProducerConsumerCollection<T>
     {
         private readonly ConcurrentQueue<T> innerQueue = new ConcurrentQueue<T>();

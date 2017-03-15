@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.Collections
+﻿#pragma warning disable CS0618 // Type or member is obsolete
+namespace Gu.Reactive.Tests.Collections
 {
     using System;
     using System.Collections.ObjectModel;
@@ -16,12 +17,12 @@
         [Test]
         public void AsFilteredView()
         {
-            var ints = new ObservableCollection<int>();
-            using (ints.AsFilteredView(x => true))
+            var source = new ObservableCollection<int>();
+            using (source.AsFilteredView(x => true))
             {
             }
 
-            using (ints.AsThrottledView(TimeSpan.Zero)
+            using (source.AsThrottledView(TimeSpan.Zero)
                        .AsFilteredView(x => true))
             {
             }
@@ -30,22 +31,22 @@
         [Test]
         public void AsReadOnlyFilteredView()
         {
-            var ints = new ObservableCollection<int>();
-            using (ints.AsReadOnlyFilteredView(x => true))
+            var source = new ObservableCollection<int>();
+            using (source.AsReadOnlyFilteredView(x => true))
             {
             }
 
-            using (ints.AsMappingView(x => x.ToString())
+            using (source.AsMappingView(x => x.ToString())
                        .AsReadOnlyFilteredView(x => true))
             {
             }
 
-            using (ints.AsThrottledView(TimeSpan.Zero)
+            using (source.AsThrottledView(TimeSpan.Zero)
                        .AsReadOnlyFilteredView(x => true))
             {
             }
 
-            var readonlyInts = new ReadOnlyObservableCollection<int>(ints);
+            var readonlyInts = new ReadOnlyObservableCollection<int>(source);
             using (readonlyInts.AsReadOnlyFilteredView(x => true))
             {
             }
@@ -69,12 +70,12 @@
         [Test]
         public void AsThrottledView()
         {
-            var ints = new ObservableCollection<int>();
-            using (ints.AsThrottledView(TimeSpan.Zero))
+            var source = new ObservableCollection<int>();
+            using (source.AsThrottledView(TimeSpan.Zero))
             {
             }
 
-            using (ints.AsFilteredView(x => true)
+            using (source.AsFilteredView(x => true)
                        .AsThrottledView(TimeSpan.Zero))
             {
             }
@@ -83,22 +84,22 @@
         [Test]
         public void AsReadOnlyThrottledView()
         {
-            var ints = new ObservableCollection<int>();
-            using (ints.AsReadOnlyThrottledView(TimeSpan.Zero))
+            var source = new ObservableCollection<int>();
+            using (source.AsReadOnlyThrottledView(TimeSpan.Zero))
             {
             }
 
-            using (ints.AsFilteredView(x => true)
+            using (source.AsFilteredView(x => true)
                        .AsReadOnlyThrottledView(TimeSpan.Zero))
             {
             }
 
-            using (ints.AsMappingView(x => x.ToString())
+            using (source.AsMappingView(x => x.ToString())
                        .AsReadOnlyThrottledView(TimeSpan.Zero))
             {
             }
 
-            var readonlyInts = new ReadOnlyObservableCollection<int>(ints);
+            var readonlyInts = new ReadOnlyObservableCollection<int>(source);
             using (readonlyInts.AsReadOnlyThrottledView(TimeSpan.Zero))
             {
             }
@@ -119,22 +120,22 @@
         {
             // just checking that the overloads are right.
             // Will be compiler error if we dumb things.
-            var ints = new ObservableCollection<int>();
-            using (ints.AsMappingView(x => x.ToString()))
+            var source = new ObservableCollection<int>();
+            using (source.AsMappingView(x => x.ToString()))
             {
             }
 
-            using (ints.AsFilteredView(x => true)
+            using (source.AsFilteredView(x => true)
                        .AsMappingView(x => x.ToString()))
             {
             }
 
-            using (ints.AsThrottledView(TimeSpan.Zero)
+            using (source.AsThrottledView(TimeSpan.Zero)
                        .AsMappingView(x => x.ToString()))
             {
             }
 
-            var readonlyInts = new ReadOnlyObservableCollection<int>(ints);
+            var readonlyInts = new ReadOnlyObservableCollection<int>(source);
             using (readonlyInts.AsMappingView(x => x.ToString()))
             {
             }

@@ -1,5 +1,6 @@
 ﻿namespace Gu.Reactive.Tests.Collections
 {
+    using System;
     using System.Collections.ObjectModel;
 
     using Gu.Reactive.Tests.Helpers;
@@ -11,10 +12,10 @@
         [Test]
         public void Intialize()
         {
-            var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            using (var view = new ReadOnlySerialView<int>(ints))
+            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            using (var view = new ReadOnlySerialView<int>(source))
             {
-                CollectionAssert.AreEqual(ints, view);
+                CollectionAssert.AreEqual(source, view);
             }
         }
 
@@ -32,12 +33,19 @@
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
-                using (var changes = view.SubscribeAll())
+                using (var actual = view.SubscribeAll())
                 {
                     var newSource = new[] { 4, 5 };
                     view.SetSource(newSource);
                     CollectionAssert.AreEqual(newSource, view);
-                    CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, changes, EventArgsComparer.Default);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           CachedEventArgs.NotifyCollectionReset,
+                                           CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }
@@ -47,11 +55,18 @@
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
-                using (var changes = view.SubscribeAll())
+                using (var actual = view.SubscribeAll())
                 {
                     view.SetSource(null);
                     CollectionAssert.IsEmpty(view);
-                    CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, changes, EventArgsComparer.Default);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           CachedEventArgs.NotifyCollectionReset,
+                                           CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }
@@ -61,11 +76,12 @@
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
-                using (var changes = view.SubscribeAll())
+                using (var actual = view.SubscribeAll())
                 {
                     view.SetSource(new[] { 1, 2, 3 });
                     CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
-                    CollectionAssert.IsEmpty(changes);
+                    var expected = new[] { CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source") };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }
@@ -73,14 +89,21 @@
         [Test]
         public void ClearSource()
         {
-            var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            using (var view = new ReadOnlySerialView<int>(ints))
+            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            using (var view = new ReadOnlySerialView<int>(source))
             {
-                using (var changes = view.SubscribeAll())
+                using (var actual = view.SubscribeAll())
                 {
                     view.ClearSource();
                     CollectionAssert.IsEmpty(view);
-                    CollectionAssert.AreEqual(CachedEventArgs.ResetEventArgsCollection, changes, EventArgsComparer.Default);
+                    var expected = new EventArgs[]
+                                          {
+                                              CachedEventArgs.CountPropertyChanged,
+                                              CachedEventArgs.IndexerPropertyChanged,
+                                              CachedEventArgs.NotifyCollectionReset,
+                                              CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                                          };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }
@@ -88,24 +111,24 @@
         [Test]
         public void Updates()
         {
-            var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            using (var expectedChanges = ints.SubscribeAll())
+            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            using (var expected = source.SubscribeAll())
             {
-                using (var view = new ReadOnlySerialView<int>(ints))
+                using (var view = new ReadOnlySerialView<int>(source))
                 {
-                    using (var actualChanges = view.SubscribeAll())
+                    using (var actual = view.SubscribeAll())
                     {
-                        ints.Add(4);
-                        CollectionAssert.AreEqual(ints, view);
-                        CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
+                        source.Add(4);
+                        CollectionAssert.AreEqual(source, view);
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
-                        ints.RemoveAt(0);
-                        CollectionAssert.AreEqual(ints, view);
-                        CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
+                        source.RemoveAt(0);
+                        CollectionAssert.AreEqual(source, view);
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
-                        ints.Clear();
-                        CollectionAssert.AreEqual(ints, view);
-                        CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
+                        source.Clear();
+                        CollectionAssert.AreEqual(source, view);
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     }
                 }
             }

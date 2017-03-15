@@ -63,12 +63,8 @@
     <Compile Include="CollectionViews\FilteredViewWpfTests.cs" />
     <Compile Include="FakesAndHelpers\DumpIfDebug.cs" />
     <Compile Include="FakesAndHelpers\TestExtensions.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\DefaultTypeConverter`1Tests.cs" />
     <Compile Include="CollectionViews\DispatchingViewTests.cs" />
-    <Compile Include="FakesAndHelpers\EventArgsComparer.cs" />
     <Compile Include="NamespacesTests.cs" />
-    <Compile Include="MarkupExtensions\Converters\BooleanToVisibilityConverterTests.cs" />
-    <Compile Include="MarkupExtensions\Converters\MultiplyConverterTests.cs" />
     <Compile Include="CollectionViews\ObservableCollectionExtensionsTests.cs" />
     <Compile Include="Commands\AsyncCommandTests.cs" />
     <Compile Include="Commands\AsyncParameterCommandTests.cs" />
@@ -128,9 +124,18 @@
   </Target>
   -->
   <ItemGroup>
+    <Folder Include="MarkupExtensions\" />
     <Folder Include="Sandbox\" />
   </ItemGroup>
   <Import Project="..\.paket\paket.targets" />
+  <ItemGroup>
+    <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Analyzers.Analyzers.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+    <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Analyzers.CodeFixes.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
@@ -150,6 +155,14 @@
       <Paket>True</Paket>
     </Analyzer>
     <Analyzer Include="..\packages\analyzers\StyleCop.Analyzers\analyzers\dotnet\cs\StyleCop.Analyzers.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.Analyzers.dll">
+      <Paket>True</Paket>
+    </Analyzer>
+    <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll">
       <Paket>True</Paket>
     </Analyzer>
   </ItemGroup>

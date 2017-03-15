@@ -55,6 +55,11 @@
     </Compile>
     <Compile Include="Collections\DispatchingView{T}.cs" />
     <Compile Include="Collections\NotifyCollectionChangedEventHandlerExt.cs" />
+    <Compile Include="Collections\ReadOnlyDispatchingView.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReadOnlyDispatchingView.tt</DependentUpon>
+    </Compile>
     <Compile Include="Collections\ReadOnlyDispatchingView{T}.cs" />
     <Compile Include="Commands\AsyncCommand.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\ITaskRunner.cs" />
@@ -77,31 +82,15 @@
     <Compile Include="Commands\RelayCommand{T}.cs" />
     <Compile Include="ConditionControl.Keys.cs" />
     <Compile Include="ConditionTypeTemplateSelector.cs" />
-    <Compile Include="MarkupExtensions\Converters\BooleanToBrushConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\NullableBooleanToBooleanConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\CastingConverter{T}.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\INotifyTaskCompletion.cs" />
     <Compile Include="Internals\BoolBoxes.cs" />
     <Compile Include="Internals\BindingHelper.cs" />
     <Compile Include="Internals\RoutedEventHandlerExt.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\DefaultTypeConverter{T}.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\ITypeConverter{T}.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\NullableEnumConverter{T}.cs" />
     <Compile Include="MarkupExtensions\EnumValuesForExtension.cs" />
     <Compile Include="MarkupExtensions\RootObjectExtension.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\NotifyTaskCompletion.cs" />
     <Compile Include="Internals\Maybe{T}.cs" />
     <Compile Include="Internals\ServiceProviderExt.cs" />
-    <Compile Include="MarkupExtensions\Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\BooleanToXConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\DefaultTypeConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\ITypeConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\MarkupConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\MultiplyConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\NullableBoolConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\NullableDoubleConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\NullableEnumConverter.cs" />
-    <Compile Include="MarkupExtensions\Converters\TypeConverters\TypeConverterFactory.cs" />
     <Compile Include="DesignMode.cs" />
     <Compile Include="Collections\ObservableCollectionExtensions.cs" />
     <Compile Include="WpfSchedulers.cs" />
@@ -223,6 +212,12 @@
     <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll">
       <Paket>True</Paket>
     </Analyzer>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Collections\ReadOnlyDispatchingView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReadOnlyDispatchingView.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">

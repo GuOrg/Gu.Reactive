@@ -27,7 +27,7 @@
 
             var observable = Observable.Create<NotifyCollectionChangedEventArgs>(o =>
                 {
-                    NotifyCollectionChangedEventHandler fsHandler = (_, e) =>
+                    NotifyCollectionChangedEventHandler handler = (_, e) =>
                         {
                             var isUpdatingSourceItem = updater.CurrentlyUpdatingSourceItem;
                             if (isUpdatingSourceItem == null)
@@ -35,26 +35,23 @@
                                 o.OnNext(e);
                                 return;
                             }
-                            var newItem = e.IsSingleNewItem()
-                                              ? e.NewItem<object>()
-                                              : null;
-                            if (ReferenceEquals(isUpdatingSourceItem, newItem))
+
+                            if (e.TryGetSingleNewItem(out object newItem) &&
+                                ReferenceEquals(isUpdatingSourceItem, newItem))
                             {
                                 return;
                             }
 
-                            var oldItem = e.IsSingleOldItem()
-                                              ? e.OldItem<object>()
-                                              : null;
-                            if (ReferenceEquals(isUpdatingSourceItem, oldItem))
+                            if (e.TryGetSingleOldItem(out object oldItem) &&
+                                ReferenceEquals(isUpdatingSourceItem, oldItem))
                             {
                                 return;
                             }
 
                             o.OnNext(e);
                         };
-                    incc.CollectionChanged += fsHandler;
-                    return Disposable.Create(() => incc.CollectionChanged -= fsHandler);
+                    incc.CollectionChanged += handler;
+                    return Disposable.Create(() => incc.CollectionChanged -= handler);
                 });
             return observable.Buffer(throttleTime, scheduler, signalInitial);
         }

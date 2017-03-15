@@ -10,7 +10,7 @@ namespace Gu.Reactive
     /// </summary>
     /// <typeparam name="TSource">The source type.</typeparam>
     /// <typeparam name="TValue">The property type.</typeparam>
-    public abstract class Getter<TSource, TValue> : IGetter<TValue>, IGetter
+    public abstract class Getter<TSource, TValue> : IGetter<TSource, TValue>, IGetter<TValue>, IGetter
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Getter{TSource, TValue}"/> class.
@@ -34,14 +34,10 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         object IGetter.GetValue(object source) => this.GetValue((TSource)source);
 
-        /// <summary>
-        /// Get the value of the property for <paramref name="source"/>
-        /// </summary>
+        /// <inheritdoc />
         public abstract TValue GetValue(TSource source);
 
-        /// <summary>
-        /// Get the value of the property for <paramref name="source"/>
-        /// </summary>
+        /// <inheritdoc />
         public Maybe<TValue> GetMaybe(TSource source) => source == null
                                                              ? Maybe<TValue>.None
                                                              : Maybe<TValue>.Some(this.GetValue(source));

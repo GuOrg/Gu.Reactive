@@ -1,10 +1,15 @@
 ﻿namespace Gu.Reactive
 {
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Reactive;
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
     using System.Threading;
+
+    using Gu.Reactive.Internals;
 
     /// <summary>
     /// Extension methods for <see cref="IObservable{T}"/>
@@ -20,7 +25,7 @@
         /// <param name="maxTime">Max throttling time</param>
         public static IObservable<T> Throttle<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime)
         {
-            return source.Throttle(dueTime, maxTime, Scheduler.Default);
+            return source.Throttle(dueTime, maxTime, DefaultScheduler.Instance);
         }
 
         /// <summary>
@@ -47,6 +52,72 @@
                         return throttleTimer.Amb(timeoutTimer);
                     })
                     .SelectMany(w => w.TakeLast(1)));
+        }
+
+        /// <summary>
+        /// Like throttle but returning all elements captured during the throttle time.
+        /// </summary>
+        /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
+        /// <param name="dueTime">Throttling duration for each element</param>
+        public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime)
+        {
+            return source.Chunks(dueTime, DefaultScheduler.Instance);
+        }
+
+        /// <summary>
+        /// Like throttle but returning all elements captured during the throttle time.
+        /// </summary>
+        /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
+        /// <param name="dueTime">Throttling duration for each element</param>
+        /// <param name="scheduler">Scheduler to run the timers on.</param>
+        public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, IScheduler scheduler)
+        {
+            Ensure.NotNull(source, nameof(source));
+            if (dueTime == TimeSpan.Zero)
+            {
+                return source.Select(x => new[] { x })
+                             .ObserveOnOrDefault(scheduler);
+            }
+
+            return source.Publish(shared => shared.Buffer(() => shared.Throttle(dueTime, scheduler)))
+                         .Cast<IReadOnlyList<T>>();
+        }
+
+        /// <summary>
+        /// Like throttle but returning all elements captured during the throttle time.
+        /// </summary>
+        /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
+        /// <param name="dueTime">Throttling duration for each element</param>
+        /// <param name="maxTime">Max throttling time</param>
+        public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime)
+        {
+            Ensure.NotNull(source, nameof(source));
+            if (dueTime == TimeSpan.Zero)
+            {
+                return source.Select(x => new[] { x });
+            }
+
+            return source.Chunks(dueTime, maxTime, DefaultScheduler.Instance);
+        }
+
+        /// <summary>
+        /// Like throttle but returning all elements captured during the throttle time.
+        /// </summary>
+        /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
+        /// <param name="dueTime">Throttling duration for each element</param>
+        /// <param name="maxTime">Max throttling time</param>
+        /// <param name="scheduler">Scheduler to run the timers on.</param>
+        public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime, IScheduler scheduler)
+        {
+            Ensure.NotNull(source, nameof(source));
+            if (dueTime == TimeSpan.Zero)
+            {
+                return source.Select(x => new[] { x })
+                             .ObserveOnOrDefault(scheduler);
+            }
+
+            return source.Publish(shared => shared.Buffer(() => shared.Throttle(dueTime, maxTime, scheduler)))
+                         .Cast<IReadOnlyList<T>>();
         }
 
         /// <summary>
@@ -86,6 +157,30 @@
                                 observer.OnCompleted();
                             });
                 });
+        }
+
+        /// <summary>
+        /// Return Observable.Merge if <paramref name="source"/> is not null or empty
+        /// </summary>
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+        internal static IObservable<T> MergeOrNever<T>(this IEnumerable<IObservable<T>> source)
+        {
+            if (source?.Any() == true)
+            {
+                return Observable.Merge(source);
+            }
+
+            return Observable.Never<T>();
+        }
+
+        internal static IObservable<T> ObserveOnOrDefault<T>(this IObservable<T> source, IScheduler scheduler)
+        {
+            if (scheduler == null)
+            {
+                return source;
+            }
+
+            return source.ObserveOn(scheduler);
         }
     }
 }

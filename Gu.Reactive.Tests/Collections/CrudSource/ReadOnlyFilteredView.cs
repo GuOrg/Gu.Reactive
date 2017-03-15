@@ -17,54 +17,70 @@ namespace Gu.Reactive.Tests.Collections
             base.SetUp();
             this.Scheduler = new TestScheduler();
             (this.View as IDisposable)?.Dispose();
-            this.View = new ReadOnlyFilteredView<int>(this.Ints, x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
+            this.View = new ReadOnlyFilteredView<int>(this.Source, x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
             this.Scheduler.Start();
         }
 
         [Test]
         public void InitializeFiltered()
         {
-            var ints = new ObservableCollection<int>(new[] { 1, 2 });
-            using (var view = ints.AsReadOnlyFilteredView(x => x < 2))
+            var source = new ObservableCollection<int>(new[] { 1, 2 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x < 2, scheduler))
             {
+                scheduler.Start();
                 CollectionAssert.AreEqual(new[] { 1 }, view);
             }
         }
 
         [Test]
-        public void NotifiesWithOnlyPropertyChangedSubscription()
+        public void InitializeFilteredBuffered()
         {
-            var ints = new ObservableCollection<int>();
-            using (var view = ints.AsReadOnlyFilteredView(x => true))
+            var source = new ObservableCollection<int>(new[] { 1, 2 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x < 2, TimeSpan.FromMilliseconds(100), scheduler))
             {
-                var changes = new List<EventArgs>();
-                using (view.ObservePropertyChanged()
-                           .Subscribe(x => changes.Add(x.EventArgs)))
+                scheduler.Start();
+                CollectionAssert.AreEqual(new[] { 1 }, view);
+            }
+        }
+
+        [Test]
+        public void NotifiesAdd()
+        {
+            var source = new ObservableCollection<int>();
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => true, scheduler))
+            {
+                scheduler.Start();
+                using (var expected = source.SubscribeAll())
                 {
-                    ints.Add(1);
-                    var expected = new[]
-                                       {
-                                           CachedEventArgs.CountPropertyChanged,
-                                           CachedEventArgs.IndexerPropertyChanged
-                                       };
-                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                    using (var actual = view.SubscribeAll())
+                    {
+                        source.Add(1);
+                        scheduler.Start();
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
                 }
             }
         }
 
         [Test]
-        public void NotifiesWithOnlyCollectionChangedSubscription()
+        public void NotifiesAddBuffered()
         {
-            var ints = new ObservableCollection<int>();
-            using (var view = ints.AsReadOnlyFilteredView(x => true))
+            var source = new ObservableCollection<int>();
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => true, TimeSpan.FromMilliseconds(100), scheduler))
             {
-                var changes = new List<EventArgs>();
-                using (view.ObserveCollectionChangedSlim(false)
-                           .Subscribe(x => changes.Add(x)))
+                scheduler.Start();
+                using (var expected = source.SubscribeAll())
                 {
-                    ints.Add(1);
-                    var expected = new[] { Diff.CreateAddEventArgs(1, 0) };
-                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                    using (var actual = view.SubscribeAll())
+                    {
+                        source.Add(1);
+                        scheduler.Start();
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
                 }
             }
         }
@@ -72,12 +88,69 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void AddFiltered()
         {
-            var ints = new ObservableCollection<int>();
-            using (var view = ints.AsReadOnlyFilteredView(x => x % 2 == 0))
+            var source = new ObservableCollection<int>();
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
                 using (var changes = view.SubscribeAll())
                 {
-                    ints.Add(1);
+                    source.Add(1);
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(changes);
+                }
+            }
+        }
+
+        [Test]
+        public void AddFilteredBuffered()
+        {
+            var source = new ObservableCollection<int>();
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
+            {
+                using (var changes = view.SubscribeAll())
+                {
+                    source.Add(1);
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(changes);
+                }
+            }
+        }
+
+        [Test]
+        public void AddManyFiltered()
+        {
+            var source = new ObservableCollection<int>();
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
+            {
+                using (var changes = view.SubscribeAll())
+                {
+                    source.Add(1);
+                    source.Add(3);
+                    source.Add(5);
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(changes);
+                }
+            }
+        }
+
+        [Test]
+        public void AddManyFilteredBuffered()
+        {
+            var source = new ObservableCollection<int>();
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
+            {
+                using (var changes = view.SubscribeAll())
+                {
+                    source.Add(1);
+                    source.Add(3);
+                    source.Add(5);
+                    scheduler.Start();
                     CollectionAssert.IsEmpty(view);
                     CollectionAssert.IsEmpty(changes);
                 }
@@ -87,62 +160,145 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void AddVisibleWhenFiltered()
         {
-            var ints = new ObservableCollection<int>();
-            using (var view = ints.AsFilteredView(x => x % 2 == 0))
+            var source = new ObservableCollection<int>();
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
-                using (var changes = view.SubscribeAll())
+                scheduler.Start();
+                using (var actual = view.SubscribeAll())
                 {
-                    var countChanges = 0;
-                    using (view.ObservePropertyChanged(x => x.Count, false)
-                               .Subscribe(_ => countChanges++))
-                    {
-                        Assert.AreEqual(0, countChanges);
-
-                        ints.Add(2);
-                        CollectionAssert.AreEqual(new[] { 2 }, view);
-                        var expected = new EventArgs[]
-                                           {
-                                               CachedEventArgs.CountPropertyChanged,
-                                               CachedEventArgs.IndexerPropertyChanged,
-                                               Diff.CreateAddEventArgs(2, 0)
-                                           };
-                        CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
-                        Assert.AreEqual(1, countChanges);
-                    }
-                }
-            }
-        }
-
-        [Test]
-        public void RemoveFiltered()
-        {
-            var ints = new ObservableCollection<int>(new[] { 1 });
-            using (var view = ints.AsReadOnlyFilteredView(x => x % 2 == 0))
-            {
-                using (var changes = view.SubscribeAll())
-                {
-                    ints.Remove(1);
                     CollectionAssert.IsEmpty(view);
-                    CollectionAssert.IsEmpty(changes);
-                }
-            }
-        }
+                    CollectionAssert.IsEmpty(actual);
 
-        [Test]
-        public void RemoveNonFiltered()
-        {
-            var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
-            using (var view = ints.AsReadOnlyFilteredView(x => x % 2 == 0))
-            {
-                using (var changes = view.SubscribeAll())
-                {
-                    ints.Remove(2);
-                    CollectionAssert.IsEmpty(view);
+                    source.Add(2);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
                     var expected = new EventArgs[]
                                        {
                                            CachedEventArgs.CountPropertyChanged,
                                            CachedEventArgs.IndexerPropertyChanged,
-                                           Diff.CreateRemoveEventArgs(2, 0)
+                                           Diff.CreateAddEventArgs(2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void AddVisibleWhenFilteredBuffered()
+        {
+            var source = new ObservableCollection<int>();
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
+            {
+                scheduler.Start();
+                using (var actual = view.SubscribeAll())
+                {
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(actual);
+
+                    source.Add(2);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    var expected = new EventArgs[]
+                                       {
+                                               CachedEventArgs.CountPropertyChanged,
+                                               CachedEventArgs.IndexerPropertyChanged,
+                                               Diff.CreateAddEventArgs(2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void AddManyVisibleWhenFiltered()
+        {
+            var source = new ObservableCollection<int>();
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
+            {
+                scheduler.Start();
+                CollectionAssert.IsEmpty(view);
+                using (var actual = view.SubscribeAll())
+                {
+                    source.Add(1);
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    var expected = new List<EventArgs>();
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    source.Add(2);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    expected.AddRange(
+                        new EventArgs[]
+                            {
+                                CachedEventArgs.CountPropertyChanged,
+                                CachedEventArgs.IndexerPropertyChanged,
+                                Diff.CreateAddEventArgs(2, 0),
+                            });
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    source.Add(3);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    source.Add(4);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2, 4 }, view);
+                    expected.AddRange(
+                        new EventArgs[]
+                            {
+                                CachedEventArgs.CountPropertyChanged,
+                                CachedEventArgs.IndexerPropertyChanged,
+                                Diff.CreateAddEventArgs(4, 1),
+                            });
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    source.Add(5);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2, 4 }, view);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    source.Add(6);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2, 4, 6 }, view);
+                    expected.AddRange(
+                        new EventArgs[]
+                            {
+                                CachedEventArgs.CountPropertyChanged,
+                                CachedEventArgs.IndexerPropertyChanged,
+                                Diff.CreateAddEventArgs(6, 2),
+                            });
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void AddManyVisibleWhenFilteredBuffered()
+        {
+            var source = new ObservableCollection<int>();
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
+            {
+                using (var changes = view.SubscribeAll())
+                {
+                    source.Add(1);
+                    source.Add(2);
+                    source.Add(3);
+                    source.Add(4);
+                    source.Add(5);
+                    source.Add(6);
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2, 4, 6 }, view);
+                    var expected = new EventArgs[]
+                                       {
+                                               CachedEventArgs.CountPropertyChanged,
+                                               CachedEventArgs.IndexerPropertyChanged,
+                                               CachedEventArgs.NotifyCollectionReset
                                        };
                     CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
                 }
@@ -150,14 +306,16 @@ namespace Gu.Reactive.Tests.Collections
         }
 
         [Test]
-        public void ReplaceFiltered()
+        public void RemoveFiltered()
         {
-            var ints = new ObservableCollection<int>(new[] { 1 });
-            using (var view = ints.AsReadOnlyFilteredView(x => x % 2 == 0))
+            var source = new ObservableCollection<int>(new[] { 1 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
                 using (var changes = view.SubscribeAll())
                 {
-                    ints[0] = 3;
+                    source.Remove(1);
+                    scheduler.Start();
                     CollectionAssert.IsEmpty(view);
                     CollectionAssert.IsEmpty(changes);
                 }
@@ -165,14 +323,194 @@ namespace Gu.Reactive.Tests.Collections
         }
 
         [Test]
-        public void ReplaceFilteredWithVisible()
+        public void RemoveFilteredBuffered()
         {
-            var ints = new ObservableCollection<int>(new[] { 1 });
-            using (var view = ints.AsReadOnlyFilteredView(x => x % 2 == 0))
+            var source = new ObservableCollection<int>(new[] { 1 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
             {
                 using (var changes = view.SubscribeAll())
                 {
-                    ints[0] = 2;
+                    source.Remove(1);
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(changes);
+                }
+            }
+        }
+
+        [Test]
+        public void RemoveVisible()
+        {
+            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
+            {
+                scheduler.Start();
+                using (var actual = view.SubscribeAll())
+                {
+                    source.Remove(2);
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateRemoveEventArgs(2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void RemoveVisibleBuffered()
+        {
+            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
+            {
+                scheduler.Start();
+                using (var actual = view.SubscribeAll())
+                {
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    CollectionAssert.IsEmpty(actual);
+
+                    source.Remove(2);
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateRemoveEventArgs(2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void ReplaceFiltered()
+        {
+            var source = new ObservableCollection<int>(new[] { 1 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
+            {
+                using (var changes = view.SubscribeAll())
+                {
+                    source[0] = 3;
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(changes);
+                }
+            }
+        }
+
+        [Test]
+        public void ReplaceFilteredBuffered()
+        {
+            var source = new ObservableCollection<int>(new[] { 1 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
+            {
+                using (var changes = view.SubscribeAll())
+                {
+                    source[0] = 3;
+                    scheduler.Start();
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(changes);
+                }
+            }
+        }
+
+        [Test]
+        public void ReplaceVisible()
+        {
+            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
+            {
+                scheduler.Start();
+                using (var actual = view.SubscribeAll())
+                {
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    CollectionAssert.IsEmpty(actual);
+
+                    source[1] = 4;
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 4 }, view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateReplaceEventArgs(4, 2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void ReplaceVisibleBuffered()
+        {
+            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
+            {
+                scheduler.Start();
+                scheduler.Start();
+                using (var actual = view.SubscribeAll())
+                {
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    CollectionAssert.IsEmpty(actual);
+
+                    source[1] = 4;
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 4 }, view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateReplaceEventArgs(4, 2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void ReplaceFilteredWithVisible()
+        {
+            var source = new ObservableCollection<int>(new[] { 1 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
+            {
+                using (var changes = view.SubscribeAll())
+                {
+                    source[0] = 2;
+                    scheduler.Start();
+                    CollectionAssert.AreEqual(new[] { 2 }, view);
+                    var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateAddEventArgs(2, 0)
+                                       };
+                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void ReplaceFilteredWithVisibleBuffered()
+        {
+            var source = new ObservableCollection<int>(new[] { 1 });
+            var scheduler = new TestScheduler();
+            using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
+            {
+                using (var changes = view.SubscribeAll())
+                {
+                    source[0] = 2;
+                    scheduler.Start();
                     CollectionAssert.AreEqual(new[] { 2 }, view);
                     var expected = new EventArgs[]
                                        {
