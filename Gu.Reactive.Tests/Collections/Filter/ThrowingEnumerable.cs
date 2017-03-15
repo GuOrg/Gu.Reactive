@@ -2,6 +2,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class ThrowingEnumerable<T> : IEnumerable<T>
     {
@@ -46,14 +47,14 @@ namespace Gu.Reactive.Tests.Collections.Filter
 
             public bool MoveNext()
             {
-                var moveNext = this.inner.MoveNext();
                 if (this.throws)
                 {
                     this.source.Add(default(T));
+                    this.source.RemoveAt(this.source.Count - 1);
                     this.throws = false;
                 }
 
-                return moveNext;
+                return this.inner.MoveNext();
             }
 
             public void Reset() => this.inner.Reset();

@@ -41,43 +41,14 @@ namespace Gu.Reactive.Tests.Collections.Filter
             }
         }
 
-        [Test]
-        public void FilterThrowingEnumerableThrowsAtFirst()
+        [TestCase(new[] { true })]
+        [TestCase(new[] { false, true })]
+        public void FilterThrowingEnumerable(bool[] throws)
         {
             this.filter = x => true;
             using (var subject = new Subject<object>())
             {
-                var source = new ThrowingEnumerable<int>(new[] { 1, 2, 3, 4 }, new Queue<bool>(new[] { true }));
-                var scheduler = new TestScheduler();
-                using (var view = source.AsReadOnlyFilteredView(this.Filter, scheduler, subject))
-                {
-                    scheduler.Start();
-                    CollectionAssert.AreEqual(new[] { 1, 2, 3, 4, 0 }, view);
-                    using (var actual = view.SubscribeAll())
-                    {
-                        this.filter = x => x > 0;
-                        subject.OnNext(null);
-                        scheduler.Start();
-                        CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
-                        var expected = new EventArgs[]
-                                           {
-                                               CachedEventArgs.CountPropertyChanged,
-                                               CachedEventArgs.IndexerPropertyChanged,
-                                               Diff.CreateRemoveEventArgs(0, 4),
-                                           };
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
-            }
-        }
-
-        [Test]
-        public void FilterThrowingEnumerableThrowsAtSecond()
-        {
-            this.filter = x => true;
-            using (var subject = new Subject<object>())
-            {
-                var source = new ThrowingEnumerable<int>(new[] { 1, 2, 3, 4 }, new Queue<bool>(new[] { false, true }));
+                var source = new ThrowingEnumerable<int>(new[] { 1, 2, 3, 4 }, new Queue<bool>(throws));
                 var scheduler = new TestScheduler();
                 using (var view = source.AsReadOnlyFilteredView(this.Filter, scheduler, subject))
                 {
