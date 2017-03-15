@@ -36,7 +36,7 @@ namespace Gu.Reactive.Benchmarks
         [Benchmark]
         public int? Tracker()
         {
-            using (var tracker = this.fakes2.TrackMin(x => x.Value, -1, false))
+            using (var tracker = this.fakes2.TrackMin(x => x.Value))
             {
                 this.fakes2.Add(new Fake { Value = 5 });
                 return tracker.Value;
@@ -46,7 +46,7 @@ namespace Gu.Reactive.Benchmarks
         [Benchmark]
         public int? TrackerChanges()
         {
-            using (var changeTracker = this.fakes3.TrackMin(x => x.Value, -1, true))
+            using (var changeTracker = this.fakes3.TrackMin(x => x.Value))
             {
                 this.fakes3.Add(new Fake { Value = 5 });
                 return changeTracker.Value;
