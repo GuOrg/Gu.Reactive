@@ -65,7 +65,7 @@
                                        {
                                            CachedEventArgs.CountPropertyChanged,
                                            CachedEventArgs.IndexerPropertyChanged,
-                                           Diff.CreateAddEventArgs(4,3),
+                                           Diff.CreateAddEventArgs(4, 3),
                                            CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
                                        };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);

@@ -139,11 +139,11 @@
                         this.AddItems(e.NewItems);
                         break;
                     case NotifyCollectionChangedAction.Remove:
-                        this.RemoveItems(e.OldItems.OfType<TItem>());
+                        this.RemoveItems(e.OldItems);
                         break;
                     case NotifyCollectionChangedAction.Replace:
                         this.AddItems(e.NewItems);
-                        this.RemoveItems(e.OldItems.OfType<TItem>());
+                        this.RemoveItems(e.OldItems);
                         break;
                     case NotifyCollectionChangedAction.Move:
                         break;
@@ -176,10 +176,14 @@
             }
         }
 
-        private void RemoveItems(IEnumerable<TItem> items)
+        private void RemoveItems(IEnumerable items)
         {
             var set = SetPool.Borrow<TItem>();
-            set.UnionWith(items);
+            foreach (var item in items)
+            {
+                set.Add((TItem)item);
+            }
+
             set.ExceptWith(this.source ?? Enumerable.Empty<TItem>());
             foreach (var item in set)
             {
