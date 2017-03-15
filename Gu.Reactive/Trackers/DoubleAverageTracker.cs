@@ -1,8 +1,7 @@
 namespace Gu.Reactive
 {
-    using System;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
+    using System.Collections.ObjectModel;
     using System.Linq;
 
     /// <summary>
@@ -10,69 +9,51 @@ namespace Gu.Reactive
     /// </summary>
     public sealed class DoubleAverageTracker : Tracker<double>
     {
+        private readonly ObservableCollection<double> source;
         private double sum;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DoubleAverageTracker"/> class.
         /// </summary>
         /// <param name="source">The source collection.</param>
-        /// <param name="onChanged">The change event.</param>
-        /// <param name="whenEmpty">The Value to use when <paramref name="source"/> is empty.</param>
-        public DoubleAverageTracker(
-            IReadOnlyList<double> source,
-            IObservable<NotifyCollectionChangedEventArgs> onChanged,
-            double whenEmpty)
-            : base(source, onChanged, whenEmpty)
+        public DoubleAverageTracker(ObservableCollection<double> source)
+            : base(new SimpleChanges<ObservableCollection<double>, double>(source))
         {
+            this.source = source;
             this.Reset();
         }
 
         /// <inheritdoc/>
         protected override void OnAdd(double value)
         {
-            lock (this.Gate)
-            {
-                this.sum += value;
-                this.Value = this.sum / this.Source.Count;
-            }
+            this.sum += value;
+            this.Value = this.sum / this.source.Count;
         }
 
         /// <inheritdoc/>
         protected override void OnRemove(double value)
         {
-            lock (this.Gate)
+            if (this.source.Count == 0)
             {
-                if (this.Source.Count == 0)
-                {
-                    this.sum = 0;
-                    this.Value = this.WhenEmpty;
-                    return;
-                }
-
-                this.sum -= value;
-                this.Value = this.sum / this.Source.Count;
+                this.sum = 0;
+                this.Value = null;
+                return;
             }
+
+            this.sum -= value;
+            this.Value = this.sum / this.source.Count;
         }
 
         /// <inheritdoc/>
-        protected override void OnReplace(double oldValue, double newValue)
+        protected override double? GetValueOrDefault(IEnumerable<double> _)
         {
-            lock (this.Gate)
+            if (this.source.Count == 0)
             {
-                this.sum -= oldValue;
-                this.sum += newValue;
-                this.Value = this.sum / this.Source.Count;
+                return null;
             }
-        }
 
-        /// <inheritdoc/>
-        protected override double GetValue(IReadOnlyList<double> source)
-        {
-            lock (this.Gate)
-            {
-                this.sum = source.Sum();
-                return this.sum / source.Count;
-            }
+            this.sum = this.source.Sum();
+            return this.sum / this.source.Count;
         }
     }
 }

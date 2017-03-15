@@ -35,7 +35,7 @@
         public static MaxTracker<TValue> TrackMax<TValue>(this ObservableCollection<TValue> source)
             where TValue : struct, IComparable<TValue>
         {
-            return new MaxTracker<TValue>(new Changes<ObservableCollection<TValue>, TValue>(source));
+            return new MaxTracker<TValue>(new SimpleChanges<ObservableCollection<TValue>, TValue>(source));
         }
 
         /// <summary>
@@ -62,7 +62,7 @@
         public static MaxTracker<TValue> TrackMax<TValue>(this ReadOnlyObservableCollection<TValue> source)
             where TValue : struct, IComparable<TValue>
         {
-            return new MaxTracker<TValue>(new Changes<ReadOnlyObservableCollection<TValue>, TValue>(source));
+            return new MaxTracker<TValue>(new SimpleChanges<ReadOnlyObservableCollection<TValue>, TValue>(source));
         }
 
         /// <summary>
@@ -89,7 +89,7 @@
         public static MaxTracker<TValue> TrackMax<TValue>(this IReadOnlyObservableCollection<TValue> source)
             where TValue : struct, IComparable<TValue>
         {
-            return new MaxTracker<TValue>(new Changes<IReadOnlyObservableCollection<TValue>, TValue>(source));
+            return new MaxTracker<TValue>(new SimpleChanges<IReadOnlyObservableCollection<TValue>, TValue>(source));
         }
     }
 }

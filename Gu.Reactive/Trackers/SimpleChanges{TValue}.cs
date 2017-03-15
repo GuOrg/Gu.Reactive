@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.Specialized;
 
-    internal sealed class Changes<TCollection, TValue> : IChanges<TValue>
+    internal sealed class SimpleChanges<TCollection, TValue> : IChanges<TValue>
         where TCollection : IEnumerable<TValue>, INotifyCollectionChanged
         where TValue : struct, IComparable<TValue>
     {
@@ -12,7 +12,7 @@
         private readonly IDisposable subscription;
         private bool disposed;
 
-        public Changes(TCollection source)
+        public SimpleChanges(TCollection source)
         {
             this.source = source;
             this.subscription = source.ObserveCollectionChangedSlim(false)

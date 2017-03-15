@@ -35,7 +35,7 @@
         public static MinTracker<TValue> TrackMin<TValue>(this ObservableCollection<TValue> source)
             where TValue : struct, IComparable<TValue>
         {
-            return new MinTracker<TValue>(new Changes<ObservableCollection<TValue>, TValue>(source));
+            return new MinTracker<TValue>(new SimpleChanges<ObservableCollection<TValue>, TValue>(source));
         }
 
         /// <summary>
@@ -62,7 +62,7 @@
         public static MinTracker<TValue> TrackMin<TValue>(this ReadOnlyObservableCollection<TValue> source)
             where TValue : struct, IComparable<TValue>
         {
-            return new MinTracker<TValue>(new Changes<ReadOnlyObservableCollection<TValue>, TValue>(source));
+            return new MinTracker<TValue>(new SimpleChanges<ReadOnlyObservableCollection<TValue>, TValue>(source));
         }
 
         /// <summary>
@@ -89,7 +89,7 @@
         public static MinTracker<TValue> TrackMin<TValue>(this IReadOnlyObservableCollection<TValue> source)
             where TValue : struct, IComparable<TValue>
         {
-            return new MinTracker<TValue>(new Changes<IReadOnlyObservableCollection<TValue>, TValue>(source));
+            return new MinTracker<TValue>(new SimpleChanges<IReadOnlyObservableCollection<TValue>, TValue>(source));
         }
     }
 }

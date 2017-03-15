@@ -131,7 +131,7 @@
     <Compile Include="Internals\TypeExtTests.cs" />
     <Compile Include="Reflection\PropertyPathParserTests.cs" />
     <Compile Include="Sandbox\ItemsObservableBox.cs" />
-    <Compile Include="Trackers\AverageTracker_PrimitiveTests.cs" />
+    <Compile Include="Trackers\DoubleAverageTrackerTests.cs" />
     <Compile Include="Trackers\MinTrackerTests.Primitive.cs" />
     <Compile Include="Trackers\MinTrackerTests.Nested.cs" />
   </ItemGroup>
