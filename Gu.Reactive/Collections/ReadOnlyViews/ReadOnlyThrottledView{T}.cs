@@ -50,12 +50,13 @@
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler scheduler, IEnumerable<T> source)
-            : base(source, s => s, false)
+            : base(source, s => s, true)
         {
             this.BufferTime = bufferTime;
-            this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(true)
+            this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
                                                                          .Chunks(bufferTime, scheduler)
                                                                          .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
+                                                                         .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
                                                                          .Subscribe(this.Refresh);
         }
 
@@ -63,6 +64,12 @@
         /// The time to buffer changes before notifying.
         /// </summary>
         public TimeSpan BufferTime { get; }
+
+        /// <inheritdoc/>
+        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        {
+            base.Refresh(changes);
+        }
 
         /// <summary>
         /// Protected implementation of Dispose pattern.

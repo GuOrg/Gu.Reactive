@@ -69,18 +69,19 @@
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, IScheduler scheduler, TimeSpan bufferTime, IEnumerable<IObservable<object>> triggers)
-            : base(source, x => x.Where(filter), false)
+            : base(source, x => x.Where(filter), true)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
             this.Filter = filter;
             this.BufferTime = bufferTime;
             this.refreshSubscription = Observable.Merge(
-                                                     source.ObserveCollectionChangedSlimOrDefault(true),
+                                                     source.ObserveCollectionChangedSlimOrDefault(false),
                                                      triggers.MergeOrNever()
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
                                                  .Chunks(bufferTime, scheduler)
                                                  .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
+                                                 .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
                                                  .Subscribe(this.Refresh);
         }
 
@@ -91,7 +92,7 @@
         public Func<T, bool> Filter { get; }
 
         /// <inheritdoc/>
-        protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             if (changes == null || changes.Count == 0)
             {
@@ -137,7 +138,7 @@
                     return e.TryGetSingleOldItem(out T removed) &&
                            !this.Filter(removed);
                 case NotifyCollectionChangedAction.Replace:
-                    return e.TryGetSingleOldItem(out T newItem) &&
+                    return e.TryGetSingleNewItem(out T newItem) &&
                            !this.Filter(newItem) &&
                            e.TryGetSingleOldItem(out T oldItem) &&
                            !this.Filter(oldItem);

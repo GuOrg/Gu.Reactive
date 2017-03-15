@@ -59,7 +59,7 @@
         /// Called when the source collection changed.
         /// </summary>
         /// <param name="changes">The changes accumulated during the buffer time.</param>
-        protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             if (changes == null || changes.Count == 0)
             {

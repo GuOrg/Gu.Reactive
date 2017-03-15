@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Diagnostics.CodeAnalysis;
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
@@ -9,7 +10,7 @@
     /// <summary>
     /// A view where the source can be updated that notifies about changes.
     /// </summary>
-    public sealed class ReadOnlySerialView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyObservableCollection<T>
+    public class ReadOnlySerialView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyObservableCollection<T>
     {
         private readonly IDisposable refreshSubscription;
 
@@ -40,8 +41,10 @@
             this.refreshSubscription = this.ObserveValue(x => x.Source, true)
                                            .Select(x => x.GetValueOrDefault().ObserveCollectionChangedSlimOrDefault(true))
                                            .Switch()
+                                           .Skip(1)
                                            .Chunks(bufferTime, scheduler)
                                            .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
+                                           .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
                                            .Subscribe(this.Refresh);
         }
 
@@ -60,6 +63,12 @@
         public new void ClearSource()
         {
             base.ClearSource();
+        }
+
+        /// <inheritdoc/>
+        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        {
+            base.Refresh(changes);
         }
 
         /// <inheritdoc/>

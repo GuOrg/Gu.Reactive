@@ -13,7 +13,7 @@
         bool CanUpdateIndex { get; }
 
         /// <summary>
-        /// Get or create a mappped value for <paramref name="key"/> at position <paramref name="index"/>
+        /// Get or create a mapped value for <paramref name="key"/> at position <paramref name="index"/>
         /// </summary>
         TResult GetOrCreate(TSource key, int index);
 
@@ -22,8 +22,14 @@
         /// </summary>
         TResult Update(TSource key, TResult oldResult, int index);
 
+        /// <summary>
+        /// For removing items from cache.
+        /// </summary>
         void Remove(TSource source, TResult mapped);
 
+        /// <summary>
+        /// Start a refresh transcation. This happens when the wrapped collection signals Reset
+        /// </summary>
         IDisposable RefreshTransaction();
     }
 }
