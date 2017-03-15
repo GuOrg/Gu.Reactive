@@ -25,7 +25,7 @@
             this.Add(3);
             this.View = this.Source
                             .AsReadOnlyFilteredView(this.Filter, this.trigger)
-                            .AsDispatchingView();
+                            .AsReadOnlyDispatchingView();
 
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);

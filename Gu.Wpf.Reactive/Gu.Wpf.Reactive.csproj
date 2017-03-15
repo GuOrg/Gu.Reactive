@@ -55,6 +55,11 @@
     </Compile>
     <Compile Include="Collections\DispatchingView{T}.cs" />
     <Compile Include="Collections\NotifyCollectionChangedEventHandlerExt.cs" />
+    <Compile Include="Collections\ReadOnlyDispatchingView.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReadOnlyDispatchingView.tt</DependentUpon>
+    </Compile>
     <Compile Include="Collections\ReadOnlyDispatchingView{T}.cs" />
     <Compile Include="Commands\AsyncCommand.cs" />
     <Compile Include="Commands\AsyncCommandHelpers\ITaskRunner.cs" />
@@ -207,6 +212,12 @@
     <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll">
       <Paket>True</Paket>
     </Analyzer>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Collections\ReadOnlyDispatchingView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReadOnlyDispatchingView.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">

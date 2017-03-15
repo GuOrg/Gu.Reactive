@@ -15,7 +15,7 @@ namespace Gu.Wpf.Reactive
     public static partial class DispatchingView
     {
 <#
-    var typeNames = new []{"IObservableCollection", "ObservableCollection", "FilteredView" };
+    var typeNames = new []{"IObservableCollection", "ObservableCollection" };
     for(int i = 0; i < typeNames.Length; i++)
     {
         var typeName = typeNames[i];
@@ -47,36 +47,6 @@ namespace Gu.Wpf.Reactive
         public static DispatchingView<TItem> AsDispatchingView<TItem>(this <#= typeName #><TItem> collection, TimeSpan bufferTime)
         {
             return new DispatchingView<TItem>(collection, bufferTime);
-        }
-<#    } #>
-<#
-    var readOnlyTypeNames = new []{"ReadOnlyObservableCollection", "IReadOnlyObservableCollection", "ReadOnlyFilteredView" };
-    for(int i = 0; i < readOnlyTypeNames.Length; i++)
-    {
-        var typeName = readOnlyTypeNames[i];
-#>
-
-        /// <summary>
-        /// Create a <see cref="ReadOnlyDispatchingView{T}"/> for <paramref name="collection"/>
-        /// </summary>
-        /// <typeparam name="TItem">The type of the items in <paramref name="collection"/></typeparam>
-        /// <param name="collection">The source collection.</param>
-        /// <returns>A <see cref="DispatchingView{T}"/></returns>
-        public static ReadOnlyDispatchingView<TItem> AsDispatchingView<TItem>(this <#= typeName #><TItem> collection)
-        {
-            return new ReadOnlyDispatchingView<TItem>(collection, TimeSpan.Zero);
-        }
-
-        /// <summary>
-        /// Create a <see cref="ReadOnlyDispatchingView{T}"/> for <paramref name="collection"/>
-        /// </summary>
-        /// <typeparam name="TItem">The type of the items in <paramref name="collection"/></typeparam>
-        /// <param name="collection">The source collection.</param>
-        /// <param name="bufferTime">The time to buffer changes before notifying.</param>
-        /// <returns>A <see cref="DispatchingView{T}"/></returns>
-        public static ReadOnlyDispatchingView<TItem> AsDispatchingView<TItem>(this <#= typeName #><TItem> collection, TimeSpan bufferTime)
-        {
-            return new ReadOnlyDispatchingView<TItem>(collection, bufferTime);
         }
 <#    } #>
     }
