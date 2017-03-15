@@ -484,6 +484,7 @@ namespace Gu.Reactive.Tests.Collections
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
+                scheduler.Start();
                 using (var changes = view.SubscribeAll())
                 {
                     source[0] = 2;

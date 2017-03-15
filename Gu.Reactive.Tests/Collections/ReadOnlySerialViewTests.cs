@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive.Tests.Collections
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
     using Gu.Reactive.Tests.Helpers;
@@ -29,7 +30,7 @@
         }
 
         [Test]
-        public void SetSource()
+        public void SetSourceReset()
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
@@ -45,6 +46,142 @@
                                            CachedEventArgs.NotifyCollectionReset,
                                            CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
                                        };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void SetSourceAdd()
+        {
+            using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
+            {
+                using (var actual = view.SubscribeAll())
+                {
+                    var newSource = new[] { 1, 2, 3, 4 };
+                    view.SetSource(newSource);
+                    CollectionAssert.AreEqual(newSource, view);
+                    var expected = new List<EventArgs>
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateAddEventArgs(4,3),
+                                           CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    newSource = new[] { 1, 2, 3, 4, 5 };
+                    view.SetSource(newSource);
+                    CollectionAssert.AreEqual(newSource, view);
+                    expected.AddRange(
+                        new EventArgs[]
+                            {
+                                CachedEventArgs.CountPropertyChanged,
+                                CachedEventArgs.IndexerPropertyChanged,
+                                Diff.CreateAddEventArgs(5, 4),
+                                CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                            });
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void SetSourceRemove()
+        {
+            using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
+            {
+                using (var actual = view.SubscribeAll())
+                {
+                    var newSource = new[] { 1, 2 };
+                    view.SetSource(newSource);
+                    CollectionAssert.AreEqual(newSource, view);
+                    var expected = new List<EventArgs>
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateRemoveEventArgs(3,2),
+                                           CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    newSource = new[] { 1 };
+                    view.SetSource(newSource);
+                    CollectionAssert.AreEqual(newSource, view);
+                    expected.AddRange(
+                        new EventArgs[]
+                            {
+                                CachedEventArgs.CountPropertyChanged,
+                                CachedEventArgs.IndexerPropertyChanged,
+                                Diff.CreateRemoveEventArgs(2, 1),
+                                CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                            });
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void SetSourceMove()
+        {
+            using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
+            {
+                using (var actual = view.SubscribeAll())
+                {
+                    var newSource = new[] { 1, 3, 2 };
+                    view.SetSource(newSource);
+                    CollectionAssert.AreEqual(newSource, view);
+                    var expected = new List<EventArgs>
+                                       {
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateMoveEventArgs(2, 2, 1),
+                                           CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    newSource = new[] { 3, 1, 2 };
+                    view.SetSource(newSource);
+                    CollectionAssert.AreEqual(newSource, view);
+                    expected.AddRange(
+                        new EventArgs[]
+                            {
+                                CachedEventArgs.IndexerPropertyChanged,
+                                Diff.CreateMoveEventArgs(1, 1, 0),
+                                CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                            });
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void SetSourceReplace()
+        {
+            using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
+            {
+                using (var actual = view.SubscribeAll())
+                {
+                    var newSource = new[] { 1, 2, 4 };
+                    view.SetSource(newSource);
+                    CollectionAssert.AreEqual(newSource, view);
+                    var expected = new List<EventArgs>
+                                       {
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           Diff.CreateReplaceEventArgs(4, 3, 2),
+                                           CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                                       };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    newSource = new[] { 5, 2, 4 };
+                    view.SetSource(newSource);
+                    CollectionAssert.AreEqual(newSource, view);
+                    expected.AddRange(
+                        new EventArgs[]
+                            {
+                                CachedEventArgs.IndexerPropertyChanged,
+                            Diff.CreateReplaceEventArgs(5, 1, 0),
+                                CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                            });
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
