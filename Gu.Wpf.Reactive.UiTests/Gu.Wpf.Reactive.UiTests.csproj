@@ -64,6 +64,7 @@
     <Compile Include="ReadonlyFilteredDispatchingWindowTests.cs" />
     <Compile Include="ReadOnlyFilteredViewWindowTests.cs" />
     <Compile Include="ReadOnlySerialViewWindowTests.cs" />
+    <Compile Include="ReadOnlyThrottledViewWindowTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Gu.Wpf.Reactive.UiTests.ruleset" />

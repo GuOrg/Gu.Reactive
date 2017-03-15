@@ -96,6 +96,12 @@
     <Compile Include="Collections\ReadOnlySerialViewViewModel.cs">
       <DependentUpon>ReadOnlySerialViewView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Collections\ReadOnlyThrottledViewView.xaml.cs">
+      <DependentUpon>ReadOnlyThrottledViewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\ReadOnlyThrottledViewViewModel.cs">
+      <DependentUpon>ReadOnlyThrottledViewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CommandsView.xaml.cs">
       <DependentUpon>CommandsView.xaml</DependentUpon>
     </Compile>
@@ -214,6 +220,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Collections\ReadOnlyThrottledViewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CommandsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -313,6 +323,10 @@
     <Page Include="UiTestWindows\ReadonlyFilteredDispatchingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UiTestWindows\ReadOnlyThrottledViewWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UiTestWindows\ReadOnlySerialViewWindow.xaml">
       <SubType>Designer</SubType>
