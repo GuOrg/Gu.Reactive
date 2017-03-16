@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
@@ -88,7 +87,9 @@
                 this.source.Add -= this.OnAdd;
                 this.source.Remove -= this.OnRemove;
                 this.source.Reset -= this.OnReset;
+#pragma warning disable GU0036 // Don't dispose injected.
                 this.source.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
             }
         }
 

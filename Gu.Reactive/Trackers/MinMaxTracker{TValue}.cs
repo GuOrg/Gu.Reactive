@@ -36,6 +36,9 @@
         /// <inheritdoc />
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// The min value or null if the collection is empty.
+        /// </summary>
         public TValue? Min
         {
             get
@@ -43,7 +46,7 @@
                 return this.min;
             }
 
-            set
+            private set
             {
                 if (Nullable.Equals(value, this.min))
                 {
@@ -55,6 +58,9 @@
             }
         }
 
+        /// <summary>
+        /// The max value or null if the collection is empty.
+        /// </summary>
         public TValue? Max
         {
             get
@@ -62,7 +68,7 @@
                 return this.max;
             }
 
-            set
+            private set
             {
                 if (Nullable.Equals(value, this.max))
                 {
@@ -95,14 +101,16 @@
             this.source.Add -= this.OnAdd;
             this.source.Remove -= this.OnRemove;
             this.source.Reset -= this.OnReset;
+#pragma warning disable GU0036 // Don't dispose injected.
             this.source.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
         }
 
         private void OnAdd(TValue value)
         {
             var currentMin = this.min;
             var currentMax = this.max;
-            if (currentMin == null || 
+            if (currentMin == null ||
                 currentMax == null)
             {
                 this.Min = value;
@@ -150,37 +158,37 @@
                 try
                 {
                     var comparer = Comparer<TValue>.Default;
-                    TValue? min = null;
-                    TValue? max = null;
+                    TValue? tempMin = null;
+                    TValue? tempMax = null;
                     foreach (var x in values)
                     {
-                        if (min != null)
+                        if (tempMin != null)
                         {
-                            if (comparer.Compare(x, min.Value) < 0)
+                            if (comparer.Compare(x, tempMin.Value) < 0)
                             {
-                                min = x;
+                                tempMin = x;
                             }
                         }
                         else
                         {
-                            min = x;
+                            tempMin = x;
                         }
 
-                        if (max != null)
+                        if (tempMax != null)
                         {
-                            if (comparer.Compare(x, max.Value) > 0)
+                            if (comparer.Compare(x, tempMax.Value) > 0)
                             {
-                                max = x;
+                                tempMax = x;
                             }
                         }
                         else
                         {
-                            max = x;
+                            tempMax = x;
                         }
                     }
 
-                    this.Min = min;
-                    this.Max = max;
+                    this.Min = tempMin;
+                    this.Max = tempMax;
                     break;
                 }
                 catch (InvalidOperationException e) when (e.Message == Exceptions.CollectionWasModified.Message &&
