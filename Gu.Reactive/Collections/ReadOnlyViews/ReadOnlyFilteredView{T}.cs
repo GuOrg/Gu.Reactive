@@ -101,7 +101,7 @@
 
             foreach (var change in changes)
             {
-                if (!this.AffectsFilteredOnly(change))
+                if (!Filtered.AffectsFilteredOnly(change, this.Filter))
                 {
                     base.Refresh(CachedEventArgs.SingleNotifyCollectionReset);
                     return;
@@ -124,29 +124,6 @@
             }
 
             base.Dispose(disposing);
-        }
-
-        private bool AffectsFilteredOnly(NotifyCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                case NotifyCollectionChangedAction.Move:
-                    return e.TryGetSingleNewItem(out T item) &&
-                           !this.Filter(item);
-                case NotifyCollectionChangedAction.Remove:
-                    return e.TryGetSingleOldItem(out T removed) &&
-                           !this.Filter(removed);
-                case NotifyCollectionChangedAction.Replace:
-                    return e.TryGetSingleNewItem(out T newItem) &&
-                           !this.Filter(newItem) &&
-                           e.TryGetSingleOldItem(out T oldItem) &&
-                           !this.Filter(oldItem);
-                case NotifyCollectionChangedAction.Reset:
-                    return false;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
     }
 }

@@ -38,6 +38,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\ReadOnlyViews\Filtered.cs" />
     <Compile Include="Collections\ReadOnlyViews\MappingView{TSource,TResult}.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
