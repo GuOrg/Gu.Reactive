@@ -24,7 +24,7 @@
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
-            return new FilteredView<T>(collection, filter, TimeSpan.Zero, null, triggers);
+            return new FilteredView<T>(collection, filter, TimeSpan.Zero, triggers);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@
         {
             Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
-            return new FilteredView<T>(collection, filter, bufferTime, null, triggers);
+            return new FilteredView<T>(collection, filter, bufferTime, triggers);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
-            return new FilteredView<T>(collection, filter, TimeSpan.Zero, null, triggers);
+            return new FilteredView<T>(collection, filter, TimeSpan.Zero, triggers);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@
         {
             Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
-            return new FilteredView<T>(collection, filter, bufferTime, null, triggers);
+            return new FilteredView<T>(collection, filter, bufferTime, triggers);
         }
     }
 }
