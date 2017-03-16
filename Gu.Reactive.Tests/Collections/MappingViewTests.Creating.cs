@@ -16,7 +16,7 @@ namespace Gu.Reactive.Tests.Collections
             [Test]
             public void InitializesValueType()
             {
-                var source = new ObservableCollection<int>(new[] { 1, 1, 1, 2, 2, 2, 3, 3, 3 });
+                var source = new ObservableCollection<int> { 1, 1, 1, 2, 2, 2, 3, 3, 3 };
                 using (var view = source.AsMappingView(x => new Model(x)))
                 {
                     Assert.AreNotSame(view[0], view[1]);
@@ -122,7 +122,7 @@ namespace Gu.Reactive.Tests.Collections
             [Test]
             public void Remove()
             {
-                var source = new ObservableCollection<int>(new[] { 1 });
+                var source = new ObservableCollection<int> { 1 };
                 using (var modelView = source.AsMappingView(x => new Model(x)))
                 {
                     using (var modelViewChanges = modelView.SubscribeAll())

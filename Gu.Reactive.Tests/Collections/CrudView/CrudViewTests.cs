@@ -23,7 +23,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         [SetUp]
         public virtual void SetUp()
         {
-            this.Ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            this.Ints = new ObservableCollection<int> { 1, 2, 3 };
         }
 
         [TearDown]

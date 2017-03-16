@@ -17,7 +17,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void InitializeFiltered()
         {
-            var ints = new ObservableCollection<int>(new[] { 1, 2 });
+            var ints = new ObservableCollection<int> { 1, 2 };
             using (var view = ints.AsReadOnlyFilteredView(x => x < 2))
             {
                 CollectionAssert.AreEqual(new[] { 1 }, view);

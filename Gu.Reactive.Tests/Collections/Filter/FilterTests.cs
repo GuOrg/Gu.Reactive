@@ -26,7 +26,7 @@ namespace Gu.Reactive.Tests.Collections.Filter
         [SetUp]
         public virtual void SetUp()
         {
-            this.ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            this.ints = new ObservableCollection<int> { 1, 2, 3 };
         }
 
         [Test]

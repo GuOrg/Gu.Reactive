@@ -24,7 +24,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void InitializeFiltered()
         {
-            var source = new ObservableCollection<int>(new[] { 1, 2 });
+            var source = new ObservableCollection<int> { 1, 2 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x < 2, scheduler))
             {
@@ -36,7 +36,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void InitializeFilteredBuffered()
         {
-            var source = new ObservableCollection<int>(new[] { 1, 2 });
+            var source = new ObservableCollection<int> { 1, 2 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x < 2, TimeSpan.FromMilliseconds(100), scheduler))
             {
@@ -308,7 +308,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void RemoveFiltered()
         {
-            var source = new ObservableCollection<int>(new[] { 1 });
+            var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
@@ -325,7 +325,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void RemoveFilteredBuffered()
         {
-            var source = new ObservableCollection<int>(new[] { 1 });
+            var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
             {
@@ -342,7 +342,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void RemoveVisible()
         {
-            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
@@ -366,7 +366,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void RemoveVisibleBuffered()
         {
-            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
             {
@@ -393,7 +393,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void ReplaceFiltered()
         {
-            var source = new ObservableCollection<int>(new[] { 1 });
+            var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
@@ -410,7 +410,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void ReplaceFilteredBuffered()
         {
-            var source = new ObservableCollection<int>(new[] { 1 });
+            var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
             {
@@ -427,7 +427,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void ReplaceVisible()
         {
-            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
@@ -453,7 +453,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void ReplaceVisibleBuffered()
         {
-            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
             {
@@ -480,7 +480,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void ReplaceFilteredWithVisible()
         {
-            var source = new ObservableCollection<int>(new[] { 1 });
+            var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, scheduler))
             {
@@ -504,7 +504,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void ReplaceFilteredWithVisibleBuffered()
         {
-            var source = new ObservableCollection<int>(new[] { 1 });
+            var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
             using (var view = source.AsReadOnlyFilteredView(x => x % 2 == 0, TimeSpan.FromMilliseconds(100), scheduler))
             {

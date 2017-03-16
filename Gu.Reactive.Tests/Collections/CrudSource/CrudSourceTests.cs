@@ -21,7 +21,7 @@
         [SetUp]
         public virtual void SetUp()
         {
-            this.Source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            this.Source = new ObservableCollection<int> { 1, 2, 3 };
         }
 
         [Test]

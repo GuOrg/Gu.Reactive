@@ -54,7 +54,7 @@ namespace Gu.Reactive.Tests.Collections
             [Test]
             public void Remove()
             {
-                var source = new ObservableCollection<int>(new[] { 1 });
+                var source = new ObservableCollection<int> { 1 };
                 using (var modelView = source.AsMappingView(x => new Model(x)))
                 {
                     using (var modelViewChanges = modelView.SubscribeAll())

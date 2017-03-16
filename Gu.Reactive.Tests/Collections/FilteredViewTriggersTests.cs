@@ -119,7 +119,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void UpdatesAndNotifiesOnCollectionChanged()
         {
-            var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var ints = new ObservableCollection<int> { 1, 2, 3 };
             using (var expected = ints.SubscribeAll())
             {
                 var scheduler = new TestScheduler();

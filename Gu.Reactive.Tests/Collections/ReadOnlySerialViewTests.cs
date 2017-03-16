@@ -13,7 +13,7 @@
         [Test]
         public void Intialize()
         {
-            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var view = new ReadOnlySerialView<int>(source))
             {
                 CollectionAssert.AreEqual(source, view);
@@ -226,7 +226,7 @@
         [Test]
         public void ClearSource()
         {
-            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var view = new ReadOnlySerialView<int>(source))
             {
                 using (var actual = view.SubscribeAll())
@@ -248,7 +248,7 @@
         [Test]
         public void Updates()
         {
-            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var expected = source.SubscribeAll())
             {
                 using (var view = new ReadOnlySerialView<int>(source))
