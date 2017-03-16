@@ -77,9 +77,9 @@
                                                                          .Where(this.IsSourceChange)
                                                                          .Publish(
                                                                              shared =>
-                                                                                 this.ObservePropertyChangedSlim(nameof(this.BufferTime))
-                                                                                     .Select(_ => shared.Chunks(bufferTime, scheduler)
-                                                                                                        .ObserveOn(scheduler ?? ImmediateScheduler.Instance))
+                                                                                 this.ObserveValue(x => x.BufferTime)
+                                                                                     .Select(bt => shared.Chunks(bt.Value, scheduler)
+                                                                                                         .ObserveOn(scheduler))
                                                                                      .Switch())
                                                                          .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
                                                                          .Subscribe(this.Refresh);

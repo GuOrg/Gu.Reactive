@@ -63,8 +63,8 @@ namespace Gu.Reactive.Tests.Collections
             {
             }
 
-            using (source.AsFilteredView(x => true)
-                       .AsReadOnlyThrottledView(TimeSpan.Zero))
+            using (source.AsReadOnlyFilteredView(x => true)
+                         .AsReadOnlyThrottledView(TimeSpan.Zero))
             {
             }
 

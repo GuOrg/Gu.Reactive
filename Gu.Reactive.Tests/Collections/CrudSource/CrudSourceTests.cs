@@ -7,6 +7,8 @@
 
     using Gu.Reactive.Tests.Helpers;
 
+    using Microsoft.Reactive.Testing;
+
     using NUnit.Framework;
 
     public abstract class CrudSourceTests
@@ -84,14 +86,14 @@
         [Test]
         public void ManyAddsOneReset()
         {
-            if (this.Scheduler == null)
+            if (!(this.Scheduler is TestScheduler))
             {
                 Assert.Inconclusive();
             }
 
             using (var actual = this.View.SubscribeAll())
             {
-                for (int i = 0; i < 10; i++)
+                for (var i = 0; i < 10; i++)
                 {
                     this.Source.Add(i);
                 }

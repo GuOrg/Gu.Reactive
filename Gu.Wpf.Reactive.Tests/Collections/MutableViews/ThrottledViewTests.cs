@@ -21,6 +21,12 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     [Apartment(ApartmentState.STA)]
     public class ThrottledViewTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            App.Start();
+        }
+
         [Test]
         public void AddToSourceTestScheduler()
         {
@@ -189,6 +195,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                         CollectionAssert.IsEmpty(actual);
 
                         await Task.Delay(bufferTime);
+                        await Application.Current.Dispatcher.SimulateYield();
                         await Application.Current.Dispatcher.SimulateYield();
 
                         CollectionAssert.AreEqual(source, view);

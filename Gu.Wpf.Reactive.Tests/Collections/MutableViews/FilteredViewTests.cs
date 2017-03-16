@@ -134,9 +134,9 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         [Test]
         public void Refresh()
         {
-            var ints = new List<int> { 1, 2, 3 };
+            var source = new List<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = ints.AsFilteredView(x => true, scheduler, new Subject<object>()))
+            using (var view = source.AsFilteredView(x => true, scheduler, new Subject<object>()))
             {
                 using (var actual = view.SubscribeAll())
                 {

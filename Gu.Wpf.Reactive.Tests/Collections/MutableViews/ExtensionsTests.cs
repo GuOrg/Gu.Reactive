@@ -6,6 +6,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using System.Linq;
 
     using Gu.Reactive;
+    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
 
     using Moq;
 
@@ -16,6 +17,12 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     /// </summary>
     public class ExtensionsTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            App.Start();
+        }
+
         [Test]
         public void AsFilteredView()
         {
