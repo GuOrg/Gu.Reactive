@@ -7,6 +7,8 @@ namespace Gu.Reactive.Tests.Collections
     using System.Collections.Specialized;
     using System.Threading.Tasks;
     using Gu.Reactive.Tests.Helpers;
+    using Gu.Wpf.Reactive;
+
     using Microsoft.Reactive.Testing;
     using NUnit.Framework;
 

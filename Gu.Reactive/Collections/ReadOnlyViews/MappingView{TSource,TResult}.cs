@@ -18,7 +18,7 @@
     /// <typeparam name="TResult">The type of the items in the resulting collection. Can be the same type.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
-    public partial class MappingView<TSource, TResult> : ReadonlySerialViewBase<TSource, TResult>, IReadOnlyObservableCollection<TResult>, IUpdater
+    public partial class MappingView<TSource, TResult> : ReadonlySerialViewBase<TSource, TResult>, IReadOnlyObservableCollection<TResult>
     {
         private readonly IDisposable refreshSubscription;
 #pragma warning disable GU0037 // Don't assign member with injected and created disposables.
@@ -42,9 +42,6 @@
                                                  .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
                                                  .Subscribe(this.Refresh);
         }
-
-        /// <inheritdoc/>
-        object IUpdater.CurrentlyUpdatingSourceItem => null;
 
         /// <inheritdoc/>
         public override void Refresh()

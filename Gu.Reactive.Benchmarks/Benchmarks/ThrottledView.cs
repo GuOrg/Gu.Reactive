@@ -5,6 +5,8 @@ namespace Gu.Reactive.Benchmarks
     using System.Collections.ObjectModel;
     using BenchmarkDotNet.Attributes;
 
+    using Gu.Wpf.Reactive;
+
     public class ThrottledView : IDisposable
     {
         // ReSharper disable once CollectionNeverQueried.Local

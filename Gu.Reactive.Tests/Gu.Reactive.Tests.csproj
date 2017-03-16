@@ -49,19 +49,13 @@
     <Compile Include="Collections\MappingViewTests.ReferenceTypeCreatingCachingRemoving.cs" />
     <Compile Include="Collections\MappingViewTests.ValueTypeCreatingRemoving.cs" />
     <Compile Include="Collections\MappingViewTests.CreatingUpdating.cs" />
-    <Compile Include="Collections\CrudSource\ThrottledView.cs" />
-    <Compile Include="Collections\CrudSource\ThrottledViewNoScheduler.cs" />
-    <Compile Include="Collections\CrudSource\FilteredView.cs" />
-    <Compile Include="Collections\CrudSource\FilteredViewNoScheduler.cs" />
     <Compile Include="Collections\CrudSource\ReadOnlyThrottledViewNoScheduler.cs" />
     <Compile Include="Collections\CrudSource\ReadOnlyFilteredView.cs" />
     <Compile Include="Collections\CrudSource\ReadOnlyFilteredViewNoScheduler.cs" />
-    <Compile Include="Collections\CrudView\ThrottledViewTests.cs" />
-    <Compile Include="Collections\CrudView\FilteredNoScheduler.cs" />
-    <Compile Include="Collections\CrudView\FilteredView.cs" />
     <Compile Include="Collections\Filter\ReadOnlyFilteredViewTests.cs" />
     <Compile Include="Collections\Filter\ThrowingEnumerable.cs" />
     <Compile Include="Collections\ObservableBatchCollectionTests.cs" />
+    <Compile Include="Collections\ReadOnlyFilteredViewTests.cs" />
     <Compile Include="Collections\ReadOnlySerialViewTests.cs" />
     <Compile Include="Collections\ScheduledCollectionTests.cs" />
     <Compile Include="Collections\ThrottledViewTests.cs" />
@@ -79,15 +73,8 @@
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObserveValue.cs" />
     <Compile Include="ObservableExtTests.Chunks.cs" />
     <Compile Include="SerialDisposableTests.cs" />
-    <Compile Include="Collections\ThrottledRefresherTests.cs" />
     <Compile Include="Collections\DiffTests.cs" />
-    <Compile Include="Collections\CrudView\CrudViewTests.cs" />
     <Compile Include="Collections\ExtensionsTests.cs" />
-    <Compile Include="Collections\Filter\FilteredViewTestsBase.cs" />
-    <Compile Include="Collections\Filter\FilteredViewNoScheduler.cs" />
-    <Compile Include="Collections\Filter\FilterTests.cs" />
-    <Compile Include="Collections\Filter\FilteredViewTests.cs" />
-    <Compile Include="Collections\FilteredViewTriggersTests.cs" />
     <Compile Include="Collections\CrudSource\CrudSourceTests.cs" />
     <Compile Include="Collections\CrudSource\ReadOnlyThrottledView.cs" />
     <Compile Include="Collections\ObservableFixedSizeQueueTests.cs" />
@@ -150,6 +137,10 @@
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj">
       <Project>{2230088e-f6dc-4c79-9983-d9654274d689}</Project>
       <Name>Gu.Reactive</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj">
+      <Project>{4C0610EE-96A2-4E34-BCE1-17B06A64556B}</Project>
+      <Name>Gu.Wpf.Reactive</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
