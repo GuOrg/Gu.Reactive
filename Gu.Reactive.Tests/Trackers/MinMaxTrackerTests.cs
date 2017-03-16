@@ -14,7 +14,7 @@ namespace Gu.Reactive.Tests.Trackers
             [Test]
             public void InitializesWithValues()
             {
-                var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+                var ints = new ObservableCollection<int> { 1, 2, 3 };
                 using (var tracker = ints.TrackMinMax())
                 {
                     Assert.AreEqual(1, tracker.Min);
@@ -43,7 +43,7 @@ namespace Gu.Reactive.Tests.Trackers
             [TestCase(2, 2, 1, 2, new[] { "Max" })]
             public void Replace(int index, int value, int expectedMin, int expectedMax, string[] expected)
             {
-                var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+                var ints = new ObservableCollection<int> { 1, 2, 3 };
                 using (var tracker = ints.TrackMinMax())
                 {
                     Assert.AreEqual(1, tracker.Min);
@@ -64,7 +64,7 @@ namespace Gu.Reactive.Tests.Trackers
             [Test]
             public void ReactsAndNotifiesOnSourceChanges()
             {
-                var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+                var ints = new ObservableCollection<int> { 1, 2, 3 };
                 using (var tracker = ints.TrackMinMax())
                 {
                     Assert.AreEqual(1, tracker.Min);

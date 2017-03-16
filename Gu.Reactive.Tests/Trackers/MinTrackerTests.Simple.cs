@@ -7,12 +7,12 @@ namespace Gu.Reactive.Tests.Trackers
 
     public partial class MinTrackerTests
     {
-        public class Primitive
+        public class Simple
         {
             [Test]
             public void InitializesWithValues()
             {
-                var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+                var ints = new ObservableCollection<int> { 1, 2, 3 };
                 using (var tracker = ints.TrackMin())
                 {
                     Assert.AreEqual(1, tracker.Value);
@@ -22,7 +22,7 @@ namespace Gu.Reactive.Tests.Trackers
             [Test]
             public void InitializesWhenEmpty()
             {
-                var ints = new ObservableCollection<int>(new int[0]);
+                var ints = new ObservableCollection<int>();
                 using (var tracker = ints.TrackMin())
                 {
                     Assert.AreEqual(null, tracker.Value);
@@ -35,7 +35,7 @@ namespace Gu.Reactive.Tests.Trackers
             [TestCase(1, 3, 1, 0)]
             public void Replace(int index, int value, int expectedValue, int expectedCount)
             {
-                var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+                var ints = new ObservableCollection<int> { 1, 2, 3 };
                 int count;
                 using (var tracker = ints.TrackMin())
                 {
@@ -54,7 +54,7 @@ namespace Gu.Reactive.Tests.Trackers
             [Test]
             public void ReactsAndNotifiesOnSourceChanges()
             {
-                var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+                var ints = new ObservableCollection<int> { 1, 2, 3 };
                 using (var tracker = MinTracker.TrackMin(ints))
                 {
                     Assert.AreEqual(1, tracker.Value);

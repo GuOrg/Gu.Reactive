@@ -162,16 +162,17 @@ namespace Gu.Reactive
 
                 private set
                 {
-                    if (this.value.HasValue)
-                    {
-                        this.nestedChanges.OnRemove(this.value.Value);
-                    }
-
+                    var before = this.value;
                     this.value = value;
 
                     if (this.value.HasValue)
                     {
                         this.nestedChanges.OnAdd(this.value.Value);
+                    }
+
+                    if (before.HasValue)
+                    {
+                        this.nestedChanges.OnRemove(before.Value);
                     }
                 }
             }

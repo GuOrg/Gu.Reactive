@@ -192,8 +192,8 @@
     <Compile Include="SerialDisposable{T}.cs" />
     <Compile Include="TaskExt.cs" />
     <Compile Include="Trackers\DoubleAverageTracker.cs" />
-    <Compile Include="Trackers\IChanges.cs" />
-    <Compile Include="Trackers\ITracker{TValue}.cs" />
+    <Compile Include="Trackers\Internals\IChanges.cs" />
+    <Compile Include="Trackers\Internals\ITracker{TValue}.cs" />
     <Compile Include="Trackers\Mapper{TSource,TResult}.cs" />
     <Compile Include="Trackers\MinMaxTracker.generated.cs">
       <DependentUpon>MinMaxTracker.tt</DependentUpon>
@@ -213,8 +213,8 @@
       <DependentUpon>MinTracker.tt</DependentUpon>
     </Compile>
     <Compile Include="Trackers\MinTracker{TValue}.cs" />
-    <Compile Include="Trackers\NestedChanges.cs" />
-    <Compile Include="Trackers\SimpleChanges{TValue}.cs" />
+    <Compile Include="Trackers\Internals\NestedChanges.cs" />
+    <Compile Include="Trackers\Internals\SimpleChanges{TValue}.cs" />
     <Compile Include="Trackers\Tracker{TValue}.cs" />
     <Compile Include="TypeExt.cs" />
   </ItemGroup>
@@ -325,6 +325,7 @@
       <LastGenOutput>MinMaxTracker.generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')">
       <ItemGroup>

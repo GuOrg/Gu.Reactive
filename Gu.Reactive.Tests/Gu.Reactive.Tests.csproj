@@ -132,8 +132,10 @@
     <Compile Include="Reflection\PropertyPathParserTests.cs" />
     <Compile Include="Sandbox\ItemsObservableBox.cs" />
     <Compile Include="Trackers\DoubleAverageTrackerTests.cs" />
+    <Compile Include="Trackers\MaxTrackerTests.Simple.cs" />
+    <Compile Include="Trackers\MaxTrackerTests.Nested.cs" />
     <Compile Include="Trackers\MinMaxTrackerTests.cs" />
-    <Compile Include="Trackers\MinTrackerTests.Primitive.cs" />
+    <Compile Include="Trackers\MinTrackerTests.Simple.cs" />
     <Compile Include="Trackers\MinTrackerTests.Nested.cs" />
   </ItemGroup>
   <ItemGroup>
