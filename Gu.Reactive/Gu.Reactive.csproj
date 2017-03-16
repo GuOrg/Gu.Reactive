@@ -213,8 +213,8 @@
       <DependentUpon>MinTracker.tt</DependentUpon>
     </Compile>
     <Compile Include="Trackers\MinTracker{TValue}.cs" />
-    <Compile Include="Trackers\Internals\NestedChanges.cs" />
-    <Compile Include="Trackers\Internals\SimpleChanges{TCollection, TValue}.cs" />
+    <Compile Include="Trackers\Internals\NestedChanges{TCollection,TItem,TValue}.cs" />
+    <Compile Include="Trackers\Internals\SimpleChanges{TCollection,TValue}.cs" />
     <Compile Include="Trackers\Tracker{TValue}.cs" />
     <Compile Include="TypeExt.cs" />
   </ItemGroup>

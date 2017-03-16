@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
-    using Gu.Reactive.Internals;
     using System.Runtime.CompilerServices;
+    using Gu.Reactive.Internals;
 
     /// <summary>
     /// A tracker for minimum and maximum value in a collection.
