@@ -15,7 +15,7 @@ namespace Gu.Reactive.Tests.Collections
             [Test]
             public void Initializes()
             {
-                var source = new ObservableCollection<Model>(new[] { new Model(1), new Model(2), });
+                var source = new ObservableCollection<Model> { new Model(1), new Model(2), };
                 using (var indexed = source.AsMappingView(
                     (x, i) => new Vm { Index = i, Model = x },
                     (x, i) => x.WithIndex(i)))

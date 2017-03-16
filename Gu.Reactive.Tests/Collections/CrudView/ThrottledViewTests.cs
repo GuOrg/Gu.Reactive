@@ -16,7 +16,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public void OneChangeOneNotification()
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
-            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             var deferTime = TimeSpan.FromMilliseconds(10);
             using (var throttledView = source.AsThrottledView(deferTime))
             {
@@ -33,7 +33,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public void ManyAddsOneReset()
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
-            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var throttledView = source.AsThrottledView(TimeSpan.FromMilliseconds(100)))
             {
                 throttledView.CollectionChanged += (_, e) => changes.Add(e);
@@ -53,7 +53,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public void TwoBurstsTwoResets()
         {
             var changes = new List<NotifyCollectionChangedEventArgs>();
-            var source = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             var deferTime = TimeSpan.FromMilliseconds(10);
             using (var throttledView = source.AsThrottledView(deferTime))
             {

@@ -16,7 +16,7 @@
             [Test]
             public void InitializesWithValues()
             {
-                var source = new ObservableCollection<Dummy>(new[] { new Dummy(1), new Dummy(2), new Dummy(3) });
+                var source = new ObservableCollection<Dummy> { new Dummy(1), new Dummy(2), new Dummy(3) };
                 using (var tracker = source.TrackMin(x => x.Value))
                 {
                     Assert.AreEqual(1, tracker.Value);
@@ -36,7 +36,7 @@
             [Test]
             public void ReactsAndNotifiesOnSourceCollectionChanges()
             {
-                var source = new ObservableCollection<Dummy>(new[] { new Dummy(1), new Dummy(2), new Dummy(3) });
+                var source = new ObservableCollection<Dummy> { new Dummy(1), new Dummy(2), new Dummy(3) };
                 using (var tracker = source.TrackMin(x => x.Value))
                 {
                     Assert.AreEqual(1, tracker.Value);
@@ -74,7 +74,7 @@
             [Test]
             public void ReactsAndNotifiesOnItemChangesOneLevel()
             {
-                var source = new ObservableCollection<Dummy>(new[] { new Dummy(1), new Dummy(2), new Dummy(3) });
+                var source = new ObservableCollection<Dummy> { new Dummy(1), new Dummy(2), new Dummy(3) };
                 using (var tracker = source.TrackMin(x => x.Value))
                 {
                     Assert.AreEqual(1, tracker.Value);

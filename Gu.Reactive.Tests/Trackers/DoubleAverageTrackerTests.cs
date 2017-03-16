@@ -11,7 +11,7 @@ namespace Gu.Reactive.Tests.Trackers
         [Test]
         public void InitializesWithValues()
         {
-            var source = new ObservableCollection<double>(new[] { 1.0, 2, 3 });
+            var source = new ObservableCollection<double> { 1.0, 2, 3 };
             using (var tracker = new DoubleAverageTracker(source))
             {
                 Assert.AreEqual(source.Average(), tracker.Value);
@@ -31,7 +31,7 @@ namespace Gu.Reactive.Tests.Trackers
         [Test]
         public void ReactsAndNotifiesOnSourceChanges()
         {
-            var source = new ObservableCollection<double>(new[] { 1.0, 2, 3 });
+            var source = new ObservableCollection<double> { 1.0, 2, 3 };
             using (var tracker = new DoubleAverageTracker(source))
             {
                 Assert.AreEqual(source.Average(), tracker.Value);

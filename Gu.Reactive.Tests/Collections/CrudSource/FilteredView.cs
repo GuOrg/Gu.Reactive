@@ -21,7 +21,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void InitializeFiltered()
         {
-            var ints = new ObservableCollection<int>(new[] { 1, 2 });
+            var ints = new ObservableCollection<int> { 1, 2 };
             using (var view = ints.AsFilteredView(x => x < 2))
             {
                 CollectionAssert.AreEqual(new[] { 1 }, view);
@@ -76,7 +76,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void RemoveFiltered()
         {
-            var ints = new ObservableCollection<int>(new[] { 1 });
+            var ints = new ObservableCollection<int> { 1 };
             using (var view = ints.AsFilteredView(x => x % 2 == 0))
             {
                 using (var changes = view.SubscribeAll())
@@ -91,7 +91,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void RemoveNonFiltered()
         {
-            var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var ints = new ObservableCollection<int> { 1, 2, 3 };
             using (var view = ints.AsFilteredView(x => x % 2 == 0))
             {
                 using (var changes = view.SubscribeAll())
@@ -112,7 +112,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void ReplaceFiltered()
         {
-            var ints = new ObservableCollection<int>(new[] { 1 });
+            var ints = new ObservableCollection<int> { 1 };
             using (var view = ints.AsFilteredView(x => x % 2 == 0))
             {
                 using (var changes = view.SubscribeAll())
@@ -127,7 +127,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void ReplaceFilteredWithVisible()
         {
-            var ints = new ObservableCollection<int>(new[] { 1 });
+            var ints = new ObservableCollection<int> { 1 };
             using (var view = ints.AsFilteredView(x => x % 2 == 0))
             {
                 using (var changes = view.SubscribeAll())

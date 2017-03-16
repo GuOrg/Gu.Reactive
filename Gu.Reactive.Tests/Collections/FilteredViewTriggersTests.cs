@@ -18,7 +18,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void ManyOnNextsOneReset()
         {
-            var ints = new List<int>(new[] { 1, 2, 3 });
+            var ints = new List<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
             using (var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler, new Subject<object>()))
             {
@@ -52,7 +52,7 @@ namespace Gu.Reactive.Tests.Collections
         public void ManyOnNextsOneAdd()
         {
             var subject = new Subject<object>();
-            var ints = new List<int>(new[] { 1, 2, 3 });
+            var ints = new List<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
             using (var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler, subject))
             {
@@ -85,7 +85,7 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void AddTriggerThenManyOnNextsOneAdd()
         {
-            var ints = new List<int>(new[] { 1, 2, 3 });
+            var ints = new List<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
             using (var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler, new Subject<object>()))
             {
