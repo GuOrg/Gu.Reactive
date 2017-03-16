@@ -37,7 +37,7 @@
             TimeSpan bufferTime,
             IScheduler scheduler,
             params IObservable<object>[] triggers)
-            : base(source, Filtered(source, filter))
+            : base(source, Filtered(source, filter), true)
         {
             if (filter == null)
             {
@@ -136,7 +136,6 @@
         {
             this.ThrowIfDisposed();
             (this.Source as IRefreshAble)?.Refresh();
-
             if (this.HasListeners)
             {
                 this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
@@ -145,6 +144,19 @@
             {
                 this.Tracker.Reset(this.Filtered());
             }
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -168,89 +180,34 @@
         }
 
         /// <inheritdoc/>
-        protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
+        protected override void Notify(NotifyCollectionChangedEventArgs change)
         {
-            var currentFilter = this.Filter;
-            if (currentFilter != null)
+            if (Reactive.Filtered.AffectsFilteredOnly(change, this.filter))
             {
-                switch (e.Action)
-                {
-                    case NotifyCollectionChangedAction.Add:
-                        {
-                            if (e.TryGetSingleNewItem(out T item) &&
-                                !currentFilter(item))
-                            {
-                                // added item that is not visible
-                                return;
-                            }
-
-                            break;
-                        }
-
-                    case NotifyCollectionChangedAction.Remove:
-                        {
-                            if (e.TryGetSingleOldItem(out T item) &&
-                                !currentFilter(item))
-                            {
-                                // removed item that is not visible
-                                return;
-                            }
-
-                            break;
-                        }
-
-                    case NotifyCollectionChangedAction.Replace:
-                        {
-                            if (e.TryGetSingleNewItem(out T newItem) &&
-                                !currentFilter(newItem) &&
-                                e.TryGetSingleOldItem(out T oldItem) &&
-                                !currentFilter(oldItem))
-                            {
-                                return; // replaced item that is not visible
-                            }
-
-                            break;
-                        }
-
-                    case NotifyCollectionChangedAction.Move:
-                        {
-                            if (e.TryGetSingleNewItem(out T item) &&
-                                !currentFilter(item))
-                            {
-                                // added item that is not visible
-                                return;
-                            }
-
-                            break;
-                        }
-
-                    case NotifyCollectionChangedAction.Reset:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                return;
             }
 
-            if (this.HasListeners)
-            {
-                this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset, this.OnPropertyChanged, this.OnCollectionChanged);
-            }
-            else
-            {
-                this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset);
-            }
+            base.Notify(change);
         }
 
         /// <inheritdoc/>
         protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            if (this.HasListeners)
+            foreach (var e in changes)
             {
-                this.Tracker.Refresh(this.Filtered(), null, this.OnPropertyChanged, this.OnCollectionChanged);
-            }
-            else
-            {
-                this.Tracker.Refresh(this.Filtered());
+                if (!Reactive.Filtered.AffectsFilteredOnly(e, this.filter))
+                {
+                    if (this.HasListeners)
+                    {
+                        this.Tracker.Refresh(this.Filtered(), changes, this.OnPropertyChanged, this.OnCollectionChanged);
+                    }
+                    else
+                    {
+                        this.Tracker.Refresh(this.Filtered(), changes);
+                    }
+
+                    return;
+                }
             }
         }
 
@@ -266,7 +223,7 @@
         /// Protected implementation of Dispose pattern.
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)
             {
@@ -274,14 +231,22 @@
             }
 
             this.disposed = true;
-
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
                 this.triggerSubscription?.Dispose();
             }
+        }
 
-            base.Dispose(disposing);
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// </summary>
+        protected void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
         }
     }
 }

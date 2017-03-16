@@ -2,8 +2,13 @@
 namespace Gu.Reactive.Tests.Collections
 {
     using System;
-
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+    using System.Threading.Tasks;
+    using Gu.Reactive.Tests.Helpers;
     using Microsoft.Reactive.Testing;
+    using NUnit.Framework;
 
     public class ThrottledView : CrudSourceTests
     {

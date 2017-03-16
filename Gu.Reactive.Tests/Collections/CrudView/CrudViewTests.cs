@@ -16,7 +16,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
     {
         protected TestScheduler Scheduler { get; set; }
 
-        protected IFilteredView<int> View { get; set; }
+        protected IObservableCollection<int> View { get; set; }
 
         protected ObservableCollection<int> Ints { get; set; }
 
@@ -30,7 +30,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
         public void TearDown()
         {
 #pragma warning disable GU0036 // Don't dispose injected.
-            this.View?.Dispose();
+            (this.View as IDisposable)?.Dispose();
 #pragma warning restore GU0036 // Don't dispose injected.
         }
 
@@ -40,7 +40,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             CollectionAssert.AreEqual(this.Ints, this.View);
             using (var actual = this.View.SubscribeAll())
             {
-                this.View.Refresh();
+                (this.View as IRefreshAble)?.Refresh();
                 this.Scheduler?.Start();
                 CollectionAssert.AreEqual(this.Ints, this.View);
                 CollectionAssert.IsEmpty(actual);

@@ -15,7 +15,7 @@ namespace Gu.Reactive.Tests.Collections.CrudView
             base.SetUp();
             this.Scheduler = new TestScheduler();
 #pragma warning disable GU0036 // Don't dispose injected.
-            this.View?.Dispose();
+            (this.View as IDisposable)?.Dispose();
 #pragma warning restore GU0036 // Don't dispose injected.
             this.View = this.Ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
         }

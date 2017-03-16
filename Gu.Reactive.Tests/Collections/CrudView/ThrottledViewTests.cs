@@ -5,79 +5,42 @@ namespace Gu.Reactive.Tests.Collections.CrudView
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
-
+    using System.Threading.Tasks;
     using Gu.Reactive.Tests.Helpers;
-
+    using Microsoft.Reactive.Testing;
     using NUnit.Framework;
 
-    public class ThrottledViewTests
+    public class ThrottledViewTests : CrudViewTests
     {
-        [Test]
-        public void OneChangeOneNotification()
+        [SetUp]
+        public override void SetUp()
         {
-            var changes = new List<NotifyCollectionChangedEventArgs>();
-            var source = new ObservableCollection<int> { 1, 2, 3 };
-            var deferTime = TimeSpan.FromMilliseconds(10);
-            using (var throttledView = source.AsThrottledView(deferTime))
-            {
-                throttledView.CollectionChanged += (_, e) => changes.Add(e);
-                source.Add(4);
-                throttledView.Refresh();
-                CollectionAssert.AreEqual(source, throttledView);
-                var expected = new[] { new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, 4, 3) };
-                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
-            }
+            base.SetUp();
+            this.Scheduler = new TestScheduler();
+#pragma warning disable GU0036 // Don't dispose injected.
+            (this.View as IDisposable)?.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
+            this.View = this.Ints.AsThrottledView(TimeSpan.FromMilliseconds(10), this.Scheduler);
         }
 
         [Test]
-        public void ManyAddsOneReset()
+        public void AddToViewTestScheduler()
         {
-            var changes = new List<NotifyCollectionChangedEventArgs>();
             var source = new ObservableCollection<int> { 1, 2, 3 };
-            using (var throttledView = source.AsThrottledView(TimeSpan.FromMilliseconds(100)))
+            var scheduler = new TestScheduler();
+            using (var view = source.AsThrottledView(TimeSpan.FromMilliseconds(10), scheduler))
             {
-                throttledView.CollectionChanged += (_, e) => changes.Add(e);
-                for (var i = 4; i < 10; i++)
+                scheduler.Start();
+                using (var expected = source.SubscribeAll())
                 {
-                    source.Add(i);
+                    using (var actual = view.SubscribeAll())
+                    {
+                        view.Add(4);
+                        scheduler.Start();
+                        CollectionAssert.AreEqual(source, view);
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
                 }
-
-                throttledView.Refresh();
-                CollectionAssert.AreEqual(source, throttledView);
-                var expected = new[] { new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset) };
-                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
-            }
-        }
-
-        [Test]
-        public void TwoBurstsTwoResets()
-        {
-            var changes = new List<NotifyCollectionChangedEventArgs>();
-            var source = new ObservableCollection<int> { 1, 2, 3 };
-            var deferTime = TimeSpan.FromMilliseconds(10);
-            using (var throttledView = source.AsThrottledView(deferTime))
-            {
-                throttledView.CollectionChanged += (_, e) => changes.Add(e);
-                for (int i = 0; i < 10; i++)
-                {
-                    source.Add(i);
-                }
-
-                throttledView.Refresh();
-                for (int i = 0; i < 10; i++)
-                {
-                    source.Add(i);
-                }
-
-                throttledView.Refresh();
-                CollectionAssert.AreEqual(source, throttledView);
-
-                var expected = new[]
-                                   {
-                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset),
-                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)
-                                   };
-                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
             }
         }
     }

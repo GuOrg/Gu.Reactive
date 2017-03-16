@@ -21,8 +21,8 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void InitializeFiltered()
         {
-            var ints = new ObservableCollection<int> { 1, 2 };
-            using (var view = ints.AsFilteredView(x => x < 2))
+            var source = new ObservableCollection<int> { 1, 2 };
+            using (var view = source.AsFilteredView(x => x < 2))
             {
                 CollectionAssert.AreEqual(new[] { 1 }, view);
             }
@@ -31,12 +31,12 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void AddFiltered()
         {
-            var ints = new ObservableCollection<int>();
-            using (var view = ints.AsFilteredView(x => x % 2 == 0))
+            var source = new ObservableCollection<int>();
+            using (var view = source.AsFilteredView(x => x % 2 == 0))
             {
                 using (var changes = view.SubscribeAll())
                 {
-                    ints.Add(1);
+                    source.Add(1);
                     CollectionAssert.IsEmpty(view);
                     CollectionAssert.IsEmpty(changes);
                 }
@@ -46,28 +46,16 @@ namespace Gu.Reactive.Tests.Collections
         [Test]
         public void AddVisibleWhenFiltered()
         {
-            var ints = new ObservableCollection<int>();
-            int countChanges;
-            using (var view = ints.AsFilteredView(x => x % 2 == 0))
+            var source = new ObservableCollection<int>();
+            using (var view = source.AsFilteredView(x => x % 2 == 0))
             {
-                using (var changes = view.SubscribeAll())
+                using (var expected = source.SubscribeAll())
                 {
-                    countChanges = 0;
-                    using (view.ObservePropertyChanged(x => x.Count, false)
-                               .Subscribe(_ => countChanges++))
+                    using (var changes = view.SubscribeAll())
                     {
-                        Assert.AreEqual(0, countChanges);
-
-                        ints.Add(2);
-                        CollectionAssert.AreEqual(new[] { 2 }, view);
-                        var expected = new EventArgs[]
-                                           {
-                                               CachedEventArgs.CountPropertyChanged,
-                                               CachedEventArgs.IndexerPropertyChanged,
-                                               Diff.CreateAddEventArgs(2, 0)
-                                           };
+                        source.Add(2);
+                        CollectionAssert.AreEqual(source, view);
                         CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
-                        Assert.AreEqual(1, countChanges);
                     }
                 }
             }
@@ -89,7 +77,7 @@ namespace Gu.Reactive.Tests.Collections
         }
 
         [Test]
-        public void RemoveNonFiltered()
+        public void RemoveVisible()
         {
             var ints = new ObservableCollection<int> { 1, 2, 3 };
             using (var view = ints.AsFilteredView(x => x % 2 == 0))

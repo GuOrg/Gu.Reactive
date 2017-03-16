@@ -1,11 +1,12 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
 
@@ -16,30 +17,32 @@
     [DebuggerDisplay("Count = {this.Count}")]
     [Serializable]
     [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
-    public abstract class SynchronizedEditableView<T> : IList, IList<T>, IUpdater, IRefreshAble, IDisposable, INotifyPropertyChanged, INotifyCollectionChanged
+    public abstract class SynchronizedEditableView<T> : Collection<T>, IUpdater, IRefreshAble, INotifyPropertyChanged, INotifyCollectionChanged
     {
-        private readonly object syncRoot;
-
         private object isUpdatingSourceItem;
-        private bool disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SynchronizedEditableView{T}"/> class.
         /// </summary>
-        protected SynchronizedEditableView(IList<T> source)
-            : this(source, source)
+        protected SynchronizedEditableView(IList<T> source, bool startEmpty)
+            : this(source, source, startEmpty)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SynchronizedEditableView{T}"/> class.
         /// </summary>
-        protected SynchronizedEditableView(IList<T> source, IEnumerable<T> sourceItems)
+        protected SynchronizedEditableView(IList<T> source, IEnumerable<T> sourceItems, bool startEmpty)
+            : this(source, new CollectionSynchronizer<T>(startEmpty ? Enumerable.Empty<T>() : sourceItems))
+        {
+        }
+
+        private SynchronizedEditableView(IList<T> source, CollectionSynchronizer<T> tracker)
+            : base(tracker)
         {
             Ensure.NotNull(source, nameof(source));
             this.Source = source;
-            this.syncRoot = (this.Source as ICollection)?.SyncRoot ?? new object();
-            this.Tracker = new CollectionSynchronizer<T>(sourceItems);
+            this.Tracker = tracker;
         }
 
         /// <inheritdoc/>
@@ -49,21 +52,6 @@
         /// <inheritdoc/>
         [field: NonSerialized]
         public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
-
-        /// <inheritdoc/>
-        public int Count => this.Tracker.Count;
-
-        /// <inheritdoc/>
-        public bool IsReadOnly => false;
-
-        /// <inheritdoc/>
-        object ICollection.SyncRoot => this.syncRoot;
-
-        /// <inheritdoc/>
-        bool ICollection.IsSynchronized => (this.Source as ICollection)?.IsSynchronized == true;
-
-        /// <inheritdoc/>
-        bool IList.IsFixedSize => false;
 
         /// <inheritdoc/>
         object IUpdater.CurrentlyUpdatingSourceItem => this.isUpdatingSourceItem;
@@ -84,163 +72,110 @@
         protected bool HasListeners => this.PropertyChanged != null || this.CollectionChanged != null;
 
         /// <inheritdoc/>
-        public T this[int index]
+        public virtual void Refresh()
         {
-            get
+            (this.Source as IRefreshAble)?.Refresh();
+            if (this.HasListeners)
             {
-                return this.Tracker[index];
+                this.Tracker.Reset(this.Source, this.OnPropertyChanged, this.OnCollectionChanged);
             }
-
-            set
+            else
             {
-                var sourceIndex = this.Source.IndexOf(this.Tracker[index]);
-                this.Source[sourceIndex] = value;
-            }
-        }
-
-        /// <inheritdoc/>
-        object IList.this[int index]
-        {
-            get
-            {
-                return this[index];
-            }
-
-            set
-            {
-                var old = this[index];
-                this.isUpdatingSourceItem = old;
-                this[index] = (T)value;
-                this.RefreshNow(Diff.CreateReplaceEventArgs(value, old, index));
-                this.isUpdatingSourceItem = null;
+                this.Tracker.Reset(this.Source);
             }
         }
-
-        /// <inheritdoc/>
-        public IEnumerator<T> GetEnumerator() => this.Tracker.GetEnumerator();
-
-        /// <inheritdoc/>
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-
-        /// <inheritdoc/>
-        public void Add(T item) => this.Source.Add(item);
-
-        /// <inheritdoc/>
-        public void Clear() => this.Source.Clear();
-
-        /// <inheritdoc/>
-        public bool Contains(T item) => this.Tracker.Contains(item);
-
-        /// <inheritdoc/>
-        public int IndexOf(T value) => this.Tracker.IndexOf(value);
-
-        /// <inheritdoc/>
-        public void Insert(int index, T value) => this.InsertCore(index, value);
-
-        /// <inheritdoc/>
-        public bool Remove(T item)
-        {
-            var result = this.Source.Remove(item);
-            return result;
-        }
-
-        /// <inheritdoc/>
-        public void RemoveAt(int index)
-        {
-            this.RemoveAtCore(index);
-        }
-
-        /// <inheritdoc/>
-        public void CopyTo(T[] array, int arrayIndex) => this.Tracker.CopyTo(array, arrayIndex);
-
-        /// <inheritdoc/>
-        int IList.Add(object value)
-        {
-            // IList.Add happens when a new row is added in DataGrid, we need to notify here to avoid out of sync exception.
-            this.isUpdatingSourceItem = value;
-            ((IList)this.Source).Add(value); // Adding to inner
-            this.RefreshNow(Diff.CreateAddEventArgs(value, this.Count));
-            this.isUpdatingSourceItem = null;
-            var index = this.Tracker.LastIndexOf((T)value);
-            return index;
-        }
-
-        /// <inheritdoc/>
-        bool IList.Contains(object value) => this.Tracker.Contains(value);
-
-        /// <inheritdoc/>
-        int IList.IndexOf(object value) => this.Tracker.IndexOf(value);
-
-        /// <inheritdoc/>
-        void IList.Insert(int index, object value)
-        {
-            this.isUpdatingSourceItem = value;
-            this.Insert(index, (T)value);
-            this.RefreshNow(Diff.CreateAddEventArgs(value, index));
-            this.isUpdatingSourceItem = null;
-        }
-
-        /// <inheritdoc/>
-        void IList.Remove(object value)
-        {
-            var index = this.IndexOf((T)value);
-            if (index < 0)
-            {
-                return;
-            }
-
-            this.isUpdatingSourceItem = value;
-            this.RemoveAtCore(index);
-            this.RefreshNow(Diff.CreateRemoveEventArgs(value, index));
-            this.isUpdatingSourceItem = null;
-        }
-
-        /// <inheritdoc/>
-        void ICollection.CopyTo(Array array, int index) => ((ICollection)this.Tracker).CopyTo(array, index);
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            this.disposed = true;
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <inheritdoc/>
-        public abstract void Refresh();
 
         /// <summary>
         /// Pass null as scheduler here, change came from the ui thread.
         /// </summary>
-        protected abstract void RefreshNow(NotifyCollectionChangedEventArgs change);
+        protected virtual void Notify(NotifyCollectionChangedEventArgs change)
+        {
+            if (change == null || !this.HasListeners)
+            {
+                return;
+            }
+
+            switch (change.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                case NotifyCollectionChangedAction.Remove:
+                    this.OnPropertyChanged(CachedEventArgs.CountPropertyChanged);
+                    this.OnPropertyChanged(CachedEventArgs.IndexerPropertyChanged);
+                    this.OnCollectionChanged(change);
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                case NotifyCollectionChangedAction.Move:
+                    this.OnPropertyChanged(CachedEventArgs.IndexerPropertyChanged);
+                    this.OnCollectionChanged(change);
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    this.OnPropertyChanged(CachedEventArgs.CountPropertyChanged);
+                    this.OnPropertyChanged(CachedEventArgs.IndexerPropertyChanged);
+                    this.OnCollectionChanged(change);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
         /// <summary>
         /// Refreshes the view. May be deferred if there is a buffer time.
         /// </summary>
-        protected abstract void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes);
-
-        /// <summary>
-        /// Protected implementation of Dispose pattern.
-        /// </summary>
-        /// <param name="disposing">true: safe to free managed resources</param>
-        protected virtual void Dispose(bool disposing)
+        protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
+            if (this.HasListeners)
+            {
+                this.Tracker.Refresh(this.Source, changes, this.OnPropertyChanged, this.OnCollectionChanged);
+            }
+            else
+            {
+                this.Tracker.Refresh(this.Source, changes);
+            }
         }
 
-        /// <summary>
-        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
-        /// </summary>
-        protected void ThrowIfDisposed()
+        /// <inheritdoc/>
+        protected override void ClearItems()
         {
-            if (this.disposed)
+            base.ClearItems();
+            this.Notify(CachedEventArgs.NotifyCollectionReset);
+            this.Source.Clear();
+        }
+
+        /// <inheritdoc/>
+        protected override void InsertItem(int index, T item)
+        {
+            this.isUpdatingSourceItem = item;
+            base.InsertItem(index, item);
+            this.Notify(Diff.CreateAddEventArgs(item, index));
+            this.Source.Insert(index, item);
+            this.isUpdatingSourceItem = null;
+        }
+
+        /// <inheritdoc/>
+        protected override void RemoveItem(int index)
+        {
+            var item = this[index];
+            this.isUpdatingSourceItem = item;
+            base.RemoveItem(index);
+            this.Notify(Diff.CreateRemoveEventArgs(item, index));
+            this.Source.Remove(item);
+            this.isUpdatingSourceItem = null;
+        }
+
+        /// <inheritdoc/>
+        protected override void SetItem(int index, T item)
+        {
+            this.isUpdatingSourceItem = item;
+            var oldItem = this[index];
+            base.SetItem(index, item);
+            this.Notify(Diff.CreateReplaceEventArgs(item, oldItem, index));
+            var i = this.Source.IndexOf(oldItem);
+            if (i >= 0)
             {
-                throw new ObjectDisposedException(this.GetType().FullName);
+                this.Source[i] = item;
             }
+
+            this.isUpdatingSourceItem = null;
         }
 
         /// <summary>
@@ -269,17 +204,6 @@
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             this.CollectionChanged?.Invoke(this, e);
-        }
-
-        private void RemoveAtCore(int index)
-        {
-            this.Source.Remove(this.Tracker[index]);
-        }
-
-        private void InsertCore(int index, T value)
-        {
-            var i = this.Source.IndexOf(this.Tracker[index]);
-            this.Source.Insert(i, value);
         }
     }
 }

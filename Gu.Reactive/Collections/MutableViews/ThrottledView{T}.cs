@@ -5,7 +5,7 @@
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Reactive.Concurrency;
-    using System.Reactive.Disposables;
+    using System.Reactive.Linq;
 
     /// <summary>
     /// A view of a collection that buffers changes before notifying.
@@ -13,8 +13,7 @@
     [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
     public class ThrottledView<T> : SynchronizedEditableView<T>, IThrottledView<T>, IReadOnlyThrottledView<T>
     {
-        private readonly IScheduler scheduler;
-        private readonly SerialDisposable refreshSubscription = new SerialDisposable();
+        private readonly IDisposable refreshSubscription;
         private TimeSpan bufferTime;
         private bool disposed;
 
@@ -22,24 +21,29 @@
         /// Initializes a new instance of the <see cref="ThrottledView{T}"/> class.
         /// </summary>
         public ThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : base(source)
+            : this((IList<T>)source, bufferTime, scheduler)
         {
-            this.scheduler = scheduler;
-            this.bufferTime = bufferTime;
-            this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, bufferTime, scheduler, false)
-                                                                    .Subscribe(this.Refresh);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrottledView{T}"/> class.
         /// </summary>
         public ThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : base(source)
+            : this((IList<T>)source, bufferTime, scheduler)
         {
-            this.scheduler = scheduler;
+        }
+
+        private ThrottledView(IList<T> source, TimeSpan bufferTime, IScheduler scheduler)
+            : base(source, true)
+        {
             this.bufferTime = bufferTime;
-            this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, source, bufferTime, scheduler, false)
-                                                                    .Subscribe(this.Refresh);
+            this.refreshSubscription = this.ObserveValue(x => x.BufferTime)
+                                           .Select(_ => ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
+                                                                                          .Chunks(bufferTime, scheduler)
+                                                                                          .ObserveOn(scheduler ?? ImmediateScheduler.Instance))
+                                           .Switch()
+                                           .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
+                                           .Subscribe(this.Refresh);
         }
 
         /// <summary>
@@ -60,8 +64,6 @@
                 }
 
                 this.bufferTime = value;
-                this.refreshSubscription.Disposable = ThrottledRefresher.Create(this, this.Source, this.bufferTime, this.scheduler, true)
-                                                                    .Subscribe(this.Refresh);
                 this.OnPropertyChanged();
             }
         }
@@ -70,49 +72,27 @@
         public override void Refresh()
         {
             this.ThrowIfDisposed();
-            (this.Source as IRefreshAble)?.Refresh();
-            if (this.HasListeners)
-            {
-                this.Tracker.Reset(this.Source, this.OnPropertyChanged, this.OnCollectionChanged);
-            }
-            else
-            {
-                this.Tracker.Reset(this.Source);
-            }
+            base.Refresh();
         }
 
         /// <inheritdoc/>
-        protected override void RefreshNow(NotifyCollectionChangedEventArgs e)
+        public void Dispose()
         {
-            if (this.HasListeners)
+            if (this.disposed)
             {
-                this.Tracker.Refresh(this.Source, new[] { e }, this.OnPropertyChanged, this.OnCollectionChanged);
+                return;
             }
-            else
-            {
-                this.Tracker.Refresh(this.Source, new[] { e });
-            }
-        }
 
-        /// <inheritdoc/>
-        protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
-        {
-            this.ThrowIfDisposed();
-            if (this.HasListeners)
-            {
-                this.Tracker.Refresh(this.Source, changes, this.OnPropertyChanged, this.OnCollectionChanged);
-            }
-            else
-            {
-                this.Tracker.Refresh(this.Source, changes);
-            }
+            this.disposed = true;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
         /// Protected implementation of Dispose pattern.
         /// </summary>
         /// <param name="disposing">true: safe to free managed resources</param>
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)
             {
@@ -124,8 +104,17 @@
             {
                 this.refreshSubscription.Dispose();
             }
+        }
 
-            base.Dispose(disposing);
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// </summary>
+        protected void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
         }
     }
 }
