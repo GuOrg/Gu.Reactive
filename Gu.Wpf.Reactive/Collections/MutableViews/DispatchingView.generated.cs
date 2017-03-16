@@ -1,7 +1,4 @@
-﻿<#@ template debug="false" hostspecific="false" language="C#" #>
-<#@ assembly name="System.Core" #>
-<#@ output extension=".cs" #>
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.ObjectModel;
@@ -14,16 +11,6 @@ namespace Gu.Wpf.Reactive
     [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
     public static partial class DispatchingView
     {
-<#
-    var typeNames = new []{"IObservableCollection", "ObservableCollection" };
-    for(int i = 0; i < typeNames.Length; i++)
-    {
-        var typeName = typeNames[i];
-        if(i > 0)
-		{#>
-
-<#      }	
-#>
         /// <summary>
         /// Create a <see cref="DispatchingView{T}"/> for <paramref name="collection"/>
         /// </summary>
@@ -31,9 +18,9 @@ namespace Gu.Wpf.Reactive
         /// <param name="collection">The source collection.</param>
         /// <returns>A <see cref="DispatchingView{T}"/></returns>
         [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
-        public static DispatchingView<TItem> AsDispatchingView<TItem>(this <#= typeName #><TItem> collection)
+        public static DispatchingView<TItem> AsDispatchingView<TItem>(this IObservableCollection<TItem> collection)
         {
-            return new DispatchingView<TItem>(collection, TimeSpan.Zero);
+            return new DispatchingView<TItem>(collection);
         }
 
         /// <summary>
@@ -41,13 +28,11 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         /// <typeparam name="TItem">The type of the items in <paramref name="collection"/></typeparam>
         /// <param name="collection">The source collection.</param>
-        /// <param name="bufferTime">The time to buffer changes before notifying.</param>
         /// <returns>A <see cref="DispatchingView{T}"/></returns>
         [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
-        public static DispatchingView<TItem> AsDispatchingView<TItem>(this <#= typeName #><TItem> collection, TimeSpan bufferTime)
+        public static DispatchingView<TItem> AsDispatchingView<TItem>(this ObservableCollection<TItem> collection)
         {
-            return new DispatchingView<TItem>(collection, bufferTime);
+            return new DispatchingView<TItem>(collection);
         }
-<#    } #>
     }
 }

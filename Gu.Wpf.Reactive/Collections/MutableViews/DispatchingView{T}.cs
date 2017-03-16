@@ -12,7 +12,6 @@
     /// <typeparam name="T">The type of the items in the source collection.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {Count}")]
-    [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
     public class DispatchingView<T> : ThrottledView<T>
     {
         /// <summary>
@@ -21,18 +20,7 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         public DispatchingView(ObservableCollection<T> source)
-            : base(source, TimeSpan.Zero, WpfSchedulers.Dispatcher)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DispatchingView{T}"/> class.
-        /// This uses <see cref="WpfSchedulers.Dispatcher"/>
-        /// </summary>
-        /// <param name="source">The source collection.</param>
-        /// <param name="bufferTime">The time to buffer changes.</param>
-        public DispatchingView(ObservableCollection<T> source, TimeSpan bufferTime)
-            : base(source, bufferTime, WpfSchedulers.Dispatcher)
+            : base(source, TimeSpan.Zero)
         {
         }
 
@@ -42,18 +30,7 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         public DispatchingView(IObservableCollection<T> source)
-            : base(source, TimeSpan.Zero, WpfSchedulers.Dispatcher)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DispatchingView{T}"/> class.
-        /// This uses <see cref="WpfSchedulers.Dispatcher"/>
-        /// </summary>
-        /// <param name="source">The source collection.</param>
-        /// <param name="bufferTime">The time to buffer changes.</param>
-        public DispatchingView(IObservableCollection<T> source, TimeSpan bufferTime)
-            : base(source, bufferTime, WpfSchedulers.Dispatcher)
+            : base(source, TimeSpan.Zero)
         {
         }
     }

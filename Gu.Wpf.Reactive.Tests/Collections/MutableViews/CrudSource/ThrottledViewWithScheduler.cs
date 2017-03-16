@@ -14,7 +14,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
             base.SetUp();
             this.Scheduler = new TestScheduler();
             (this.View as IDisposable)?.Dispose();
-            this.View = this.Source.AsThrottledView(TimeSpan.FromMilliseconds(10), this.Scheduler);
+            this.View = new ThrottledView<int>(this.Source, TimeSpan.FromMilliseconds(10), this.Scheduler);
             this.Scheduler.Start();
         }
     }

@@ -1,6 +1,8 @@
 #pragma warning disable CS0618 // Type or member is obsolete
 namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
 {
+    using System;
+
     using Microsoft.Reactive.Testing;
 
     using NUnit.Framework;
@@ -15,7 +17,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
 #pragma warning disable GU0036 // Don't dispose injected.
             this.view?.Dispose();
 #pragma warning restore GU0036 // Don't dispose injected.
-            this.view = this.ints.AsFilteredView(x => true, this.scheduler);
+            this.view = new FilteredView<int>(this.ints, x => true, TimeSpan.Zero, this.scheduler);
         }
     }
 }

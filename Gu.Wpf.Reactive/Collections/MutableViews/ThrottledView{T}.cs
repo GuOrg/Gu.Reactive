@@ -12,7 +12,6 @@
     /// <summary>
     /// A view of a collection that buffers changes before notifying.
     /// </summary>
-    [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
     public class ThrottledView<T> : SynchronizedEditableView<T>, IThrottledView<T>, IReadOnlyThrottledView<T>
     {
         private readonly IDisposable refreshSubscription;
@@ -22,15 +21,33 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrottledView{T}"/> class.
         /// </summary>
-        public ThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : this((IList<T>)source, bufferTime, scheduler)
+        public ThrottledView(ObservableCollection<T> source, TimeSpan bufferTime)
+            : this(source, bufferTime, WpfSchedulers.Dispatcher)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrottledView{T}"/> class.
         /// </summary>
-        public ThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
+        public ThrottledView(IObservableCollection<T> source, TimeSpan bufferTime)
+            : this((IList<T>)source, bufferTime, WpfSchedulers.Dispatcher)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ThrottledView{T}"/> class.
+        /// Exposing this for tests.
+        /// </summary>
+        internal ThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
+            : this((IList<T>)source, bufferTime, scheduler)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ThrottledView{T}"/> class.
+        /// Exposing this for tests.
+        /// </summary>
+        internal ThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
             : this((IList<T>)source, bufferTime, scheduler)
         {
         }

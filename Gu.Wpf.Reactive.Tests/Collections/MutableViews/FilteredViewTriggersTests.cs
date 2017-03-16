@@ -126,7 +126,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             using (var expected = ints.SubscribeAll())
             {
                 var scheduler = new TestScheduler();
-                using (var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler))
+                using (var view = new FilteredView<int>(ints, x => true, TimeSpan.FromMilliseconds(10), scheduler))
                 {
                     using (var actual = view.SubscribeAll())
                     {

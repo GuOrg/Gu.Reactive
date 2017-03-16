@@ -7,7 +7,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
 
     using NUnit.Framework;
 
-    public class FilteredView : CrudViewTests
+    public class FilteredViewWithScheduler : CrudViewTests
     {
         [SetUp]
         public override void SetUp()
@@ -17,7 +17,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
 #pragma warning disable GU0036 // Don't dispose injected.
             (this.View as IDisposable)?.Dispose();
 #pragma warning restore GU0036 // Don't dispose injected.
-            this.View = this.Ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
+            this.View = new FilteredView<int>(this.Ints, x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
         }
     }
 }

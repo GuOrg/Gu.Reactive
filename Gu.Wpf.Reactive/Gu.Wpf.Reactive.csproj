@@ -48,12 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\DispatchingCollection{T}.cs" />
-    <Compile Include="Collections\DispatchingView.generated.cs">
+    <Compile Include="Collections\MutableViews\DispatchingView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DispatchingView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\DispatchingView{T}.cs" />
+    <Compile Include="Collections\MutableViews\DispatchingView{T}.cs" />
     <Compile Include="Collections\MutableViews\EditableListView.cs" />
     <Compile Include="Collections\MutableViews\EditableListView{T}.cs" />
     <Compile Include="Collections\MutableViews\FilteredView.cs" />
@@ -160,7 +160,7 @@
     <AdditionalFiles Include="..\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
-    <None Include="Collections\DispatchingView.tt">
+    <None Include="Collections\MutableViews\DispatchingView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DispatchingView.generated.cs</LastGenOutput>
     </None>

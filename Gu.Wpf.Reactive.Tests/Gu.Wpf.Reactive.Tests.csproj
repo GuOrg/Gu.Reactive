@@ -63,8 +63,9 @@
     <Compile Include="Collections\MutableViews\CrudSource\ThrottledViewWithScheduler.cs" />
     <Compile Include="Collections\MutableViews\CrudView\CrudViewTests.cs" />
     <Compile Include="Collections\MutableViews\CrudView\FilteredNoScheduler.cs" />
-    <Compile Include="Collections\MutableViews\CrudView\FilteredView.cs" />
-    <Compile Include="Collections\MutableViews\CrudView\ThrottledViewTests.cs" />
+    <Compile Include="Collections\MutableViews\CrudView\FilteredViewWithScheduler.cs" />
+    <Compile Include="Collections\MutableViews\CrudView\ThrottledViewWithScheduler.cs" />
+    <Compile Include="Collections\MutableViews\ThrottledViewTests.cs" />
     <Compile Include="Collections\MutableViews\FilteredViewNoScheduler.cs" />
     <Compile Include="Collections\MutableViews\FilteredViewTests.cs" />
     <Compile Include="Collections\MutableViews\FilteredViewTestsBase.cs" />
@@ -76,7 +77,7 @@
     <Compile Include="Collections\MutableViews\FilteredViewWpfTests.cs" />
     <Compile Include="FakesAndHelpers\DumpIfDebug.cs" />
     <Compile Include="FakesAndHelpers\TestExtensions.cs" />
-    <Compile Include="Collections\DispatchingViewTests.cs" />
+    <Compile Include="Collections\MutableViews\DispatchingViewTests.cs" />
     <Compile Include="NamespacesTests.cs" />
     <Compile Include="Collections\ObservableCollectionExtensionsTests.cs" />
     <Compile Include="Commands\AsyncCommandTests.cs" />

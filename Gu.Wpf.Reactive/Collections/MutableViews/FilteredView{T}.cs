@@ -13,7 +13,6 @@
     /// <summary>
     /// Typed filtered CollectionView for intellisense in xaml
     /// </summary>
-    [Obsolete("Candidate for removal, broken. Prefer the read only version.")]
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
         private readonly ObservableCollection<IObservable<object>> triggers;
@@ -29,14 +28,33 @@
         /// <param name="source">The source collection.</param>
         /// <param name="filter">The predicate used when filtering.</param>
         /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset</param>
+        /// <param name="triggers">Triggers when to re evaluate the filter</param>
+        public FilteredView(ObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, params IObservable<object>[] triggers)
+            : this(source, filter, bufferTime, WpfSchedulers.Dispatcher, triggers)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FilteredView{T}"/> class.
+        /// </summary>
+        /// <param name="source">The source collection.</param>
+        /// <param name="filter">The predicate used when filtering.</param>
+        /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset</param>
+        /// <param name="triggers">Triggers when to re evaluate the filter</param>
+        public FilteredView(IObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, params IObservable<object>[] triggers)
+            : this(source, filter, bufferTime, WpfSchedulers.Dispatcher, triggers)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FilteredView{T}"/> class.
+        /// </summary>
+        /// <param name="source">The source collection.</param>
+        /// <param name="filter">The predicate used when filtering.</param>
+        /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset</param>
         /// <param name="scheduler">The scheduler used when throttling. The collection changed events are raised on this scheduler</param>
         /// <param name="triggers">Triggers when to re evaluate the filter</param>
-        public FilteredView(
-            IList<T> source,
-            Func<T, bool> filter,
-            TimeSpan bufferTime,
-            IScheduler scheduler,
-            params IObservable<object>[] triggers)
+        internal FilteredView(IList<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
             : base(source, Filtered(source, filter), true)
         {
             if (filter == null)

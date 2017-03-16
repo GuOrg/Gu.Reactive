@@ -11,7 +11,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
         {
             base.SetUp();
             (this.View as IDisposable)?.Dispose();
-            this.View = this.Source.AsThrottledView(TimeSpan.Zero, null);
+            this.View = this.Source.AsThrottledView(TimeSpan.Zero);
         }
     }
 }
