@@ -12,6 +12,11 @@ namespace Gu.Reactive.Tests.Collections
     {
         public class ReferenceTypeCreatingCachingRemoving
         {
+            public interface IDisposableVm : IDisposable
+            {
+                Model Model { get; }
+            }
+
             [Test]
             public void Initializes()
             {
@@ -491,11 +496,6 @@ namespace Gu.Reactive.Tests.Collections
                 mock.SetupGet(x => x.Model)
                     .Returns(model);
                 return mock;
-            }
-
-            public interface IDisposableVm : IDisposable
-            {
-                Model Model { get; }
             }
         }
     }

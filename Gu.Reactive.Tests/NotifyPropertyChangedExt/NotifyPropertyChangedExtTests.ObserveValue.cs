@@ -2,6 +2,7 @@
 // ReSharper disable NotResolvedInText
 // ReSharper disable HeuristicUnreachableCode
 // ReSharper disable ExplicitCallerInfoArgument
+// ReSharper disable UnusedMember.Global
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
@@ -587,6 +588,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 public event PropertyChangedEventHandler PropertyChanged;
 
                 public virtual string Value => "A";
+
+                protected void OnPropertyChanged(PropertyChangedEventArgs e)
+                {
+                    this.PropertyChanged?.Invoke(this, e);
+                }
             }
 
             public class B : A

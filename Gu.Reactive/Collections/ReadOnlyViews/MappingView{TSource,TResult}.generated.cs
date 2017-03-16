@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive
+﻿#pragma warning disable SA1619 // Generic type parameters must be documented partial class
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
