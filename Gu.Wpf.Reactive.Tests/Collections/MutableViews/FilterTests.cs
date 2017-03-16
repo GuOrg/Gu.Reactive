@@ -7,6 +7,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Linq;
+    using System.Reactive.Concurrency;
 
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
@@ -17,7 +18,8 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
 
     public abstract class FilterTests
     {
-        protected TestScheduler scheduler;
+        protected VirtualTimeSchedulerBase<long, long> Scheduler { get; set; }
+
         protected IFilteredView<int> view;
         protected ObservableCollection<int> ints;
 
@@ -34,7 +36,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         {
             var actual = this.view.SubscribeAll();
             this.view.Filter = x => x < 3;
-            this.scheduler?.Start();
+            this.Scheduler?.Start();
 
             CollectionAssert.AreEqual(new[] { 1, 2 }, this.view);
             var expected = new List<EventArgs>
@@ -53,7 +55,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         {
             var actual = this.view.SubscribeAll();
             this.view.Filter = x => x < 3;
-            this.scheduler?.Start();
+            this.Scheduler?.Start();
             CollectionAssert.AreEqual(new[] { 1, 2 }, this.view);
             var expected = new List<EventArgs>();
             expected.Add(CachedEventArgs.CountPropertyChanged);
@@ -64,7 +66,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             CollectionAssert.AreEqual(expected, actual.Where(x => !EventArgsComparer.Equals(x, FilterChangedEventArgs)), EventArgsComparer.Default);
 
             this.view.Filter = x => true;
-            this.scheduler?.Start();
+            this.Scheduler?.Start();
             CollectionAssert.AreEqual(new[] { 1, 2, 3 }, this.view);
             expected.Add(CachedEventArgs.CountPropertyChanged);
             expected.Add(CachedEventArgs.IndexerPropertyChanged);
@@ -78,7 +80,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         {
             var actual = this.view.SubscribeAll();
             this.view.Filter = x => x < 0;
-            this.scheduler?.Start();
+            this.Scheduler?.Start();
             CollectionAssert.IsEmpty(this.view);
             var expected = new List<EventArgs>();
             expected.AddRange(

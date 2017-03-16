@@ -4,17 +4,18 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
     using System;
 
     using Gu.Reactive.Tests.Collections;
-    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
 
-    public class ThrottledViewNoScheduler : CrudSourceTests
+    using Microsoft.Reactive.Testing;
+
+    public class FilteredViewThrottledWithTestScheduler : CrudSourceTests
     {
         public override void SetUp()
         {
-            App.Start();
-            this.Scheduler = new TestDispatcherScheduler();
             base.SetUp();
+            this.Scheduler = new TestScheduler();
             (this.View as IDisposable)?.Dispose();
-            this.View = this.Source.AsThrottledView(TimeSpan.Zero);
+            this.View = new FilteredView<int>(this.Source, x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
+            this.Scheduler.Start();
         }
     }
 }

@@ -3,17 +3,16 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Reactive.Concurrency;
 
     using Gu.Reactive.Tests.Helpers;
-
-    using Microsoft.Reactive.Testing;
 
     using NUnit.Framework;
 
     public abstract class CrudSourceTests
     {
 #pragma warning disable SA1306 // Field names must begin with lower-case letter
-        protected TestScheduler Scheduler;
+        protected VirtualTimeSchedulerBase<long, long> Scheduler;
         protected IReadOnlyObservableCollection<int> View;
         protected ObservableCollection<int> Source;
 #pragma warning restore SA1306 // Field names must begin with lower-case letter

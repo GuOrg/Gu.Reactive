@@ -3,6 +3,8 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
 {
     using System;
 
+    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
+
     using NUnit.Framework;
 
     public class FilteredViewNoScheduler : FilterTests
@@ -10,6 +12,8 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         [SetUp]
         public override void SetUp()
         {
+            App.Start();
+            this.Scheduler = new TestDispatcherScheduler();
             base.SetUp();
 #pragma warning disable GU0036 // Don't dispose injected.
             this.view?.Dispose();

@@ -57,14 +57,16 @@
   <ItemGroup>
     <Compile Include="AssertCompletion.cs" />
     <Compile Include="Collections\DispatchingCollectionTests.WhenBound.cs" />
-    <Compile Include="Collections\MutableViews\CrudSource\FilteredView.cs" />
+    <Compile Include="Collections\MutableViews\CrudSource\FilteredViewThrottledWithTestScheduler.cs" />
     <Compile Include="Collections\MutableViews\CrudSource\FilteredViewNoScheduler.cs" />
     <Compile Include="Collections\MutableViews\CrudSource\ThrottledViewNoScheduler.cs" />
     <Compile Include="Collections\MutableViews\CrudSource\ThrottledViewWithScheduler.cs" />
     <Compile Include="Collections\MutableViews\CrudView\CrudViewTests.cs" />
-    <Compile Include="Collections\MutableViews\CrudView\FilteredNoScheduler.cs" />
-    <Compile Include="Collections\MutableViews\CrudView\FilteredViewWithScheduler.cs" />
+    <Compile Include="Collections\MutableViews\CrudView\DispatchingView.cs" />
+    <Compile Include="Collections\MutableViews\CrudView\FilteredViewNoThrottling.cs" />
+    <Compile Include="Collections\MutableViews\CrudView\FilteredViewThrottledWithTestScheduler.cs" />
     <Compile Include="Collections\MutableViews\CrudView\ThrottledViewWithScheduler.cs" />
+    <Compile Include="Collections\MutableViews\ExtensionsTests.cs" />
     <Compile Include="Collections\MutableViews\ThrottledViewTests.cs" />
     <Compile Include="Collections\MutableViews\FilteredViewNoScheduler.cs" />
     <Compile Include="Collections\MutableViews\FilteredViewTests.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Collections\DispatchingCollectionTests.cs" />
     <Compile Include="Collections\MutableViews\FilteredViewWpfTests.cs" />
     <Compile Include="FakesAndHelpers\DumpIfDebug.cs" />
+    <Compile Include="FakesAndHelpers\TestDispatcherScheduler.cs" />
     <Compile Include="FakesAndHelpers\TestExtensions.cs" />
     <Compile Include="Collections\MutableViews\DispatchingViewTests.cs" />
     <Compile Include="NamespacesTests.cs" />

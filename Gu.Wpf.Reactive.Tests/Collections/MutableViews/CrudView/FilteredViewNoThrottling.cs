@@ -3,13 +3,16 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
 {
     using System;
 
+    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
+
     using NUnit.Framework;
 
-    public class FilteredNoScheduler : CrudViewTests
+    public class FilteredViewNoThrottling : CrudViewTests
     {
         [SetUp]
         public override void SetUp()
         {
+            App.Start();
             base.SetUp();
 #pragma warning disable GU0036 // Don't dispose injected.
             (this.View as IDisposable)?.Dispose();
