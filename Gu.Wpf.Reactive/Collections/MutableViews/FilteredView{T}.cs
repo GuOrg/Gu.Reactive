@@ -62,7 +62,7 @@
             this.refreshSubscription = Observable.Merge(
                                                      ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
                                                                                         .Where(this.IsSourceChange),
-                                                     this.ObservePropertyChangedSlim(x => x.Filter)
+                                                     this.ObservePropertyChangedSlim(x => x.Filter, false)
                                                          .Select(_ => CachedEventArgs.NotifyCollectionReset),
                                                      triggers.MergeOrNever()
                                                              .Select(_ => CachedEventArgs.NotifyCollectionReset))
@@ -170,17 +170,6 @@
             }
 
             return source.Where(filter);
-        }
-
-        /// <inheritdoc/>
-        protected override void Notify(NotifyCollectionChangedEventArgs change)
-        {
-            if (Gu.Reactive.Filtered.AffectsFilteredOnly(change, this.filter))
-            {
-                return;
-            }
-
-            base.Notify(change);
         }
 
         /// <inheritdoc/>

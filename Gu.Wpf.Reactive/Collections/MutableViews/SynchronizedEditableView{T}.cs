@@ -156,11 +156,14 @@
         /// <inheritdoc/>
         protected override void InsertItem(int index, T item)
         {
+            var sourceIndex = index == this.Count
+                ? this.Source.Count
+                : this.SourceIndex(index);
             base.InsertItem(index, item);
             var change = Diff.CreateAddEventArgs(item, index);
             this.IsUpdatingSource = change;
             this.Notify(change);
-            this.Source.Insert(index, item);
+            this.Source.Insert(sourceIndex, item);
             this.IsUpdatingSource = null;
         }
 
@@ -168,11 +171,16 @@
         protected override void RemoveItem(int index)
         {
             var item = this[index];
+            var sourceIndex = this.SourceIndex(index);
             base.RemoveItem(index);
             var change = Diff.CreateRemoveEventArgs(item, index);
             this.IsUpdatingSource = change;
             this.Notify(change);
-            this.Source.Remove(item);
+            if (sourceIndex >= 0)
+            {
+                this.Source.RemoveAt(sourceIndex);
+            }
+
             this.IsUpdatingSource = null;
         }
 
@@ -180,12 +188,45 @@
         protected override void SetItem(int index, T item)
         {
             var oldItem = this[index];
+            var sourceIndex = this.SourceIndex(index);
             base.SetItem(index, item);
             var change = Diff.CreateReplaceEventArgs(item, oldItem, index);
             this.IsUpdatingSource = change;
             this.Notify(change);
-            this.Source[index] = item;
+            if (sourceIndex >= 0)
+            {
+                this.Source[sourceIndex] = item;
+            }
+
             this.IsUpdatingSource = null;
+        }
+
+        protected int SourceIndex(int index)
+        {
+            var equals = typeof(T).IsValueType
+                ? (Func<T, T, bool>)EqualityComparer<T>.Default.Equals
+                : (x, y) => ReferenceEquals(x, y);
+            var sourceIndex = 0;
+            for (var i = 0; i <= index; i++)
+            {
+                while (!equals(this.Source[sourceIndex], this[i]))
+                {
+                    sourceIndex++;
+                    if (sourceIndex >= this.Source.Count)
+                    {
+                        return -1;
+                    }
+                }
+
+                if (i == index)
+                {
+                    return sourceIndex;
+                }
+
+                sourceIndex++;
+            }
+
+            return -1;
         }
 
         /// <summary>
