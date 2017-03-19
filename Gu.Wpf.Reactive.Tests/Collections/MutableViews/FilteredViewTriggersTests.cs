@@ -6,7 +6,8 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Reactive.Subjects;
-
+    using System.Threading.Tasks;
+    using System.Windows;
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
@@ -147,16 +148,17 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         }
 
         [Test]
-        public void UpdatesAndNotifiesOnObservableCollectionChangedWhenFiltered()
+        public async Task UpdatesAndNotifiesOnObservableCollectionChangedWhenFiltered()
         {
             var source = new ObservableCollection<int> { 1, 2 };
             using (var view = source.AsFilteredView(x => true))
             {
                 source.Add(1);
+                await Application.Current.Dispatcher.SimulateYield();
                 using (var actual = view.SubscribeAll())
                 {
                     view.Filter = x => x < 2;
-                    view.Refresh();
+                    await Application.Current.Dispatcher.SimulateYield();
                     var expected = new EventArgs[]
                                        {
                                            CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Filter"),

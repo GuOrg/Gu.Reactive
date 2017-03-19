@@ -13,9 +13,14 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
 
     public class FilteredViewNoScheduler : CrudSourceTests
     {
-        public override void SetUp()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             App.Start();
+        }
+
+        public override void SetUp()
+        {
             this.Scheduler = new TestDispatcherScheduler();
             base.SetUp();
             (this.View as IDisposable)?.Dispose();

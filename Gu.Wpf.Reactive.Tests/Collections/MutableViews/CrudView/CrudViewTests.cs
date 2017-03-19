@@ -7,7 +7,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
 
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
-
+    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using Microsoft.Reactive.Testing;
 
     using NUnit.Framework;
@@ -19,6 +19,12 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
         protected IObservableCollection<int> View { get; set; }
 
         protected ObservableCollection<int> Ints { get; set; }
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            App.Start();
+        }
 
         [SetUp]
         public virtual void SetUp()

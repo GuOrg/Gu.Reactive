@@ -5,12 +5,18 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
 
     using Gu.Reactive.Tests.Collections;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
+    using NUnit.Framework;
 
     public class ThrottledViewNoScheduler : CrudSourceTests
     {
-        public override void SetUp()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             App.Start();
+        }
+
+        public override void SetUp()
+        {
             this.Scheduler = new TestDispatcherScheduler();
             base.SetUp();
             (this.View as IDisposable)?.Dispose();

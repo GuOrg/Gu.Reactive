@@ -3,8 +3,6 @@ namespace Gu.Wpf.Reactive.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Reactive.Linq;
-    using System.Reactive.Threading.Tasks;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -30,7 +28,8 @@ namespace Gu.Wpf.Reactive.Tests
         [Test]
         public void CanCancel()
         {
-            using (var command = new AsyncCommand(x => x.AsObservable().FirstAsync().ToTask()))
+            var tcs = new TaskCompletionSource<int>();
+            using (var command = new AsyncCommand(x => tcs.Task))
             {
                 Assert.IsTrue(command.CanExecute());
                 Assert.IsFalse(command.CancelCommand.CanExecute());
@@ -65,21 +64,23 @@ namespace Gu.Wpf.Reactive.Tests
             {
                 command.CanExecuteChanged += (_, __) => count++;
                 var isExecutingCount = 0;
-                command.ObservePropertyChangedSlim(nameof(command.IsExecuting), false)
-                       .Subscribe(_ => isExecutingCount++);
-                Assert.AreEqual(0, isExecutingCount);
-                Assert.IsFalse(command.IsExecuting);
-                Assert.IsFalse(command.CancelCommand.CanExecute());
-                command.Execute();
-                Assert.AreEqual(1, isExecutingCount);
-                Assert.IsTrue(command.IsExecuting);
-                Assert.IsFalse(command.CancelCommand.CanExecute());
-                Assert.AreEqual(1, count);
-                tcs.SetResult(1);
-                await command.Execution.Task.ConfigureAwait(false);
-                Assert.AreEqual(2, isExecutingCount);
-                Assert.IsFalse(command.IsExecuting);
-                Assert.AreEqual(2, count);
+                using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), false)
+                              .Subscribe(_ => isExecutingCount++))
+                {
+                    Assert.AreEqual(0, isExecutingCount);
+                    Assert.IsFalse(command.IsExecuting);
+                    Assert.IsFalse(command.CancelCommand.CanExecute());
+                    command.Execute();
+                    Assert.AreEqual(1, isExecutingCount);
+                    Assert.IsTrue(command.IsExecuting);
+                    Assert.IsFalse(command.CancelCommand.CanExecute());
+                    Assert.AreEqual(1, count);
+                    tcs.SetResult(1);
+                    await command.Execution.Task.ConfigureAwait(false);
+                    Assert.AreEqual(2, isExecutingCount);
+                    Assert.IsFalse(command.IsExecuting);
+                    Assert.AreEqual(2, count);
+                }
             }
         }
 
