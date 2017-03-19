@@ -33,7 +33,6 @@ namespace Gu.Reactive.Demo
             this.Filtered = this.peopleRaw.AsFilteredView(
                 this.Filter,
                 TimeSpan.FromMilliseconds(10),
-                 WpfSchedulers.Dispatcher,
                 this.ObservePropertyChanged(x => x.SearchText),
                 this.ObservePropertyChanged(x => x.SelectedTags));
 

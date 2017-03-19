@@ -73,14 +73,17 @@
                 this.triggers = new ObservableCollection<IObservable<object>>(triggers);
             }
 
-            this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
-                                                                         .Where(this.IsSourceChange)
+            this.refreshSubscription = Observable.Merge(
+                ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
+                                                  .Where(this.IsSourceChange),
+                this.ObservePropertyChangedSlim(x => x.Filter)
+                    .Select(_ => CachedEventArgs.NotifyCollectionReset))
                                                                          .Publish(
                                                                              shared =>
                                                                                  this.ObserveValue(x => x.BufferTime)
-                                                                                     .Select(bt => shared.Chunks(bt.Value, scheduler)
-                                                                                                         .ObserveOn(scheduler))
+                                                                                     .Select(bt => shared.Chunks(bt.Value, scheduler))
                                                                                      .Switch())
+                                                                         .ObserveOn(scheduler)
                                                                          .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
                                                                          .Subscribe(this.Refresh);
 
@@ -225,11 +228,11 @@
                 {
                     if (this.HasListeners)
                     {
-                        this.Tracker.Refresh(this.Filtered(), changes, this.OnPropertyChanged, this.OnCollectionChanged);
+                        this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset, this.OnPropertyChanged, this.OnCollectionChanged);
                     }
                     else
                     {
-                        this.Tracker.Refresh(this.Filtered(), changes);
+                        this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset);
                     }
 
                     return;

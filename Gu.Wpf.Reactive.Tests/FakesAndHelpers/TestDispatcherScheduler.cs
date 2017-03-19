@@ -6,6 +6,11 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
 
     public class TestDispatcherScheduler : VirtualTimeSchedulerBase<long, long>
     {
+        public override IDisposable ScheduleAbsolute<TState>(TState state, long dueTime, Func<IScheduler, TState, IDisposable> action)
+        {
+            throw new NotImplementedException();
+        }
+
         protected override long Add(long absolute, long relative)
         {
             throw new NotImplementedException();
@@ -17,11 +22,6 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
         }
 
         protected override long ToRelative(TimeSpan timeSpan)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IDisposable ScheduleAbsolute<TState>(TState state, long dueTime, Func<IScheduler, TState, IDisposable> action)
         {
             throw new NotImplementedException();
         }

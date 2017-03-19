@@ -6,16 +6,23 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Reactive.Subjects;
-
+    using System.Threading.Tasks;
+    using System.Windows;
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
-
+    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using Microsoft.Reactive.Testing;
 
     using NUnit.Framework;
 
     public class FilteredViewTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            App.Start();
+        }
+
         [Test]
         public void InitializeFiltered()
         {
@@ -27,7 +34,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         }
 
         [Test]
-        public void AddFiltered()
+        public async Task AddFilteredToSource()
         {
             var source = new ObservableCollection<int>();
             using (var view = source.AsFilteredView(x => x % 2 == 0))
@@ -35,6 +42,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                 using (var changes = view.SubscribeAll())
                 {
                     source.Add(1);
+                    await Application.Current.Dispatcher.SimulateYield();
                     CollectionAssert.IsEmpty(view);
                     CollectionAssert.IsEmpty(changes);
                 }
@@ -42,7 +50,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         }
 
         [Test]
-        public void AddVisibleWhenFiltered()
+        public async Task AddVisibleToSourceWhenFiltered()
         {
             var source = new ObservableCollection<int>();
             using (var view = source.AsFilteredView(x => x % 2 == 0))
@@ -52,6 +60,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                     using (var changes = view.SubscribeAll())
                     {
                         source.Add(2);
+                        await Application.Current.Dispatcher.SimulateYield();
                         CollectionAssert.AreEqual(source, view);
                         CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
                     }
@@ -60,14 +69,15 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         }
 
         [Test]
-        public void RemoveFiltered()
+        public async Task RemoveFilteredFromSource()
         {
-            var ints = new ObservableCollection<int> { 1 };
-            using (var view = ints.AsFilteredView(x => x % 2 == 0))
+            var source = new ObservableCollection<int> { 1 };
+            using (var view = source.AsFilteredView(x => x % 2 == 0))
             {
                 using (var changes = view.SubscribeAll())
                 {
-                    ints.Remove(1);
+                    source.Remove(1);
+                    await Application.Current.Dispatcher.SimulateYield();
                     CollectionAssert.IsEmpty(view);
                     CollectionAssert.IsEmpty(changes);
                 }
@@ -75,14 +85,15 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         }
 
         [Test]
-        public void RemoveVisible()
+        public async Task RemoveVisibleFromSource()
         {
-            var ints = new ObservableCollection<int> { 1, 2, 3 };
-            using (var view = ints.AsFilteredView(x => x % 2 == 0))
+            var source = new ObservableCollection<int> { 1, 2, 3 };
+            using (var view = source.AsFilteredView(x => x % 2 == 0))
             {
-                using (var changes = view.SubscribeAll())
+                using (var actual = view.SubscribeAll())
                 {
-                    ints.Remove(2);
+                    source.Remove(2);
+                    await Application.Current.Dispatcher.SimulateYield();
                     CollectionAssert.IsEmpty(view);
                     var expected = new EventArgs[]
                                        {
@@ -90,20 +101,21 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                                            CachedEventArgs.IndexerPropertyChanged,
                                            Diff.CreateRemoveEventArgs(2, 0)
                                        };
-                    CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }
 
         [Test]
-        public void ReplaceFiltered()
+        public async Task ReplaceFiltered()
         {
-            var ints = new ObservableCollection<int> { 1 };
-            using (var view = ints.AsFilteredView(x => x % 2 == 0))
+            var source = new ObservableCollection<int> { 1 };
+            using (var view = source.AsFilteredView(x => x % 2 == 0))
             {
                 using (var changes = view.SubscribeAll())
                 {
-                    ints[0] = 3;
+                    source[0] = 3;
+                    await Application.Current.Dispatcher.SimulateYield();
                     CollectionAssert.IsEmpty(view);
                     CollectionAssert.IsEmpty(changes);
                 }
@@ -111,14 +123,15 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         }
 
         [Test]
-        public void ReplaceFilteredWithVisible()
+        public async Task ReplaceFilteredWithVisibleInSource()
         {
-            var ints = new ObservableCollection<int> { 1 };
-            using (var view = ints.AsFilteredView(x => x % 2 == 0))
+            var source = new ObservableCollection<int> { 1 };
+            using (var view = source.AsFilteredView(x => x % 2 == 0))
             {
                 using (var changes = view.SubscribeAll())
                 {
-                    ints[0] = 2;
+                    source[0] = 2;
+                    await Application.Current.Dispatcher.SimulateYield();
                     CollectionAssert.AreEqual(new[] { 2 }, view);
                     var expected = new EventArgs[]
                                        {
@@ -132,32 +145,27 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         }
 
         [Test]
-        public void Refresh()
+        public async Task UpdateFilter()
         {
-            var source = new List<int> { 1, 2, 3 };
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = source.AsFilteredView(x => true, scheduler, new Subject<object>()))
+            using (var view = new FilteredView<int>(source, x => true, TimeSpan.Zero, scheduler))
             {
                 using (var actual = view.SubscribeAll())
                 {
                     view.Filter = x => x < 2;
-                    view.Refresh();
-                    scheduler.Start();
-                    var expected = new List<EventArgs>();
-                    expected.Add(new PropertyChangedEventArgs("Filter"));
-                    expected.AddRange(
-                        new EventArgs[]
-                        {
-                            CachedEventArgs.CountPropertyChanged,
-                            CachedEventArgs.IndexerPropertyChanged,
-                            CachedEventArgs.NotifyCollectionReset
-                        });
+                    await Application.Current.Dispatcher.SimulateYield();
+                    var expected = new List<EventArgs>
+                    {
+                        new PropertyChangedEventArgs("Filter"),
+                        CachedEventArgs.CountPropertyChanged,
+                        CachedEventArgs.IndexerPropertyChanged,
+                        CachedEventArgs.NotifyCollectionReset
+                    };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     CollectionAssert.AreEqual(new[] { 1 }, view);
 
                     view.Refresh();
-                    scheduler.Start();
-                    ////expected.AddRange(Diff.ResetEventArgsCollection);
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     CollectionAssert.AreEqual(new[] { 1 }, view);
                 }

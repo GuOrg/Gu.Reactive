@@ -67,6 +67,9 @@
         /// </summary>
         protected bool HasListeners => this.PropertyChanged != null || this.CollectionChanged != null;
 
+        /// <summary>
+        /// The event we updated the source with.
+        /// </summary>
         protected NotifyCollectionChangedEventArgs IsUpdatingSource { get; private set; }
 
         /// <inheritdoc/>
@@ -131,6 +134,9 @@
             }
         }
 
+        /// <summary>
+        /// Return true if the change came from the source, False if we updated the source to trigger the event.
+        /// </summary>
         protected virtual bool IsSourceChange(NotifyCollectionChangedEventArgs e)
         {
             return this.IsUpdatingSource?.Action != e.Action;

@@ -56,7 +56,6 @@
     <Compile Include="Collections\MutableViews\DispatchingView{T}.cs" />
     <Compile Include="Collections\MutableViews\EditableListView.cs" />
     <Compile Include="Collections\MutableViews\EditableListView{T}.cs" />
-    <Compile Include="Collections\MutableViews\FilteredView.cs" />
     <Compile Include="Collections\MutableViews\FilteredView.generated.cs">
       <DependentUpon>FilteredView.tt</DependentUpon>
       <AutoGen>True</AutoGen>

@@ -1,10 +1,8 @@
 #pragma warning disable CS0618 // Type or member is obsolete
-namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
+namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.FilterTests
 {
     using System;
-
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
-
     using NUnit.Framework;
 
     public class FilteredViewNoScheduler : FilterTests
@@ -16,9 +14,9 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             this.Scheduler = new TestDispatcherScheduler();
             base.SetUp();
 #pragma warning disable GU0036 // Don't dispose injected.
-            this.view?.Dispose();
+            this.View?.Dispose();
 #pragma warning restore GU0036 // Don't dispose injected.
-            this.view = this.ints.AsFilteredView(x => true, TimeSpan.Zero);
+            this.View = this.Source.AsFilteredView(x => true, TimeSpan.Zero);
         }
     }
 }

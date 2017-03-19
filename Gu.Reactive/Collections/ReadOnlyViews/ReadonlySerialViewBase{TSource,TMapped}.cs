@@ -223,17 +223,6 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
-        /// Invokes <paramref name="action"/> if not disposed.
-        /// </summary>
-        /// <param name="action">The action to invoke.</param>
-        protected void ThrowIfDisposed(Action action)
-        {
-            this.ThrowIfDisposed();
-            action();
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
         /// Returns <paramref name="result"/> if not disposed.
         /// </summary>
         /// <param name="result">The action to invoke.</param>
@@ -263,7 +252,7 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Raise CollectionChanged event to any listeners.
-        /// Properties/methods modifying this <see cref="EditableListView{T}"/> will raise
+        /// Properties/methods modifying this <see cref="ReadonlySerialViewBase{TSource,TMapped}"/> will raise
         /// a collection changed event through this virtual method.
         /// </summary>
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
@@ -283,7 +272,7 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Raise PropertyChanged event to any listeners.
-        /// Properties/methods modifying this <see cref="EditableListView{T}"/> will raise
+        /// Properties/methods modifying this <see cref="ReadonlySerialViewBase{TSource,TMapped}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)

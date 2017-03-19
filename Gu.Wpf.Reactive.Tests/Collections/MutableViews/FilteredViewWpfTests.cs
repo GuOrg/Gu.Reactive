@@ -1,18 +1,26 @@
 #pragma warning disable CS0618 // Type or member is obsolete
 namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Reactive.Subjects;
     using System.Threading;
+    using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
-
+    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
 
     [Apartment(ApartmentState.STA)]
     public class FilteredViewWpfTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            App.Start();
+        }
+
         [Test]
         public void TwoViewsNotSame()
         {
@@ -34,12 +42,13 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         public void BindItemsSource()
         {
             var listBox = new ListBox();
-            var ints = new List<int> { 1, 2, 3 };
-            using (var view = ints.AsFilteredView(x => x == 2, new Subject<object>()))
+            var source = new List<int> { 1, 2, 3 };
+            using (var view = new FilteredView<int>(source, x => x == 2, TimeSpan.Zero, WpfSchedulers.Dispatcher, new Subject<object>()))
             {
                 var binding = new Binding { Source = view, };
                 BindingOperations.SetBinding(listBox, ItemsControl.ItemsSourceProperty, binding);
                 view.Refresh();
+                Application.Current.Dispatcher.SimulateYield();
                 CollectionAssert.AreEqual(new[] { 2 }, listBox.Items); // Filtered
             }
         }

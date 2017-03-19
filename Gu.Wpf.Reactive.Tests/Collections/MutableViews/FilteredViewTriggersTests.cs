@@ -19,18 +19,20 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         [Test]
         public void ManyOnNextsOneReset()
         {
-            var ints = new List<int> { 1, 2, 3 };
+            var source = new List<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler, new Subject<object>()))
+            using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, new Subject<object>()))
             {
                 using (var actualChanges = view.SubscribeAll())
                 {
-                    var subject = new Subject<object>();
-                    view.Triggers.Add(subject);
-                    ints.Clear();
-                    for (var i = 0; i < 10; i++)
+                    using (var subject = new Subject<object>())
                     {
-                        subject.OnNext(null);
+                        view.Triggers.Add(subject);
+                        source.Clear();
+                        for (var i = 0; i < 10; i++)
+                        {
+                            subject.OnNext(null);
+                        }
                     }
 
                     CollectionAssert.IsEmpty(actualChanges);
@@ -52,33 +54,35 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         [Test]
         public void ManyOnNextsOneAdd()
         {
-            var subject = new Subject<object>();
-            var ints = new List<int> { 1, 2, 3 };
-            var scheduler = new TestScheduler();
-            using (var view = ints.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler, subject))
+            using (var subject = new Subject<object>())
             {
-                using (var actualChanges = view.SubscribeAll())
+                var source = new List<int> { 1, 2, 3 };
+                var scheduler = new TestScheduler();
+                using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, subject))
                 {
-                    view.Triggers.Add(subject);
-                    ints.Add(4);
-                    for (int i = 0; i < 10; i++)
+                    using (var actualChanges = view.SubscribeAll())
                     {
-                        subject.OnNext(null);
+                        view.Triggers.Add(subject);
+                        source.Add(4);
+                        for (int i = 0; i < 10; i++)
+                        {
+                            subject.OnNext(null);
+                        }
+
+                        CollectionAssert.IsEmpty(actualChanges);
+                        CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+
+                        scheduler.Start();
+
+                        var expected = new EventArgs[]
+                        {
+                            CachedEventArgs.CountPropertyChanged,
+                            CachedEventArgs.IndexerPropertyChanged,
+                            Diff.CreateAddEventArgs(4, 3)
+                        };
+                        CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
+                        CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
                     }
-
-                    CollectionAssert.IsEmpty(actualChanges);
-                    CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
-
-                    scheduler.Start();
-
-                    var expected = new EventArgs[]
-                                       {
-                                           CachedEventArgs.CountPropertyChanged,
-                                           CachedEventArgs.IndexerPropertyChanged,
-                                           Diff.CreateAddEventArgs(4, 3)
-                                       };
-                    CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
-                    CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
                 }
             }
         }
@@ -88,7 +92,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         {
             var source = new List<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = source.AsFilteredView(x => true, TimeSpan.FromMilliseconds(10), scheduler, new Subject<object>()))
+            using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, new Subject<object>()))
             {
                 using (var actualChanges = view.SubscribeAll())
                 {

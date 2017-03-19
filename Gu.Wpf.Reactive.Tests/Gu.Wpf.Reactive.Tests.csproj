@@ -68,11 +68,11 @@
     <Compile Include="Collections\MutableViews\CrudView\ThrottledViewWithScheduler.cs" />
     <Compile Include="Collections\MutableViews\ExtensionsTests.cs" />
     <Compile Include="Collections\MutableViews\ThrottledViewTests.cs" />
-    <Compile Include="Collections\MutableViews\FilteredViewNoScheduler.cs" />
+    <Compile Include="Collections\MutableViews\FilterTests\FilteredViewNoScheduler.cs" />
     <Compile Include="Collections\MutableViews\FilteredViewTests.cs" />
-    <Compile Include="Collections\MutableViews\FilteredViewTestsBase.cs" />
+    <Compile Include="Collections\MutableViews\FilterTests\FilteredViewTestsBase.cs" />
     <Compile Include="Collections\MutableViews\FilteredViewTriggersTests.cs" />
-    <Compile Include="Collections\MutableViews\FilterTests.cs" />
+    <Compile Include="Collections\MutableViews\FilterTests\FilterTests.cs" />
     <Compile Include="Collections\ReadOnlyDispatchingViewTests.cs" />
     <Compile Include="FakesAndHelpers\App.cs" />
     <Compile Include="Collections\DispatchingCollectionTests.cs" />

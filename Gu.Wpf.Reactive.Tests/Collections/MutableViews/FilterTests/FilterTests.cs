@@ -1,5 +1,5 @@
 // ReSharper disable All
-namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
+namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.FilterTests
 {
     using System;
     using System.Collections.Generic;
@@ -8,37 +8,34 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using System.ComponentModel;
     using System.Linq;
     using System.Reactive.Concurrency;
-
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
-
-    using Microsoft.Reactive.Testing;
-
     using NUnit.Framework;
 
     public abstract class FilterTests
     {
+        private static readonly PropertyChangedEventArgs FilterChangedEventArgs = new PropertyChangedEventArgs("Filter");
+
         protected VirtualTimeSchedulerBase<long, long> Scheduler { get; set; }
 
-        protected IFilteredView<int> view;
-        protected ObservableCollection<int> ints;
+        protected IFilteredView<int> View { get; set; }
 
-        private static readonly PropertyChangedEventArgs FilterChangedEventArgs = new PropertyChangedEventArgs("Filter");
+        protected ObservableCollection<int> Source { get; set; }
 
         [SetUp]
         public virtual void SetUp()
         {
-            this.ints = new ObservableCollection<int> { 1, 2, 3 };
+            this.Source = new ObservableCollection<int> { 1, 2, 3 };
         }
 
         [Test]
         public void FilterRemoveOne()
         {
-            var actual = this.view.SubscribeAll();
-            this.view.Filter = x => x < 3;
+            var actual = this.View.SubscribeAll();
+            this.View.Filter = x => x < 3;
             this.Scheduler?.Start();
 
-            CollectionAssert.AreEqual(new[] { 1, 2 }, this.view);
+            CollectionAssert.AreEqual(new[] { 1, 2 }, this.View);
             var expected = new List<EventArgs>
                                {
                                    CachedEventArgs.CountPropertyChanged,
@@ -53,10 +50,10 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         [Test]
         public void FilterRemoveOneThenAdd()
         {
-            var actual = this.view.SubscribeAll();
-            this.view.Filter = x => x < 3;
+            var actual = this.View.SubscribeAll();
+            this.View.Filter = x => x < 3;
             this.Scheduler?.Start();
-            CollectionAssert.AreEqual(new[] { 1, 2 }, this.view);
+            CollectionAssert.AreEqual(new[] { 1, 2 }, this.View);
             var expected = new List<EventArgs>();
             expected.Add(CachedEventArgs.CountPropertyChanged);
             expected.Add(CachedEventArgs.IndexerPropertyChanged);
@@ -65,9 +62,9 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             Assert.AreEqual(1, actual.Count(x => EventArgsComparer.Equals(x, FilterChangedEventArgs)));
             CollectionAssert.AreEqual(expected, actual.Where(x => !EventArgsComparer.Equals(x, FilterChangedEventArgs)), EventArgsComparer.Default);
 
-            this.view.Filter = x => true;
+            this.View.Filter = x => true;
             this.Scheduler?.Start();
-            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, this.view);
+            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, this.View);
             expected.Add(CachedEventArgs.CountPropertyChanged);
             expected.Add(CachedEventArgs.IndexerPropertyChanged);
             expected.Add(Diff.CreateAddEventArgs(3, 2));
@@ -78,10 +75,10 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         [Test]
         public void FilterReset()
         {
-            var actual = this.view.SubscribeAll();
-            this.view.Filter = x => x < 0;
+            var actual = this.View.SubscribeAll();
+            this.View.Filter = x => x < 0;
             this.Scheduler?.Start();
-            CollectionAssert.IsEmpty(this.view);
+            CollectionAssert.IsEmpty(this.View);
             var expected = new List<EventArgs>();
             expected.AddRange(
                 new EventArgs[]
