@@ -201,7 +201,10 @@
             this.IsUpdatingSource = null;
         }
 
-        protected int SourceIndex(int index)
+        /// <summary>
+        /// Get the corresponding index in <see cref="Source"/>
+        /// </summary>
+        protected virtual int SourceIndex(int index)
         {
             var equals = typeof(T).IsValueType
                 ? (Func<T, T, bool>)EqualityComparer<T>.Default.Equals
