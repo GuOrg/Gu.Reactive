@@ -148,8 +148,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         public async Task UpdateFilter()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
-            var scheduler = new TestScheduler();
-            using (var view = new FilteredView<int>(source, x => true, TimeSpan.Zero, scheduler))
+            using (var view = source.AsFilteredView(x => true))
             {
                 using (var actual = view.SubscribeAll())
                 {

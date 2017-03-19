@@ -6,6 +6,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using System.Collections.ObjectModel;
     using System.Reactive.Subjects;
     using System.Threading;
+    using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
@@ -24,7 +25,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         [Test]
         public void TwoViewsNotSame()
         {
-            var ints = new ObservableCollection<int>(new[] { 1, 2, 3 });
+            var ints = new ObservableCollection<int> { 1, 2, 3 };
             using (var view1 = ints.AsFilteredView(x => true))
             {
                 using (var view2 = ints.AsFilteredView(x => true))
@@ -39,16 +40,16 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         }
 
         [Test]
-        public void BindItemsSource()
+        public async Task BindItemsSource()
         {
             var listBox = new ListBox();
-            var source = new List<int> { 1, 2, 3 };
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var view = new FilteredView<int>(source, x => x == 2, TimeSpan.Zero, WpfSchedulers.Dispatcher, new Subject<object>()))
             {
                 var binding = new Binding { Source = view, };
                 BindingOperations.SetBinding(listBox, ItemsControl.ItemsSourceProperty, binding);
                 view.Refresh();
-                Application.Current.Dispatcher.SimulateYield();
+                await Application.Current.Dispatcher.SimulateYield();
                 CollectionAssert.AreEqual(new[] { 2 }, listBox.Items); // Filtered
             }
         }

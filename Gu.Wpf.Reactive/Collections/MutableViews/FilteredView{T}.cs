@@ -15,7 +15,6 @@
     /// </summary>
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
-        private readonly ObservableCollection<IObservable<object>> triggers;
         private readonly IDisposable refreshSubscription;
 
         private Func<T, bool> filter;
@@ -57,60 +56,25 @@
         internal FilteredView(IList<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
             : base(source, Filtered(source, filter), true)
         {
-            if (filter == null)
-            {
-                filter = x => true;
-            }
-
             this.bufferTime = bufferTime;
             this.filter = filter;
-            if (triggers == null || triggers.Length == 0)
-            {
-                this.triggers = new ObservableCollection<IObservable<object>>();
-            }
-            else
-            {
-                this.triggers = new ObservableCollection<IObservable<object>>(triggers);
-            }
 
             this.refreshSubscription = Observable.Merge(
-                ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
-                                                  .Where(this.IsSourceChange),
-                this.ObservePropertyChangedSlim(x => x.Filter)
-                    .Select(_ => CachedEventArgs.NotifyCollectionReset))
-                                                                         .Publish(
-                                                                             shared =>
-                                                                                 this.ObserveValue(x => x.BufferTime)
-                                                                                     .Select(bt => shared.Chunks(bt.Value, scheduler))
-                                                                                     .Switch())
-                                                                         .ObserveOn(scheduler)
-                                                                         .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
-                                                                         .Subscribe(this.Refresh);
-
-            var observables = new IObservable<object>[]
-                                            {
-                                                this.Triggers.ObserveCollectionChangedSlim(false),
-                                                this.ObservePropertyChangedSlim(nameof(this.Filter), false),
-                                                this.ObservePropertyChangedSlim(nameof(this.BufferTime), false)
-                                            };
-            //this.triggerSubscription = observables.Merge()
-            //                                      .ThrottleOrDefault(bufferTime, scheduler)
-            //                                      .Subscribe(_ => this.refreshSubscription = FilteredRefresher.Create(source, bufferTime, triggers, scheduler, true)
-            //                                                                                                             .ObserveOn(scheduler ?? Scheduler.Immediate)
-            //                                                                                                             .Subscribe(this.Refresh));
-        }
-
-        /// <summary>
-        /// The triggers for updating the filter.
-        /// </summary>
-        public ObservableCollection<IObservable<object>> Triggers
-        {
-            get
-            {
-                this.ThrowIfDisposed();
-                return this.triggers;
-            }
-        }
+                                                     ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
+                                                                                        .Where(this.IsSourceChange),
+                                                     this.ObservePropertyChangedSlim(x => x.Filter)
+                                                         .Select(_ => CachedEventArgs.NotifyCollectionReset),
+                                                     triggers.MergeOrNever()
+                                                             .Select(_ => CachedEventArgs.NotifyCollectionReset))
+                                                 .Publish(
+                                                     shared =>
+                                                         this.ObserveValue(x => x.BufferTime)
+                                                             .Select(bt => shared.Chunks(bt.Value, scheduler))
+                                                             .Switch())
+                                                 .ObserveOn(scheduler)
+                                                 .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
+                                                 .Subscribe(this.Refresh);
+       }
 
         /// <summary>
         /// The predicate to filter by.
@@ -126,7 +90,7 @@
             set
             {
                 this.ThrowIfDisposed();
-                if (Equals(value, this.filter))
+                if (ReferenceEquals(value, this.filter))
                 {
                     return;
                 }

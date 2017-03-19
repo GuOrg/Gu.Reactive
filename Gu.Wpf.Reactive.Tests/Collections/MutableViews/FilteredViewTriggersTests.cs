@@ -9,44 +9,49 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
 
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
-
+    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using Microsoft.Reactive.Testing;
 
     using NUnit.Framework;
 
     public class FilteredViewTriggersTests
     {
+        [SetUp]
+        public void SetUp()
+        {
+            App.Start();
+        }
+
         [Test]
         public void ManyOnNextsOneReset()
         {
-            var source = new List<int> { 1, 2, 3 };
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, new Subject<object>()))
+            using (var trigger = new Subject<object>())
             {
-                using (var actualChanges = view.SubscribeAll())
+                using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, trigger))
                 {
-                    using (var subject = new Subject<object>())
+                    using (var actualChanges = view.SubscribeAll())
                     {
-                        view.Triggers.Add(subject);
                         source.Clear();
                         for (var i = 0; i < 10; i++)
                         {
-                            subject.OnNext(null);
+                            trigger.OnNext(null);
                         }
+
+                        CollectionAssert.IsEmpty(actualChanges);
+                        CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+                        scheduler.Start();
+
+                        var expected = new EventArgs[]
+                        {
+                            CachedEventArgs.CountPropertyChanged,
+                            CachedEventArgs.IndexerPropertyChanged,
+                            CachedEventArgs.NotifyCollectionReset
+                        };
+                        CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
+                        CollectionAssert.IsEmpty(view);
                     }
-
-                    CollectionAssert.IsEmpty(actualChanges);
-                    CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
-                    scheduler.Start();
-
-                    var expected = new EventArgs[]
-                                          {
-                                              CachedEventArgs.CountPropertyChanged,
-                                              CachedEventArgs.IndexerPropertyChanged,
-                                              CachedEventArgs.NotifyCollectionReset
-                                          };
-                    CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
-                    CollectionAssert.IsEmpty(view);
                 }
             }
         }
@@ -54,19 +59,18 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         [Test]
         public void ManyOnNextsOneAdd()
         {
-            using (var subject = new Subject<object>())
+            using (var trigger = new Subject<object>())
             {
-                var source = new List<int> { 1, 2, 3 };
+                var source = new ObservableCollection<int> { 1, 2, 3 };
                 var scheduler = new TestScheduler();
-                using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, subject))
+                using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, trigger))
                 {
                     using (var actualChanges = view.SubscribeAll())
                     {
-                        view.Triggers.Add(subject);
                         source.Add(4);
-                        for (int i = 0; i < 10; i++)
+                        for (var i = 0; i < 10; i++)
                         {
-                            subject.OnNext(null);
+                            trigger.OnNext(null);
                         }
 
                         CollectionAssert.IsEmpty(actualChanges);
@@ -90,35 +94,34 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         [Test]
         public void AddTriggerThenManyOnNextsOneAdd()
         {
-            var source = new List<int> { 1, 2, 3 };
+            var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, new Subject<object>()))
+            using (var trigger = new Subject<object>())
             {
-                using (var actualChanges = view.SubscribeAll())
+                using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, trigger))
                 {
-                    using (var subject = new Subject<object>())
+                    using (var actualChanges = view.SubscribeAll())
                     {
-                        view.Triggers.Add(subject);
                         source.Add(4);
-                        for (int i = 0; i < 10; i++)
+                        for (var i = 0; i < 10; i++)
                         {
-                            subject.OnNext(null);
+                            trigger.OnNext(null);
                         }
+
+                        CollectionAssert.IsEmpty(actualChanges);
+                        CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+
+                        scheduler.Start();
+
+                        var expected = new EventArgs[]
+                        {
+                            CachedEventArgs.CountPropertyChanged,
+                            CachedEventArgs.IndexerPropertyChanged,
+                            Diff.CreateAddEventArgs(4, 3)
+                        };
+                        CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
+                        CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
                     }
-
-                    CollectionAssert.IsEmpty(actualChanges);
-                    CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
-
-                    scheduler.Start();
-
-                    var expected = new EventArgs[]
-                                       {
-                                           CachedEventArgs.CountPropertyChanged,
-                                           CachedEventArgs.IndexerPropertyChanged,
-                                           Diff.CreateAddEventArgs(4, 3)
-                                       };
-                    CollectionAssert.AreEqual(expected, actualChanges, EventArgsComparer.Default);
-                    CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
                 }
             }
         }
@@ -146,20 +149,20 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         [Test]
         public void UpdatesAndNotifiesOnObservableCollectionChangedWhenFiltered()
         {
-            var ints = new ObservableCollection<int>(new List<int> { 1, 2 });
-            using (var view = ints.AsFilteredView(x => true))
+            var source = new ObservableCollection<int> { 1, 2 };
+            using (var view = source.AsFilteredView(x => true))
             {
-                ints.Add(1);
+                source.Add(1);
                 using (var actual = view.SubscribeAll())
                 {
                     view.Filter = x => x < 2;
                     view.Refresh();
                     var expected = new EventArgs[]
                                        {
+                                           CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Filter"),
                                            CachedEventArgs.CountPropertyChanged,
                                            CachedEventArgs.IndexerPropertyChanged,
                                            Diff.CreateRemoveEventArgs(2, 1),
-                                           new PropertyChangedEventArgs("Filter"),
                                        };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     CollectionAssert.AreEqual(new[] { 1, 1 }, view);
