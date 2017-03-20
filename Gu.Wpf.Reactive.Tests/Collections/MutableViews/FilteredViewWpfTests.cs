@@ -2,7 +2,6 @@
 namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
 {
     using System;
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Reactive.Subjects;
     using System.Threading;

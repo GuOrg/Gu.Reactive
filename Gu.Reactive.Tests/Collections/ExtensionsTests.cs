@@ -5,8 +5,6 @@ namespace Gu.Reactive.Tests.Collections
     using System.Collections.ObjectModel;
     using System.Linq;
 
-    using Gu.Wpf.Reactive;
-
     using Moq;
 
     using NUnit.Framework;

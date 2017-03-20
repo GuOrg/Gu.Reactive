@@ -9,7 +9,7 @@ namespace Gu.Reactive.Tests.Trackers
 
     public partial class MinMaxTrackerTests
     {
-        public class Primitive
+        public class Simple
         {
             [Test]
             public void InitializesWithValues()
