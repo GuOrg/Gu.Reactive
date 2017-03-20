@@ -101,11 +101,13 @@
 
             foreach (var change in changes)
             {
-                if (!Filtered.AffectsFilteredOnly(change, this.Filter))
+                if (Filtered.AffectsFilteredOnly(change, this.Filter))
                 {
-                    base.Refresh(CachedEventArgs.SingleNotifyCollectionReset);
-                    return;
+                    continue;
                 }
+
+                base.Refresh(CachedEventArgs.SingleNotifyCollectionReset);
+                return;
             }
         }
 
