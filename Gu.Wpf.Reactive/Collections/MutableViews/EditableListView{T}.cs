@@ -41,6 +41,16 @@ namespace Gu.Wpf.Reactive
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <inheritdoc/>
+        public void Move(int oldIndex, int newIndex)
+        {
+            var item = this[oldIndex];
+            this.RemoveItem(oldIndex);
+            this.InsertItem(newIndex, item);
+            this.OnPropertyChanged(CachedEventArgs.IndexerPropertyChanged);
+            this.OnCollectionChanged(Diff.CreateMoveEventArgs(item, newIndex, oldIndex));
+        }
+
+        /// <inheritdoc/>
         public void Dispose()
         {
             this.Dispose(true);
@@ -98,7 +108,7 @@ namespace Gu.Wpf.Reactive
         /// <summary>
         /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
         /// </summary>
-        protected void ThwrowIfDisposed()
+        protected void ThrowIfDisposed()
         {
             if (this.disposed)
             {

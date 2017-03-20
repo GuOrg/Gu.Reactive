@@ -70,7 +70,15 @@
         /// <summary>
         /// The event we updated the source with.
         /// </summary>
-        protected NotifyCollectionChangedEventArgs IsUpdatingSource { get; private set; }
+        protected NotifyCollectionChangedEventArgs UpdatedSourceWith { get; private set; }
+
+        /// <summary>
+        /// Move item at oldIndex to newIndex.
+        /// </summary>
+        public void Move(int oldIndex, int newIndex)
+        {
+            this.MoveItem(oldIndex, newIndex);
+        }
 
         /// <inheritdoc/>
         public virtual void Refresh()
@@ -139,7 +147,7 @@
         /// </summary>
         protected virtual bool IsSourceChange(NotifyCollectionChangedEventArgs e)
         {
-            return this.IsUpdatingSource?.Action != e.Action;
+            return this.UpdatedSourceWith?.Action != e.Action;
         }
 
         /// <inheritdoc/>
@@ -147,10 +155,10 @@
         {
             base.ClearItems();
             var change = CachedEventArgs.NotifyCollectionReset;
-            this.IsUpdatingSource = change;
+            this.UpdatedSourceWith = change;
             this.Notify(change);
             this.Source.Clear();
-            this.IsUpdatingSource = null;
+            this.UpdatedSourceWith = null;
         }
 
         /// <inheritdoc/>
@@ -161,10 +169,10 @@
                 : this.SourceIndex(index);
             base.InsertItem(index, item);
             var change = Diff.CreateAddEventArgs(item, index);
-            this.IsUpdatingSource = change;
+            this.UpdatedSourceWith = change;
             this.Notify(change);
             this.Source.Insert(sourceIndex, item);
-            this.IsUpdatingSource = null;
+            this.UpdatedSourceWith = null;
         }
 
         /// <inheritdoc/>
@@ -174,14 +182,14 @@
             var sourceIndex = this.SourceIndex(index);
             base.RemoveItem(index);
             var change = Diff.CreateRemoveEventArgs(item, index);
-            this.IsUpdatingSource = change;
+            this.UpdatedSourceWith = change;
             this.Notify(change);
             if (sourceIndex >= 0)
             {
                 this.Source.RemoveAt(sourceIndex);
             }
 
-            this.IsUpdatingSource = null;
+            this.UpdatedSourceWith = null;
         }
 
         /// <inheritdoc/>
@@ -191,14 +199,47 @@
             var sourceIndex = this.SourceIndex(index);
             base.SetItem(index, item);
             var change = Diff.CreateReplaceEventArgs(item, oldItem, index);
-            this.IsUpdatingSource = change;
+            this.UpdatedSourceWith = change;
             this.Notify(change);
             if (sourceIndex >= 0)
             {
                 this.Source[sourceIndex] = item;
             }
 
-            this.IsUpdatingSource = null;
+            this.UpdatedSourceWith = null;
+        }
+
+        /// <summary>
+        /// Move item at oldIndex to newIndex.
+        /// </summary>
+        protected virtual void MoveItem(int oldIndex, int newIndex)
+        {
+            var sourceOldIndex = this.SourceIndex(oldIndex);
+            var sourceNewIndex = this.SourceIndex(newIndex);
+            var item = this[oldIndex];
+            base.RemoveItem(oldIndex);
+            base.InsertItem(newIndex, item);
+            var change = Diff.CreateMoveEventArgs(item, newIndex, oldIndex);
+            this.UpdatedSourceWith = change;
+            this.Notify(change);
+            if (sourceOldIndex >= 0 &&
+                sourceNewIndex >= 0)
+            {
+                if (this.Source is ObservableCollection<T> s1)
+                {
+                    s1.Move(sourceOldIndex, sourceNewIndex);
+                }
+                else if (this.Source is IObservableCollection<T> s2)
+                {
+                    s2.Move(sourceOldIndex, sourceNewIndex);
+                }
+                else
+                {
+                    throw new NotSupportedException($"Expected source to be ObservableCollection<T> or IObservableCollection<T>, was {this.Source.GetType().PrettyName()}");
+                }
+            }
+
+            this.UpdatedSourceWith = null;
         }
 
         /// <summary>

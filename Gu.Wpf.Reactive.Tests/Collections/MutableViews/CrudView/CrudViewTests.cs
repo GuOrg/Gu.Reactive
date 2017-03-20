@@ -147,15 +147,18 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
         }
 
         [TestCase(0, 1)]
+        [TestCase(0, 2)]
+        [TestCase(1, 2)]
+        [TestCase(2, 1)]
+        [TestCase(1, 0)]
+        [TestCase(2, 0)]
         public void Move(int fromIndex, int toIndex)
         {
             using (var expected = this.Ints.SubscribeAll())
             {
                 using (var actual = this.View.SubscribeAll())
                 {
-                    Assert.Inconclusive("Do we want move?");
-                    ////this.View.Move(fromIndex, toIndex);
-                    // ReSharper disable once HeuristicUnreachableCode
+                    this.View.Move(fromIndex, toIndex);
                     this.Scheduler?.Start();
                     CollectionAssert.AreEqual(this.Ints, this.View);
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
