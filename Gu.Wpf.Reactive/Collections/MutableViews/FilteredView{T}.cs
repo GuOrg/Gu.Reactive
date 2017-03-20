@@ -57,9 +57,8 @@
         internal FilteredView(IList<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
             : base(source, Filtered(source, filter), true)
         {
-            this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler);
+            this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.filter = filter;
-
             this.refreshSubscription = Observable.Merge(
                                                      ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(
                                                                                            false)

@@ -15,6 +15,7 @@
     public class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyFilteredView<T>
     {
         private readonly IDisposable refreshSubscription;
+        private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;
 
         private bool disposed;
 
@@ -75,11 +76,12 @@
             Ensure.NotNull(filter, nameof(filter));
             this.Filter = filter;
             this.BufferTime = bufferTime;
+            this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.refreshSubscription = Observable.Merge(
                                                      source.ObserveCollectionChangedSlimOrDefault(false),
                                                      triggers.MergeOrNever()
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
-                                                 .Chunks(bufferTime, scheduler)
+                                                 .AsSlidingChunk(this.chunk)
                                                  .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
                                                  .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
                                                  .Subscribe(this.Refresh);
@@ -92,6 +94,16 @@
         public Func<T, bool> Filter { get; }
 
         /// <inheritdoc/>
+        public override void Refresh()
+        {
+            lock (this.chunk.Gate)
+            {
+                base.Refresh();
+                this.chunk.Clear();
+            }
+        }
+
+        /// <inheritdoc/>
         protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             if (changes == null || changes.Count == 0)
@@ -99,16 +111,23 @@
                 return;
             }
 
-            foreach (var change in changes)
+            lock (this.chunk.Gate)
             {
-                if (Filtered.AffectsFilteredOnly(change, this.Filter))
+                foreach (var change in changes)
                 {
-                    continue;
+                    if (Filtered.AffectsFilteredOnly(change, this.Filter))
+                    {
+                        continue;
+                    }
+
+                    base.Refresh(CachedEventArgs.SingleNotifyCollectionReset);
+                    this.chunk.Clear();
+                    return;
                 }
 
-                base.Refresh(CachedEventArgs.SingleNotifyCollectionReset);
-                return;
+                this.chunk.Clear();
             }
+
         }
 
         /// <inheritdoc/>
@@ -123,6 +142,10 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
+                lock (this.chunk.Gate)
+                {
+                    this.chunk.Clear();
+                }
             }
 
             base.Dispose(disposing);

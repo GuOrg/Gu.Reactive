@@ -14,6 +14,8 @@
     public class ReadOnlyThrottledView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyThrottledView<T>
     {
         private readonly IDisposable refreshSubscription;
+        private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;
+
         private bool disposed;
 
         /// <summary>
@@ -53,10 +55,11 @@
             : base(source, s => s, true)
         {
             this.BufferTime = bufferTime;
+            this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
-                                                                         .Chunks(bufferTime, scheduler)
+                                                                         .AsSlidingChunk(chunk)
                                                                          .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
-                                                                         .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
+                                                                         .StartWith(Chunk.One(CachedEventArgs.NotifyCollectionReset))
                                                                          .Subscribe(this.Refresh);
         }
 
@@ -66,9 +69,13 @@
         public TimeSpan BufferTime { get; }
 
         /// <inheritdoc/>
-        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        public override void Refresh()
         {
-            base.Refresh(changes);
+            lock (this.chunk.Gate)
+            {
+                base.Refresh();
+                this.chunk.Clear();
+            }
         }
 
         /// <summary>
@@ -86,9 +93,22 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
+                lock (this.chunk.Gate)
+                {
+                    this.chunk.Clear();
+                }
             }
 
             base.Dispose(disposing);
+        }
+
+        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
+        {
+            lock (changes.Gate)
+            {
+                base.Refresh(changes);
+                changes.Clear();
+            }
         }
     }
 }
