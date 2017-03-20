@@ -157,6 +157,11 @@ namespace Gu.Reactive.Tests.Trackers
                     }
                 }
 
+                public override string ToString()
+                {
+                    return $"{nameof(this.Value)}: {this.Value}";
+                }
+
                 [NotifyPropertyChangedInvocator]
                 protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
                 {

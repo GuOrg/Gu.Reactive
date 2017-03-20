@@ -22,8 +22,6 @@
 
             <Button Command="{Binding AddTenCommand}" Content="AddTen" />
 
-            <Button Command="{Binding AddOneOnOtherThreadCommand}" Content="AddOneOnOtherThread" />
-
             <Button Command="{Binding ClearCommand}" Content="Clear" />
         </StackPanel>
 

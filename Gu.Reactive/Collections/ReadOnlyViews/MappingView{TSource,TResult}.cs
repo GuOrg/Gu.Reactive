@@ -18,9 +18,11 @@
     /// <typeparam name="TResult">The type of the items in the resulting collection. Can be the same type.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
-    public partial class MappingView<TSource, TResult> : ReadonlySerialViewBase<TSource, TResult>, IReadOnlyObservableCollection<TResult>, IUpdater
+    public partial class MappingView<TSource, TResult> : ReadonlySerialViewBase<TSource, TResult>, IReadOnlyObservableCollection<TResult>
     {
         private readonly IDisposable refreshSubscription;
+        private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;
+
 #pragma warning disable GU0037 // Don't assign member with injected and created disposables.
         private readonly IMapper<TSource, TResult> factory;
 #pragma warning restore GU0037 // Don't assign member with injected and created disposables.
@@ -32,120 +34,120 @@
             Ensure.NotNull(source as INotifyCollectionChanged, nameof(source));
             Ensure.NotNull(factory, nameof(factory));
 
+            this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.factory = factory;
             this.refreshSubscription = Observable.Merge(
                                                      source.ObserveCollectionChangedSlimOrDefault(false),
                                                      triggers.MergeOrNever()
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
-                                                 .Chunks(bufferTime, scheduler)
+                                                 .AsSlidingChunk(this.chunk)
                                                  .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
-                                                 .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
+                                                 .StartWith(Chunk.One(CachedEventArgs.NotifyCollectionReset))
                                                  .Subscribe(this.Refresh);
         }
 
         /// <inheritdoc/>
-        object IUpdater.CurrentlyUpdatingSourceItem => null;
-
-        /// <inheritdoc/>
         public override void Refresh()
         {
-            using (this.factory.RefreshTransaction())
+            using (this.chunk.ClearTransaction())
             {
-                base.Refresh();
+                using (this.factory.RefreshTransaction())
+                {
+                    base.Refresh();
+                }
             }
         }
 
-        /// <summary>
-        /// Called when the source collection changed.
-        /// </summary>
-        /// <param name="changes">The changes accumulated during the buffer time.</param>
-        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
         {
             if (changes == null || changes.Count == 0)
             {
                 return;
             }
 
-            if (changes.Count > 1)
+            using (changes.ClearTransaction())
             {
-                this.Refresh(changes);
-                return;
-            }
+                if (changes.Count > 1)
+                {
+                    this.Refresh(changes);
+                    return;
+                }
 
-            var e = changes[0];
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    {
-                        if (!e.TryGetSingleNewItem(out TSource newSource))
+                var e = changes[0];
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
                         {
-                            goto case NotifyCollectionChangedAction.Reset;
+                            if (!e.TryGetSingleNewItem(out TSource newSource))
+                            {
+                                goto case NotifyCollectionChangedAction.Reset;
+                            }
+
+                            var index = e.NewStartingIndex;
+                            var value = this.GetOrCreate(newSource, index);
+                            this.Tracker.Insert(index, value);
+                            var args = this.UpdateRange(index + 1, this.Count - 1);
+                            args.Add(Diff.CreateAddEventArgs(value, index));
+                            this.Notify(args);
+                            break;
                         }
 
-                        var index = e.NewStartingIndex;
-                        var value = this.GetOrCreate(newSource, index);
-                        this.Tracker.Insert(index, value);
-                        var args = this.UpdateRange(index + 1, this.Count - 1);
-                        args.Add(Diff.CreateAddEventArgs(value, index));
-                        this.Notify(args);
-                        break;
-                    }
-
-                case NotifyCollectionChangedAction.Remove:
-                    {
-                        if (!e.TryGetSingleOldItem(out TSource oldSource))
+                    case NotifyCollectionChangedAction.Remove:
                         {
-                            goto case NotifyCollectionChangedAction.Reset;
+                            if (!e.TryGetSingleOldItem(out TSource oldSource))
+                            {
+                                goto case NotifyCollectionChangedAction.Reset;
+                            }
+
+                            var index = e.OldStartingIndex;
+                            var value = this.Tracker[index];
+                            this.Tracker.RemoveAt(index);
+                            var argses = this.UpdateRange(index, this.Count - 1);
+                            argses.Add(Diff.CreateRemoveEventArgs(value, index));
+                            this.Notify(argses);
+                            this.factory.Remove(oldSource, value);
+                            break;
                         }
 
-                        var index = e.OldStartingIndex;
-                        var value = this.Tracker[index];
-                        this.Tracker.RemoveAt(index);
-                        var argses = this.UpdateRange(index, this.Count - 1);
-                        argses.Add(Diff.CreateRemoveEventArgs(value, index));
-                        this.Notify(argses);
-                        this.factory.Remove(oldSource, value);
-                        break;
-                    }
-
-                case NotifyCollectionChangedAction.Replace:
-                    {
-                        if (!e.TryGetSingleNewItem(out TSource newSource) ||
-                            !e.TryGetSingleOldItem(out TSource oldSource))
+                    case NotifyCollectionChangedAction.Replace:
                         {
-                            goto case NotifyCollectionChangedAction.Reset;
+                            if (!e.TryGetSingleNewItem(out TSource newSource) ||
+                                !e.TryGetSingleOldItem(out TSource oldSource))
+                            {
+                                goto case NotifyCollectionChangedAction.Reset;
+                            }
+
+                            var index = e.NewStartingIndex;
+                            var value = this.GetOrCreate(newSource, index);
+                            var oldValue = this.Tracker[e.OldStartingIndex];
+                            this.Tracker[index] = value;
+                            var arg = Diff.CreateReplaceEventArgs(value, oldValue, index);
+                            this.Notify(arg);
+                            this.factory.Remove(oldSource, oldValue);
+                            break;
                         }
 
-                        var index = e.NewStartingIndex;
-                        var value = this.GetOrCreate(newSource, index);
-                        var oldValue = this.Tracker[e.OldStartingIndex];
-                        this.Tracker[index] = value;
-                        var arg = Diff.CreateReplaceEventArgs(value, oldValue, index);
-                        this.Notify(arg);
-                        this.factory.Remove(oldSource, oldValue);
+                    case NotifyCollectionChangedAction.Move:
+                        {
+                            var value = this.Tracker[e.OldStartingIndex];
+                            this.Tracker.RemoveAt(e.OldStartingIndex);
+                            this.Tracker.Insert(e.NewStartingIndex, value);
+                            var args = this.UpdateRange(Math.Min(e.OldStartingIndex, e.NewStartingIndex), Math.Max(e.OldStartingIndex, e.NewStartingIndex));
+                            args.Add(Diff.CreateMoveEventArgs(value, e.NewStartingIndex, e.OldStartingIndex));
+                            this.Notify(args);
+                            break;
+                        }
+
+                    case NotifyCollectionChangedAction.Reset:
+                        using (this.factory.RefreshTransaction())
+                        {
+                            base.Refresh(changes);
+                        }
+
                         break;
-                    }
-
-                case NotifyCollectionChangedAction.Move:
-                    {
-                        var value = this.Tracker[e.OldStartingIndex];
-                        this.Tracker.RemoveAt(e.OldStartingIndex);
-                        this.Tracker.Insert(e.NewStartingIndex, value);
-                        var args = this.UpdateRange(Math.Min(e.OldStartingIndex, e.NewStartingIndex), Math.Max(e.OldStartingIndex, e.NewStartingIndex));
-                        args.Add(Diff.CreateMoveEventArgs(value, e.NewStartingIndex, e.OldStartingIndex));
-                        this.Notify(args);
-                        break;
-                    }
-
-                case NotifyCollectionChangedAction.Reset:
-                    using (this.factory.RefreshTransaction())
-                    {
-                        base.Refresh(changes);
-                    }
-
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
         }
 
@@ -225,6 +227,7 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
+                this.chunk.ClearItems();
 #pragma warning disable GU0036 // Don't dispose injected.
                 this.factory.Dispose();
 #pragma warning restore GU0036 // Don't dispose injected.

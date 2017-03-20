@@ -18,7 +18,7 @@ namespace Gu.Reactive.Demo
             this.DeferTime = TimeSpan.FromMilliseconds(10);
             this.Add(3);
             this.ReadOnlyObservableCollection = new ReadOnlyObservableCollection<DummyItem>(this.observableCollection);
-            this.ThrottledView = this.observableCollection.AsThrottledView(this.DeferTime, WpfSchedulers.Dispatcher);
+            this.ThrottledView = this.observableCollection.AsThrottledView(this.DeferTime);
             this.ReadOnlyThrottledView = this.observableCollection.AsReadOnlyThrottledView(this.DeferTime, WpfSchedulers.Dispatcher);
             this.ReadOnlyIListThrottledView = this.ReadOnlyThrottledView.AsReadonlyIListView();
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);

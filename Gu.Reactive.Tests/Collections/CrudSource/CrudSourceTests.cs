@@ -3,6 +3,7 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Reactive.Concurrency;
 
     using Gu.Reactive.Tests.Helpers;
 
@@ -13,7 +14,7 @@
     public abstract class CrudSourceTests
     {
 #pragma warning disable SA1306 // Field names must begin with lower-case letter
-        protected TestScheduler Scheduler;
+        protected VirtualTimeSchedulerBase<long, long> Scheduler;
         protected IReadOnlyObservableCollection<int> View;
         protected ObservableCollection<int> Source;
 #pragma warning restore SA1306 // Field names must begin with lower-case letter
@@ -85,14 +86,14 @@
         [Test]
         public void ManyAddsOneReset()
         {
-            if (this.Scheduler == null)
+            if (!(this.Scheduler is TestScheduler))
             {
                 Assert.Inconclusive();
             }
 
             using (var actual = this.View.SubscribeAll())
             {
-                for (int i = 0; i < 10; i++)
+                for (var i = 0; i < 10; i++)
                 {
                     this.Source.Add(i);
                 }

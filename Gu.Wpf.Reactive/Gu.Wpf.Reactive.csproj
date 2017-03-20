@@ -48,12 +48,27 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\DispatchingCollection{T}.cs" />
-    <Compile Include="Collections\DispatchingView.generated.cs">
+    <Compile Include="Collections\MutableViews\DispatchingView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DispatchingView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\DispatchingView{T}.cs" />
+    <Compile Include="Collections\MutableViews\DispatchingView{T}.cs" />
+    <Compile Include="Collections\MutableViews\EditableListView.cs" />
+    <Compile Include="Collections\MutableViews\EditableListView{T}.cs" />
+    <Compile Include="Collections\MutableViews\FilteredView.generated.cs">
+      <DependentUpon>FilteredView.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Collections\MutableViews\FilteredView{T}.cs" />
+    <Compile Include="Collections\MutableViews\SynchronizedEditableView{T}.cs" />
+    <Compile Include="Collections\MutableViews\ThrottledView.generated.cs">
+      <DependentUpon>ThrottledView.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Collections\MutableViews\ThrottledView{T}.cs" />
     <Compile Include="Collections\NotifyCollectionChangedEventHandlerExt.cs" />
     <Compile Include="Collections\ReadOnlyDispatchingView.cs">
       <AutoGen>True</AutoGen>
@@ -144,7 +159,7 @@
     <AdditionalFiles Include="..\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
-    <None Include="Collections\DispatchingView.tt">
+    <None Include="Collections\MutableViews\DispatchingView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>DispatchingView.generated.cs</LastGenOutput>
     </None>
@@ -217,6 +232,18 @@
     <None Include="Collections\ReadOnlyDispatchingView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ReadOnlyDispatchingView.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Collections\MutableViews\FilteredView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FilteredView.generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Collections\MutableViews\ThrottledView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ThrottledView.generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <Choose>

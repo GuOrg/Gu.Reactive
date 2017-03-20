@@ -11,7 +11,7 @@
     /// </summary>
     /// <typeparam name="T">The type of the items in the source collection.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
-    [DebuggerDisplay("Count = {Count}")]
+    [DebuggerDisplay("Count = {this.Count}")]
     public class ReadOnlyDispatchingView<T> : ReadOnlyThrottledView<T>
     {
         /// <summary>

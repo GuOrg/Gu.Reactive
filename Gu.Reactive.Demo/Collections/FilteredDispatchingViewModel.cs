@@ -1,5 +1,4 @@
-﻿#pragma warning disable 618
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.Collections.ObjectModel;
@@ -31,7 +30,6 @@ namespace Gu.Reactive.Demo
 
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
-            this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
             this.ClearCommand = new RelayCommand(this.Clear, () => true);
             this.TriggerCommand = new RelayCommand(() => this.trigger.OnNext(null), () => true);
             this.TriggerOnOtherThreadCommand = new RelayCommand(
@@ -57,8 +55,6 @@ namespace Gu.Reactive.Demo
         public ICommand AddOneCommand { get; }
 
         public ICommand AddTenCommand { get; }
-
-        public ICommand AddOneOnOtherThreadCommand { get; }
 
         public RelayCommand ClearCommand { get; }
 
@@ -128,7 +124,7 @@ namespace Gu.Reactive.Demo
 
         private void Add(int n)
         {
-            for (int i = 0; i < n; i++)
+            for (var i = 0; i < n; i++)
             {
                 this.AddOne();
             }

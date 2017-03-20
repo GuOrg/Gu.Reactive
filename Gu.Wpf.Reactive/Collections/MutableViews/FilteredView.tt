@@ -1,0 +1,64 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".generated.cs" #>
+namespace Gu.Wpf.Reactive
+{
+    using System;
+    using System.Collections.ObjectModel;
+    using Gu.Reactive;
+    using Gu.Reactive.Internals;
+
+    /// <summary>
+    /// Factory methods for creating <see cref="FilteredView{T}"/>
+    /// </summary>
+    public static partial class FilteredView
+    {
+<#
+    var typeNames = new []{"ObservableCollection", "IObservableCollection" };
+    for(int i = 0; i < typeNames.Length; i++)
+    {
+        var typeName = typeNames[i];
+        if(i > 0)
+        {#>
+
+<#      }    
+#>
+        /// <summary>
+        /// Create a filtered view for <paramref name="collection"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the collection.</typeparam>
+        /// <param name="collection">The source collection</param>
+        /// <param name="filter">The predicate to filter by.</param>
+        /// <param name="triggers">Triggers for when filtering is updated.</param>
+        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        public static FilteredView<T> AsFilteredView<T>(
+            this <#= typeName #><T> collection,
+            Func<T, bool> filter,
+            params IObservable<object>[] triggers)
+        {
+            Ensure.NotNull(collection, nameof(collection));
+            return new FilteredView<T>(collection, filter, TimeSpan.Zero, triggers);
+        }
+
+        /// <summary>
+        /// Create a filtered view for <paramref name="collection"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the collection.</typeparam>
+        /// <param name="collection">The source collection</param>
+        /// <param name="filter">The predicate to filter by.</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
+        /// <param name="triggers">Triggers for when filtering is updated.</param>
+        /// <returns>A <see cref="FilteredView{T}"/></returns>
+        public static FilteredView<T> AsFilteredView<T>(
+            this <#= typeName #><T> collection,
+            Func<T, bool> filter,
+            TimeSpan bufferTime,
+            params IObservable<object>[] triggers)
+        {
+            Ensure.NotNull(collection, nameof(collection));
+            Ensure.NotNull(filter, nameof(filter));
+            return new FilteredView<T>(collection, filter, bufferTime, triggers);
+        }
+<#    } #>
+    }
+}

@@ -15,20 +15,6 @@ namespace Gu.Reactive.Tests.Collections
     public class ExtensionsTests
     {
         [Test]
-        public void AsFilteredView()
-        {
-            var source = new ObservableCollection<int>();
-            using (source.AsFilteredView(x => true))
-            {
-            }
-
-            using (source.AsThrottledView(TimeSpan.Zero)
-                       .AsFilteredView(x => true))
-            {
-            }
-        }
-
-        [Test]
         public void AsReadOnlyFilteredView()
         {
             var source = new ObservableCollection<int>();
@@ -41,8 +27,8 @@ namespace Gu.Reactive.Tests.Collections
             {
             }
 
-            using (source.AsThrottledView(TimeSpan.Zero)
-                       .AsReadOnlyFilteredView(x => true))
+            using (source.AsReadOnlyThrottledView(TimeSpan.Zero)
+                         .AsReadOnlyFilteredView(x => true))
             {
             }
 
@@ -68,20 +54,6 @@ namespace Gu.Reactive.Tests.Collections
         }
 
         [Test]
-        public void AsThrottledView()
-        {
-            var source = new ObservableCollection<int>();
-            using (source.AsThrottledView(TimeSpan.Zero))
-            {
-            }
-
-            using (source.AsFilteredView(x => true)
-                       .AsThrottledView(TimeSpan.Zero))
-            {
-            }
-        }
-
-        [Test]
         public void AsReadOnlyThrottledView()
         {
             var source = new ObservableCollection<int>();
@@ -89,8 +61,8 @@ namespace Gu.Reactive.Tests.Collections
             {
             }
 
-            using (source.AsFilteredView(x => true)
-                       .AsReadOnlyThrottledView(TimeSpan.Zero))
+            using (source.AsReadOnlyFilteredView(x => true)
+                         .AsReadOnlyThrottledView(TimeSpan.Zero))
             {
             }
 
@@ -125,13 +97,13 @@ namespace Gu.Reactive.Tests.Collections
             {
             }
 
-            using (source.AsFilteredView(x => true)
-                       .AsMappingView(x => x.ToString()))
+            using (source.AsReadOnlyFilteredView(x => true)
+                         .AsMappingView(x => x.ToString()))
             {
             }
 
-            using (source.AsThrottledView(TimeSpan.Zero)
-                       .AsMappingView(x => x.ToString()))
+            using (source.AsReadOnlyThrottledView(TimeSpan.Zero)
+                         .AsMappingView(x => x.ToString()))
             {
             }
 

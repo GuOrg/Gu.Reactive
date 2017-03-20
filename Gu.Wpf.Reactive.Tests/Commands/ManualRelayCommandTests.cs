@@ -1,12 +1,20 @@
 ﻿namespace Gu.Wpf.Reactive.Tests
 {
     using System;
+    using System.Threading.Tasks;
+    using System.Windows;
     using Gu.Reactive;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
 
     public class ManualRelayCommandTests
     {
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            App.Start();
+        }
+
         [Test(Description = "This is the most relevant test, it checks that the weak event implementation is correct")]
         public void MemoryLeak()
         {
@@ -22,13 +30,14 @@
         }
 
         [Test]
-        public void RaiseCanExecuteChanged()
+        public async Task RaiseCanExecuteChanged()
         {
-            int count = 0;
+            var count = 0;
             var command = new ManualRelayCommand(() => { }, () => true);
             command.CanExecuteChanged += (sender, args) => count++;
             Assert.AreEqual(0, count);
             command.RaiseCanExecuteChanged();
+            await Application.Current.Dispatcher.SimulateYield();
             Assert.AreEqual(1, count);
         }
 
@@ -38,15 +47,17 @@
             var invokeCount = 0;
             var isExecutingCount = 0;
             var command = new ManualRelayCommand(() => invokeCount++, () => true);
-            command.ObservePropertyChangedSlim(nameof(command.IsExecuting), false)
-                   .Subscribe(_ => isExecutingCount++);
-            Assert.IsFalse(command.IsExecuting);
-            Assert.True(command.CanExecute());
-            command.Execute();
-            Assert.IsFalse(command.IsExecuting);
-            Assert.True(command.CanExecute());
-            Assert.AreEqual(1, invokeCount);
-            Assert.AreEqual(2, isExecutingCount);
+            using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), false)
+                          .Subscribe(_ => isExecutingCount++))
+            {
+                Assert.IsFalse(command.IsExecuting);
+                Assert.True(command.CanExecute());
+                command.Execute();
+                Assert.IsFalse(command.IsExecuting);
+                Assert.True(command.CanExecute());
+                Assert.AreEqual(1, invokeCount);
+                Assert.AreEqual(2, isExecutingCount);
+            }
         }
 
         [TestCase(true)]

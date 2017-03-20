@@ -102,6 +102,10 @@
       <Project>{2230088e-f6dc-4c79-9983-d9654274d689}</Project>
       <Name>Gu.Reactive</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj">
+      <Project>{4C0610EE-96A2-4E34-BCE1-17B06A64556B}</Project>
+      <Name>Gu.Wpf.Reactive</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

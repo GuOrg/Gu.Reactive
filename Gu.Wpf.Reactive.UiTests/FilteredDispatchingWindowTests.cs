@@ -35,10 +35,6 @@
                                            .FindFirstDescendant(x => x.ByText("AddTen"))
                                            .AsButton();
 
-        private Button AddOneOnOtherThreadButton => this.Window
-                                   .FindFirstDescendant(x => x.ByText("AddOneOnOtherThread"))
-                                   .AsButton();
-
         private Button TriggerButton => this.Window
                                             .FindFirstDescendant(x => x.ByText("Trigger"))
                                             .AsButton();
@@ -99,7 +95,7 @@
             this.AddTenButton.Click(false);
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Add", 4)), this.ViewChanges.Select(x => x.Text));
+            CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Reset", 1)), this.ViewChanges.Select(x => x.Text));
             CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Add", 10)), this.SourceChanges.Select(x => x.Text));
         }
 
@@ -131,14 +127,6 @@
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
 
             this.TriggerOnOtherThreadButton.Click(false);
-            CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
-        }
-
-        [Test]
-        public void AddOneOnOtherThread()
-        {
-            this.AddOneOnOtherThreadButton.Click(false);
             CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
         }

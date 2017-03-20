@@ -1,0 +1,50 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ output extension=".cs" #>
+namespace Gu.Wpf.Reactive
+{
+    using System;
+    using System.Collections.ObjectModel;
+
+    using Gu.Reactive;
+
+    /// <summary>
+    /// Factory methods for creating <see cref="DispatchingView{T}"/>
+    /// </summary>
+    public static partial class DispatchingView
+    {
+<#
+    var typeNames = new []{"IObservableCollection", "ObservableCollection" };
+    for(int i = 0; i < typeNames.Length; i++)
+    {
+        var typeName = typeNames[i];
+        if(i > 0)
+		{#>
+
+<#      }	
+#>
+        /// <summary>
+        /// Create a <see cref="DispatchingView{T}"/> for <paramref name="collection"/>
+        /// </summary>
+        /// <typeparam name="TItem">The type of the items in <paramref name="collection"/></typeparam>
+        /// <param name="collection">The source collection.</param>
+        /// <returns>A <see cref="DispatchingView{T}"/></returns>
+        public static DispatchingView<TItem> AsDispatchingView<TItem>(this <#= typeName #><TItem> collection)
+        {
+            return new DispatchingView<TItem>(collection, TimeSpan.Zero);
+        }
+
+        /// <summary>
+        /// Create a <see cref="DispatchingView{T}"/> for <paramref name="collection"/>
+        /// </summary>
+        /// <typeparam name="TItem">The type of the items in <paramref name="collection"/></typeparam>
+        /// <param name="collection">The source collection.</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
+        /// <returns>A <see cref="DispatchingView{T}"/></returns>
+        public static DispatchingView<TItem> AsDispatchingView<TItem>(this <#= typeName #><TItem> collection, TimeSpan bufferTime)
+        {
+            return new DispatchingView<TItem>(collection, bufferTime);
+        }
+<#    } #>
+    }
+}

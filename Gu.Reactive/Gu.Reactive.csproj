@@ -38,6 +38,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chunk.cs" />
+    <Compile Include="Chunk{T}.cs" />
     <Compile Include="Collections\ReadOnlyViews\Filtered.cs" />
     <Compile Include="Collections\ReadOnlyViews\MappingView{TSource,TResult}.generated.cs">
       <AutoGen>True</AutoGen>
@@ -60,10 +62,7 @@
     <Compile Include="Collections\ReadOnlyViews\Mapping\Updating{TSource,TResult}.cs" />
     <Compile Include="Collections\ScheduledCollection.cs" />
     <Compile Include="EventArgs\CachedEventArgs.cs" />
-    <Compile Include="Collections\MutableViews\CollectionSynchronizer{T}.cs" />
-    <Compile Include="Collections\MutableViews\EditableListView.cs" />
-    <Compile Include="Collections\MutableViews\EditableListView{T}.cs" />
-    <Compile Include="Collections\MutableViews\FilteredView{T}.cs" />
+    <Compile Include="Collections\CollectionSynchronizer{T}.cs" />
     <Compile Include="Collections\FixedSizedQueue{T}.cs" />
     <Compile Include="Collections\ReadOnlyViews\MappingView{TSource,TResult}.cs" />
     <Compile Include="Collections\ObservableBatchCollection{T}.cs" />
@@ -71,8 +70,6 @@
     <Compile Include="Collections\ReadOnlyViews\ReadOnlyFilteredView{T}.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadOnlyIListView{T}.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadOnlySerialView{T}.cs" />
-    <Compile Include="Collections\MutableViews\SynchronizedEditableView{T}.cs" />
-    <Compile Include="Collections\MutableViews\ThrottledView{T}.cs" />
     <Compile Include="Contracts\IConditionsService.cs" />
     <Compile Include="Contracts\IFilteredView{T}.cs" />
     <Compile Include="Contracts\IObservableCollection{T}.cs" />
@@ -93,12 +90,6 @@
     <Compile Include="Contracts\ISatisfied.cs" />
     <Compile Include="Contracts\ISchedulers.cs" />
     <Compile Include="Collections\Internals\CollectionDebugView.cs" />
-    <Compile Include="Collections\MutableViews\FilteredView.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FilteredView.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Collections\Internals\IUpdater.cs" />
     <Compile Include="Collections\ReadOnlyViews\MappingView.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -109,15 +100,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReadOnlyFilteredView.tt</DependentUpon>
     </Compile>
-    <Compile Include="Collections\Internals\ThrottledRefresher.cs" />
-    <Compile Include="Collections\MutableViews\ThrottledView.generated.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ThrottledView.tt</DependentUpon>
-    </Compile>
     <Compile Include="Collections\Internals\Diff.cs" />
-    <Compile Include="Collections\Internals\FilteredRefresher.cs" />
-    <Compile Include="Collections\MutableViews\FilteredView.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadOnlyThrottledView{T}.cs" />
     <Compile Include="Conditions\AbstractCondition.cs" />
     <Compile Include="Contracts\IThrottledView{T}.cs" />
@@ -223,14 +206,6 @@
     <AdditionalFiles Include="..\stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
-    <None Include="Collections\MutableViews\ThrottledView.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ThrottledView.generated.cs</LastGenOutput>
-    </None>
-    <None Include="Collections\MutableViews\FilteredView.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FilteredView.generated.cs</LastGenOutput>
-    </None>
     <None Include="Collections\ReadOnlyViews\MappingView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MappingView.generated.cs</LastGenOutput>

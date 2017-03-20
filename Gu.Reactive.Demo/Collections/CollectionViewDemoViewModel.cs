@@ -24,8 +24,8 @@ namespace Gu.Reactive.Demo
 
             this.ObservableCollection = new ObservableCollection<int>(new[] { 1, 2, 3, 4, 5 });
             this.ObservableDefaultView = CollectionViewSource.GetDefaultView(this.ObservableCollection);
-            this.ObservableFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.Zero, WpfSchedulers.Dispatcher);
-            this.ThrottledFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher);
+            this.ObservableFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.Zero);
+            this.ThrottledFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.FromMilliseconds(10));
 
             this.ObservePropertyChanged(x => x.Filter, false)
                 .Subscribe(

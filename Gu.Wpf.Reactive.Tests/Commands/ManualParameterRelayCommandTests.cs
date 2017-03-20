@@ -1,6 +1,8 @@
 ﻿namespace Gu.Wpf.Reactive.Tests
 {
     using System;
+    using System.Threading.Tasks;
+    using System.Windows;
     using Gu.Reactive;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
 
@@ -8,6 +10,12 @@
 
     public class ManualParameterRelayCommandTests
     {
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            App.Start();
+        }
+
         [Test(Description = "This is the most relevant test, it checks that the weak event implementation is correct")]
         public void MemoryLeak()
         {
@@ -23,20 +31,21 @@
         }
 
         [Test]
-        public void RaiseCanExecuteChanged()
+        public async Task RaiseCanExecuteChanged()
         {
-            int count = 0;
+            var count = 0;
             var command = new ManualRelayCommand<int>(x => { }, x => true);
             command.CanExecuteChanged += (sender, args) => count++;
             Assert.AreEqual(0, count);
             command.RaiseCanExecuteChanged();
+            await Application.Current.Dispatcher.SimulateYield();
             Assert.AreEqual(1, count);
         }
 
         [Test]
         public void ExecuteWithParameter()
         {
-            int invokeCount = 0;
+            var invokeCount = 0;
             var command = new ManualRelayCommand<int>(o => invokeCount = o, _ => true);
             command.Execute(4);
             Assert.AreEqual(4, invokeCount);

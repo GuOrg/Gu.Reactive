@@ -2,16 +2,23 @@
 {
     using System;
     using System.Reactive.Subjects;
-
+    using System.Threading.Tasks;
+    using System.Windows;
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
-
+    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
 
     public class ObservingRelayCommandTests
     {
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            App.Start();
+        }
+
         [Test]
-        public void NotifiesOnConditionChanged()
+        public async Task NotifiesOnConditionChanged()
         {
             var fake = new Fake { IsTrueOrNull = false };
             int count;
@@ -20,6 +27,7 @@
                 count = 0;
                 command.CanExecuteChanged += (sender, args) => count++;
                 fake.IsTrueOrNull = true;
+                await Application.Current.Dispatcher.SimulateYield();
                 Assert.AreEqual(1, count);
             }
         }

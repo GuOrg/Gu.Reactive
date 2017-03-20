@@ -123,7 +123,16 @@
             this.disposed = true;
             if (disposing)
             {
-                this.TaskCompletion?.Task.Dispose();
+                // RanToCompletion, Faulted or Canceled
+                switch (this.TaskCompletion?.Task.Status)
+                {
+                    case TaskStatus.RanToCompletion:
+                    case TaskStatus.Faulted:
+                    case TaskStatus.Canceled:
+                        this.TaskCompletion.Task.Dispose();
+                        break;
+                }
+
                 this.CanRunCondition.Dispose();
             }
         }

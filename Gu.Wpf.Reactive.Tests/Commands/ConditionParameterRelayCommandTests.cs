@@ -1,14 +1,23 @@
 ﻿namespace Gu.Wpf.Reactive.Tests
 {
+    using System.Threading.Tasks;
+    using System.Windows;
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
-
+    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
+    using Condition = Gu.Reactive.Condition;
 
     public class ConditionParameterRelayCommandTests
     {
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            App.Start();
+        }
+
         [Test]
-        public void NotifiesOnConditionChanged()
+        public async Task NotifiesOnConditionChanged()
         {
             int count = 0;
             var fake = new Fake { IsTrueOrNull = false };
@@ -18,6 +27,7 @@
                 {
                     command.CanExecuteChanged += (sender, args) => count++;
                     fake.IsTrueOrNull = true;
+                    await Application.Current.Dispatcher.SimulateYield();
                     Assert.AreEqual(1, count);
                 }
             }

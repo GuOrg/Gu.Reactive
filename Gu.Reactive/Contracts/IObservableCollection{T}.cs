@@ -9,5 +9,9 @@
     /// </summary>
     public interface IObservableCollection<T> : IList<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {
+        /// <summary>
+        /// Move item at oldIndex to newIndex.
+        /// </summary>
+        void Move(int oldIndex, int newIndex);
     }
 }
