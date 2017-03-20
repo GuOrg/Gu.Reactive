@@ -117,7 +117,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
         }
 
         [Test]
-        public async Task Remove()
+        public async Task RemoveFiltered()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var view = source.AsFilteredView(x => x % 2 == 0))
@@ -134,7 +134,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
                         CachedEventArgs.IndexerPropertyChanged,
                         Diff.CreateRemoveEventArgs(2, 0)
                     };
-                    CollectionAssert.AreEqual(expected, actual);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }

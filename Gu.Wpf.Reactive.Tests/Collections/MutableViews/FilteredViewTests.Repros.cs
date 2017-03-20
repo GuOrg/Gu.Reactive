@@ -127,6 +127,51 @@
                     }
                 }
             }
+
+            [Test]
+            public void Repro3()
+            {
+                var source = new ObservableCollection<int> { 1, 2, 3 };
+                var scheduler = new TestScheduler();
+                var max = 5;
+                using (var trigger = new Subject<object>())
+                {
+                    // ReSharper disable once AccessToModifiedClosure
+                    using (var view = new FilteredView<int>(source, x => x < max, TimeSpan.FromMilliseconds(10), scheduler, trigger))
+                    {
+                        using (var actual = view.SubscribeAll())
+                        {
+                            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+                            CollectionAssert.IsEmpty(actual);
+
+                            max = 2;
+                            trigger.OnNext(null);
+                            scheduler.Start();
+
+                            var expected = new List<EventArgs>
+                                               {
+                                                   CachedEventArgs.CountPropertyChanged,
+                                                   CachedEventArgs.IndexerPropertyChanged,
+                                                   CachedEventArgs.NotifyCollectionReset
+                                               };
+                            CollectionAssert.AreEqual(new[] { 1 }, view);
+                            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                            source.Clear();
+                            view.Refresh();
+                            scheduler.Start();
+                            CollectionAssert.IsEmpty(view);
+                            expected.AddRange(new EventArgs[]
+                                               {
+                                                   CachedEventArgs.CountPropertyChanged,
+                                                   CachedEventArgs.IndexerPropertyChanged,
+                                                   Diff.CreateRemoveEventArgs(1, 0)
+                                               });
+                            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                        }
+                    }
+                }
+            }
         }
     }
 }
