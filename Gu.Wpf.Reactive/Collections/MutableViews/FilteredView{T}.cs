@@ -61,7 +61,7 @@
 
             this.refreshSubscription = Observable.Merge(
                                                      ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
-                                                                                        .Where(this.IsSourceChange),
+                                                                                       .Where(this.IsSourceChange),
                                                      this.ObservePropertyChangedSlim(x => x.Filter, false)
                                                          .Select(_ => CachedEventArgs.NotifyCollectionReset),
                                                      triggers.MergeOrNever()
@@ -181,11 +181,11 @@
                 {
                     if (this.HasListeners)
                     {
-                        this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset, this.OnPropertyChanged, this.OnCollectionChanged);
+                        this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
                     }
                     else
                     {
-                        this.Tracker.Refresh(this.Filtered(), CachedEventArgs.SingleNotifyCollectionReset);
+                        this.Tracker.Reset(this.Filtered());
                     }
 
                     return;

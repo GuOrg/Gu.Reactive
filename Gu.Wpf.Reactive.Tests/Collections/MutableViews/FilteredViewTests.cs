@@ -12,7 +12,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
 
-    public class FilteredViewTests
+    public partial class FilteredViewTests
     {
         [OneTimeSetUp]
         public void OneTimeSetUp()

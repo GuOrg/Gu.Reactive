@@ -12,44 +12,47 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
 
-    [Apartment(ApartmentState.STA)]
-    public class FilteredViewWpfTests
+    public partial class FilteredViewTests
     {
-        [SetUp]
-        public void SetUp()
+        [Apartment(ApartmentState.STA)]
+        public class Wpf
         {
-            App.Start();
-        }
-
-        [Test]
-        public void TwoViewsNotSame()
-        {
-            var ints = new ObservableCollection<int> { 1, 2, 3 };
-            using (var view1 = ints.AsFilteredView(x => true))
+            [OneTimeSetUp]
+            public void OneTimeSetUp()
             {
-                using (var view2 = ints.AsFilteredView(x => true))
-                {
-                    Assert.AreNotSame(view1, view2);
+                App.Start();
+            }
 
-                    var colView1 = CollectionViewSource.GetDefaultView(view1);
-                    var colView2 = CollectionViewSource.GetDefaultView(view2);
-                    Assert.AreNotSame(colView1, colView2);
+            [Test]
+            public void TwoViewsNotSame()
+            {
+                var ints = new ObservableCollection<int> { 1, 2, 3 };
+                using (var view1 = ints.AsFilteredView(x => true))
+                {
+                    using (var view2 = ints.AsFilteredView(x => true))
+                    {
+                        Assert.AreNotSame(view1, view2);
+
+                        var colView1 = CollectionViewSource.GetDefaultView(view1);
+                        var colView2 = CollectionViewSource.GetDefaultView(view2);
+                        Assert.AreNotSame(colView1, colView2);
+                    }
                 }
             }
-        }
 
-        [Test]
-        public async Task BindItemsSource()
-        {
-            var listBox = new ListBox();
-            var source = new ObservableCollection<int> { 1, 2, 3 };
-            using (var view = new FilteredView<int>(source, x => x == 2, TimeSpan.Zero, WpfSchedulers.Dispatcher, new Subject<object>()))
+            [Test]
+            public async Task BindItemsSource()
             {
-                var binding = new Binding { Source = view, };
-                BindingOperations.SetBinding(listBox, ItemsControl.ItemsSourceProperty, binding);
-                view.Refresh();
-                await Application.Current.Dispatcher.SimulateYield();
-                CollectionAssert.AreEqual(new[] { 2 }, listBox.Items); // Filtered
+                var listBox = new ListBox();
+                var source = new ObservableCollection<int> { 1, 2, 3 };
+                using (var view = new FilteredView<int>(source, x => x == 2, TimeSpan.Zero, WpfSchedulers.Dispatcher, new Subject<object>()))
+                {
+                    var binding = new Binding { Source = view, };
+                    BindingOperations.SetBinding(listBox, ItemsControl.ItemsSourceProperty, binding);
+                    view.Refresh();
+                    await Application.Current.Dispatcher.SimulateYield();
+                    CollectionAssert.AreEqual(new[] { 2 }, listBox.Items); // Filtered
+                }
             }
         }
     }
