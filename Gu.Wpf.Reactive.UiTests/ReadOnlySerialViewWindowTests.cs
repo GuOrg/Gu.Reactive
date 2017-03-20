@@ -48,9 +48,9 @@ namespace Gu.Wpf.Reactive.UiTests
         [SetUp]
         public void SetUp()
         {
-            this.ClearButton.Click(false);
+            this.ClearButton.Click();
             FlaUI.Core.Input.Helpers.WaitUntilInputIsProcessed();
-            this.ClearButton.Click(false);
+            this.ClearButton.Click();
             FlaUI.Core.Input.Helpers.WaitUntilInputIsProcessed();
         }
 
@@ -67,17 +67,17 @@ namespace Gu.Wpf.Reactive.UiTests
         public void UpdateWithOne()
         {
             this.ItemsTextBox.Enter("1");
-            this.UpdateButton.Click(false);
+            this.UpdateButton.Click();
             CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "Add" }, this.ViewChanges.Select(x => x.Text));
+            CollectionAssert.AreEqual(new[] { "Add" }, this.ViewChanges.Select(x => x.Text).ToArray());
         }
 
         [Test]
         public void UpdateWithTwo()
         {
-            this.ItemsTextBox.Enter("1,2");
-            this.UpdateButton.Click(false);
+            this.ItemsTextBox.Enter("1, 2");
+            this.UpdateButton.Click();
             CollectionAssert.AreEqual(new[] { "1", "2" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "2" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "Reset" }, this.ViewChanges.Select(x => x.Text));
@@ -87,18 +87,18 @@ namespace Gu.Wpf.Reactive.UiTests
         public void UpdateWithOneThenClearSourceThenUpdateOne()
         {
             this.ItemsTextBox.Enter("1");
-            this.UpdateButton.Click(false);
+            this.UpdateButton.Click();
             CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "Add" }, this.ViewChanges.Select(x => x.Text));
 
-            this.ClearSourceButton.Click(false);
+            this.ClearSourceButton.Click();
             CollectionAssert.IsEmpty(this.ListBox.RowValues());
             CollectionAssert.IsEmpty(this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "Add", "Remove" }, this.ViewChanges.Select(x => x.Text));
 
             this.ItemsTextBox.Enter("2");
-            this.UpdateButton.Click(false);
+            this.UpdateButton.Click();
             CollectionAssert.AreEqual(new[] { "2" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "2" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "Add", "Remove", "Add" }, this.ViewChanges.Select(x => x.Text));

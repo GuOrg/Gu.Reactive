@@ -62,7 +62,7 @@ namespace Gu.Wpf.Reactive.UiTests
         public void SetUp()
         {
             this.CanExecuteCheckBox.State = ToggleState.Off;
-            this.RaiseCanExecuteButton.Click(false);
+            this.RaiseCanExecuteButton.Click();
             this.ExecutedTextBox.Enter(string.Empty);
         }
 
@@ -72,10 +72,10 @@ namespace Gu.Wpf.Reactive.UiTests
             Assert.AreEqual(false, this.ManualRelayCommandButton.Current.IsEnabled);
             this.CanExecuteCheckBox.State = ToggleState.On;
             Assert.AreEqual(false, this.ManualRelayCommandButton.Current.IsEnabled);
-            this.RaiseCanExecuteButton.Click(false);
+            this.RaiseCanExecuteButton.Click();
             Assert.AreEqual(true, this.ManualRelayCommandButton.Current.IsEnabled);
 
-            this.ManualRelayCommandButton.Click(false);
+            this.ManualRelayCommandButton.Click();
             Assert.AreEqual("ManualRelayCommand", this.ExecutedTextBox.Text);
         }
 
@@ -86,7 +86,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.CanExecuteCheckBox.State = ToggleState.On;
             Assert.AreEqual(true, this.RelayCommandButton.Current.IsEnabled);
 
-            this.RelayCommandButton.Click(false);
+            this.RelayCommandButton.Click();
             Assert.AreEqual("RelayCommand", this.ExecutedTextBox.Text);
         }
 
@@ -97,7 +97,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.CanExecuteCheckBox.State = ToggleState.On;
             Assert.AreEqual(true, this.RelayCommandWithParamaterButton.Current.IsEnabled);
 
-            this.RelayCommandWithParamaterButton.Click(false);
+            this.RelayCommandWithParamaterButton.Click();
             Assert.AreEqual("RelayCommandWithParamater: RelayCommandWithParamater", this.ExecutedTextBox.Text);
         }
 
@@ -107,14 +107,14 @@ namespace Gu.Wpf.Reactive.UiTests
             Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.Current.IsEnabled);
             this.CanExecuteCheckBox.State = ToggleState.On;
             Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.Current.IsEnabled);
-            this.RaiseCanExecuteButton.Click(false);
+            this.RaiseCanExecuteButton.Click();
             Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.Current.IsEnabled);
             this.CanExecuteCheckBox.State = ToggleState.Off;
             Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.Current.IsEnabled);
-            this.RaiseCanExecuteButton.Click(false);
+            this.RaiseCanExecuteButton.Click();
             Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.Current.IsEnabled);
 
-            this.ManualRelayCommandNoConditionButton.Click(false);
+            this.ManualRelayCommandNoConditionButton.Click();
             Assert.AreEqual("ManualRelayCommandNoCondition", this.ExecutedTextBox.Text);
         }
 
@@ -124,14 +124,14 @@ namespace Gu.Wpf.Reactive.UiTests
             Assert.AreEqual(true, this.RelayCommandNoConditionButton.Current.IsEnabled);
             this.CanExecuteCheckBox.State = ToggleState.On;
             Assert.AreEqual(true, this.RelayCommandNoConditionButton.Current.IsEnabled);
-            this.RaiseCanExecuteButton.Click(false);
+            this.RaiseCanExecuteButton.Click();
             Assert.AreEqual(true, this.RelayCommandNoConditionButton.Current.IsEnabled);
             this.CanExecuteCheckBox.State = ToggleState.Off;
             Assert.AreEqual(true, this.RelayCommandNoConditionButton.Current.IsEnabled);
-            this.RaiseCanExecuteButton.Click(false);
+            this.RaiseCanExecuteButton.Click();
             Assert.AreEqual(true, this.RelayCommandNoConditionButton.Current.IsEnabled);
 
-            this.RelayCommandNoConditionButton.Click(false);
+            this.RelayCommandNoConditionButton.Click();
             Assert.AreEqual("RelayCommandNoCondition", this.ExecutedTextBox.Text);
         }
 
@@ -142,7 +142,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.CanExecuteCheckBox.State = ToggleState.On;
             Assert.AreEqual(true, this.ObservingRelayCommandButton.Current.IsEnabled);
 
-            this.ObservingRelayCommandButton.Click(false);
+            this.ObservingRelayCommandButton.Click();
             Assert.AreEqual("ObservingRelayCommand", this.ExecutedTextBox.Text);
         }
 
@@ -153,7 +153,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.CanExecuteCheckBox.State = ToggleState.On;
             Assert.AreEqual(true, this.ObservingRelayCommandWithParameterButton.Current.IsEnabled);
 
-            this.ObservingRelayCommandWithParameterButton.Click(false);
+            this.ObservingRelayCommandWithParameterButton.Click();
             Assert.AreEqual("ObservingRelayCommandWithParameter: ObservingRelayCommandWithParameter", this.ExecutedTextBox.Text);
         }
 
@@ -164,7 +164,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.CanExecuteCheckBox.State = ToggleState.On;
             Assert.AreEqual(true, this.ConditionRelayCommandButton.Current.IsEnabled);
 
-            this.ConditionRelayCommandButton.Click(false);
+            this.ConditionRelayCommandButton.Click();
             Assert.AreEqual("ConditionRelayCommand", this.ExecutedTextBox.Text);
         }
 
@@ -175,7 +175,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.CanExecuteCheckBox.State = ToggleState.On;
             Assert.AreEqual(true, this.ConditionRelayCommandWithParameterButton.Current.IsEnabled);
 
-            this.ConditionRelayCommandWithParameterButton.Click(false);
+            this.ConditionRelayCommandWithParameterButton.Click();
             Assert.AreEqual("ConditionRelayCommandWithParameter: ConditionRelayCommandWithParameter", this.ExecutedTextBox.Text);
         }
     }

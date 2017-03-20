@@ -14,6 +14,8 @@ namespace Gu.Reactive
     public class Chunk<T> : IReadOnlyList<T>, INotifyPropertyChanged
     {
         private readonly List<T> items = new List<T>();
+        private readonly object gate = new object();
+
         private TimeSpan bufferTime;
 
         /// <summary>
@@ -27,11 +29,6 @@ namespace Gu.Reactive
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Lock mutation of this instance
-        /// </summary>
-        public object Gate { get; } = new object();
 
         /// <summary>
         /// The scheduler to throttle changes on.
@@ -68,7 +65,7 @@ namespace Gu.Reactive
         {
             get
             {
-                lock (this.Gate)
+                lock (this.gate)
                 {
                     return this.items[index];
                 }
@@ -78,7 +75,7 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator()
         {
-            lock (this.Gate)
+            lock (this.gate)
             {
                 return this.items.GetEnumerator();
             }
@@ -88,12 +85,12 @@ namespace Gu.Reactive
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)this.items).GetEnumerator();
 
         /// <summary>
-        /// Create a transaction that locks <see cref="Gate"/>
+        /// Create a transaction that locks <see cref="gate"/>
         /// On dispose the inner collection is cleared and the lock is released.
         /// </summary>
         public IDisposable ClearTransaction()
         {
-            return new _ClearTransaction(this);
+            return new ClearTransactionImpl(this);
         }
 
         /// <summary>
@@ -101,7 +98,7 @@ namespace Gu.Reactive
         /// </summary>
         public void ClearItems()
         {
-            lock (this.Gate)
+            lock (this.gate)
             {
                 this.items.Clear();
             }
@@ -113,7 +110,7 @@ namespace Gu.Reactive
         /// </summary>
         public Chunk<T> Add(T item)
         {
-            lock (this.Gate)
+            lock (this.gate)
             {
                 this.items.Add(item);
             }
@@ -121,21 +118,24 @@ namespace Gu.Reactive
             return this;
         }
 
+        /// <summary>
+        /// Notify about <see cref="PropertyChanged"/> for this instance.
+        /// </summary>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private sealed class _ClearTransaction : IDisposable
+        private sealed class ClearTransactionImpl : IDisposable
         {
             private readonly Chunk<T> chunk;
 
             private bool disposed;
 
-            public _ClearTransaction(Chunk<T> chunk)
+            public ClearTransactionImpl(Chunk<T> chunk)
             {
                 this.chunk = chunk;
-                Monitor.Enter(chunk.Gate);
+                Monitor.Enter(chunk.gate);
             }
 
             public void Dispose()
@@ -147,7 +147,7 @@ namespace Gu.Reactive
 
                 this.disposed = true;
                 this.chunk.items.Clear();
-                Monitor.Exit(this.chunk.Gate);
+                Monitor.Exit(this.chunk.gate);
             }
         }
     }

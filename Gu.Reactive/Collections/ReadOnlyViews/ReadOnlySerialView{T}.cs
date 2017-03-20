@@ -13,6 +13,7 @@
     public class ReadOnlySerialView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyObservableCollection<T>
     {
         private readonly IDisposable refreshSubscription;
+        private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
@@ -38,14 +39,23 @@
         public ReadOnlySerialView(IEnumerable<T> source, TimeSpan bufferTime, IScheduler scheduler)
             : base(source, s => s)
         {
-            this.refreshSubscription = this.ObserveValue(x => x.Source, true)
-                                           .Select(x => x.GetValueOrDefault().ObserveCollectionChangedSlimOrDefault(true))
+            this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
+            this.refreshSubscription = this.ObserveValue(x => x.Source)
+                                           .Select(x => x.GetValueOrDefault()
+                                                         .ObserveCollectionChangedSlimOrDefault(true)
+                                                         .Slide(this.chunk))
                                            .Switch()
-                                           .Skip(1)
-                                           .Chunks(bufferTime, scheduler)
                                            .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
-                                           .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
                                            .Subscribe(this.Refresh);
+        }
+
+        /// <inheritdoc/>
+        public override void Refresh()
+        {
+            using (this.chunk.ClearTransaction())
+            {
+                base.Refresh();
+            }
         }
 
         /// <summary>
@@ -66,20 +76,26 @@
         }
 
         /// <inheritdoc/>
-        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
-        {
-            base.Refresh(changes);
-        }
-
-        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
+                this.chunk.ClearItems();
             }
 
             base.Dispose(disposing);
+        }
+
+        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
+        {
+            using (changes.ClearTransaction())
+            {
+                if (changes.Count > 0)
+                {
+                    base.Refresh(changes);
+                }
+            }
         }
     }
 }

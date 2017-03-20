@@ -59,8 +59,8 @@ namespace Gu.Wpf.Reactive.UiTests
         [SetUp]
         public void SetUp()
         {
-            this.AddFourButton.Click(false);
-            this.ClearButton.Click(false);
+            this.AddFourButton.Click();
+            this.ClearButton.Click();
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void AddOne()
         {
-            this.AddOneButton.Click(false);
+            this.AddOneButton.Click();
             CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGridIList.ColumnValues(0));
@@ -90,7 +90,7 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void AddFour()
         {
-            this.AddFourButton.Click(false);
+            this.AddFourButton.Click();
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGridIList.ColumnValues(0));
@@ -101,7 +101,7 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void AddOneOnOtherThread()
         {
-            this.AddOneOnOtherThreadButton.Click(false);
+            this.AddOneOnOtherThreadButton.Click();
             CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGridIList.ColumnValues(0));
@@ -110,13 +110,13 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void EditDataGrid()
         {
-            this.AddFourButton.Click(false);
+            this.AddFourButton.Click();
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGridIList.ColumnValues(0));
 
             var cell = this.DataGrid.Rows[0].Cells[0];
-            cell.Click(false);
+            cell.Click();
             cell.AsTextBox().Text = "5";
             this.ListBox.Focus();
 

@@ -81,9 +81,9 @@
                                                      source.ObserveCollectionChangedSlimOrDefault(false),
                                                      triggers.MergeOrNever()
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
-                                                 .AsSlidingChunk(this.chunk)
+                                                 .Slide(this.chunk)
                                                  .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
-                                                 .StartWith(Chunk.One(CachedEventArgs.NotifyCollectionReset))
+                                                 .StartWith(this.chunk.Add(CachedEventArgs.NotifyCollectionReset))
                                                  .Subscribe(this.Refresh);
         }
 

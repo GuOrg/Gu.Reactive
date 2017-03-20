@@ -59,9 +59,9 @@
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
                                                                          .Where(this.IsSourceChange)
-                                                                         .AsSlidingChunk(this.chunk)
+                                                                         .Slide(this.chunk)
                                                                          .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
-                                                                         .StartWith(Chunk.One(CachedEventArgs.NotifyCollectionReset))
+                                                                         .StartWith(this.chunk.Add(CachedEventArgs.NotifyCollectionReset))
                                                                          .Subscribe(this.Refresh);
         }
 
@@ -110,14 +110,6 @@
             GC.SuppressFinalize(this);
         }
 
-        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
-        {
-            using (changes.ClearTransaction())
-            {
-                base.Refresh(changes);
-            }
-        }
-
         /// <summary>
         /// Protected implementation of Dispose pattern.
         /// </summary>
@@ -145,6 +137,14 @@
             if (this.disposed)
             {
                 throw new ObjectDisposedException(this.GetType().FullName);
+            }
+        }
+
+        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
+        {
+            using (changes.ClearTransaction())
+            {
+                base.Refresh(changes);
             }
         }
     }

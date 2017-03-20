@@ -91,7 +91,8 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         public void ManyAddsOneResetThrottledExplicitRefresh()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
-            using (var view = source.AsThrottledView(TimeSpan.FromMilliseconds(100)))
+            var scheduler = new TestScheduler();
+            using (var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(100), scheduler))
             {
                 using (var actual = view.SubscribeAll())
                 {
@@ -235,6 +236,5 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                 }
             }
         }
-
     }
 }

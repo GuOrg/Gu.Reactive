@@ -67,9 +67,9 @@
                                                          .Select(_ => CachedEventArgs.NotifyCollectionReset),
                                                      triggers.MergeOrNever()
                                                              .Select(_ => CachedEventArgs.NotifyCollectionReset))
-                                                 .AsSlidingChunk(this.chunk)
+                                                 .Slide(this.chunk)
                                                  .ObserveOn(scheduler)
-                                                 .StartWith(Chunk.One(CachedEventArgs.NotifyCollectionReset))
+                                                 .StartWith(this.chunk.Add(CachedEventArgs.NotifyCollectionReset))
                                                  .Subscribe(this.Refresh);
         }
 
@@ -175,29 +175,6 @@
             return source.Where(filter);
         }
 
-        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
-        {
-            using (changes.ClearTransaction())
-            {
-                foreach (var e in changes)
-                {
-                    if (!Gu.Reactive.Filtered.AffectsFilteredOnly(e, this.filter))
-                    {
-                        if (this.HasListeners)
-                        {
-                            this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
-                        }
-                        else
-                        {
-                            this.Tracker.Reset(this.Filtered());
-                        }
-
-                        return;
-                    }
-                }
-            }
-        }
-
         /// <summary>
         /// Get the filtered items from Source
         /// </summary>
@@ -233,6 +210,29 @@
             if (this.disposed)
             {
                 throw new ObjectDisposedException(this.GetType().FullName);
+            }
+        }
+
+        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
+        {
+            using (changes.ClearTransaction())
+            {
+                foreach (var e in changes)
+                {
+                    if (!Gu.Reactive.Filtered.AffectsFilteredOnly(e, this.filter))
+                    {
+                        if (this.HasListeners)
+                        {
+                            this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
+                        }
+                        else
+                        {
+                            this.Tracker.Reset(this.Filtered());
+                        }
+
+                        return;
+                    }
+                }
             }
         }
     }

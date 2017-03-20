@@ -40,9 +40,9 @@
                                                      source.ObserveCollectionChangedSlimOrDefault(false),
                                                      triggers.MergeOrNever()
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
-                                                 .AsSlidingChunk(this.chunk)
+                                                 .Slide(this.chunk)
                                                  .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
-                                                 .StartWith(Chunk.One(CachedEventArgs.NotifyCollectionReset))
+                                                 .StartWith(this.chunk.Add(CachedEventArgs.NotifyCollectionReset))
                                                  .Subscribe(this.Refresh);
         }
 
@@ -56,6 +56,91 @@
                     base.Refresh();
                 }
             }
+        }
+
+        /// <summary>
+        /// Delegates creation to mapping factory.
+        /// </summary>
+        protected virtual TResult GetOrCreate(TSource key, int index) => this.factory.GetOrCreate(key, index);
+
+        /// <summary>
+        /// Delegates updating of item at index to mapping factory.
+        /// </summary>
+        /// <param name="index">The index to update the item for.</param>
+        /// <param name="createEventArgOnUpdate">If a <see cref="NotifyCollectionChangedEventArgs"/> for the update should be created.</param>
+        /// <returns>
+        /// The <see cref="NotifyCollectionChangedEventArgs"/> update causes or null.
+        /// If the updated instance is the same reference null is returned.
+        /// </returns>
+        protected virtual NotifyCollectionChangedEventArgs UpdateAt(int index, bool createEventArgOnUpdate)
+        {
+            if (!this.factory.CanUpdateIndex)
+            {
+                return null;
+            }
+
+            var old = this.Tracker[index];
+            var updated = this.factory.Update(this.Source.ElementAt(index), old, index);
+            if (ReferenceEquals(updated, old))
+            {
+                return null;
+            }
+
+            this.Tracker[index] = updated;
+            return createEventArgOnUpdate
+                ? Diff.CreateReplaceEventArgs(updated, old, index)
+                : null;
+        }
+
+        /// <summary>
+        /// Delegates updating of items at and above index to mapping factory.
+        /// This happens after an item is inserted, removed or moved.
+        /// </summary>
+        /// <param name="from">The index to start update of the item for.</param>
+        /// <param name="to">The index to end update of the item for.</param>
+        /// <returns>The collection changed args the update causes.</returns>
+        protected virtual List<NotifyCollectionChangedEventArgs> UpdateRange(int from, int to)
+        {
+            if (!this.factory.CanUpdateIndex)
+            {
+                return new List<NotifyCollectionChangedEventArgs>();
+            }
+
+            var changes = new List<NotifyCollectionChangedEventArgs>();
+            for (var i = from; i < Math.Min(this.Count, to + 1); i++)
+            {
+                var change = this.UpdateAt(i, changes.Count < 2);
+                if (change != null)
+                {
+                    changes.Add(change);
+                }
+            }
+
+            return changes;
+        }
+
+        /// <summary>
+        /// Disposes of a <see cref="MappingView{TSource,TResult}"/>.
+        /// </summary>
+        /// <remarks>
+        /// Called from Dispose() with disposing=true.
+        /// Guidelines:
+        /// 1. We may be called more than once: do nothing after the first call.
+        /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.
+        /// </remarks>
+        /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.refreshSubscription.Dispose();
+                this.chunk.ClearItems();
+#pragma warning disable GU0036 // Don't dispose injected.
+                this.factory.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
+            }
+
+            base.Dispose(disposing);
         }
 
         private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
@@ -149,91 +234,6 @@
                         throw new ArgumentOutOfRangeException();
                 }
             }
-        }
-
-        /// <summary>
-        /// Delegates creation to mapping factory.
-        /// </summary>
-        protected virtual TResult GetOrCreate(TSource key, int index) => this.factory.GetOrCreate(key, index);
-
-        /// <summary>
-        /// Delegates updating of item at index to mapping factory.
-        /// </summary>
-        /// <param name="index">The index to update the item for.</param>
-        /// <param name="createEventArgOnUpdate">If a <see cref="NotifyCollectionChangedEventArgs"/> for the update should be created.</param>
-        /// <returns>
-        /// The <see cref="NotifyCollectionChangedEventArgs"/> update causes or null.
-        /// If the updated instance is the same reference null is returned.
-        /// </returns>
-        protected virtual NotifyCollectionChangedEventArgs UpdateAt(int index, bool createEventArgOnUpdate)
-        {
-            if (!this.factory.CanUpdateIndex)
-            {
-                return null;
-            }
-
-            var old = this.Tracker[index];
-            var updated = this.factory.Update(this.Source.ElementAt(index), old, index);
-            if (ReferenceEquals(updated, old))
-            {
-                return null;
-            }
-
-            this.Tracker[index] = updated;
-            return createEventArgOnUpdate
-                ? Diff.CreateReplaceEventArgs(updated, old, index)
-                : null;
-        }
-
-        /// <summary>
-        /// Delegates updating of items at and above index to mapping factory.
-        /// This happens after an item is inserted, removed or moved.
-        /// </summary>
-        /// <param name="from">The index to start update of the item for.</param>
-        /// <param name="to">The index to end update of the item for.</param>
-        /// <returns>The collection changed args the update causes.</returns>
-        protected virtual List<NotifyCollectionChangedEventArgs> UpdateRange(int from, int to)
-        {
-            if (!this.factory.CanUpdateIndex)
-            {
-                return new List<NotifyCollectionChangedEventArgs>();
-            }
-
-            var changes = new List<NotifyCollectionChangedEventArgs>();
-            for (var i = from; i < Math.Min(this.Count, to + 1); i++)
-            {
-                var change = this.UpdateAt(i, changes.Count < 2);
-                if (change != null)
-                {
-                    changes.Add(change);
-                }
-            }
-
-            return changes;
-        }
-
-        /// <summary>
-        /// Disposes of a <see cref="MappingView{TSource,TResult}"/>.
-        /// </summary>
-        /// <remarks>
-        /// Called from Dispose() with disposing=true.
-        /// Guidelines:
-        /// 1. We may be called more than once: do nothing after the first call.
-        /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.
-        /// </remarks>
-        /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.refreshSubscription.Dispose();
-                this.chunk.ClearItems();
-#pragma warning disable GU0036 // Don't dispose injected.
-                this.factory.Dispose();
-#pragma warning restore GU0036 // Don't dispose injected.
-            }
-
-            base.Dispose(disposing);
         }
     }
 }

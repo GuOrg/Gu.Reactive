@@ -57,9 +57,9 @@
             this.BufferTime = bufferTime;
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
-                                                                         .AsSlidingChunk(chunk)
+                                                                         .Slide(this.chunk)
                                                                          .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
-                                                                         .StartWith(Chunk.One(CachedEventArgs.NotifyCollectionReset))
+                                                                         .StartWith(this.chunk.Add(CachedEventArgs.NotifyCollectionReset))
                                                                          .Subscribe(this.Refresh);
         }
 

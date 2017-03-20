@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.Collections
+﻿// ReSharper disable RedundantArgumentDefaultValue
+namespace Gu.Reactive.Tests.Collections
 {
     using System;
     using System.Collections.Generic;
@@ -30,22 +31,58 @@
         }
 
         [Test]
+        public void SetSourceNoChange()
+        {
+            using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
+            {
+                using (var actual = view.SubscribeAll())
+                {
+                    view.SetSource(new[] { 1, 2, 3 });
+                    CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+                    var expected = new[] { CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source") };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    view.SetSource(new ObservableCollection<int> { 1, 2, 3 });
+                    CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+                    expected = new[]
+                    {
+                        CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source"),
+                        CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                    };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
         public void SetSourceReset()
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
                 using (var actual = view.SubscribeAll())
                 {
-                    var newSource = new[] { 4, 5 };
-                    view.SetSource(newSource);
-                    CollectionAssert.AreEqual(newSource, view);
-                    var expected = new EventArgs[]
+                    var newSource1 = new[] { 4, 5 };
+                    view.SetSource(newSource1);
+                    CollectionAssert.AreEqual(newSource1, view);
+                    var expected = new List<EventArgs>
                                        {
                                            CachedEventArgs.CountPropertyChanged,
                                            CachedEventArgs.IndexerPropertyChanged,
                                            CachedEventArgs.NotifyCollectionReset,
                                            CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
                                        };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    var newSource2 = new ObservableCollection<int> { 6, 7 };
+                    view.SetSource(newSource2);
+                    CollectionAssert.AreEqual(newSource2, view);
+                    expected.AddRange(new EventArgs[]
+                    {
+                        CachedEventArgs.CountPropertyChanged,
+                        CachedEventArgs.IndexerPropertyChanged,
+                        CachedEventArgs.NotifyCollectionReset,
+                        CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source")
+                    });
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
@@ -58,9 +95,9 @@
             {
                 using (var actual = view.SubscribeAll())
                 {
-                    var newSource = new[] { 1, 2, 3, 4 };
-                    view.SetSource(newSource);
-                    CollectionAssert.AreEqual(newSource, view);
+                    var newSource1 = new[] { 1, 2, 3, 4 };
+                    view.SetSource(newSource1);
+                    CollectionAssert.AreEqual(newSource1, view);
                     var expected = new List<EventArgs>
                                        {
                                            CachedEventArgs.CountPropertyChanged,
@@ -70,9 +107,9 @@
                                        };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
-                    newSource = new[] { 1, 2, 3, 4, 5 };
-                    view.SetSource(newSource);
-                    CollectionAssert.AreEqual(newSource, view);
+                    var newSource2 = new ObservableCollection<int> { 1, 2, 3, 4, 5 };
+                    view.SetSource(newSource2);
+                    CollectionAssert.AreEqual(newSource2, view);
                     expected.AddRange(
                         new EventArgs[]
                             {
