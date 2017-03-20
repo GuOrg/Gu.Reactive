@@ -16,7 +16,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
         [SetUp]
         public override void SetUp()
         {
-            App.Start();
+            this.Scheduler = new TestDispatcherScheduler();
             base.SetUp();
 #pragma warning disable GU0036 // Don't dispose injected.
             (this.View as IDisposable)?.Dispose();

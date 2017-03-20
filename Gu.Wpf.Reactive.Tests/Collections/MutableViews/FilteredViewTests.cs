@@ -14,8 +14,8 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
 
     public class FilteredViewTests
     {
-        [SetUp]
-        public void SetUp()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             App.Start();
         }

@@ -68,13 +68,13 @@
                                                              .Select(_ => CachedEventArgs.NotifyCollectionReset))
                                                  .Publish(
                                                      shared =>
-                                                         this.ObserveValue(x => x.BufferTime)
+                                                         this.ObserveValue(x => x.BufferTime, true)
                                                              .Select(bt => shared.Chunks(bt.Value, scheduler))
                                                              .Switch())
                                                  .ObserveOn(scheduler)
                                                  .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
                                                  .Subscribe(this.Refresh);
-       }
+        }
 
         /// <summary>
         /// The predicate to filter by.

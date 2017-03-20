@@ -21,8 +21,8 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     [Apartment(ApartmentState.STA)]
     public class ThrottledViewTests
     {
-        [SetUp]
-        public void SetUp()
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
         {
             App.Start();
         }

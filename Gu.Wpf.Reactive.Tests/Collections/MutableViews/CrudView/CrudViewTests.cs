@@ -4,17 +4,17 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
     using System.Collections;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Reactive.Concurrency;
 
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
-    using Microsoft.Reactive.Testing;
 
     using NUnit.Framework;
 
     public abstract class CrudViewTests
     {
-        protected TestScheduler Scheduler { get; set; }
+        protected VirtualTimeSchedulerBase<long, long> Scheduler { get; set; }
 
         protected IObservableCollection<int> View { get; set; }
 

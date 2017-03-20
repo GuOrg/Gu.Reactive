@@ -30,7 +30,6 @@
 
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
-            this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
             this.ClearCommand = new RelayCommand(this.Clear, () => true);
             this.TriggerCommand = new RelayCommand(() => this.trigger.OnNext(null), () => true);
             this.TriggerOnOtherThreadCommand = new RelayCommand(
@@ -56,8 +55,6 @@
         public ICommand AddOneCommand { get; }
 
         public ICommand AddTenCommand { get; }
-
-        public ICommand AddOneOnOtherThreadCommand { get; }
 
         public RelayCommand ClearCommand { get; }
 
