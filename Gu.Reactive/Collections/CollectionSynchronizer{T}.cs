@@ -27,20 +27,6 @@
         }
 
         /// <summary>
-        /// Returns the index of the last occurrence of a given value in a range of
-        /// this list. The list is searched backwards, starting at the end
-        /// and ending at the first element in the list. The elements of the list
-        /// are compared to the given value using the Object.Equals method.
-        ///
-        /// This method uses the Array.LastIndexOf method to perform the
-        /// search.
-        /// </summary>
-        public int LastIndexOf(T value)
-        {
-            return ((List<T>)this.Items).LastIndexOf(value);
-        }
-
-        /// <summary>
         /// Set this to <paramref name="updated"/> and notify about changes.
         /// </summary>
         /// <param name="updated">The updated collection.</param>
