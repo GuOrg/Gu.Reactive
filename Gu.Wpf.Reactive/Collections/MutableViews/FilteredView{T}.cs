@@ -125,7 +125,7 @@
         public override void Refresh()
         {
             this.ThrowIfDisposed();
-            lock (this.chunk.Gate)
+            using (this.chunk.ClearTransaction())
             {
                 lock (this.SyncRoot())
                 {
@@ -139,8 +139,6 @@
                         this.Tracker.Reset(this.Filtered());
                     }
                 }
-
-                this.chunk.Clear();
             }
         }
 
@@ -179,7 +177,7 @@
 
         private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
         {
-            lock (changes.Gate)
+            using (changes.ClearTransaction())
             {
                 foreach (var e in changes)
                 {
@@ -194,12 +192,9 @@
                             this.Tracker.Reset(this.Filtered());
                         }
 
-                        changes.Clear();
                         return;
                     }
                 }
-
-                changes.Clear();
             }
         }
 
@@ -226,10 +221,7 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
-                lock (this.chunk.Gate)
-                {
-                    this.chunk.Clear();
-                }
+                this.chunk.ClearItems();
             }
         }
 

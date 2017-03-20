@@ -91,10 +91,9 @@
         public override void Refresh()
         {
             this.ThrowIfDisposed();
-            lock (this.chunk.Gate)
+            using (this.chunk.ClearTransaction())
             {
                 base.Refresh();
-                this.chunk.Clear();
             }
         }
 
@@ -113,10 +112,9 @@
 
         private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
         {
-            lock (changes.Gate)
+            using (changes.ClearTransaction())
             {
                 base.Refresh(changes);
-                changes.Clear();
             }
         }
 
@@ -135,10 +133,7 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
-                lock (this.chunk.Gate)
-                {
-                    this.chunk.Clear();
-                }
+                this.chunk.ClearItems();
             }
         }
 

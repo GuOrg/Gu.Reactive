@@ -6,6 +6,7 @@ namespace Gu.Reactive
     using System.ComponentModel;
     using System.Reactive.Concurrency;
     using System.Runtime.CompilerServices;
+    using System.Threading;
 
     /// <summary>
     /// A batch of changes.
@@ -87,9 +88,18 @@ namespace Gu.Reactive
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)this.items).GetEnumerator();
 
         /// <summary>
+        /// Create a transaction that locks <see cref="Gate"/>
+        /// On dispose the inner collection is cleared and the lock is released.
+        /// </summary>
+        public IDisposable ClearTransaction()
+        {
+            return new _ClearTransaction(this);
+        }
+
+        /// <summary>
         /// Clear the inner collection.
         /// </summary>
-        public void Clear()
+        public void ClearItems()
         {
             lock (this.Gate)
             {
@@ -114,6 +124,31 @@ namespace Gu.Reactive
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private sealed class _ClearTransaction : IDisposable
+        {
+            private readonly Chunk<T> chunk;
+
+            private bool disposed;
+
+            public _ClearTransaction(Chunk<T> chunk)
+            {
+                this.chunk = chunk;
+                Monitor.Enter(chunk.Gate);
+            }
+
+            public void Dispose()
+            {
+                if (this.disposed)
+                {
+                    return;
+                }
+
+                this.disposed = true;
+                this.chunk.items.Clear();
+                Monitor.Exit(this.chunk.Gate);
+            }
         }
     }
 }

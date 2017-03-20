@@ -71,10 +71,9 @@
         /// <inheritdoc/>
         public override void Refresh()
         {
-            lock (this.chunk.Gate)
+            using (this.chunk.ClearTransaction())
             {
                 base.Refresh();
-                this.chunk.Clear();
             }
         }
 
@@ -93,10 +92,7 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
-                lock (this.chunk.Gate)
-                {
-                    this.chunk.Clear();
-                }
+                this.chunk.ClearItems();
             }
 
             base.Dispose(disposing);
@@ -104,10 +100,9 @@
 
         private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
         {
-            lock (changes.Gate)
+            using (changes.ClearTransaction())
             {
                 base.Refresh(changes);
-                changes.Clear();
             }
         }
     }

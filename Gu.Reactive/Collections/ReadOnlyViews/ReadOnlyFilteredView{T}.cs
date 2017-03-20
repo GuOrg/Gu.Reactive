@@ -83,7 +83,7 @@
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
                                                  .AsSlidingChunk(this.chunk)
                                                  .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
-                                                 .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
+                                                 .StartWith(Chunk.One(CachedEventArgs.NotifyCollectionReset))
                                                  .Subscribe(this.Refresh);
         }
 
@@ -96,38 +96,10 @@
         /// <inheritdoc/>
         public override void Refresh()
         {
-            lock (this.chunk.Gate)
+            using (this.chunk.ClearTransaction())
             {
                 base.Refresh();
-                this.chunk.Clear();
             }
-        }
-
-        /// <inheritdoc/>
-        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
-        {
-            if (changes == null || changes.Count == 0)
-            {
-                return;
-            }
-
-            lock (this.chunk.Gate)
-            {
-                foreach (var change in changes)
-                {
-                    if (Filtered.AffectsFilteredOnly(change, this.Filter))
-                    {
-                        continue;
-                    }
-
-                    base.Refresh(CachedEventArgs.SingleNotifyCollectionReset);
-                    this.chunk.Clear();
-                    return;
-                }
-
-                this.chunk.Clear();
-            }
-
         }
 
         /// <inheritdoc/>
@@ -142,13 +114,32 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
-                lock (this.chunk.Gate)
-                {
-                    this.chunk.Clear();
-                }
+                this.chunk.ClearItems();
             }
 
             base.Dispose(disposing);
+        }
+
+        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
+        {
+            if (changes == null || changes.Count == 0)
+            {
+                return;
+            }
+
+            using (changes.ClearTransaction())
+            {
+                foreach (var change in changes)
+                {
+                    if (Filtered.AffectsFilteredOnly(change, this.Filter))
+                    {
+                        continue;
+                    }
+
+                    base.Refresh(CachedEventArgs.SingleNotifyCollectionReset);
+                    return;
+                }
+            }
         }
     }
 }

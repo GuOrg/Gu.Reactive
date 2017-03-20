@@ -49,14 +49,12 @@
         /// <inheritdoc/>
         public override void Refresh()
         {
-            lock (this.chunk.Gate)
+            using (this.chunk.ClearTransaction())
             {
                 using (this.factory.RefreshTransaction())
                 {
                     base.Refresh();
                 }
-
-                this.chunk.Clear();
             }
         }
 
@@ -67,12 +65,11 @@
                 return;
             }
 
-            lock (changes.Gate)
+            using (changes.ClearTransaction())
             {
                 if (changes.Count > 1)
                 {
                     this.Refresh(changes);
-                    changes.Clear();
                     return;
                 }
 
@@ -151,8 +148,6 @@
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-
-                changes.Clear();
             }
         }
 
@@ -232,10 +227,7 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
-                lock (this.chunk.Gate)
-                {
-                    this.chunk.Clear();
-                }
+                this.chunk.ClearItems();
 #pragma warning disable GU0036 // Don't dispose injected.
                 this.factory.Dispose();
 #pragma warning restore GU0036 // Don't dispose injected.
