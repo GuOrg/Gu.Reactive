@@ -137,7 +137,7 @@
                 using (var trigger = new Subject<object>())
                 {
                     // ReSharper disable once AccessToModifiedClosure
-                    using (var view = new FilteredView<int>(source, x => x < max, TimeSpan.FromMilliseconds(10), scheduler, trigger))
+                    using (var view = new FilteredView<int>(source, x => x < max, TimeSpan.Zero, scheduler, trigger))
                     {
                         using (var actual = view.SubscribeAll())
                         {
@@ -147,7 +147,6 @@
                             max = 2;
                             trigger.OnNext(null);
                             scheduler.Start();
-
                             var expected = new List<EventArgs>
                                                {
                                                    CachedEventArgs.CountPropertyChanged,

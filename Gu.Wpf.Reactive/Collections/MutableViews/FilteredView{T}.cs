@@ -9,6 +9,7 @@
     using System.Reactive.Linq;
 
     using Gu.Reactive;
+    using Gu.Reactive.Internals;
 
     /// <summary>
     /// Typed filtered CollectionView for intellisense in xaml
@@ -16,10 +17,10 @@
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
         private readonly IDisposable refreshSubscription;
+        private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;
 
         private Func<T, bool> filter;
         private bool disposed;
-        private TimeSpan bufferTime;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FilteredView{T}"/> class.
@@ -56,23 +57,20 @@
         internal FilteredView(IList<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
             : base(source, Filtered(source, filter), true)
         {
-            this.bufferTime = bufferTime;
+            this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler);
             this.filter = filter;
 
             this.refreshSubscription = Observable.Merge(
-                                                     ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
+                                                     ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(
+                                                                                           false)
                                                                                        .Where(this.IsSourceChange),
                                                      this.ObservePropertyChangedSlim(x => x.Filter, false)
                                                          .Select(_ => CachedEventArgs.NotifyCollectionReset),
                                                      triggers.MergeOrNever()
                                                              .Select(_ => CachedEventArgs.NotifyCollectionReset))
-                                                 .Publish(
-                                                     shared =>
-                                                         this.ObserveValue(x => x.BufferTime, true)
-                                                             .Select(bt => shared.Chunks(bt.Value, scheduler))
-                                                             .Switch())
+                                                 .AsSlidingChunk(this.chunk)
                                                  .ObserveOn(scheduler)
-                                                 .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
+                                                 .StartWith(Chunk.One(CachedEventArgs.NotifyCollectionReset))
                                                  .Subscribe(this.Refresh);
         }
 
@@ -108,18 +106,18 @@
             get
             {
                 this.ThrowIfDisposed();
-                return this.bufferTime;
+                return this.chunk.BufferTime;
             }
 
             set
             {
                 this.ThrowIfDisposed();
-                if (value.Equals(this.bufferTime))
+                if (value.Equals(this.chunk.BufferTime))
                 {
                     return;
                 }
 
-                this.bufferTime = value;
+                this.chunk.BufferTime = value;
                 this.OnPropertyChanged();
             }
         }
@@ -128,14 +126,22 @@
         public override void Refresh()
         {
             this.ThrowIfDisposed();
-            (this.Source as IRefreshAble)?.Refresh();
-            if (this.HasListeners)
+            lock (this.chunk.Gate)
             {
-                this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
-            }
-            else
-            {
-                this.Tracker.Reset(this.Filtered());
+                lock (this.SyncRoot())
+                {
+                    (this.Source as IRefreshAble)?.Refresh();
+                    if (this.HasListeners)
+                    {
+                        this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
+                    }
+                    else
+                    {
+                        this.Tracker.Reset(this.Filtered());
+                    }
+                }
+
+                this.chunk.Clear();
             }
         }
 
@@ -172,24 +178,29 @@
             return source.Where(filter);
         }
 
-        /// <inheritdoc/>
-        protected override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
         {
-            foreach (var e in changes)
+            lock (changes.Gate)
             {
-                if (!Gu.Reactive.Filtered.AffectsFilteredOnly(e, this.filter))
+                foreach (var e in changes)
                 {
-                    if (this.HasListeners)
+                    if (!Gu.Reactive.Filtered.AffectsFilteredOnly(e, this.filter))
                     {
-                        this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
-                    }
-                    else
-                    {
-                        this.Tracker.Reset(this.Filtered());
-                    }
+                        if (this.HasListeners)
+                        {
+                            this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
+                        }
+                        else
+                        {
+                            this.Tracker.Reset(this.Filtered());
+                        }
 
-                    return;
+                        changes.Clear();
+                        return;
+                    }
                 }
+
+                changes.Clear();
             }
         }
 
@@ -216,6 +227,10 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
+                lock (this.chunk.Gate)
+                {
+                    this.chunk.Clear();
+                }
             }
         }
 

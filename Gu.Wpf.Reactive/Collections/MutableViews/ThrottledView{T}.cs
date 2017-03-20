@@ -15,7 +15,8 @@
     public class ThrottledView<T> : SynchronizedEditableView<T>, IThrottledView<T>, IReadOnlyThrottledView<T>
     {
         private readonly IDisposable refreshSubscription;
-        private TimeSpan bufferTime;
+        private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;
+
         private bool disposed;
 
         /// <summary>
@@ -55,16 +56,12 @@
         private ThrottledView(IList<T> source, TimeSpan bufferTime, IScheduler scheduler)
             : base(source, true)
         {
-            this.bufferTime = bufferTime;
+            this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
                                                                          .Where(this.IsSourceChange)
-                                                                         .Publish(
-                                                                             shared =>
-                                                                                 this.ObservePropertyChangedSlim(nameof(this.BufferTime))
-                                                                                     .Select(_ => shared.Chunks(bufferTime, scheduler)
-                                                                                                        .ObserveOn(scheduler ?? ImmediateScheduler.Instance))
-                                                                                     .Switch())
-                                                                         .StartWith(CachedEventArgs.SingleNotifyCollectionReset)
+                                                                         .AsSlidingChunk(this.chunk)
+                                                                         .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
+                                                                         .StartWith(Chunk.One(CachedEventArgs.NotifyCollectionReset))
                                                                          .Subscribe(this.Refresh);
         }
 
@@ -75,17 +72,17 @@
         {
             get
             {
-                return this.bufferTime;
+                return this.chunk.BufferTime;
             }
 
             set
             {
-                if (value == this.bufferTime)
+                if (value == this.chunk.BufferTime)
                 {
                     return;
                 }
 
-                this.bufferTime = value;
+                this.chunk.BufferTime = value;
                 this.OnPropertyChanged();
             }
         }
@@ -94,7 +91,11 @@
         public override void Refresh()
         {
             this.ThrowIfDisposed();
-            base.Refresh();
+            lock (this.chunk.Gate)
+            {
+                base.Refresh();
+                this.chunk.Clear();
+            }
         }
 
         /// <inheritdoc/>
@@ -110,10 +111,13 @@
             GC.SuppressFinalize(this);
         }
 
-        /// <inheritdoc/>
-        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
         {
-            base.Refresh(changes);
+            lock (changes.Gate)
+            {
+                base.Refresh(changes);
+                changes.Clear();
+            }
         }
 
         /// <summary>
@@ -131,6 +135,10 @@
             if (disposing)
             {
                 this.refreshSubscription.Dispose();
+                lock (this.chunk.Gate)
+                {
+                    this.chunk.Clear();
+                }
             }
         }
 

@@ -132,6 +132,11 @@
         /// </summary>
         protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
+            if (changes.Count == 0)
+            {
+                return;
+            }
+
             if (this.HasListeners)
             {
                 this.Tracker.Refresh(this.Source, changes, this.OnPropertyChanged, this.OnCollectionChanged);

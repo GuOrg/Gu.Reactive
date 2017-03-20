@@ -38,6 +38,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chunk.cs" />
+    <Compile Include="Chunk{T}.cs" />
     <Compile Include="Collections\ReadOnlyViews\Filtered.cs" />
     <Compile Include="Collections\ReadOnlyViews\MappingView{TSource,TResult}.generated.cs">
       <AutoGen>True</AutoGen>

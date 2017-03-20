@@ -151,7 +151,7 @@ namespace Gu.Reactive
         public virtual void Refresh()
         {
             this.ThrowIfDisposed();
-            lock (this.source.SyncRootOrDefault(this.SyncRoot()))
+            lock (this.SyncRoot())
             {
                 (this.Source as IRefreshAble)?.Refresh();
                 if (this.HasListeners)

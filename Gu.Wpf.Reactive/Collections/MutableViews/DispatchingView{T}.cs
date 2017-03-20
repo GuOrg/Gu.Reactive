@@ -19,8 +19,9 @@
         /// This uses buffer time <see cref="TimeSpan.Zero"/> and <see cref="WpfSchedulers.Dispatcher"/>
         /// </summary>
         /// <param name="source">The source collection.</param>
-        public DispatchingView(ObservableCollection<T> source)
-            : base(source, TimeSpan.Zero)
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
+        public DispatchingView(ObservableCollection<T> source, TimeSpan bufferTime)
+            : base(source, bufferTime)
         {
         }
 
@@ -29,8 +30,9 @@
         /// This uses buffer time <see cref="TimeSpan.Zero"/> and <see cref="WpfSchedulers.Dispatcher"/>
         /// </summary>
         /// <param name="source">The source collection.</param>
-        public DispatchingView(IObservableCollection<T> source)
-            : base(source, TimeSpan.Zero)
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
+        public DispatchingView(IObservableCollection<T> source, TimeSpan bufferTime)
+            : base(source, bufferTime)
         {
         }
     }
