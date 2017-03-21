@@ -19,6 +19,7 @@ namespace Gu.Reactive
         private static readonly IReadOnlyList<TSource> EmptySource = new TSource[0];
 
         private readonly Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper;
+        private readonly bool leaveOpen;
         private readonly CollectionSynchronizer<TMapped> tracker;
 
         private bool disposed;
@@ -27,10 +28,15 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{TSourceItem, TITem}"/> class.
         /// </summary>
-        protected ReadonlySerialViewBase(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper, bool starteEmpty = false)
+        /// <param name="source">The source collection.</param>
+        /// <param name="mapper">The mapping function.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="starteEmpty">True means that ther tracker is empty after the constructor.</param>
+        protected ReadonlySerialViewBase(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper, bool leaveOpen, bool starteEmpty = false)
         {
             Ensure.NotNull(mapper, nameof(mapper));
             this.mapper = mapper;
+            this.leaveOpen = leaveOpen;
             this.source = source ?? EmptySource;
             this.tracker = new CollectionSynchronizer<TMapped>(starteEmpty ? mapper(EmptySource) : mapper(source));
         }
@@ -196,7 +202,16 @@ namespace Gu.Reactive
             this.disposed = true;
             if (disposing)
             {
-                this.Source = EmptySource;
+                lock (this.source.SyncRootOrDefault(this.SyncRoot()))
+                {
+                    if (!this.leaveOpen)
+                    {
+                        (this.source as IDisposable)?.Dispose();
+                    }
+
+                    this.source = EmptySource;
+                }
+
                 this.tracker.Clear();
             }
         }

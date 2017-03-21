@@ -21,10 +21,11 @@ namespace Gu.Reactive
         {
             var path = NotifyingPath.GetOrCreate(selector);
             this.source = new MappingView<TItem, ValueTracker>(
-                source,
-                Mapper.Create<TItem, ValueTracker>(x => new ValueTracker(this, x, path), x => x.Dispose()),
-                TimeSpan.Zero,
-                null);
+                source: source,
+                factory: Mapper.Create<TItem, ValueTracker>(x => new ValueTracker(this, x, path), x => x.Dispose()),
+                bufferTime: TimeSpan.Zero,
+                scheduler: null,
+                leaveOpen: true);
             this.subscription = source.ObserveCollectionChangedSlim(false)
                                       .Subscribe(this.OnSourceChanged);
         }

@@ -15,7 +15,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.FilterTests
 #pragma warning disable GU0036 // Don't dispose injected.
             this.View?.Dispose();
 #pragma warning restore GU0036 // Don't dispose injected.
-            this.View = new FilteredView<int>(this.Source, x => true, TimeSpan.Zero, this.Scheduler);
+            this.View = new FilteredView<int>(this.Source, x => true, TimeSpan.Zero, this.Scheduler, true);
         }
     }
 }

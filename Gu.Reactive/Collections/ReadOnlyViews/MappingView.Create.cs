@@ -1,28 +1,17 @@
-﻿<#@ template debug="false" hostspecific="false" language="C#" #>
-<#@ assembly name="System.Core" #>
-<#@ output extension=".generated.cs" #>
+﻿// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Reactive
 {
     using System;
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
     using System.Reactive.Concurrency;
+
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Factory methods for creating <see cref="MappingView{TSource, TResult}"/>
+    /// Factory methods for creating <see cref="MappingView{TSource,TResult}"/>
     /// </summary>
     public static partial class MappingView
     {
-<#
-    var typeNames = new[] {"ObservableCollection", "ReadOnlyObservableCollection", "IReadOnlyObservableCollection"};
-    for(int i = 0; i < typeNames.Length; i++)
-    {
-        var typeName = typeNames[i];
-        if(i > 0)
-        {#>
-
-<#      }    
-#>
         /// <summary>
         /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
         /// </summary>
@@ -32,14 +21,14 @@ namespace Gu.Reactive
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this <#= typeName #><TSource> source,
+        public static MappingView<TSource, TResult> Create<TSource, TResult>(
+            this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, selector, null, false, triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector), TimeSpan.Zero, scheduler: null, leaveOpen: true, triggers: triggers);
         }
 
         /// <summary>
@@ -52,15 +41,15 @@ namespace Gu.Reactive
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this <#= typeName #><TSource> source,
+        public static MappingView<TSource, TResult> Create<TSource, TResult>(
+            this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
             bool leaveOpen,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, selector, null, leaveOpen, triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector), TimeSpan.Zero, scheduler: null, leaveOpen: leaveOpen, triggers: triggers);
         }
 
         /// <summary>
@@ -74,16 +63,16 @@ namespace Gu.Reactive
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this <#= typeName #><TSource> source,
+        public static MappingView<TSource, TResult> Create<TSource, TResult>(
+            this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
             IScheduler scheduler = null,
-            bool leaveOpen = false,
+            bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, selector, TimeSpan.Zero, scheduler, leaveOpen, triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
         /// <summary>
@@ -98,17 +87,17 @@ namespace Gu.Reactive
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this <#= typeName #><TSource> source,
+        public static MappingView<TSource, TResult> Create<TSource, TResult>(
+            this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
             IScheduler scheduler = null,
-            bool leaveOpen = false,
+            bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
-            return new MappingView<TSource, TResult>(source, selector, bufferTime, scheduler, leaveOpen, triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector), bufferTime, scheduler, leaveOpen, triggers);
         }
 
         /// <summary>
@@ -123,19 +112,19 @@ namespace Gu.Reactive
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this <#= typeName #><TSource> source,
+        public static MappingView<TSource, TResult> Create<TSource, TResult>(
+            this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             IScheduler scheduler = null,
-            bool leaveOpen = false,
+            bool leaveOpen = true,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(onRemove, nameof(onRemove));
-            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), TimeSpan.Zero, scheduler, leaveOpen, triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
         /// <summary>
@@ -151,13 +140,13 @@ namespace Gu.Reactive
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this <#= typeName #><TSource> source,
+        public static MappingView<TSource, TResult> Create<TSource, TResult>(
+            this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
             IScheduler scheduler = null,
-            bool leaveOpen = false,
+            bool leaveOpen = true,
             params IObservable<object>[] triggers)
             where TResult : class
         {
@@ -185,18 +174,18 @@ namespace Gu.Reactive
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this <#= typeName #><TSource> source,
+        public static MappingView<TSource, TResult> Create<TSource, TResult>(
+            this IEnumerable<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             IScheduler scheduler = null,
-            bool leaveOpen = false,
+            bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), TimeSpan.Zero, scheduler, leaveOpen, triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
         /// <summary>
@@ -218,13 +207,13 @@ namespace Gu.Reactive
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this <#= typeName #><TSource> source,
+        public static MappingView<TSource, TResult> Create<TSource, TResult>(
+            this IEnumerable<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
             IScheduler scheduler = null,
-            bool leaveOpen = false,
+            bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
@@ -252,20 +241,20 @@ namespace Gu.Reactive
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this <#= typeName #><TSource> source,
+        public static MappingView<TSource, TResult> Create<TSource, TResult>(
+            this IEnumerable<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
             IScheduler scheduler = null,
-            bool leaveOpen = false,
+            bool leaveOpen = true,
             params IObservable<object>[] triggers)
             where TResult : class
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(selector, nameof(selector));
             Ensure.NotNull(updater, nameof(updater));
-            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), TimeSpan.Zero, scheduler, leaveOpen, triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
         /// <summary>
@@ -288,14 +277,14 @@ namespace Gu.Reactive
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
-        public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this <#= typeName #><TSource> source,
+        public static MappingView<TSource, TResult> Create<TSource, TResult>(
+            this IEnumerable<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
             IScheduler scheduler = null,
-            bool leaveOpen = false,
+            bool leaveOpen = true,
             params IObservable<object>[] triggers)
             where TResult : class
         {
@@ -304,6 +293,5 @@ namespace Gu.Reactive
             Ensure.NotNull(updater, nameof(updater));
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), bufferTime, scheduler, leaveOpen, triggers);
         }
-<#    } #>
     }
 }

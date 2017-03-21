@@ -19,8 +19,9 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes before notifying.</param>
-        public ReadOnlyDispatchingView(ObservableCollection<T> source, TimeSpan bufferTime)
-            : base(source, bufferTime, WpfSchedulers.Dispatcher)
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        public ReadOnlyDispatchingView(ObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen = false)
+            : base(source, bufferTime, WpfSchedulers.Dispatcher, leaveOpen)
         {
         }
 
@@ -29,8 +30,9 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes before notifying.</param>
-        public ReadOnlyDispatchingView(IObservableCollection<T> source, TimeSpan bufferTime)
-            : base(source, bufferTime, WpfSchedulers.Dispatcher)
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        public ReadOnlyDispatchingView(IObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen = false)
+            : base(source, bufferTime, WpfSchedulers.Dispatcher, leaveOpen)
         {
         }
 
@@ -39,8 +41,9 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes before notifying.</param>
-        public ReadOnlyDispatchingView(ReadOnlyObservableCollection<T> source, TimeSpan bufferTime)
-            : base(source, bufferTime, WpfSchedulers.Dispatcher)
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        public ReadOnlyDispatchingView(ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen = false)
+            : base(source, bufferTime, WpfSchedulers.Dispatcher, leaveOpen)
         {
         }
 
@@ -49,8 +52,9 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes before notifying.</param>
-        public ReadOnlyDispatchingView(IReadOnlyObservableCollection<T> source, TimeSpan bufferTime)
-            : base(source, bufferTime, WpfSchedulers.Dispatcher)
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        public ReadOnlyDispatchingView(IReadOnlyObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen = false)
+            : base(source, bufferTime, WpfSchedulers.Dispatcher, leaveOpen)
         {
         }
     }

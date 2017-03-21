@@ -1,9 +1,10 @@
-namespace Gu.Reactive.Tests.Collections
+namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
+    using Gu.Reactive.Internals;
     using Gu.Reactive.Tests.Helpers;
 
     using Microsoft.Reactive.Testing;
@@ -31,6 +32,54 @@ namespace Gu.Reactive.Tests.Collections
             using (var view = source.AsReadOnlyFilteredView(x => x < 2, TimeSpan.FromMilliseconds(100), scheduler))
             {
                 CollectionAssert.AreEqual(new[] { 1 }, view);
+            }
+        }
+
+        [Test]
+        public void DoesNotDisposeInner()
+        {
+            var source = new ObservableCollection<int> { 1, 2, 3 };
+            using (var filtered1 = source.AsReadOnlyFilteredView(x => true, leaveOpen: true))
+            {
+                using (var filtered2 = filtered1.AsReadOnlyFilteredView(x => true, leaveOpen: true))
+                {
+                    CollectionAssert.AreEqual(filtered1, source);
+                    CollectionAssert.AreEqual(filtered2, source);
+                }
+
+                CollectionAssert.AreEqual(filtered1, source);
+            }
+        }
+
+        [Test]
+        public void DisposesInnerByDefault()
+        {
+            var source = new ObservableCollection<int> { 1, 2, 3 };
+            using (var filtered1 = source.AsReadOnlyFilteredView(x => true, leaveOpen: true))
+            {
+                using (var filtered2 = filtered1.AsReadOnlyFilteredView(x => true))
+                {
+                    CollectionAssert.AreEqual(filtered1, source);
+                    CollectionAssert.AreEqual(filtered2, source);
+                }
+
+                Assert.Throws<ObjectDisposedException>(() => filtered1.Count.IgnoreReturnValue());
+            }
+        }
+
+        [Test]
+        public void DisposesInnerExplicit()
+        {
+            var source = new ObservableCollection<int> { 1, 2, 3 };
+            using (var filtered1 = source.AsReadOnlyFilteredView(x => true, leaveOpen: true))
+            {
+                using (var filtered2 = filtered1.AsReadOnlyFilteredView(x => true, leaveOpen: false))
+                {
+                    CollectionAssert.AreEqual(filtered1, source);
+                    CollectionAssert.AreEqual(filtered2, source);
+                }
+
+                Assert.Throws<ObjectDisposedException>(() => filtered1.Count.IgnoreReturnValue());
             }
         }
 

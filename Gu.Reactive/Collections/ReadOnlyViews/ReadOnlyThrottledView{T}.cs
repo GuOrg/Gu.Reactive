@@ -21,38 +21,38 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
-        public ReadOnlyThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : this(bufferTime, scheduler, source)
+        public ReadOnlyThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
+            : this(bufferTime, scheduler, source, leaveOpen)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
-        public ReadOnlyThrottledView(ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : this(bufferTime, scheduler, source)
+        public ReadOnlyThrottledView(ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
+            : this(bufferTime, scheduler, source, leaveOpen)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
-        public ReadOnlyThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : this(bufferTime, scheduler, source)
+        public ReadOnlyThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
+            : this(bufferTime, scheduler, source, leaveOpen)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
-        public ReadOnlyThrottledView(IReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : this(bufferTime, scheduler, source)
+        public ReadOnlyThrottledView(IReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
+            : this(bufferTime, scheduler, source, leaveOpen)
         {
         }
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler scheduler, IEnumerable<T> source)
-            : base(source, s => s, true)
+        private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler scheduler, IEnumerable<T> source, bool leaveOpen)
+            : base(source, s => s, leaveOpen, true)
         {
             this.BufferTime = bufferTime;
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);

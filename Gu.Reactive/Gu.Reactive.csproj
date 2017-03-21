@@ -41,10 +41,17 @@
     <Compile Include="Chunk.cs" />
     <Compile Include="Chunk{T}.cs" />
     <Compile Include="Collections\ReadOnlyViews\Filtered.cs" />
+    <Compile Include="Collections\ReadOnlyViews\MappingView.Create.cs" />
     <Compile Include="Collections\ReadOnlyViews\MappingView{TSource,TResult}.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MappingView{TSource,TResult}.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Collections\ReadOnlyViews\ReadOnlyFilteredView.Create.cs" />
+    <Compile Include="Collections\ReadOnlyViews\ReadOnlyFilteredView{T}.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ReadOnlyFilteredView{T}.tt</DependentUpon>
     </Compile>
     <Compile Include="Collections\ReadOnlyViews\ReadOnlyThrottledView.generated.cs">
       <DependentUpon>ReadOnlyThrottledView.tt</DependentUpon>
@@ -301,7 +308,12 @@
       <LastGenOutput>MinMaxTracker.generated.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Collections\ReadOnlyViews\ReadOnlyFilteredView{T}.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReadOnlyFilteredView{T}.generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')">
       <ItemGroup>

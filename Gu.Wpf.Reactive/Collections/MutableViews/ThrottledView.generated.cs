@@ -16,10 +16,11 @@
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="collection">The source collection</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
         /// <returns>A <see cref="ThrottledView{T}"/></returns>
-        public static ThrottledView<T> AsThrottledView<T>(this ObservableCollection<T> collection, TimeSpan bufferTime)
+        public static ThrottledView<T> AsThrottledView<T>(this ObservableCollection<T> collection, TimeSpan bufferTime, bool leaveOpen = false)
         {
-            return new ThrottledView<T>(collection, bufferTime);
+            return new ThrottledView<T>(collection, bufferTime, leaveOpen);
         }
 
         /// <summary>
@@ -28,10 +29,11 @@
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="collection">The source collection</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
         /// <returns>A <see cref="ThrottledView{T}"/></returns>
-        public static ThrottledView<T> AsThrottledView<T>(this IObservableCollection<T> collection, TimeSpan bufferTime)
+        public static ThrottledView<T> AsThrottledView<T>(this IObservableCollection<T> collection, TimeSpan bufferTime, bool leaveOpen = false)
         {
-            return new ThrottledView<T>(collection, bufferTime);
+            return new ThrottledView<T>(collection, bufferTime, leaveOpen);
         }
     }
 }

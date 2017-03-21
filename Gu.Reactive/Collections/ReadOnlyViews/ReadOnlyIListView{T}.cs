@@ -17,6 +17,7 @@
     public class ReadOnlyIListView<T> : IReadOnlyObservableCollection<T>, IList, IDisposable
     {
         private readonly IReadOnlyList<T> source;
+        private readonly bool leaveOpen;
         private readonly IDisposable subscriptions;
 
         private bool disposed;
@@ -24,18 +25,24 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyIListView{T}"/> class.
         /// </summary>
-        public ReadOnlyIListView(IObservableCollection<T> source)
+        /// <param name="source">The source collection.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        public ReadOnlyIListView(IObservableCollection<T> source, bool leaveOpen)
         {
-            this.source = new ReadOnlyCollection<T>(source);
+            this.source = new DisposingReadOnlyCollection(source);
+            this.leaveOpen = leaveOpen;
             this.subscriptions = this.Subscribe(source);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyIListView{T}"/> class.
         /// </summary>
-        public ReadOnlyIListView(IReadOnlyObservableCollection<T> source)
+        /// <param name="source">The source collection.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        public ReadOnlyIListView(IReadOnlyObservableCollection<T> source, bool leaveOpen)
         {
             this.source = source;
+            this.leaveOpen = leaveOpen;
             this.subscriptions = this.Subscribe(source);
         }
 
@@ -131,6 +138,11 @@
             this.disposed = true;
             if (disposing)
             {
+                if (!this.leaveOpen)
+                {
+                    (this.source as IDisposable)?.Dispose();
+                }
+
                 this.subscriptions.Dispose();
             }
         }
@@ -190,6 +202,30 @@
                            col.ObserveCollectionChangedSlim(false)
                               .Subscribe(this.OnCollectionChanged)
                        };
+        }
+
+        private sealed class DisposingReadOnlyCollection : ReadOnlyCollection<T>, IDisposable
+        {
+            private readonly IList<T> list;
+
+            private bool disposed;
+
+            public DisposingReadOnlyCollection(IList<T> list)
+                : base(list)
+            {
+                this.list = list;
+            }
+
+            public void Dispose()
+            {
+                if (this.disposed)
+                {
+                    return;
+                }
+
+                this.disposed = true;
+                (this.list as IDisposable)?.Dispose();
+            }
         }
     }
 }

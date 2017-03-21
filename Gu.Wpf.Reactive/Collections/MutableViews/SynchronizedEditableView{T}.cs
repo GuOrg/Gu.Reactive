@@ -18,28 +18,40 @@
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
     [Serializable]
-    public abstract class SynchronizedEditableView<T> : Collection<T>, IRefreshAble, INotifyPropertyChanged, INotifyCollectionChanged
+    public abstract class SynchronizedEditableView<T> : Collection<T>, IRefreshAble, IDisposable, INotifyPropertyChanged, INotifyCollectionChanged
     {
+        private readonly bool leaveOpen;
+
+        private bool disposed;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SynchronizedEditableView{T}"/> class.
         /// </summary>
-        protected SynchronizedEditableView(IList<T> source, bool startEmpty)
-            : this(source, source, startEmpty)
+        /// <param name="source">The source collection.</param>
+        /// <param name="leaveOpen">True means that <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="startEmpty">If source should be added to the <see cref="Tracker"/> by the ctor.</param>
+        protected SynchronizedEditableView(IList<T> source, bool leaveOpen, bool startEmpty)
+            : this(source, source, leaveOpen, startEmpty)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SynchronizedEditableView{T}"/> class.
         /// </summary>
-        protected SynchronizedEditableView(IList<T> source, IEnumerable<T> sourceItems, bool startEmpty)
-            : this(source, new CollectionSynchronizer<T>(startEmpty ? Enumerable.Empty<T>() : sourceItems))
+        /// <param name="source">The source collection.</param>
+        /// <param name="sourceItems">The ource items, this can be a filtered view of <paramref name="source"/>.</param>
+        /// <param name="leaveOpen">True means that <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="startEmpty">If source should be added to the <see cref="Tracker"/> by the ctor.</param>
+        protected SynchronizedEditableView(IList<T> source, IEnumerable<T> sourceItems, bool leaveOpen, bool startEmpty)
+            : this(source, new CollectionSynchronizer<T>(startEmpty ? Enumerable.Empty<T>() : sourceItems), leaveOpen)
         {
         }
 
-        private SynchronizedEditableView(IList<T> source, CollectionSynchronizer<T> tracker)
+        private SynchronizedEditableView(IList<T> source, CollectionSynchronizer<T> tracker, bool leaveOpen)
             : base(tracker)
         {
             Ensure.NotNull(source, nameof(source));
+            this.leaveOpen = leaveOpen;
             this.Source = source;
             this.Tracker = tracker;
         }
@@ -92,6 +104,19 @@
             {
                 this.Tracker.Reset(this.Source);
             }
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -276,6 +301,38 @@
             }
 
             return -1;
+        }
+
+        /// <summary>
+        /// Protected implementation of Dispose pattern.
+        /// </summary>
+        /// <param name="disposing">true: safe to free managed resources</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            if (disposing)
+            {
+                if (!this.leaveOpen)
+                {
+                    (this.Source as IDisposable)?.Dispose();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// </summary>
+        protected void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
         }
 
         /// <summary>

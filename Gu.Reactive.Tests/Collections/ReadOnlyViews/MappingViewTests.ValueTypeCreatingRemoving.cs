@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections
+namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.Generic;
@@ -13,15 +13,11 @@ namespace Gu.Reactive.Tests.Collections
 
     public partial class MappingViewTests
     {
-        public class CreatingUpdatingRemoving
+        public class ValueTypeCreatingRemoving
         {
             public interface IDisposableVm : IDisposable
             {
                 int Value { get; }
-
-                string Name { get; }
-
-                int Index { get; set; }
             }
 
             [Test]
@@ -39,11 +35,10 @@ namespace Gu.Reactive.Tests.Collections
                     3,
                     3,
                 };
-                using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     Assert.AreNotSame(view[0], view[1]);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                    CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
 
                     foreach (var mock in view)
                     {
@@ -56,11 +51,10 @@ namespace Gu.Reactive.Tests.Collections
             public void Updates()
             {
                 var source = new ObservableCollection<int>();
-                using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     source.Add(1);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                    CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
 
                     var mock = view[0];
                     mock.Verify(x => x.Dispose(), Times.Never);
@@ -71,7 +65,6 @@ namespace Gu.Reactive.Tests.Collections
 
                     source.Add(1);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                    CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
 
                     foreach (var toDispose in view)
                     {
@@ -95,7 +88,7 @@ namespace Gu.Reactive.Tests.Collections
                     3,
                     3,
                 };
-                using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var expected = source.SubscribeAll())
                     {
@@ -103,7 +96,6 @@ namespace Gu.Reactive.Tests.Collections
                         {
                             CollectionAssert.IsEmpty(actual);
                             CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                            CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
 
                             var mocks = view.ToArray();
                             foreach (var mock in mocks)
@@ -113,7 +105,6 @@ namespace Gu.Reactive.Tests.Collections
 
                             source.AddRange(new[] { 1, 2, 2 });
                             CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                            CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
                             CollectionAssert.AreEqual(expected, actual);
                             foreach (var mock in mocks)
                             {
@@ -142,15 +133,13 @@ namespace Gu.Reactive.Tests.Collections
             public void DoesNotCache()
             {
                 var source = new ObservableCollection<int>();
-                using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     source.Add(1);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                    CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
 
                     source.Add(1);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                    CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
                     Assert.AreNotSame(view[0], view[1]);
 
                     var mocks = view.ToArray();
@@ -179,13 +168,12 @@ namespace Gu.Reactive.Tests.Collections
             public void Add()
             {
                 var source = new ObservableCollection<int>();
-                using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var actual = view.SubscribeAll())
                     {
                         source.Add(1);
                         CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
                         var expected = new List<EventArgs>
                         {
                             CachedEventArgs.CountPropertyChanged,
@@ -196,7 +184,6 @@ namespace Gu.Reactive.Tests.Collections
 
                         source.Add(1);
                         CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
                         expected.AddRange(new EventArgs[]
                         {
                             CachedEventArgs.CountPropertyChanged,
@@ -207,7 +194,6 @@ namespace Gu.Reactive.Tests.Collections
 
                         source.Add(2);
                         CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
                         expected.AddRange(new EventArgs[]
                         {
                             CachedEventArgs.CountPropertyChanged,
@@ -239,7 +225,7 @@ namespace Gu.Reactive.Tests.Collections
                     3,
                     3,
                 };
-                using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var actual = view.SubscribeAll())
                     {
@@ -248,7 +234,6 @@ namespace Gu.Reactive.Tests.Collections
                         source.RemoveAt(0);
                         mock.Verify(x => x.Dispose(), Times.Once);
                         CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
                         var expected = new List<EventArgs>
                         {
                             CachedEventArgs.CountPropertyChanged,
@@ -262,7 +247,6 @@ namespace Gu.Reactive.Tests.Collections
                         source.RemoveAt(0);
                         mock.Verify(x => x.Dispose(), Times.Once);
                         CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
                         expected.AddRange(new EventArgs[]
                         {
                             CachedEventArgs.CountPropertyChanged,
@@ -276,7 +260,6 @@ namespace Gu.Reactive.Tests.Collections
                         source.RemoveAt(0);
                         mock.Verify(x => x.Dispose(), Times.Once);
                         CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
                         expected.AddRange(new EventArgs[]
                         {
                             CachedEventArgs.CountPropertyChanged,
@@ -308,7 +291,7 @@ namespace Gu.Reactive.Tests.Collections
                     3,
                     3,
                 };
-                using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var actual = view.SubscribeAll())
                     {
@@ -317,7 +300,6 @@ namespace Gu.Reactive.Tests.Collections
                         source[0] = source[5];
                         old.Verify(x => x.Dispose(), Times.Once);
                         CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
                         var expected = new List<EventArgs>
                         {
                             CachedEventArgs.IndexerPropertyChanged,
@@ -348,74 +330,16 @@ namespace Gu.Reactive.Tests.Collections
                     3,
                     3,
                 };
-                using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var actual = view.SubscribeAll())
                     {
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
-
                         source.Move(0, 4);
                         CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
                         var expected = new List<EventArgs>
                         {
                             CachedEventArgs.IndexerPropertyChanged,
                             Diff.CreateMoveEventArgs(view[4], 4, 0)
-                        };
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-
-                        foreach (var mock in view)
-                        {
-                            mock.Setup(x => x.Dispose());
-                        }
-                    }
-                }
-            }
-
-            [Test]
-            public void MoveWhenUpdateCreatesNew()
-            {
-                var source = new ObservableCollection<int>
-                {
-                    1,
-                    1,
-                    1,
-                    2,
-                    2,
-                    2,
-                    3,
-                    3,
-                    3,
-                };
-                using (var view = source.AsMappingView(CreateStrictMock, NewWithIndex, x => x.Object.Dispose()))
-                {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
-
-                        var mocks = view.Skip(1)
-                                        .Take(3)
-                                        .ToArray();
-                        foreach (var mock in mocks)
-                        {
-                            mock.Setup(x => x.Dispose());
-                        }
-
-                        source.Move(1, 3);
-                        foreach (var mock in mocks)
-                        {
-                            mock.Verify(x => x.Dispose(), Times.Once);
-                        }
-
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
-                        var expected = new List<EventArgs>
-                        {
-                            CachedEventArgs.CountPropertyChanged,
-                            CachedEventArgs.IndexerPropertyChanged,
-                            CachedEventArgs.NotifyCollectionReset
                         };
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
@@ -442,7 +366,7 @@ namespace Gu.Reactive.Tests.Collections
                     3,
                     3,
                 };
-                using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var actual = view.SubscribeAll())
                     {
@@ -460,7 +384,6 @@ namespace Gu.Reactive.Tests.Collections
                         }
 
                         CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
-                        CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
                         var expected = new List<EventArgs>
                         {
                             CachedEventArgs.CountPropertyChanged,
@@ -487,7 +410,7 @@ namespace Gu.Reactive.Tests.Collections
                     3,
                     3,
                 };
-                using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     var mocks = view.ToArray();
                     foreach (var mock in mocks)
@@ -506,37 +429,12 @@ namespace Gu.Reactive.Tests.Collections
                 }
             }
 
-            private static Mock<IDisposableVm> CreateStrictMock(int value, int index)
+            private static Mock<IDisposableVm> CreateStrictMock(int value)
             {
                 var mock = new Mock<IDisposableVm>(MockBehavior.Strict);
                 mock.SetupGet(x => x.Value)
                     .Returns(value);
-
-                mock.Name = "Original";
-
-                mock.SetupGet(x => x.Index)
-                    .Returns(index);
                 return mock;
-            }
-
-            private static Mock<IDisposableVm> WithIndex(Mock<IDisposableVm> mock, int index)
-            {
-                mock.SetupGet(x => x.Index)
-                    .Returns(index);
-                return mock;
-            }
-
-            private static Mock<IDisposableVm> NewWithIndex(Mock<IDisposableVm> mock, int index)
-            {
-                var newMock = new Mock<IDisposableVm>(MockBehavior.Strict);
-                newMock.SetupGet(x => x.Value)
-                       .Returns(mock.Object.Value);
-
-                newMock.Name = "New index";
-
-                newMock.SetupGet(x => x.Index)
-                       .Returns(index);
-                return newMock;
             }
         }
     }

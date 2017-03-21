@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections.Filter
+namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
 {
     using System;
     using System.Collections.Generic;

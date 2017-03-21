@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections
+namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.Generic;
@@ -22,13 +22,13 @@ namespace Gu.Reactive.Tests.Collections
                     Assert.AreNotSame(view[0], view[1]);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Value));
 
-                    using (var vmView = view.AsMappingView(x => new Vm { Model = x }))
+                    using (var vmView = view.AsMappingView(x => new Vm { Model = x }, leaveOpen: true))
                     {
                         Assert.AreNotSame(view[0], view[1]);
                         CollectionAssert.AreEqual(view, vmView.Select(x => x.Model));
                     }
 
-                    using (var indexedView = view.AsMappingView((x, i) => new Vm { Model = x, Index = i }, (x, i) => x))
+                    using (var indexedView = view.AsMappingView((x, i) => new Vm { Model = x, Index = i }, (x, i) => x, leaveOpen: true))
                     {
                         CollectionAssert.AreEqual(view, indexedView.Select(x => x.Model));
                         CollectionAssert.AreEqual(Enumerable.Range(0, 9), indexedView.Select(x => x.Index));

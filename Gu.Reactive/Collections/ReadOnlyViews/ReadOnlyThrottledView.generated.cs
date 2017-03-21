@@ -10,78 +10,84 @@
     public static partial class ReadOnlyThrottledView
     {
         /// <summary>
-        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="collection"/>
+        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="source"/>
         /// </summary>
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
-        /// <param name="collection">The source collection</param>
-        /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
+        /// <param name="source">The source collection</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
-        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ObservableCollection<T> collection, TimeSpan bufferTime)
+        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen = false)
         {
-            return new ReadOnlyThrottledView<T>(collection, bufferTime, null);
+            return new ReadOnlyThrottledView<T>(source, bufferTime, null, leaveOpen);
         }
 
         /// <summary>
-        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="collection"/>
+        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="source"/>
         /// </summary>
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
-        /// <param name="collection">The source collection</param>
-        /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
+        /// <param name="source">The source collection</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
-        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
+        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen = false)
         {
-            return new ReadOnlyThrottledView<T>(collection, bufferTime, scheduler);
+            return new ReadOnlyThrottledView<T>(source, bufferTime, scheduler, leaveOpen);
         }
 
         /// <summary>
-        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="collection"/>
+        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="source"/>
         /// </summary>
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
-        /// <param name="collection">The source collection</param>
-        /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
+        /// <param name="source">The source collection</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
-        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ReadOnlyObservableCollection<T> collection, TimeSpan bufferTime)
+        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen = false)
         {
-            return new ReadOnlyThrottledView<T>(collection, bufferTime, null);
+            return new ReadOnlyThrottledView<T>(source, bufferTime, null, leaveOpen);
         }
 
         /// <summary>
-        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="collection"/>
+        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="source"/>
         /// </summary>
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
-        /// <param name="collection">The source collection</param>
-        /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
+        /// <param name="source">The source collection</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
-        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ReadOnlyObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
+        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen = false)
         {
-            return new ReadOnlyThrottledView<T>(collection, bufferTime, scheduler);
+            return new ReadOnlyThrottledView<T>(source, bufferTime, scheduler, leaveOpen);
         }
 
         /// <summary>
-        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="collection"/>
+        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="source"/>
         /// </summary>
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
-        /// <param name="collection">The source collection</param>
-        /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
+        /// <param name="source">The source collection</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
-        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this IReadOnlyObservableCollection<T> collection, TimeSpan bufferTime)
+        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this IReadOnlyObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen = false)
         {
-            return new ReadOnlyThrottledView<T>(collection, bufferTime, null);
+            return new ReadOnlyThrottledView<T>(source, bufferTime, null, leaveOpen);
         }
 
         /// <summary>
-        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="collection"/>
+        /// Create a <see cref="ReadOnlyThrottledView{T}"/> view for <paramref name="source"/>
         /// </summary>
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
-        /// <param name="collection">The source collection</param>
-        /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
+        /// <param name="source">The source collection</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
-        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this IReadOnlyObservableCollection<T> collection, TimeSpan bufferTime, IScheduler scheduler)
+        public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this IReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen = false)
         {
-            return new ReadOnlyThrottledView<T>(collection, bufferTime, scheduler);
+            return new ReadOnlyThrottledView<T>(source, bufferTime, scheduler, leaveOpen);
         }
     }
 }

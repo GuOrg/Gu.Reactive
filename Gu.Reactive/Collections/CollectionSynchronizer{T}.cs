@@ -11,7 +11,7 @@
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Helper for synchronizing two coillections and notifying about diffs.
+    /// Helper for synchronizing two collections and notifying about diffs.
     /// </summary>
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public class CollectionSynchronizer<T> : Collection<T>

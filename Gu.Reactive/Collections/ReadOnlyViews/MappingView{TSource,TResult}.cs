@@ -28,8 +28,8 @@
 #pragma warning restore GU0037 // Don't assign member with injected and created disposables.
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        internal MappingView(IEnumerable<TSource> source, IMapper<TSource, TResult> factory, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
-            : base(source, s => s.Select(factory.GetOrCreate), true)
+        internal MappingView(IEnumerable<TSource> source, IMapper<TSource, TResult> factory, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
+            : base(source, s => s.Select(factory.GetOrCreate), leaveOpen, true)
         {
             Ensure.NotNull(source as INotifyCollectionChanged, nameof(source));
             Ensure.NotNull(factory, nameof(factory));

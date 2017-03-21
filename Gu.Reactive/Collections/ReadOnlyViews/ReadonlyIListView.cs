@@ -8,17 +8,17 @@ namespace Gu.Reactive
         /// <summary>
         /// Create a <see cref="ReadOnlyIListView{T}"/> from <paramref name="source"/>
         /// </summary>
-        public static ReadOnlyIListView<T> AsReadonlyIListView<T>(this IObservableCollection<T> source)
+        public static ReadOnlyIListView<T> AsReadonlyIListView<T>(this IObservableCollection<T> source, bool leaveOpen = false)
         {
-            return new ReadOnlyIListView<T>(source);
+            return new ReadOnlyIListView<T>(source, leaveOpen);
         }
 
         /// <summary>
         /// Create a <see cref="ReadOnlyIListView{T}"/> from <paramref name="source"/>
         /// </summary>
-        public static ReadOnlyIListView<T> AsReadonlyIListView<T>(this IReadOnlyObservableCollection<T> source)
+        public static ReadOnlyIListView<T> AsReadonlyIListView<T>(this IReadOnlyObservableCollection<T> source, bool leaveOpen = false)
         {
-            return new ReadOnlyIListView<T>(source);
+            return new ReadOnlyIListView<T>(source, leaveOpen);
         }
     }
 }

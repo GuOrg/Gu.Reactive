@@ -1,18 +1,17 @@
-namespace Gu.Reactive.Tests.Collections
+namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
 
     using Microsoft.Reactive.Testing;
 
-    public class ReadOnlyFilteredViewMappedView : CrudSourceTests
+    public class ReadOnlyFilteredView : CrudSourceTests
     {
         public override void SetUp()
         {
             base.SetUp();
             this.Scheduler = new TestScheduler();
             (this.View as IDisposable)?.Dispose();
-            this.View = this.Source.AsReadOnlyFilteredView(x => true, TimeSpan.FromMilliseconds(10), this.Scheduler)
-                            .AsMappingView(x => x);
+            this.View = new ReadOnlyFilteredView<int>(this.Source, x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
             this.Scheduler.Start();
         }
     }

@@ -6,7 +6,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
     using System.Threading.Tasks;
     using System.Windows;
     using Gu.Reactive;
-    using Gu.Reactive.Tests.Collections;
+    using Gu.Reactive.Tests.Collections.ReadOnlyViews;
     using Gu.Reactive.Tests.Helpers;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
@@ -24,7 +24,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
             this.Scheduler = new TestDispatcherScheduler();
             base.SetUp();
             (this.View as IDisposable)?.Dispose();
-            this.View = new FilteredView<int>(this.Source, x => true, TimeSpan.Zero, null);
+            this.View = new FilteredView<int>(this.Source, x => true, TimeSpan.Zero, false, null);
         }
 
         [Test]

@@ -37,7 +37,7 @@
         /// </summary>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public ReadOnlySerialView(IEnumerable<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : base(source, s => s)
+            : base(source, s => s, true, true)
         {
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.refreshSubscription = this.ObserveValue(x => x.Source)

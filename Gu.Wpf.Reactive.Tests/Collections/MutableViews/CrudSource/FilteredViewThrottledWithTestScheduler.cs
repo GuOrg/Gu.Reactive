@@ -3,7 +3,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
 {
     using System;
 
-    using Gu.Reactive.Tests.Collections;
+    using Gu.Reactive.Tests.Collections.ReadOnlyViews;
 
     using Microsoft.Reactive.Testing;
 
@@ -14,7 +14,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
             base.SetUp();
             this.Scheduler = new TestScheduler();
             (this.View as IDisposable)?.Dispose();
-            this.View = new FilteredView<int>(this.Source, x => true, TimeSpan.FromMilliseconds(10), this.Scheduler);
+            this.View = new FilteredView<int>(this.Source, x => true, TimeSpan.FromMilliseconds(10), this.Scheduler, false);
             this.Scheduler.Start();
         }
     }

@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
@@ -12,7 +11,7 @@
     using Gu.Reactive.Internals;
 
     /// <inheritdoc/>
-    public class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyFilteredView<T>
+    public partial class ReadOnlyFilteredView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyFilteredView<T>
     {
         private readonly IDisposable refreshSubscription;
         private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;
@@ -22,55 +21,15 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
         /// </summary>
-        public ReadOnlyFilteredView(ObservableCollection<T> collection, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this((IReadOnlyList<T>)collection, filter, bufferTime, scheduler, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
-        /// </summary>
-        public ReadOnlyFilteredView(ReadOnlyObservableCollection<T> collection, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this((IReadOnlyList<T>)collection, filter, bufferTime, scheduler, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
-        /// </summary>
-        public ReadOnlyFilteredView(IObservableCollection<T> collection, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this((IReadOnlyList<T>)collection, filter, bufferTime, scheduler, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
-        /// </summary>
-        public ReadOnlyFilteredView(IReadOnlyObservableCollection<T> collection, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, params IObservable<object>[] triggers)
-            : this((IReadOnlyList<T>)collection, filter, bufferTime, scheduler, triggers)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
-        /// </summary>
-        public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, IEnumerable<IObservable<object>> triggers)
-            : this(source, filter, scheduler, bufferTime, triggers?.ToArray())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
-        /// </summary>
-        public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, IObservable<object> trigger)
-            : this(source, filter, scheduler, bufferTime, new[] { trigger })
-        {
-            Ensure.NotNull(trigger, nameof(trigger));
-        }
-
+        /// <param name="source">The source collection.</param>
+        /// <param name="filter">The predicate to filter by.</param>
+        /// <param name="bufferTime">The time to buffer source changes before updating the view.</param>
+        /// <param name="scheduler">The scheduler to perform the filtering and notification on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="triggers">Additional triggers for when to filter.</param>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        private ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, IScheduler scheduler, TimeSpan bufferTime, IEnumerable<IObservable<object>> triggers)
-            : base(source, x => x.Where(filter), true)
+        public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, IEnumerable<IObservable<object>> triggers)
+            : base(source, x => x.Where(filter), leaveOpen, true)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));

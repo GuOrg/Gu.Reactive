@@ -1,5 +1,5 @@
 ﻿#pragma warning disable CS0618 // Type or member is obsolete
-namespace Gu.Reactive.Tests.Collections
+namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.ObjectModel;

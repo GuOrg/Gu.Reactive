@@ -1,5 +1,5 @@
 ﻿// ReSharper disable RedundantArgumentDefaultValue
-namespace Gu.Reactive.Tests.Collections
+namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.Generic;
@@ -27,6 +27,22 @@ namespace Gu.Reactive.Tests.Collections
             using (var view = new ReadOnlySerialView<int>(null))
             {
                 CollectionAssert.IsEmpty(view);
+            }
+        }
+
+        [Test]
+        public void DoesNotDisposeInner()
+        {
+            var source = new ObservableCollection<int> { 1, 2, 3 };
+            using (var filteredView = source.AsReadOnlyFilteredView(x => true))
+            {
+                using (var serialView = new ReadOnlySerialView<int>(filteredView))
+                {
+                    CollectionAssert.AreEqual(filteredView, source);
+                    CollectionAssert.AreEqual(serialView, source);
+                }
+
+                CollectionAssert.AreEqual(filteredView, source);
             }
         }
 

@@ -24,7 +24,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                 var scheduler = new TestScheduler();
                 using (var trigger = new Subject<object>())
                 {
-                    using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, trigger))
+                    using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, true, trigger))
                     {
                         using (var actual = view.SubscribeAll())
                         {
@@ -58,7 +58,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                 {
                     var source = new ObservableCollection<int> { 1, 2, 3 };
                     var scheduler = new TestScheduler();
-                    using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, trigger))
+                    using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, true, trigger))
                     {
                         using (var actual = view.SubscribeAll())
                         {
@@ -93,7 +93,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                 var scheduler = new TestScheduler();
                 using (var trigger = new Subject<object>())
                 {
-                    using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, trigger))
+                    using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, true, trigger))
                     {
                         using (var actual = view.SubscribeAll())
                         {
@@ -128,7 +128,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                 using (var expected = ints.SubscribeAll())
                 {
                     var scheduler = new TestScheduler();
-                    using (var view = new FilteredView<int>(ints, x => true, TimeSpan.FromMilliseconds(10), scheduler))
+                    using (var view = new FilteredView<int>(ints, x => true, TimeSpan.FromMilliseconds(10), scheduler, true))
                     {
                         using (var actual = view.SubscribeAll())
                         {

@@ -15,6 +15,7 @@ namespace Gu.Wpf.Reactive
     /// </summary>
     public class EditableListView<T> : Collection<T>, IObservableCollection<T>, IDisposable
     {
+        private readonly bool leaveOpen;
         private readonly IDisposable subscriptions;
 
         private bool disposed;
@@ -22,9 +23,12 @@ namespace Gu.Wpf.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="EditableListView{T}"/> class.
         /// </summary>
-        public EditableListView(IObservableCollection<T> list)
+        /// <param name="list">The collection to decorate.</param>
+        /// <param name="leaveOpen">True means that <paramref name="list"/> is not disposed when this instance is diposed.</param>
+        public EditableListView(IObservableCollection<T> list, bool leaveOpen)
             : base(list)
         {
+            this.leaveOpen = leaveOpen;
             this.subscriptions = new CompositeDisposable(2)
                                      {
                                          list.ObservePropertyChangedSlim()
@@ -77,6 +81,10 @@ namespace Gu.Wpf.Reactive
             if (disposing)
             {
                 this.subscriptions.Dispose();
+                if (!this.leaveOpen)
+                {
+                    (this.Items as IDisposable)?.Dispose();
+                }
             }
         }
 
