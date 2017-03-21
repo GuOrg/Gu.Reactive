@@ -46,7 +46,7 @@
                                                          .Slide(this.chunk))
                                            .Switch()
                                            .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
-                                           .Subscribe(this.Refresh);
+                                           .Subscribe(this.Update);
         }
 
         /// <inheritdoc/>
@@ -87,13 +87,19 @@
             base.Dispose(disposing);
         }
 
-        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
+        /// <inheritdoc/>
+        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        {
+            base.Refresh(changes);
+        }
+
+        private void Update(Chunk<NotifyCollectionChangedEventArgs> changes)
         {
             using (changes.ClearTransaction())
             {
                 if (changes.Count > 0)
                 {
-                    base.Refresh(changes);
+                    this.Refresh(changes);
                 }
             }
         }

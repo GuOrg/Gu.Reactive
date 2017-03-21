@@ -7,6 +7,9 @@ namespace Gu.Reactive
 
     using Gu.Reactive.Internals;
 
+    /// <summary>
+    /// Factory methods fro creating <see cref="ReadOnlyFilteredView{T}"/>
+    /// </summary>
     public static partial class ReadOnlyFilteredView
     {
         /// <summary>
@@ -94,6 +97,5 @@ namespace Gu.Reactive
             Ensure.NotNull(scheduler, nameof(scheduler));
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, leaveOpen, triggers);
         }
-
     }
 }

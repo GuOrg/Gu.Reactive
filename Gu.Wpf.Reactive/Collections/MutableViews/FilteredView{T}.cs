@@ -72,7 +72,7 @@
                                                  .Slide(this.chunk)
                                                  .ObserveOn(scheduler)
                                                  .StartWith(this.chunk.Add(CachedEventArgs.NotifyCollectionReset))
-                                                 .Subscribe(this.Refresh);
+                                                 .Subscribe(this.Update);
         }
 
         /// <summary>
@@ -187,25 +187,32 @@
             base.Dispose(disposing);
         }
 
-        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
+        /// <inheritdoc/>
+        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        {
+            if (this.HasListeners)
+            {
+                this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
+            }
+            else
+            {
+                this.Tracker.Reset(this.Filtered());
+            }
+        }
+
+        private void Update(Chunk<NotifyCollectionChangedEventArgs> changes)
         {
             using (changes.ClearTransaction())
             {
                 foreach (var e in changes)
                 {
-                    if (!Gu.Reactive.Filtered.AffectsFilteredOnly(e, this.filter))
+                    if (Gu.Reactive.Filtered.AffectsFilteredOnly(e, this.filter))
                     {
-                        if (this.HasListeners)
-                        {
-                            this.Tracker.Reset(this.Filtered(), this.OnPropertyChanged, this.OnCollectionChanged);
-                        }
-                        else
-                        {
-                            this.Tracker.Reset(this.Filtered());
-                        }
-
-                        return;
+                        continue;
                     }
+
+                    this.Refresh(changes);
+                    return;
                 }
             }
         }

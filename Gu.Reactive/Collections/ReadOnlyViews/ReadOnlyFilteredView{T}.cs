@@ -43,7 +43,7 @@
                                                  .Slide(this.chunk)
                                                  .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
                                                  .StartWith(this.chunk.Add(CachedEventArgs.NotifyCollectionReset))
-                                                 .Subscribe(this.Refresh);
+                                                 .Subscribe(this.Update);
         }
 
         /// <inheritdoc/>
@@ -79,7 +79,13 @@
             base.Dispose(disposing);
         }
 
-        private void Refresh(Chunk<NotifyCollectionChangedEventArgs> changes)
+        /// <inheritdoc/>
+        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
+        {
+            base.Refresh(CachedEventArgs.SingleNotifyCollectionReset);
+        }
+
+        private void Update(Chunk<NotifyCollectionChangedEventArgs> changes)
         {
             if (changes == null || changes.Count == 0)
             {
@@ -95,7 +101,7 @@
                         continue;
                     }
 
-                    base.Refresh(CachedEventArgs.SingleNotifyCollectionReset);
+                    this.Refresh(CachedEventArgs.SingleNotifyCollectionReset);
                     return;
                 }
             }
