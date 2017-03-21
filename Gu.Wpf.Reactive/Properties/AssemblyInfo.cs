@@ -16,8 +16,8 @@ using System.Windows.Markup;
 [assembly: ComVisible(false)]
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
 
-[assembly: AssemblyVersion("2.1.0.0")]
-[assembly: AssemblyFileVersion("2.1.0.0")]
+[assembly: AssemblyVersion("3.0.0.0")]
+[assembly: AssemblyFileVersion("3.0.0.0")]
 [assembly: NeutralResourcesLanguage("en")]
 [assembly: Guid("1E55FADA-8E21-45DC-B416-224C1956AD39")]
 [assembly: InternalsVisibleTo("Gu.Wpf.Reactive.Tests", AllInternalsVisible = true)]

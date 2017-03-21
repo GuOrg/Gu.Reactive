@@ -5,7 +5,8 @@
 * PERF: Tweak all the things.
 * BREAKING CHANGE: Removed markup converters, not a good fit for this library.
 * BREAKING CHANGE: Renamed extension methods creating read only views, prefixed with AsReadOnly now.
-* BREAKING CHANGE: Marked mutable views as [Obsolete] { FilteredView, ThrottledView, DispatchingView }. I think they are unfixable.
+* BREAKING CHANGE: Moved mutable views { FilteredView, ThrottledView, DispatchingView } to Gu.Wpf.Reactive, allowing them on the dispatcher only.
+* BREAKING CHANGE: Disposing source collection when disposing the view. Overloads with `leaveOpen` flag.
 * BREAKING CHANGE: Removed WeakCompositeDisposable, it was a weird idea.
 * BREAKING CHANGE: Removed some NameOf helpers.
 * BREAKING CHANGE: Removed Get and IValuePath.
