@@ -1,7 +1,6 @@
 namespace Gu.Reactive
 {
     using System;
-    using System.Reactive.Concurrency;
     using System.Reactive.Linq;
 
     /// <summary>
