@@ -2,10 +2,10 @@ Gu.Reactive
 ===========
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
-[![NuGet](https://img.shields.io/nuget/v/Gu.Reactive.svg)](https://www.nuget.org/packages/Gu.Reactive/)
-[![NuGet](https://img.shields.io/nuget/v/Gu.Wpf.Reactive.svg)](https://www.nuget.org/packages/Gu.Wpf.Reactive/)
+[![Nuget](https://img.shields.io/nuget/v/Gu.Reactive.svg?label=Gu.Reactive)](https://www.nuget.org/packages/Gu.Reactive/)
+[![Nuget](https://img.shields.io/nuget/v/Gu.Wpf.Reactive.svg?label=Gu.Wpf.Reactive)](https://www.nuget.org/packages/Gu.Wpf.Reactive/)
 [![Build status](https://ci.appveyor.com/api/projects/status/klrt8kctqbvt2j95?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-reactive)
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/JohanLarsson/Gu.Reactive?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/JohanLarsson/Gu.Reactive?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Helpers for using System.Reactive with `INotifyPropertyChanged`.
 
@@ -33,11 +33,11 @@ Helpers for using System.Reactive with `INotifyPropertyChanged`.
   - [AndCondition](#andcondition)
     - [IsSatisfied](#issatisfied)
 - [Collections](#collections)
-  - [FilteredView<T>](#filteredview-t)
-  - [MappingView<TSource, TResult>](#mappingview-tsource--tresult)
-  - [ThrottledView<T>](#throttledview-t)
-  - [DispatchingView<T>](#dispatchingview-t)
-  - [ReadOnlySerialView<T>](#readonlyserialview-t)
+  - [ReadOnlyFilteredView](#readonlyfilteredview)
+  - [MappingView](#mappingviewtsource-tresult)
+  - [ReadOnlyThrottledView](#readonlythrottledview)
+  - [ReadOnlyDispatchingView](#readonlydispatchingview)
+  - [ReadOnlySerialView](#readonlyserialview)
   - [Commands](#commands)
     - [AsyncCommand](#asynccommand)
     - [ConditionRelayCommand](#conditionrelaycommand)
@@ -66,7 +66,7 @@ https://github.com/Reactive-Extensions/Rx.NET/issues/299
   <bindingRedirect oldVersion="0.0.0.0-3.0.3000.0" newVersion="3.0.3000.0" />
 </dependentAssembly>
 ```
-Nuget can generate redirects using PM> `Get-Project –All | Add-BindingRedirect`
+Nuget can generate redirects using PM> `Get-Project â€“All | Add-BindingRedirect`
 
 # Factory methods for creating observables.
 
