@@ -25,6 +25,24 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
+        public void DoesNotDisposeInnerDisposeTwice()
+        {
+            var source = new ObservableCollection<int> { 1, 2, 3 };
+            using (var mapped1 = source.AsMappingView(x => x, leaveOpen: true))
+            {
+                using (var mapped2 = mapped1.AsMappingView(x => x, leaveOpen: true))
+                {
+                    CollectionAssert.AreEqual(mapped1, source);
+                    CollectionAssert.AreEqual(mapped2, source);
+                    mapped2.Dispose();
+                    mapped2.Dispose();
+                }
+
+                CollectionAssert.AreEqual(mapped1, source);
+            }
+        }
+
+        [Test]
         public void DisposesInnerByDefault()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };

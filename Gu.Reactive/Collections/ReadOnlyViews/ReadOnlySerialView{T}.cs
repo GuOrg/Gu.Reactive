@@ -18,6 +18,14 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
         /// </summary>
+        public ReadOnlySerialView(IEnumerable<T> source)
+            : this(source, TimeSpan.Zero, null)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
+        /// </summary>
         public ReadOnlySerialView(IScheduler scheduler = null)
             : this(null, TimeSpan.Zero, scheduler)
         {

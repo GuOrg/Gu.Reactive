@@ -22,7 +22,6 @@ namespace Gu.Reactive
         private readonly bool leaveOpen;
         private readonly CollectionSynchronizer<TMapped> tracker;
 
-        private bool disposed;
         private IEnumerable<TSource> source;
 
         /// <summary>
@@ -73,6 +72,11 @@ namespace Gu.Reactive
         /// The collection synchronizer.
         /// </summary>
         protected CollectionSynchronizer<TMapped> Tracker => this.tracker;
+
+        /// <summary>
+        /// True if this instance is disposed.
+        /// </summary>
+        protected bool IsDisposed { get; private set; }
 
         /// <summary>
         /// The source collection.
@@ -194,12 +198,12 @@ namespace Gu.Reactive
         /// <param name="disposing">true: safe to free managed resources</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (this.IsDisposed)
             {
                 return;
             }
 
-            this.disposed = true;
+            this.IsDisposed = true;
             if (disposing)
             {
                 lock (this.source.SyncRootOrDefault(this.SyncRoot()))
@@ -230,7 +234,7 @@ namespace Gu.Reactive
         /// </summary>
         protected void ThrowIfDisposed()
         {
-            if (this.disposed)
+            if (this.IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().FullName);
             }
