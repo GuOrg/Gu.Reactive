@@ -1,3 +1,6 @@
+#### 3.0.1
+* BUGFIX: Handle dispose twice for conditions.
+
 #### 3.0.0
 * FEATURE: MinTracker, MaxTracker & MinMaxTracker.
 * FEATURE: MappingView now with action invoked when item is removed, useful for disposing.
