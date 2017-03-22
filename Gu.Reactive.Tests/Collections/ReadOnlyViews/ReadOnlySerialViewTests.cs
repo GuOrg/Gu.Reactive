@@ -24,7 +24,8 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         [Test]
         public void IntializeWithNull()
         {
-            using (var view = new ReadOnlySerialView<int>(null))
+            // ReSharper disable once CollectionNeverUpdated.Local
+            using (var view = new ReadOnlySerialView<int>())
             {
                 CollectionAssert.IsEmpty(view);
             }
