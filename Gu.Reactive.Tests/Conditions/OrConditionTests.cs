@@ -9,18 +9,6 @@ namespace Gu.Reactive.Tests.Conditions
 
     public class OrConditionTests
     {
-        private Mock<ICondition> mock1;
-        private Mock<ICondition> mock2;
-        private Mock<ICondition> mock3;
-
-        [SetUp]
-        public void SetUp()
-        {
-            this.mock1 = new Mock<ICondition>();
-            this.mock2 = new Mock<ICondition>();
-            this.mock3 = new Mock<ICondition>();
-        }
-
         [TestCase(true, true, true, true)]
         [TestCase(true, true, null, true)]
         [TestCase(true, true, false, true)]
@@ -29,10 +17,10 @@ namespace Gu.Reactive.Tests.Conditions
         [TestCase(null, null, null, null)]
         public void IsSatisfied(bool? first, bool? second, bool? third, bool? expected)
         {
-            this.mock1.SetupGet(x => x.IsSatisfied).Returns(first);
-            this.mock2.SetupGet(x => x.IsSatisfied).Returns(second);
-            this.mock3.SetupGet(x => x.IsSatisfied).Returns(third);
-            using (var collection = new OrCondition(this.mock1.Object, this.mock2.Object, this.mock3.Object))
+            using (var collection = new OrCondition(
+                Mock.Of<ICondition>(x => x.IsSatisfied == first),
+                Mock.Of<ICondition>(x => x.IsSatisfied == second),
+                Mock.Of<ICondition>(x => x.IsSatisfied == third)))
             {
                 Assert.AreEqual(expected, collection.IsSatisfied);
             }
@@ -98,10 +86,15 @@ namespace Gu.Reactive.Tests.Conditions
         [Test]
         public void Prerequisites()
         {
-            using (var collection = new OrCondition(this.mock1.Object, this.mock2.Object, this.mock3.Object))
+#pragma warning disable GU0030 // Use using.
+            var mock1 = Mock.Of<ICondition>();
+            var mock2 = Mock.Of<ICondition>();
+            var mock3 = Mock.Of<ICondition>();
+            using (var collection = new OrCondition(mock1, mock2, mock3))
             {
-                CollectionAssert.AreEqual(new[] { this.mock1.Object, this.mock2.Object, this.mock3.Object }, collection.Prerequisites);
+                CollectionAssert.AreEqual(new[] { mock1, mock2, mock3 }, collection.Prerequisites);
             }
+#pragma warning restore GU0030 // Use using.
         }
     }
 }
