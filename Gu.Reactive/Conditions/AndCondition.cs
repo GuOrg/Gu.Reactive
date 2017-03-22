@@ -3,10 +3,10 @@ namespace Gu.Reactive
     using System;
 
     /// <summary>
-    /// Creates an <see cref="ICondition"/> from a collection of condtions.
-    /// It is Satisfied when all prerequisites are staisfied.
+    /// Creates an <see cref="ICondition"/> from a collection of conditions.
+    /// It is Satisfied when all prerequisites are satisfied.
     /// If any prerequisite IsSatisfied returns false.
-    /// If no prerequisite is IsSatisFied == false and any prerequisite is null the result is null
+    /// If no prerequisite is IsSatisfied == false and any prerequisite is null the result is null
     /// </summary>
     public class AndCondition : Condition
     {
@@ -38,6 +38,11 @@ namespace Gu.Reactive
         /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
         protected override void Dispose(bool disposing)
         {
+            if (this.IsDisposed)
+            {
+                return;
+            }
+
             if (disposing)
             {
                 (this.Prerequisites as IDisposable)?.Dispose();

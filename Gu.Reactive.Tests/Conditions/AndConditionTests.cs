@@ -34,34 +34,34 @@ namespace Gu.Reactive.Tests.Conditions
             using (var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrue), () => fake1.IsTrue))
             using (var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrue), () => fake2.IsTrue))
             using (var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrue), () => fake3.IsTrue))
-            using (var collection = new AndCondition(condition1, condition2, condition3))
+            using (var condition = new AndCondition(condition1, condition2, condition3))
             {
-                using (collection.ObserveIsSatisfiedChanged()
+                using (condition.ObserveIsSatisfiedChanged()
                                  .Subscribe(_ => count++))
                 {
-                    Assert.AreEqual(false, collection.IsSatisfied);
+                    Assert.AreEqual(false, condition.IsSatisfied);
                     fake1.IsTrue = !fake1.IsTrue;
-                    Assert.AreEqual(false, collection.IsSatisfied);
+                    Assert.AreEqual(false, condition.IsSatisfied);
                     Assert.AreEqual(0, count);
 
                     fake2.IsTrue = !fake2.IsTrue;
-                    Assert.AreEqual(false, collection.IsSatisfied);
+                    Assert.AreEqual(false, condition.IsSatisfied);
                     Assert.AreEqual(0, count);
 
                     fake3.IsTrue = !fake3.IsTrue;
-                    Assert.AreEqual(true, collection.IsSatisfied);
+                    Assert.AreEqual(true, condition.IsSatisfied);
                     Assert.AreEqual(1, count);
 
                     fake1.IsTrue = !fake1.IsTrue;
-                    Assert.AreEqual(false, collection.IsSatisfied);
+                    Assert.AreEqual(false, condition.IsSatisfied);
                     Assert.AreEqual(2, count);
 
                     fake2.IsTrue = !fake2.IsTrue;
-                    Assert.AreEqual(false, collection.IsSatisfied);
+                    Assert.AreEqual(false, condition.IsSatisfied);
                     Assert.AreEqual(2, count);
 
                     fake3.IsTrue = !fake3.IsTrue;
-                    Assert.AreEqual(false, collection.IsSatisfied);
+                    Assert.AreEqual(false, condition.IsSatisfied);
                     Assert.AreEqual(2, count);
                 }
             }
@@ -83,11 +83,39 @@ namespace Gu.Reactive.Tests.Conditions
             var mock1 = Mock.Of<ICondition>();
             var mock2 = Mock.Of<ICondition>();
             var mock3 = Mock.Of<ICondition>();
-            using (var collection = new AndCondition(mock1, mock2, mock3))
+            using (var condition = new AndCondition(mock1, mock2, mock3))
             {
-                CollectionAssert.AreEqual(new[] { mock1, mock2, mock3 }, collection.Prerequisites);
+                CollectionAssert.AreEqual(new[] { mock1, mock2, mock3 }, condition.Prerequisites);
             }
 #pragma warning restore GU0030 // Use using.
+        }
+
+        [Test]
+        public void DisposeDoesNotDisposeInjected()
+        {
+            var mock = new Mock<ICondition>(MockBehavior.Strict);
+            mock.SetupGet(x => x.IsSatisfied)
+                .Returns(false);
+            using (new AndCondition(mock.Object))
+            {
+            }
+
+            mock.Verify(x => x.Dispose(), Times.Never);
+        }
+
+        [Test]
+        public void DisposeTwice()
+        {
+            var mock = new Mock<ICondition>(MockBehavior.Strict);
+            mock.SetupGet(x => x.IsSatisfied)
+                .Returns(false);
+            using (var condition = new AndCondition(mock.Object))
+            {
+                condition.Dispose();
+                condition.Dispose();
+            }
+
+            mock.Verify(x => x.Dispose(), Times.Never);
         }
     }
 }

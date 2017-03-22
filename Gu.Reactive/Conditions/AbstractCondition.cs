@@ -18,7 +18,6 @@ namespace Gu.Reactive
         private readonly Lazy<Condition> condition;
         private readonly SingleAssignmentDisposable subscription = new SingleAssignmentDisposable();
 
-        private bool disposed;
         private string name;
 
         /// <summary>
@@ -93,6 +92,11 @@ namespace Gu.Reactive
             }
         }
 
+        /// <summary>
+        /// True if this instance is disposed.
+        /// </summary>
+        protected bool IsDisposed { get; private set; }
+
         /// <inheritdoc/>
         public ICondition Negate()
         {
@@ -122,12 +126,12 @@ namespace Gu.Reactive
         /// <param name="disposing">true: safe to free managed resources</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (this.IsDisposed)
             {
                 return;
             }
 
-            this.disposed = true;
+            this.IsDisposed = true;
             if (disposing)
             {
                 if (this.condition.IsValueCreated)
@@ -143,7 +147,7 @@ namespace Gu.Reactive
         /// </summary>
         protected void ThrowIfDisposed()
         {
-            if (this.disposed)
+            if (this.IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().FullName);
             }

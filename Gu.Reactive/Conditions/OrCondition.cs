@@ -30,6 +30,11 @@ namespace Gu.Reactive
         /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
         protected override void Dispose(bool disposing)
         {
+            if (this.IsDisposed)
+            {
+                return;
+            }
+
             if (disposing)
             {
                 (this.Prerequisites as IDisposable)?.Dispose();

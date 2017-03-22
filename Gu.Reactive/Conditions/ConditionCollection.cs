@@ -19,7 +19,6 @@ namespace Gu.Reactive
         private readonly IDisposable subscription;
         private readonly Func<IReadOnlyList<ICondition>, bool?> isSatisfied;
         private bool? previousIsSatisfied;
-        private bool disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionCollection"/> class.
@@ -69,6 +68,11 @@ namespace Gu.Reactive
                 this.OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// True if this instance is disposed.
+        /// </summary>
+        protected bool IsDisposed { get; private set; }
 
         /// <inheritdoc/>
         public ICondition this[int index] => this.prerequisites[index];
@@ -120,12 +124,16 @@ namespace Gu.Reactive
         /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && !this.disposed)
+            if (this.IsDisposed)
+            {
+                return;
+            }
+
+            this.IsDisposed = true;
+            if (disposing)
             {
                 this.subscription.Dispose();
             }
-
-            this.disposed = true;
         }
 
         /// <summary>
@@ -143,7 +151,7 @@ namespace Gu.Reactive
         /// </summary>
         protected void ThrowIfDisposed()
         {
-            if (this.disposed)
+            if (this.IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().FullName);
             }

@@ -22,7 +22,6 @@ namespace Gu.Reactive
         private readonly FixedSizedQueue<ConditionHistoryPoint> history = new FixedSizedQueue<ConditionHistoryPoint>(100);
         private bool? isSatisfied;
         private string name;
-        private bool disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Condition"/> class.
@@ -149,6 +148,11 @@ namespace Gu.Reactive
         }
 
         /// <summary>
+        /// True if this instance is disposed.
+        /// </summary>
+        protected bool IsDisposed { get; private set; }
+
+        /// <summary>
         /// Negates the condition. Calling Negate does not mutate the condition it is called on.
         /// Calling Negate on a negated condition returns the original condition.
         /// </summary>
@@ -183,12 +187,12 @@ namespace Gu.Reactive
         /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
         protected virtual void Dispose(bool disposing)
         {
-            if (this.disposed)
+            if (this.IsDisposed)
             {
                 return;
             }
 
-            this.disposed = true;
+            this.IsDisposed = true;
             if (disposing)
             {
                 this.subscription.Dispose();
@@ -200,7 +204,7 @@ namespace Gu.Reactive
         /// </summary>
         protected void ThrowIfDisposed()
         {
-            if (this.disposed)
+            if (this.IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().FullName);
             }

@@ -96,5 +96,33 @@ namespace Gu.Reactive.Tests.Conditions
             }
 #pragma warning restore GU0030 // Use using.
         }
+
+        [Test]
+        public void DisposeDoesNotDisposeInjected()
+        {
+            var mock = new Mock<ICondition>(MockBehavior.Strict);
+            mock.SetupGet(x => x.IsSatisfied)
+                .Returns(false);
+            using (new OrCondition(mock.Object))
+            {
+            }
+
+            mock.Verify(x => x.Dispose(), Times.Never);
+        }
+
+        [Test]
+        public void DisposeTwice()
+        {
+            var mock = new Mock<ICondition>(MockBehavior.Strict);
+            mock.SetupGet(x => x.IsSatisfied)
+                .Returns(false);
+            using (var condition = new OrCondition(mock.Object))
+            {
+                condition.Dispose();
+                condition.Dispose();
+            }
+
+            mock.Verify(x => x.Dispose(), Times.Never);
+        }
     }
 }
