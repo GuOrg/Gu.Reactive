@@ -180,14 +180,17 @@ namespace Gu.Reactive.Internals
 
         private void OnTrackedItemChanged(object sender, PropertyChangedEventArgs e)
         {
-            var item = (TItem)sender;
-            this.OnTrackedItemChanged(
-                item,
-                sender,
-                e,
-                SourceAndValue.Create(
-                    (INotifyPropertyChanged)sender,
-                    this.getter.GetMaybe(item)));
+            if (e.IsMatch(this.getter.Property))
+            {
+                var item = (TItem)sender;
+                this.OnTrackedItemChanged(
+                    item,
+                    sender,
+                    e,
+                    SourceAndValue.Create(
+                        (INotifyPropertyChanged)sender,
+                        this.getter.GetMaybe(item)));
+            }
         }
 
         private void SignalInitial(TItem item)
