@@ -60,7 +60,7 @@ namespace Gu.Wpf.Reactive
         }
 
         private AsyncCommand(ITaskRunner runner, ICondition[] conditions)
-            : this(runner, new AndCondition(runner.CanRunCondition, conditions))
+            : this(runner, new AndCondition(runner.CanRunCondition, new AndCondition(conditions, true)))
         {
         }
 

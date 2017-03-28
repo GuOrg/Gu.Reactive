@@ -1,6 +1,8 @@
 namespace Gu.Reactive.Tests.Conditions
 {
     using System;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
 
     using Gu.Reactive.Tests.Helpers;
 
@@ -76,23 +78,56 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void ThrowsIfEmpty()
+        public void ThrowsIfPrerequisiteIsNull()
         {
-            // ReSharper disable once HeapView.ObjectAllocation.Evident
-            // ReSharper disable once ObjectCreationAsStatement
-            Assert.Throws<ArgumentNullException>(() => new OrCondition());
+#pragma warning disable GU0030 // Use using.
+            var mock = Mock.Of<ICondition>();
+            var exception = Assert.Throws<ArgumentNullException>(() => new OrCondition(mock, null));
+            Assert.AreEqual("Value cannot be null.\r\nParameter name: condition2", exception.Message);
+
+            exception = Assert.Throws<ArgumentNullException>(() => new OrCondition(null, mock));
+            Assert.AreEqual("Value cannot be null.\r\nParameter name: condition1", exception.Message);
+#pragma warning restore GU0030 // Use using.
         }
 
         [Test]
-        public void Prerequisites()
+        public void Prerequisites2()
+        {
+#pragma warning disable GU0030 // Use using.
+            var mock1 = Mock.Of<ICondition>();
+            var mock2 = Mock.Of<ICondition>();
+            using (var condition = new OrCondition(mock1, mock2))
+            {
+                CollectionAssert.AreEqual(new[] { mock1, mock2 }, condition.Prerequisites);
+            }
+#pragma warning restore GU0030 // Use using.
+        }
+
+        [Test]
+        public void Prerequisites3()
         {
 #pragma warning disable GU0030 // Use using.
             var mock1 = Mock.Of<ICondition>();
             var mock2 = Mock.Of<ICondition>();
             var mock3 = Mock.Of<ICondition>();
-            using (var collection = new OrCondition(mock1, mock2, mock3))
+            using (var condition = new OrCondition(mock1, mock2, mock3))
             {
-                CollectionAssert.AreEqual(new[] { mock1, mock2, mock3 }, collection.Prerequisites);
+                CollectionAssert.AreEqual(new[] { mock1, mock2, mock3 }, condition.Prerequisites);
+            }
+#pragma warning restore GU0030 // Use using.
+        }
+
+        [Test]
+        public void Prerequisites4()
+        {
+#pragma warning disable GU0030 // Use using.
+            var mock1 = Mock.Of<ICondition>();
+            var mock2 = Mock.Of<ICondition>();
+            var mock3 = Mock.Of<ICondition>();
+            var mock4 = Mock.Of<ICondition>();
+            using (var condition = new OrCondition(mock1, mock2, mock3, mock4))
+            {
+                CollectionAssert.AreEqual(new[] { mock1, mock2, mock3, mock4 }, condition.Prerequisites);
             }
 #pragma warning restore GU0030 // Use using.
         }
@@ -100,29 +135,51 @@ namespace Gu.Reactive.Tests.Conditions
         [Test]
         public void DisposeDoesNotDisposeInjected()
         {
-            var mock = new Mock<ICondition>(MockBehavior.Strict);
-            mock.SetupGet(x => x.IsSatisfied)
+            var mock1 = new Mock<ICondition>(MockBehavior.Strict);
+            mock1.SetupGet(x => x.IsSatisfied)
                 .Returns(false);
-            using (new OrCondition(mock.Object))
+            var mock2 = new Mock<ICondition>(MockBehavior.Strict);
+            mock2.SetupGet(x => x.IsSatisfied)
+                .Returns(false);
+            using (new OrCondition(mock1.Object, mock2.Object))
             {
             }
 
-            mock.Verify(x => x.Dispose(), Times.Never);
+            mock1.Verify(x => x.Dispose(), Times.Never);
+        }
+
+        [Test]
+        public void DynamicList()
+        {
+            var conditions = new ObservableCollection<ICondition>();
+            using (var condition = new OrCondition(conditions, true))
+            {
+                Assert.AreEqual(null, condition.IsSatisfied);
+
+                conditions.Add(Mock.Of<ICondition>(x => x.IsSatisfied == true));
+                Assert.AreEqual(true, condition.IsSatisfied);
+
+                Mock.Get(conditions[0]).SetupGet(x => x.IsSatisfied).Returns(true);
+                Mock.Get(conditions[0]).Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("IsSatisfied"));
+            }
         }
 
         [Test]
         public void DisposeTwice()
         {
-            var mock = new Mock<ICondition>(MockBehavior.Strict);
-            mock.SetupGet(x => x.IsSatisfied)
+            var mock1 = new Mock<ICondition>(MockBehavior.Strict);
+            mock1.SetupGet(x => x.IsSatisfied)
                 .Returns(false);
-            using (var condition = new OrCondition(mock.Object))
+            var mock2 = new Mock<ICondition>(MockBehavior.Strict);
+            mock2.SetupGet(x => x.IsSatisfied)
+                .Returns(false);
+            using (var condition = new OrCondition(mock1.Object, mock2.Object))
             {
                 condition.Dispose();
                 condition.Dispose();
             }
 
-            mock.Verify(x => x.Dispose(), Times.Never);
+            mock1.Verify(x => x.Dispose(), Times.Never);
         }
     }
 }
