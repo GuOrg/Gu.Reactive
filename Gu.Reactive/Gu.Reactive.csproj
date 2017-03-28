@@ -53,6 +53,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReadOnlyFilteredView{T}.tt</DependentUpon>
     </Compile>
+    <Compile Include="Collections\ReadOnlyViews\ReadOnlySerialViewBase.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadOnlyThrottledView.generated.cs">
       <DependentUpon>ReadOnlyThrottledView.tt</DependentUpon>
       <AutoGen>True</AutoGen>

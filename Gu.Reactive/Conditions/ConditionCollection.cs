@@ -4,6 +4,7 @@ namespace Gu.Reactive
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reactive.Concurrency;
     using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
@@ -11,7 +12,7 @@ namespace Gu.Reactive
     /// <summary>
     /// Base class for collections of conditions
     /// </summary>
-    public abstract class ConditionCollection : ReadonlyViewBase<ICondition, ICondition>, ISatisfied
+    public abstract class ConditionCollection : ReadOnlySerialViewBase<ICondition>, ISatisfied
     {
         private readonly IDisposable subscription;
         private readonly Func<IReadOnlyList<ICondition>, bool?> isSatisfied;
@@ -24,7 +25,7 @@ namespace Gu.Reactive
         /// <param name="prerequisites">The children.</param>
         /// <param name="leaveOpen">True to not dispose <paramref name="prerequisites"/> when this instance is disposed.</param>
         protected ConditionCollection(Func<IReadOnlyList<ICondition>, bool?> isSatisfied, IReadOnlyList<ICondition> prerequisites, bool leaveOpen)
-            : base(prerequisites, s => s, leaveOpen, false)
+            : base(prerequisites, TimeSpan.Zero, ImmediateScheduler.Instance, leaveOpen)
         {
             Ensure.NotNull(isSatisfied, nameof(isSatisfied));
             Ensure.NotNull(prerequisites, nameof(prerequisites));
@@ -35,12 +36,10 @@ namespace Gu.Reactive
             }
 
             this.isSatisfied = isSatisfied;
-            this.subscription = this.ObserveCollectionChangedSlim(true)
-                                    .Select(_ => this.Select(c => c.ObserveIsSatisfiedChanged())
-                                                     .Merge())
-                                    .Switch()
-                                    .Skip(1)
-                                    .Subscribe(_ => this.IsSatisfied = isSatisfied(this));
+            this.subscription = this.AsMappingView(
+                x => x.ObserveIsSatisfiedChanged()
+                      .Subscribe(_ => this.IsSatisfied = isSatisfied(this)),
+                x => x.Dispose());
             this.previousIsSatisfied = isSatisfied(this);
         }
 

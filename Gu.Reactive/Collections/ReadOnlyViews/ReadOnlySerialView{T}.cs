@@ -2,19 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.Specialized;
     using System.Diagnostics.CodeAnalysis;
     using System.Reactive.Concurrency;
-    using System.Reactive.Linq;
 
     /// <summary>
     /// A view where the source can be updated that notifies about changes.
     /// </summary>
-    public class ReadOnlySerialView<T> : ReadonlyViewBase<T, T>, IReadOnlyObservableCollection<T>
+    public class ReadOnlySerialView<T> : ReadOnlySerialViewBase<T>, IReadOnlyObservableCollection<T>
     {
-        private readonly IDisposable refreshSubscription;
-        private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
         /// </summary>
@@ -45,22 +40,14 @@
         /// </summary>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public ReadOnlySerialView(IEnumerable<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : base(source, s => s, true, true)
+            : base(source, bufferTime, scheduler, true)
         {
-            this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
-            this.refreshSubscription = this.ObserveValue(x => x.Source)
-                                           .Select(x => x.GetValueOrDefault()
-                                                         .ObserveCollectionChangedSlimOrDefault(true)
-                                                         .Slide(this.chunk))
-                                           .Switch()
-                                           .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
-                                           .Subscribe(this.Update);
         }
 
         /// <inheritdoc/>
         public override void Refresh()
         {
-            using (this.chunk.ClearTransaction())
+            using (this.Chunk.ClearTransaction())
             {
                 base.Refresh();
             }
@@ -81,35 +68,6 @@
         public new void ClearSource()
         {
             base.ClearSource();
-        }
-
-        /// <inheritdoc/>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.refreshSubscription.Dispose();
-                this.chunk.ClearItems();
-            }
-
-            base.Dispose(disposing);
-        }
-
-        /// <inheritdoc/>
-        protected sealed override void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
-        {
-            base.Refresh(changes);
-        }
-
-        private void Update(Chunk<NotifyCollectionChangedEventArgs> changes)
-        {
-            using (changes.ClearTransaction())
-            {
-                if (changes.Count > 0)
-                {
-                    this.Refresh(changes);
-                }
-            }
         }
     }
 }
