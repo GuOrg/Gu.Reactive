@@ -953,7 +953,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var rootRef = new WeakReference(root);
                 var levelRef = new WeakReference(root.Next);
                 Assert.IsTrue(rootRef.IsAlive);
-                var observable = root.ObservePropertyChangedWithValue(x => x.Next.Name, false);
+                var observable = root.ObservePropertyChanged(x => x.Next.Name, false);
                 using (var subscription = observable.Subscribe())
                 {
                 }
@@ -973,7 +973,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var rootRef = new WeakReference(root);
                 var levelRef = new WeakReference(root.Next);
                 Assert.IsTrue(rootRef.IsAlive);
-                var observable = root.ObservePropertyChangedWithValue(x => x.Next.Name, false);
+                var observable = root.ObservePropertyChanged(x => x.Next.Name, false);
 #pragma warning disable GU0030 // Use using.
                 var subscription = observable.Subscribe();
 #pragma warning restore GU0030 // Use using.
@@ -993,7 +993,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var rootRef = new WeakReference(root);
                 var levelRef = new WeakReference(root.Next);
                 Assert.IsTrue(rootRef.IsAlive);
-                var observable = root.ObservePropertyChangedWithValue(x => x.Next.Name, false);
+                var observable = root.ObservePropertyChanged(x => x.Next.Name, false);
 #pragma warning disable GU0030 // Use using.
                 var subscription = observable.Subscribe();
 #pragma warning restore GU0030 // Use using.
@@ -1013,7 +1013,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var rootRef = new WeakReference(root);
                 var levelRef = new WeakReference(root.Next);
                 Assert.IsTrue(rootRef.IsAlive);
-                var observable = root.ObservePropertyChangedWithValue(x => x.Next.Name, false);
+                var observable = root.ObservePropertyChanged(x => x.Next.Name, false);
                 using (var subscription = observable.Subscribe())
                 {
                 }
