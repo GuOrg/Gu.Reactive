@@ -9,6 +9,11 @@ namespace Gu.Reactive.Internals
     internal interface IPropertyTracker : IDisposable
     {
         /// <summary>
+        /// Notifies that the tracked property changed.
+        /// </summary>
+        event PropertyChangedEventHandler TrackedPropertyChanged;
+
+        /// <summary>
         /// The <see cref="IGetter"/> for the property.
         /// </summary>
         IGetter Getter { get; }

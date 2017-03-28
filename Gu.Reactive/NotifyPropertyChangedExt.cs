@@ -151,6 +151,21 @@
             return observable;
         }
 
+        public static IObservable<PropertyChangedEventArgs> ObserveFullPropertyPathSlim<TNotifier, TProperty>(this TNotifier source, Expression<Func<TNotifier, TProperty>> property, bool signalInitial = true)
+            where TNotifier : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(property, nameof(property));
+
+            var notifyingPath = NotifyingPath.GetOrCreate(property);
+            if (notifyingPath.Count < 2)
+            {
+                throw new ArgumentException("Expected path to have more than one",nameof(property));
+            }
+
+            return ObserveFullPropertyPathCore(source, notifyingPath, (_, e) => e, signalInitial);
+        }
+
         /// <summary>
         /// Extension method for listening to property changes.
         /// Handles nested x => x.Level1.Level2.Level3
@@ -341,6 +356,43 @@
             }
 
             return ObservePropertyChangedCore(source, notifyingPath.Last.Property.Name, create, false);
+        }
+
+        private static IObservable<T> ObserveFullPropertyPathCore<TNotifier, TProperty, T>(this TNotifier source, NotifyingPath<TNotifier, TProperty> notifyingPath, Func<object, PropertyChangedEventArgs, T> create, bool signalInitial = true)
+            where TNotifier : class, INotifyPropertyChanged
+        {
+            if (signalInitial)
+            {
+                return Observable.Return(
+                                     create(
+                                         notifyingPath.SourceAndValue(source)
+                                                      .Source,
+                                         CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty)))
+                                 .Concat(source.ObserveFullPropertyPathCore(notifyingPath, create, false));
+            }
+
+            return Observable.Create<T>(
+                o =>
+                    {
+#pragma warning disable GU0030 // Use using.
+                        var tracker = notifyingPath.CreateTracker(source);
+#pragma warning restore GU0030 // Use using.
+                        PropertyChangedEventHandler handler = (sender, e) => o.OnNext(create(sender, e));
+                        foreach (var propertyTracker in tracker)
+                        {
+                            propertyTracker.TrackedPropertyChanged += handler;
+                        }
+                        return Disposable.Create(
+                            () =>
+                                {
+                                    foreach (var propertyTracker in tracker)
+                                    {
+                                        propertyTracker.TrackedPropertyChanged -= handler;
+                                    }
+
+                                    tracker.Dispose();
+                                });
+                    });
         }
 
         private static IObservable<T> ObservePropertyChangedCore<TNotifier, T>(
