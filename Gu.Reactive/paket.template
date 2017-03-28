@@ -4,10 +4,7 @@ projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  BUGFIX: ObserveItemPropertyChanged should only signal when the tracked property changes.
-  FEATURE: Handle dynamic list of conditions in AndCondition & OrCondition.
-  MINOR BREAKING: Rename ReadonlySerialViewBase{TSource,TMapped}, can't imagine anyone ever used this.
-  FEATURE: ObserveFullPropertyPathSlim, observe all steps in a property path.
+  FEATURE: AsReadOnlyView, turn IObservable<T> into a bindable IReadOnlyView<T>
 
 excludeddependencies
   JetBrains.Annotations

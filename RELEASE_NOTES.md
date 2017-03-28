@@ -1,3 +1,6 @@
+#### 3.2.0
+* FEATURE: AsReadOnlyView, turn IObservable<T> into a bindable IReadOnlyView<T>
+
 #### 3.1.0
 * BUGFIX: ObserveItemPropertyChanged should only signal when the tracked property changes.
 * FEATURE: Handle dynamic list of conditions in AndCondition & OrCondition.
