@@ -1052,7 +1052,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Assert.IsTrue(rootRef.IsAlive);
                 var observable = root.ObserveFullPropertyPathSlim(x => x.Next.Name, false);
 #pragma warning disable GU0030 // Use using.
-                // ReSharper disable once UnusedVariable
+                //// ReSharper disable once UnusedVariable
                 var subscription = observable.Subscribe();
 #pragma warning restore GU0030 // Use using.
 
@@ -1093,7 +1093,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var levelRef = new WeakReference(root.Next);
                 Assert.IsTrue(rootRef.IsAlive);
                 var observable = root.ObserveFullPropertyPathSlim(x => x.Next.Name, false);
-                // ReSharper disable once UnusedVariable
+                //// ReSharper disable once UnusedVariable
                 using (var subscription = observable.Subscribe())
                 {
                 }

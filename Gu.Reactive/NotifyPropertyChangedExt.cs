@@ -151,6 +151,13 @@
             return observable;
         }
 
+        /// <summary>
+        /// Observe property changes for the path <paramref name="source"/>.
+        /// This signals when any of the items in tha path signals.
+        /// </summary>
+        /// <param name="source">The source instance.</param>
+        /// <param name="property">An expression specifying the property path.</param>
+        /// <param name="signalInitial"> If true OnNext is called immediately on subscribe </param>
         public static IObservable<PropertyChangedEventArgs> ObserveFullPropertyPathSlim<TNotifier, TProperty>(this TNotifier source, Expression<Func<TNotifier, TProperty>> property, bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
@@ -160,7 +167,7 @@
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             if (notifyingPath.Count < 2)
             {
-                throw new ArgumentException("Expected path to have more than one",nameof(property));
+                throw new ArgumentException("Expected path to have more than one", nameof(property));
             }
 
             return ObserveFullPropertyPathCore(source, notifyingPath, (_, e) => e, signalInitial);
