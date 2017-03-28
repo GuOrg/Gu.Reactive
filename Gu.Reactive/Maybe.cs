@@ -16,6 +16,13 @@ namespace Gu.Reactive
         public static Maybe<T> None<T>() => Maybe<T>.None;
 
         /// <summary>
+        /// Get the value if HasValue is true and default(T) if not.
+        /// </summary>
+        public static T GetValueOrDefault<T>(this IMaybe<T> maybe) => maybe.HasValue
+                                                                          ? maybe.Value
+                                                                          : default(T);
+
+        /// <summary>
         /// Cast to Maybe{T}
         /// </summary>
         public static Maybe<T> Cast<T>(this Maybe<object> maybe)

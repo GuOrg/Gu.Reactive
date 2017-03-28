@@ -72,6 +72,7 @@
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObserveFullPropertyPathSlim.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedSlimLamda.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObserveValue.cs" />
+    <Compile Include="ObservableExtTests.AsReadOnlyView.cs" />
     <Compile Include="ObservableExtTests.Chunks.cs" />
     <Compile Include="SerialDisposableTests.cs" />
     <Compile Include="Collections\DiffTests.cs" />

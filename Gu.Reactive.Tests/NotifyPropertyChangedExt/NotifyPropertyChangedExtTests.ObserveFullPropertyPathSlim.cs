@@ -1,3 +1,4 @@
+// ReSharper disable HeuristicUnreachableCode
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;

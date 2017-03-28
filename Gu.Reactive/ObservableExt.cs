@@ -160,6 +160,22 @@
         }
 
         /// <summary>
+        /// Turn the observable into a <see cref="IReadOnlyView{T}"/> that can be bound.
+        /// </summary>
+        public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<IMaybe<IEnumerable<T>>> source)
+        {
+            return new ReadOnlyView<T>(source.Select(x => x.GetValueOrDefault()));
+        }
+
+        /// <summary>
+        /// Turn the observable into a <see cref="IReadOnlyView{T}"/> that can be bound.
+        /// </summary>
+        public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<IEnumerable<T>> source)
+        {
+            return new ReadOnlyView<T>(source);
+        }
+
+        /// <summary>
         /// Return Observable.Merge if <paramref name="source"/> is not null or empty
         /// </summary>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
@@ -181,6 +197,27 @@
             }
 
             return source.ObserveOn(scheduler);
+        }
+
+        private class ReadOnlyView<T> : ReadOnlySerialViewBase<T>
+        {
+            private readonly IDisposable subscription;
+
+            public ReadOnlyView(IObservable<IEnumerable<T>> source)
+                : base(null, TimeSpan.Zero, ImmediateScheduler.Instance, true)
+            {
+                this.subscription = source.Subscribe(this.SetSource);
+            }
+
+            protected override void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    this.subscription?.Dispose();
+                }
+
+                base.Dispose(disposing);
+            }
         }
     }
 }

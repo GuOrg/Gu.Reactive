@@ -8,7 +8,7 @@
     /// <summary>
     /// A view where the source can be updated that notifies about changes.
     /// </summary>
-    public class ReadOnlySerialView<T> : ReadOnlySerialViewBase<T>, IReadOnlyObservableCollection<T>
+    public class ReadOnlySerialView<T> : ReadOnlySerialViewBase<T>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
