@@ -8,7 +8,7 @@
         /// <summary>
         /// Notifies that the tracked property changed.
         /// </summary>
-        event TrackedPropertyChangedEventHandler<TValue> TrackedPropertyChanged;
+        new event TrackedPropertyChangedEventHandler<TValue> TrackedPropertyChanged;
 
         /// <summary>
         /// Get the value if source is not null.

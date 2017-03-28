@@ -2,20 +2,18 @@
 namespace Gu.Reactive
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Linq;
+    using System.Reactive.Concurrency;
     using System.Reactive.Linq;
-    using System.Runtime.CompilerServices;
+
     using Gu.Reactive.Internals;
 
     /// <summary>
     /// Base class for collections of conditions
     /// </summary>
-    public abstract class ConditionCollection : ISatisfied, IReadOnlyList<ICondition>, INotifyPropertyChanged, IDisposable
+    public abstract class ConditionCollection : ReadOnlySerialViewBase<ICondition>, ISatisfied
     {
-        private readonly IReadOnlyList<ICondition> prerequisites;
         private readonly IDisposable subscription;
         private readonly Func<IReadOnlyList<ICondition>, bool?> isSatisfied;
         private bool? previousIsSatisfied;
@@ -23,29 +21,27 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionCollection"/> class.
         /// </summary>
-        protected ConditionCollection(Func<IReadOnlyList<ICondition>, bool?> isSatisfied, params ICondition[] prerequisites)
+        /// <param name="isSatisfied">The predicate for calculating if the collection is satisfied.</param>
+        /// <param name="prerequisites">The children.</param>
+        /// <param name="leaveOpen">True to not dispose <paramref name="prerequisites"/> when this instance is disposed.</param>
+        protected ConditionCollection(Func<IReadOnlyList<ICondition>, bool?> isSatisfied, IReadOnlyList<ICondition> prerequisites, bool leaveOpen)
+            : base(prerequisites, TimeSpan.Zero, ImmediateScheduler.Instance, leaveOpen)
         {
             Ensure.NotNull(isSatisfied, nameof(isSatisfied));
-            Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
+            Ensure.NotNull(prerequisites, nameof(prerequisites));
 
-            if (prerequisites.Distinct().Count() != prerequisites.Length)
+            if (prerequisites.Distinct().Count() != prerequisites.Count)
             {
                 throw new ArgumentException("Prerequisites must be distinct", nameof(prerequisites));
             }
 
             this.isSatisfied = isSatisfied;
-            this.prerequisites = prerequisites;
-            this.subscription = prerequisites.Select(x => x.ObserveIsSatisfiedChanged())
-                                       .Merge()
-                                       .Subscribe(_ => this.IsSatisfied = isSatisfied(this.prerequisites));
-            this.previousIsSatisfied = isSatisfied(this.prerequisites);
+            this.subscription = this.AsMappingView(
+                x => x.ObserveIsSatisfiedChanged()
+                      .Subscribe(_ => this.IsSatisfied = isSatisfied(this)),
+                x => x.Dispose());
+            this.previousIsSatisfied = isSatisfied(this);
         }
-
-        /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <inheritdoc/>
-        public int Count => this.prerequisites.Count;
 
         /// <inheritdoc/>
         public bool? IsSatisfied
@@ -53,7 +49,7 @@ namespace Gu.Reactive
             get
             {
                 this.ThrowIfDisposed();
-                return this.isSatisfied(this.prerequisites); // No caching
+                return this.isSatisfied(this); // No caching
             }
 
             private set
@@ -69,46 +65,22 @@ namespace Gu.Reactive
             }
         }
 
-        /// <summary>
-        /// True if this instance is disposed.
-        /// </summary>
-        protected bool IsDisposed { get; private set; }
-
         /// <inheritdoc/>
-        public ICondition this[int index] => this.prerequisites[index];
+        public override string ToString() => $"IsSatisfied: {this.IsSatisfied} {{{string.Join(", ", this.Select(x => x.Name))}}}";
 
-        /// <inheritdoc/>
-        public void Dispose()
+        internal static IReadOnlyList<ICondition> Prepend(ICondition condition1, ICondition condition2, ICondition[] conditions)
         {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+            Ensure.NotNull(condition1, nameof(condition1));
+            Ensure.NotNull(condition2, nameof(condition2));
+            if (conditions == null || conditions.Length == 0)
+            {
+                return new[] { condition1, condition2 };
+            }
 
-        /// <inheritdoc/>
-        public override string ToString() => $"IsSatisfied: {this.IsSatisfied} {{{string.Join(", ", this.prerequisites.Select(x => x.Name))}}}";
-
-        /// <inheritdoc/>
-        public IEnumerator<ICondition> GetEnumerator()
-        {
-            this.ThrowIfDisposed();
-            return this.prerequisites.GetEnumerator();
-        }
-
-        /// <inheritdoc/>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            this.ThrowIfDisposed();
-            return this.GetEnumerator();
-        }
-
-        internal static ICondition[] Prepend(ICondition condition, ICondition[] conditions)
-        {
-            Ensure.NotNull(condition, nameof(condition));
-            Ensure.NotNullOrEmpty(conditions, nameof(conditions));
-
-            var result = new ICondition[conditions.Length + 1];
-            result[0] = condition;
-            conditions.CopyTo(result, 1);
+            var result = new ICondition[conditions.Length + 2];
+            result[0] = condition1;
+            result[1] = condition2;
+            conditions.CopyTo(result, 2);
             return result;
         }
 
@@ -122,39 +94,19 @@ namespace Gu.Reactive
         /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.
         /// </remarks>
         /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (this.IsDisposed)
             {
                 return;
             }
 
-            this.IsDisposed = true;
             if (disposing)
             {
                 this.subscription.Dispose();
             }
-        }
 
-        /// <summary>
-        /// Raise PropertyChanged event to any listeners.
-        /// Properties/methods modifying this <see cref="ConditionCollection"/> will raise
-        /// a property changed event through this virtual method.
-        /// </summary>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
-        /// </summary>
-        protected void ThrowIfDisposed()
-        {
-            if (this.IsDisposed)
-            {
-                throw new ObjectDisposedException(this.GetType().FullName);
-            }
+            base.Dispose(disposing);
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Gu.Reactive
         protected Condition(ConditionCollection prerequisites)
             : this(prerequisites.ObserveIsSatisfiedChanged(), () => prerequisites.IsSatisfied)
         {
-            Ensure.NotNullOrEmpty(prerequisites, nameof(prerequisites));
+            Ensure.NotNull(prerequisites, nameof(prerequisites));
             this.prerequisites = prerequisites;
         }
 

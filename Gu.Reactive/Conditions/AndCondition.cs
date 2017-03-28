@@ -1,6 +1,7 @@
 namespace Gu.Reactive
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Creates an <see cref="ICondition"/> from a collection of conditions.
@@ -13,16 +14,18 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="AndCondition"/> class.
         /// </summary>
-        public AndCondition(ICondition condition, ICondition[] prerequisites)
-            : this(ConditionCollection.Prepend(condition, prerequisites))
+        public AndCondition(ICondition prerequisite1, ICondition prerequisite2, params ICondition[] prerequisites)
+            : base(new AndConditionCollection(ConditionCollection.Prepend(prerequisite1, prerequisite2, prerequisites), true))
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AndCondition"/> class.
         /// </summary>
-        public AndCondition(params ICondition[] prerequisites)
-            : base(new AndConditionCollection(prerequisites))
+        /// <param name="prerequisites">The children.</param>
+        /// <param name="leaveOpen">True to not dispose <paramref name="prerequisites"/> when this instance is disposed.</param>
+        public AndCondition(IReadOnlyList<ICondition> prerequisites, bool leaveOpen)
+            : base(new AndConditionCollection(prerequisites, leaveOpen))
         {
         }
 

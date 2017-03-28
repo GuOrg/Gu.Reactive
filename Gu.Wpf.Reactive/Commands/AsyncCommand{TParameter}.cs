@@ -60,7 +60,7 @@
         }
 
         private AsyncCommand(ITaskRunner<TParameter> runner, ICondition[] conditions)
-            : this(runner, new AndCondition(runner.CanRunCondition, conditions))
+            : this(runner, new AndCondition(runner.CanRunCondition, new AndCondition(conditions, true)))
         {
         }
 

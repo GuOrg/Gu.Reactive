@@ -1,20 +1,31 @@
 namespace Gu.Reactive
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
-    /// Creates an <see cref="ICondition"/> from a collection of condtions.
-    /// It is Satisfied when any of the prerequisites is staisfied.
+    /// Creates an <see cref="ICondition"/> from a collection of conditions.
+    /// It is Satisfied when any of the prerequisites is satisfied.
     /// If no prerequisite IsSatisfied IsSatisfied returns false.
-    /// If no prerequisite is IsSatisFied == true and any prerequisite is null the result is null
+    /// If no prerequisite is IsSatisfied == true and any prerequisite is null the result is null
     /// </summary>
     public class OrCondition : Condition
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OrCondition"/> class.
         /// </summary>
-        public OrCondition(params ICondition[] prerequisites)
-            : base(new OrConditionCollection(prerequisites))
+        public OrCondition(ICondition prerequisite1, ICondition prerequisite2, params ICondition[] prerequisites)
+            : base(new OrConditionCollection(ConditionCollection.Prepend(prerequisite1, prerequisite2, prerequisites), true))
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrCondition"/> class.
+        /// </summary>
+        /// <param name="prerequisites">The children.</param>
+        /// <param name="leaveOpen">True to not dispose <paramref name="prerequisites"/> when this instance is disposed.</param>
+        public OrCondition(IReadOnlyList<ICondition> prerequisites, bool leaveOpen)
+            : base(new OrConditionCollection(prerequisites, leaveOpen))
         {
         }
 

@@ -14,7 +14,7 @@ namespace Gu.Reactive
     /// A base class for swapping out an <see cref="IEnumerable{T}"/> source and get notifications.
     /// </summary>
     [Serializable]
-    public abstract class ReadonlySerialViewBase<TSource, TMapped> : IRefreshAble, IList, IReadOnlyList<TMapped>, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
+    public abstract class ReadonlyViewBase<TSource, TMapped> : IRefreshAble, IList, IReadOnlyList<TMapped>, IDisposable, INotifyCollectionChanged, INotifyPropertyChanged
     {
         private static readonly IReadOnlyList<TSource> EmptySource = new TSource[0];
 
@@ -25,13 +25,13 @@ namespace Gu.Reactive
         private IEnumerable<TSource> source;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadonlySerialViewBase{TSourceItem, TITem}"/> class.
+        /// Initializes a new instance of the <see cref="ReadonlyViewBase{TSource,TMapped}"/> class.
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="mapper">The mapping function.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <param name="starteEmpty">True means that ther tracker is empty after the constructor.</param>
-        protected ReadonlySerialViewBase(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper, bool leaveOpen, bool starteEmpty = false)
+        protected ReadonlyViewBase(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper, bool leaveOpen, bool starteEmpty = false)
         {
             Ensure.NotNull(mapper, nameof(mapper));
             this.mapper = mapper;
@@ -271,7 +271,7 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Raise CollectionChanged event to any listeners.
-        /// Properties/methods modifying this <see cref="ReadonlySerialViewBase{TSource,TMapped}"/> will raise
+        /// Properties/methods modifying this <see cref="ReadonlyViewBase{TSource,TMapped}"/> will raise
         /// a collection changed event through this virtual method.
         /// </summary>
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
@@ -281,7 +281,7 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Raise PropertyChanged event to any listeners.
-        /// Properties/methods modifying this <see cref="ReadonlySerialViewBase{TSource,TMapped}"/> will raise
+        /// Properties/methods modifying this <see cref="ReadonlyViewBase{TSource,TMapped}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -291,7 +291,7 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Raise PropertyChanged event to any listeners.
-        /// Properties/methods modifying this <see cref="ReadonlySerialViewBase{TSource,TMapped}"/> will raise
+        /// Properties/methods modifying this <see cref="ReadonlyViewBase{TSource,TMapped}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
