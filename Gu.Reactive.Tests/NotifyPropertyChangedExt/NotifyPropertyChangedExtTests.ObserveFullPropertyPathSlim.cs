@@ -3,6 +3,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     using Gu.Reactive.Tests.Helpers;
@@ -405,7 +406,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     expected.Add("Level1");
                     CollectionAssert.AreEqual(expected, actual.Select(x => x.PropertyName));
 
-                    fake.OnPropertyChanged("Level1");
+                    fake.OnPropertyChanged(nameof(fake.Level1));
                     expected.Add("Level1");
                     CollectionAssert.AreEqual(expected, actual.Select(x => x.PropertyName));
                 }
@@ -1019,6 +1020,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
+            [SuppressMessage("ReSharper", "UnusedVariable")]
             public void MemoryLeakRootDisposeTest()
             {
 #if DEBUG
@@ -1050,6 +1052,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Assert.IsTrue(rootRef.IsAlive);
                 var observable = root.ObserveFullPropertyPathSlim(x => x.Next.Name, false);
 #pragma warning disable GU0030 // Use using.
+                // ReSharper disable once UnusedVariable
                 var subscription = observable.Subscribe();
 #pragma warning restore GU0030 // Use using.
 
@@ -1059,6 +1062,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
+            [SuppressMessage("ReSharper", "UnusedVariable")]
             public void MemoryLeakLevelNoDisposeTest()
             {
 #if DEBUG
@@ -1089,6 +1093,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var levelRef = new WeakReference(root.Next);
                 Assert.IsTrue(rootRef.IsAlive);
                 var observable = root.ObserveFullPropertyPathSlim(x => x.Next.Name, false);
+                // ReSharper disable once UnusedVariable
                 using (var subscription = observable.Subscribe())
                 {
                 }

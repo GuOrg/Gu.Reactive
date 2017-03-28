@@ -1,8 +1,10 @@
 namespace Gu.Reactive.Tests.Conditions
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
 
     using Gu.Reactive.Tests.Helpers;
     using Moq;
@@ -71,6 +73,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
+        [SuppressMessage("ReSharper", "ObjectCreationAsStatement")]
         public void ThrowsIfPrerequisiteIsNull()
         {
 #pragma warning disable GU0030 // Use using.
@@ -147,13 +150,22 @@ namespace Gu.Reactive.Tests.Conditions
             var conditions = new ObservableCollection<ICondition>();
             using (var condition = new AndCondition(conditions, true))
             {
-                Assert.AreEqual(null, condition.IsSatisfied);
+                var actuals = new List<bool?>();
+                using (condition.ObserveIsSatisfiedChanged()
+                                .Subscribe(c => actuals.Add(c.IsSatisfied)))
+                {
+                    CollectionAssert.IsEmpty(actuals);
+                    Assert.AreEqual(null, condition.IsSatisfied);
 
-                conditions.Add(Mock.Of<ICondition>(x => x.IsSatisfied == true));
-                Assert.AreEqual(true, condition.IsSatisfied);
+                    conditions.Add(Mock.Of<ICondition>(x => x.IsSatisfied == true));
+                    Assert.AreEqual(true, condition.IsSatisfied);
+                    CollectionAssert.AreEqual(new[] { true }, actuals);
 
-                Mock.Get(conditions[0]).SetupGet(x => x.IsSatisfied).Returns(true);
-                Mock.Get(conditions[0]).Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("IsSatisfied"));
+                    Mock.Get(conditions[0]).SetupGet(x => x.IsSatisfied).Returns(false);
+                    Mock.Get(conditions[0]).Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("IsSatisfied"));
+                    Assert.AreEqual(false, condition.IsSatisfied);
+                    CollectionAssert.AreEqual(new[] { true, false }, actuals);
+                }
             }
         }
 

@@ -5,7 +5,6 @@ namespace Gu.Reactive
     using System.Collections.Generic;
     using System.Linq;
     using System.Reactive.Concurrency;
-    using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
 
@@ -14,8 +13,9 @@ namespace Gu.Reactive
     /// </summary>
     public abstract class ConditionCollection : ReadOnlySerialViewBase<ICondition>, ISatisfied
     {
-        private readonly IDisposable subscription;
         private readonly Func<IReadOnlyList<ICondition>, bool?> isSatisfied;
+        private readonly IDisposable subscription;
+
         private bool? previousIsSatisfied;
 
         /// <summary>
@@ -36,10 +36,8 @@ namespace Gu.Reactive
             }
 
             this.isSatisfied = isSatisfied;
-            this.subscription = this.AsMappingView(
-                x => x.ObserveIsSatisfiedChanged()
-                      .Subscribe(_ => this.IsSatisfied = isSatisfied(this)),
-                x => x.Dispose());
+            this.subscription = this.ObserveItemPropertyChangedSlim(x => x.IsSatisfied)
+                                    .Subscribe(_ => this.IsSatisfied = this.isSatisfied(this));
             this.previousIsSatisfied = isSatisfied(this);
         }
 
