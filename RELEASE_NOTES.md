@@ -1,3 +1,9 @@
+#### 3.1.0
+* BUGFIX: ObserveItemPropertyChanged should only signal when the tracked property changes.
+* FEATURE: Handle dynamic list of conditions in AndCondition & OrCondition.
+* MINOR BREAKING: Rename ReadonlySerialViewBase{TSource,TMapped}, can't imagine anyone ever used this.
+* FEATURE: ObserveFullPropertyPathSlim, observe all steps in a property path.
+
 #### 3.0.1
 * BUGFIX: Handle dispose twice for conditions.
 
