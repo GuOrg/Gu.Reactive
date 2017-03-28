@@ -69,6 +69,7 @@
     <Compile Include="Helpers\Level4.cs" />
     <Compile Include="Helpers\Level{T}.cs" />
     <Compile Include="MaybeTests.cs" />
+    <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObserveFullPropertyPathSlim.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedSlimLamda.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObserveValue.cs" />
     <Compile Include="ObservableExtTests.Chunks.cs" />

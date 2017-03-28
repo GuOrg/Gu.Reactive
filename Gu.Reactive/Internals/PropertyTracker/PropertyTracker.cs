@@ -62,6 +62,14 @@ namespace Gu.Reactive.Internals
 
         public event TrackedPropertyChangedEventHandler<TValue> TrackedPropertyChanged;
 
+        event PropertyChangedEventHandler IPropertyTracker.TrackedPropertyChanged
+        {
+            add { this.TrackedPropertyChangedInternal += value; }
+            remove { this.TrackedPropertyChangedInternal -= value; }
+        }
+
+        private event PropertyChangedEventHandler TrackedPropertyChangedInternal;
+
         public IPropertyPathTracker PathTracker { get; }
 
         public Getter<TSource, TValue> Getter { get; }
@@ -149,6 +157,7 @@ namespace Gu.Reactive.Internals
 
         private void OnTrackedPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            this.TrackedPropertyChangedInternal?.Invoke(sender, e);
             this.OnTrackedPropertyChanged(sender, this.source, e);
         }
 
