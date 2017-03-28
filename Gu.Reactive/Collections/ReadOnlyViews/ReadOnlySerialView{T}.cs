@@ -10,7 +10,7 @@
     /// <summary>
     /// A view where the source can be updated that notifies about changes.
     /// </summary>
-    public class ReadOnlySerialView<T> : ReadonlySerialViewBase<T, T>, IReadOnlyObservableCollection<T>
+    public class ReadOnlySerialView<T> : ReadonlyViewBase<T, T>, IReadOnlyObservableCollection<T>
     {
         private readonly IDisposable refreshSubscription;
         private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;

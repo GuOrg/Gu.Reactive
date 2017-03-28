@@ -86,7 +86,7 @@
     <Compile Include="Internals\Exceptions.cs" />
     <Compile Include="Internals\SetPool.cs" />
     <Compile Include="Internals\ListExt.cs" />
-    <Compile Include="Collections\ReadOnlyViews\ReadonlySerialViewBase{TSource,TMapped}.cs" />
+    <Compile Include="Collections\ReadOnlyViews\ReadonlyViewBase{TSource,TMapped}.cs" />
     <Compile Include="Collections\Internals\ThrowHelper.cs" />
     <Compile Include="Conditions\ConditionExt.cs" />
     <Compile Include="Contracts\IReadOnlyFilteredView{T}.cs" />

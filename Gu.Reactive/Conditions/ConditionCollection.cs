@@ -11,7 +11,7 @@ namespace Gu.Reactive
     /// <summary>
     /// Base class for collections of conditions
     /// </summary>
-    public abstract class ConditionCollection : ReadonlySerialViewBase<ICondition, ICondition>, ISatisfied
+    public abstract class ConditionCollection : ReadonlyViewBase<ICondition, ICondition>, ISatisfied
     {
         private readonly IDisposable subscription;
         private readonly Func<IReadOnlyList<ICondition>, bool?> isSatisfied;

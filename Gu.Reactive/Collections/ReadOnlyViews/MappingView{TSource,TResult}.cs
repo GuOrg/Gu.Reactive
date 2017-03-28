@@ -18,7 +18,7 @@
     /// <typeparam name="TResult">The type of the items in the resulting collection. Can be the same type.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
-    public partial class MappingView<TSource, TResult> : ReadonlySerialViewBase<TSource, TResult>, IReadOnlyObservableCollection<TResult>
+    public partial class MappingView<TSource, TResult> : ReadonlyViewBase<TSource, TResult>, IReadOnlyObservableCollection<TResult>
     {
         private readonly IDisposable refreshSubscription;
         private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;
