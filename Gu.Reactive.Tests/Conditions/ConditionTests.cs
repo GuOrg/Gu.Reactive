@@ -32,14 +32,66 @@
         }
 
         [Test]
-        public void ConditionTest()
+        public void ConditionImplSimpleIsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            using (var condition = new ConditionImpl(fake))
+            using (var condition = new ConditionImplSimple(fake))
             {
                 Assert.AreEqual(false, condition.IsSatisfied);
+
                 fake.IsTrueOrNull = true;
                 Assert.AreEqual(true, condition.IsSatisfied);
+
+                fake.IsTrueOrNull = false;
+                Assert.AreEqual(false, condition.IsSatisfied);
+            }
+        }
+
+        [Test]
+        public void ConditionImplEqualityComparerIsSatisfied()
+        {
+            var fake = new Fake { IsTrueOrNull = false };
+            using (var condition = new ConditionImplEqualityComparer(fake))
+            {
+                Assert.AreEqual(false, condition.IsSatisfied);
+
+                fake.IsTrueOrNull = true;
+                Assert.AreEqual(true, condition.IsSatisfied);
+
+                fake.IsTrueOrNull = false;
+                Assert.AreEqual(false, condition.IsSatisfied);
+            }
+        }
+
+        [Test]
+        public void ConditionImplFuncIsSatisfied()
+        {
+            var fake = new Fake { IsTrueOrNull = false };
+            using (var condition = new ConditionImplFunc(fake))
+            {
+                Assert.AreEqual(false, condition.IsSatisfied);
+
+                fake.IsTrueOrNull = true;
+                Assert.AreEqual(true, condition.IsSatisfied);
+
+                fake.IsTrueOrNull = false;
+                Assert.AreEqual(false, condition.IsSatisfied);
+            }
+        }
+
+        [Test]
+        public void ConditionImplMaybeFuncIsSatisfied()
+        {
+            var fake = new Fake { IsTrueOrNull = false };
+            using (var condition = new ConditionImplMaybeFunc(fake))
+            {
+                Assert.AreEqual(false, condition.IsSatisfied);
+
+                fake.IsTrueOrNull = true;
+                Assert.AreEqual(true, condition.IsSatisfied);
+
+                fake.IsTrueOrNull = false;
+                Assert.AreEqual(false, condition.IsSatisfied);
             }
         }
 
@@ -111,10 +163,34 @@
             Assert.IsFalse(wr.IsAlive);
         }
 
-        private class ConditionImpl : Condition
+        private class ConditionImplSimple : Condition
         {
-            public ConditionImpl(Fake fake)
+            public ConditionImplSimple(Fake fake)
                 : base(For(fake, x => x.IsTrueOrNull, true))
+            {
+            }
+        }
+
+        private class ConditionImplEqualityComparer : Condition
+        {
+            public ConditionImplEqualityComparer(Fake fake)
+                : base(For(fake, x => x.IsTrueOrNull, true, EqualityComparer<bool?>.Default))
+            {
+            }
+        }
+
+        private class ConditionImplFunc : Condition
+        {
+            public ConditionImplFunc(Fake fake)
+                : base(For(fake, x => x.IsTrueOrNull, true, Nullable.Equals))
+            {
+            }
+        }
+
+        private class ConditionImplMaybeFunc : Condition
+        {
+            public ConditionImplMaybeFunc(Fake fake)
+                : base(For(fake, x => x.IsTrueOrNull, true, (x, y) => Maybe.Equals(x, y, Nullable.Equals)))
             {
             }
         }

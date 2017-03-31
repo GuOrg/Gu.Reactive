@@ -194,7 +194,7 @@ namespace Gu.Reactive
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(path, nameof(path));
-            return For(source, path, value, EqualityComparer<TValue>.Default.Equals);
+            return For(source, path, value, (x, y) => Maybe.Equals(x, y, EqualityComparer<TValue>.Default.Equals));
         }
 
         protected static ObservableAndCriteria For<TSource, TValue>(
@@ -206,14 +206,26 @@ namespace Gu.Reactive
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(path, nameof(path));
-            return For(source, path, value, comparer.Equals);
+            return For(source, path, value, (x, y) => Maybe.Equals(x, y, comparer.Equals));
         }
 
         protected static ObservableAndCriteria For<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,
             TValue value,
-            Func<TValue, TValue, bool> comparer)
+            Func<TValue, TValue, bool> @equals)
+            where TSource : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(path, nameof(path));
+            return For(source, path, value, (x, y) => Maybe.Equals(x, y, @equals));
+        }
+
+        protected static ObservableAndCriteria For<TSource, TValue>(
+            TSource source,
+            Expression<Func<TSource, TValue>> path,
+            TValue value,
+            Func<Maybe<TValue>, TValue, bool?> compare)
             where TSource : class, INotifyPropertyChanged
         {
             Ensure.NotNull(source, nameof(source));
@@ -231,14 +243,7 @@ namespace Gu.Reactive
                         tracker.Dispose();
                     });
                 }),
-                () =>
-                {
-                    var maybe = notifyingPath.SourceAndValue(source)
-                                             .Value;
-                    return maybe.HasValue
-                        ? comparer(maybe.Value, value)
-                        : (bool?)null;
-                });
+                () => compare(notifyingPath.SourceAndValue(source).Value, value));
         }
 
         /// <summary>
