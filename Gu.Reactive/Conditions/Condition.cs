@@ -5,7 +5,10 @@ namespace Gu.Reactive
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reactive.Disposables;
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
@@ -59,6 +62,14 @@ namespace Gu.Reactive
             this.name = this.GetType().PrettyName();
             this.subscription = observable.StartWith((object)null)
                                           .Subscribe(x => this.UpdateIsSatisfied());
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Condition"/> class.
+        /// </summary>
+        protected Condition(ObservableAndCriteria observableAndCriteria)
+            : this(observableAndCriteria.Observable, observableAndCriteria.Criteria)
+        {
         }
 
         /// <summary>
@@ -174,6 +185,61 @@ namespace Gu.Reactive
 
         /// <inheritdoc/>
         public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString() ?? "null"}";
+
+        protected static ObservableAndCriteria For<TSource, TValue>(
+            TSource source,
+            Expression<Func<TSource, TValue>> path,
+            TValue value)
+            where TSource : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(path, nameof(path));
+            return For(source, path, value, EqualityComparer<TValue>.Default.Equals);
+        }
+
+        protected static ObservableAndCriteria For<TSource, TValue>(
+            TSource source,
+            Expression<Func<TSource, TValue>> path,
+            TValue value,
+            EqualityComparer<TValue> comparer)
+            where TSource : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(path, nameof(path));
+            return For(source, path, value, comparer.Equals);
+        }
+
+        protected static ObservableAndCriteria For<TSource, TValue>(
+            TSource source,
+            Expression<Func<TSource, TValue>> path,
+            TValue value,
+            Func<TValue, TValue, bool> comparer)
+            where TSource : class, INotifyPropertyChanged
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(path, nameof(path));
+            var notifyingPath = NotifyingPath.GetOrCreate(path);
+            return new ObservableAndCriteria(
+                Observable.Create<object>(o =>
+                {
+                    var tracker = notifyingPath.CreateTracker(source);
+                    TrackedPropertyChangedEventHandler<TValue> handler = (_, __, args, ___) => o.OnNext(args);
+                    tracker.TrackedPropertyChanged += handler;
+                    return Disposable.Create(() =>
+                    {
+                        tracker.TrackedPropertyChanged -= handler;
+                        tracker.Dispose();
+                    });
+                }),
+                () =>
+                {
+                    var maybe = notifyingPath.SourceAndValue(source)
+                                             .Value;
+                    return maybe.HasValue
+                        ? comparer(maybe.Value, value)
+                        : (bool?)null;
+                });
+        }
 
         /// <summary>
         /// Disposes of a <see cref="Condition"/>.

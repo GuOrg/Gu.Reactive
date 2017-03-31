@@ -14,11 +14,28 @@
     public class ConditionTests
     {
         [Test]
+        public void IsSatisfied()
+        {
+            var fake = new Fake { IsTrueOrNull = false };
+            using (var condition = new Condition(
+                fake.ObservePropertyChanged(x => x.IsTrueOrNull),
+                () => fake.IsTrueOrNull))
+            {
+                Assert.AreEqual(false, condition.IsSatisfied);
+
+                fake.IsTrueOrNull = true;
+                Assert.AreEqual(true, condition.IsSatisfied);
+
+                fake.IsTrueOrNull = false;
+                Assert.AreEqual(false, condition.IsSatisfied);
+            }
+        }
+
+        [Test]
         public void ConditionTest()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull);
-            using (var condition = new Condition(observable, () => fake.IsTrueOrNull))
+            using (var condition = new ConditionImpl(fake))
             {
                 Assert.AreEqual(false, condition.IsSatisfied);
                 fake.IsTrueOrNull = true;
@@ -30,8 +47,9 @@
         public void Notifies()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
-            using (var condition = new Condition(observable, () => fake.IsTrueOrNull))
+            using (var condition = new Condition(
+                fake.ObservePropertyChanged(x => x.IsTrueOrNull, false),
+                () => fake.IsTrueOrNull))
             {
                 var argses = new List<PropertyChangedEventArgs>();
                 condition.PropertyChanged += (sender, args) => argses.Add(args);
@@ -44,8 +62,9 @@
         public void History()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            var observable = fake.ObservePropertyChanged(x => x.IsTrueOrNull, false);
-            using (var condition = new Condition(observable, () => fake.IsTrueOrNull))
+            using (var condition = new Condition(
+                fake.ObservePropertyChanged(x => x.IsTrueOrNull, false),
+                () => fake.IsTrueOrNull))
             {
                 CollectionAssert.AreEqual(new[] { false }, condition.History.Select(x => x.State));
 
@@ -63,7 +82,7 @@
             var observableMock = new Mock<IObservable<object>>(MockBehavior.Strict);
             var disposableMock = new Mock<IDisposable>(MockBehavior.Strict);
             observableMock.Setup(x => x.Subscribe(It.IsAny<IObserver<object>>()))
-                            .Returns(disposableMock.Object);
+                          .Returns(disposableMock.Object);
             using (var condition = new Condition(observableMock.Object, () => true))
             {
                 disposableMock.Setup(x => x.Dispose());
@@ -90,6 +109,14 @@
             dummy = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
+        }
+
+        private class ConditionImpl : Condition
+        {
+            public ConditionImpl(Fake fake)
+                : base(For(fake, x => x.IsTrueOrNull, true))
+            {
+            }
         }
     }
 }
