@@ -16,7 +16,9 @@
     /// </summary>
     public class ReadOnlyIListView<T> : IReadOnlyObservableCollection<T>, IList, IDisposable
     {
+#pragma warning disable GU0037 // Don't assign member with injected and created disposables.
         private readonly IReadOnlyList<T> source;
+#pragma warning restore GU0037 // Don't assign member with injected and created disposables.
         private readonly bool leaveOpen;
         private readonly IDisposable subscriptions;
 
@@ -140,7 +142,9 @@
             {
                 if (!this.leaveOpen)
                 {
+#pragma warning disable GU0036 // Don't dispose injected.
                     (this.source as IDisposable)?.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
                 }
 
                 this.subscriptions.Dispose();
@@ -224,7 +228,9 @@
                 }
 
                 this.disposed = true;
+#pragma warning disable GU0036 // Don't dispose injected.
                 (this.list as IDisposable)?.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
             }
         }
     }

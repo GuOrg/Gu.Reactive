@@ -61,13 +61,15 @@ namespace Gu.Reactive
         /// <inheritdoc />
         protected override void AddItems(IEnumerable<T> items)
         {
-            this.scheduler.Schedule(() => base.AddItems(items));
+            this.scheduler.Schedule(() => base.AddItems(items))
+                .IgnoreReturnValue();
         }
 
         /// <inheritdoc />
         protected override void RemoveItems(IEnumerable<T> items)
         {
-            this.scheduler.Schedule(() => base.RemoveItems(items));
+            this.scheduler.Schedule(() => base.RemoveItems(items))
+                .IgnoreReturnValue();
         }
 
         /// <inheritdoc />
