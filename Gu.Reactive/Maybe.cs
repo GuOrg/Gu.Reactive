@@ -48,11 +48,12 @@ namespace Gu.Reactive
         /// null if <paramref name="x"/> doe snot have value</returns>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
-        public static bool? Equals<T>(Maybe<T> x, T y, Func<T,T, bool> compare)
+        /// <param name="compare">How to compare x and y.</param>
+        public static bool? Equals<T>(Maybe<T> x, T y, Func<T, T, bool> compare)
         {
             return x.HasValue
                 ? compare(x.Value, y)
-                : (bool?) null;
+                : (bool?)null;
         }
 
         /// <summary>

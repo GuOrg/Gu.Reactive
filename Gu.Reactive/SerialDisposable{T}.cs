@@ -76,7 +76,9 @@ namespace Gu.Reactive
                 }
 
                 this.OnPropertyChanged();
+#pragma warning disable GU0036 // Don't dispose injected.
                 toDispose?.Dispose();
+#pragma warning restore GU0036 // Don't dispose injected.
             }
         }
 
