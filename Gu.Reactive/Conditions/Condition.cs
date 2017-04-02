@@ -5,7 +5,6 @@ namespace Gu.Reactive
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reactive.Disposables;
@@ -186,6 +185,12 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString() ?? "null"}";
 
+        /// <summary>
+        /// Create an <see cref="ObservableAndCriteria"/> to be passed in as constructor argument.
+        /// </summary>
+        /// <param name="source">The source instance.</param>
+        /// <param name="path">The property path to listen to changes for on source.</param>
+        /// <param name="value">The value when satisfied.</param>
         protected static ObservableAndCriteria For<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,
@@ -197,6 +202,13 @@ namespace Gu.Reactive
             return For(source, path, value, (x, y) => Maybe.Equals(x, y, EqualityComparer<TValue>.Default.Equals));
         }
 
+        /// <summary>
+        /// Create an <see cref="ObservableAndCriteria"/> to be passed in as constructor argument.
+        /// </summary>
+        /// <param name="source">The source instance.</param>
+        /// <param name="path">The property path to listen to changes for on source.</param>
+        /// <param name="value">The value when satisfied.</param>
+        /// <param name="comparer">How to compare actual value and <paramref name="value"/>.</param>
         protected static ObservableAndCriteria For<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,
@@ -209,6 +221,13 @@ namespace Gu.Reactive
             return For(source, path, value, (x, y) => Maybe.Equals(x, y, comparer.Equals));
         }
 
+        /// <summary>
+        /// Create an <see cref="ObservableAndCriteria"/> to be passed in as constructor argument.
+        /// </summary>
+        /// <param name="source">The source instance.</param>
+        /// <param name="path">The property path to listen to changes for on source.</param>
+        /// <param name="value">The value when satisfied.</param>
+        /// <param name="equals">How to compare actual value and <paramref name="value"/>.</param>
         protected static ObservableAndCriteria For<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,
@@ -221,6 +240,13 @@ namespace Gu.Reactive
             return For(source, path, value, (x, y) => Maybe.Equals(x, y, @equals));
         }
 
+        /// <summary>
+        /// Create an <see cref="ObservableAndCriteria"/> to be passed in as constructor argument.
+        /// </summary>
+        /// <param name="source">The source instance.</param>
+        /// <param name="path">The property path to listen to changes for on source.</param>
+        /// <param name="value">The value when satisfied.</param>
+        /// <param name="compare">How to compare actual value and <paramref name="value"/>.</param>
         protected static ObservableAndCriteria For<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,
