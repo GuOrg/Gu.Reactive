@@ -1,4 +1,5 @@
 // ReSharper disable All
+#pragma warning disable WPF1011 // Implement INotifyPropertyChanged.
 namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
@@ -79,6 +80,13 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             public static Model<T> Create<T>(T value) => new Model<T>(value);
         }
 
+        public static class Vm
+        {
+            public static Vm<T> Create<T>(Model<T> model) => new Vm<T>(model, 0);
+
+            public static Vm<T> Create<T>(Model<T> model, int index) => new Vm<T>(model, index);
+        }
+
         public class Model<T>
         {
             public Model(T value)
@@ -92,13 +100,6 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             {
                 return $"{nameof(this.Value)}: {this.Value}";
             }
-        }
-
-        public static class Vm
-        {
-            public static Vm<T> Create<T>(Model<T> model) => new Vm<T>(model, 0);
-
-            public static Vm<T> Create<T>(Model<T> model, int index) => new Vm<T>(model, index);
         }
 
         public class Vm<T>

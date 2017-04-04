@@ -20,7 +20,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                     using (var modelViewChanges = modelView.SubscribeAll())
                     {
                         using (var indexedView = modelView.AsMappingView(
-                            Vm.Create, 
+                            Vm.Create,
                             (x, i) => x))
                         {
                             using (var indexedChanges = indexedView.SubscribeAll())

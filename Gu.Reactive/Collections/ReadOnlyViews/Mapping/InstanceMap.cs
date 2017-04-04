@@ -20,6 +20,14 @@ namespace Gu.Reactive
             set => this.inner[Maybe<TKey>.Some(key)] = value;
         }
 
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => this.inner.Select(
+                                                                                  x => new KeyValuePair<TKey, TValue>(
+                                                                                      x.Key.GetValueOrDefault(),
+                                                                                      x.Value))
+                                                                              .GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+
         internal void Add(TKey key, TValue value)
         {
             this.inner.Add(Maybe<TKey>.Some(key), value);
@@ -44,14 +52,6 @@ namespace Gu.Reactive
         {
             return this.inner.ContainsKey(Maybe<TKey>.Some(key));
         }
-
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => this.inner.Select(
-                                                                                  x => new KeyValuePair<TKey, TValue>(
-                                                                                      x.Key.GetValueOrDefault(),
-                                                                                      x.Value))
-                                                                              .GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         private class KeyComparer : EqualityComparer<Maybe<TKey>>
         {

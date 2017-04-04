@@ -167,5 +167,41 @@ namespace Gu.Wpf.Reactive.Tests
                 }
             }
         }
+
+        [Test]
+        public void WithOneCondition()
+        {
+            var mock = new Mock<ICondition>(MockBehavior.Strict);
+            mock.SetupGet(x => x.IsSatisfied).Returns(true);
+            using (var command = new AsyncCommand<int>(x => Task.Run(() => { }), mock.Object))
+            {
+                Assert.IsTrue(command.CanExecute(1));
+
+                mock.SetupGet(x => x.IsSatisfied).Returns(false);
+                Assert.IsFalse(command.CanExecute(2));
+            }
+
+            mock.Verify(x => x.Dispose(), Times.Never);
+        }
+
+        [Test]
+        public void WithTwoConditions()
+        {
+            var mock1 = new Mock<ICondition>(MockBehavior.Strict);
+            mock1.SetupGet(x => x.IsSatisfied).Returns(true);
+
+            var mock2 = new Mock<ICondition>(MockBehavior.Strict);
+            mock2.SetupGet(x => x.IsSatisfied).Returns(true);
+            using (var command = new AsyncCommand<int>(x => Task.Run(() => { }), mock1.Object, mock2.Object))
+            {
+                Assert.IsTrue(command.CanExecute(1));
+
+                mock2.SetupGet(x => x.IsSatisfied).Returns(false);
+                Assert.IsFalse(command.CanExecute(2));
+            }
+
+            mock1.Verify(x => x.Dispose(), Times.Never);
+            mock2.Verify(x => x.Dispose(), Times.Never);
+        }
     }
 }
