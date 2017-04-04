@@ -2,22 +2,19 @@ namespace Gu.Reactive
 {
     using System;
     using System.Collections;
-    using System.Collections.Generic;
     using System.Threading;
-
-    using Gu.Reactive.Internals;
 
     internal class RefCounter<T>
         where T : class
     {
-        private readonly Dictionary<T, int> cache = new Dictionary<T, int>(ObjectIdentityComparer<T>.Default);
-        private readonly Dictionary<T, int> transactionCache = new Dictionary<T, int>(ObjectIdentityComparer<T>.Default);
+        private readonly InstanceMap<T, int> cache = new InstanceMap<T, int>();
+        private readonly InstanceMap<T, int> transactionCache = new InstanceMap<T, int>();
 
         private bool isRefreshing;
 
         public event Action<T> OnRemove;
 
-        private object Gate => ((ICollection)this.cache).SyncRoot;
+        private object Gate => this.cache.Gate;
 
         public void Clear()
         {

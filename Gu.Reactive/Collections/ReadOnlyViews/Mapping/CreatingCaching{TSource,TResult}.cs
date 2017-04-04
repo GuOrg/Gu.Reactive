@@ -1,10 +1,7 @@
 namespace Gu.Reactive
 {
     using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Threading;
-    using Gu.Reactive.Internals;
 
     internal class CreatingCaching<TSource, TResult> : IMapper<TSource, TResult>
         where TSource : class
@@ -71,7 +68,7 @@ namespace Gu.Reactive
         protected class InstanceCache
         {
             private readonly Func<TSource, TResult> selector;
-            private readonly Dictionary<TSource, TResult> cache = new Dictionary<TSource, TResult>(ObjectIdentityComparer<TSource>.Default);
+            private readonly InstanceMap<TSource, TResult> cache = new InstanceMap<TSource, TResult>();
             private readonly RefCounter<TResult> resultCounter = new RefCounter<TResult>();
             private readonly RefCounter<TSource> sourceCounter = new RefCounter<TSource>();
 
@@ -87,14 +84,13 @@ namespace Gu.Reactive
                 remove { this.resultCounter.OnRemove -= value; }
             }
 
-            private object Gate => ((ICollection)this.cache).SyncRoot;
+            private object Gate => this.cache.Gate;
 
             internal TResult GetOrCreate(TSource key)
             {
                 lock (this.Gate)
                 {
-                    TResult result;
-                    if (!this.cache.TryGetValue(key, out result))
+                    if (!this.cache.TryGetValue(key, out TResult result))
                     {
                         result = this.selector(key);
                         this.cache.Add(key, result);

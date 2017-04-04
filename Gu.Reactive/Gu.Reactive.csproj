@@ -47,6 +47,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MappingView{TSource,TResult}.tt</DependentUpon>
     </Compile>
+    <Compile Include="Collections\ReadOnlyViews\Mapping\InstanceMap.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadOnlyFilteredView.Create.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadOnlyFilteredView{T}.generated.cs">
       <AutoGen>True</AutoGen>

@@ -43,6 +43,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 using (var view = source.AsMappingView(Vm.Create))
                 {
                     Assert.AreNotSame(view[0], view[1]);
+                    Assert.AreSame(view[2], view[3]);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Value));
                 }
             }
