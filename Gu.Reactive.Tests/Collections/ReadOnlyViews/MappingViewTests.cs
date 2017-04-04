@@ -74,14 +74,19 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
         }
 
-        public class Model
+        public static class Model
         {
-            public Model(int value)
+            public static Model<T> Create<T>(T value) => new Model<T>(value);
+        }
+
+        public class Model<T>
+        {
+            public Model(T value)
             {
                 this.Value = value;
             }
 
-            public int Value { get; }
+            public T Value { get; }
 
             public override string ToString()
             {
@@ -89,25 +94,32 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
         }
 
-        private class Vm
+        public static class Vm
+        {
+            public static Vm<T> Create<T>(Model<T> value) => new Vm<T>(value, 0);
+
+            public static Vm<T> Create<T>(Model<T> value, int index) => new Vm<T>(value, index);
+        }
+
+        public class Vm<T>
         {
             public Vm()
             {
             }
 
-            public Vm(Model model,  int index)
+            public Vm(Model<T> model, int index)
             {
                 this.Model = model;
                 this.Index = index;
             }
 
-            public Model Model { get; set; }
+            public Model<T> Model { get; set; }
 
             public int Value { get; set; }
 
             public int Index { get; set; }
 
-            public Vm WithIndex(int i)
+            public Vm<T> WithIndex(int i)
             {
                 this.Index = i;
                 return this;

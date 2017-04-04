@@ -15,18 +15,18 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     {
         public class ReferenceTypeCreatingCachingRemoving
         {
-            public interface IDisposableVm : IDisposable
+            public interface IDisposableVm<T> : IDisposable
             {
-                Model Model { get; }
+                Model<T> Model { get; }
             }
 
             [Test]
             public void Initializes()
             {
-                var model1 = new Model(1);
-                var model2 = new Model(2);
-                var model3 = new Model(3);
-                var source = new ObservableCollection<Model>(
+                var model1 = Model.Create(1);
+                var model2 = Model.Create(2);
+                var model3 = Model.Create(3);
+                var source = new ObservableCollection<Model<int>>(
                     new[]
                         {
                         model1,
@@ -54,10 +54,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void Updates()
             {
-                var source = new ObservableCollection<Model>();
+                var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
-                    var model = new Model(1);
+                    var model = Model.Create(1);
                     source.Add(model);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
 
@@ -81,10 +81,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void Refresh()
             {
-                var model1 = new Model(1);
-                var model2 = new Model(2);
-                var model3 = new Model(3);
-                var source = new ObservableBatchCollection<Model>(
+                var model1 = Model.Create(1);
+                var model2 = Model.Create(2);
+                var model3 = Model.Create(3);
+                var source = new ObservableBatchCollection<Model<int>>(
                     new[]
                         {
                         model1,
@@ -131,10 +131,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void Caches()
             {
-                var source = new ObservableCollection<Model>();
+                var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
-                    var model = new Model(1);
+                    var model = Model.Create(1);
                     source.Add(model);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
 
@@ -166,10 +166,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void CachesWhenNotEmpty()
             {
-                var model1 = new Model(1);
-                var model2 = new Model(2);
-                var model3 = new Model(3);
-                var source = new ObservableCollection<Model>(
+                var model1 = Model.Create(1);
+                var model2 = Model.Create(2);
+                var model3 = Model.Create(3);
+                var source = new ObservableCollection<Model<int>>(
                     new[]
                         {
                         model1,
@@ -187,7 +187,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 {
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
 
-                    var model4 = new Model(4);
+                    var model4 = Model.Create(4);
                     source.Add(model4);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
 
@@ -215,12 +215,12 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void Add()
             {
-                var source = new ObservableCollection<Model>();
+                var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
                 {
                     using (var actual = view.SubscribeAll())
                     {
-                        var model1 = new Model(1);
+                        var model1 = Model.Create(1);
                         source.Add(model1);
                         CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
                         var expected = new List<EventArgs>
@@ -241,7 +241,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         });
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
-                        source.Add(new Model(2));
+                        source.Add(Model.Create(2));
                         CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
                         expected.AddRange(new EventArgs[]
                         {
@@ -262,10 +262,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void Remove()
             {
-                var model1 = new Model(1);
-                var model2 = new Model(2);
-                var model3 = new Model(3);
-                var source = new ObservableCollection<Model>(
+                var model1 = Model.Create(1);
+                var model2 = Model.Create(2);
+                var model3 = Model.Create(3);
+                var source = new ObservableCollection<Model<int>>(
                     new[]
                         {
                         model1,
@@ -328,10 +328,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void Replace()
             {
-                var model1 = new Model(1);
-                var model2 = new Model(2);
-                var model3 = new Model(3);
-                var source = new ObservableCollection<Model>(
+                var model1 = Model.Create(1);
+                var model2 = Model.Create(2);
+                var model3 = Model.Create(3);
+                var source = new ObservableCollection<Model<int>>(
                     new[]
                         {
                         model1,
@@ -370,10 +370,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void Move()
             {
-                var model1 = new Model(1);
-                var model2 = new Model(2);
-                var model3 = new Model(3);
-                var source = new ObservableCollection<Model>(
+                var model1 = Model.Create(1);
+                var model2 = Model.Create(2);
+                var model3 = Model.Create(3);
+                var source = new ObservableCollection<Model<int>>(
                     new[]
                         {
                         model1,
@@ -410,10 +410,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void Clear()
             {
-                var model1 = new Model(1);
-                var model2 = new Model(2);
-                var model3 = new Model(3);
-                var source = new ObservableCollection<Model>(
+                var model1 = Model.Create(1);
+                var model2 = Model.Create(2);
+                var model3 = Model.Create(3);
+                var source = new ObservableCollection<Model<int>>(
                     new[]
                         {
                         model1,
@@ -458,10 +458,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void Dispose()
             {
-                var model1 = new Model(1);
-                var model2 = new Model(2);
-                var model3 = new Model(3);
-                var source = new ObservableCollection<Model>(
+                var model1 = Model.Create(1);
+                var model2 = Model.Create(2);
+                var model3 = Model.Create(3);
+                var source = new ObservableCollection<Model<int>>(
                     new[]
                         {
                         model1,
@@ -493,9 +493,9 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 }
             }
 
-            private static Mock<IDisposableVm> CreateStrictMock(Model model)
+            private static Mock<IDisposableVm<T>> CreateStrictMock<T>(Model<T> model)
             {
-                var mock = new Mock<IDisposableVm>(MockBehavior.Strict);
+                var mock = new Mock<IDisposableVm<T>>(MockBehavior.Strict);
                 mock.SetupGet(x => x.Model)
                     .Returns(model);
                 return mock;

@@ -15,15 +15,17 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             public void Add()
             {
                 var source = new ObservableCollection<int>();
-                using (var modelView = source.AsMappingView(x => new Model(x)))
+                using (var modelView = source.AsMappingView(Model.Create))
                 {
                     using (var modelViewChanges = modelView.SubscribeAll())
                     {
-                        using (var indexedView = modelView.AsMappingView((x, i) => new Vm { Model = x, Index = i }, (x, i) => x))
+                        using (var indexedView = modelView.AsMappingView(
+                            Vm.Create, 
+                            (x, i) => x))
                         {
                             using (var indexedChanges = indexedView.SubscribeAll())
                             {
-                                using (var vmView = modelView.AsMappingView(x => new Vm { Model = x }))
+                                using (var vmView = modelView.AsMappingView(Vm.Create))
                                 {
                                     using (var vmViewChanges = vmView.SubscribeAll())
                                     {
@@ -55,11 +57,11 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             public void Remove()
             {
                 var source = new ObservableCollection<int> { 1 };
-                using (var modelView = source.AsMappingView(x => new Model(x)))
+                using (var modelView = source.AsMappingView(Model.Create))
                 {
                     using (var modelViewChanges = modelView.SubscribeAll())
                     {
-                        using (var vmView = modelView.AsMappingView(x => new Vm { Model = x }))
+                        using (var vmView = modelView.AsMappingView(Vm.Create))
                         {
                             using (var vmViewChanges = vmView.SubscribeAll())
                             {

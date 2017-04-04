@@ -15,18 +15,18 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void Initializes()
             {
-                var source = new ObservableCollection<Model> { new Model(1), new Model(2), };
+                var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2), };
                 using (var indexed = source.AsMappingView(
-                    (x, i) => new Vm { Index = i, Model = x },
+                    Vm.Create,
                     (x, i) => x.WithIndex(i)))
                 {
                     using (var indexedUpdating = source.AsMappingView(
-                            (x, i) => new Vm { Index = i, Model = x },
+                            Vm.Create,
                             (x, i) => x.WithIndex(i)))
                     {
                         using (var indexedNewing = source.AsMappingView(
-                                (x, i) => new Vm { Index = i, Model = x },
-                                (x, i) => new Vm { Model = x.Model, Index = i }))
+                                Vm.Create,
+                                (x, i) => Vm.Create(x.Model, i)))
                         {
                             var views = new[]
                                             {
@@ -72,15 +72,15 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void UpdatesReferenceType()
             {
-                var source = new ObservableCollection<Model>();
+                var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(
-                    (x, i) => new Vm { Model = x, Index = i },
+                    Vm.Create,
                     (x, i) => x.WithIndex(i)))
                 {
                     CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                     CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
 
-                    var model = new Model(1);
+                    var model = Model.Create(1);
                     source.Add(model);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                     CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
@@ -96,16 +96,16 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void UpdatesDifferentReferenceType()
             {
-                var source = new ObservableCollection<Model>();
+                var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(
-                    (x, i) => new Vm(x, i),
+                    Vm.Create,
                     (x, i) => x.WithIndex(i)))
                 {
-                    source.Add(new Model(1));
+                    source.Add(Model.Create(1));
                     CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                     CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
 
-                    source.Add(new Model(1));
+                    source.Add(Model.Create(1));
                     Assert.AreNotSame(view[0], view[1]);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                     CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
@@ -117,7 +117,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                     source.Clear();
                     CollectionAssert.IsEmpty(view);
 
-                    source.Add(new Model(3));
+                    source.Add(Model.Create(3));
                     CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                     CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
                 }
@@ -126,12 +126,12 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public void UpdatesSameReferenceType()
             {
-                var source = new ObservableCollection<Model>();
+                var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(
-                    (x, i) => new Vm(x, i),
+                    Vm.Create,
                     (x, i) => x.WithIndex(i)))
                 {
-                    var model = new Model(1);
+                    var model = Model.Create(1);
                     source.Add(model);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                     CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
@@ -159,9 +159,9 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [TestCase(1)]
             public void UpdatesOnRemoveTwoItems(int removeAt)
             {
-                var source = new ObservableCollection<Model> { new Model(1), new Model(2) };
+                var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2) };
                 using (var view = source.AsMappingView(
-                        (x, i) => new Vm { Index = i, Model = x },
+                        Vm.Create,
                         (x, i) => x.WithIndex(i)))
                 {
                     var old = removeAt == 0
@@ -181,9 +181,9 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [TestCase(1)]
             public void UpdatesOnRemoveThreeItems(int removeAt)
             {
-                var source = new ObservableCollection<Model> { new Model(1), new Model(2), new Model(3) };
+                var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2), Model.Create(3) };
                 using (var view = source.AsMappingView(
-                        (x, i) => new Vm { Index = i, Model = x },
+                        Vm.Create,
                         (x, i) => x.WithIndex(i)))
                 {
                     var old = view[2];
@@ -202,10 +202,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [TestCase(1)]
             public void NewsOnRemoveTwoItems(int removeAt)
             {
-                var source = new ObservableCollection<Model> { new Model(1), new Model(2) };
+                var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2) };
                 using (var view = source.AsMappingView(
-                        (x, i) => new Vm { Index = i, Model = x },
-                        (x, i) => new Vm { Model = x.Model, Index = i }))
+                        Vm.Create,
+                        (x, i) => Vm.Create(x.Model, i)))
                 {
                     source.RemoveAt(removeAt);
 

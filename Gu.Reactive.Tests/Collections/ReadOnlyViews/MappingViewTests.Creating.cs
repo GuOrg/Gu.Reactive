@@ -17,22 +17,33 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             public void InitializesValueType()
             {
                 var source = new ObservableCollection<int> { 1, 1, 1, 2, 2, 2, 3, 3, 3 };
-                using (var view = source.AsMappingView(x => new Model(x)))
+                using (var view = source.AsMappingView(Model.Create))
                 {
                     Assert.AreNotSame(view[0], view[1]);
                     CollectionAssert.AreEqual(source, view.Select(x => x.Value));
 
-                    using (var vmView = view.AsMappingView(x => new Vm { Model = x }, leaveOpen: true))
+                    using (var vmView = view.AsMappingView(Vm.Create, leaveOpen: true))
                     {
                         Assert.AreNotSame(view[0], view[1]);
                         CollectionAssert.AreEqual(view, vmView.Select(x => x.Model));
                     }
 
-                    using (var indexedView = view.AsMappingView((x, i) => new Vm { Model = x, Index = i }, (x, i) => x, leaveOpen: true))
+                    using (var indexedView = view.AsMappingView(Vm.Create, (x, i) => x, leaveOpen: true))
                     {
                         CollectionAssert.AreEqual(view, indexedView.Select(x => x.Model));
                         CollectionAssert.AreEqual(Enumerable.Range(0, 9), indexedView.Select(x => x.Index));
                     }
+                }
+            }
+
+            [Test]
+            public void InitializesReferenceType()
+            {
+                var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2), null, null, Model.Create(3) };
+                using (var view = source.AsMappingView(Vm.Create))
+                {
+                    Assert.AreNotSame(view[0], view[1]);
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Value));
                 }
             }
 
@@ -63,7 +74,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             public void DoesNotCacheValueTypes()
             {
                 var source = new ObservableCollection<int>();
-                using (var view = source.AsMappingView(x => new Vm { Value = x }))
+                using (var view = source.AsMappingView(Model.Create))
                 {
                     source.Add(1);
                     Assert.AreEqual(1, view.Count);
@@ -87,7 +98,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             public void Add()
             {
                 var source = new ObservableCollection<int> { 1, 2, 3 };
-                using (var view = source.AsMappingView(x => new Model(x)))
+                using (var view = source.AsMappingView(Model.Create))
                 {
                     CollectionAssert.AreEqual(source, view.Select(x => x.Value));
 
@@ -123,11 +134,11 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             public void Remove()
             {
                 var source = new ObservableCollection<int> { 1 };
-                using (var modelView = source.AsMappingView(x => new Model(x)))
+                using (var modelView = source.AsMappingView(Model.Create))
                 {
                     using (var modelViewChanges = modelView.SubscribeAll())
                     {
-                        using (var vmView = modelView.AsMappingView(x => new Vm { Model = x }))
+                        using (var vmView = modelView.AsMappingView(Vm.Create))
                         {
                             using (var vmViewChanges = vmView.SubscribeAll())
                             {
