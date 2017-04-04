@@ -96,9 +96,9 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
         public static class Vm
         {
-            public static Vm<T> Create<T>(Model<T> value) => new Vm<T>(value, 0);
+            public static Vm<T> Create<T>(Model<T> model) => new Vm<T>(model, 0);
 
-            public static Vm<T> Create<T>(Model<T> value, int index) => new Vm<T>(value, index);
+            public static Vm<T> Create<T>(Model<T> model, int index) => new Vm<T>(model, index);
         }
 
         public class Vm<T>
@@ -115,8 +115,6 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
             public Model<T> Model { get; set; }
 
-            public int Value { get; set; }
-
             public int Index { get; set; }
 
             public Vm<T> WithIndex(int i)
@@ -127,7 +125,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
             public override string ToString()
             {
-                return $"{nameof(this.Value)}: {this.Value}, {nameof(this.Index)}: {this.Index}, {nameof(this.Model)}: {this.Model}";
+                return $"{nameof(this.Index)}: {this.Index}, {nameof(this.Model)}: {this.Model}";
             }
         }
     }
