@@ -94,6 +94,39 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
+            public void UpdatesReferenceTypeNulls()
+            {
+                var source = new ObservableCollection<Model<int>>();
+                using (var view = source.AsMappingView(
+                    Vm.Create,
+                    (x, i) => x.WithIndex(i)))
+                {
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                    CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
+
+                    var model = Model.Create(1);
+                    source.Add(model);
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                    CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
+
+                    source.Add(null);
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                    CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
+
+                    source.Add(null);
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                    CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
+                    Assert.AreNotSame(view[1], view[2]);
+
+                    source.Clear();
+                    CollectionAssert.IsEmpty(view);
+                    source.Add(model);
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                    CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
+                }
+            }
+
+            [Test]
             public void UpdatesDifferentReferenceType()
             {
                 var source = new ObservableCollection<Model<int>>();

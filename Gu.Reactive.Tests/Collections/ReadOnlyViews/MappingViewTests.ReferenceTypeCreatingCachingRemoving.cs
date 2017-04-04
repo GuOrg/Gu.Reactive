@@ -79,6 +79,47 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
+            public void UpdatesWithNulls()
+            {
+                var source = new ObservableCollection<Model<int>>();
+                using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
+                {
+                    var model = Model.Create(1);
+                    source.Add(model);
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
+
+                    source.Add(null);
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
+
+                    source.Add(null);
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
+                    Assert.AreSame(view[1], view[2]);
+
+                    var mocks = view.Select(x => x).ToArray();
+                    foreach (var mock in mocks)
+                    {
+                        mock.Verify(x => x.Dispose(), Times.Never);
+                        mock.Setup(x => x.Dispose());
+                    }
+
+                    source.Clear();
+                    CollectionAssert.IsEmpty(view);
+                    foreach (var mock in mocks)
+                    {
+                        mock.Verify(x => x.Dispose(), Times.Once);
+                    }
+
+                    source.Add(model);
+                    CollectionAssert.AreEqual(source, view.Select(x => x.Object.Model));
+
+                    foreach (var toDispose in view)
+                    {
+                        toDispose.Setup(x => x.Dispose());
+                    }
+                }
+            }
+
+            [Test]
             public void Refresh()
             {
                 var model1 = Model.Create(1);

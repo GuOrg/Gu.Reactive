@@ -37,7 +37,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void InitializesReferenceType()
+            public void InitializesReferenceTypeWithNulls()
             {
                 var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2), null, null, Model.Create(3) };
                 using (var view = source.AsMappingView(Vm.Create))
