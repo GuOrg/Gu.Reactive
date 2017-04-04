@@ -47,6 +47,7 @@
             var fake = Mock.Of<IReadOnlyObservableCollection<int>>();
             var actuals = PropertyPathParser.GetPath(() => fake.Count);
             var expected = typeof(IReadOnlyCollection<int>).GetProperty("Count");
+            Assert.NotNull(expected);
             Assert.AreEqual(1, actuals.Count);
             Assert.AreEqual(expected.Name, actuals[0].Name);
             Assert.AreEqual(expected.PropertyType, actuals[0].PropertyType);

@@ -1,7 +1,6 @@
 namespace Gu.Reactive
 {
     using System;
-    using System.Collections;
     using System.Threading;
 
     internal class RefCounter<T>

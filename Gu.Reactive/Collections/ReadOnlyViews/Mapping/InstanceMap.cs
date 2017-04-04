@@ -5,8 +5,6 @@ namespace Gu.Reactive
     using System.Linq;
     using System.Runtime.CompilerServices;
 
-    using Gu.Reactive.Internals;
-
     internal class InstanceMap<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
         where TKey : class
     {
