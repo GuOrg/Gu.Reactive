@@ -261,11 +261,11 @@ namespace Gu.Reactive
                 Observable.Create<object>(o =>
                 {
                     var tracker = notifyingPath.CreateTracker(source);
-                    TrackedPropertyChangedEventHandler<TValue> handler = (_, __, args, ___) => o.OnNext(args);
-                    tracker.TrackedPropertyChanged += handler;
+                    void Handler(IPropertyTracker _, object __, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TValue> ___) => o.OnNext(args);
+                    tracker.TrackedPropertyChanged += Handler;
                     return Disposable.Create(() =>
                     {
-                        tracker.TrackedPropertyChanged -= handler;
+                        tracker.TrackedPropertyChanged -= Handler;
                         tracker.Dispose();
                     });
                 }),
