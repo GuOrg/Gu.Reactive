@@ -81,6 +81,24 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
+            public void ShadowingPropertyCreateObservableOnBase()
+            {
+                IObservable<PropertyChangedEventArgs> CreateObservable(With<int> source)
+                {
+                    return source.ObservePropertyChangedSlim(x => x.Value, false);
+                }
+
+                var changes = new List<PropertyChangedEventArgs>();
+                var withFake = new WithShadowing<int>();
+                using (CreateObservable(withFake)
+                               .Subscribe(changes.Add))
+                {
+                    withFake.Value = 1;
+                    CollectionAssert.AreEqual(new[] { "Value" }, changes.Select(x => x.PropertyName));
+                }
+            }
+
+            [Test]
             public void GenericMessOneLevel()
             {
                 var changes = new List<PropertyChangedEventArgs>();
