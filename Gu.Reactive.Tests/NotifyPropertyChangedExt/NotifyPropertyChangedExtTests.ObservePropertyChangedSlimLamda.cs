@@ -66,7 +66,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void Meh()
+            public void GenericMessOneLevel()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var withFake = new With<AbstractFake>();
@@ -74,7 +74,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                             .Subscribe(changes.Add))
                 {
                     withFake.Value = new ConcreteFake1();
-                    CollectionAssert.AreEqual("Value", changes.Select(x => x.PropertyName));
+                    CollectionAssert.AreEqual(new[] { "Value" }, changes.Select(x => x.PropertyName));
                 }
             }
 

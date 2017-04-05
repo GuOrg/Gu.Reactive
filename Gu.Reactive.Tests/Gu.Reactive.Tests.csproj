@@ -65,6 +65,7 @@
     <Compile Include="Helpers\DumpIfDebug.cs" />
     <Compile Include="Helpers\EventPatternAssert.cs" />
     <Compile Include="Helpers\Fake{T}.cs" />
+    <Compile Include="Helpers\IGeneric.cs" />
     <Compile Include="Helpers\Indexed.cs" />
     <Compile Include="Helpers\Level1.cs" />
     <Compile Include="Helpers\Level2.cs" />

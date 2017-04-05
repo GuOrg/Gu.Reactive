@@ -14,10 +14,7 @@
 
         public ObservableCollection<Fake> Collection
         {
-            get
-            {
-                return this.collection;
-            }
+            get => this.collection;
 
             set
             {

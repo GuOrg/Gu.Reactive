@@ -19,10 +19,7 @@
 
         public int Index
         {
-            get
-            {
-                return this.index;
-            }
+            get => this.index;
 
             set
             {

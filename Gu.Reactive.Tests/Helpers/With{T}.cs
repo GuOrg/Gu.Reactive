@@ -11,10 +11,7 @@ namespace Gu.Reactive.Tests.Helpers
 
         public T Value
         {
-            get
-            {
-                return this.value;
-            }
+            get => this.value;
 
             set
             {

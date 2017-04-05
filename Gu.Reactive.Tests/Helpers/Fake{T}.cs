@@ -13,10 +13,7 @@
 
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
+            get => this.name;
 
             set
             {
@@ -32,10 +29,7 @@
 
         public Level<T> Next
         {
-            get
-            {
-                return this.next;
-            }
+            get => this.next;
 
             set
             {
@@ -51,10 +45,7 @@
 
         public T Value
         {
-            get
-            {
-                return this.value;
-            }
+            get => this.value;
 
             set
             {

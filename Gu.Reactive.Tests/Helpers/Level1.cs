@@ -14,10 +14,7 @@ namespace Gu.Reactive.Tests.Helpers
 
         public Level2 Level2
         {
-            get
-            {
-                return this.level2;
-            }
+            get => this.level2;
 
             set
             {
@@ -33,10 +30,7 @@ namespace Gu.Reactive.Tests.Helpers
 
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
+            get => this.name;
 
             set
             {
@@ -52,10 +46,7 @@ namespace Gu.Reactive.Tests.Helpers
 
         public bool IsTrue
         {
-            get
-            {
-                return this.isTrue;
-            }
+            get => this.isTrue;
 
             set
             {
@@ -71,10 +62,7 @@ namespace Gu.Reactive.Tests.Helpers
 
         public int Value
         {
-            get
-            {
-                return this.value;
-            }
+            get => this.value;
 
             set
             {

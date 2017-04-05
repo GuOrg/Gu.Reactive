@@ -23,10 +23,7 @@
 
         public bool IsTrue
         {
-            get
-            {
-                return this.isTrue;
-            }
+            get => this.isTrue;
 
             set
             {
@@ -42,10 +39,7 @@
 
         public bool? IsTrueOrNull
         {
-            get
-            {
-                return this.isTrueOrNull;
-            }
+            get => this.isTrueOrNull;
 
             set
             {
@@ -61,10 +55,7 @@
 
         public int Value
         {
-            get
-            {
-                return this.value;
-            }
+            get => this.value;
 
             set
             {
@@ -80,10 +71,7 @@
 
         public int Value1
         {
-            get
-            {
-                return this.value1;
-            }
+            get => this.value1;
 
             set
             {
@@ -99,10 +87,7 @@
 
         public int Value2
         {
-            get
-            {
-                return this.value2;
-            }
+            get => this.value2;
 
             set
             {
@@ -118,10 +103,7 @@
 
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
+            get => this.name;
 
             set
             {
@@ -137,10 +119,7 @@
 
         public Level Next
         {
-            get
-            {
-                return this.next;
-            }
+            get => this.next;
 
             set
             {
@@ -156,10 +135,7 @@
 
         public Level<int> NextInt
         {
-            get
-            {
-                return this.nextInt;
-            }
+            get => this.nextInt;
 
             set
             {
@@ -175,10 +151,7 @@
 
         public NotNotifying NotNotifying
         {
-            get
-            {
-                return this.notNotifying;
-            }
+            get => this.notNotifying;
 
             set
             {
