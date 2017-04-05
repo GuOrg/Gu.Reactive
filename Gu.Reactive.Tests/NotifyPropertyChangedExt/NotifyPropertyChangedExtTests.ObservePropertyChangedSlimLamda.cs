@@ -94,7 +94,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void GenericHelperMethodConnstrainedToClassAndInterface()
+            public void GenericHelperMethodConstrainedToClassAndInterface()
             {
                 IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source, Expression<Func<T, int>> path)
                     where T : class, INotifyPropertyChanged
@@ -113,7 +113,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void GenericHelperMethodConnstrainedToAbstractType()
+            public void GenericHelperMethodConstrainedToAbstractType1()
             {
                 IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source, Expression<Func<T, int>> path)
                     where T : AbstractFake
@@ -127,6 +127,68 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 {
                     fake.BaseValue++;
                     CollectionAssert.AreEqual(new[] { "BaseValue" }, changes.Select(x => x.PropertyName));
+                }
+            }
+
+            [Test]
+            public void GenericHelperMethodConstrainedToAbstractType2()
+            {
+                IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source)
+                    where T : AbstractFake
+                {
+                    return source.ObservePropertyChangedSlim(x => x.BaseValue, false);
+                }
+
+                var changes = new List<PropertyChangedEventArgs>();
+                var fake = new ConcreteFake1();
+                using (CreateObservable(fake).Subscribe(changes.Add))
+                {
+                    fake.BaseValue++;
+                    CollectionAssert.AreEqual(new[] { "BaseValue" }, changes.Select(x => x.PropertyName));
+                }
+            }
+
+            [Test]
+            public void GenericHelperMethodConstrainedToClass1()
+            {
+                IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source, Expression<Func<T, int>> path)
+                    where T : With<AbstractFake>
+                {
+                    return source.ObservePropertyChangedSlim(path, false);
+                }
+
+                var changes = new List<PropertyChangedEventArgs>();
+                var withFake = new WithAbstractFake { Value = new ConcreteFake2() };
+                using (CreateObservable(withFake, x => x.Value.BaseValue)
+                    .Subscribe(changes.Add))
+                {
+                    withFake.Value.BaseValue++;
+                    CollectionAssert.AreEqual(new[] { "BaseValue" }, changes.Select(x => x.PropertyName));
+                }
+            }
+
+            [Test]
+            public void GenericHelperMethodConstrainedToClass2()
+            {
+                IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source)
+                    where T : With<AbstractFake>
+                {
+                    return source.ObservePropertyChangedSlim(x => x.Value.BaseValue, false);
+                }
+
+                var changes = new List<PropertyChangedEventArgs>();
+                var withFake = new WithAbstractFake { Value = new ConcreteFake2() };
+                using (CreateObservable(withFake)
+                    .Subscribe(changes.Add))
+                {
+                    withFake.Value.BaseValue++;
+                    CollectionAssert.AreEqual(new[] { "BaseValue" }, changes.Select(x => x.PropertyName));
+
+                    withFake.Value = new ConcreteFake1();
+                    CollectionAssert.AreEqual(new[] { "BaseValue", "Value" }, changes.Select(x => x.PropertyName));
+
+                    withFake.Value.BaseValue++;
+                    CollectionAssert.AreEqual(new[] { "BaseValue", "Value", "BaseValue" }, changes.Select(x => x.PropertyName));
                 }
             }
 

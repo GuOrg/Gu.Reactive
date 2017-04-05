@@ -72,6 +72,7 @@
     <Compile Include="Helpers\Level3.cs" />
     <Compile Include="Helpers\Level4.cs" />
     <Compile Include="Helpers\Level{T}.cs" />
+    <Compile Include="Helpers\WithAbstractFake.cs" />
     <Compile Include="Helpers\WithShadowing.cs" />
     <Compile Include="Helpers\With{T}.cs" />
     <Compile Include="MaybeTests.cs" />
