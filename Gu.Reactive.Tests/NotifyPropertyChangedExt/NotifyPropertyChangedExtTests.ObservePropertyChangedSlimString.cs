@@ -82,11 +82,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ShadowingProperty()
             {
                 var changes = new List<PropertyChangedEventArgs>();
-                var withFake = new WithShadowing<int>();
-                using (withFake.ObservePropertyChangedSlim("Value", false)
+                var with = new WithShadowing<int>();
+                using (with.ObservePropertyChangedSlim("Value", false)
                                .Subscribe(changes.Add))
                 {
-                    withFake.Value = 1;
+                    with.Value = 1;
                     CollectionAssert.AreEqual(new[] { "Value" }, changes.Select(x => x.PropertyName));
                 }
             }

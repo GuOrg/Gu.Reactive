@@ -4,7 +4,7 @@ namespace Gu.Reactive.Tests.Helpers
     {
         private T value;
 
-        public T Value
+        public new T Value
         {
             get => this.value;
 

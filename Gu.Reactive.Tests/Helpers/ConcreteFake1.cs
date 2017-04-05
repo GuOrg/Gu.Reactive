@@ -1,13 +1,8 @@
 namespace Gu.Reactive.Tests.Helpers
 {
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-
-    public class ConcreteFake1 : AbstractFake, IGeneric<int>, INotifyPropertyChanged
+    public class ConcreteFake1 : AbstractFake, IGeneric<int>
     {
         private int value;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public int Value
         {
@@ -23,11 +18,6 @@ namespace Gu.Reactive.Tests.Helpers
                 this.value = value;
                 this.OnPropertyChanged();
             }
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

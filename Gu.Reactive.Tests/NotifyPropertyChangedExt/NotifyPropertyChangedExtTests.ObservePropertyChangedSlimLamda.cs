@@ -9,6 +9,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Linq.Expressions;
+
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
@@ -88,6 +90,43 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 {
                     withFake.Value = new ConcreteFake1();
                     CollectionAssert.AreEqual(new[] { "Value" }, changes.Select(x => x.PropertyName));
+                }
+            }
+
+            [Test]
+            public void GenericHelperMethodConnstrainedToClassAndInterface()
+            {
+                IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source, Expression<Func<T, int>> path)
+                    where T : class, INotifyPropertyChanged
+                {
+                    return source.ObservePropertyChangedSlim(path, false);
+                }
+
+                var changes = new List<PropertyChangedEventArgs>();
+                var withFake = new With<int>();
+                using (CreateObservable(withFake, x => x.Value)
+                               .Subscribe(changes.Add))
+                {
+                    withFake.Value++;
+                    CollectionAssert.AreEqual(new[] { "Value" }, changes.Select(x => x.PropertyName));
+                }
+            }
+
+            [Test]
+            public void GenericHelperMethodConnstrainedToAbstractType()
+            {
+                IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source, Expression<Func<T, int>> path)
+                    where T : AbstractFake
+                {
+                    return source.ObservePropertyChangedSlim(path, false);
+                }
+
+                var changes = new List<PropertyChangedEventArgs>();
+                var fake = new ConcreteFake1();
+                using (CreateObservable(fake, x => x.BaseValue).Subscribe(changes.Add))
+                {
+                    fake.BaseValue++;
+                    CollectionAssert.AreEqual(new[] { "BaseValue" }, changes.Select(x => x.PropertyName));
                 }
             }
 

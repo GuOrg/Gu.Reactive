@@ -1,13 +1,8 @@
 namespace Gu.Reactive.Tests.Helpers
 {
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-
-    public class ConcreteFake2 : AbstractFake, IGeneric<double>, INotifyPropertyChanged
+    public class ConcreteFake2 : AbstractFake, IGeneric<double>
     {
         private double value;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public double Value
         {
@@ -15,6 +10,7 @@ namespace Gu.Reactive.Tests.Helpers
 
             set
             {
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (value == this.value)
                 {
                     return;
@@ -23,11 +19,6 @@ namespace Gu.Reactive.Tests.Helpers
                 this.value = value;
                 this.OnPropertyChanged();
             }
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
