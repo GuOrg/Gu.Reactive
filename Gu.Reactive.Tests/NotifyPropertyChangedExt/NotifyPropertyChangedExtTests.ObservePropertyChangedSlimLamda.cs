@@ -66,6 +66,19 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
+            public void Meh()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var withFake = new With<AbstractFake>();
+                using (withFake.ObservePropertyChangedSlim(x => x.Value, false)
+                            .Subscribe(changes.Add))
+                {
+                    withFake.Value = new ConcreteFake1();
+                    CollectionAssert.AreEqual("Value", changes.Select(x => x.PropertyName));
+                }
+            }
+
+            [Test]
             public void TwoSubscriptionsOneObservable()
             {
                 var changes1 = new List<PropertyChangedEventArgs>();

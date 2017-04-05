@@ -59,6 +59,9 @@
     <Compile Include="Collections\ReadOnlyViews\ReadOnlyFilteredViewTests.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadOnlySerialViewTests.cs" />
     <Compile Include="Collections\ScheduledCollectionTests.cs" />
+    <Compile Include="Helpers\AbstractFake.cs" />
+    <Compile Include="Helpers\ConcreteFake1.cs" />
+    <Compile Include="Helpers\ConcreteFake2.cs" />
     <Compile Include="Helpers\DumpIfDebug.cs" />
     <Compile Include="Helpers\EventPatternAssert.cs" />
     <Compile Include="Helpers\Fake{T}.cs" />
@@ -68,6 +71,7 @@
     <Compile Include="Helpers\Level3.cs" />
     <Compile Include="Helpers\Level4.cs" />
     <Compile Include="Helpers\Level{T}.cs" />
+    <Compile Include="Helpers\With{T}.cs" />
     <Compile Include="MaybeTests.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObserveFullPropertyPathSlim.cs" />
     <Compile Include="NotifyPropertyChangedExt\NotifyPropertyChangedExtTests.ObservePropertyChangedSlimLamda.cs" />

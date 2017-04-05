@@ -24,18 +24,12 @@
 
         public int WriteOnly
         {
-            set
-            {
-                this.writeOnly = value;
-            }
+            set => this.writeOnly = value;
         }
 
         public bool? IsTrueOrNull
         {
-            get
-            {
-                return this.isTrueOrNull;
-            }
+            get => this.isTrueOrNull;
 
             set
             {
@@ -51,10 +45,7 @@
 
         public bool IsTrue
         {
-            get
-            {
-                return this.isTrue;
-            }
+            get => this.isTrue;
 
             set
             {
@@ -70,10 +61,7 @@
 
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
+            get => this.name;
 
             set
             {
@@ -89,10 +77,7 @@
 
         public Level1 Level1
         {
-            get
-            {
-                return this.level1;
-            }
+            get => this.level1;
 
             set
             {
@@ -108,10 +93,7 @@
 
         public Level Next
         {
-            get
-            {
-                return this.next;
-            }
+            get => this.next;
 
             set
             {
@@ -127,10 +109,7 @@
 
         public Level<int> NextInt
         {
-            get
-            {
-                return this.nextInt;
-            }
+            get => this.nextInt;
 
             set
             {
@@ -146,10 +125,7 @@
 
         public StructLevel StructLevel
         {
-            get
-            {
-                return this.structLevel;
-            }
+            get => this.structLevel;
 
             set
             {
@@ -165,10 +141,7 @@
 
         public NotNotifying NotNotifying
         {
-            get
-            {
-                return this.notNotifying;
-            }
+            get => this.notNotifying;
 
             set
             {
@@ -184,10 +157,7 @@
 
         public int Value
         {
-            get
-            {
-                return this.value;
-            }
+            get => this.value;
 
             set
             {
