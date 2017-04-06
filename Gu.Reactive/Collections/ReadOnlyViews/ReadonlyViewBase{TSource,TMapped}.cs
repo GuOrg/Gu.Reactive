@@ -83,10 +83,7 @@ namespace Gu.Reactive
         /// </summary>
         protected IEnumerable<TSource> Source
         {
-            get
-            {
-                return this.source;
-            }
+            get => this.source;
 
             private set
             {
@@ -115,8 +112,8 @@ namespace Gu.Reactive
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
         object IList.this[int index]
         {
-            get { return this[index]; }
-            set { ThrowHelper.ThrowCollectionIsReadonly(); }
+            get => this[index];
+            set => ThrowHelper.ThrowCollectionIsReadonly();
         }
 
         /// <inheritdoc/>

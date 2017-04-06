@@ -63,10 +63,7 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
+            get => this.name;
 
             set
             {

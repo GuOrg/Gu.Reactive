@@ -80,8 +80,8 @@ namespace Gu.Reactive
 
             public event Action<TResult> OnRemove
             {
-                add { this.resultCounter.OnRemove += value; }
-                remove { this.resultCounter.OnRemove -= value; }
+                add => this.resultCounter.OnRemove += value;
+                remove => this.resultCounter.OnRemove -= value;
             }
 
             private object Gate => this.cache.Gate;

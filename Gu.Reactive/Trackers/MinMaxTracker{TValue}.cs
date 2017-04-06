@@ -41,10 +41,7 @@
         /// </summary>
         public TValue? Min
         {
-            get
-            {
-                return this.min;
-            }
+            get => this.min;
 
             private set
             {
@@ -63,10 +60,7 @@
         /// </summary>
         public TValue? Max
         {
-            get
-            {
-                return this.max;
-            }
+            get => this.max;
 
             private set
             {

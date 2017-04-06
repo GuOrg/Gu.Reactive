@@ -43,10 +43,7 @@ namespace Gu.Reactive
         /// </summary>
         public TimeSpan BufferTime
         {
-            get
-            {
-                return this.bufferTime;
-            }
+            get => this.bufferTime;
 
             set
             {

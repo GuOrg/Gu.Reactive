@@ -46,10 +46,7 @@ namespace Gu.Reactive
                 this.PropertyChangedCore += value;
             }
 
-            remove
-            {
-                this.PropertyChangedCore -= value;
-            }
+            remove => this.PropertyChangedCore -= value;
         }
 
         private event PropertyChangedEventHandler PropertyChangedCore;

@@ -156,10 +156,7 @@ namespace Gu.Reactive
 
             public Maybe<TValue> Value
             {
-                get
-                {
-                    return this.value;
-                }
+                get => this.value;
 
                 private set
                 {

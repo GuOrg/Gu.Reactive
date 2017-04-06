@@ -64,8 +64,8 @@ namespace Gu.Reactive.Internals
 
         event PropertyChangedEventHandler IPropertyTracker.TrackedPropertyChanged
         {
-            add { this.TrackedPropertyChangedInternal += value; }
-            remove { this.TrackedPropertyChangedInternal -= value; }
+            add => this.TrackedPropertyChangedInternal += value;
+            remove => this.TrackedPropertyChangedInternal -= value;
         }
 
         private event PropertyChangedEventHandler TrackedPropertyChangedInternal;
@@ -83,10 +83,7 @@ namespace Gu.Reactive.Internals
         /// </summary>
         public TSource Source
         {
-            get
-            {
-                return this.source;
-            }
+            get => this.source;
 
             set
             {
@@ -120,8 +117,8 @@ namespace Gu.Reactive.Internals
 
         INotifyPropertyChanged IPropertyTracker.Source
         {
-            get { return this.source; }
-            set { this.Source = (TSource)value; }
+            get => this.source;
+            set => this.Source = (TSource)value;
         }
 
         Maybe<TValue> IPropertyTracker<TValue>.GetMaybe() => this.Getter.GetMaybe(this.source);

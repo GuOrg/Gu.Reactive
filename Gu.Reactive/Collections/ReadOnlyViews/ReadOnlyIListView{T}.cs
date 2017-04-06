@@ -75,9 +75,9 @@
         /// <inheritdoc/>
         object IList.this[int index]
         {
-            get { return this[index]; }
+            get => this[index];
             //// ReSharper disable once ValueParameterNotUsed
-            set { ThrowHelper.ThrowCollectionIsReadonly(); }
+            set => ThrowHelper.ThrowCollectionIsReadonly();
         }
 
         /// <inheritdoc/>
