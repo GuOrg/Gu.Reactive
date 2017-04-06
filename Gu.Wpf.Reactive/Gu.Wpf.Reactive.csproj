@@ -191,6 +191,24 @@
   -->
   <Import Project="..\.paket\paket.targets" />
   <ItemGroup>
+    <None Include="Collections\ReadOnlyDispatchingView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReadOnlyDispatchingView.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Collections\MutableViews\FilteredView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FilteredView.generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Collections\MutableViews\ThrottledView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ThrottledView.generated.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Analyzer Include="..\packages\analyzers\Gu.Analyzers\analyzers\dotnet\cs\Gu.Analyzers.Analyzers.dll">
       <Paket>True</Paket>
     </Analyzer>
@@ -227,24 +245,6 @@
     <Analyzer Include="..\packages\analyzers\WpfAnalyzers\analyzers\dotnet\cs\WpfAnalyzers.CodeFixes.dll">
       <Paket>True</Paket>
     </Analyzer>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Collections\ReadOnlyDispatchingView.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ReadOnlyDispatchingView.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Collections\MutableViews\FilteredView.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FilteredView.generated.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Collections\MutableViews\ThrottledView.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ThrottledView.generated.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
