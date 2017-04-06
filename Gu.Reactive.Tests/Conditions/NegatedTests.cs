@@ -153,7 +153,9 @@ namespace Gu.Reactive.Tests.Conditions
             {
                 using (var negatedCondition = new Negated<Condition>(condition))
                 {
+#pragma warning disable 618
                     using (var negatedTwice = negatedCondition.Negate())
+#pragma warning restore 618
                     {
                         Assert.AreSame(condition, negatedTwice);
                     }

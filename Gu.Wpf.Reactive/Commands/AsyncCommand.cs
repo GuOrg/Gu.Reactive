@@ -1,6 +1,7 @@
 namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.Collections.Generic;
     using System.Reactive.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -59,7 +60,7 @@ namespace Gu.Wpf.Reactive
         {
         }
 
-        private AsyncCommand(ITaskRunner runner, ICondition[] conditions)
+        private AsyncCommand(ITaskRunner runner, IReadOnlyList<ICondition> conditions)
             : this(runner, new AndCondition(runner.CanRunCondition, new AndCondition(conditions, true)))
         {
         }
