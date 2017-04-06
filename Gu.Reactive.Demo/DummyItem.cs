@@ -2,7 +2,6 @@
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-
     using JetBrains.Annotations;
 
     public class DummyItem : INotifyPropertyChanged
@@ -22,10 +21,7 @@
 
         public int Value
         {
-            get
-            {
-                return this.value;
-            }
+            get => this.value;
 
             set
             {

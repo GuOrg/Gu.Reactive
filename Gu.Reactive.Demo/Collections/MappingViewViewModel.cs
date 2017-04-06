@@ -101,10 +101,7 @@
 
         public int RemoveAt
         {
-            get
-            {
-                return this.removeAt;
-            }
+            get => this.removeAt;
 
             set
             {

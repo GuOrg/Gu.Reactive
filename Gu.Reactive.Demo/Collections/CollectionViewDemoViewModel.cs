@@ -55,10 +55,7 @@ namespace Gu.Reactive.Demo
 
         public Func<int, bool> Filter
         {
-            get
-            {
-                return this.filter;
-            }
+            get => this.filter;
 
             set
             {

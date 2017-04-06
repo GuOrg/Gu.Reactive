@@ -71,10 +71,7 @@
 
         public string Executed
         {
-            get
-            {
-                return this.executed;
-            }
+            get => this.executed;
 
             set
             {
@@ -90,10 +87,7 @@
 
         public bool CanExecute
         {
-            get
-            {
-                return this.canExecute;
-            }
+            get => this.canExecute;
 
             set
             {

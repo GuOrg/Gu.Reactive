@@ -16,10 +16,7 @@
 
         public bool Visible
         {
-            get
-            {
-                return this.visible;
-            }
+            get => this.visible;
 
             set
             {
@@ -36,10 +33,7 @@
 
         public Visibility Visibility
         {
-            get
-            {
-                return this.visibility;
-            }
+            get => this.visibility;
 
             set
             {

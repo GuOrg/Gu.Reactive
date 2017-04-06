@@ -42,20 +42,20 @@
 
         public IEnumerable Source
         {
-            get { return (IEnumerable)this.GetValue(SourceProperty); }
-            set { this.SetValue(SourceProperty, value); }
+            get => (IEnumerable)this.GetValue(SourceProperty);
+            set => this.SetValue(SourceProperty, value);
         }
 
         public ObservableCollection<NotifyCollectionChangedEventArgs> Changes
         {
-            get { return (ObservableCollection<NotifyCollectionChangedEventArgs>)this.GetValue(ChangesProperty); }
-            set { this.SetValue(ChangesProperty, value); }
+            get => (ObservableCollection<NotifyCollectionChangedEventArgs>)this.GetValue(ChangesProperty);
+            set => this.SetValue(ChangesProperty, value);
         }
 
         public string Header
         {
-            get { return (string)this.GetValue(HeaderProperty); }
-            set { this.SetValue(HeaderProperty, value); }
+            get => (string)this.GetValue(HeaderProperty);
+            set => this.SetValue(HeaderProperty, value);
         }
 
         private static object CoerceSource(DependencyObject d, object basevalue)

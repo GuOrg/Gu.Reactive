@@ -62,10 +62,7 @@ namespace Gu.Reactive.Demo
 
         public bool HasSearchText
         {
-            get
-            {
-                return this.hasSearchText;
-            }
+            get => this.hasSearchText;
 
             private set
             {
@@ -81,10 +78,7 @@ namespace Gu.Reactive.Demo
 
         public string SearchText
         {
-            get
-            {
-                return this.searchText;
-            }
+            get => this.searchText;
 
             set
             {
@@ -100,10 +94,7 @@ namespace Gu.Reactive.Demo
 
         public IEnumerable<int> SelectedTags
         {
-            get
-            {
-                return this.selectedTags;
-            }
+            get => this.selectedTags;
 
             set
             {
@@ -119,10 +110,7 @@ namespace Gu.Reactive.Demo
 
         public int NumberOfItems
         {
-            get
-            {
-                return this.numberOfItems;
-            }
+            get => this.numberOfItems;
 
             set
             {

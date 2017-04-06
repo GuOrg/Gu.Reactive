@@ -46,10 +46,7 @@ namespace Gu.Reactive.Demo
 
         public string Items
         {
-            get
-            {
-                return this.items;
-            }
+            get => this.items;
 
             set
             {

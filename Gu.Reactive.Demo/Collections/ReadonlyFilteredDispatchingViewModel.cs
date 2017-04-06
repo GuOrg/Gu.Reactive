@@ -70,10 +70,7 @@
 
         public int Max
         {
-            get
-            {
-                return this.max;
-            }
+            get => this.max;
 
             set
             {

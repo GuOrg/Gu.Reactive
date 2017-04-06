@@ -41,10 +41,7 @@
 
         public int Count
         {
-            get
-            {
-                return this.count;
-            }
+            get => this.count;
 
             private set
             {
@@ -60,10 +57,7 @@
 
         public bool CanExecute
         {
-            get
-            {
-                return this.canExecute;
-            }
+            get => this.canExecute;
 
             set
             {
@@ -79,10 +73,7 @@
 
         public int Delay
         {
-            get
-            {
-                return this.delay;
-            }
+            get => this.delay;
 
             set
             {
