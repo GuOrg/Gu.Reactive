@@ -70,6 +70,7 @@
     <Compile Include="Collections\ReadOnlyViews\Mapping\Creating{TSource,TResult}.cs" />
     <Compile Include="Collections\ReadOnlyViews\Mapping\Updating{TSource,TResult}.cs" />
     <Compile Include="Collections\ScheduledCollection.cs" />
+    <Compile Include="Conditions\Negated.cs" />
     <Compile Include="Conditions\ObservableAndCriteria.cs" />
     <Compile Include="Contracts\IReadOnlyView.cs" />
     <Compile Include="EventArgs\CachedEventArgs.cs" />

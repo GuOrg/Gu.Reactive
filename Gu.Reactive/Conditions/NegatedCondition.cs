@@ -9,14 +9,12 @@ namespace Gu.Reactive
     /// A negated condition wraps a <see cref="ICondition"/> and negates <see cref="IsSatisfied"/>.
     /// Calling Negate on it returns the original condition.
     /// </summary>
-    public sealed class NegatedCondition : ICondition
+    public class NegatedCondition : ICondition
     {
         private readonly FixedSizedQueue<ConditionHistoryPoint> history = new FixedSizedQueue<ConditionHistoryPoint>(100);
         private readonly ICondition condition;
         private readonly IDisposable subscription;
         private string name;
-
-        private bool disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NegatedCondition"/> class.
@@ -44,6 +42,7 @@ namespace Gu.Reactive
         {
             get
             {
+                this.ThrowIfDisposed();
                 var isSatisfied = this.condition.IsSatisfied;
                 if (isSatisfied == null)
                 {
@@ -78,26 +77,68 @@ namespace Gu.Reactive
         }
 
         /// <summary>
+        /// True if this instance is disposed.
+        /// </summary>
+        protected bool IsDisposed { get; private set; }
+
+        /// <summary>
         /// Returns the negated (original) condition.
         /// </summary>
-        public ICondition Negate() => this.condition;
-
-        /// <inheritdoc/>
-        public void Dispose()
+        [Obsolete("This will be made explicit.")]
+        public ICondition Negate()
         {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            this.disposed = true;
-            this.subscription.Dispose();
+            this.ThrowIfDisposed();
+            return this.condition;
         }
 
         /// <inheritdoc/>
         public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString() ?? "null"}";
 
-        private void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        /// <summary>
+        /// Disposes of a <see cref="NegatedCondition"/>.
+        /// </summary>
+        /// <remarks>
+        /// Called from Dispose() with disposing=true.
+        /// Guidelines:
+        /// 1. We may be called more than once: do nothing after the first call.
+        /// 2. Avoid throwing exceptions if disposing is false, i.e. if we're being finalized.
+        /// </remarks>
+        /// <param name="disposing">True if called from Dispose(), false if called from the finalizer.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.IsDisposed)
+            {
+                return;
+            }
+
+            this.IsDisposed = true;
+            if (disposing)
+            {
+                this.subscription.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
+        /// </summary>
+        protected void ThrowIfDisposed()
+        {
+            if (this.IsDisposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
+        }
+
+        /// <summary>
+        /// Raise PropertyChanged event to any listeners.
+        /// </summary>
+        protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
