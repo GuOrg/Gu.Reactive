@@ -5,6 +5,7 @@ namespace Gu.Reactive
     using System.Collections.Generic;
     using System.Linq;
     using System.Reactive.Concurrency;
+    using System.Text;
 
     using Gu.Reactive.Internals;
 
@@ -30,9 +31,21 @@ namespace Gu.Reactive
             Ensure.NotNull(isSatisfied, nameof(isSatisfied));
             Ensure.NotNull(prerequisites, nameof(prerequisites));
 
-            if (prerequisites.Distinct().Count() != prerequisites.Count)
+            var distinct = prerequisites.Distinct().ToArray();
+            if (distinct.Length != prerequisites.Count)
             {
-                throw new ArgumentException("Prerequisites must be distinct", nameof(prerequisites));
+                var builder = new StringBuilder();
+                builder.AppendLine("Prerequisites must be distinct");
+                foreach (var prerequisite in distinct)
+                {
+                    var count = prerequisites.Count(x => x == prerequisite);
+                    if (count > 1)
+                    {
+                        builder.AppendLine($"{prerequisite.GetType().PrettyName()} appears {count} times");
+                    }
+                }
+
+                throw new ArgumentException(builder.ToString(), nameof(prerequisites));
             }
 
             this.isSatisfied = isSatisfied;
