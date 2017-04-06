@@ -59,6 +59,7 @@
     <Compile Include="Collections\ReadOnlyViews\ReadOnlyFilteredViewTests.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadOnlySerialViewTests.cs" />
     <Compile Include="Collections\ScheduledCollectionTests.cs" />
+    <Compile Include="Conditions\NegatedTests.cs" />
     <Compile Include="Helpers\AbstractFake.cs" />
     <Compile Include="Helpers\ConcreteFake1.cs" />
     <Compile Include="Helpers\ConcreteFake2.cs" />
