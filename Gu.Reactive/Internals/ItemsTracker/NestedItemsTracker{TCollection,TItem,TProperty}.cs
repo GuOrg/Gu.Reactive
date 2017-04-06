@@ -168,7 +168,7 @@
                 }
 
                 var tracker = this.path.CreateTracker(item);
-                //// Signaling initial before subscrinbing here to get the events in correct order
+                //// Signaling initial before subscribing here to get the events in correct order
                 //// This can't be made entirely thread safe as an event can be raised on source bewteen signal initial & subscribe.
                 this.SignalInitial(tracker);
                 tracker.TrackedPropertyChanged += this.OnTrackedItemChanged;
