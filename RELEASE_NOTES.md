@@ -1,3 +1,9 @@
+#### 3.3.0
+* BUGFIX: MappingView handles nulls in source.
+* FEATURE: Negated<TCondition>
+* FEATURE: Better exception message when prerequisites are not distinct
+
+
 #### 3.2.0
 * FEATURE: AsReadOnlyView, turn IObservable<T> into a bindable IReadOnlyView<T>
 

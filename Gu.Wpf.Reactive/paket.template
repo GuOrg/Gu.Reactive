@@ -4,7 +4,9 @@ projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  FEATURE: AsReadOnlyView, turn IObservable<T> into a bindable IReadOnlyView<T>
+  BUGFIX: MappingView handles nulls in source.
+  FEATURE: Negated<TCondition>
+  FEATURE: Better exception message when prerequisites are not distinct
 
 excludeddependencies
   JetBrains.Annotations
