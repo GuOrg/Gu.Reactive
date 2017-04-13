@@ -33,7 +33,7 @@ namespace Gu.Wpf.Reactive
                                      {
                                          list.ObservePropertyChangedSlim()
                                                .Subscribe(this.OnPropertyChanged),
-                                         list.ObserveCollectionChangedSlim(false)
+                                         list.ObserveCollectionChangedSlim(signalInitial: false)
                                                .Subscribe(this.OnCollectionChanged)
                                      };
         }

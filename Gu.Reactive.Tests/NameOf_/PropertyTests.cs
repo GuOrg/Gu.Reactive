@@ -47,7 +47,7 @@ namespace Gu.Reactive.Tests.NameOf_
         public void BoxedPropertyHappyPath()
         {
             var fakeInpc = new Fake();
-            var name = NameOf.Property(() => fakeInpc.IsTrue, true);
+            var name = NameOf.Property(() => fakeInpc.IsTrue, allowNestedProperty: true);
             Assert.AreEqual("IsTrue", name);
 
             name = NameOf.Property<Fake>(x => x.IsTrue);
@@ -60,7 +60,7 @@ namespace Gu.Reactive.Tests.NameOf_
         [Test]
         public void NestedPropertyHappyPath()
         {
-            var name = NameOf.Property(() => this.Fake.Next.Name, true);
+            var name = NameOf.Property(() => this.Fake.Next.Name, allowNestedProperty: true);
             Assert.AreEqual("Name", name);
 
             name = NameOf.Property<PropertyTests>(x => this.Fake.Next.Name);

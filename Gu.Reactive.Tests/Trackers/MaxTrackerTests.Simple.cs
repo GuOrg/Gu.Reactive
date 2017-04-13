@@ -40,7 +40,7 @@ namespace Gu.Reactive.Tests.Trackers
                 {
                     Assert.AreEqual(3, tracker.Value);
                     count = 0;
-                    using (tracker.ObservePropertyChangedSlim(x => x.Value, false)
+                    using (tracker.ObservePropertyChangedSlim(x => x.Value, signalInitial: false)
                                   .Subscribe(_ => count++))
                     {
                         ints[index] = value;
@@ -58,7 +58,7 @@ namespace Gu.Reactive.Tests.Trackers
                 {
                     Assert.AreEqual(3, tracker.Value);
                     int count = 0;
-                    using (tracker.ObservePropertyChangedSlim(x => x.Value, false)
+                    using (tracker.ObservePropertyChangedSlim(x => x.Value, signalInitial: false)
                                   .Subscribe(_ => count++))
                     {
                         ints.Remove(1);

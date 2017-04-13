@@ -40,7 +40,7 @@ namespace Gu.Reactive.Tests.Trackers
                 {
                     Assert.AreEqual(3, tracker.Value);
                     var count = 0;
-                    using (tracker.ObservePropertyChanged(x => x.Value, false)
+                    using (tracker.ObservePropertyChanged(x => x.Value, signalInitial: false)
                                   .Subscribe(_ => count++))
                     {
                         source.RemoveAt(1);
@@ -78,7 +78,7 @@ namespace Gu.Reactive.Tests.Trackers
                 {
                     Assert.AreEqual(3, tracker.Value);
                     var count = 0;
-                    using (tracker.ObservePropertyChanged(x => x.Value, false)
+                    using (tracker.ObservePropertyChanged(x => x.Value, signalInitial: false)
                                   .Subscribe(_ => count++))
                     {
                         source[1].Value = 6;
@@ -101,7 +101,7 @@ namespace Gu.Reactive.Tests.Trackers
                 {
                     Assert.AreEqual(3, tracker.Value);
                     var count = 0;
-                    using (tracker.ObservePropertyChanged(x => x.Value, false)
+                    using (tracker.ObservePropertyChanged(x => x.Value, signalInitial: false)
                                   .Subscribe(_ => count++))
                     {
                         source[2].Level1 = null;

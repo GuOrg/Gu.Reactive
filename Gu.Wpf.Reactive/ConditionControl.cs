@@ -40,7 +40,7 @@
             nameof(IsInSync),
             typeof(bool),
             typeof(ConditionControl),
-            new PropertyMetadata(true));
+            new PropertyMetadata(defaultValue: true));
 
         public static readonly DependencyProperty IsInSyncProperty = IsInSyncPropertyKey.DependencyProperty;
 

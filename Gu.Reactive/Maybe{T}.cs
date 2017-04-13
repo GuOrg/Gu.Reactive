@@ -19,7 +19,7 @@
         /// <summary>
         /// The default instance when value is missing.
         /// </summary>
-        public static Maybe<T> None => new Maybe<T>(false, default(T));
+        public static Maybe<T> None => new Maybe<T>(hasValue: false, value: default(T));
 
         /// <inheritdoc />
         public bool HasValue { get; }
@@ -57,7 +57,7 @@
         /// <summary>
         /// Create an instance with a value.
         /// </summary>
-        public static Maybe<T> Some(T value) => new Maybe<T>(true, value);
+        public static Maybe<T> Some(T value) => new Maybe<T>(hasValue: true, value: value);
 
         /// <inheritdoc />
         public bool Equals(Maybe<T> other)

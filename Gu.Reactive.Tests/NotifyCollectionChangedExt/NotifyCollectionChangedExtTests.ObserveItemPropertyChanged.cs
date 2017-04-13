@@ -24,7 +24,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, true)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: true)
                                  .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(2, changes.Count);
@@ -42,7 +42,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
                 var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, true)
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: true)
                                  .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(2, changes.Count);
@@ -62,7 +62,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var source = new ObservableCollection<ReadOnlyObservableCollection<int>>();
                 var changes =
                     new List<EventPattern<ItemPropertyChangedEventArgs<ReadOnlyObservableCollection<int>, int>>>();
-                using (source.ObserveItemPropertyChanged(x => x.Count, false)
+                using (source.ObserveItemPropertyChanged(x => x.Count, signalInitial: false)
                              .Subscribe(x => changes.Add(x)))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -79,7 +79,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -95,7 +95,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -119,7 +119,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -150,7 +150,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item = new Fake { Name = "1" };
                 var collection = new ObservableCollection<Fake> { item };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -182,7 +182,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item = new Fake { Level1 = new Level1 { Name = "1" } };
                 var collection = new ObservableCollection<Fake> { item };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -215,7 +215,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                var observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
+                var observable = collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false);
                 using (observable.Subscribe(changes1.Add))
                 {
                     using (observable.Subscribe(changes2.Add))
@@ -248,7 +248,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var collection = new ObservableCollection<Fake> { item1, item2 };
                 using (var view = collection.AsReadOnlyFilteredView(x => true))
                 {
-                    using (view.ObserveItemPropertyChanged(x => x.Name, false)
+                    using (view.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                .Subscribe(changes.Add))
                     {
                         CollectionAssert.IsEmpty(changes);
@@ -272,7 +272,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Next = new Level { Name = "1" } };
                 var item2 = new Fake();
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Next.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Next.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -294,7 +294,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Next = new Level { Name = "1" } };
                 var item2 = new Fake();
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Next.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Next.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -318,7 +318,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item = new Fake { Name = "1" };
                 var collection = new ObservableCollection<Fake> { item, item };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -336,7 +336,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item = new Fake { Name = "1" };
                 var collection = new ObservableCollection<Fake> { item, null };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -364,7 +364,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -390,7 +390,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
                 var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -416,7 +416,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -438,7 +438,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
                 var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -460,7 +460,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -487,7 +487,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
                 var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -514,7 +514,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Value, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Value, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -536,7 +536,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
                 var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Value, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Value, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -558,7 +558,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -580,7 +580,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
                 var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -602,7 +602,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
                 var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, false)
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                                  .Subscribe(changes.Add))
                 {
                 }
@@ -623,7 +623,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
                 var collectionRef = new WeakReference(collection);
                 var item1Ref = new WeakReference(collection[0]);
-                IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
+                IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false);
                 Assert.IsTrue(collectionRef.IsAlive);
                 //// http://stackoverflow.com/a/579001/1069200
                 using (observable.Subscribe(changes.Add))
@@ -648,7 +648,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
                 var collectionRef = new WeakReference(collection);
                 var item1Ref = new WeakReference(collection[0]);
-                IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = collection.ObserveItemPropertyChanged(x => x.Name, false);
+                IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false);
                 Assert.IsTrue(collectionRef.IsAlive);
                 //// http://stackoverflow.com/a/579001/1069200
 #pragma warning disable GU0030 // Use using.

@@ -15,7 +15,7 @@ namespace Gu.Reactive
         /// Initializes a new instance of the <see cref="OrCondition"/> class.
         /// </summary>
         public OrCondition(ICondition prerequisite1, ICondition prerequisite2, params ICondition[] prerequisites)
-            : base(new OrConditionCollection(ConditionCollection.Prepend(prerequisite1, prerequisite2, prerequisites), true))
+            : base(new OrConditionCollection(ConditionCollection.Prepend(prerequisite1, prerequisite2, prerequisites), leaveOpen: true))
         {
         }
 

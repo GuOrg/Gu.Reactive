@@ -21,11 +21,11 @@
         /// <param name="scheduler">The scheduler to observe changes on.</param>
         /// <param name="leaveOpen">True means that <paramref name="source"/> is not disposed when this instance is disposed.</param>
         protected ReadOnlySerialViewBase(IEnumerable<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
-            : base(source, s => s, leaveOpen, true)
+            : base(source, s => s, leaveOpen, starteEmpty: true)
         {
             this.Chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.refreshSubscription = this.ObserveValue(x => x.Source)
-                                           .Select(x => NotifyCollectionChangedExt.ObserveCollectionChangedSlimOrDefault(x.GetValueOrDefault(), true)
+                                           .Select(x => NotifyCollectionChangedExt.ObserveCollectionChangedSlimOrDefault(x.GetValueOrDefault(), signalInitial: true)
                                                          .Slide(this.Chunk))
                                            .Switch()
                                            .ObserveOn(scheduler ?? ImmediateScheduler.Instance)

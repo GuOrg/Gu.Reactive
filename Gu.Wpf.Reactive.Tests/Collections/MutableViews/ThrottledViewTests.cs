@@ -32,7 +32,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(10), scheduler, true))
+            using (var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true))
             {
                 scheduler.Start();
                 using (var expected = source.SubscribeAll())
@@ -92,7 +92,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(100), scheduler, true))
+            using (var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(100), scheduler, leaveOpen: true))
             {
                 using (var actual = view.SubscribeAll())
                 {
@@ -121,7 +121,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(100), scheduler, true))
+            using (var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(100), scheduler, leaveOpen: true))
             {
                 scheduler.Start();
                 CollectionAssert.AreEqual(source, view);

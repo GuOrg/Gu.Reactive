@@ -15,7 +15,7 @@
         public SimpleChanges(TCollection source)
         {
             this.source = source;
-            this.subscription = source.ObserveCollectionChangedSlim(false)
+            this.subscription = source.ObserveCollectionChangedSlim(signalInitial: false)
                                       .Subscribe(this.OnSourceChanged);
         }
 

@@ -24,7 +24,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var fake = new Fake();
                 var actuals = new List<Maybe<int>>();
-                using (fake.ObserveValue(x => x.Value, false)
+                using (fake.ObserveValue(x => x.Value, signalInitial: false)
                            .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<int>>();
@@ -81,7 +81,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var fake = new Fake<int>();
                 var actuals = new List<Maybe<int>>();
-                using (fake.ObserveValue(x => x.Value, true)
+                using (fake.ObserveValue(x => x.Value, signalInitial: true)
                            .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<int>> { Maybe.Some(0) };
@@ -105,7 +105,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var fake = new Fake<int>();
                 var actuals = new List<Maybe<int>>();
-                using (fake.ObserveValue(x => x.Value, false)
+                using (fake.ObserveValue(x => x.Value, signalInitial: false)
                            .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<int>>();
@@ -157,7 +157,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var fake = new Fake();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Next.Name, true)
+                using (fake.ObserveValue(x => x.Next.Name, signalInitial: true)
                            .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>> { Maybe<string>.None };
@@ -185,7 +185,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var fake = new Fake();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Next.Name, false)
+                using (fake.ObserveValue(x => x.Next.Name, signalInitial: false)
                            .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>>();
@@ -241,7 +241,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var fake = new Fake<IFake>();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Next.Name, true)
+                using (fake.ObserveValue(x => x.Next.Name, signalInitial: true)
                            .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>> { Maybe<string>.None };
@@ -269,7 +269,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var fake = new Fake<IFake>();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Next.Name, false)
+                using (fake.ObserveValue(x => x.Next.Name, signalInitial: false)
                            .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>>();
@@ -297,7 +297,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var fake = new Fake<A>();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Value.Value, false)
+                using (fake.ObserveValue(x => x.Value.Value, signalInitial: false)
                            .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>>();
@@ -402,7 +402,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var actuals1 = new List<Maybe<int>>();
                 var actuals2 = new List<Maybe<int>>();
                 var fake = new Fake { Level1 = new Level1 { Value = 1 } };
-                var observable = fake.ObserveValue(x => x.Level1.Value, true);
+                var observable = fake.ObserveValue(x => x.Level1.Value, signalInitial: true);
                 using (observable.Subscribe(actuals1.Add))
                 {
                     var expected = new List<Maybe<int>> { Maybe<int>.Some(1) };
@@ -438,7 +438,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var actuals1 = new List<Maybe<int>>();
                 var actuals2 = new List<Maybe<int>>();
                 var fake = new Fake { Next = new Level { Value = 1 } };
-                var observable = fake.ObserveValue(x => x.Next.Value, false);
+                var observable = fake.ObserveValue(x => x.Next.Value, signalInitial: false);
                 using (observable.Subscribe(actuals1.Add))
                 {
                     var expected = new List<Maybe<int>>();
@@ -502,7 +502,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var ints = new ObservableCollection<int>();
                 var source = new ReadOnlyObservableCollection<int>(ints);
                 var values = new List<Maybe<int>>();
-                using (source.ObserveValue(x => x.Count, false)
+                using (source.ObserveValue(x => x.Count, signalInitial: false)
                              .Subscribe(values.Add))
                 {
                     CollectionAssert.IsEmpty(values);

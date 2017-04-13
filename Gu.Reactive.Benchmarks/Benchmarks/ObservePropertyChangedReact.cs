@@ -27,12 +27,13 @@ namespace Gu.Reactive.Benchmarks
 
             this.subscriptions = new CompositeDisposable
                                  {
-                                     this.lambdaFake.ObservePropertyChanged(x => x.Value, false)
-                                                .Subscribe(x => this.count++),
+                                     this.lambdaFake.ObservePropertyChanged(x => x.Value, signalInitial: false)
+                                                    .Subscribe(x => this.count++),
 
-                                     this.slimFake.ObservePropertyChangedSlim("Value", false).Subscribe(x => this.count++),
+                                     this.slimFake.ObservePropertyChangedSlim("Value", signalInitial: false)
+                                                  .Subscribe(x => this.count++),
 
-                                     this.nestedFake.ObservePropertyChanged(x => x.Next.Value, false)
+                                     this.nestedFake.ObservePropertyChanged(x => x.Next.Value, signalInitial: false)
                                                 .Subscribe(x => this.count++),
 
                                      Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(

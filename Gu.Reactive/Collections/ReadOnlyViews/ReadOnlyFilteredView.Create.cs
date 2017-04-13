@@ -27,7 +27,7 @@ namespace Gu.Reactive
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
-            return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, true, triggers);
+            return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, leaveOpen: true, triggers: triggers);
         }
 
         /// <summary>

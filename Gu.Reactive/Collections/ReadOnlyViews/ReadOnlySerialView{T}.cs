@@ -40,7 +40,7 @@
         /// </summary>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public ReadOnlySerialView(IEnumerable<T> source, TimeSpan bufferTime, IScheduler scheduler)
-            : base(source, bufferTime, scheduler, true)
+            : base(source, bufferTime, scheduler, leaveOpen: true)
         {
         }
 

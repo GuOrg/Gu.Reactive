@@ -27,7 +27,7 @@ namespace Gu.Reactive.Demo
                         this.ViewChanges.Clear();
                     });
             this.View
-                .ObserveCollectionChangedSlim(false)
+                .ObserveCollectionChangedSlim(signalInitial: false)
                 .ObserveOnDispatcher()
                 .Subscribe(x => this.ViewChanges.Add(x));
         }

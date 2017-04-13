@@ -43,7 +43,7 @@
             var sourceFileName = Path.Combine(Directory.GetCurrentDirectory(), "BenchmarkDotNet.Artifacts", "results", name + "-report-github.md");
             Directory.CreateDirectory(DesinationDirectory);
             var destinationFileName = Path.Combine(DesinationDirectory, name + ".md");
-            File.Copy(sourceFileName, destinationFileName, true);
+            File.Copy(sourceFileName, destinationFileName, overwrite: true);
 #endif
         }
     }

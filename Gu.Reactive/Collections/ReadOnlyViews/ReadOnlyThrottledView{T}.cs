@@ -52,11 +52,11 @@
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler scheduler, IEnumerable<T> source, bool leaveOpen)
-            : base(source, s => s, leaveOpen, true)
+            : base(source, s => s, leaveOpen, starteEmpty: true)
         {
             this.BufferTime = bufferTime;
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
-            this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
+            this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(signalInitial: false)
                                                                          .Slide(this.chunk)
                                                                          .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
                                                                          .StartWith(this.chunk.Add(CachedEventArgs.NotifyCollectionReset))

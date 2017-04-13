@@ -58,7 +58,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
                 var fake = new Fake();
-                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, false)
+                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
@@ -73,7 +73,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
                 var fake = new Fake { Level1 = new Level1 { Level2 = new Level2 { Name = "Johan" } } };
-                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Level2.Name, false)
+                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Level2.Name, signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
@@ -90,7 +90,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
                 var fake = new Fake { Level1 = new Level1 { Level2 = new Level2 { Name = "Johan" } } };
-                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Level2.Name, false)
+                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Level2.Name, signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
@@ -110,7 +110,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var changes1 = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
                 var changes2 = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
                 var fake = new Fake { Level1 = new Level1 { Name = string.Empty } };
-                var observable = fake.ObservePropertyChangedWithValue(x => x.Level1.Name, false);
+                var observable = fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: false);
                 using (observable.Subscribe(changes1.Add))
                 {
                     using (observable.Subscribe(changes2.Add))
@@ -143,7 +143,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
                 var fake = new Fake { Level1 = new Level1 { Name = value } };
-                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, true)
+                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: true)
                            .Subscribe(changes.Add))
                 {
                     EventPatternAssert.AreEqual(fake.Level1, string.Empty, Maybe.Some(value), changes.Single());
@@ -241,7 +241,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
                 var fake = new Fake();
-                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, true)
+                using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: true)
                            .Subscribe(changes.Add))
                 {
                     EventPatternAssert.AreEqual(fake, string.Empty, Maybe<string>.None, changes.Single());
@@ -262,7 +262,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var fake = new Fake { Level1 = new Level1() };
                 WeakReference wr = new WeakReference(fake.Level1);
                 Assert.IsTrue(wr.IsAlive);
-                var observable = fake.ObservePropertyChangedWithValue(x => x.Level1.Name, false);
+                var observable = fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: false);
 #pragma warning disable GU0030 // Use using.
                 var subscription = observable.Subscribe();
 #pragma warning restore GU0030 // Use using.
@@ -280,7 +280,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var fake = new Fake { Level1 = new Level1() };
                 WeakReference wr = new WeakReference(fake.Level1);
                 Assert.IsTrue(wr.IsAlive);
-                var observable = fake.ObservePropertyChangedWithValue(x => x.Level1.Name, false);
+                var observable = fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: false);
                 using (var subscription = observable.Subscribe())
                 {
                 }

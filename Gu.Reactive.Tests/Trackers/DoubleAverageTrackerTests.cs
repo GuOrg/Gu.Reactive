@@ -36,7 +36,7 @@ namespace Gu.Reactive.Tests.Trackers
             {
                 Assert.AreEqual(source.Average(), tracker.Value);
                 int count = 0;
-                using (tracker.ObservePropertyChangedSlim(x => x.Value, false)
+                using (tracker.ObservePropertyChangedSlim(x => x.Value, signalInitial: false)
                               .Subscribe(_ => count++))
                 {
                     source.Remove(2);

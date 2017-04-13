@@ -19,7 +19,7 @@
             this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
             this.ClearCommand = new RelayCommand(this.Clear, () => true);
             this.Source
-                .ObserveCollectionChangedSlim(false)
+                .ObserveCollectionChangedSlim(signalInitial: false)
                 .ObserveOnDispatcher()
                 .Subscribe(x => this.SourceChanges.Add(x));
         }

@@ -83,7 +83,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var with = new WithShadowing<int>();
-                using (with.ObservePropertyChangedSlim("Value", false)
+                using (with.ObservePropertyChangedSlim("Value", signalInitial: false)
                                .Subscribe(changes.Add))
                 {
                     with.Value = 1;
@@ -150,7 +150,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var fake = new Fake();
                 var count = 0;
-                using (fake.ObservePropertyChangedSlim(nameof(fake.IsTrue), false)
+                using (fake.ObservePropertyChangedSlim(nameof(fake.IsTrue), signalInitial: false)
                            .Subscribe(_ => count++))
                 {
                     Assert.AreEqual(0, count);
@@ -167,7 +167,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var fake = new Fake();
                 var count = 0;
-                using (fake.ObservePropertyChangedSlim(nameof(fake.IsTrue), true)
+                using (fake.ObservePropertyChangedSlim(nameof(fake.IsTrue), signalInitial: true)
                            .Subscribe(_ => count++))
                 {
                     Assert.AreEqual(1, count);
@@ -185,7 +185,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var ints = new ObservableCollection<int>();
                 var source = new ReadOnlyObservableCollection<int>(ints);
                 var values = new List<string>();
-                using (source.ObservePropertyChangedSlim("Count", false)
+                using (source.ObservePropertyChangedSlim("Count", signalInitial: false)
                              .Subscribe(x => values.Add(x.PropertyName)))
                 {
                     CollectionAssert.IsEmpty(values);
@@ -203,7 +203,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var mock = new Mock<IReadOnlyObservableCollection<int>>();
-                using (mock.Object.ObservePropertyChangedSlim("Count", false)
+                using (mock.Object.ObservePropertyChangedSlim("Count", signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
@@ -220,7 +220,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var fake = new Fake { Name = "Johan" };
-                using (fake.ObservePropertyChangedSlim("Name", false)
+                using (fake.ObservePropertyChangedSlim("Name", signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
@@ -237,7 +237,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var fake = new Fake { Name = null };
-                using (fake.ObservePropertyChangedSlim("Name", false)
+                using (fake.ObservePropertyChangedSlim("Name", signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);

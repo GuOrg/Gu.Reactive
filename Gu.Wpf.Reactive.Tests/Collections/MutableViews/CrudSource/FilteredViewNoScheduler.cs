@@ -26,7 +26,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
 #pragma warning disable GU0036 // Don't dispose injected.
             (this.View as IDisposable)?.Dispose();
 #pragma warning restore GU0036 // Don't dispose injected.
-            this.View = new FilteredView<int>(this.Source, x => true, TimeSpan.Zero, false, null);
+            this.View = new FilteredView<int>(this.Source, x => true, TimeSpan.Zero, leaveOpen: false, triggers: null);
         }
 
         [Test]

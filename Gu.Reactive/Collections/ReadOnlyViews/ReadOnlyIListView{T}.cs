@@ -203,7 +203,7 @@
                        {
                            col.ObservePropertyChangedSlim()
                               .Subscribe(this.OnPropertyChanged),
-                           col.ObserveCollectionChangedSlim(false)
+                           col.ObserveCollectionChangedSlim(signalInitial: false)
                               .Subscribe(this.OnCollectionChanged)
                        };
         }

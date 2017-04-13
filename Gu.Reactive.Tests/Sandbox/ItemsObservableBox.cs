@@ -22,7 +22,7 @@ namespace Gu.Reactive.Tests.Sandbox
         {
             var source = new ObservableCollection<Fake>();
             var path = NotifyingPath.GetOrCreate<Fake, int>(x => x.Next.Next.Value);
-            using (var view = source.AsMappingView(x => x.ObservePropertyChanged(path, true)))
+            using (var view = source.AsMappingView(x => x.ObservePropertyChanged(path, signalInitial: true)))
             {
                 var sw = Stopwatch.StartNew();
                 for (var i = 0; i < n; i++)
@@ -41,7 +41,7 @@ namespace Gu.Reactive.Tests.Sandbox
         {
             var source = new ObservableCollection<Fake>();
             var path = NotifyingPath.GetOrCreate<Fake, int>(x => x.Next.Next.Value);
-            using (var view = source.AsMappingView(x => x.ObservePropertyChanged(path, true)))
+            using (var view = source.AsMappingView(x => x.ObservePropertyChanged(path, signalInitial: true)))
             {
                 var sw = Stopwatch.StartNew();
                 using (var subject = new Subject<IObservable<EventPattern<PropertyChangedEventArgs>>>())
@@ -70,7 +70,7 @@ namespace Gu.Reactive.Tests.Sandbox
         {
             var source = new ObservableCollection<Fake>();
             var path = NotifyingPath.GetOrCreate<Fake, int>(x => x.Next.Next.Value);
-            using (var view = source.AsMappingView(x => x.ObservePropertyChanged(path, true)))
+            using (var view = source.AsMappingView(x => x.ObservePropertyChanged(path, signalInitial: true)))
             {
                 var sw = Stopwatch.StartNew();
                 for (var i = 0; i < n; i++)

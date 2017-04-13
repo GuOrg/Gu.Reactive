@@ -8,7 +8,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         {
             base.SetUp();
             (this.View as IDisposable)?.Dispose();
-            this.View = new ReadOnlyThrottledView<int>(this.Source, TimeSpan.Zero, null, false);
+            this.View = new ReadOnlyThrottledView<int>(this.Source, TimeSpan.Zero, null, leaveOpen: false);
         }
     }
 }

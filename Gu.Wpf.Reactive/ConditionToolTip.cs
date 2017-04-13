@@ -27,7 +27,7 @@
             nameof(InferConditionFromCommand),
             typeof(bool),
             typeof(ConditionToolTip),
-            new PropertyMetadata(true, OnInferConditionFromCommandChanged));
+            new PropertyMetadata(defaultValue: true, propertyChangedCallback: OnInferConditionFromCommandChanged));
 
         private static readonly DependencyPropertyKey CommandTypePropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(CommandType),

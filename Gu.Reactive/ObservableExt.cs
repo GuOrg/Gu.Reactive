@@ -204,7 +204,7 @@
             private readonly IDisposable subscription;
 
             public ReadOnlyView(IObservable<IEnumerable<T>> source)
-                : base(null, TimeSpan.Zero, ImmediateScheduler.Instance, true)
+                : base(null, TimeSpan.Zero, ImmediateScheduler.Instance, leaveOpen: true)
             {
                 this.subscription = source.Subscribe(this.SetSource);
             }

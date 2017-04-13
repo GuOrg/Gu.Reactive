@@ -17,7 +17,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var source = new ObservableCollection<int>();
-                var observable = source.ObserveCollectionChangedSlim(true);
+                var observable = source.ObserveCollectionChangedSlim(signalInitial: true);
                 using (observable.Subscribe(changes.Add))
                 {
                     CollectionAssert.AreEqual(new[] { CachedEventArgs.NotifyCollectionReset }, changes);
@@ -43,7 +43,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var source = new ObservableCollection<int>();
-                using (source.ObserveCollectionChangedSlim(false)
+                using (source.ObserveCollectionChangedSlim(signalInitial: false)
                              .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -55,7 +55,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var source = new ObservableCollection<int>();
-                using (source.ObserveCollectionChangedSlim(false)
+                using (source.ObserveCollectionChangedSlim(signalInitial: false)
                              .Subscribe(changes.Add))
                 {
                     source.Add(1);

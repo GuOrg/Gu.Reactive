@@ -64,7 +64,7 @@ namespace Gu.Wpf.Reactive.Tests
             {
                 command.CanExecuteChanged += (_, __) => count++;
                 var isExecutingCount = 0;
-                using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), false)
+                using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), signalInitial: false)
                               .Subscribe(_ => isExecutingCount++))
                 {
                     Assert.AreEqual(0, isExecutingCount);
@@ -143,7 +143,7 @@ namespace Gu.Wpf.Reactive.Tests
         public void ExecuteThrows()
         {
             var exception = new Exception();
-            using (var command = new AsyncCommand(() => Task.Run(() => { throw exception; })))
+            using (var command = new AsyncCommand(() => Task.Run(() => throw exception)))
             {
                 command.Execute();
                 Assert.ThrowsAsync<Exception>(() => command.Execution.Task);

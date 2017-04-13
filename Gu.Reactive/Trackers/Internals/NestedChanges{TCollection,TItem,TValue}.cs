@@ -26,7 +26,7 @@ namespace Gu.Reactive
                 bufferTime: TimeSpan.Zero,
                 scheduler: null,
                 leaveOpen: true);
-            this.subscription = source.ObserveCollectionChangedSlim(false)
+            this.subscription = source.ObserveCollectionChangedSlim(signalInitial: false)
                                       .Subscribe(this.OnSourceChanged);
         }
 

@@ -65,7 +65,7 @@
             var isExecutingCount = 0;
             using (var command = new ObservingRelayCommand(() => invokeCount++, () => true, new Subject<object>()))
             {
-                using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), false)
+                using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), signalInitial: false)
                               .Subscribe(_ => isExecutingCount++))
                 {
                     Assert.IsFalse(command.IsExecuting);

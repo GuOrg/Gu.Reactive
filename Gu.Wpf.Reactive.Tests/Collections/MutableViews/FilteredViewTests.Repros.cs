@@ -25,7 +25,7 @@
                 using (var trigger = new Subject<object>())
                 {
                     // ReSharper disable once AccessToModifiedClosure
-                    using (var view = new FilteredView<int>(source, x => x < max, TimeSpan.FromMilliseconds(10), scheduler, true, trigger))
+                    using (var view = new FilteredView<int>(source, x => x < max, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true, triggers: trigger))
                     {
                         using (var actual = view.SubscribeAll())
                         {
@@ -84,7 +84,7 @@
                 using (var trigger = new Subject<object>())
                 {
                     // ReSharper disable once AccessToModifiedClosure
-                    using (var view = new FilteredView<int>(source, x => x < max, TimeSpan.FromMilliseconds(10), scheduler, true, trigger))
+                    using (var view = new FilteredView<int>(source, x => x < max, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true, triggers: trigger))
                     {
                         using (var actual = view.SubscribeAll())
                         {
@@ -137,7 +137,7 @@
                 using (var trigger = new Subject<object>())
                 {
                     // ReSharper disable once AccessToModifiedClosure
-                    using (var view = new FilteredView<int>(source, x => x < max, TimeSpan.Zero, scheduler, true, trigger))
+                    using (var view = new FilteredView<int>(source, x => x < max, TimeSpan.Zero, scheduler, leaveOpen: true, triggers: trigger))
                     {
                         using (var actual = view.SubscribeAll())
                         {

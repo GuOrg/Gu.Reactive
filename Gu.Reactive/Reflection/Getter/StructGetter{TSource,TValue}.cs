@@ -11,7 +11,7 @@ namespace Gu.Reactive
         private StructGetter(PropertyInfo property)
             : base(property)
         {
-            this.getter = (GetterDelegate)Delegate.CreateDelegate(typeof(GetterDelegate), property.GetMethod, true);
+            this.getter = (GetterDelegate)Delegate.CreateDelegate(typeof(GetterDelegate), property.GetMethod, throwOnBindFailure: true);
         }
 
         private delegate TValue GetterDelegate(ref TSource source);

@@ -61,7 +61,7 @@ namespace Gu.Wpf.Reactive
         }
 
         private AsyncCommand(ITaskRunner runner, IReadOnlyList<ICondition> conditions)
-            : this(runner, new AndCondition(runner.CanRunCondition, new AndCondition(conditions, true)))
+            : this(runner, new AndCondition(runner.CanRunCondition, new AndCondition(conditions, leaveOpen: true)))
         {
         }
 

@@ -144,9 +144,9 @@
             var observable = Observable.Create<PropertyChangedEventArgs>(
                 o =>
                 {
-                    PropertyChangedEventHandler handler = (_, e) => o.OnNext(e);
-                    source.PropertyChanged += handler;
-                    return Disposable.Create(() => source.PropertyChanged -= handler);
+                    void Handler(object _, PropertyChangedEventArgs e) => o.OnNext(e);
+                    source.PropertyChanged += Handler;
+                    return Disposable.Create(() => source.PropertyChanged -= Handler);
                 });
             return observable;
         }
@@ -295,7 +295,7 @@
                                                      CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty),
                                                      sourceAndValue.Value));
                                          })
-                                 .Concat(source.ObserveValueCore(notifyingPath, create, false));
+                                 .Concat(source.ObserveValueCore(notifyingPath, create, signalInitial: false));
             }
 
             if (notifyingPath.Count > 1)
@@ -304,12 +304,12 @@
                     o =>
                     {
                         var tracker = notifyingPath.CreateTracker(source);
-                        TrackedPropertyChangedEventHandler<TProperty> handler = (_, sender, args, sourceAndValue) => o.OnNext(create(sender, args, sourceAndValue.Value));
-                        tracker.TrackedPropertyChanged += handler;
+                        void Handler(IPropertyTracker _, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue) => o.OnNext(create(sender, args, sourceAndValue.Value));
+                        tracker.TrackedPropertyChanged += Handler;
                         return new CompositeDisposable(2)
                         {
                             tracker,
-                            Disposable.Create(() => tracker.TrackedPropertyChanged -= handler)
+                            Disposable.Create(() => tracker.TrackedPropertyChanged -= Handler)
                         };
                     });
             }
@@ -317,16 +317,17 @@
             return Observable.Create<T>(
                                  o =>
                                  {
-                                     PropertyChangedEventHandler handler = (sender, e) =>
+                                     void Handler(object sender, PropertyChangedEventArgs e)
                                      {
                                          if (e.IsMatch(notifyingPath.Last.Property))
                                          {
                                              var value = notifyingPath.Last.GetMaybe(sender);
                                              o.OnNext(create(sender, e, value));
                                          }
-                                     };
-                                     source.PropertyChanged += handler;
-                                     return Disposable.Create(() => source.PropertyChanged -= handler);
+                                     }
+
+                                     source.PropertyChanged += Handler;
+                                     return Disposable.Create(() => source.PropertyChanged -= Handler);
                                  });
         }
 
@@ -343,7 +344,7 @@
                                      create(
                                          notifyingPath.SourceAndValue(source).Source,
                                          CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty)))
-                                 .Concat(source.ObservePropertyChangedCore(notifyingPath, create, false));
+                                 .Concat(source.ObservePropertyChangedCore(notifyingPath, create, signalInitial: false));
             }
 
             if (notifyingPath.Count > 1)
@@ -352,17 +353,17 @@
                     o =>
                         {
                             var tracker = notifyingPath.CreateTracker(source);
-                            TrackedPropertyChangedEventHandler<TProperty> handler = (_, sender, e, __) => o.OnNext(create(sender, e));
-                            tracker.TrackedPropertyChanged += handler;
+                            void Handler(IPropertyTracker _, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TProperty> __) => o.OnNext(create(sender, e));
+                            tracker.TrackedPropertyChanged += Handler;
                             return new CompositeDisposable(2)
                                        {
                                            tracker,
-                                           Disposable.Create(() => tracker.TrackedPropertyChanged -= handler)
+                                           Disposable.Create(() => tracker.TrackedPropertyChanged -= Handler)
                                        };
                         });
             }
 
-            return ObservePropertyChangedCore(source, notifyingPath.Last.Property.Name, create, false);
+            return ObservePropertyChangedCore(source, notifyingPath.Last.Property.Name, create, signalInitial: false);
         }
 
         private static IObservable<T> ObserveFullPropertyPathCore<TNotifier, TProperty, T>(this TNotifier source, NotifyingPath<TNotifier, TProperty> notifyingPath, Func<object, PropertyChangedEventArgs, T> create, bool signalInitial = true)
@@ -375,7 +376,7 @@
                                          notifyingPath.SourceAndValue(source)
                                                       .Source,
                                          CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty)))
-                                 .Concat(source.ObserveFullPropertyPathCore(notifyingPath, create, false));
+                                 .Concat(source.ObserveFullPropertyPathCore(notifyingPath, create, signalInitial: false));
             }
 
             return Observable.Create<T>(
@@ -384,17 +385,17 @@
 #pragma warning disable GU0030 // Use using.
                         var tracker = notifyingPath.CreateTracker(source);
 #pragma warning restore GU0030 // Use using.
-                        PropertyChangedEventHandler handler = (sender, e) => o.OnNext(create(sender, e));
+                        void Handler(object sender, PropertyChangedEventArgs e) => o.OnNext(create(sender, e));
                         foreach (var propertyTracker in tracker)
                         {
-                            propertyTracker.TrackedPropertyChanged += handler;
+                            propertyTracker.TrackedPropertyChanged += Handler;
                         }
                         return Disposable.Create(
                             () =>
                                 {
                                     foreach (var propertyTracker in tracker)
                                     {
-                                        propertyTracker.TrackedPropertyChanged -= handler;
+                                        propertyTracker.TrackedPropertyChanged -= Handler;
                                     }
 
                                     tracker.Dispose();
@@ -415,21 +416,22 @@
                                      create(
                                          source,
                                          CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty)))
-                                 .Concat(source.ObservePropertyChangedCore(propertyName, create, false));
+                                 .Concat(source.ObservePropertyChangedCore(propertyName, create, signalInitial: false));
             }
 
             return Observable.Create<T>(
                 o =>
                     {
-                        PropertyChangedEventHandler handler = (sender, e) =>
+                        void Handler(object sender, PropertyChangedEventArgs e)
+                        {
+                            if (e.IsMatch(propertyName))
                             {
-                                if (e.IsMatch(propertyName))
-                                {
-                                    o.OnNext(create(sender, e));
-                                }
-                            };
-                        source.PropertyChanged += handler;
-                        return Disposable.Create(() => source.PropertyChanged -= handler);
+                                o.OnNext(create(sender, e));
+                            }
+                        }
+
+                        source.PropertyChanged += Handler;
+                        return Disposable.Create(() => source.PropertyChanged -= Handler);
                     });
         }
     }

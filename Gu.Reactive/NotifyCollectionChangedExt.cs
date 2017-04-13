@@ -27,7 +27,7 @@ namespace Gu.Reactive
             if (signalInitial)
             {
                 return Observable.Return(CachedEventArgs.NotifyCollectionReset)
-                                 .Concat(source.ObserveCollectionChangedSlim(false));
+                                 .Concat(source.ObserveCollectionChangedSlim(signalInitial: false));
             }
 
             return Observable.Create<NotifyCollectionChangedEventArgs>(o =>
@@ -52,7 +52,7 @@ namespace Gu.Reactive
                                      new EventPattern<NotifyCollectionChangedEventArgs>(
                                          source,
                                          CachedEventArgs.NotifyCollectionReset))
-                                 .Concat(source.ObserveCollectionChanged(false));
+                                 .Concat(source.ObserveCollectionChanged(signalInitial: false));
             }
 
             return Observable.FromEventPattern<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(

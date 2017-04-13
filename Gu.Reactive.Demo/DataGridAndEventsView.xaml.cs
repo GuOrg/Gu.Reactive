@@ -68,7 +68,7 @@
         {
             var dataGridAndEventsView = (DataGridAndEventsView)d;
             var notifyCollectionChanged = e.NewValue as INotifyCollectionChanged;
-            notifyCollectionChanged.ObserveCollectionChangedSlim(false)
+            notifyCollectionChanged.ObserveCollectionChangedSlim(signalInitial: false)
                                    .ObserveOnDispatcher()
                                    .Subscribe(x => dataGridAndEventsView.Changes.Add(x));
         }

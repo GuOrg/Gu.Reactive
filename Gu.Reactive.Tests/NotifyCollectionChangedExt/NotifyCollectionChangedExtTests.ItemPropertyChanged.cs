@@ -39,7 +39,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var collection = new ObservableCollection<Fake> { new Fake { Name = "Johan" } };
                 var fake = new FakeWithCollection { Collection = collection };
-                using (fake.ObservePropertyChangedWithValue(x => x.Collection, true)
+                using (fake.ObservePropertyChangedWithValue(x => x.Collection, signalInitial: true)
                            .ItemPropertyChanged(x => x.Name)
                            .Subscribe(changes.Add))
                 {
@@ -57,7 +57,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                          new Fake { Next = new Level { Name = "Reed" } }
                                      };
                 var fake = new FakeWithCollection { Collection = collection };
-                using (fake.ObservePropertyChangedWithValue(x => x.Collection, true)
+                using (fake.ObservePropertyChangedWithValue(x => x.Collection, signalInitial: true)
                            .ItemPropertyChanged(x => x.Next.Name)
                            .Subscribe(changes.Add))
                 {
@@ -94,7 +94,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                          new Fake { Next = new Level { Name = "Reed" } }
                                      };
                 var fake = new FakeWithCollection { Collection = collection };
-                using (fake.ObservePropertyChangedWithValue(x => x.Collection, true)
+                using (fake.ObservePropertyChangedWithValue(x => x.Collection, signalInitial: true)
                            .ItemPropertyChanged(x => x.Next.Name)
                            .Subscribe(changes.Add))
                 {
@@ -122,7 +122,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                                          new Fake { Next = new Level { Name = "2" } }
                                      };
                 var fake = new FakeWithCollection { Collection = collection };
-                using (fake.ObservePropertyChangedWithValue(x => x.Collection, true)
+                using (fake.ObservePropertyChangedWithValue(x => x.Collection, signalInitial: true)
                            .ItemPropertyChanged(x => x.Next.Name)
                            .Subscribe(changes.Add))
                 {
@@ -194,7 +194,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var changes2 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var collection = new ObservableCollection<Fake> { new Fake { Next = new Level { Name = "Johan" } } };
                 var fake = new FakeWithCollection { Collection = collection };
-                var observable = fake.ObservePropertyChangedWithValue(x => x.Collection, true)
+                var observable = fake.ObservePropertyChangedWithValue(x => x.Collection, signalInitial: true)
                                      .ItemPropertyChanged(x => x.Next.Name);
                 using (observable.Subscribe(changes1.Add))
                 {
@@ -226,7 +226,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var collection1 = new ObservableCollection<Fake> { new Fake { Name = "Johan" } };
                 var fake = new FakeWithCollection { Collection = collection1 };
-                using (fake.ObservePropertyChangedWithValue(x => x.Collection, true)
+                using (fake.ObservePropertyChangedWithValue(x => x.Collection, signalInitial: true)
                            .ItemPropertyChanged(x => x.Name)
                            .Subscribe(changes.Add))
                 {

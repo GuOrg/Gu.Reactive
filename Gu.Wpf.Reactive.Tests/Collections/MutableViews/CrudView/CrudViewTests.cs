@@ -58,10 +58,10 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
         {
             int[] actual = null;
             int[] expected = null;
-            using (this.View.ObserveCollectionChanged(false)
+            using (this.View.ObserveCollectionChanged(signalInitial: false)
                        .Subscribe(_ => { actual = this.View.ToArray(); }))
             {
-                using (this.Ints.ObserveCollectionChanged(false)
+                using (this.Ints.ObserveCollectionChanged(signalInitial: false)
                            .Subscribe(_ => { expected = this.Ints.ToArray(); }))
                 {
                     this.View.Add(5);

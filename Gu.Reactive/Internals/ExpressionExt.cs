@@ -124,7 +124,7 @@
 
         private static bool IsCompilerGenerated(MemberInfo member)
         {
-            return member?.ReflectedType?.IsDefined(typeof(CompilerGeneratedAttribute), false) == true;
+            return member?.ReflectedType?.IsDefined(typeof(CompilerGeneratedAttribute), inherit: false) == true;
         }
     }
 }

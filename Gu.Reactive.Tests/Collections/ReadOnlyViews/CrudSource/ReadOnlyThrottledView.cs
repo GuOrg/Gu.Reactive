@@ -11,7 +11,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             base.SetUp();
             this.Scheduler = new TestScheduler();
             (this.View as IDisposable)?.Dispose();
-            this.View = new ReadOnlyThrottledView<int>(this.Source, TimeSpan.FromMilliseconds(10), this.Scheduler, false);
+            this.View = new ReadOnlyThrottledView<int>(this.Source, TimeSpan.FromMilliseconds(10), this.Scheduler, leaveOpen: false);
             this.Scheduler.Start();
         }
     }

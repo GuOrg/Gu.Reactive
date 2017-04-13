@@ -157,7 +157,7 @@ namespace Gu.Reactive.Tests.Conditions
         public void DynamicList()
         {
             var conditions = new ObservableCollection<ICondition>();
-            using (var condition = new OrCondition(conditions, true))
+            using (var condition = new OrCondition(conditions, leaveOpen: true))
             {
                 var actuals = new List<bool?>();
                 using (condition.ObserveIsSatisfiedChanged()

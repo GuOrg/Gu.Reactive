@@ -29,7 +29,7 @@
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         internal MappingView(IEnumerable<TSource> source, IMapper<TSource, TResult> factory, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
-            : base(source, s => s.Select(factory.GetOrCreate), leaveOpen, true)
+            : base(source, s => s.Select(factory.GetOrCreate), leaveOpen, starteEmpty: true)
         {
             Ensure.NotNull(source as INotifyCollectionChanged, nameof(source));
             Ensure.NotNull(factory, nameof(factory));
@@ -37,7 +37,7 @@
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.factory = factory;
             this.refreshSubscription = Observable.Merge(
-                                                     source.ObserveCollectionChangedSlimOrDefault(false),
+                                                     source.ObserveCollectionChangedSlimOrDefault(signalInitial: false),
                                                      triggers.MergeOrNever()
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
                                                  .Slide(this.chunk)

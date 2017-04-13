@@ -45,7 +45,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             {
                 var listBox = new ListBox();
                 var source = new ObservableCollection<int> { 1, 2, 3 };
-                using (var view = new FilteredView<int>(source, x => x == 2, TimeSpan.Zero, WpfSchedulers.Dispatcher, true, new Subject<object>()))
+                using (var view = new FilteredView<int>(source, x => x == 2, TimeSpan.Zero, WpfSchedulers.Dispatcher, leaveOpen: true, triggers: new Subject<object>()))
                 {
                     var binding = new Binding { Source = view, };
                     BindingOperations.SetBinding(listBox, ItemsControl.ItemsSourceProperty, binding);

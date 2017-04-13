@@ -65,7 +65,7 @@ namespace Gu.Wpf.Reactive.Tests
             {
                 command.CanExecuteChanged += (_, __) => count++;
                 var isExecutingCount = 0;
-                command.ObservePropertyChangedSlim(nameof(command.IsExecuting), false)
+                command.ObservePropertyChangedSlim(nameof(command.IsExecuting), signalInitial: false)
                        .Subscribe(_ => isExecutingCount++);
                 Assert.IsFalse(command.IsExecuting);
                 Assert.IsFalse(command.CancelCommand.CanExecute());

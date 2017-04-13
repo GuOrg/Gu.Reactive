@@ -100,7 +100,7 @@
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new Condition(
-                fake.ObservePropertyChanged(x => x.IsTrueOrNull, false),
+                fake.ObservePropertyChanged(x => x.IsTrueOrNull, signalInitial: false),
                 () => fake.IsTrueOrNull))
             {
                 var argses = new List<PropertyChangedEventArgs>();
@@ -115,7 +115,7 @@
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new Condition(
-                fake.ObservePropertyChanged(x => x.IsTrueOrNull, false),
+                fake.ObservePropertyChanged(x => x.IsTrueOrNull, signalInitial: false),
                 () => fake.IsTrueOrNull))
             {
                 CollectionAssert.AreEqual(new[] { false }, condition.History.Select(x => x.State));
@@ -154,7 +154,7 @@
             var wr = new WeakReference(dummy);
             Assert.IsTrue(wr.IsAlive);
             //// ReSharper disable once AccessToModifiedClosure
-            using (new Condition(dummy.ObservePropertyChanged(x => x.IsTrueOrNull, false), () => dummy.IsTrueOrNull))
+            using (new Condition(dummy.ObservePropertyChanged(x => x.IsTrueOrNull, signalInitial: false), () => dummy.IsTrueOrNull))
             {
             }
 

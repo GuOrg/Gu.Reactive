@@ -11,7 +11,7 @@ namespace Gu.Reactive
         protected ClassGetter(PropertyInfo property)
             : base(property)
         {
-            this.getter = (Func<TSource, TValue>)Delegate.CreateDelegate(typeof(Func<TSource, TValue>), property.GetMethod, true);
+            this.getter = (Func<TSource, TValue>)Delegate.CreateDelegate(typeof(Func<TSource, TValue>), property.GetMethod, throwOnBindFailure: true);
         }
 
         /// <inheritdoc/>

@@ -44,7 +44,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var ints = new ObservableCollection<int>();
-                using (ints.ObserveCollectionChanged(false)
+                using (ints.ObserveCollectionChanged(signalInitial: false)
                            .Subscribe(x => changes.Add(x.EventArgs)))
                 {
                     ints.Add(1);
@@ -58,7 +58,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var changes1 = new List<NotifyCollectionChangedEventArgs>();
                 var changes2 = new List<NotifyCollectionChangedEventArgs>();
                 var ints = new ObservableCollection<int>();
-                var observable = ints.ObserveCollectionChanged(false);
+                var observable = ints.ObserveCollectionChanged(signalInitial: false);
                 using (observable.Subscribe(x => changes1.Add(x.EventArgs)))
                 {
                     using (observable.Subscribe(x => changes2.Add(x.EventArgs)))
@@ -81,7 +81,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var ints = new ObservableCollection<int>();
                 using (var view = ints.AsReadOnlyFilteredView(x => true))
                 {
-                    using (view.ObserveCollectionChanged(false)
+                    using (view.ObserveCollectionChanged(signalInitial: false)
                                .Subscribe(x => changes.Add(x)))
                     {
                         ints.Add(1);
@@ -97,7 +97,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var ints = new ObservableCollection<int>();
-                using (ints.ObserveCollectionChanged(false)
+                using (ints.ObserveCollectionChanged(signalInitial: false)
                            .Subscribe(x => changes.Add(x.EventArgs)))
                 {
                     ints.Add(1);

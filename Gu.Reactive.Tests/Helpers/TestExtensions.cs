@@ -58,7 +58,7 @@
                                 where T : IEnumerable, INotifyCollectionChanged, INotifyPropertyChanged
             {
                 return new EventList(
-                    observableCollection.ObserveCollectionChangedSlim(false),
+                    observableCollection.ObserveCollectionChangedSlim(signalInitial: false),
                     observableCollection.ObservePropertyChangedSlim());
             }
 

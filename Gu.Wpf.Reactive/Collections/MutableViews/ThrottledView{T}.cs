@@ -56,10 +56,10 @@
         }
 
         private ThrottledView(IList<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
-            : base(source, leaveOpen, true)
+            : base(source, leaveOpen, startEmpty: true)
         {
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
-            this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(false)
+            this.refreshSubscription = ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(signalInitial: false)
                                                                          .Where(this.IsSourceChange)
                                                                          .Slide(this.chunk)
                                                                          .ObserveOn(scheduler ?? ImmediateScheduler.Instance)

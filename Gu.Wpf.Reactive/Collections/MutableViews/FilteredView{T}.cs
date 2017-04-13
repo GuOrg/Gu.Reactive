@@ -57,15 +57,14 @@
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         /// <param name="triggers">Triggers when to re evaluate the filter</param>
         internal FilteredView(IList<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
-            : base(source, Filtered(source, filter), leaveOpen, true)
+            : base(source, Filtered(source, filter), leaveOpen, startEmpty: true)
         {
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.filter = filter;
             this.refreshSubscription = Observable.Merge(
-                                                     ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(
-                                                                                           false)
+                                                     ((INotifyCollectionChanged)source).ObserveCollectionChangedSlim(signalInitial: false)
                                                                                        .Where(this.IsSourceChange),
-                                                     this.ObservePropertyChangedSlim(x => x.Filter, false)
+                                                     this.ObservePropertyChangedSlim(x => x.Filter, signalInitial: false)
                                                          .Select(_ => CachedEventArgs.NotifyCollectionReset),
                                                      triggers.MergeOrNever()
                                                              .Select(_ => CachedEventArgs.NotifyCollectionReset))

@@ -57,7 +57,7 @@
             var invokeCount = 0;
             var isExecutingCount = 0;
             var command = new ManualRelayCommand<int>(i => invokeCount += i, _ => true);
-            using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), false)
+            using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), signalInitial: false)
                           .Subscribe(_ => isExecutingCount++))
             {
                 Assert.IsFalse(command.IsExecuting);

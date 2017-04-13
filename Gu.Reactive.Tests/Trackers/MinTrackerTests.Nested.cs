@@ -41,7 +41,7 @@
                 {
                     Assert.AreEqual(1, tracker.Value);
                     var count = 0;
-                    using (tracker.ObservePropertyChanged(x => x.Value, false)
+                    using (tracker.ObservePropertyChanged(x => x.Value, signalInitial: false)
                                   .Subscribe(_ => count++))
                     {
                         source.RemoveAt(1);
@@ -79,7 +79,7 @@
                 {
                     Assert.AreEqual(1, tracker.Value);
                     var count = 0;
-                    using (tracker.ObservePropertyChanged(x => x.Value, false)
+                    using (tracker.ObservePropertyChanged(x => x.Value, signalInitial: false)
                                   .Subscribe(_ => count++))
                     {
                         source[1].Value = -3;
@@ -103,7 +103,7 @@
                 {
                     Assert.AreEqual(1, tracker.Value);
                     var count = 0;
-                    using (tracker.ObservePropertyChanged(x => x.Value, false)
+                    using (tracker.ObservePropertyChanged(x => x.Value, signalInitial: false)
                                   .Subscribe(_ => count++))
                     {
                         source[0].Level1 = null;

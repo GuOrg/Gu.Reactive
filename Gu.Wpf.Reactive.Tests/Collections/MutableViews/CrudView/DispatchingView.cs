@@ -20,7 +20,7 @@
 #pragma warning disable GU0036 // Don't dispose injected.
             (this.View as IDisposable)?.Dispose();
 #pragma warning restore GU0036 // Don't dispose injected.
-            this.View = new DispatchingView<int>(this.Ints, TimeSpan.Zero, false);
+            this.View = new DispatchingView<int>(this.Ints, TimeSpan.Zero, leaveOpen: false);
         }
 
         [Test]

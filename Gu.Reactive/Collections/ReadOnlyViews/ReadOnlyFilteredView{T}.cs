@@ -29,7 +29,7 @@
         /// <param name="triggers">Additional triggers for when to filter.</param>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, IEnumerable<IObservable<object>> triggers)
-            : base(source, x => x.Where(filter), leaveOpen, true)
+            : base(source, x => x.Where(filter), leaveOpen, starteEmpty: true)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -37,7 +37,7 @@
             this.BufferTime = bufferTime;
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.refreshSubscription = Observable.Merge(
-                                                     source.ObserveCollectionChangedSlimOrDefault(false),
+                                                     source.ObserveCollectionChangedSlimOrDefault(signalInitial: false),
                                                      triggers.MergeOrNever()
                                                              .Select(x => CachedEventArgs.NotifyCollectionReset))
                                                  .Slide(this.chunk)

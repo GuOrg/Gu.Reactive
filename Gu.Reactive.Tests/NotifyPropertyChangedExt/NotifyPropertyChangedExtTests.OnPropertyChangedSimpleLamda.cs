@@ -24,7 +24,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var mock = new Mock<IReadOnlyObservableCollection<int>>();
-                using (mock.Object.ObservePropertyChanged(x => x.Count, false)
+                using (mock.Object.ObservePropertyChanged(x => x.Count, signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
@@ -41,7 +41,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Name = null };
-                using (fake.ObservePropertyChanged(x => x.Name, false)
+                using (fake.ObservePropertyChanged(x => x.Name, signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
@@ -57,7 +57,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var ints = new ObservableCollection<int>();
                 var source = new ReadOnlyObservableCollection<int>(ints);
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                using (source.ObservePropertyChanged(x => x.Count, false)
+                using (source.ObservePropertyChanged(x => x.Count, signalInitial: false)
                              .Subscribe(x => changes.Add(x)))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -79,7 +79,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var fake = (IFake)new Fake();
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                using (fake.ObservePropertyChanged(x => x.Value, false)
+                using (fake.ObservePropertyChanged(x => x.Value, signalInitial: false)
                              .Subscribe(x => changes.Add(x)))
                 {
                     CollectionAssert.IsEmpty(changes);
@@ -101,7 +101,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Name = "1" };
-                using (fake.ObservePropertyChanged(x => x.Name, false)
+                using (fake.ObservePropertyChanged(x => x.Name, signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
@@ -121,10 +121,10 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Value = 1 };
-                using (fake.ObservePropertyChanged(x => x.Value, false)
+                using (fake.ObservePropertyChanged(x => x.Value, signalInitial: false)
                            .Subscribe(changes.Add))
                 {
-                    using (fake.ObservePropertyChanged(x => x.IsTrue, false)
+                    using (fake.ObservePropertyChanged(x => x.IsTrue, signalInitial: false)
                                .Subscribe(changes.Add))
                     {
                         Assert.AreEqual(0, changes.Count);
@@ -145,11 +145,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake1 = new Fake { Value = 1 };
-                using (fake1.ObservePropertyChanged(x => x.Value, false)
+                using (fake1.ObservePropertyChanged(x => x.Value, signalInitial: false)
                             .Subscribe(changes.Add))
                 {
                     var fake2 = new Fake { Value = 1 };
-                    using (fake2.ObservePropertyChanged(x => x.Value, false)
+                    using (fake2.ObservePropertyChanged(x => x.Value, signalInitial: false)
                                 .Subscribe(changes.Add))
                     {
                         Assert.AreEqual(0, changes.Count);
@@ -171,7 +171,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var changes1 = new List<EventPattern<PropertyChangedEventArgs>>();
                 var changes2 = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Value = 1 };
-                var observable = fake.ObservePropertyChanged(x => x.IsTrue, false);
+                var observable = fake.ObservePropertyChanged(x => x.IsTrue, signalInitial: false);
                 using (observable.Subscribe(changes1.Add))
                 {
                     using (observable.Subscribe(changes2.Add))
@@ -199,7 +199,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Value = 1 };
-                using (fake.ObservePropertyChanged(x => x.Value, false)
+                using (fake.ObservePropertyChanged(x => x.Value, signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
@@ -216,7 +216,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake<int> { Value = 1 };
-                using (fake.ObservePropertyChanged(x => x.Value, false)
+                using (fake.ObservePropertyChanged(x => x.Value, signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
@@ -233,7 +233,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Value = 1 };
-                using (fake.ObservePropertyChanged(x => x.Value, false)
+                using (fake.ObservePropertyChanged(x => x.Value, signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
@@ -254,7 +254,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Value = 1 };
-                using (fake.ObservePropertyChanged(x => x.Value, false)
+                using (fake.ObservePropertyChanged(x => x.Value, signalInitial: false)
                            .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);

@@ -27,7 +27,7 @@ namespace Gu.Reactive.Demo
             this.ObservableFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.Zero);
             this.ThrottledFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.FromMilliseconds(10));
 
-            this.ObservePropertyChanged(x => x.Filter, false)
+            this.ObservePropertyChanged(x => x.Filter, signalInitial: false)
                 .Subscribe(
                     x =>
                     {
