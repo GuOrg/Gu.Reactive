@@ -1,6 +1,7 @@
 group Analyzers
   JetBrains.Annotations
   StyleCop.Analyzers
+  Gu.Analyzers
 
 group Test
   NUnit

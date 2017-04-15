@@ -62,8 +62,8 @@
         public void SetUp()
         {
             this.FilterTextBox.Text = "5";
-            this.AddTenButton.Click(false);
-            this.ClearButton.Click(false);
+            this.AddTenButton.Click();
+            this.ClearButton.Click();
         }
 
         [Test]
@@ -80,7 +80,7 @@
         [Test]
         public void AddOne()
         {
-            this.AddOneButton.Click(false);
+            this.AddOneButton.Click();
             CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
 
@@ -91,7 +91,7 @@
         [Test]
         public void AddTen()
         {
-            this.AddTenButton.Click(false);
+            this.AddTenButton.Click();
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Reset", 1)), this.ViewChanges.Select(x => x.Text));
@@ -101,7 +101,7 @@
         [Test]
         public void FilterThenTrigger()
         {
-            this.AddTenButton.Click(false);
+            this.AddTenButton.Click();
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
 
@@ -109,7 +109,7 @@
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
 
-            this.TriggerButton.Click(false);
+            this.TriggerButton.Click();
             CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
         }
@@ -117,7 +117,7 @@
         [Test]
         public void FilterThenTriggerOnOtherThread()
         {
-            this.AddTenButton.Click(false);
+            this.AddTenButton.Click();
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
 
@@ -125,7 +125,7 @@
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
 
-            this.TriggerOnOtherThreadButton.Click(false);
+            this.TriggerOnOtherThreadButton.Click();
             CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
         }
@@ -133,12 +133,12 @@
         [Test]
         public void EditDataGrid()
         {
-            this.AddTenButton.Click(false);
+            this.AddTenButton.Click();
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
 
             var cell = this.DataGrid.Rows[0].Cells[0];
-            cell.Click(false);
+            cell.Click();
             cell.AsTextBox().Text = "5";
             this.ListBox.Focus();
 

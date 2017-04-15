@@ -45,36 +45,36 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void AsyncCommand()
         {
-            this.AsyncCommandButton.Click(false);
-            this.AsyncCommandButton.Click(false);
+            this.AsyncCommandButton.Click();
+            this.AsyncCommandButton.Click();
         }
 
         [Test]
         public void AsyncThrowCommand()
         {
-            this.AsyncThrowCommandButton.Click(false);
-            this.AsyncThrowCommandButton.Click(false);
+            this.AsyncThrowCommandButton.Click();
+            this.AsyncThrowCommandButton.Click();
         }
 
         [Test]
         public void AsyncParameterCommand()
         {
-            this.AsyncParameterCommandButton.Click(false);
-            this.AsyncParameterCommandButton.Click(false);
+            this.AsyncParameterCommandButton.Click();
+            this.AsyncParameterCommandButton.Click();
         }
 
         [Test]
         public void AsyncCancelableCommand()
         {
-            this.AsyncCancelableCommandButton.Click(false);
-            this.AsyncCancelableCommandButton.Click(false);
+            this.AsyncCancelableCommandButton.Click();
+            this.AsyncCancelableCommandButton.Click();
         }
 
         [Test]
         public void AsyncCancelableParameterCommand()
         {
-            this.AsyncCancelableParameterCommandButton.Click(false);
-            this.AsyncCancelableParameterCommandButton.Click(false);
+            this.AsyncCancelableParameterCommandButton.Click();
+            this.AsyncCancelableParameterCommandButton.Click();
         }
     }
 }

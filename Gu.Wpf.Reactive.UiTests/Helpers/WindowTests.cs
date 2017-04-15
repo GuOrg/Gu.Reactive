@@ -9,10 +9,11 @@ namespace Gu.Wpf.Reactive.UiTests
 
     using NUnit.Framework;
 
-    public abstract class WindowTests
+    public abstract class WindowTests : IDisposable
     {
         private Application application;
         private UIA3Automation automation;
+        private bool disposed;
 
         protected Window Window { get; private set; }
 
@@ -20,31 +21,11 @@ namespace Gu.Wpf.Reactive.UiTests
 
         public void Restart()
         {
-            if (this.Window != null)
-            {
-                Helpers.WaitUntilResponsive(this.Window);
-            }
-
-            if (this.application != null)
-            {
-                try
-                {
-                    // had problems with this code on AppVeyor, decided to cargo cult it like this.
-                    this.application.WaitWhileBusy();
-                    this.application.Close();
-                    this.application.Dispose();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-            }
-
+            this.application?.Dispose();
             this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
+            this.automation?.Dispose();
             this.automation = new UIA3Automation();
             this.Window = this.application.GetMainWindow(this.automation);
-            this.application.WaitWhileBusy();
-            Helpers.WaitUntilResponsive(this.Window);
         }
 
         [OneTimeSetUp]
@@ -56,14 +37,42 @@ namespace Gu.Wpf.Reactive.UiTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Keyboard.ReleaseScanCode((ushort)ScanCodeShort.CONTROL, false);
-            Keyboard.ReleaseScanCode((ushort)ScanCodeShort.SHIFT, false);
+            Keyboard.ReleaseScanCode((ushort)ScanCodeShort.CONTROL, isExtendedKey: false);
+            Keyboard.ReleaseScanCode((ushort)ScanCodeShort.SHIFT, isExtendedKey: false);
             if (this.Window != null)
             {
                 Helpers.WaitUntilResponsive(this.Window);
             }
 
             this.application?.Dispose();
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            if (disposing)
+            {
+                this.application?.Dispose();
+                this.automation?.Dispose();
+            }
+        }
+
+        protected void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
         }
     }
 }
