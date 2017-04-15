@@ -27,9 +27,11 @@ namespace Gu.Wpf.Reactive.UiTests
                 {
                     this.application?.Dispose();
                     this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
+                    this.application.WaitWhileMainHandleIsMissing();
                     this.automation?.Dispose();
                     this.automation = new UIA3Automation();
                     this.Window = this.application.GetMainWindow(this.automation);
+                    this.application.WaitWhileBusy();
                     return;
                 }
                 catch
