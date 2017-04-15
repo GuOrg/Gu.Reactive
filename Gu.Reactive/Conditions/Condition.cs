@@ -52,15 +52,8 @@ namespace Gu.Reactive
         /// The criteria that is evaluated to give IsSatisfied.
         /// </param>
         public Condition(IObservable<object> observable, Func<bool?> criteria)
+            : this(observable, criteria, EmptyPrerequisites)
         {
-            Ensure.NotNull(observable, nameof(observable));
-            Ensure.NotNull(criteria, nameof(criteria));
-
-            this.criteria = criteria;
-            this.prerequisites = EmptyPrerequisites;
-            this.name = this.GetType().PrettyName();
-            this.subscription = observable.StartWith((object)null)
-                                          .Subscribe(x => this.UpdateIsSatisfied());
         }
 
         /// <summary>
@@ -75,10 +68,24 @@ namespace Gu.Reactive
         /// Initializes a new instance of the <see cref="Condition"/> class.
         /// </summary>
         protected Condition(ConditionCollection prerequisites)
-            : this(prerequisites.ObserveIsSatisfiedChanged(), () => prerequisites.IsSatisfied)
+            : this(
+                  prerequisites.ObserveIsSatisfiedChanged(),
+                  () => prerequisites.IsSatisfied,
+                  prerequisites)
         {
+        }
+
+        private Condition(IObservable<object> observable, Func<bool?> criteria, IReadOnlyList<ICondition> prerequisites)
+        {
+            Ensure.NotNull(observable, nameof(observable));
+            Ensure.NotNull(criteria, nameof(criteria));
             Ensure.NotNull(prerequisites, nameof(prerequisites));
+
+            this.criteria = criteria;
             this.prerequisites = prerequisites;
+            this.name = this.GetType().PrettyName();
+            this.subscription = observable.StartWith((object)null)
+                                          .Subscribe(x => this.UpdateIsSatisfied());
         }
 
         /// <inheritdoc/>
