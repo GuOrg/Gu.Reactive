@@ -13,15 +13,15 @@ namespace Gu.Wpf.Reactive.UiTests
 
         public static Button FindButton(this AutomationElement element, string name)
         {
-            return (element.FindFirstDescendant(x => x.ByAutomationId(name)) ??
-                    element.FindFirstDescendant(x => x.ByText(name)))
+            return (element.FindFirstDescendant(x => x.ByText(name)) ??
+                    element.FindFirstDescendant(x => x.ByAutomationId(name)))
                 .AsButton();
         }
 
         public static CheckBox FindCheckBox(this AutomationElement element, string name)
         {
-            return (element.FindFirstDescendant(x => x.ByAutomationId(name)) ??
-                    element.FindFirstDescendant(x => x.ByText(name)))
+            return (element.FindFirstDescendant(x => x.ByText(name)) ??
+                    element.FindFirstDescendant(x => x.ByAutomationId(name)))
                 .AsCheckBox();
         }
     }
