@@ -21,10 +21,11 @@ namespace Gu.Wpf.Reactive.UiTests
 
         public void Restart()
         {
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 try
                 {
+                    this.application?.WaitWhileBusy();
                     this.application?.Dispose();
                     this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
                     this.application.WaitWhileMainHandleIsMissing();
@@ -53,13 +54,16 @@ namespace Gu.Wpf.Reactive.UiTests
         {
             Keyboard.ReleaseScanCode((ushort)ScanCodeShort.CONTROL, isExtendedKey: false);
             Keyboard.ReleaseScanCode((ushort)ScanCodeShort.SHIFT, isExtendedKey: false);
-            if (this.Window != null)
+            
+            try
             {
-                Helpers.WaitUntilResponsive(this.Window);
+                this.application?.WaitWhileBusy();
+                this.automation?.Dispose();
+                this.application?.Dispose();
             }
-
-            this.automation?.Dispose();
-            this.application?.Dispose();
+            catch
+            {
+            }
         }
 
         public void Dispose()
@@ -77,8 +81,15 @@ namespace Gu.Wpf.Reactive.UiTests
             this.disposed = true;
             if (disposing)
             {
-                this.application?.Dispose();
-                this.automation?.Dispose();
+                try
+                {
+                    this.application?.WaitWhileBusy();
+                    this.automation?.Dispose();
+                    this.application?.Dispose();
+                }
+                catch
+                {
+                }
             }
         }
 
