@@ -21,11 +21,23 @@ namespace Gu.Wpf.Reactive.UiTests
 
         public void Restart()
         {
-            this.application?.Dispose();
-            this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
-            this.automation?.Dispose();
-            this.automation = new UIA3Automation();
-            this.Window = this.application.GetMainWindow(this.automation);
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    this.application?.Dispose();
+                    this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
+                    this.automation?.Dispose();
+                    this.automation = new UIA3Automation();
+                    this.Window = this.application.GetMainWindow(this.automation);
+                    return;
+                }
+                catch (System.ComponentModel.Win32Exception)
+                {
+                    // We get this on AppVeyor.
+                    // Testin a retry strategy :)
+                }
+            }
         }
 
         [OneTimeSetUp]
@@ -44,6 +56,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 Helpers.WaitUntilResponsive(this.Window);
             }
 
+            this.automation?.Dispose();
             this.application?.Dispose();
         }
 
