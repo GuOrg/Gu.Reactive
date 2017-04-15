@@ -27,17 +27,11 @@ namespace Gu.Wpf.Reactive.UiTests
 
         private DataGridAndEvents MappedMappedUpdateNewIndexed => new DataGridAndEvents(this.Window.FindFirstDescendant(x => x.ByText("MappedMappedUpdateNewIndexed")));
 
-        private Button ClearButton => this.Window
-                                          .FindFirstDescendant(x => x.ByText("Clear"))
-                                          .AsButton();
+        private Button ClearButton => this.Window.FindButton("Clear");
 
-        private Button AddOneButton => this.Window
-                                           .FindFirstDescendant(x => x.ByText("Add to source"))
-                                           .AsButton();
+        private Button AddOneButton => this.Window.FindButton("Add to source");
 
-        private Button AddOneOnOtherThreadButton => this.Window
-                                                        .FindFirstDescendant(x => x.ByText("Add to source on thread"))
-                                                        .AsButton();
+        private Button AddOneOnOtherThreadButton => this.Window.FindButton("Add to source on thread");
 
         [SetUp]
         public void SetUp()

@@ -22,21 +22,13 @@ namespace Gu.Wpf.Reactive.UiTests
                                      .FindFirstDescendant(x => x.ByControlType(ControlType.DataGrid))
                                      .AsGrid();
 
-        private Button ClearButton => this.Window
-                                          .FindFirstDescendant(x => x.ByText("Clear"))
-                                          .AsButton();
+        private Button ClearButton => this.Window.FindButton("Clear");
 
-        private TextBox ItemsTextBox => this.Window
-                                   .FindFirstDescendant(x => x.ByAutomationId("Items"))
-                                   .AsTextBox();
+        private TextBox ItemsTextBox => this.Window.FindTextBox("Items");
 
-        private Button UpdateButton => this.Window
-                                           .FindFirstDescendant(x => x.ByText("Update"))
-                                           .AsButton();
+        private Button UpdateButton => this.Window.FindButton("Update");
 
-        private Button ClearSourceButton => this.Window
-                                            .FindFirstDescendant(x => x.ByText("ClearSource"))
-                                            .AsButton();
+        private Button ClearSourceButton => this.Window.FindButton("ClearSource");
 
         private IEnumerable<Label> ViewChanges => this.Window
                                                       .FindFirstDescendant(x => x.ByText("ViewChanges"))

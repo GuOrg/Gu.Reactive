@@ -74,9 +74,9 @@
 
             <Button Command="{Binding RelayCommand}" Content="RelayCommand" />
             <Button Command="{Binding RelayCommandNoCondition}" Content="RelayCommandNoCondition" />
-            <Button Command="{Binding RelayCommandWithParamater}"
-                    CommandParameter="RelayCommandWithParamater"
-                    Content="RelayCommandWithParamater" />
+            <Button Command="{Binding RelayCommandWithParameter}"
+                    CommandParameter="RelayCommandWithParameter"
+                    Content="RelayCommandWithParameter" />
 
             <Button Command="{Binding ObservingRelayCommand}" Content="ObservingRelayCommand" />
             <Button Command="{Binding ObservingRelayCommandWithParameter}"

@@ -53,6 +53,7 @@
     <Compile Include="CommandsWindowTests.cs" />
     <Compile Include="DispatchingCollectionWindowTests.cs" />
     <Compile Include="DispatchingViewWindowTests.cs" />
+    <Compile Include="Helpers\AutomationElementExt.cs" />
     <Compile Include="Helpers\GridCellExt.cs" />
     <Compile Include="Helpers\GridExt.cs" />
     <Compile Include="Helpers\Info.cs" />

@@ -7,34 +7,27 @@ namespace Gu.Wpf.Reactive.UiTests
     {
         protected override string WindowName { get; } = "AsyncCommandsWindow";
 
-        private TextBox DelatTextBox => this.Window
-                                         .FindFirstDescendant(x => x.ByAutomationId("Delay"))
-                                         .AsTextBox();
+        private TextBox DelatTextBox => this.Window.FindTextBox("Delay");
 
         private Button AsyncCommandButton => this.Window
                                                  .FindFirstDescendant(x => x.ByText("AsyncCommand"))
-                                                 .FindFirstDescendant(x => x.ByText("Run"))
-                                                 .AsButton();
+                                                 .FindButton("Run");
 
         private Button AsyncThrowCommandButton => this.Window
                                          .FindFirstDescendant(x => x.ByText("AsyncThrowCommand"))
-                                         .FindFirstDescendant(x => x.ByText("Run"))
-                                         .AsButton();
+                                         .FindButton("Run");
 
         private Button AsyncParameterCommandButton => this.Window
                                  .FindFirstDescendant(x => x.ByText("AsyncParameterCommand"))
-                                 .FindFirstDescendant(x => x.ByText("Run"))
-                                 .AsButton();
+                                 .FindButton("Run");
 
         private Button AsyncCancelableCommandButton => this.Window
                          .FindFirstDescendant(x => x.ByText("AsyncCancelableCommand"))
-                         .FindFirstDescendant(x => x.ByText("Run"))
-                         .AsButton();
+                         .FindButton("Run");
 
         private Button AsyncCancelableParameterCommandButton => this.Window
                  .FindFirstDescendant(x => x.ByText("AsyncCancelableParameterCommand"))
-                 .FindFirstDescendant(x => x.ByText("Run"))
-                 .AsButton();
+                 .FindButton("Run");
 
         [SetUp]
         public void SetUp()

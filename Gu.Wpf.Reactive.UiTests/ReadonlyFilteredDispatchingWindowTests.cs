@@ -22,33 +22,19 @@
                                       .FindFirstDescendant(x => x.ByControlType(ControlType.DataGrid))
                                       .AsGrid();
 
-        private Button ClearButton => this.Window
-                                          .FindFirstDescendant(x => x.ByText("Clear"))
-                                          .AsButton();
+        private Button ClearButton => this.Window.FindButton("Clear");
 
-        private Button AddOneButton => this.Window
-                                           .FindFirstDescendant(x => x.ByText("AddOne"))
-                                           .AsButton();
+        private Button AddOneButton => this.Window.FindButton("AddOne");
 
-        private Button AddTenButton => this.Window
-                                           .FindFirstDescendant(x => x.ByText("AddTen"))
-                                           .AsButton();
+        private Button AddTenButton => this.Window.FindButton("AddTen");
 
-        private Button AddOneOnOtherThreadButton => this.Window
-                                   .FindFirstDescendant(x => x.ByText("AddOneOnOtherThread"))
-                                   .AsButton();
+        private Button AddOneOnOtherThreadButton => this.Window.FindButton("AddOneOnOtherThread");
 
-        private Button TriggerButton => this.Window
-                                            .FindFirstDescendant(x => x.ByText("Trigger"))
-                                            .AsButton();
+        private Button TriggerButton => this.Window.FindButton("Trigger");
 
-        private Button TriggerOnOtherThreadButton => this.Window
-                                                         .FindFirstDescendant(x => x.ByText("TriggerOnOtherThread"))
-                                                         .AsButton();
+        private Button TriggerOnOtherThreadButton => this.Window.FindButton("TriggerOnOtherThread");
 
-        private TextBox FilterTextBox => this.Window
-                                             .FindFirstDescendant(x => x.ByAutomationId("FilterText"))
-                                             .AsTextBox();
+        private TextBox FilterTextBox => this.Window.FindTextBox("FilterText");
 
         private IEnumerable<Label> ViewChanges => this.Window
                                                       .FindFirstDescendant(x => x.ByText("ViewChanges"))

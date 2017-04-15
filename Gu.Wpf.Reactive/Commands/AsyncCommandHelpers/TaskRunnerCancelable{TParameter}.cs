@@ -62,14 +62,14 @@
         }
 
         /// <inheritdoc/>
-        public void Run(TParameter paramater)
+        public void Run(TParameter parameter)
         {
             this.ThrowIfDisposed();
             this.cancellationTokenSource?.Dispose();
             this.cancellationTokenSource = new CancellationTokenSource();
             this.cancellationSubscription.Disposable = this.cancellationTokenSource.Token.AsObservable()
                                                            .Subscribe(_ => this.OnPropertyChanged(nameof(this.CanCancel)));
-            this.TaskCompletion = new NotifyTaskCompletion(this.action(paramater, this.cancellationTokenSource.Token));
+            this.TaskCompletion = new NotifyTaskCompletion(this.action(parameter, this.cancellationTokenSource.Token));
         }
 
         /// <inheritdoc/>

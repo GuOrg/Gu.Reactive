@@ -24,7 +24,7 @@
 
             this.RelayCommandNoCondition = new RelayCommand(() => this.Executed = "RelayCommandNoCondition");
             this.RelayCommand = new RelayCommand(() => this.Executed = "RelayCommand", () => this.CanExecute);
-            this.RelayCommandWithParamater = new RelayCommand<string>(x => this.Executed = "RelayCommandWithParamater: " + x, x => this.CanExecute);
+            this.RelayCommandWithParameter = new RelayCommand<string>(x => this.Executed = "RelayCommandWithParameter: " + x, x => this.CanExecute);
 
             this.ObservingRelayCommand = new ObservingRelayCommand(() => this.Executed = "ObservingRelayCommand", () => this.CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
             this.ObservingRelayCommandWithParameter = new ObservingRelayCommand<string>(x => this.Executed = "ObservingRelayCommandWithParameter: " + x, x => this.CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
@@ -59,7 +59,7 @@
 
         public RelayCommand RelayCommand { get; }
 
-        public RelayCommand<string> RelayCommandWithParamater { get; }
+        public RelayCommand<string> RelayCommandWithParameter { get; }
 
         public ObservingRelayCommand ObservingRelayCommand { get; }
 
@@ -130,7 +130,7 @@
 
             this.RelayCommandNoCondition.RaiseCanExecuteChanged();
             this.RelayCommand.RaiseCanExecuteChanged();
-            this.RelayCommandWithParamater.RaiseCanExecuteChanged();
+            this.RelayCommandWithParameter.RaiseCanExecuteChanged();
 
             this.ObservingRelayCommand.RaiseCanExecuteChanged();
             this.ObservingRelayCommandWithParameter.RaiseCanExecuteChanged();

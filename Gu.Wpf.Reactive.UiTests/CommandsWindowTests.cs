@@ -9,53 +9,29 @@ namespace Gu.Wpf.Reactive.UiTests
     {
         protected override string WindowName { get; } = "CommandsWindow";
 
-        private CheckBox CanExecuteCheckBox => this.Window
-                                                         .FindFirstDescendant(x => x.ByText("CanExecute"))
-                                                         .AsCheckBox();
+        private CheckBox CanExecuteCheckBox => this.Window.FindCheckBox("CanExecute");
 
-        private Button RaiseCanExecuteButton => this.Window
-                                               .FindFirstDescendant(x => x.ByText("RaiseCanExecute"))
-                                               .AsButton();
+        private Button RaiseCanExecuteButton => this.Window.FindButton("RaiseCanExecute");
 
-        private TextBox ExecutedTextBox => this.Window
-                                               .FindFirstDescendant(x => x.ByAutomationId("Executed"))
-                                               .AsTextBox();
+        private TextBox ExecutedTextBox => this.Window.FindTextBox("Executed");
 
-        private Button ManualRelayCommandButton => this.Window
-                                                       .FindFirstDescendant(x => x.ByText("ManualRelayCommand"))
-                                                       .AsButton();
+        private Button ManualRelayCommandButton => this.Window.FindButton("ManualRelayCommand");
 
-        private Button ManualRelayCommandNoConditionButton => this.Window
-                                               .FindFirstDescendant(x => x.ByText("ManualRelayCommandNoCondition"))
-                                               .AsButton();
+        private Button ManualRelayCommandNoConditionButton => this.Window.FindButton("ManualRelayCommandNoCondition");
 
-        private Button RelayCommandButton => this.Window
-                                                 .FindFirstDescendant(x => x.ByText("RelayCommand"))
-                                                 .AsButton();
+        private Button RelayCommandButton => this.Window.FindButton("RelayCommand");
 
-        private Button RelayCommandWithParamaterButton => this.Window
-                                         .FindFirstDescendant(x => x.ByText("RelayCommandWithParamater"))
-                                         .AsButton();
+        private Button RelayCommandWithParameterButton => this.Window.FindButton("RelayCommandWithParameter");
 
-        private Button RelayCommandNoConditionButton => this.Window
-                                               .FindFirstDescendant(x => x.ByText("RelayCommandNoCondition"))
-                                               .AsButton();
+        private Button RelayCommandNoConditionButton => this.Window.FindButton("RelayCommandNoCondition");
 
-        private Button ObservingRelayCommandButton => this.Window
-                                 .FindFirstDescendant(x => x.ByText("ObservingRelayCommand"))
-                                 .AsButton();
+        private Button ObservingRelayCommandButton => this.Window.FindButton("ObservingRelayCommand");
 
-        private Button ObservingRelayCommandWithParameterButton => this.Window
-                         .FindFirstDescendant(x => x.ByText("ObservingRelayCommandWithParameter"))
-                         .AsButton();
+        private Button ObservingRelayCommandWithParameterButton => this.Window.FindButton("ObservingRelayCommandWithParameter");
 
-        private Button ConditionRelayCommandButton => this.Window
-                         .FindFirstDescendant(x => x.ByText("ConditionRelayCommand"))
-                         .AsButton();
+        private Button ConditionRelayCommandButton => this.Window.FindButton("ConditionRelayCommand");
 
-        private Button ConditionRelayCommandWithParameterButton => this.Window
-                         .FindFirstDescendant(x => x.ByText("ConditionRelayCommandWithParameter"))
-                         .AsButton();
+        private Button ConditionRelayCommandWithParameterButton => this.Window.FindButton("ConditionRelayCommandWithParameter");
 
         [SetUp]
         public void SetUp()
@@ -90,14 +66,14 @@ namespace Gu.Wpf.Reactive.UiTests
         }
 
         [Test]
-        public void RelayCommandWithParamaterCanExecuteWhenToggling()
+        public void RelayCommandWithParameterCanExecuteWhenToggling()
         {
-            Assert.AreEqual(false, this.RelayCommandWithParamaterButton.Properties.IsEnabled);
+            Assert.AreEqual(false, this.RelayCommandWithParameterButton.Properties.IsEnabled);
             this.CanExecuteCheckBox.State = ToggleState.On;
-            Assert.AreEqual(true, this.RelayCommandWithParamaterButton.Properties.IsEnabled);
+            Assert.AreEqual(true, this.RelayCommandWithParameterButton.Properties.IsEnabled);
 
-            this.RelayCommandWithParamaterButton.Click();
-            Assert.AreEqual("RelayCommandWithParamater: RelayCommandWithParamater", this.ExecutedTextBox.Text);
+            this.RelayCommandWithParameterButton.Click();
+            Assert.AreEqual("RelayCommandWithParameter: RelayCommandWithParameter", this.ExecutedTextBox.Text);
         }
 
         [Test]
