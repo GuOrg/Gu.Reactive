@@ -1,8 +1,6 @@
 namespace Gu.Wpf.Reactive.UiTests
 {
     using FlaUI.Core.AutomationElements;
-    using FlaUI.Core.AutomationElements.Infrastructure;
-
     using NUnit.Framework;
 
     public class AsyncCommandsWindowTests : WindowTests

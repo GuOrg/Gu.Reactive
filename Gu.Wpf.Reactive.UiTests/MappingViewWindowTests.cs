@@ -10,10 +10,10 @@ namespace Gu.Wpf.Reactive.UiTests
     {
         protected override string WindowName { get; } = "MappingViewWindow";
 
-        private Table ListBox => this.Window
-                                     .FindFirstDescendant(x => x.ByText("Source"))
-                                     .FindFirstDescendant(x => x.ByControlType(ControlType.List))
-                                     .AsTable();
+        private Grid ListBox => this.Window
+                                    .FindFirstDescendant(x => x.ByText("Source"))
+                                    .FindFirstDescendant(x => x.ByControlType(ControlType.List))
+                                    .AsGrid();
 
         private DataGridAndEvents MappedInts => new DataGridAndEvents(this.Window.FindFirstDescendant(x => x.ByText("MappedInts")));
 
@@ -42,9 +42,9 @@ namespace Gu.Wpf.Reactive.UiTests
         [SetUp]
         public void SetUp()
         {
-            this.AddOneButton.Click(false);
-            this.AddOneButton.Click(false);
-            this.ClearButton.Click(false);
+            this.AddOneButton.Click();
+            this.AddOneButton.Click();
+            this.ClearButton.Click();
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void AddOne()
         {
-            this.AddOneButton.Click(false);
+            this.AddOneButton.Click();
             CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.RowValues());
 
             CollectionAssert.AreEqual(new[] { "1" }, this.MappedInts.DataGrid.ColumnValues(0));
@@ -112,7 +112,7 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void AddOneOnOtherThread()
         {
-            this.AddOneOnOtherThreadButton.Click(false);
+            this.AddOneOnOtherThreadButton.Click();
             FlaUI.Core.Input.Helpers.WaitUntilInputIsProcessed();
             CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.RowValues());
 
@@ -160,13 +160,13 @@ namespace Gu.Wpf.Reactive.UiTests
                 }
             }
 
-            public Table Events
+            public Grid Events
             {
                 get
                 {
                     return this.groupBox
                                .FindFirstDescendant(x => x.ByAutomationId("ListBox"))
-                               .AsTable();
+                               .AsGrid();
                 }
             }
         }

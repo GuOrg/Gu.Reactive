@@ -56,7 +56,6 @@
     <Compile Include="Helpers\GridCellExt.cs" />
     <Compile Include="Helpers\GridExt.cs" />
     <Compile Include="Helpers\Info.cs" />
-    <Compile Include="Helpers\TableExt.cs" />
     <Compile Include="Helpers\WindowTests.cs" />
     <Compile Include="MappingViewWindowTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -145,8 +144,8 @@
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
-        <Reference Include="interop.UIAutomationCore">
-          <HintPath>..\packages\test\FlaUI.UIA3\lib\net45\interop.UIAutomationCore.dll</HintPath>
+        <Reference Include="Interop.UIAutomationClient">
+          <HintPath>..\packages\test\FlaUI.UIA3\lib\net45\Interop.UIAutomationClient.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

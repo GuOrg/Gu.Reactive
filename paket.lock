@@ -22,7 +22,7 @@ NUGET
     Gu.Analyzers (0.1.11.20-dev)
     JetBrains.Annotations (10.4)
     StyleCop.Analyzers (1.0)
-    WpfAnalyzers (0.2.7.8)
+    WpfAnalyzers (0.2.7.9)
 
 GROUP Benchmark
 FRAMEWORK: >= NET45
@@ -142,9 +142,9 @@ FRAMEWORK: >= NET45
 NUGET
   remote: http://www.nuget.org/api/v2
     Castle.Core (4.0)
-    FlaUI.Core (0.6.2)
-    FlaUI.UIA3 (0.6.2)
-      FlaUI.Core (>= 0.6.2)
+    FlaUI.Core (1.0)
+    FlaUI.UIA3 (1.0)
+      FlaUI.Core (>= 1.0)
     Microsoft.Reactive.Testing (3.1.1)
       System.Reactive.PlatformServices (>= 3.1.1)
     Microsoft.Win32.Primitives (4.3) - framework: >= net463

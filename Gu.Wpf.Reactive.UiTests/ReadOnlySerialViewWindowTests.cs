@@ -4,7 +4,6 @@ namespace Gu.Wpf.Reactive.UiTests
     using System.Linq;
 
     using FlaUI.Core.AutomationElements;
-    using FlaUI.Core.AutomationElements.Infrastructure;
     using FlaUI.Core.Definitions;
 
     using NUnit.Framework;
@@ -13,10 +12,10 @@ namespace Gu.Wpf.Reactive.UiTests
     {
         protected override string WindowName { get; } = "ReadOnlySerialViewWindow";
 
-        private Table ListBox => this.Window
-                                     .FindFirstDescendant(x => x.ByText("ListBox"))
-                                     .FindFirstDescendant(x => x.ByControlType(ControlType.List))
-                                     .AsTable();
+        private Grid ListBox => this.Window
+                                    .FindFirstDescendant(x => x.ByText("ListBox"))
+                                    .FindFirstDescendant(x => x.ByControlType(ControlType.List))
+                                    .AsGrid();
 
         private Grid DataGrid => this.Window
                                      .FindFirstDescendant(x => x.ByText("DataGrid"))
