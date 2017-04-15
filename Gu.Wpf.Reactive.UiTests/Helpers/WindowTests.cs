@@ -32,7 +32,7 @@ namespace Gu.Wpf.Reactive.UiTests
                     this.Window = this.application.GetMainWindow(this.automation);
                     return;
                 }
-                catch (System.ComponentModel.Win32Exception)
+                catch
                 {
                     // We get this on AppVeyor.
                     // Testin a retry strategy :)
