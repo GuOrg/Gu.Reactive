@@ -54,7 +54,7 @@ namespace Gu.Wpf.Reactive.UiTests
         {
             Keyboard.ReleaseScanCode((ushort)ScanCodeShort.CONTROL, isExtendedKey: false);
             Keyboard.ReleaseScanCode((ushort)ScanCodeShort.SHIFT, isExtendedKey: false);
-            
+
             try
             {
                 this.application?.WaitWhileBusy();
