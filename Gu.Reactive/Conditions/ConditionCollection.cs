@@ -19,6 +19,7 @@ namespace Gu.Reactive
 
         private bool? previousIsSatisfied;
 
+#pragma warning disable GU0003 // Name the parameters to match the members.
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionCollection"/> class.
         /// </summary>
@@ -26,6 +27,7 @@ namespace Gu.Reactive
         /// <param name="prerequisites">The children.</param>
         /// <param name="leaveOpen">True to not dispose <paramref name="prerequisites"/> when this instance is disposed.</param>
         protected ConditionCollection(Func<IReadOnlyList<ICondition>, bool?> isSatisfied, IReadOnlyList<ICondition> prerequisites, bool leaveOpen)
+#pragma warning restore GU0003 // Name the parameters to match the members.
             : base(prerequisites, TimeSpan.Zero, ImmediateScheduler.Instance, leaveOpen)
         {
             Ensure.NotNull(isSatisfied, nameof(isSatisfied));
