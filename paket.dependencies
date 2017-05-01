@@ -6,7 +6,6 @@ nuget Gu.Wpf.ToolTips
 
 group Analyzers
   source http://nuget.org/api/v2
-  framework: >= net45
   nuget StyleCop.Analyzers
   nuget WpfAnalyzers
   nuget Gu.Analyzers
@@ -22,5 +21,5 @@ group Test
 
 group Benchmark
   source http://nuget.org/api/v2
-  framework: >= net45
+  framework:  net461
   nuget BenchmarkDotNet.Diagnostics.Windows

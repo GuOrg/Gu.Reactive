@@ -4,19 +4,24 @@ namespace Gu.Wpf.Reactive.UiTests
 
     public static class GridCellExt
     {
-        public const string NewItemplaceholder = "{NewItemPlaceholder}";
+        public const string NewItemPlaceholder = "{NewItemPlaceholder}";
 
         public static string Text(this GridCell cell)
         {
             if (cell.Patterns.Value.IsSupported)
             {
+                if (cell.Value.StartsWith("Item:"))
+                {
+                    return string.Empty;
+                }
+
                 return cell.Value;
             }
 
             var text = cell.AsLabel().Text;
-            if (text.Contains(NewItemplaceholder))
+            if (text.Contains(NewItemPlaceholder))
             {
-                return NewItemplaceholder;
+                return NewItemPlaceholder;
             }
 
             return text;
