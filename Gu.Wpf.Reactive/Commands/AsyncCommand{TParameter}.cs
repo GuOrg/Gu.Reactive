@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Reactive.Disposables;
     using System.Reactive.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -16,7 +17,7 @@
     public class AsyncCommand<TParameter> : ConditionRelayCommand<TParameter>
     {
         private readonly ITaskRunner<TParameter> runner;
-        private readonly IDisposable runnerSubscription;
+        private readonly IDisposable disposable;
 
         private bool disposed;
 
@@ -61,28 +62,31 @@
         }
 
         private AsyncCommand(ITaskRunner<TParameter> runner, IReadOnlyList<ICondition> conditions)
-            : this(runner, new AndCondition(runner.CanRunCondition, new AndCondition(conditions, leaveOpen: true)))
+            : this(runner, ConditionAndDisposable.Create(runner.CanRunCondition, conditions))
         {
         }
 
         private AsyncCommand(ITaskRunner<TParameter> runner)
-            : this(runner, runner.CanRunCondition)
+            : this(runner, ConditionAndDisposable.Create(runner.CanRunCondition, null))
         {
         }
 
-        private AsyncCommand(ITaskRunner<TParameter> runner, ICondition condition)
-            : base(runner.Run, condition)
+        private AsyncCommand(ITaskRunner<TParameter> runner, ConditionAndDisposable conditionAndDisposable)
+            : base(runner.Run, conditionAndDisposable.Condition)
         {
             this.runner = runner;
-            this.runnerSubscription = runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
-                                       .Subscribe(_ => this.OnPropertyChanged(nameof(this.Execution)));
-
             this.CancelCommand = new ConditionRelayCommand(runner.Cancel, runner.CanCancelCondition);
+
+            var completionSubscription = runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
+                                               .Subscribe(_ => this.OnPropertyChanged(nameof(this.Execution)));
+            this.disposable = conditionAndDisposable.Disposable == null
+                ? completionSubscription
+                : new CompositeDisposable(2) { completionSubscription, conditionAndDisposable.Disposable };
         }
 
         /// <summary>
-        /// A command for cancelling the execution.
-        /// This assumes that the command was created with one of the overloads taking a cancellationtoken.
+        /// A command for canceling the execution.
+        /// This assumes that the command was created with one of the overloads taking a <see cref="CancellationToken"/>.
         /// </summary>
         public ConditionRelayCommand CancelCommand { get; }
 
@@ -134,7 +138,7 @@
             {
                 this.runner.Dispose();
                 this.CancelCommand.Dispose();
-                this.runnerSubscription?.Dispose();
+                this.disposable?.Dispose();
             }
 
             base.Dispose(disposing);

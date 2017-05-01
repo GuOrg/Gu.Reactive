@@ -2,6 +2,7 @@ namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Generic;
+    using System.Reactive.Disposables;
     using System.Reactive.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -10,13 +11,13 @@ namespace Gu.Wpf.Reactive
 
     /// <summary>
     /// http://msdn.microsoft.com/en-us/magazine/dn630647.aspx
-    /// An async command that does not use commandparameter
+    /// An async command that does not use command parameter
     /// Returns a Task
     /// </summary>
     public class AsyncCommand : ConditionRelayCommand
     {
         private readonly ITaskRunner runner;
-        private readonly IDisposable taskCompletionSubscription;
+        private readonly IDisposable disposable;
 
         private bool disposed;
 
@@ -61,27 +62,30 @@ namespace Gu.Wpf.Reactive
         }
 
         private AsyncCommand(ITaskRunner runner, IReadOnlyList<ICondition> conditions)
-            : this(runner, new AndCondition(runner.CanRunCondition, new AndCondition(conditions, leaveOpen: true)))
+            : this(runner, ConditionAndDisposable.Create(runner.CanRunCondition, conditions))
         {
         }
 
         private AsyncCommand(ITaskRunner runner)
-            : this(runner, runner.CanRunCondition)
+            : this(runner, ConditionAndDisposable.Create(runner.CanRunCondition, null))
         {
         }
 
-        private AsyncCommand(ITaskRunner runner, ICondition condition)
-            : base(runner.Run, condition)
+        private AsyncCommand(ITaskRunner runner, ConditionAndDisposable conditionAndDisposable)
+            : base(runner.Run, conditionAndDisposable.Condition)
         {
             this.CancelCommand = new ConditionRelayCommand(runner.Cancel, runner.CanCancelCondition);
             this.runner = runner;
-            this.taskCompletionSubscription = runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
-                                                    .Subscribe(_ => this.OnPropertyChanged(nameof(this.Execution)));
+            var completionSubscription = runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
+                                   .Subscribe(_ => this.OnPropertyChanged(nameof(this.Execution)));
+            this.disposable = conditionAndDisposable.Disposable == null
+                ? completionSubscription
+                : new CompositeDisposable(2) { completionSubscription, conditionAndDisposable.Disposable };
         }
 
         /// <summary>
-        /// A command for cancelling the execution.
-        /// This assumes that the command was created with one of the overloads taking a cancellationtoken.
+        /// A command for canceling the execution.
+        /// This assumes that the command was created with one of the overloads taking a <see cref="CancellationToken"/>.
         /// </summary>
         public ConditionRelayCommand CancelCommand { get; }
 
@@ -133,7 +137,7 @@ namespace Gu.Wpf.Reactive
             {
                 this.runner.Dispose();
                 this.CancelCommand.Dispose();
-                this.taskCompletionSubscription?.Dispose();
+                this.disposable?.Dispose();
             }
 
             base.Dispose(disposing);
