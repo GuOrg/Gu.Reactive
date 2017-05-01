@@ -1,6 +1,5 @@
 namespace Gu.Reactive
 {
-    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -9,13 +8,15 @@ namespace Gu.Reactive
     /// If any prerequisite IsSatisfied returns false.
     /// If no prerequisite is IsSatisfied == false and any prerequisite is null the result is null
     /// </summary>
-    public class AndCondition : Condition
+    public class AndCondition : CollectionCondition
     {
+        private readonly AndConditionCollection prerequisites;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AndCondition"/> class.
         /// </summary>
         public AndCondition(ICondition prerequisite1, ICondition prerequisite2, params ICondition[] prerequisites)
-            : base(new AndConditionCollection(ConditionCollection.Prepend(prerequisite1, prerequisite2, prerequisites), leaveOpen: true))
+            : this(new AndConditionCollection(ConditionCollection.Prepend(prerequisite1, prerequisite2, prerequisites), leaveOpen: true))
         {
         }
 
@@ -25,8 +26,14 @@ namespace Gu.Reactive
         /// <param name="prerequisites">The children.</param>
         /// <param name="leaveOpen">True to not dispose <paramref name="prerequisites"/> when this instance is disposed.</param>
         public AndCondition(IReadOnlyList<ICondition> prerequisites, bool leaveOpen)
-            : base(new AndConditionCollection(prerequisites, leaveOpen))
+            : this(new AndConditionCollection(prerequisites, leaveOpen))
         {
+        }
+
+        private AndCondition(AndConditionCollection prerequisites)
+            : base(prerequisites)
+        {
+            this.prerequisites = prerequisites;
         }
 
         /// <summary>
@@ -48,7 +55,7 @@ namespace Gu.Reactive
 
             if (disposing)
             {
-                (this.Prerequisites as IDisposable)?.Dispose();
+                this.prerequisites.Dispose();
             }
 
             base.Dispose(disposing);

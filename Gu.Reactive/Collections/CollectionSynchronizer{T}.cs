@@ -87,6 +87,18 @@
             }
         }
 
+        /// <summary>
+        /// Lock the collection and get a copy.
+        /// </summary>
+        /// <returns>A copy of this instance</returns>
+        public IReadOnlyList<T> Snapshot()
+        {
+            lock (this.Items)
+            {
+                return new List<T>(this.Items);
+            }
+        }
+
         private NotifyCollectionChangedEventArgs Update(IEnumerable<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges, Action<PropertyChangedEventArgs> propertyChanged, Action<NotifyCollectionChangedEventArgs> collectionChanged)
         {
             var retry = 0;

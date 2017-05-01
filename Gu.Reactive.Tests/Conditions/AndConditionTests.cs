@@ -156,17 +156,30 @@ namespace Gu.Reactive.Tests.Conditions
                 using (condition.ObserveIsSatisfiedChanged()
                                 .Subscribe(c => actuals.Add(c.IsSatisfied)))
                 {
-                    CollectionAssert.IsEmpty(actuals);
-                    Assert.AreEqual(null, condition.IsSatisfied);
+                    var preRequisiteChanges = 0;
+                    using (condition.ObservePropertyChangedSlim(x => x.Prerequisites, signalInitial: false)
+                                    .Subscribe(x => preRequisiteChanges++))
+                    {
+                        Assert.AreEqual(0, preRequisiteChanges);
+                        CollectionAssert.IsEmpty(condition.Prerequisites);
+                        Assert.AreSame(condition.Prerequisites, condition.Prerequisites);
+                        Assert.AreEqual(null, condition.IsSatisfied);
 
-                    conditions.Add(Mock.Of<ICondition>(x => x.IsSatisfied == true));
-                    Assert.AreEqual(true, condition.IsSatisfied);
-                    CollectionAssert.AreEqual(new[] { true }, actuals);
+                        conditions.Add(Mock.Of<ICondition>(x => x.IsSatisfied == true));
+                        Assert.AreEqual(true, condition.IsSatisfied);
+                        CollectionAssert.AreEqual(new[] { true }, actuals);
+                        Assert.AreEqual(1, preRequisiteChanges);
+                        CollectionAssert.AreEqual(conditions, condition.Prerequisites);
+                        Assert.AreSame(condition.Prerequisites, condition.Prerequisites);
 
-                    Mock.Get(conditions[0]).SetupGet(x => x.IsSatisfied).Returns(false);
-                    Mock.Get(conditions[0]).Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("IsSatisfied"));
-                    Assert.AreEqual(false, condition.IsSatisfied);
-                    CollectionAssert.AreEqual(new[] { true, false }, actuals);
+                        Mock.Get(conditions[0]).SetupGet(x => x.IsSatisfied).Returns(false);
+                        Mock.Get(conditions[0]).Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("IsSatisfied"));
+                        Assert.AreEqual(false, condition.IsSatisfied);
+                        CollectionAssert.AreEqual(new[] { true, false }, actuals);
+                        Assert.AreEqual(1, preRequisiteChanges);
+                        CollectionAssert.AreEqual(conditions, condition.Prerequisites);
+                        Assert.AreSame(condition.Prerequisites, condition.Prerequisites);
+                    }
                 }
             }
         }

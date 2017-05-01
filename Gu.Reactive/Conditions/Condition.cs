@@ -20,7 +20,6 @@ namespace Gu.Reactive
         private static readonly IReadOnlyList<ICondition> EmptyPrerequisites = new ICondition[0];
         private readonly Func<bool?> criteria;
         private readonly IDisposable subscription;
-        private readonly IReadOnlyList<ICondition> prerequisites;
         private readonly FixedSizedQueue<ConditionHistoryPoint> history = new FixedSizedQueue<ConditionHistoryPoint>(100);
         private bool? isSatisfied;
         private string name;
@@ -52,8 +51,14 @@ namespace Gu.Reactive
         /// The criteria that is evaluated to give IsSatisfied.
         /// </param>
         public Condition(IObservable<object> observable, Func<bool?> criteria)
-            : this(observable, criteria, EmptyPrerequisites)
         {
+            Ensure.NotNull(observable, nameof(observable));
+            Ensure.NotNull(criteria, nameof(criteria));
+
+            this.criteria = criteria;
+            this.name = this.GetType().PrettyName();
+            this.subscription = observable.StartWith((object)null)
+                                          .Subscribe(x => this.UpdateIsSatisfied());
         }
 
         /// <summary>
@@ -62,30 +67,6 @@ namespace Gu.Reactive
         protected Condition(ObservableAndCriteria observableAndCriteria)
             : this(observableAndCriteria.Observable, observableAndCriteria.Criteria)
         {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Condition"/> class.
-        /// </summary>
-        protected Condition(ConditionCollection prerequisites)
-            : this(
-                  prerequisites.ObserveIsSatisfiedChanged(),
-                  () => prerequisites.IsSatisfied,
-                  prerequisites)
-        {
-        }
-
-        private Condition(IObservable<object> observable, Func<bool?> criteria, IReadOnlyList<ICondition> prerequisites)
-        {
-            Ensure.NotNull(observable, nameof(observable));
-            Ensure.NotNull(criteria, nameof(criteria));
-            Ensure.NotNull(prerequisites, nameof(prerequisites));
-
-            this.criteria = criteria;
-            this.prerequisites = prerequisites;
-            this.name = this.GetType().PrettyName();
-            this.subscription = observable.StartWith((object)null)
-                                          .Subscribe(x => this.UpdateIsSatisfied());
         }
 
         /// <inheritdoc/>
@@ -99,12 +80,12 @@ namespace Gu.Reactive
         /// <summary>
         /// The subconditions for this condition
         /// </summary>
-        public IReadOnlyList<ICondition> Prerequisites
+        public virtual IReadOnlyList<ICondition> Prerequisites
         {
             get
             {
                 this.ThrowIfDisposed();
-                return this.prerequisites;
+                return EmptyPrerequisites;
             }
         }
 
