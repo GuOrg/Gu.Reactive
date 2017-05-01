@@ -1,0 +1,11 @@
+group Roslyn
+  Microsoft.CodeAnalysis.CSharp
+
+group Analyzers
+  JetBrains.Annotations
+  StyleCop.Analyzers
+  Gu.Analyzers
+  WpfAnalyzers
+
+group Test
+  NUnit

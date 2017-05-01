@@ -19,6 +19,10 @@ group Test
   nuget Microsoft.Reactive.Testing
   nuget FlaUI.UIA3
 
+group Roslyn
+  source http://nuget.org/api/v2
+  nuget Microsoft.CodeAnalysis.CSharp
+
 group Benchmark
   source http://nuget.org/api/v2
   framework:  net461
