@@ -1,3 +1,6 @@
+#### 3.3.1
+* BUGFIX: Make prerequisites immutable.
+
 #### 3.3.0
 * BUGFIX: MappingView handles nulls in source.
 * FEATURE: Negated<TCondition>

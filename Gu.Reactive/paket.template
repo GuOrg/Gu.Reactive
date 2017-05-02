@@ -4,9 +4,7 @@ projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  BUGFIX: MappingView handles nulls in source.
-  FEATURE: Negated<TCondition>
-  FEATURE: Better exception message when prerequisites are not distinct
+  BUGFIX: Make prerequisites immutable.
   
 excludeddependencies
   JetBrains.Annotations
