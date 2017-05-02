@@ -55,6 +55,7 @@ namespace Gu.Wpf.Reactive.UiTests
             Keyboard.ReleaseScanCode((ushort)ScanCodeShort.CONTROL, isExtendedKey: false);
             Keyboard.ReleaseScanCode((ushort)ScanCodeShort.SHIFT, isExtendedKey: false);
 
+            //// ReSharper disable once EmptyGeneralCatchClause solving problems on appveyor
             try
             {
                 this.application?.WaitWhileBusy();
@@ -81,6 +82,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.disposed = true;
             if (disposing)
             {
+                //// ReSharper disable once EmptyGeneralCatchClause solving problems on appveyor
                 try
                 {
                     this.application?.WaitWhileBusy();
