@@ -122,6 +122,15 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
+        /// <summary>
+        /// Lock the collection and get a copy.
+        /// </summary>
+        /// <returns>A copy of this instance</returns>
+        public IReadOnlyList<TMapped> Snapshot()
+        {
+            return this.tracker.Snapshot();
+        }
+
         /// <inheritdoc/>
         int IList.Add(object value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
 

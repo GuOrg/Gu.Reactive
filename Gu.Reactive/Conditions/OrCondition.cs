@@ -1,6 +1,5 @@
 namespace Gu.Reactive
 {
-    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -9,13 +8,15 @@ namespace Gu.Reactive
     /// If no prerequisite IsSatisfied IsSatisfied returns false.
     /// If no prerequisite is IsSatisfied == true and any prerequisite is null the result is null
     /// </summary>
-    public class OrCondition : Condition
+    public class OrCondition : CollectionCondition
     {
+        private readonly OrConditionCollection prerequisites;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OrCondition"/> class.
         /// </summary>
         public OrCondition(ICondition prerequisite1, ICondition prerequisite2, params ICondition[] prerequisites)
-            : base(new OrConditionCollection(ConditionCollection.Prepend(prerequisite1, prerequisite2, prerequisites), leaveOpen: true))
+            : this(new OrConditionCollection(ConditionCollection.Prepend(prerequisite1, prerequisite2, prerequisites), leaveOpen: true))
         {
         }
 
@@ -25,8 +26,14 @@ namespace Gu.Reactive
         /// <param name="prerequisites">The children.</param>
         /// <param name="leaveOpen">True to not dispose <paramref name="prerequisites"/> when this instance is disposed.</param>
         public OrCondition(IReadOnlyList<ICondition> prerequisites, bool leaveOpen)
-            : base(new OrConditionCollection(prerequisites, leaveOpen))
+            : this(new OrConditionCollection(prerequisites, leaveOpen))
         {
+        }
+
+        private OrCondition(OrConditionCollection prerequisites)
+            : base(prerequisites)
+        {
+            this.prerequisites = prerequisites;
         }
 
         /// <summary>
@@ -48,7 +55,7 @@ namespace Gu.Reactive
 
             if (disposing)
             {
-                (this.Prerequisites as IDisposable)?.Dispose();
+                this.prerequisites.Dispose();
             }
 
             base.Dispose(disposing);
