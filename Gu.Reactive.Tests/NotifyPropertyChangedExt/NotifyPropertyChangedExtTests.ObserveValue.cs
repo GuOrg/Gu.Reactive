@@ -12,7 +12,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
     using System.Linq;
 
     using Gu.Reactive.Tests.Helpers;
-
+    using Moq;
     using NUnit.Framework;
 
     public partial class NotifyPropertyChangedExtTests
@@ -309,6 +309,33 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
                     fake.Value = new B();
                     expecteds.Add(Maybe<string>.Some("B"));
+                    CollectionAssert.AreEqual(expecteds, actuals);
+                }
+            }
+
+            [Test]
+            public void Mock()
+            {
+                var fake = new Mock<IFake>(MockBehavior.Strict);
+                fake.SetupGet(x => x.Value)
+                    .Returns(1);
+                var actuals = new List<Maybe<int>>();
+                using (fake.Object.ObserveValue(x => x.Value, signalInitial: false)
+                           .Subscribe(actuals.Add))
+                {
+                    var expecteds = new List<Maybe<int>>();
+                    CollectionAssert.AreEqual(expecteds, actuals);
+
+                    fake.SetupGet(x => x.Value)
+                        .Returns(2);
+                    fake.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("Value"));
+                    expecteds.Add(Maybe.Some(2));
+                    CollectionAssert.AreEqual(expecteds, actuals);
+
+                    fake.SetupGet(x => x.Value)
+                        .Returns(3);
+                    fake.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("Value"));
+                    expecteds.Add(Maybe.Some(3));
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
             }
