@@ -4,7 +4,7 @@
     using System.Linq;
 
     /// <summary>
-    /// Used internally in AndCondition
+    /// Used internally in <see cref="AndCondition"/>
     /// </summary>
     internal class AndConditionCollection : ConditionCollection
     {

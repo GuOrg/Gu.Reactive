@@ -3,6 +3,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// Used internally in <see cref="OrCondition"/>
+    /// </summary>
     internal class OrConditionCollection : ConditionCollection
     {
         /// <summary>
