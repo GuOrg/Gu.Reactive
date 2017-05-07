@@ -1,5 +1,8 @@
+System.Reactive
+
 group Roslyn
   Microsoft.CodeAnalysis.CSharp
+  Microsoft.CodeAnalysis.CSharp.Workspaces
 
 group Analyzers
   JetBrains.Annotations

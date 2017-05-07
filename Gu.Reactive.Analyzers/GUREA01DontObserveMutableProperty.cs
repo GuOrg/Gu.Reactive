@@ -6,12 +6,12 @@
     using Microsoft.CodeAnalysis.Diagnostics;
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    internal class GU0001DontSubscribeToMutableProperty : DiagnosticAnalyzer
+    public class GUREA01DontObserveMutableProperty : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "GU0001";
-        private const string Title = "Ignore events when serializing.";
-        private const string MessageFormat = "Ignore events when serializing.";
-        private const string Description = "Ignore events when serializing.";
+        public const string DiagnosticId = "GUREA01";
+        private const string Title = "Don't observe mutable property.";
+        private const string MessageFormat = "Don't observe mutable property.";
+        private const string Description = "Don't observe mutable property.";
         private static readonly string HelpLink = @"https://www.google.com";
 
         private static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(

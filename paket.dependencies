@@ -20,10 +20,12 @@ group Test
   nuget FlaUI.UIA3
 
 group Roslyn
+  redirects: on
   source http://nuget.org/api/v2
-  nuget Microsoft.CodeAnalysis.CSharp
+  framework: netstandard13, net461
+  nuget Microsoft.CodeAnalysis.CSharp.Workspaces
 
 group Benchmark
   source http://nuget.org/api/v2
-  framework:  net461
+  framework: net461
   nuget BenchmarkDotNet.Diagnostics.Windows
