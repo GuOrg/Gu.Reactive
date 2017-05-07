@@ -2,14 +2,16 @@ namespace Gu.Reactive.Benchmarks
 {
     using System;
     using System.ComponentModel;
+    using System.Linq.Expressions;
     using System.Reactive.Linq;
-
+    using System.Reactive.Subjects;
     using BenchmarkDotNet.Attributes;
 
     using Gu.Reactive.Internals;
 
     public class ObservePropertyChangedThenSubscribe
     {
+        private static readonly Subject<int> Subject = new Subject<int>();
         private readonly Fake fake = new Fake { IsTrue = false, Next = new Level { Name = string.Empty } };
 
         private readonly NotifyingPath<Fake, string> propertyPath = NotifyingPath.GetOrCreate<Fake, string>(x => x.Next.Name);
@@ -17,8 +19,7 @@ namespace Gu.Reactive.Benchmarks
         [Benchmark(Baseline = true)]
         public int SubscribeToEventStandard()
         {
-            int count = 0;
-
+            var count = 0;
             void Handler(object sender, PropertyChangedEventArgs args)
             {
                 if (string.IsNullOrEmpty(args.PropertyName) || args.PropertyName == nameof(this.fake.Value))
@@ -31,6 +32,29 @@ namespace Gu.Reactive.Benchmarks
             this.fake.Value++;
             this.fake.PropertyChanged -= Handler;
             return count;
+        }
+
+        [Benchmark]
+        public IDisposable SubjectSubscribe()
+        {
+            using (var disposable = Subject.Subscribe(_ => { }))
+            {
+                return disposable;
+            }
+        }
+
+        [Benchmark]
+        public object SimpleLambda()
+        {
+            Expression<Func<Fake, int>> expression = x => x.Value;
+            return expression;
+        }
+
+        [Benchmark]
+        public object NestedLambda()
+        {
+            Expression<Func<Fake, int>> expression = x => x.Next.Value;
+            return expression;
         }
 
         [Benchmark]
