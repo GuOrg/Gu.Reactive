@@ -1,46 +1,74 @@
 ﻿namespace Gu.Reactive.Analyzers.Tests.GUREA01DontObserveMutablePropertyTests
 {
     using System.Threading.Tasks;
-    using Gu.Reactive.Analyzers.Tests.Verifiers;
+    using Gu.Roslyn.Asserts;
     using NUnit.Framework;
 
-    public class CodeFix : DiagnosticVerifier<GUREA01DontObserveMutableProperty>
+    public class CodeFix
     {
+        static CodeFix()
+        {
+            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
+        }
+
         [Test]
-        public async Task Constructor()
+        public void SubscribingToMutablePropertyInSelf()
         {
-            var testCode = @"
-    public class Foo
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    internal class Foo : INotifyPropertyChanged
     {
-        public Foo(int a, int b, int c, int d)
+        private int _value;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int Value
         {
-            this.A = a;
-            this.B = b;
-            this.C = c;
-            this.D = d;
+            get
+            {
+                return _value;
+            }
+
+            set
+            {
+                if (value == _value)
+                {
+                    return;
+                }
+
+                _value = value;
+                OnPropertyChanged();
+            }
         }
 
-        public int A { get; }
-
-        public int B { get; }
-
-        public int C { get; }
-
-        public int D { get; }
-
-        private Foo Create(int a, int b, int c, int d)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            return new Foo↓(
-                a, 
-                b, 
-                c, 
-                d);
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }";
-            var expected = this.CSharpDiagnostic()
-                               .WithLocationIndicated(ref testCode)
-                               .WithMessage("Name the arguments.");
-            await this.VerifyCSharpDiagnosticAsync(testCode, expected).ConfigureAwait(false);
+    }
+}";
+            var testCode = @"namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    internal class Meh
+    {
+        public Meh()
+        {
+            this.Foo = new Foo();
+            this.Foo.↓ObserveFullPropertyPathSlim(x => x.Value)
+                    .Subscribe(_ => Console.WriteLine(""meh""));
+        }
+
+        public Foo Foo { get; set; }
+    }
+}";
+            AnalyzerAssert.Diagnostics<GUREA01DontObserveMutableProperty>(fooCode, testCode);
         }
     }
 }

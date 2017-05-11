@@ -44,28 +44,8 @@
   <ItemGroup>
     <Compile Include="GUREA01DontObserveMutablePropertyTests\CodeFix.cs" />
     <Compile Include="GUREA01DontObserveMutablePropertyTests\HappyPath.cs" />
+    <Compile Include="MetadataReferences.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestHelpers\StringHelpers.cs" />
-    <Compile Include="TestHelpers\SyntaxNodeExt.cs" />
-    <Compile Include="Verifiers\CodeFixAssert.cs" />
-    <Compile Include="Verifiers\CodeFixVerifier.cs" />
-    <Compile Include="Verifiers\CodeFixVerifier.Helper.cs" />
-    <Compile Include="Verifiers\CodeFixVerifier{TAnalyzer,TCodeFix}.cs" />
-    <Compile Include="Verifiers\DiagnosticVerifier.cs" />
-    <Compile Include="Verifiers\DiagnosticVerifier.Helper.cs" />
-    <Compile Include="Verifiers\DiagnosticVerifier{TAnalyzer}.cs" />
-    <Compile Include="Verifiers\HappyPathVerifier{TAnalyzer}.cs" />
-    <Compile Include="Verifiers\Helpers\CodeFactory.cs" />
-    <Compile Include="Verifiers\Helpers\CodeReader.cs" />
-    <Compile Include="Verifiers\Helpers\DiagnosticResult.cs" />
-    <Compile Include="Verifiers\Helpers\DiagnosticResultLocation.cs" />
-    <Compile Include="Verifiers\Helpers\MetadataReferences.cs" />
-    <Compile Include="Verifiers\Helpers\TestDiagnosticProvider.cs" />
-    <Compile Include="Verifiers\Helpers\TestXmlReferenceResolver.cs" />
-    <Compile Include="Verifiers\IHappyPathVerifier.cs" />
-    <Compile Include="Verifiers\NestedCodeFixVerifier.cs" />
-    <Compile Include="Verifiers\NestedDiagnosticVerifier.cs" />
-    <Compile Include="Verifiers\NestedHappyPathVerifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -271,6 +251,17 @@
         </Reference>
         <Reference Include="System.Reactive.Windows.Threading">
           <HintPath>..\packages\System.Reactive.Windows.Threading\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v1.3') Or ($(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.1')">
+      <ItemGroup>
+        <Reference Include="Gu.Roslyn.Asserts">
+          <HintPath>..\packages\roslyn\Gu.Roslyn.Asserts\lib\netstandard1.3\Gu.Roslyn.Asserts.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

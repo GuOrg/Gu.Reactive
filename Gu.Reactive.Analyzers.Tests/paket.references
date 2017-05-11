@@ -3,6 +3,7 @@ System.Reactive
 group Roslyn
   Microsoft.CodeAnalysis.CSharp
   Microsoft.CodeAnalysis.CSharp.Workspaces
+  Gu.Roslyn.Asserts
 
 group Analyzers
   JetBrains.Annotations
