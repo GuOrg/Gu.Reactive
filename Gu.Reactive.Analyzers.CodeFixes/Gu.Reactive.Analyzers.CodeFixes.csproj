@@ -3,4 +3,7 @@
     <TargetFramework>netstandard1.3</TargetFramework>
   </PropertyGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj" />
+  </ItemGroup>
 </Project>

@@ -207,36 +207,36 @@ NUGET
       System.ObjectModel (>= 4.3) - framework: netstandard13
       System.Text.RegularExpressions (>= 4.3) - framework: netstandard13
       System.Threading.Tasks.Parallel (>= 4.3) - framework: netstandard13
-    Microsoft.Composition (1.0.27) - framework: net461, netstandard13
+    Microsoft.Composition (1.0.30) - framework: net461, netstandard13
     Microsoft.NETCore.Platforms (1.1) - framework: net461, netstandard13
     Microsoft.NETCore.Targets (1.1) - framework: net461, netstandard13
-    runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: net461, netstandard13
-    runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: net461, netstandard13
-    runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: net461, netstandard13
+    runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13
+    runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13
+    runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13
     runtime.native.System (4.3) - framework: net461, netstandard13
       Microsoft.NETCore.Platforms (>= 1.1) - framework: net461, netstandard13
       Microsoft.NETCore.Targets (>= 1.1) - framework: net461, netstandard13
     runtime.native.System.IO.Compression (4.3) - framework: net461, netstandard13
       Microsoft.NETCore.Platforms (>= 1.1) - framework: net461, netstandard13
       Microsoft.NETCore.Targets (>= 1.1) - framework: net461, netstandard13
-    runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: net461, netstandard13
-      runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3) - framework: net461, netstandard13
-      runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3) - framework: net461, netstandard13
-      runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3) - framework: net461, netstandard13
-      runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3) - framework: net461, netstandard13
-      runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3) - framework: net461, netstandard13
-      runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3) - framework: net461, netstandard13
-      runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3) - framework: net461, netstandard13
-      runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3) - framework: net461, netstandard13
-      runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3) - framework: net461, netstandard13
-      runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3) - framework: net461, netstandard13
-    runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: net461, netstandard13
-    runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: net461, netstandard13
-    runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: net461, netstandard13
-    runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: net461, netstandard13
-    runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: net461, netstandard13
-    runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: net461, netstandard13
-    runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: net461, netstandard13
+    runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13
+      runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3.1) - framework: net461, netstandard13
+      runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3.1) - framework: net461, netstandard13
+      runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3.1) - framework: net461, netstandard13
+      runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3.1) - framework: net461, netstandard13
+      runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3.1) - framework: net461, netstandard13
+      runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3.1) - framework: net461, netstandard13
+      runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3.1) - framework: net461, netstandard13
+      runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3.1) - framework: net461, netstandard13
+      runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3.1) - framework: net461, netstandard13
+      runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3.1) - framework: net461, netstandard13
+    runtime.opensuse.13.2-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13
+    runtime.opensuse.42.1-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13
+    runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13
+    runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13
+    runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13
+    runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13
+    runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13
     System.AppContext (4.3) - framework: net461, netstandard13
       System.Runtime (>= 4.3) - framework: netstandard13
     System.Buffers (4.3) - framework: net461, netstandard13
@@ -527,7 +527,7 @@ NUGET
       System.Threading.Tasks (>= 4.3) - framework: netstandard13
     System.Threading.Thread (4.3) - framework: net461, netstandard13
       System.Runtime (>= 4.3) - framework: netstandard13
-    System.ValueTuple (4.3) - framework: net461, netstandard13
+    System.ValueTuple (4.3.1) - framework: net461, netstandard13
       System.Collections (>= 4.3) - framework: netstandard13
       System.Resources.ResourceManager (>= 4.3) - framework: netstandard13
       System.Runtime (>= 4.3) - framework: netstandard13

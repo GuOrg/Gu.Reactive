@@ -42,6 +42,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUREA05FullPathMustHaveMoreThanOneItemTests\Diagnostics.cs" />
+    <Compile Include="GUREA05FullPathMustHaveMoreThanOneItemTests\HappyPath.cs" />
+    <Compile Include="GUREA04PreferSlimTests\CodeFix.cs" />
+    <Compile Include="GUREA04PreferSlimTests\HappyPath.cs" />
+    <Compile Include="GUREA03PathMustNotifyTests\Diagnostics.cs" />
+    <Compile Include="GUREA03PathMustNotifyTests\HappyPath.cs" />
+    <Compile Include="GUREA02ObservableAndCriteriaMustMatchTests\Diagnostics.cs" />
+    <Compile Include="GUREA02ObservableAndCriteriaMustMatchTests\HappyPath.cs" />
     <Compile Include="GUREA01DontObserveMutablePropertyTests\CodeFix.cs" />
     <Compile Include="GUREA01DontObserveMutablePropertyTests\HappyPath.cs" />
     <Compile Include="MetadataReferences.cs" />
@@ -53,6 +61,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\Gu.Reactive.Analyzers.CodeFixes\Gu.Reactive.Analyzers.CodeFixes.csproj">
+      <Project>{2b3410aa-3226-4b5e-9e1d-f1180312a329}</Project>
+      <Name>Gu.Reactive.Analyzers.CodeFixes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj">
       <Project>{4a18b544-bb42-4917-955b-cf0853802117}</Project>
       <Name>Gu.Reactive.Analyzers</Name>
