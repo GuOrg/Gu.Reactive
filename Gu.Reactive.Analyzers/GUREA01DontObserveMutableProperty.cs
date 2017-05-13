@@ -50,8 +50,35 @@
                 method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChangedSlim ||
                 method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim)
             {
-                context.ReportDiagnostic(Diagnostic.Create(Descriptor, context.Node.GetLocation()));
+                if (invocation.Expression is MemberAccessExpressionSyntax memberAccess)
+                {
+                    if (memberAccess.Expression is MemberAccessExpressionSyntax member)
+                    {
+                        var symbol = context.SemanticModel.GetSymbolSafe(member, context.CancellationToken);
+                        if (IsMutable(symbol))
+                        {
+                            context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
+                        }
+                    }
+                }
             }
+        }
+
+        private static bool IsMutable(ISymbol symbol)
+        {
+            if (symbol is IPropertySymbol property &&
+                !property.IsReadOnly)
+            {
+                return true;
+            }
+
+            if (symbol is IFieldSymbol field &&
+                !field.IsReadOnly)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
