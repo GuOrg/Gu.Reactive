@@ -66,7 +66,7 @@
                                 CodeAction.Create(
                                     "Inject negated.",
                                     cancellationToken => ApplyInjectNegatedFixAsync(cancellationToken, context, parameterSyntax, invocation),
-                                    nameof(UseSlimCodeFix)),
+                                    nameof(InjectNegatedCodeFix)),
                                 diagnostic);
                             continue;
                         }
