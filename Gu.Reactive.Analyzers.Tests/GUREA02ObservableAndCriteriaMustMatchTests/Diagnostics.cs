@@ -5,15 +5,7 @@
 
     public class Diagnostics
     {
-        static Diagnostics()
-        {
-            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-        }
-
-        [Test]
-        public void ObservingDifferentThanUsedInCriteria()
-        {
-            var fooCode = @"
+        const string FooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -70,6 +62,15 @@ namespace RoslynSandbox
         }
     }
 }";
+
+        static Diagnostics()
+        {
+            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
+        }
+
+        [Test]
+        public void ObservingDifferentThanUsedInCriteria()
+        {
             var testCode = @"
 namespace RoslynSandbox
 {
@@ -85,7 +86,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Diagnostics<GUREA01DontObserveMutableProperty>(fooCode, testCode);
+            AnalyzerAssert.Diagnostics<GUREA02ObservableAndCriteriaMustMatch>(FooCode, testCode);
         }
     }
 }

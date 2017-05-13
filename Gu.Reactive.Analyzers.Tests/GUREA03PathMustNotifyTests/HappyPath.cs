@@ -21,45 +21,25 @@ namespace RoslynSandbox
 
     public class Foo : INotifyPropertyChanged
     {
-        private int value1;
-        private int value2;
+        private int value;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Value1
+        public int Value
         {
             get
             {
-                return this.value1;
+                return this.value;
             }
 
             set
             {
-                if (value == this.value1)
+                if (value == this.value)
                 {
                     return;
                 }
 
-                this.value1 = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        public int Value2
-        {
-            get
-            {
-                return this.value2;
-            }
-
-            set
-            {
-                if (value == this.value2)
-                {
-                    return;
-                }
-
-                this.value2 = value;
+                this.value = value;
                 this.OnPropertyChanged();
             }
         }
@@ -73,15 +53,16 @@ namespace RoslynSandbox
             var testCode = @"
 namespace RoslynSandbox
 {
+    using System;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class Bar
     {
-        public FooCondition(Foo foo)
-            : base(
-                foo.ObservePropertyChangedSlim(x => x.Value1),
-                () => foo.Value1 == 2)
+        public Bar()
         {
+            var foo = new Foo();
+            foo.ObservePropertyChanged(x => x.Value)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
 }";

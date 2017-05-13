@@ -5,15 +5,7 @@
 
     internal class HappyPath
     {
-        static HappyPath()
-        {
-            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-        }
-
-        [Test]
-        public void Correct()
-        {
-            var fooCode = @"
+        const string FooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -70,6 +62,15 @@ namespace RoslynSandbox
         }
     }
 }";
+
+        static HappyPath()
+        {
+            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
+        }
+
+        [Test]
+        public void Correct()
+        {
             var testCode = @"
 namespace RoslynSandbox
 {
@@ -85,7 +86,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA01DontObserveMutableProperty>(fooCode, testCode);
+            AnalyzerAssert.NoDiagnostics<GUREA02ObservableAndCriteriaMustMatch>(FooCode, testCode);
         }
     }
 }
