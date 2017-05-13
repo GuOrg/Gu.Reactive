@@ -10,20 +10,16 @@
     public class GUREA01DontObserveMutableProperty : DiagnosticAnalyzer
     {
         public const string DiagnosticId = "GUREA01";
-        private const string Title = "Don't observe mutable property.";
-        private const string MessageFormat = "Don't observe mutable property.";
-        private const string Description = "Don't observe mutable property.";
-        private static readonly string HelpLink = @"https://www.google.com";
 
         private static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
-            title: Title,
-            messageFormat: MessageFormat,
+            title: "Don't observe mutable property.",
+            messageFormat: "Don't observe mutable property.",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
-            description: Description,
-            helpLinkUri: HelpLink);
+            description: "Don't observe mutable property.",
+            helpLinkUri: @"https://github.com/JohanLarsson/Gu.Reactive");
 
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
