@@ -140,6 +140,18 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
+            public void ThrowsOnSingleItemPath()
+            {
+                var fake = new Fake();
+                var exception = Assert.Throws<ArgumentException>(() => fake.ObserveFullPropertyPathSlim(x => x.IsTrue));
+                var expected = "Expected path to have more than one item.\r\n" +
+                               "The path was x => x.IsTrue\r\n" +
+                               "Did you mean to call ObservePropertyChangedSlim?\r\n" +
+                               "Parameter name: property";
+                Assert.AreEqual(expected, exception.Message);
+            }
+
+            [Test]
             public void Unsubscribes()
             {
                 var actual = new List<PropertyChangedEventArgs>();

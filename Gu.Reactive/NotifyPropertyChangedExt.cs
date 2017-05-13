@@ -167,7 +167,10 @@
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             if (notifyingPath.Count < 2)
             {
-                throw new ArgumentException("Expected path to have more than one", nameof(property));
+                var message = "Expected path to have more than one item.\r\n" +
+                              $"The path was {property}\r\n" +
+                              "Did you mean to call ObservePropertyChangedSlim?";
+                throw new ArgumentException(message, nameof(property));
             }
 
             return ObserveFullPropertyPathCore(source, notifyingPath, (_, e) => e, signalInitial);
