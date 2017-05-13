@@ -58,30 +58,36 @@ namespace Gu.Reactive.Analyzers
                             return;
                         }
 
-                        var symbol = context.SemanticModel.GetSymbolSafe(memberAccess, context.CancellationToken);
-                        if (!(symbol is IPropertySymbol))
+                        while (memberAccess != null)
                         {
-                            context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
-                        }
-
-                        if (symbol.ContainingType.IsValueType ||
-                            symbol.ContainingType.Is(KnownSymbol.INotifyPropertyChanged))
-                        {
-                            context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
-                        }
-
-                        if (symbol.DeclaringSyntaxReferences.Length > 0)
-                        {
-                            foreach (var reference in symbol.DeclaringSyntaxReferences)
+                            var symbol = context.SemanticModel.GetSymbolSafe(memberAccess, context.CancellationToken);
+                            if (!(symbol is IPropertySymbol))
                             {
-                                var propertyDeclaration = (PropertyDeclarationSyntax)reference.GetSyntax(context.CancellationToken);
-                                if (propertyDeclaration.TryGetSetAccessorDeclaration(out AccessorDeclarationSyntax setter) &&
-                                    setter.Body == null)
+                                context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
+                            }
+
+                            if (symbol.ContainingType.IsValueType ||
+                                !symbol.ContainingType.Is(KnownSymbol.INotifyPropertyChanged))
+                            {
+                                context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
+                            }
+
+                            if (symbol.DeclaringSyntaxReferences.Length > 0)
+                            {
+                                foreach (var reference in symbol.DeclaringSyntaxReferences)
                                 {
-                                    context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
+                                    var propertyDeclaration = (PropertyDeclarationSyntax)reference.GetSyntax(context.CancellationToken);
+                                    if (propertyDeclaration.TryGetSetAccessorDeclaration(out AccessorDeclarationSyntax setter) &&
+                                        setter.Body == null)
+                                    {
+                                        context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
+                                    }
                                 }
                             }
+
+                            memberAccess = memberAccess.Expression as MemberAccessExpressionSyntax;
                         }
+
                     }
                 }
             }
