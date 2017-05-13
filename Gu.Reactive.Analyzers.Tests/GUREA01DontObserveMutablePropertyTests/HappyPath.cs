@@ -5,8 +5,13 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA01DontObserveMutablePropertyTests
 
     internal class HappyPath
     {
+        static HappyPath()
+        {
+            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
+        }
+
         [Test]
-        public void SubscribingToMutablePropertyInSelf()
+        public void ObservingLocal()
         {
             var fooCode = @"
 namespace RoslynSandbox

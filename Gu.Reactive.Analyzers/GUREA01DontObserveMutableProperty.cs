@@ -3,6 +3,7 @@
     using System.Collections.Immutable;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Diagnostics;
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -38,12 +39,19 @@
 
         private static void HandleInvocation(SyntaxNodeAnalysisContext context)
         {
-            //if (context.IsExcludedFromAnalysis())
-            //{
-            //    return;
-            //}
+            if (context.IsExcludedFromAnalysis())
+            {
+                return;
+            }
 
-            context.ReportDiagnostic(Diagnostic.Create(Descriptor, context.Node.GetLocation()));
+            var invocation = (InvocationExpressionSyntax)context.Node;
+            var method = context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken);
+            if (method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChanged ||
+                method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChangedSlim ||
+                method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(Descriptor, context.Node.GetLocation()));
+            }
         }
     }
 }

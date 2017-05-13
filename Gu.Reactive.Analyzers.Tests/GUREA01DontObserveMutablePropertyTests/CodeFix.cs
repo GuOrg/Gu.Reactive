@@ -1,6 +1,5 @@
 ﻿namespace Gu.Reactive.Analyzers.Tests.GUREA01DontObserveMutablePropertyTests
 {
-    using System.Threading.Tasks;
     using Gu.Roslyn.Asserts;
     using NUnit.Framework;
 
@@ -12,7 +11,7 @@
         }
 
         [Test]
-        public void SubscribingToMutablePropertyInSelf()
+        public void ObservingMutablePropertyInSelf()
         {
             var fooCode = @"
 namespace RoslynSandbox
