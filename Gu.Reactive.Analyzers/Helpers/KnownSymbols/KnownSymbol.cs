@@ -61,6 +61,7 @@ namespace Gu.Reactive.Analyzers
         internal static readonly XmlSerializerType XmlSerializer = new XmlSerializerType();
 
         internal static readonly QualifiedType Condition = new QualifiedType("Gu.Reactive.Condition");
+        internal static readonly IConditionType ICondition = new IConditionType();
         internal static readonly QualifiedType IObservableOfT = new QualifiedType("System.IObservable`1");
         internal static readonly ObservableExtensionsType ObservableExtensions = new ObservableExtensionsType();
         internal static readonly SerialDisposableType SerialDisposable = new SerialDisposableType();
