@@ -19,7 +19,14 @@ group Test
   nuget Microsoft.Reactive.Testing
   nuget FlaUI.UIA3
 
+group Roslyn
+  redirects: on
+  source http://nuget.org/api/v2
+  framework: netstandard13, net461
+  nuget Microsoft.CodeAnalysis.CSharp.Workspaces
+  nuget Gu.Roslyn.Asserts
+
 group Benchmark
   source http://nuget.org/api/v2
-  framework:  net461
+  framework: net461
   nuget BenchmarkDotNet.Diagnostics.Windows
