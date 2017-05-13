@@ -1,6 +1,7 @@
 namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
+    using System.Linq;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -50,7 +51,8 @@ namespace Gu.Reactive.Analyzers
             var argument = invocation.FirstAncestor<ArgumentSyntax>();
             if (argument != null)
             {
-                if (argument.TryGetParameter(context.SemanticModel, context.CancellationToken, out IParameterSymbol parameter) &&
+                if (argument.TryGetParameter(context.SemanticModel, context.CancellationToken,
+                                             out IParameterSymbol parameter) &&
                     parameter.Type == KnownSymbol.IObservableOfT)
                 {
                     if (parameter.Type is INamedTypeSymbol namedType &&
@@ -63,6 +65,35 @@ namespace Gu.Reactive.Analyzers
                         else
                         {
                             context.ReportDiagnostic(Diagnostic.Create(Descriptor, invocation.GetLocation()));
+                        }
+                    }
+                }
+            }
+
+            var parentInvocation = invocation.FirstAncestor<InvocationExpressionSyntax>();
+            if (parentInvocation != null)
+            {
+                var parentMethod = (IMethodSymbol)context.SemanticModel.GetSymbolSafe(parentInvocation, context.CancellationToken);
+                if (parentMethod == KnownSymbol.ObservableExtensions.Subscribe &&
+                    parentInvocation.ArgumentList?.Arguments.TryGetSingle(out argument) == true)
+                {
+                    if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
+                    {
+                        using (var pooled = IdentifierNameWalker.Create(lambda.Body))
+                        {
+                            if (pooled.Item.IdentifierNames.TryGetFirst(x => x.Identifier.ValueText == lambda.Parameter.Identifier.ValueText, out IdentifierNameSyntax _))
+                            {
+                                return;
+                            }
+
+                            if (invocation.Expression is MemberAccessExpressionSyntax memberAccess)
+                            {
+                                context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
+                            }
+                            else
+                            {
+                                context.ReportDiagnostic(Diagnostic.Create(Descriptor, invocation.GetLocation()));
+                            }
                         }
                     }
                 }

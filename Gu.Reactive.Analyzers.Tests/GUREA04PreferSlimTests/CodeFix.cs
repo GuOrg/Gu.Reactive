@@ -6,15 +6,7 @@
 
     public class CodeFix
     {
-        static CodeFix()
-        {
-            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-        }
-
-        [Test]
-        public void PassingObservePropertyChangedToConditionCtor()
-        {
-            var fooCode = @"
+        private const string FooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -45,13 +37,21 @@ namespace RoslynSandbox
             }
         }
 
-
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }";
+
+        static CodeFix()
+        {
+            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
+        }
+
+        [Test]
+        public void PassingObservePropertyChangedToConditionCtor()
+        {
             var testCode = @"
 namespace RoslynSandbox
 {
@@ -83,7 +83,46 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA04PreferSlim, UseSlimCodeFix>(new[] { fooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix<GUREA04PreferSlim, UseSlimCodeFix>(new[] { FooCode, testCode }, fixedCode);
+        }
+
+        [Test]
+        public void WhenSubscribingNotUsingArg()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar
+    {
+        public Bar()
+        {
+            var foo = new Foo();
+            foo.↓ObservePropertyChanged(x => x.Value1)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
+        }
+    }
+}";
+
+            var fixedCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar
+    {
+        public Bar()
+        {
+            var foo = new Foo();
+            foo.ObservePropertyChangedSlim(x => x.Value1)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
+        }
+    }
+}";
+            AnalyzerAssert.CodeFix<GUREA04PreferSlim, UseSlimCodeFix>(new[] { FooCode, testCode }, fixedCode);
         }
     }
 }

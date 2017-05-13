@@ -5,15 +5,7 @@
 
     internal class HappyPath
     {
-        static HappyPath()
-        {
-            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-        }
-
-        [Test]
-        public void WhenUsingSlimCorrectly()
-        {
-            var fooCode = @"
+        private const string FooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -50,6 +42,15 @@ namespace RoslynSandbox
         }
     }
 }";
+
+        static HappyPath()
+        {
+            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
+        }
+
+        [Test]
+        public void WhenPassingSlimToConditionCtor()
+        {
             var testCode = @"
 namespace RoslynSandbox
 {
@@ -65,7 +66,51 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA04PreferSlim>(fooCode, testCode);
+            AnalyzerAssert.NoDiagnostics<GUREA04PreferSlim>(FooCode, testCode);
+        }
+
+        [Test]
+        public void WhenSubscribingToSlimNotUsingArg()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar
+    {
+        public Bar()
+        {
+            var foo = new Foo();
+            foo.ObservePropertyChangedSlim(x => x.Value1)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA04PreferSlim>(FooCode, testCode);
+        }
+
+        [Test]
+        public void WhenSubscribingToSlimUsingArg()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar
+    {
+        public Bar()
+        {
+            var foo = new Foo();
+            foo.ObservePropertyChangedSlim(x => x.Value1)
+               .Subscribe(x => Console.WriteLine(x.PropertyName));
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA04PreferSlim>(FooCode, testCode);
         }
     }
 }

@@ -8,8 +8,8 @@
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-    //[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(UseSlimCodeFix))]
-    //[Shared]
+    ////[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(UseSlimCodeFix))]
+    ////[Shared]
     public class UseSlimCodeFix : CodeFixProvider
     {
         /// <inheritdoc/>
