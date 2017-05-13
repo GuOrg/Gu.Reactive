@@ -5,7 +5,7 @@ namespace Gu.Reactive.Analyzers
         internal readonly QualifiedMethod Subscribe;
 
         internal ObservableExtensionsType()
-            : base((string) "System.ObservableExtensions")
+            : base("System.ObservableExtensions")
         {
             this.Subscribe = new QualifiedMethod(this, nameof(this.Subscribe));
         }

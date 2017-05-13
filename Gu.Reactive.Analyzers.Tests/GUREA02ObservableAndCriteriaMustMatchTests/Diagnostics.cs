@@ -5,7 +5,7 @@
 
     public class Diagnostics
     {
-        const string FooCode = @"
+        private const string FooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;

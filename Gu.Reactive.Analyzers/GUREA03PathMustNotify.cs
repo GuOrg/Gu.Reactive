@@ -87,7 +87,6 @@ namespace Gu.Reactive.Analyzers
 
                             memberAccess = memberAccess.Expression as MemberAccessExpressionSyntax;
                         }
-
                     }
                 }
             }

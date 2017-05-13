@@ -71,9 +71,9 @@
                 public readonly IReadOnlyList<Recorded<Notification<int>>> ExpectedMessages;
 
                 public readonly IReadOnlyList<Recorded<Notification<int>>> CompletedEvent = new[]
-                                                                                                {
-                                                                                                    ReactiveTest.OnCompleted(CompletedTime, CompletedTime)
-                                                                                                };
+                {
+                    ReactiveTest.OnCompleted(CompletedTime, CompletedTime)
+                };
 
                 public ThrottleData(int[] pattern, int[,] expected)
                 {

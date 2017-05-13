@@ -5,7 +5,7 @@
 
     internal class HappyPath
     {
-        const string FooCode = @"
+        private const string FooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;

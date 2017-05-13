@@ -50,8 +50,7 @@ namespace Gu.Reactive.Analyzers
             var argument = invocation.FirstAncestor<ArgumentSyntax>();
             if (argument != null)
             {
-                if (argument.TryGetParameter(context.SemanticModel, context.CancellationToken,
-                                             out IParameterSymbol parameter) &&
+                if (argument.TryGetParameter(context.SemanticModel, context.CancellationToken, out IParameterSymbol parameter) &&
                     parameter.Type == KnownSymbol.IObservableOfT)
                 {
                     if (parameter.Type is INamedTypeSymbol namedType &&
