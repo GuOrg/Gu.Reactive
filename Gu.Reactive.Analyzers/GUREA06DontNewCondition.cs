@@ -7,18 +7,18 @@ namespace Gu.Reactive.Analyzers
     using Microsoft.CodeAnalysis.Diagnostics;
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class GUREA02ObservableAndCriteriaMustMatch : DiagnosticAnalyzer
+    public class GUREA06DontNewCondition : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "GUREA02";
+        public const string DiagnosticId = "GUREA06";
 
         private static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
-            title: "Observable and criteria must match.",
-            messageFormat: "Observable and criteria must match.",
+            title: "Prefer injecting conditions.",
+            messageFormat: "Prefer injecting conditions.",
             category: AnalyzerCategory.Correctness,
-            defaultSeverity: DiagnosticSeverity.Error,
+            defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
-            description: "Observable and criteria must match.",
+            description: "Prefer injecting conditions.",
             helpLinkUri: @"https://github.com/JohanLarsson/Gu.Reactive");
 
         /// <inheritdoc/>
@@ -30,20 +30,22 @@ namespace Gu.Reactive.Analyzers
         {
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
-            context.RegisterSyntaxNodeAction(HandleInvocation, SyntaxKind.BaseConstructorInitializer);
+            context.RegisterSyntaxNodeAction(HandleCreation, SyntaxKind.ObjectCreationExpression);
         }
 
-        private static void HandleInvocation(SyntaxNodeAnalysisContext context)
+        private static void HandleCreation(SyntaxNodeAnalysisContext context)
         {
             if (context.IsExcludedFromAnalysis())
             {
                 return;
             }
 
-            return;
-            //// var invocation = (ConstructorInitializerSyntax)context.Node;
-            //// var method = context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken);
-            //// context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
+            var creation = (ObjectCreationExpressionSyntax)context.Node;
+            var type = context.SemanticModel.GetTypeInfoSafe(creation, context.CancellationToken).Type;
+            if (type.Is(KnownSymbol.Condition))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(Descriptor, creation.GetLocation()));
+            }
         }
     }
 }

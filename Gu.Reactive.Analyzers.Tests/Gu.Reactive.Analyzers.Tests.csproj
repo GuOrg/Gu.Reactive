@@ -44,6 +44,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUREA06DontNewConditionTests\Diagnostics.cs" />
+    <Compile Include="GUREA06DontNewConditionTests\HappyPath.cs" />
     <Compile Include="GUREA05FullPathMustHaveMoreThanOneItemTests\Diagnostics.cs" />
     <Compile Include="GUREA05FullPathMustHaveMoreThanOneItemTests\HappyPath.cs" />
     <Compile Include="GUREA04PreferSlimTests\CodeFix.cs" />
