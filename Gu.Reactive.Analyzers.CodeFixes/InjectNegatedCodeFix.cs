@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive.Analyzers.CodeFixes
 {
     using System.Collections.Immutable;
+    using System.Composition;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.CodeAnalysis;
@@ -63,7 +64,7 @@
                         {
                             context.RegisterCodeFix(
                                 CodeAction.Create(
-                                    "Use slim.",
+                                    "Inject negated.",
                                     cancellationToken => ApplyInjectNegatedFixAsync(cancellationToken, context, parameterSyntax, invocation),
                                     nameof(UseSlimCodeFix)),
                                 diagnostic);

@@ -24,6 +24,7 @@ group Roslyn
   source http://nuget.org/api/v2
   framework: netstandard13, net461
   nuget Microsoft.CodeAnalysis.CSharp.Workspaces
+  nuget Microsoft.Composition.Analyzers
   nuget Gu.Roslyn.Asserts
 
 group Benchmark

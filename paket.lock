@@ -208,6 +208,7 @@ NUGET
       System.Text.RegularExpressions (>= 4.3) - framework: netstandard13
       System.Threading.Tasks.Parallel (>= 4.3) - framework: netstandard13
     Microsoft.Composition (1.0.30) - framework: net461, netstandard13
+    Microsoft.Composition.Analyzers (1.2.0-beta2) - framework: net461, netstandard13
     Microsoft.NETCore.Platforms (1.1) - framework: net461, netstandard13
     Microsoft.NETCore.Targets (1.1) - framework: net461, netstandard13
     runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3.1) - framework: net461, netstandard13

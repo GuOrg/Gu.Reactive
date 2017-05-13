@@ -1,6 +1,7 @@
 group Roslyn
   Microsoft.CodeAnalysis.CSharp
   Microsoft.CodeAnalysis.CSharp.Workspaces
+  Microsoft.Composition.Analyzers
 
 group Analyzers
   JetBrains.Annotations
