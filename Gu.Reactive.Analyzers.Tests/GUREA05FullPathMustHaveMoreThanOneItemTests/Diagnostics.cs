@@ -11,7 +11,7 @@
         }
 
         [Test]
-        public void ObservingDifferentThanUsedInCriteria()
+        public void OneLevel()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -21,29 +21,28 @@ namespace RoslynSandbox
 
     public class Foo : INotifyPropertyChanged
     {
-        private int value1;
+        private int value;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Value1
+        public int Value
         {
             get
             {
-                return this.value1;
+                return this.value;
             }
 
             set
             {
-                if (value == this.value1)
+                if (value == this.value)
                 {
                     return;
                 }
 
-                this.value1 = value;
+                this.value = value;
                 this.OnPropertyChanged();
             }
         }
-
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -54,15 +53,16 @@ namespace RoslynSandbox
             var testCode = @"
 namespace RoslynSandbox
 {
+    using System;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class Bar
     {
-        public FooCondition(Foo foo)
-            : base(
-                foo.↓ObservePropertyChanged(x => x.Value1),
-                () => foo.Value1 == 2)
+        public Bar()
         {
+            var foo = new Foo();
+            foo.ObserveFullPropertyPathSlim(x => ↓x.Value)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
 }";

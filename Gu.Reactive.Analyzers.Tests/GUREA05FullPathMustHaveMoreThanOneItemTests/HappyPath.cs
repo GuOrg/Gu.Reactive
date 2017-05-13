@@ -11,7 +11,7 @@
         }
 
         [Test]
-        public void WhenUsingSlimCorrectly()
+        public void TwoLevels()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -21,25 +21,55 @@ namespace RoslynSandbox
 
     public class Foo : INotifyPropertyChanged
     {
-        private int value1;
+        private Bar bar;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public int Value1
+        public Bar Bar
         {
             get
             {
-                return this.value1;
+                return this.bar;
             }
 
             set
             {
-                if (value == this.value1)
+                if (value == this.bar)
                 {
                     return;
                 }
 
-                this.value1 = value;
+                this.bar = value;
+                this.OnPropertyChanged();
+            }
+        }
+    }
+";
+            var barCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public class Bar : INotifyPropertyChanged
+    {
+        private int value;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int Value
+        {
+            get
+            {
+                return this.value;
+            }
+
+            set
+            {
+                if (value == this.value)
+                {
+                    return;
+                }
+
+                this.value = value;
                 this.OnPropertyChanged();
             }
         }
@@ -53,19 +83,20 @@ namespace RoslynSandbox
             var testCode = @"
 namespace RoslynSandbox
 {
+    using System;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class Baz
     {
-        public FooCondition(Foo foo)
-            : base(
-                foo.ObservePropertyChangedSlim(x => x.Value1),
-                () => foo.Value1 == 2)
+        public Baz()
         {
+            var foo = new Foo();
+            foo.ObserveFullPropertyPathSlim(x => x.Bar.Value)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA05FullPathMustHaveMoreThanOneItem>(fooCode, testCode);
+            AnalyzerAssert.NoDiagnostics<GUREA05FullPathMustHaveMoreThanOneItem>(fooCode, barCode, testCode);
         }
     }
 }
