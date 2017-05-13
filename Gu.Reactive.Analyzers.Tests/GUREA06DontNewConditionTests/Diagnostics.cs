@@ -60,10 +60,8 @@ namespace RoslynSandbox
     {
         public FooCondition(Foo foo)
             : base(
-                Observable.Merge(
-                    foo.ObservePropertyChangedSlim(x => x.Value1),
-                    foo.ObservePropertyChangedSlim(x => x.Value1)),
-                () => true)
+                foo.ObservePropertyChangedSlim(x => x.Value),
+                () => foo.Value == 2)
         {
         }
     }

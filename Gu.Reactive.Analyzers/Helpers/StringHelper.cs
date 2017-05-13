@@ -71,5 +71,15 @@
 
             return text;
         }
+
+        internal static string FirstCharUpper(this string text)
+        {
+            if (char.IsLower(text[0]))
+            {
+                return new string(char.ToUpper(text[0]), 1) + text.Substring(1);
+            }
+
+            return text;
+        }
     }
 }
