@@ -44,6 +44,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUREA10DontMergeInObservableTests\CodeFix.cs" />
+    <Compile Include="GUREA10DontMergeInObservableTests\HappyPath.cs" />
     <Compile Include="GUREA09ObservableBeforeCriteriaTests\CodeFix.cs" />
     <Compile Include="GUREA09ObservableBeforeCriteriaTests\HappyPath.cs" />
     <Compile Include="GUREA08InlineSingleLineTests\CodeFix.cs" />

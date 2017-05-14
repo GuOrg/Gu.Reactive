@@ -2,6 +2,7 @@
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.Threading;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -38,11 +39,14 @@
             base.VisitInvocationExpression(node);
         }
 
-        internal static Pool<InvocationWalker>.Pooled Create(SyntaxNode node)
+        internal static Pool<InvocationWalker>.Pooled Create(SyntaxNode node, Search search, SemanticModel semanticModel, CancellationToken cancellationToken)
         {
             var pooled = Pool.GetOrCreate();
             if (node != null)
             {
+                pooled.Item.SemanticModel = semanticModel;
+                pooled.Item.CancellationToken = cancellationToken;
+                pooled.Item.Search = search;
                 pooled.Item.Visit(node);
             }
 
