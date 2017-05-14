@@ -36,13 +36,13 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                     continue;
                 }
 
-                var argument = syntaxRoot.FindNode(diagnostic.Location.SourceSpan).FirstAncestorOrSelf<ArgumentSyntax>();
-                if (argument != null)
+                var invocation = syntaxRoot.FindNode(diagnostic.Location.SourceSpan, getInnermostNodeForTie: true).FirstAncestorOrSelf<InvocationExpressionSyntax>();
+                if (invocation != null)
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             "Inline.",
-                            cancellationToken => ApplyInlineSingleLineAsync(cancellationToken, context, argument),
+                            cancellationToken => ApplyInlineSingleLineAsync(cancellationToken, context, invocation),
                             nameof(InlineSingleLineCodeFix)),
                         diagnostic);
                     continue;
@@ -50,34 +50,23 @@ namespace Gu.Reactive.Analyzers.CodeFixes
             }
         }
 
-        private static async Task<Document> ApplyInlineSingleLineAsync(CancellationToken cancellationToken, CodeFixContext context, ArgumentSyntax argument)
+        private static async Task<Document> ApplyInlineSingleLineAsync(CancellationToken cancellationToken, CodeFixContext context, InvocationExpressionSyntax invocation)
         {
             var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
                                              .ConfigureAwait(false);
             var semanticModel = editor.SemanticModel;
-            var method = (IMethodSymbol)semanticModel.GetSymbolSafe(argument.Expression, cancellationToken);
-            MethodDeclarationSyntax methodDeclaration = null;
-            foreach (var reference in method.DeclaringSyntaxReferences)
-            {
-                methodDeclaration = (MethodDeclarationSyntax)reference.GetSyntax(cancellationToken);
-            }
-
-            if (methodDeclaration == null)
-            {
-                return context.Document;
-            }
-
+            var method = (IMethodSymbol)semanticModel.GetSymbolSafe(invocation.Expression, cancellationToken);
+            var methodDeclaration = (MethodDeclarationSyntax)method.DeclaringSyntaxReferences[0].GetSyntax(cancellationToken);
             var expression = methodDeclaration.ExpressionBody?.Expression ??
                              ((ReturnStatementSyntax)methodDeclaration.Body.Statements[0]).Expression;
 
-            if (argument.Expression is InvocationExpressionSyntax invocation &&
-                invocation.ArgumentList?.Arguments.Count == 1 &&
+            if (invocation.ArgumentList?.Arguments.Count == 1 &&
                 semanticModel.GetSymbolSafe(invocation.ArgumentList.Arguments[0].Expression, cancellationToken) is IParameterSymbol parameter)
             {
                 expression = Rename.Parameter(method.Parameters[0], parameter, semanticModel, cancellationToken, expression);
                 editor.ReplaceNode(
-                    argument.Expression,
-                    expression.WithLeadingTrivia(argument.Expression.GetLeadingTrivia()));
+                    invocation,
+                    expression.WithLeadingTrivia(invocation.Expression.GetLeadingTrivia()));
                 editor.RemoveNode(methodDeclaration);
                 return editor.GetChangedDocument();
             }

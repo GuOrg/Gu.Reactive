@@ -41,35 +41,36 @@ namespace Gu.Reactive.Analyzers
             }
 
             var invocation = (InvocationExpressionSyntax)context.Node;
-            if (!(invocation.Parent is ArgumentSyntax))
+            if (!((invocation.Parent is ArgumentSyntax) ||
+                  (invocation.Parent is ParenthesizedLambdaExpressionSyntax lambda &&
+                   lambda.Parent is ArgumentSyntax)))
             {
                 return;
             }
 
             var initializer = invocation.FirstAncestor<ConstructorInitializerSyntax>();
             if (initializer == null ||
-                context.SemanticModel.GetSymbolSafe(initializer, context.CancellationToken)?.ContainingType != KnownSymbol.Condition)
+                context.SemanticModel.GetSymbolSafe(initializer, context.CancellationToken)
+                       ?.ContainingType != KnownSymbol.Condition)
             {
                 return;
             }
 
             var method = (IMethodSymbol)context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken);
-            if (method.DeclaredAccessibility != Accessibility.Private &&
-                !method.IsStatic &&
-                method.Parameters.Length == 1)
+            if (method.DeclaredAccessibility != Accessibility.Private ||
+                !method.IsStatic ||
+                method.Parameters.Length != 1 ||
+                method.DeclaringSyntaxReferences.Length != 1)
             {
                 return;
             }
 
-            foreach (var reference in method.DeclaringSyntaxReferences)
+            var methodDeclaration = (MethodDeclarationSyntax)method.DeclaringSyntaxReferences[0].GetSyntax(context.CancellationToken);
+            if (methodDeclaration.ExpressionBody != null ||
+                (methodDeclaration.Body?.Statements.Count == 1 &&
+                 methodDeclaration.Body.Statements[0] is ReturnStatementSyntax))
             {
-                var methodDeclaration = (MethodDeclarationSyntax)reference.GetSyntax(context.CancellationToken);
-                if (methodDeclaration.ExpressionBody != null ||
-                    (methodDeclaration.Body?.Statements.Count == 1 &&
-                     methodDeclaration.Body.Statements[0] is ReturnStatementSyntax))
-                {
-                    context.ReportDiagnostic(Diagnostic.Create(Descriptor, invocation.GetLocation()));
-                }
+                context.ReportDiagnostic(Diagnostic.Create(Descriptor, invocation.GetLocation()));
             }
         }
     }
