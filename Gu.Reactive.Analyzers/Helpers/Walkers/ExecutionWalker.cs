@@ -79,6 +79,11 @@
             this.VisitChained(node);
         }
 
+        protected void VisitCore(SyntaxNode node)
+        {
+            base.Visit(node);
+        }
+
         protected void Clear()
         {
             this.visited.Clear();

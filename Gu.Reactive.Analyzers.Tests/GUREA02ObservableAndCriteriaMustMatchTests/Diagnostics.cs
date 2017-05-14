@@ -79,7 +79,7 @@ namespace RoslynSandbox
     public class FooCondition : Condition
     {
         public FooCondition(Foo foo)
-            : ↓base(
+            ↓: base(
                 foo.ObservePropertyChangedSlim(x => x.Value1),
                 () => foo.Value2 == 2)
         {
