@@ -7,6 +7,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
+    using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Editing;
 
@@ -41,7 +42,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             "Inline.",
-                            cancellationToken => ApplyInlineSingleLineAsync(cancellationToken, context, syntaxRoot, argument),
+                            cancellationToken => ApplyInlineSingleLineAsync(cancellationToken, context, argument),
                             nameof(InlineSingleLineCodeFix)),
                         diagnostic);
                     continue;
@@ -49,7 +50,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
             }
         }
 
-        private static async Task<Document> ApplyInlineSingleLineAsync(CancellationToken cancellationToken, CodeFixContext context, SyntaxNode syntaxRoot, ArgumentSyntax argument)
+        private static async Task<Document> ApplyInlineSingleLineAsync(CancellationToken cancellationToken, CodeFixContext context, ArgumentSyntax argument)
         {
             var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
                                              .ConfigureAwait(false);
@@ -67,12 +68,67 @@ namespace Gu.Reactive.Analyzers.CodeFixes
             }
 
             var expression = methodDeclaration.ExpressionBody?.Expression ??
-                                   ((ReturnStatementSyntax)methodDeclaration.Body.Statements[0]).Expression;
-            editor.ReplaceNode(
-                argument.Expression,
-                expression.WithLeadingTrivia(argument.Expression.GetLeadingTrivia()));
-            editor.RemoveNode(methodDeclaration);
-            return editor.GetChangedDocument();
+                             ((ReturnStatementSyntax)methodDeclaration.Body.Statements[0]).Expression;
+
+            if (argument.Expression is InvocationExpressionSyntax invocation &&
+                invocation.ArgumentList?.Arguments.Count == 1 &&
+                semanticModel.GetSymbolSafe(invocation.ArgumentList.Arguments[0].Expression, cancellationToken) is IParameterSymbol parameter)
+            {
+                expression = Rename.Parameter(method.Parameters[0], parameter, semanticModel, cancellationToken, expression);
+                editor.ReplaceNode(
+                    argument.Expression,
+                    expression.WithLeadingTrivia(argument.Expression.GetLeadingTrivia()));
+                editor.RemoveNode(methodDeclaration);
+                return editor.GetChangedDocument();
+            }
+
+            return editor.OriginalDocument;
+        }
+
+        private class Rename : CSharpSyntaxRewriter
+        {
+            private readonly IParameterSymbol @from;
+            private readonly IParameterSymbol to;
+            private readonly SemanticModel semanticModel;
+            private readonly CancellationToken cancellationToken;
+
+            private Rename(IParameterSymbol from, IParameterSymbol to, SemanticModel semanticModel, CancellationToken cancellationToken)
+            {
+                this.@from = @from;
+                this.to = to;
+                this.semanticModel = semanticModel;
+                this.cancellationToken = cancellationToken;
+            }
+
+            public static T Parameter<T>(
+                IParameterSymbol from,
+                IParameterSymbol to,
+                SemanticModel semanticModel,
+                CancellationToken cancellationToken,
+                T node)
+                where T : SyntaxNode
+            {
+                if (from.Name == to.Name)
+                {
+                    return node;
+                }
+
+                var rename = new Rename(@from, to, semanticModel, cancellationToken);
+                return (T)rename.Visit(node);
+            }
+
+            public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
+            {
+                if (node.Identifier.ValueText == this.from.Name)
+                {
+                    if (SymbolComparer.Equals(this.semanticModel.GetSymbolSafe(node, this.cancellationToken), this.from))
+                    {
+                        return SyntaxFactory.IdentifierName(this.to.Name);
+                    }
+                }
+
+                return base.VisitIdentifierName(node);
+            }
         }
     }
 }

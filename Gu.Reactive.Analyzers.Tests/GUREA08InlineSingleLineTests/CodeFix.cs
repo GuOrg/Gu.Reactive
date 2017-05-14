@@ -95,15 +95,12 @@ namespace RoslynSandbox
             AnalyzerAssert.CodeFix<GUREA08InlineSingleLine, InlineSingleLineCodeFix>(new[] { FooCode, testCode }, fixedCode);
         }
 
-
         [Test]
-        public void WhenCreateObservableIsSingleLine()
+        public void WhenCriteriaIsSingleLine()
         {
             var testCode = @"
 namespace RoslynSandbox
 {
-    using System;
-    using System.ComponentModel;
     using Gu.Reactive;
 
     public class FooCondition : Condition
@@ -111,11 +108,11 @@ namespace RoslynSandbox
         public FooCondition(Foo foo)
             : base(
                 foo.ObservePropertyChangedSlim(x => x.Value),
-                ↓Criteria(foo))
+                ↓() => Criteria(foo))
         {
         }
 
-        private static IObservable<PropertyChangedEventArgs> CreateObservable(Foo arg)
+        private static bool Criteria(Foo arg)
         {
             return arg.Value == 2;
         }
@@ -125,8 +122,6 @@ namespace RoslynSandbox
             var fixedCode = @"
 namespace RoslynSandbox
 {
-    using System;
-    using System.ComponentModel;
     using Gu.Reactive;
 
     public class FooCondition : Condition

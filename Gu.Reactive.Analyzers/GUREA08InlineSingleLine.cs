@@ -55,7 +55,8 @@ namespace Gu.Reactive.Analyzers
 
             var method = (IMethodSymbol)context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken);
             if (method.DeclaredAccessibility != Accessibility.Private &&
-                !method.IsStatic)
+                !method.IsStatic &&
+                method.Parameters.Length == 1)
             {
                 return;
             }
