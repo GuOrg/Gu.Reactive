@@ -42,6 +42,7 @@ namespace RoslynSandbox
         }
     }
 }";
+
         static HappyPath()
         {
             AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);

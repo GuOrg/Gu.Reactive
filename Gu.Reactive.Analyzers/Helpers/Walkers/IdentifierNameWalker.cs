@@ -24,7 +24,6 @@ namespace Gu.Reactive.Analyzers
 
         public IReadOnlyList<IdentifierNameSyntax> IdentifierNames => this.identifierNames;
 
-
         public int Count => this.identifierNames.Count;
 
         public IdentifierNameSyntax this[int index] => this.identifierNames[index];

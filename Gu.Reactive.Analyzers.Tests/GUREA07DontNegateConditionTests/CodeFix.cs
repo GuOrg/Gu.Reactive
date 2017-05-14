@@ -6,7 +6,7 @@
 
     public class CodeFix
     {
-        private const string fooCode = @"
+        private const string FooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -97,7 +97,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA07DontNegateCondition, InjectNegatedCodeFix>(new[] { fooCode, conditionCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix<GUREA07DontNegateCondition, InjectNegatedCodeFix>(new[] { FooCode, conditionCode, testCode }, fixedCode);
         }
 
         [Test]
@@ -162,7 +162,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA07DontNegateCondition, InjectNegatedCodeFix>(new[] { fooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix<GUREA07DontNegateCondition, InjectNegatedCodeFix>(new[] { FooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
         }
 
         [Test]
@@ -227,7 +227,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA07DontNegateCondition, InjectNegatedCodeFix>(new[] { fooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix<GUREA07DontNegateCondition, InjectNegatedCodeFix>(new[] { FooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
         }
     }
 }
