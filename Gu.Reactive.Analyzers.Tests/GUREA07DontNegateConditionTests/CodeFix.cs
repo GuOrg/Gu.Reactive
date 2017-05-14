@@ -6,15 +6,7 @@
 
     public class CodeFix
     {
-        static CodeFix()
-        {
-            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-        }
-
-        [Test]
-        public void WhenNegatingCondition()
-        {
-            var fooCode = @"
+        private const string fooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -51,6 +43,15 @@ namespace RoslynSandbox
         }
     }
 }";
+
+        static CodeFix()
+        {
+            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
+        }
+
+        [Test]
+        public void WhenNegatingCondition()
+        {
             var conditionCode = @"
 namespace RoslynSandbox
 {
@@ -102,43 +103,6 @@ namespace RoslynSandbox
         [Test]
         public void WhenPassingNegatedConditionToBaseCtor()
         {
-            var fooCode = @"
-namespace RoslynSandbox
-{
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
-
-    public class Foo : INotifyPropertyChanged
-    {
-        private int value;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public int Value
-        {
-            get
-            {
-                return this.value;
-            }
-
-            set
-            {
-                if (value == this.value)
-                {
-                    return;
-                }
-
-                this.value = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-}";
             var fooConditionCode = @"
 namespace RoslynSandbox
 {
@@ -194,6 +158,71 @@ namespace RoslynSandbox
     {
         public MegaMeh(Negated<FooCondition> notFooCondition, BarCondition barCondition)
             : base(notFooCondition, barCondition)
+        {
+        }
+    }
+}";
+            AnalyzerAssert.CodeFix<GUREA07DontNegateCondition, InjectNegatedCodeFix>(new[] { fooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
+        }
+
+        [Test]
+        public void WhenNegatingNegatedCondition()
+        {
+            var fooConditionCode = @"
+namespace RoslynSandbox
+{
+    using System.Reactive.Linq;
+    using Gu.Reactive;
+
+    public class FooCondition : Condition
+    {
+        public FooCondition(Foo foo)
+            : base(
+                foo.ObservePropertyChangedSlim(x => x.Value),
+                () => foo.Value == 2)
+        {
+        }
+    }
+}";
+            var barConditionCode = @"
+namespace RoslynSandbox
+{
+    using System.Reactive.Linq;
+    using Gu.Reactive;
+
+    public class BarCondition : Condition
+    {
+        public BarCondition(Foo foo)
+            : base(
+                foo.ObservePropertyChangedSlim(x => x.Value),
+                () => foo.Value == 2)
+        {
+        }
+    }
+}";
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class MegaMeh : AndCondition
+    {
+        public MegaMeh(Negated<FooCondition> notFooCondition, BarCondition barCondition)
+            : base(notFooCondition.↓Negate(), barCondition)
+        {
+        }
+    }
+}";
+
+            var fixedCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class MegaMeh : AndCondition
+    {
+        public MegaMeh(FooCondition fooCondition, BarCondition barCondition)
+            : base(fooCondition, barCondition)
         {
         }
     }

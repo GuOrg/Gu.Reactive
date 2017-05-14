@@ -83,13 +83,30 @@
         {
             var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
                                                      .ConfigureAwait(false);
-            var name = "not" + parameter.Identifier.ValueText.FirstCharUpper();
-            editor.ReplaceNode(
-                parameter,
-                editor.Generator.ParameterDeclaration(
-                    name,
-                    SyntaxFactory.ParseTypeName($"Negated<{parameter.Type}>")));
-            editor.ReplaceNode(invocation, editor.Generator.IdentifierName(name));
+            if (parameter.Type is GenericNameSyntax genericName &&
+                genericName.Identifier.ValueText == "Negated" &&
+                genericName.TypeArgumentList?.Arguments.Count == 1 &&
+                parameter.Identifier.ValueText.StartsWith("not"))
+            {
+                var name = parameter.Identifier.ValueText.Replace("not", string.Empty).FirstCharLower();
+                editor.ReplaceNode(
+                    parameter,
+                    editor.Generator.ParameterDeclaration(
+                        name,
+                        genericName.TypeArgumentList.Arguments[0]));
+                editor.ReplaceNode(invocation, editor.Generator.IdentifierName(name));
+            }
+            else
+            {
+                var name = "not" + parameter.Identifier.ValueText.FirstCharUpper();
+                editor.ReplaceNode(
+                    parameter,
+                    editor.Generator.ParameterDeclaration(
+                        name,
+                        SyntaxFactory.ParseTypeName($"Negated<{parameter.Type}>")));
+                editor.ReplaceNode(invocation, editor.Generator.IdentifierName(name));
+            }
+
             return editor.GetChangedDocument();
         }
     }
