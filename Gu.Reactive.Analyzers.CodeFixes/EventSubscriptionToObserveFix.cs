@@ -31,7 +31,6 @@
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
                                           .ConfigureAwait(false);
 
-            var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
                 var token = syntaxRoot.FindToken(diagnostic.Location.SourceSpan.Start);
@@ -41,20 +40,23 @@
                     continue;
                 }
 
-                var assignment = syntaxRoot.FindNode(diagnostic.Location.SourceSpan).FirstAncestorOrSelf<AssignmentExpressionSyntax>();
+                var assignment = syntaxRoot.FindNode(diagnostic.Location.SourceSpan)
+                                           .FirstAncestorOrSelf<AssignmentExpressionSyntax>();
                 if (assignment.Right is ParenthesizedLambdaExpressionSyntax lambda)
                 {
                     using (var pooled = IdentifierNameWalker.Create(lambda.Body))
                     {
-                        bool usesArg = false;
+                        var usesArg = false;
                         foreach (var name in pooled.Item.IdentifierNames)
                         {
-                            if (name.Identifier.ValueText == lambda.ParameterList.Parameters[0].Identifier.ValueText)
+                            if (name.Identifier.ValueText == lambda.ParameterList.Parameters[0]
+                                                                   .Identifier.ValueText)
                             {
                                 return;
                             }
 
-                            if (name.Identifier.ValueText == lambda.ParameterList.Parameters[1].Identifier.ValueText)
+                            if (name.Identifier.ValueText == lambda.ParameterList.Parameters[1]
+                                                                   .Identifier.ValueText)
                             {
                                 usesArg = true;
                             }
@@ -63,7 +65,26 @@
                         context.RegisterCodeFix(
                             CodeAction.Create(
                                 "Observe.Event",
-                                cancellationToken => ApplyObserveEventFixAsync(cancellationToken, context, assignment, usesArg),
+                                cancellationToken => ApplyObserveEventLamdaFixAsync(
+                                    cancellationToken, context, assignment, usesArg),
+                                nameof(EventSubscriptionToObserveFix)),
+                            diagnostic);
+                    }
+                }
+
+                if (assignment.Right is MemberAccessExpressionSyntax memberAccess)
+                {
+                    var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
+                    if (semanticModel.GetSymbolSafe(assignment.Right, context.CancellationToken) is IMethodSymbol method &&
+                        method.DeclaredAccessibility == Accessibility.Private &&
+                        method.DeclaringSyntaxReferences.Length == 1 &&
+                        method.Parameters.Length == 2)
+                    {
+                        var methodDeclaration = (MethodDeclarationSyntax)method.DeclaringSyntaxReferences[0].GetSyntax(context.CancellationToken);
+                        context.RegisterCodeFix(
+                            CodeAction.Create(
+                                "Observe.Event",
+                                cancellationToken => ApplyObserveEventMethodFixAsync(cancellationToken, context, assignment, methodDeclaration),
                                 nameof(EventSubscriptionToObserveFix)),
                             diagnostic);
                     }
@@ -71,7 +92,7 @@
             }
         }
 
-        private static async Task<Document> ApplyObserveEventFixAsync(
+        private static async Task<Document> ApplyObserveEventLamdaFixAsync(
             CancellationToken cancellationToken,
             CodeFixContext context,
             AssignmentExpressionSyntax assignment,
@@ -89,6 +110,53 @@
                 SyntaxFactory.ParseExpression(observeSubscribe)
                              .WithLeadingTrivia(assignment.GetLeadingTrivia())
                              .WithAdditionalAnnotations(Simplifier.Annotation));
+            return editor.GetChangedDocument();
+        }
+
+        private static async Task<Document> ApplyObserveEventMethodFixAsync(
+            CancellationToken cancellationToken,
+            CodeFixContext context,
+            AssignmentExpressionSyntax assignment,
+            MethodDeclarationSyntax methodDeclaration)
+        {
+            var usesArg = false;
+            using (var pooled = IdentifierNameWalker.Create((SyntaxNode)methodDeclaration.Body ?? methodDeclaration.ExpressionBody))
+            {
+                foreach (var name in pooled.Item.IdentifierNames)
+                {
+                    if (name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[0]
+                                                           .Identifier.ValueText)
+                    {
+                        return context.Document;
+                    }
+
+                    if (name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[1]
+                                                           .Identifier.ValueText)
+                    {
+                        usesArg = true;
+                    }
+                }
+            }
+
+            var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
+                                             .ConfigureAwait(false);
+
+            var eventSymbol = (IEventSymbol)editor.SemanticModel.GetSymbolSafe(assignment.Left, cancellationToken);
+            var observeSubscribe = ObservableFromEventString.Replace("HANDLERTYPE", eventSymbol.Type.ToDisplayString())
+                                                            .Replace("ARGTYPE", ArgType(eventSymbol))
+                                                            .Replace("LEFT", assignment.Left.ToString())
+                                                            .Replace("LAMBDA", Lambda(methodDeclaration, usesArg));
+            editor.ReplaceNode(
+                assignment,
+                SyntaxFactory.ParseExpression(observeSubscribe)
+                             .WithLeadingTrivia(assignment.GetLeadingTrivia())
+                             .WithAdditionalAnnotations(Simplifier.Annotation));
+            editor.RemoveNode(methodDeclaration.ParameterList.Parameters[0]);
+            if (!usesArg)
+            {
+                editor.RemoveNode(methodDeclaration.ParameterList.Parameters[1]);
+            }
+
             return editor.GetChangedDocument();
         }
 
@@ -118,6 +186,16 @@
 
             return old.WithParameterList(SyntaxFactory.ParseParameterList("_ "))
                       .ToString();
+        }
+
+        private static string Lambda(MethodDeclarationSyntax method, bool usesArg)
+        {
+            if (usesArg)
+            {
+                return method.Identifier.ValueText;
+            }
+
+            return $"_ => {method.Identifier.ValueText}()";
         }
     }
 }
