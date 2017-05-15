@@ -1,0 +1,19 @@
+﻿type file
+title Gu.Reactive.Analyzers
+id Gu.Reactive.Analyzers
+version 0.1.0.0-dev
+authors Johan Larsson
+owners Johan Larsson
+copyright Copyright Johan Larsson 2017
+developmentDependency true
+description Roslyn analyzers.
+tags Roslyn Diagnostic Analyzer Reactive
+
+projectUrl https://github.com/JohanLarsson/Gu.Reactive
+licenseUrl http://opensource.org/licenses/MIT
+
+files
+  ../Gu.Reactive.Analyzers/bin/Release/Gu.Reactive.Analyzers.dll ==> analyzers/dotnet/cs
+  ../Gu.Reactive.Analyzers.CodeFixes/bin/Release/Gu.Reactive.Analyzers.CodeFixes.dll ==> analyzers/dotnet/cs
+  ../.paket/tools/*.ps1 ==> tools
+
