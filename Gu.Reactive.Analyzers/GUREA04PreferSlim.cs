@@ -16,7 +16,7 @@ namespace Gu.Reactive.Analyzers
             title: "Prefer slim overload.",
             messageFormat: "Prefer slim overload.",
             category: AnalyzerCategory.Correctness,
-            defaultSeverity: DiagnosticSeverity.Error,
+            defaultSeverity: DiagnosticSeverity.Hidden,
             isEnabledByDefault: true);
 
         /// <inheritdoc/>

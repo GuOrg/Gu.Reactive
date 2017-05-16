@@ -181,7 +181,7 @@
                 editor.RemoveNode(methodDeclaration.ParameterList.Parameters[0]);
             }
 
-            if (!usesArg && 
+            if (!usesArg &&
                 methodDeclaration.ParameterList.Parameters.Any())
             {
                 editor.RemoveNode(methodDeclaration.ParameterList.Parameters.Last());
