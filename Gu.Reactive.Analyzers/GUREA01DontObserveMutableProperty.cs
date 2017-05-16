@@ -17,9 +17,7 @@
             messageFormat: "Don't observe mutable property.",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Warning,
-            isEnabledByDefault: true,
-            description: "Don't observe mutable property.",
-            helpLinkUri: @"https://github.com/JohanLarsson/Gu.Reactive");
+            isEnabledByDefault: true);
 
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =

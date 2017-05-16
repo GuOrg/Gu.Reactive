@@ -17,9 +17,7 @@ namespace Gu.Reactive.Analyzers
             messageFormat: "Inline single line.",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Hidden,
-            isEnabledByDefault: true,
-            description: "Inline single line.",
-            helpLinkUri: @"https://github.com/JohanLarsson/Gu.Reactive");
+            isEnabledByDefault: true);
 
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =

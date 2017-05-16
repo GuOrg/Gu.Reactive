@@ -1,20 +1,21 @@
 namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
+    using System.Reflection.Metadata.Ecma335;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Diagnostics;
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class GUREA05FullPathMustHaveMoreThanOneItem : DiagnosticAnalyzer
+    public class GUREA12ObservableFromEventDelegateType : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "GUREA05";
+        public const string DiagnosticId = "GUREA12";
 
         private static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
-            title: "Full path must have more than one item.",
-            messageFormat: "Full path must have more than one item.",
+            title: "Use correct delegate type.",
+            messageFormat: "Use correct delegate type.",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true);
@@ -39,25 +40,26 @@ namespace Gu.Reactive.Analyzers
             }
 
             var invocation = (InvocationExpressionSyntax)context.Node;
-            var method = context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken);
-            if (method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim)
+            var method = (IMethodSymbol)context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken);
+            if (method == KnownSymbol.Observable.FromEvent &&
+                method.Parameters.Length == 2 &&
+                IsForEventHandler(method.Parameters[0]))
             {
-                if (invocation.ArgumentList != null &&
-                    invocation.ArgumentList.Arguments.TryGetFirst(out ArgumentSyntax argument))
-                {
-                    if (argument.Expression is SimpleLambdaExpressionSyntax lambda &&
-                        lambda.Body != null)
-                    {
-                        var memberAccess = lambda.Body as MemberAccessExpressionSyntax;
-                        if (memberAccess == null ||
-                            !(memberAccess.Expression is MemberAccessExpressionSyntax))
-                        {
-                            context.ReportDiagnostic(Diagnostic.Create(Descriptor, lambda.Body.GetLocation()));
-                            return;
-                        }
-                    }
-                }
+                context.ReportDiagnostic(Diagnostic.Create(Descriptor, invocation.GetLocation()));
             }
+        }
+
+        private static bool IsForEventHandler(IParameterSymbol parameter)
+        {
+            if (parameter.Type is INamedTypeSymbol namedType &&
+                namedType.Name == "Action" &&
+                namedType.TypeArguments.Length == 1 &&
+                namedType.TypeArguments[0] is INamedTypeSymbol argType)
+            {
+                return argType.Name == "EventHandler";
+            }
+
+            return false;
         }
     }
 }

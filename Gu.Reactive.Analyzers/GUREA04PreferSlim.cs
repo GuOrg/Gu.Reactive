@@ -17,9 +17,7 @@ namespace Gu.Reactive.Analyzers
             messageFormat: "Prefer slim overload.",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Error,
-            isEnabledByDefault: true,
-            description: "The slim overloads do not allocate.",
-            helpLinkUri: @"https://github.com/JohanLarsson/Gu.Reactive");
+            isEnabledByDefault: true);
 
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =

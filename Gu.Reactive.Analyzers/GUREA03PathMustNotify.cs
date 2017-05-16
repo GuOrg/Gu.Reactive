@@ -17,9 +17,7 @@ namespace Gu.Reactive.Analyzers
             messageFormat: "Path must notify.",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Error,
-            isEnabledByDefault: true,
-            description: "Path must notify.",
-            helpLinkUri: @"https://github.com/JohanLarsson/Gu.Reactive");
+            isEnabledByDefault: true);
 
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =

@@ -68,6 +68,8 @@
     <Compile Include="GUREA02ObservableAndCriteriaMustMatchTests\HappyPath.cs" />
     <Compile Include="GUREA01DontObserveMutablePropertyTests\CodeFix.cs" />
     <Compile Include="GUREA01DontObserveMutablePropertyTests\HappyPath.cs" />
+    <Compile Include="GUREA12ObservableFromEventDelegateTypeTests\CodeFix.cs" />
+    <Compile Include="GUREA12ObservableFromEventDelegateTypeTests\HappyPath.cs" />
     <Compile Include="MetadataReferences.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

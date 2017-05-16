@@ -17,9 +17,7 @@ namespace Gu.Reactive.Analyzers
             messageFormat: "Place observable before criteria.",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Hidden,
-            isEnabledByDefault: true,
-            description: "Place observable before criteria.",
-            helpLinkUri: @"https://github.com/JohanLarsson/Gu.Reactive");
+            isEnabledByDefault: true);
 
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =

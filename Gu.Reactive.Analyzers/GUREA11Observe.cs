@@ -17,9 +17,7 @@ namespace Gu.Reactive.Analyzers
             messageFormat: "Prefer observing",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Hidden,
-            isEnabledByDefault: true,
-            description: "Prefer observing",
-            helpLinkUri: @"https://github.com/JohanLarsson/Gu.Reactive");
+            isEnabledByDefault: true);
 
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
