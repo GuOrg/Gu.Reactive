@@ -92,8 +92,9 @@
                 editor.ReplaceNode(
                     parameter,
                     editor.Generator.ParameterDeclaration(
-                        name,
-                        genericName.TypeArgumentList.Arguments[0]));
+                              name,
+                              genericName.TypeArgumentList.Arguments[0])
+                          .WithLeadingTrivia(parameter.GetLeadingTrivia()));
                 editor.ReplaceNode(invocation, editor.Generator.IdentifierName(name));
             }
             else
@@ -102,8 +103,9 @@
                 editor.ReplaceNode(
                     parameter,
                     editor.Generator.ParameterDeclaration(
-                        name,
-                        SyntaxFactory.ParseTypeName($"Negated<{parameter.Type}>")));
+                              name,
+                              SyntaxFactory.ParseTypeName($"Negated<{parameter.Type}>"))
+                          .WithLeadingTrivia(parameter.GetLeadingTrivia()));
                 editor.ReplaceNode(invocation, editor.Generator.IdentifierName(name));
             }
 
