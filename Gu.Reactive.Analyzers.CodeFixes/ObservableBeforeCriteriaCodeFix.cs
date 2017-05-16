@@ -41,7 +41,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(
-                            "Inject negated.",
+                            "Move obvservable before criteria.",
                             cancellationToken => ApplyObservableBeforeCriteriaFixAsync(
                                 cancellationToken, context, initializer),
                             nameof(ObservableBeforeCriteriaCodeFix)),

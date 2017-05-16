@@ -1,6 +1,5 @@
 namespace Gu.Reactive.Analyzers.CodeFixes
 {
-    using System;
     using System.Collections.Immutable;
     using System.Composition;
     using System.Threading.Tasks;
