@@ -29,7 +29,7 @@
 
         /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
-            ImmutableArray.Create(GUREA11Observe.DiagnosticId);
+            ImmutableArray.Create(GUREA11PreferObservableFromEvent.DiagnosticId);
 
         /// <inheritdoc/>
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)

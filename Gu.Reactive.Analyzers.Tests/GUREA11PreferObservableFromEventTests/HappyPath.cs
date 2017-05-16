@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA11ObserveTests
+﻿namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
 {
     using Gu.Roslyn.Asserts;
     using NUnit.Framework;
@@ -49,7 +49,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenNoMerge()
+        public void Misc()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -67,7 +67,42 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA11Observe>(FooCode, testCode);
+            AnalyzerAssert.NoDiagnostics<GUREA11PreferObservableFromEvent>(FooCode, testCode);
+        }
+
+        [Test]
+        public void InsideObservableFromEventArg()
+        {
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System;
+
+    public class Foo
+    {
+        public event EventHandler<int> SomeEvent;
+    }
+}";
+
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+
+    public class Bar
+    {
+        public Bar()
+        {
+            var foo = new Foo();
+            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
+                h => (_, e) => h(e),
+                h => foo.SomeEvent += h,
+                h => foo.SomeEvent -= h)
+                                           .Subscribe(_ => Console.WriteLine(string.Empty));
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA11PreferObservableFromEvent>(fooCode, testCode);
         }
     }
 }

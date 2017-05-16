@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA11ObserveTests
+﻿namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
 {
     using Gu.Reactive.Analyzers.CodeFixes;
     using Gu.Roslyn.Asserts;
@@ -37,7 +37,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            foo.SomeEvent ↓+= (sender, i) => Console.WriteLine(string.Empty);
+            ↓foo.SomeEvent += (sender, i) => Console.WriteLine(string.Empty);
         }
     }
 }";
@@ -59,7 +59,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                AnalyzerAssert.CodeFix<GUREA11Observe, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
+                AnalyzerAssert.CodeFix<GUREA11PreferObservableFromEvent, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
             }
 
             [Test]
@@ -75,7 +75,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            foo.SomeEvent ↓+= (sender, i) => Console.WriteLine(i);
+            ↓foo.SomeEvent += (sender, i) => Console.WriteLine(i);
         }
     }
 }";
@@ -97,7 +97,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                AnalyzerAssert.CodeFix<GUREA11Observe, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
+                AnalyzerAssert.CodeFix<GUREA11PreferObservableFromEvent, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
             }
 
             [Test]
@@ -113,7 +113,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            foo.SomeEvent ↓+= this.OnSomeEvent;
+            ↓foo.SomeEvent += this.OnSomeEvent;
         }
 
         private void OnSomeEvent(int i)
@@ -145,7 +145,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                AnalyzerAssert.CodeFix<GUREA11Observe, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
+                AnalyzerAssert.CodeFix<GUREA11PreferObservableFromEvent, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
             }
 
             [Test]
@@ -161,7 +161,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            foo.SomeEvent ↓+= this.OnSomeEvent;
+            ↓foo.SomeEvent += this.OnSomeEvent;
         }
 
         private void OnSomeEvent(int i)
@@ -193,7 +193,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                AnalyzerAssert.CodeFix<GUREA11Observe, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
+                AnalyzerAssert.CodeFix<GUREA11PreferObservableFromEvent, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
             }
         }
     }

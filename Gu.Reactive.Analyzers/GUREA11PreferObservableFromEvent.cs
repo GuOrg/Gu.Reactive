@@ -7,7 +7,7 @@ namespace Gu.Reactive.Analyzers
     using Microsoft.CodeAnalysis.Diagnostics;
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class GUREA11Observe : DiagnosticAnalyzer
+    public class GUREA11PreferObservableFromEvent : DiagnosticAnalyzer
     {
         public const string DiagnosticId = "GUREA11";
 
@@ -40,9 +40,10 @@ namespace Gu.Reactive.Analyzers
 
             var assignment = (AssignmentExpressionSyntax)context.Node;
             var left = context.SemanticModel.GetSymbolSafe(assignment.Left, context.CancellationToken);
-            if (left is IEventSymbol)
+            if (left is IEventSymbol &&
+                assignment.FirstAncestor<ArgumentSyntax>() == null)
             {
-                context.ReportDiagnostic(Diagnostic.Create(Descriptor, assignment.OperatorToken.GetLocation()));
+                context.ReportDiagnostic(Diagnostic.Create(Descriptor, assignment.GetLocation()));
             }
         }
     }
