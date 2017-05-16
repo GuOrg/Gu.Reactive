@@ -42,7 +42,15 @@
 
                 var assignment = syntaxRoot.FindNode(diagnostic.Location.SourceSpan)
                                            .FirstAncestorOrSelf<AssignmentExpressionSyntax>();
-                if (assignment.Right is ParenthesizedLambdaExpressionSyntax lambda)
+                if (assignment == null ||
+                    assignment.Left == null ||
+                    assignment.Right == null)
+                {
+                    continue;
+                }
+
+                if (assignment.Right is ParenthesizedLambdaExpressionSyntax lambda &&
+                    lambda.Body != null)
                 {
                     using (var pooled = IdentifierNameWalker.Create(lambda.Body))
                     {
