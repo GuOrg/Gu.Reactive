@@ -95,7 +95,10 @@
                               name,
                               genericName.TypeArgumentList.Arguments[0])
                           .WithLeadingTrivia(parameter.GetLeadingTrivia()));
-                editor.ReplaceNode(invocation, editor.Generator.IdentifierName(name));
+                editor.ReplaceNode(
+                    invocation,
+                    editor.Generator.IdentifierName(name)
+                          .WithLeadingTrivia(invocation.GetLeadingTrivia()));
             }
             else
             {
@@ -106,7 +109,10 @@
                               name,
                               SyntaxFactory.ParseTypeName($"Negated<{parameter.Type}>"))
                           .WithLeadingTrivia(parameter.GetLeadingTrivia()));
-                editor.ReplaceNode(invocation, editor.Generator.IdentifierName(name));
+                editor.ReplaceNode(
+                    invocation,
+                    editor.Generator.IdentifierName(name)
+                          .WithLeadingTrivia(invocation.GetLeadingTrivia()));
             }
 
             return editor.GetChangedDocument();

@@ -210,7 +210,9 @@ namespace RoslynSandbox
         public MegaMeh(
             FooCondition fooCondition,
             BarCondition barCondition)
-            : base(fooCondition.↓Negate(), barCondition)
+            : base(
+                fooCondition.↓Negate(),
+                barCondition)
         {
         }
     }
@@ -226,7 +228,9 @@ namespace RoslynSandbox
         public MegaMeh(
             Negated<FooCondition> notFooCondition,
             BarCondition barCondition)
-            : base(notFooCondition, barCondition)
+            : base(
+                notFooCondition,
+                barCondition)
         {
         }
     }
