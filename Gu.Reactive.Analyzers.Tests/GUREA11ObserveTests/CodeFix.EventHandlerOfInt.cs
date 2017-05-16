@@ -19,6 +19,11 @@ namespace RoslynSandbox
     }
 }";
 
+            static EventHandlerOfInt()
+            {
+                AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
+            }
+
             [Test]
             public void WhenNotUsingSenderNorArgLambda()
             {
@@ -47,7 +52,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<EventHandler<int>, int>(
+            System.Reactive.Linq.Observable.FromEvent<System.EventHandler<int>, int>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
@@ -130,7 +135,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<EventHandler<int>, int>(
+            System.Reactive.Linq.Observable.FromEvent<System.EventHandler<int>, int>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)

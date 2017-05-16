@@ -91,8 +91,7 @@
                     var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
                     if (semanticModel.GetSymbolSafe(memberAccess, context.CancellationToken) is IMethodSymbol method &&
                         method.DeclaredAccessibility == Accessibility.Private &&
-                        method.DeclaringSyntaxReferences.Length == 1 &&
-                        method.Parameters.Length == 2)
+                        method.DeclaringSyntaxReferences.Length == 1)
                     {
                         var methodDeclaration = (MethodDeclarationSyntax)method.DeclaringSyntaxReferences[0].GetSyntax(context.CancellationToken);
                         context.RegisterCodeFix(
@@ -136,20 +135,29 @@
             MethodDeclarationSyntax methodDeclaration)
         {
             var usesArg = false;
-            using (var pooled = IdentifierNameWalker.Create((SyntaxNode)methodDeclaration.Body ?? methodDeclaration.ExpressionBody))
+            if (methodDeclaration.ParameterList.Parameters.Any())
             {
-                foreach (var name in pooled.Item.IdentifierNames)
+                using (var pooled = IdentifierNameWalker.Create((SyntaxNode)methodDeclaration.Body ?? methodDeclaration.ExpressionBody))
                 {
-                    if (name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[0]
-                                                           .Identifier.ValueText)
+                    foreach (var name in pooled.Item.IdentifierNames)
                     {
-                        return context.Document;
-                    }
+                        if (name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[0].Identifier.ValueText)
+                        {
+                            if (methodDeclaration.ParameterList.Parameters.Count == 1)
+                            {
+                                usesArg = true;
+                                continue;
+                            }
 
-                    if (name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[1]
-                                                           .Identifier.ValueText)
-                    {
-                        usesArg = true;
+                            return context.Document;
+                        }
+
+                        if (methodDeclaration.ParameterList.Parameters.Count == 2 &&
+                            name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[1]
+                                                                          .Identifier.ValueText)
+                        {
+                            usesArg = true;
+                        }
                     }
                 }
             }
@@ -168,10 +176,15 @@
                 SyntaxFactory.ParseExpression(observeSubscribe)
                              .WithLeadingTrivia(assignment.GetLeadingTrivia())
                              .WithAdditionalAnnotations(Simplifier.Annotation));
-            editor.RemoveNode(methodDeclaration.ParameterList.Parameters[0]);
-            if (!usesArg)
+            if (methodDeclaration.ParameterList.Parameters.Count == 2)
             {
-                editor.RemoveNode(methodDeclaration.ParameterList.Parameters[1]);
+                editor.RemoveNode(methodDeclaration.ParameterList.Parameters[0]);
+            }
+
+            if (!usesArg && 
+                methodDeclaration.ParameterList.Parameters.Any())
+            {
+                editor.RemoveNode(methodDeclaration.ParameterList.Parameters.Last());
             }
 
             return editor.GetChangedDocument();

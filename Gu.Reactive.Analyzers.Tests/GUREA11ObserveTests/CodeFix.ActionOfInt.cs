@@ -19,6 +19,11 @@ namespace RoslynSandbox
     }
 }";
 
+            static ActionOfInt()
+            {
+                AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
+            }
+
             [Test]
             public void WhenNotUsingSenderNorArgLambda()
             {
@@ -47,7 +52,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<Action<int>, int>(
+            System.Reactive.Linq.Observable.FromEvent<System.Action<int>, int>(
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
                                            .Subscribe(_ => Console.WriteLine(string.Empty));
@@ -85,7 +90,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<Action<int>, int>(
+            System.Reactive.Linq.Observable.FromEvent<System.Action<int>, int>(
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
                                            .Subscribe(i => Console.WriteLine(i));
@@ -111,7 +116,7 @@ namespace RoslynSandbox
             foo.SomeEvent ↓+= this.OnSomeEvent;
         }
 
-        private void OnSomeEvent(object sender, int i)
+        private void OnSomeEvent(int i)
         {
             Console.WriteLine(string.Empty);
         }
@@ -128,7 +133,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<Action<int>, int>(
+            System.Reactive.Linq.Observable.FromEvent<System.Action<int>, int>(
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
                                            .Subscribe(_ => OnSomeEvent());
@@ -159,7 +164,7 @@ namespace RoslynSandbox
             foo.SomeEvent ↓+= this.OnSomeEvent;
         }
 
-        private void OnSomeEvent(object sender, int i)
+        private void OnSomeEvent(int i)
         {
             Console.WriteLine(i);
         }
@@ -176,7 +181,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<Action<int>, int>(
+            System.Reactive.Linq.Observable.FromEvent<System.Action<int>, int>(
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
                                            .Subscribe(OnSomeEvent);

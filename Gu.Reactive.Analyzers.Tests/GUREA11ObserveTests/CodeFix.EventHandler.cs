@@ -19,6 +19,11 @@ namespace RoslynSandbox
     }
 }";
 
+            static EventHandler()
+            {
+                AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
+            }
+
             [Test]
             public void WhenNotUsingSenderNorArgLambda()
             {
@@ -47,7 +52,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<EventHandler, EventArgs>(
+            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
@@ -71,7 +76,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            foo.SomeEvent ↓+= (sender, i) => Console.WriteLine(i);
+            foo.SomeEvent ↓+= (sender, e) => Console.WriteLine(e);
         }
     }
 }";
@@ -86,11 +91,11 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<EventHandler, EventArgs>(
+            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
-                                           .Subscribe(i => Console.WriteLine(i));
+                                           .Subscribe(e => Console.WriteLine(e));
         }
     }
 }";
@@ -113,7 +118,7 @@ namespace RoslynSandbox
             foo.SomeEvent ↓+= this.OnSomeEvent;
         }
 
-        private void OnSomeEvent(object sender, int i)
+        private void OnSomeEvent(object sender, EventArgs e)
         {
             Console.WriteLine(string.Empty);
         }
@@ -130,7 +135,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<EventHandler<int>, int>(
+            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
@@ -162,9 +167,9 @@ namespace RoslynSandbox
             foo.SomeEvent ↓+= this.OnSomeEvent;
         }
 
-        private void OnSomeEvent(object sender, int i)
+        private void OnSomeEvent(object sender, EventArgs e)
         {
-            Console.WriteLine(i);
+            Console.WriteLine(e);
         }
     }
 }";
@@ -179,16 +184,16 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<EventHandler, EventArgs>(
+            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
                                            .Subscribe(OnSomeEvent);
         }
 
-        private void OnSomeEvent(int i)
+        private void OnSomeEvent(EventArgs e)
         {
-            Console.WriteLine(i);
+            Console.WriteLine(e);
         }
     }
 }";

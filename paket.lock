@@ -147,7 +147,7 @@ REDIRECTS: ON
 FRAMEWORK: NETSTANDARD13, NET461
 NUGET
   remote: http://www.nuget.org/api/v2
-    Gu.Roslyn.Asserts (0.1.0-dev) - framework: net461, netstandard13
+    Gu.Roslyn.Asserts (0.1.1-dev) - framework: net461, netstandard13
       Microsoft.CodeAnalysis.CSharp.Workspaces (2.1) - framework: net461, netstandard13
     ManagedEsent (1.9.4) - framework: net461
     Microsoft.CodeAnalysis.Analyzers (1.1) - framework: net461, netstandard13
