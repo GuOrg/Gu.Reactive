@@ -17,7 +17,7 @@ namespace Gu.Reactive.Analyzers
             messageFormat: "Split up into two conditions?",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Hidden,
-            isEnabledByDefault: true);
+            isEnabledByDefault: false);
 
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =

@@ -16,8 +16,8 @@ namespace Gu.Reactive.Analyzers
             title: "Prefer injecting conditions.",
             messageFormat: "Prefer injecting conditions.",
             category: AnalyzerCategory.Correctness,
-            defaultSeverity: DiagnosticSeverity.Warning,
-            isEnabledByDefault: true);
+            defaultSeverity: DiagnosticSeverity.Hidden,
+            isEnabledByDefault: false);
 
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
