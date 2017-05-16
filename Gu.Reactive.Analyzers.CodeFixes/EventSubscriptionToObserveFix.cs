@@ -21,6 +21,12 @@
                 h => LEFT -= h)
                                            .Subscribe(LAMBDA)";
 
+        private const string ObservableFromEventWithConvertString = @"System.Reactive.Linq.Observable.FromEvent<HANDLERTYPE, ARGTYPE>(
+                h => (_, e) => h(e),
+                h => LEFT += h,
+                h => LEFT -= h)
+                                           .Subscribe(LAMBDA)";
+
         /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
             ImmutableArray.Create(GUREA11Observe.DiagnosticId);
@@ -83,7 +89,7 @@
                 if (assignment.Right is MemberAccessExpressionSyntax memberAccess)
                 {
                     var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
-                    if (semanticModel.GetSymbolSafe(assignment.Right, context.CancellationToken) is IMethodSymbol method &&
+                    if (semanticModel.GetSymbolSafe(memberAccess, context.CancellationToken) is IMethodSymbol method &&
                         method.DeclaredAccessibility == Accessibility.Private &&
                         method.DeclaringSyntaxReferences.Length == 1 &&
                         method.Parameters.Length == 2)
@@ -109,10 +115,12 @@
             var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
                                                      .ConfigureAwait(false);
             var eventSymbol = (IEventSymbol)editor.SemanticModel.GetSymbolSafe(assignment.Left, cancellationToken);
-            var observeSubscribe = ObservableFromEventString.Replace("HANDLERTYPE", eventSymbol.Type.ToDisplayString())
-                                                   .Replace("ARGTYPE", ArgType(eventSymbol))
-                                                   .Replace("LEFT", assignment.Left.ToString())
-                                                   .Replace("LAMBDA", Lambda((ParenthesizedLambdaExpressionSyntax)assignment.Right, usesArg));
+            var observeSubscribe = GetObservableFromEventString(eventSymbol)
+                .Replace("HANDLERTYPE", eventSymbol.Type.ToDisplayString())
+                .Replace("ARGTYPE", ArgType(eventSymbol))
+                .Replace("LEFT", assignment.Left.ToString())
+                .Replace("LAMBDA", Lambda((ParenthesizedLambdaExpressionSyntax)assignment.Right, usesArg));
+
             editor.ReplaceNode(
                 assignment,
                 SyntaxFactory.ParseExpression(observeSubscribe)
@@ -150,10 +158,11 @@
                                              .ConfigureAwait(false);
 
             var eventSymbol = (IEventSymbol)editor.SemanticModel.GetSymbolSafe(assignment.Left, cancellationToken);
-            var observeSubscribe = ObservableFromEventString.Replace("HANDLERTYPE", eventSymbol.Type.ToDisplayString())
-                                                            .Replace("ARGTYPE", ArgType(eventSymbol))
-                                                            .Replace("LEFT", assignment.Left.ToString())
-                                                            .Replace("LAMBDA", Lambda(methodDeclaration, usesArg));
+            var observeSubscribe = GetObservableFromEventString(eventSymbol)
+                .Replace("HANDLERTYPE", eventSymbol.Type.ToDisplayString())
+                .Replace("ARGTYPE", ArgType(eventSymbol))
+                .Replace("LEFT", assignment.Left.ToString())
+                .Replace("LAMBDA", Lambda(methodDeclaration, usesArg));
             editor.ReplaceNode(
                 assignment,
                 SyntaxFactory.ParseExpression(observeSubscribe)
@@ -166,6 +175,17 @@
             }
 
             return editor.GetChangedDocument();
+        }
+
+        private static string GetObservableFromEventString(IEventSymbol eventSymbol)
+        {
+            if (eventSymbol.Type.Name == KnownSymbol.EventHandler.Type ||
+                eventSymbol.Type.Name == KnownSymbol.EventHandlerOfT.Type)
+            {
+                return ObservableFromEventWithConvertString;
+            }
+
+            return ObservableFromEventString;
         }
 
         private static string ArgType(IEventSymbol symbol)

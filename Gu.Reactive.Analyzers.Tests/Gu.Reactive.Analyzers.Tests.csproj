@@ -44,7 +44,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GUREA11ObserveTests\CodeFix.ActionOfInt.cs" />
     <Compile Include="GUREA11ObserveTests\CodeFix.cs" />
+    <Compile Include="GUREA11ObserveTests\CodeFix.EventHandler.cs" />
+    <Compile Include="GUREA11ObserveTests\CodeFix.EventHandlerOfInt.cs" />
     <Compile Include="GUREA11ObserveTests\HappyPath.cs" />
     <Compile Include="GUREA10DontMergeInObservableTests\CodeFix.cs" />
     <Compile Include="GUREA10DontMergeInObservableTests\HappyPath.cs" />
