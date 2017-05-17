@@ -82,12 +82,17 @@ namespace Gu.Reactive.Analyzers
                                     }
                                 }
 
-                                if (!observed.Item.SetEquals(usedInCriteria.Item))
+                                using (var missing = SetPool<IPropertySymbol>.Create())
                                 {
-                                    var observedText = string.Join(Environment.NewLine, observed.Item);
-                                    var usedInCriteriaText = string.Join(Environment.NewLine, usedInCriteria.Item);
-                                    var missingText = string.Join(Environment.NewLine, usedInCriteria.Item.Except(observed.Item));
-                                    context.ReportDiagnostic(Diagnostic.Create(Descriptor, initializer.GetLocation(), observedText, usedInCriteriaText, missingText));
+                                    missing.Item.UnionWith(usedInCriteria.Item);
+                                    missing.Item.ExceptWith(observed.Item);
+                                    if (missing.Item.Count != 0)
+                                    {
+                                        var observedText = string.Join(Environment.NewLine, observed.Item.Select(p => $"  {p}"));
+                                        var usedInCriteriaText = string.Join(Environment.NewLine, usedInCriteria.Item.Select(p => $"  {p}"));
+                                        var missingText = string.Join(Environment.NewLine, missing.Item.Select(p => $"  {p}"));
+                                        context.ReportDiagnostic(Diagnostic.Create(Descriptor, initializer.GetLocation(), observedText, usedInCriteriaText, missingText));
+                                    }
                                 }
                             }
                         }
