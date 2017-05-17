@@ -1,6 +1,8 @@
 namespace Gu.Reactive.Analyzers
 {
+    using System;
     using System.Collections.Immutable;
+    using System.Linq;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -14,7 +16,13 @@ namespace Gu.Reactive.Analyzers
         private static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
             title: "Observable and criteria must match.",
-            messageFormat: "Observable and criteria must match.",
+            messageFormat: "Observable and criteria must match.\r\n" +
+                           "Observed:\r\n" +
+                           "{0}\r\n" +
+                           "Used in criteria:\r\n" +
+                           "{1}\r\n" +
+                           "Not observed:\r\n" +
+                           "{2}",
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true);
@@ -54,25 +62,32 @@ namespace Gu.Reactive.Analyzers
                 {
                     using (var criteriaIdentifiers = IdentifierNameWalker.Create(criteriaArg, Search.Recursive, semanticModel, cancellationToken))
                     {
-                        using (var pooledSet = SetPool<IPropertySymbol>.Create())
+                        using (var observed = SetPool<IPropertySymbol>.Create())
                         {
                             foreach (var name in observableIdentifiers.Item.IdentifierNames)
                             {
                                 if (semanticModel.GetSymbolSafe(name, cancellationToken) is IPropertySymbol property)
                                 {
-                                    pooledSet.Item.Add(property);
+                                    observed.Item.Add(property);
                                 }
                             }
 
-                            foreach (var name in criteriaIdentifiers.Item.IdentifierNames)
+                            using (var usedInCriteria = SetPool<IPropertySymbol>.Create())
                             {
-                                if (semanticModel.GetSymbolSafe(name, cancellationToken) is IPropertySymbol property)
+                                foreach (var name in criteriaIdentifiers.Item.IdentifierNames)
                                 {
-                                    if (pooledSet.Item.Add(property))
+                                    if (semanticModel.GetSymbolSafe(name, cancellationToken) is IPropertySymbol property)
                                     {
-                                        context.ReportDiagnostic(Diagnostic.Create(Descriptor, initializer.GetLocation()));
-                                        return;
+                                        usedInCriteria.Item.Add(property);
                                     }
+                                }
+
+                                if (!observed.Item.SetEquals(usedInCriteria.Item))
+                                {
+                                    var observedText = string.Join(Environment.NewLine, observed.Item);
+                                    var usedInCriteriaText = string.Join(Environment.NewLine, usedInCriteria.Item);
+                                    var missingText = string.Join(Environment.NewLine, usedInCriteria.Item.Except(observed.Item));
+                                    context.ReportDiagnostic(Diagnostic.Create(Descriptor, initializer.GetLocation(), observedText, usedInCriteriaText, missingText));
                                 }
                             }
                         }

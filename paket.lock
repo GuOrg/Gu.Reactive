@@ -18,7 +18,7 @@ NUGET
 GROUP Analyzers
 NUGET
   remote: http://www.nuget.org/api/v2
-    Gu.Analyzers (0.1.11.24-dev)
+    Gu.Analyzers (0.1.11.25-dev)
     JetBrains.Annotations (10.4)
       System.Runtime (>= 4.1) - framework: >= netstandard10
     Microsoft.NETCore.Platforms (1.1) - framework: netstandard10, netstandard12, netstandard13, >= netstandard15
@@ -33,19 +33,19 @@ GROUP Benchmark
 FRAMEWORK: NET461
 NUGET
   remote: http://www.nuget.org/api/v2
-    BenchmarkDotNet (0.10.5)
-      BenchmarkDotNet.Core (>= 0.10.5)
-      BenchmarkDotNet.Toolchains.Roslyn (>= 0.10.5)
-    BenchmarkDotNet.Core (0.10.5)
+    BenchmarkDotNet (0.10.6)
+      BenchmarkDotNet.Core (>= 0.10.6)
+      BenchmarkDotNet.Toolchains.Roslyn (>= 0.10.6)
+    BenchmarkDotNet.Core (0.10.6)
       Microsoft.DotNet.InternalAbstractions (>= 1.0)
       Microsoft.DotNet.PlatformAbstractions (>= 1.1.1)
       System.Threading.Tasks.Extensions (>= 4.3)
       System.ValueTuple (>= 4.3)
-    BenchmarkDotNet.Diagnostics.Windows (0.10.5)
-      BenchmarkDotNet (>= 0.10.5)
+    BenchmarkDotNet.Diagnostics.Windows (0.10.6)
+      BenchmarkDotNet (>= 0.10.6)
       Microsoft.Diagnostics.Tracing.TraceEvent (>= 1.0.41)
-    BenchmarkDotNet.Toolchains.Roslyn (0.10.5)
-      BenchmarkDotNet.Core (>= 0.10.5)
+    BenchmarkDotNet.Toolchains.Roslyn (0.10.6)
+      BenchmarkDotNet.Core (>= 0.10.6)
       Microsoft.CodeAnalysis.CSharp (>= 2.0)
       System.Threading.Tasks (>= 4.3)
     Microsoft.CodeAnalysis.Analyzers (1.1)
@@ -93,7 +93,7 @@ NUGET
       Microsoft.CodeAnalysis.Common (2.1)
     Microsoft.Diagnostics.Tracing.TraceEvent (1.0.41)
     Microsoft.DotNet.InternalAbstractions (1.0)
-    Microsoft.DotNet.PlatformAbstractions (1.1.1)
+    Microsoft.DotNet.PlatformAbstractions (1.1.2)
     System.AppContext (4.3)
     System.Collections (4.3)
     System.Collections.Concurrent (4.3)
@@ -134,7 +134,7 @@ NUGET
     System.Threading.Tasks.Extensions (4.3)
     System.Threading.Tasks.Parallel (4.3)
     System.Threading.Thread (4.3)
-    System.ValueTuple (4.3)
+    System.ValueTuple (4.3.1)
     System.Xml.ReaderWriter (4.3)
     System.Xml.XDocument (4.3)
     System.Xml.XmlDocument (4.3)
@@ -147,7 +147,7 @@ REDIRECTS: ON
 FRAMEWORK: NETSTANDARD13, NET461
 NUGET
   remote: http://www.nuget.org/api/v2
-    Gu.Roslyn.Asserts (0.1.1-dev) - framework: net461, netstandard13
+    Gu.Roslyn.Asserts (0.1.3-dev) - framework: net461, netstandard13
       Microsoft.CodeAnalysis.CSharp.Workspaces (2.1) - framework: net461, netstandard13
     ManagedEsent (1.9.4) - framework: net461
     Microsoft.CodeAnalysis.Analyzers (1.1) - framework: net461, netstandard13
@@ -196,7 +196,7 @@ NUGET
     Microsoft.CodeAnalysis.CSharp.Workspaces (2.1) - framework: net461, netstandard13
       Microsoft.CodeAnalysis.CSharp (2.1) - framework: net461, netstandard13
       Microsoft.CodeAnalysis.Workspaces.Common (2.1) - framework: net461, netstandard13
-    Microsoft.CodeAnalysis.Elfie (0.10.6) - framework: net461
+    Microsoft.CodeAnalysis.Elfie (0.10.6) - framework: net461, netstandard13
     Microsoft.CodeAnalysis.Workspaces.Common (2.1) - framework: net461, netstandard13
       ManagedEsent (>= 1.9.4) - framework: net461
       Microsoft.CodeAnalysis.Common (2.1) - framework: net461, netstandard13
@@ -598,13 +598,13 @@ FRAMEWORK: >= NET45
 NUGET
   remote: http://www.nuget.org/api/v2
     Castle.Core (4.0)
-    FlaUI.Core (1.0)
-    FlaUI.UIA3 (1.0)
-      FlaUI.Core (>= 1.0)
+    FlaUI.Core (1.1)
+    FlaUI.UIA3 (1.1)
+      FlaUI.Core (>= 1.1)
     Microsoft.Reactive.Testing (3.1.1)
       System.Reactive.PlatformServices (>= 3.1.1)
     Microsoft.Win32.Primitives (4.3) - framework: >= net463
-    Moq (4.7.8)
+    Moq (4.7.10)
       Castle.Core (>= 4.0)
     NETStandard.Library (1.6.1) - framework: >= net463
       Microsoft.Win32.Primitives (>= 4.3) - framework: >= net46
@@ -642,7 +642,7 @@ NUGET
     System.IO.FileSystem (4.3) - framework: >= net463
       System.IO.FileSystem.Primitives (>= 4.3) - framework: >= net46
     System.IO.FileSystem.Primitives (4.3)
-    System.Net.Http (4.3.1) - framework: >= net463
+    System.Net.Http (4.3.2) - framework: >= net463
       System.Security.Cryptography.X509Certificates (>= 4.3) - framework: >= net46
     System.Net.Sockets (4.3) - framework: >= net463
     System.Reactive.Core (3.1.1)

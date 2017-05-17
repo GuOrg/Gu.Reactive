@@ -86,7 +86,14 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Diagnostics<GUREA02ObservableAndCriteriaMustMatch>(FooCode, testCode);
+            var expected = "Observable and criteria must match.\r\n" +
+                           "Observed:\r\n" +
+                           "RoslynSandbox.Foo.Value1\r\n" +
+                           "Used in criteria:\r\n" +
+                           "RoslynSandbox.Foo.Value2\r\n" +
+                           "Not observed:\r\n" +
+                           "RoslynSandbox.Foo.Value2";
+            AnalyzerAssert.Diagnostics<GUREA02ObservableAndCriteriaMustMatch>(ExpectedMessage.Create(expected), FooCode, testCode);
         }
     }
 }
