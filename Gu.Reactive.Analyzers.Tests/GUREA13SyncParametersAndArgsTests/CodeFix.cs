@@ -1,0 +1,125 @@
+﻿namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
+{
+    using Gu.Reactive.Analyzers.CodeFixes;
+    using Gu.Roslyn.Asserts;
+    using NUnit.Framework;
+
+    public class CodeFix
+    {
+        private const string Condition1 = @"
+namespace RoslynSandbox
+{
+    using System.Reactive.Linq;
+    using Gu.Reactive;
+
+    public class Condition1 : Condition
+    {
+        public Condition1()
+            : base(Observable.Never<object>(), () => true)
+        {
+        }
+    }
+}";
+
+        private const string Condition2 = @"
+namespace RoslynSandbox
+{
+    using System.Reactive.Linq;
+    using Gu.Reactive;
+
+    public class Condition2 : Condition
+    {
+        public Condition2()
+            : base(Observable.Never<object>(), () => true)
+        {
+        }
+    }
+}";
+
+        private const string Condition3 = @"
+namespace RoslynSandbox
+{
+    using System.Reactive.Linq;
+    using Gu.Reactive;
+
+    public class Condition3 : Condition
+    {
+        public Condition3()
+            : base(Observable.Never<object>(), () => true)
+        {
+        }
+    }
+}";
+
+        static CodeFix()
+        {
+            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
+        }
+
+        [Test]
+        public void AndConditionSortArgs()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : AndCondition
+    {
+        public FooCondition(Condition1 condition1, Condition2 condition2)
+            ↓: base(condition2, condition1)
+        {
+        }
+    }
+}";
+
+            var fixedCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : AndCondition
+    {
+        public FooCondition(Condition1 condition1, Condition2 condition2)
+            : base(condition1, condition2)
+        {
+        }
+    }
+}";
+            AnalyzerAssert.CodeFix<GUREA13SyncParametersAndArgs, SortArgsCodeFix>(new[] { Condition1, Condition2, testCode }, fixedCode);
+        }
+
+        [Test]
+        public void AndConditionSortParameters()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : AndCondition
+    {
+        public FooCondition(Condition1 condition1, Condition2 condition2)
+            ↓: base(condition2, condition1)
+        {
+        }
+    }
+}";
+
+            var fixedCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : AndCondition
+    {
+        public FooCondition(Condition2 condition2, Condition1 condition1)
+            : base(condition2, condition1)
+        {
+        }
+    }
+}";
+            AnalyzerAssert.CodeFix<GUREA13SyncParametersAndArgs, SortParametersCodeFix>(new[] { Condition1, Condition2, testCode }, fixedCode);
+        }
+    }
+}
