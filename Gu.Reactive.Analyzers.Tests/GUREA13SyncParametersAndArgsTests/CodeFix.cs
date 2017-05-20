@@ -90,6 +90,51 @@ namespace RoslynSandbox
         }
 
         [Test]
+        public void OrConditionSortArgs()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : OrCondition
+    {
+        public FooCondition(
+            Condition1 condition1, 
+            Condition2 condition2,
+            Condition3 condition3)
+            ↓: base(
+                condition2,
+                condition3,
+                condition1)
+        {
+        }
+    }
+}";
+
+            var fixedCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : OrCondition
+    {
+        public FooCondition(
+            Condition1 condition1, 
+            Condition2 condition2,
+            Condition3 condition3)
+            : base(
+                condition1,
+                condition2,
+                condition3)
+        {
+        }
+    }
+}";
+            AnalyzerAssert.CodeFix<GUREA13SyncParametersAndArgs, SortArgsCodeFix>(new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
+        }
+
+        [Test]
         public void AndConditionSortParameters()
         {
             var testCode = @"
@@ -120,6 +165,51 @@ namespace RoslynSandbox
     }
 }";
             AnalyzerAssert.CodeFix<GUREA13SyncParametersAndArgs, SortParametersCodeFix>(new[] { Condition1, Condition2, testCode }, fixedCode);
+        }
+
+        [Test]
+        public void OrConditionSortParameters()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : OrCondition
+    {
+        public FooCondition(
+            Condition2 condition2, 
+            Condition3 condition3,
+            Condition1 condition1)
+            ↓: base(
+                condition1,
+                condition2,
+                condition3)
+        {
+        }
+    }
+}";
+
+            var fixedCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : OrCondition
+    {
+        public FooCondition(
+            Condition1 condition1, 
+            Condition2 condition2,
+            Condition3 condition3)
+            : base(
+                condition1,
+                condition2,
+                condition3)
+        {
+        }
+    }
+}";
+            AnalyzerAssert.CodeFix<GUREA13SyncParametersAndArgs, SortParametersCodeFix>(new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
         }
     }
 }

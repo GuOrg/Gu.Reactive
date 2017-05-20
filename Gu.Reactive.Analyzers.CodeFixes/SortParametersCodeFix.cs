@@ -3,12 +3,14 @@ namespace Gu.Reactive.Analyzers.CodeFixes
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Composition;
+    using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using Microsoft.CodeAnalysis.Editing;
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SortParametersCodeFix))]
     [Shared]
@@ -42,7 +44,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             "Sort parameters.",
-                            _ => ApplySortParametersAsync(context, syntaxRoot, initializer),
+                            cancellationToken => ApplySortParametersAsync(cancellationToken, context, syntaxRoot, initializer),
                             nameof(SortParametersCodeFix)),
                         diagnostic);
                     continue;
@@ -50,17 +52,20 @@ namespace Gu.Reactive.Analyzers.CodeFixes
             }
         }
 
-        private static Task<Document> ApplySortParametersAsync(CodeFixContext context, SyntaxNode syntaxRoot, ConstructorInitializerSyntax initializer)
+        private static async Task<Document> ApplySortParametersAsync(CancellationToken cancellationToken, CodeFixContext context, SyntaxNode syntaxRoot, ConstructorInitializerSyntax initializer)
         {
             var parameterList = initializer.FirstAncestor<ConstructorDeclarationSyntax>().ParameterList;
             var parameters = new List<ParameterSyntax>(parameterList.Parameters);
             var arguments = initializer.ArgumentList.Arguments;
             parameters.Sort((x, y) => IndexOf(x, arguments).CompareTo(IndexOf(y, arguments)));
-            return Task.FromResult(
-                context.Document.WithSyntaxRoot(
-                    syntaxRoot.ReplaceNode(
-                        parameterList,
-                        parameterList.WithParameters(SyntaxFactory.SeparatedList<ParameterSyntax>(parameters)))));
+            var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
+                                             .ConfigureAwait(false);
+            for (var i = 0; i < parameterList.Parameters.Count; i++)
+            {
+                editor.ReplaceNode(parameterList.Parameters[i], parameters[i]);
+            }
+
+            return editor.GetChangedDocument();
         }
 
         private static int IndexOf(ParameterSyntax parameter, SeparatedSyntaxList<ArgumentSyntax> arguments)
