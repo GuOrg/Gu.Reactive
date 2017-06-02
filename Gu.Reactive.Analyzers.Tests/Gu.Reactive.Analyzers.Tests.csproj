@@ -47,6 +47,7 @@
     <Compile Include="GUREA11PreferObservableFromEventTests\CodeFix.ActionOfInt.cs" />
     <Compile Include="GUREA11PreferObservableFromEventTests\CodeFix.EventHandler.cs" />
     <Compile Include="GUREA11PreferObservableFromEventTests\CodeFix.EventHandlerOfInt.cs" />
+    <Compile Include="GUREA11PreferObservableFromEventTests\CodeFix.MiscEventhandlers.cs" />
     <Compile Include="GUREA11PreferObservableFromEventTests\HappyPath.cs" />
     <Compile Include="GUREA10DontMergeInObservableTests\CodeFix.cs" />
     <Compile Include="GUREA10DontMergeInObservableTests\HappyPath.cs" />

@@ -2,6 +2,7 @@
 {
     using System.Collections.Immutable;
     using System.Composition;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.CodeAnalysis;
@@ -192,8 +193,8 @@
 
         private static string GetObservableFromEventString(IEventSymbol eventSymbol)
         {
-            if (eventSymbol.Type.Name == KnownSymbol.EventHandler.Type ||
-                eventSymbol.Type.Name == KnownSymbol.EventHandlerOfT.Type)
+            if (eventSymbol.Type is INamedTypeSymbol namedTypeSymbol &&
+                namedTypeSymbol.DelegateInvokeMethod?.Parameters.Length == 2)
             {
                 return ObservableFromEventWithConvertString;
             }
@@ -201,17 +202,16 @@
             return ObservableFromEventString;
         }
 
-        private static string ArgType(IEventSymbol symbol)
+        private static string ArgType(IEventSymbol eventSymbol)
         {
-            if (symbol.Type == KnownSymbol.EventHandler)
+            if (eventSymbol.Type is INamedTypeSymbol namedTypeSymbol &&
+                namedTypeSymbol.DelegateInvokeMethod?.Parameters != null &&
+                namedTypeSymbol.DelegateInvokeMethod.Parameters.Length <= 2)
             {
-                return "EventArgs";
-            }
-
-            if (symbol.Type is INamedTypeSymbol namedType)
-            {
-                return namedType.TypeArguments[0]
-                                .ToDisplayString();
+                if (namedTypeSymbol.DelegateInvokeMethod.Parameters.TryGetLast(out IParameterSymbol parameter))
+                {
+                    return parameter.Type.ToDisplayString();
+                }
             }
 
             return "UNKNOWN";

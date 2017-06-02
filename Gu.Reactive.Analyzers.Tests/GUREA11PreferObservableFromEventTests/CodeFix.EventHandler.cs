@@ -52,7 +52,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
+            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, System.EventArgs>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
@@ -91,7 +91,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
+            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, System.EventArgs>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
@@ -135,7 +135,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
+            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, System.EventArgs>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
@@ -184,7 +184,7 @@ namespace RoslynSandbox
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
+            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, System.EventArgs>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
