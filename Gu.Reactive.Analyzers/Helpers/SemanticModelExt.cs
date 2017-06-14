@@ -31,8 +31,8 @@
             }
 
             return semanticModel.SemanticModelFor(node)
-                                ?.GetSymbolInfo(node, cancellationToken)
-                                 .Symbol;
+                               ?.GetSymbolInfo(node, cancellationToken)
+                                .Symbol;
         }
 
         internal static ISymbol GetSymbolSafe(this SemanticModel semanticModel, AwaitExpressionSyntax node, CancellationToken cancellationToken)

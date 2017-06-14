@@ -70,6 +70,131 @@ namespace RoslynSandbox
         }
 
         [Test]
+        public void OneLevelGetOnly()
+        {
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public class Foo : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int Value { get; }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}";
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar
+    {
+        public Bar()
+        {
+            var foo = new Foo();
+            foo.ObservePropertyChanged(x => x.Value)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(fooCode, testCode);
+        }
+
+        [Test]
+        public void InterfaceGetSet()
+        {
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public interface IFoo : INotifyPropertyChanged
+    {
+        public int Value { get; set; }
+    }
+}";
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar
+    {
+        public Bar(IFoo foo)
+        {
+            foo.ObservePropertyChanged(x => x.Value)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(fooCode, testCode);
+        }
+
+        [Test]
+        public void ObservableCollectionCount()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar
+    {
+        public Bar(System.Collections.ObjectModel.ObservableCollection<int> foo)
+        {
+            foo.ObservePropertyChanged(x => x.Count)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(testCode);
+        }
+
+        [Test]
+        public void InterfaceGetOnly()
+        {
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public interface IFoo : INotifyPropertyChanged
+    {
+        public int Value { get; }
+    }
+}";
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar
+    {
+        public Bar(IFoo foo)
+        {
+            foo.ObservePropertyChanged(x => x.Value)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(fooCode, testCode);
+        }
+
+        [Test]
         public void TwoLevels()
         {
             var fooCode = @"

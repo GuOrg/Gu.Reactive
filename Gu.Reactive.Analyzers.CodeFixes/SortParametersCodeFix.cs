@@ -8,7 +8,6 @@ namespace Gu.Reactive.Analyzers.CodeFixes
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
-    using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Editing;
 
@@ -44,7 +43,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             "Sort parameters.",
-                            cancellationToken => ApplySortParametersAsync(cancellationToken, context, syntaxRoot, initializer),
+                            cancellationToken => ApplySortParametersAsync(cancellationToken, context, initializer),
                             nameof(SortParametersCodeFix)),
                         diagnostic);
                     continue;
@@ -52,7 +51,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
             }
         }
 
-        private static async Task<Document> ApplySortParametersAsync(CancellationToken cancellationToken, CodeFixContext context, SyntaxNode syntaxRoot, ConstructorInitializerSyntax initializer)
+        private static async Task<Document> ApplySortParametersAsync(CancellationToken cancellationToken, CodeFixContext context, ConstructorInitializerSyntax initializer)
         {
             var parameterList = initializer.FirstAncestor<ConstructorDeclarationSyntax>().ParameterList;
             var parameters = new List<ParameterSyntax>(parameterList.Parameters);
