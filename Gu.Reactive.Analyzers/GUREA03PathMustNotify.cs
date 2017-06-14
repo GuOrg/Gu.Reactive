@@ -70,7 +70,8 @@ namespace Gu.Reactive.Analyzers
                                 context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
                             }
 
-                            if (symbol.DeclaringSyntaxReferences.Length > 0)
+                            if (symbol.DeclaringSyntaxReferences.Length > 0 &&
+                                !symbol.IsAbstract)
                             {
                                 foreach (var reference in symbol.DeclaringSyntaxReferences)
                                 {
