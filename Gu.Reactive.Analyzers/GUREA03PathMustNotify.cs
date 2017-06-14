@@ -64,8 +64,14 @@ namespace Gu.Reactive.Analyzers
                                 context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
                             }
 
-                            if (symbol.ContainingType.IsValueType ||
-                                !symbol.ContainingType.Is(KnownSymbol.INotifyPropertyChanged))
+                            var containingType = context.SemanticModel.GetTypeInfoSafe(memberAccess.Expression, context.CancellationToken).Type;
+                            if (containingType == null)
+                            {
+                                continue;
+                            }
+
+                            if (containingType.IsValueType ||
+                                !containingType.Is(KnownSymbol.INotifyPropertyChanged))
                             {
                                 context.ReportDiagnostic(Diagnostic.Create(Descriptor, memberAccess.Name.GetLocation()));
                             }
