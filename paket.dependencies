@@ -15,6 +15,7 @@ group Test
   source http://nuget.org/api/v2
   framework: >= net45
   nuget Moq
+  nuget Castle.Core 4.0.0.0
   nuget NUnit
   nuget Microsoft.Reactive.Testing
   nuget FlaUI.UIA3
