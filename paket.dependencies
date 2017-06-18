@@ -1,4 +1,5 @@
 source http://www.nuget.org/api/v2/
+redirects: on
 framework: >= net45
 
 nuget System.Reactive
@@ -13,7 +14,7 @@ group Analyzers
 
 group Test
   source http://nuget.org/api/v2
-  framework: >= net45
+  framework: net461
   nuget Moq
   nuget Castle.Core 4.0.0.0
   nuget NUnit
