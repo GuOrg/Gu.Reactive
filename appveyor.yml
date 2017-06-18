@@ -1,7 +1,9 @@
 image: Visual Studio 2017
 cache: packages -> paket.lock
-before_build:
-- ps: dotnet restore
+
+before_build:  
+- appveyor-retry dotnet restore -v Minimal
+
 configuration: Release
 build:
   verbosity: minimal
