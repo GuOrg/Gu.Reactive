@@ -22,22 +22,35 @@
             return Observable.Create<T>(
                 o =>
                 {
-                    PropertyChangedEventHandler handler = (_, e) =>
+                    void Handler(object _, PropertyChangedEventArgs e)
                     {
                         if (e.PropertyName == nameof(condition.IsSatisfied))
                         {
                             o.OnNext(condition);
                         }
-                    };
-                    condition.PropertyChanged += handler;
-                    return Disposable.Create(() => condition.PropertyChanged -= handler);
+                    }
+
+                    condition.PropertyChanged += Handler;
+                    return Disposable.Create(() => condition.PropertyChanged -= Handler);
                 });
         }
 
         /// <summary>
-        /// Returns true if history matches current state.
+        /// Return a condition that returns IsSatisfied false if <paramref name="condition"/>.IsSatisfied returns null
         /// </summary>
-        public static bool IsInSync(this ICondition condition)
+        /// <typeparam name="T">The condition type.</typeparam>
+        /// <param name="condition">The source condition</param>
+        /// <returns>A new instance of <see cref="NullIsFalse{T}"/></returns>
+        public static NullIsFalse<T> NullIsFalse<T>(this T condition)
+            where T : class, ICondition
+        {
+            return new NullIsFalse<T>(condition);
+        }
+
+        /// <summary>
+            /// Returns true if history matches current state.
+            /// </summary>
+            public static bool IsInSync(this ICondition condition)
         {
             return condition.IsSatisfied == condition.History
                                                      .Last()

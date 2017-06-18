@@ -9,7 +9,7 @@
     public interface ICondition : ISatisfied, IDisposable
     {
         /// <summary>
-        /// Gets the name. The default name is .GetType().PrettyName()
+        /// Gets the name. The default name is this.GetType().PrettyName()
         /// </summary>
         string Name { get; }
 
@@ -28,7 +28,7 @@
         /// Calling Negate on a negated condition returns the original condition.
         /// </summary>
         /// <returns>
-        /// A <see cref="NegatedCondition"/> condition warpping this.
+        /// A <see cref="NegatedCondition"/> condition wrapping this.
         /// </returns>
         ICondition Negate();
     }

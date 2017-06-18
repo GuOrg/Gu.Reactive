@@ -60,6 +60,7 @@
     <Compile Include="Collections\ReadOnlyViews\ReadOnlySerialViewTests.cs" />
     <Compile Include="Collections\ScheduledCollectionTests.cs" />
     <Compile Include="Conditions\NegatedTests.cs" />
+    <Compile Include="Conditions\NullIsFalseTests.cs" />
     <Compile Include="Helpers\AbstractFake.cs" />
     <Compile Include="Helpers\ConcreteFake1.cs" />
     <Compile Include="Helpers\ConcreteFake2.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Helpers\Level3.cs" />
     <Compile Include="Helpers\Level4.cs" />
     <Compile Include="Helpers\Level{T}.cs" />
+    <Compile Include="Helpers\ListEx.cs" />
     <Compile Include="Helpers\WithAbstractFake.cs" />
     <Compile Include="Helpers\WithShadowing.cs" />
     <Compile Include="Helpers\With{T}.cs" />
