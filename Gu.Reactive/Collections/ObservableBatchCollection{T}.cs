@@ -76,6 +76,24 @@ namespace Gu.Reactive
         }
 
         /// <summary>
+        /// 1. Clear the collection.
+        /// 2. AddRange <paramref name="items"/>
+        /// 3. Notify reset once
+        /// </summary>
+        /// <param name="items">The new contents of the collection.</param>
+        public void ResetTo(IEnumerable<T> items)
+        {
+            this.CheckReentrancy();
+            this.Items.Clear();
+            foreach (var item in items)
+            {
+                this.Items.Add(item);
+            }
+
+            this.RaiseReset();
+        }
+
+        /// <summary>
         /// Add a range of elements. If the count is greater than 1 one reset event is raised when done.
         /// </summary>
         /// <param name="items">The items to add.</param>

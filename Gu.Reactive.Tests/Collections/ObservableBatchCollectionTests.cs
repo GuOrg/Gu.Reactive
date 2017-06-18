@@ -160,6 +160,24 @@
         }
 
         [Test]
+        public void ResetTo()
+        {
+            var batchCollection = new ObservableBatchCollection<int> { 1, 2, 3 };
+            using (var actualChanges = batchCollection.SubscribeAll())
+            {
+                batchCollection.ResetTo(new[] { 4, 5 });
+                CollectionAssert.AreEqual(new[] { 4, 5 }, batchCollection);
+                var expectedChanges = new List<EventArgs>
+                                      {
+                                          CachedEventArgs.CountPropertyChanged,
+                                          CachedEventArgs.IndexerPropertyChanged,
+                                          CachedEventArgs.NotifyCollectionReset
+                                      };
+                CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
+            }
+        }
+
+        [Test]
         public void SerializeRountrip()
         {
             var binaryFormatter = new BinaryFormatter();
