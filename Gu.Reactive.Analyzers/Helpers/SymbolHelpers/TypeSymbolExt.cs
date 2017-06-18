@@ -131,6 +131,19 @@
                 return false;
             }
 
+            if (type is ITypeParameterSymbol typeParameter)
+            {
+                foreach (var constraint in typeParameter.ConstraintTypes)
+                {
+                    if (constraint.Is(qualifiedType))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
             foreach (var @interface in type.AllInterfaces)
             {
                 if (@interface == qualifiedType)

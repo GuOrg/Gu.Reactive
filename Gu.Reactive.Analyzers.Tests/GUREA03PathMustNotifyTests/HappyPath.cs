@@ -195,6 +195,39 @@ namespace RoslynSandbox
         }
 
         [Test]
+        public void GenericConstraint()
+        {
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public interface IFoo : INotifyPropertyChanged
+    {
+        public int Value { get; }
+    }
+}";
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar<T>
+        where T : class, IFoo
+    {
+        public Bar(T foo)
+        {
+            foo.ObservePropertyChanged(x => x.Value)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(fooCode, testCode);
+        }
+
+        [Test]
         public void TwoLevels()
         {
             var fooCode = @"
