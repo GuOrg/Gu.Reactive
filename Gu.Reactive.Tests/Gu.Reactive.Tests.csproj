@@ -45,6 +45,7 @@
     <Compile Include="Collections\ReadOnlyViews\CrudSource\ReadOnlyFilteredViewMappedView.cs" />
     <Compile Include="Collections\ReadOnlyViews\MappingViewTests.Creating.cs" />
     <Compile Include="Collections\ReadOnlyViews\MappingViewTests.CreatingUpdatingRemoving.cs" />
+    <Compile Include="Collections\ReadOnlyViews\MappingViewTests.FromObservable.cs" />
     <Compile Include="Collections\ReadOnlyViews\MappingViewTests.Nested.cs" />
     <Compile Include="Collections\ReadOnlyViews\MappingViewTests.ReferenceType.cs" />
     <Compile Include="Collections\ReadOnlyViews\MappingViewTests.ReferenceTypeCreatingCachingRemoving.cs" />

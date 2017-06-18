@@ -619,7 +619,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void ObserveValueAsReadOnlyView()
+        public void ObserveValueAsReadOnlyFilteredView()
         {
             var fake = new Fake<IEnumerable<int>>();
             using (var view = fake.ObserveValue(x => x.Value, signalInitial: true)

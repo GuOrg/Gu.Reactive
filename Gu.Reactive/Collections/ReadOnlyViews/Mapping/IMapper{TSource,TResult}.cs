@@ -28,7 +28,7 @@
         void Remove(TSource source, TResult mapped);
 
         /// <summary>
-        /// Start a refresh transcation. This happens when the wrapped collection signals Reset
+        /// Start a refresh transaction. This happens when the wrapped collection signals Reset
         /// </summary>
         IDisposable RefreshTransaction();
     }
