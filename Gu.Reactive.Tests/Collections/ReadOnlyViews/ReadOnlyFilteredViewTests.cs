@@ -3,7 +3,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-
+    using System.Reactive.Subjects;
     using Gu.Reactive.Internals;
     using Gu.Reactive.Tests.Helpers;
 
@@ -556,6 +556,95 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                                            Diff.CreateAddEventArgs(2, 0)
                                        };
                     CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public void FromObservableOfIEnumerable()
+        {
+            using (var subject = new Subject<IEnumerable<int>>())
+            {
+                using (var view = subject.AsReadOnlyFilteredView(x => x % 2 == 0))
+                {
+                    using (var actual = view.SubscribeAll())
+                    {
+                        subject.OnNext(new[] { 1, 2, 3, 4 });
+                        CollectionAssert.AreEqual(new[] { 2, 4 }, view);
+                        var expected = new EventArgs[]
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           CachedEventArgs.NotifyCollectionReset
+                                       };
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
+                }
+
+                Assert.AreEqual(false, subject.IsDisposed);
+            }
+        }
+
+        [Test]
+        public void FromObservableOfMaybeIEnumerable()
+        {
+            using (var subject = new Subject<IMaybe<IEnumerable<int>>>())
+            {
+                using (var view = subject.AsReadOnlyFilteredView(x => x % 2 == 0))
+                {
+                    using (var actual = view.SubscribeAll())
+                    {
+                        subject.OnNext(Maybe.Some(new[] { 1, 2, 3, 4 }));
+                        CollectionAssert.AreEqual(new[] { 2, 4 }, view);
+                        var expected = new List<EventArgs>
+                                       {
+                                           CachedEventArgs.CountPropertyChanged,
+                                           CachedEventArgs.IndexerPropertyChanged,
+                                           CachedEventArgs.NotifyCollectionReset,
+                                       };
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                        subject.OnNext(Maybe.None<IEnumerable<int>>());
+                        CollectionAssert.IsEmpty(view);
+                        expected.AddRange(
+                            CachedEventArgs.CountPropertyChanged,
+                            CachedEventArgs.IndexerPropertyChanged,
+                            CachedEventArgs.NotifyCollectionReset);
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
+                }
+
+                Assert.AreEqual(false, subject.IsDisposed);
+            }
+        }
+
+        [Test]
+        public void ObserveValueAsReadOnlyView()
+        {
+            var fake = new Fake<IEnumerable<int>>();
+            using (var view = fake.ObserveValue(x => x.Value, signalInitial: true)
+                                  .AsReadOnlyFilteredView(x => x % 2 == 0))
+            {
+                CollectionAssert.IsEmpty(view);
+                using (var actual = view.SubscribeAll())
+                {
+                    fake.Value = new[] { 1, 2, 3, 4 };
+                    CollectionAssert.AreEqual(new[] { 2, 4 }, view);
+                    var expected = new List<EventArgs>
+                                   {
+                                       CachedEventArgs.CountPropertyChanged,
+                                       CachedEventArgs.IndexerPropertyChanged,
+                                       CachedEventArgs.NotifyCollectionReset,
+                                   };
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                    fake.Value = null;
+                    CollectionAssert.IsEmpty(view);
+                    expected.AddRange(
+                        CachedEventArgs.CountPropertyChanged,
+                        CachedEventArgs.IndexerPropertyChanged,
+                        CachedEventArgs.NotifyCollectionReset);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }
         }

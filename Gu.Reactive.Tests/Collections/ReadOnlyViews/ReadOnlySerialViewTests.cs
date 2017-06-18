@@ -390,7 +390,8 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         public void ObserveValueAsReadOnlyView()
         {
             var fake = new Fake<IEnumerable<int>>();
-            using (var view = fake.ObserveValue(x => x.Value, true).AsReadOnlyView())
+            using (var view = fake.ObserveValue(x => x.Value, signalInitial: true)
+                                  .AsReadOnlyView())
             {
                 CollectionAssert.IsEmpty(view);
                 using (var actual = view.SubscribeAll())
