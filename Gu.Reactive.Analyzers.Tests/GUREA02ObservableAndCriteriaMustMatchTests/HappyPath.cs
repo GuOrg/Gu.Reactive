@@ -90,6 +90,75 @@ namespace RoslynSandbox
         }
 
         [Test]
+        public void WhenUsingImmutableProperty()
+        {
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public sealed class Foo : INotifyPropertyChanged
+    {
+        private Bar bar;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Bar Bar
+        {
+            get => this.bar;
+
+            set
+            {
+                if (ReferenceEquals(value, this.bar))
+                {
+                    return;
+                }
+
+                this.bar = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}";
+
+            var barCode = @"
+namespace RoslynSandbox
+{
+    public class Bar
+    {
+        public Bar(int value)
+        {
+            Value = value;
+        }
+
+        public int Value { get; }
+    }
+}";
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : Condition
+    {
+        public FooCondition(Foo foo)
+            : base(
+                foo.ObservePropertyChangedSlim(x => x.Bar),
+                () => foo.Bar.Value == 2)
+        {
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA02ObservableAndCriteriaMustMatch>(fooCode, barCode, testCode);
+        }
+
+        [Test]
         public void IgnoreUsageInThrowOneLevel()
         {
             var fooCode = @"
