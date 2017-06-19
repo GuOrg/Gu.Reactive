@@ -2,7 +2,7 @@ image: Visual Studio 2017
 cache: packages -> paket.lock
 
 before_build:  
-- appveyor-retry dotnet restore -v Minimal
+- msbuild /t:Restore
 
 configuration: Release
 build:
