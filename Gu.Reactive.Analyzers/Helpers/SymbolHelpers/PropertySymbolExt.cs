@@ -1,6 +1,5 @@
 namespace Gu.Reactive.Analyzers
 {
-    using Gu.Reactive.Analyzers;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -8,6 +7,12 @@ namespace Gu.Reactive.Analyzers
     {
         internal static bool IsGetOnly(this IPropertySymbol property)
         {
+            if (property.ContainingType == KnownSymbol.Nullable ||
+                property.ContainingType == KnownSymbol.Type)
+            {
+                return true;
+            }
+
             if (!TryGetDeclaration(property, out BasePropertyDeclarationSyntax declaration))
             {
                 return false;

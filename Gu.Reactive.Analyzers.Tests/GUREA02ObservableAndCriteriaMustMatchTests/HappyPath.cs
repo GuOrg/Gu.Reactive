@@ -159,6 +159,62 @@ namespace RoslynSandbox
         }
 
         [Test]
+        public void WhenUsingNullableValue()
+        {
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public sealed class Foo : INotifyPropertyChanged
+    {
+        private int? value;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public int? Value
+        {
+            get => this.value;
+
+            set
+            {
+                if (value == this.value)
+                {
+                    return;
+                }
+
+                this.value = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}";
+
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : Condition
+    {
+        public FooCondition(Foo foo)
+            : base(
+                foo.ObservePropertyChangedSlim(x => x.Value),
+                () => { return foo.Value == null ? (bool?)null : foo.Value.Value == 1; })
+        {
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA02ObservableAndCriteriaMustMatch>(fooCode, testCode);
+        }
+
+        [Test]
         public void IgnoreUsageInThrowOneLevel()
         {
             var fooCode = @"
