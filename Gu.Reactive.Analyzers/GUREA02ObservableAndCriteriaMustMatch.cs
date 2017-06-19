@@ -78,7 +78,8 @@ namespace Gu.Reactive.Analyzers
                                 {
                                     if (semanticModel.GetSymbolSafe(name, cancellationToken) is IPropertySymbol property)
                                     {
-                                        if (!property.IsGetOnly())
+                                        if (!property.ContainingType.IsValueType ||
+                                            !property.IsGetOnly())
                                         {
                                             usedInCriteria.Item.Add(property);
                                         }
