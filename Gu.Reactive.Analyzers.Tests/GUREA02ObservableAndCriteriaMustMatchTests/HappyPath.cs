@@ -362,7 +362,7 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Bar : INotifyPropertyChanged
+    public class Bar : INotifyPropertyChanged, IDisposable
     {
         private int value;
 
@@ -370,10 +370,15 @@ namespace RoslynSandbox
 
         public int Value
         {
-            get => this.value;
+            get
+            {
+                ThrowIfDisposed();
+                return this.value;
+            }
 
             set
             {
+                ThrowIfDisposed();
                 if (value == this.value)
                 {
                     return;
@@ -384,9 +389,27 @@ namespace RoslynSandbox
             }
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
         }
     }
 }";
