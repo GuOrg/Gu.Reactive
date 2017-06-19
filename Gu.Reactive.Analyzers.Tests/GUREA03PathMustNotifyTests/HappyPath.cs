@@ -228,6 +228,97 @@ namespace RoslynSandbox
         }
 
         [Test]
+        public void GenericProperty()
+        {
+            var iBarCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public interface IBar : INotifyPropertyChanged
+    {
+        int Value { get; set; }
+    }
+}";
+
+            var iFooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public interface IFoo<T> : INotifyPropertyChanged
+        where T: class, IBar
+    {
+        T Bar { get; set; }
+    }
+}";
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar
+    {
+        public Bar(IFoo<IBar> foo)
+        {
+            foo.ObservePropertyChangedSlim(x => x.Bar.Value)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(iBarCode, iFooCode, testCode);
+        }
+
+        [Test]
+        public void GenericConstrainedProperty()
+        {
+            var iBarCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public interface IBar : INotifyPropertyChanged
+    {
+        int Value { get; set; }
+    }
+}";
+
+            var iFooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public interface IFoo<T> : INotifyPropertyChanged
+        where T: class, IBar
+    {
+        T Bar { get; set; }
+    }
+}";
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar<T>
+        where T: class, IBar
+    {
+        public Bar(IFoo<T> foo)
+        {
+            foo.ObservePropertyChangedSlim(x => x.Bar.Value)
+               .Subscribe(_ => Console.WriteLine(string.Empty));
+        }
+    }
+}";
+            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(iBarCode, iFooCode, testCode);
+        }
+
+        [Test]
         public void TwoLevels()
         {
             var fooCode = @"
