@@ -1,3 +1,11 @@
+#### 3.4.0
+* BUGFIXES: Many bugfixes in tha analyzers.
+* FEATURE: observable.AsMappingView(...)
+* FEATURE: observable.AsReadonlyFilteredView(...)
+* FEATURE: observable.AsReadonlyView(...)
+* FEATURE: NullIsFalse<TCondition>)
+* FEATURE: ObservableBatchCollection.ResetTo(newItems)
+
 #### 3.3.1
 * BUGFIX: Make prerequisites immutable.
 
