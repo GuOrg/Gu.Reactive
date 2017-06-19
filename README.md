@@ -4,6 +4,7 @@ Gu.Reactive
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 [![Nuget](https://img.shields.io/nuget/v/Gu.Reactive.svg?label=Gu.Reactive)](https://www.nuget.org/packages/Gu.Reactive/)
 [![Nuget](https://img.shields.io/nuget/v/Gu.Wpf.Reactive.svg?label=Gu.Wpf.Reactive)](https://www.nuget.org/packages/Gu.Wpf.Reactive/)
+[![Build status](https://ci.appveyor.com/api/projects/status/klrt8kctqbvt2j95/branch/master?svg=true)](https://ci.appveyor.com/project/JohanLarsson/gu-reactive/branch/master)
 [![Gitter](https://badges.gitter.im/JoinChat.svg)](https://gitter.im/JohanLarsson/Gu.Reactive?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Helpers for using System.Reactive with `INotifyPropertyChanged`.
