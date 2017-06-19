@@ -191,7 +191,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                     using (var actual = view.SubscribeAll())
                     {
                         source.Add(1);
-                        await Application.Current.Dispatcher.SimulateYield();
+                        ////await Application.Current.Dispatcher.SimulateYield();
                         CollectionAssert.IsEmpty(view);
                         CollectionAssert.IsEmpty(actual);
 
