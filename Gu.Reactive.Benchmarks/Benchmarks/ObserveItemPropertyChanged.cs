@@ -8,7 +8,7 @@
     {
         private readonly ObservableCollection<Fake> source = new ObservableCollection<Fake>();
 
-        [Setup]
+        [GlobalSetup]
         public void SetupData()
         {
             this.source.Clear();

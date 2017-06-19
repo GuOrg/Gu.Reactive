@@ -1,9 +1,6 @@
 image: Visual Studio 2017
 cache: packages -> paket.lock
 
-before_build:  
-- ps: dotnet restore -v d
-
 configuration: Release
 build:
   verbosity: minimal

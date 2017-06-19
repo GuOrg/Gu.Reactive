@@ -11,7 +11,7 @@ namespace Gu.Reactive.Benchmarks
         private ObservableCollection<int> ints1 = new ObservableBatchCollection<int>();
         private ObservableCollection<int> ints2 = new ObservableBatchCollection<int>();
 
-        [Setup]
+        [GlobalSetup]
         public void SetupData()
         {
             foreach (var ints in new[] { this.ints1, this.ints2 })

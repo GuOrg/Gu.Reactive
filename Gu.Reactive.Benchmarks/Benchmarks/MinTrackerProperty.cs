@@ -12,7 +12,7 @@ namespace Gu.Reactive.Benchmarks
         private readonly ObservableCollection<Fake> fakes2 = new ObservableCollection<Fake>();
         private readonly ObservableCollection<Fake> fakes3 = new ObservableCollection<Fake>();
 
-        [Setup]
+        [GlobalSetup]
         public void SetupData()
         {
             foreach (var fakes in new[] { this.fakes1, this.fakes2, this.fakes3 })

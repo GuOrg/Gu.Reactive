@@ -5,6 +5,9 @@
     using System.Reactive.Concurrency;
     using Gu.Reactive.Internals;
 
+    /// <summary>
+    /// Factory methods fro creating <see cref="ReadOnlyFilteredView{T}"/>
+    /// </summary>
     public static partial class ReadOnlyFilteredView
     {
         /// <summary>
