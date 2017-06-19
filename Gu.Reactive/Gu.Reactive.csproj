@@ -259,7 +259,6 @@
   <!--<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'CreateNugetPackage|AnyCPU'">
     <PostBuildEvent>$(SolutionDir).paket\paket.exe "pack" "output" ".\publish"</PostBuildEvent>
   </PropertyGroup>-->
-  <Import Project="..\.paket\paket.targets" />
   <ItemGroup>
     <None Include="Collections\ReadOnlyViews\ReadOnlyThrottledView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -475,4 +474,5 @@
       </ItemGroup>
     </When>
   </Choose>
+  <Import Project="..\.paket\paket.targets" />
 </Project>

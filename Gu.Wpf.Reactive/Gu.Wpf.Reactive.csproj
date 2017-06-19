@@ -171,7 +171,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="..\.paket\paket.targets" />
   <ItemGroup>
     <None Include="Collections\ReadOnlyDispatchingView.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -406,4 +405,5 @@
       </ItemGroup>
     </When>
   </Choose>
+  <Import Project="..\.paket\paket.targets" />
 </Project>

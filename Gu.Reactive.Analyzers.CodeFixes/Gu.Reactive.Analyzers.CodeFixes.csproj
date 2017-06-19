@@ -8,5 +8,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj" />
   </ItemGroup>
-  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
