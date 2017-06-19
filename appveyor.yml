@@ -2,7 +2,7 @@ image: Visual Studio 2017
 cache: packages -> paket.lock
 
 before_build:  
-- msbuild /t:Restore
+- ps: dotnet restore -v d
 
 configuration: Release
 build:
