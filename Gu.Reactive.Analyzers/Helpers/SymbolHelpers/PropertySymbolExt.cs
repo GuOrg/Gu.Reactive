@@ -8,7 +8,11 @@ namespace Gu.Reactive.Analyzers
         internal static bool IsGetOnly(this IPropertySymbol property)
         {
             if (property.ContainingType == KnownSymbol.Nullable ||
-                property.ContainingType == KnownSymbol.Type)
+                property.ContainingType == KnownSymbol.Type ||
+                property.ContainingType == KnownSymbol.TimeSpan ||
+                property.ContainingType == KnownSymbol.DateTime ||
+                property.ContainingType == KnownSymbol.DateTimeOffset ||
+                property.ContainingType == KnownSymbol.String)
             {
                 return true;
             }

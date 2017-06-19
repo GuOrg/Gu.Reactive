@@ -9,6 +9,9 @@ namespace Gu.Reactive.Analyzers
         internal static readonly QualifiedType Boolean = Create("System.Boolean");
         internal static readonly NullableOfTType Nullable = new NullableOfTType();
         internal static readonly StringType String = new StringType();
+        internal static readonly QualifiedType DateTimeOffset = Create("System.DateTimeOffset");
+        internal static readonly QualifiedType DateTime = Create("System.DateTime");
+        internal static readonly QualifiedType TimeSpan = Create("System.TimeSpan");
         internal static readonly QualifiedType Array = Create("System.Array");
         internal static readonly QualifiedType Tuple = Create("System.Tuple");
         internal static readonly QualifiedType Func = Create("System.Func");
