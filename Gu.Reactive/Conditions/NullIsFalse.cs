@@ -1,5 +1,6 @@
 namespace Gu.Reactive
 {
+    using System.Collections.Generic;
     using System.Reactive.Linq;
 
     /// <summary>
@@ -8,6 +9,8 @@ namespace Gu.Reactive
     public class NullIsFalse<TCondition> : Condition
         where TCondition : class, ICondition
     {
+        private readonly TCondition condition;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="NullIsFalse{TCondition}"/> class.
         /// </summary>
@@ -18,6 +21,10 @@ namespace Gu.Reactive
                          .DistinctUntilChanged(),
                 () => condition.IsSatisfied ?? false)
         {
+            this.condition = condition;
         }
+
+        /// <inheritdoc />
+        public override IReadOnlyList<ICondition> Prerequisites => this.condition.Prerequisites;
     }
 }

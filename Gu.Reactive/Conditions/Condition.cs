@@ -78,7 +78,7 @@ namespace Gu.Reactive
         public IEnumerable<ConditionHistoryPoint> History => this.history;
 
         /// <summary>
-        /// The subconditions for this condition
+        /// The sub conditions for this condition
         /// </summary>
         public virtual IReadOnlyList<ICondition> Prerequisites
         {
