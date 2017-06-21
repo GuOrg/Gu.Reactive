@@ -6,7 +6,6 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     using System.Collections.ObjectModel;
     using System.Reactive.Subjects;
     using Gu.Reactive.Tests.Helpers;
-    using Moq;
     using NUnit.Framework;
 
     public class ReadOnlySerialViewTests
