@@ -74,7 +74,7 @@ Nuget can generate redirects using PM> `Get-Project –All | Add-BindingRedirect
 
 ```c#
 var subscription = fake.ObservePropertyChanged(x => x.Level1.Level2.Value)
-					   .Subscribe(...);
+                       .Subscribe(...);
 ```
 
 1) Create an observable from the `PropertytChangedEvent` for fake.
@@ -91,7 +91,7 @@ The eventags for the signal initial event is `string.Empty`
 
 ```c#
 var subscription = this.ObservePropertyChangedSlim(nameof(this.Value"))
-					   .Subscribe(...);
+                       .Subscribe(...);
 ```
 
 1) Return an `IObservable<PropertyChangedEventArgs>` so more lightweight than `ObservePropertyChanged`
@@ -108,14 +108,14 @@ If so it return `Maybe.None`
 ```c#
 var ints = new List<int>();
 fake.ObserveValue(x => x.Next.Value)
-	.Subscribe(ints.Add);
+    .Subscribe(ints.Add);
 ```
 
 ## ObservePropertyChangedWithValue
 ```c#
 fake.ObservePropertyChangedWithValue(x => x.Collection)
-	.ItemPropertyChanged(x => x.Name)
-	.Subscribe(_changes.Add);
+    .ItemPropertyChanged(x => x.Name)
+    .Subscribe(_changes.Add);
 ```
 
 
@@ -123,7 +123,7 @@ fake.ObservePropertyChangedWithValue(x => x.Collection)
 
 ```c#
 var subscription = collection.ObserveCollectionChanged()
-					   .Subscribe(...);
+                       .Subscribe(...);
 ```
 
 1) Create an observable from the `CollectionChangedEvent` for collection.
@@ -135,7 +135,7 @@ Default true meaning that the observable will call OnNExt on Subscribe
 
 ```c#
 var subscription = collection.ObserveCollectionChangedSlim()
-					   .Subscribe(...);
+                       .Subscribe(...);
 ```
 
 1) Return an `IObservable<NotifyCollectionChangedEventArgs>` so more lightweight than `ObserveCollectionChanged`
@@ -146,7 +146,7 @@ Default true meaning that the observable will call OnNExt on Subscribe
 ## ObserveItemPropertyChanged
 ```c#
 var subscription = collection.ObserveItemPropertyChanged(x => x.Name)
-							 .Subscribe(...);
+                             .Subscribe(...);
 ```
 1) Listens to changes using ObservePropertyChanged
 2) Removes subscriptions for elements that are removed from the collection and adds subscription to new elements.
@@ -204,8 +204,8 @@ Calculates IsSatisfied based on if any of the prerequisites are true. Listens to
 public class IsAnyDoorOpen : OrCondition
 {
     public IsAnyDoorOpen(
-		IsLeftDoorOpen isLeftDoorOpen,
-		IsRightDoorOpen isRightDoorOpen)
+        IsLeftDoorOpen isLeftDoorOpen,
+        IsRightDoorOpen isRightDoorOpen)
         : base(isLeftDoorOpen, isRightDoorOpen)
     {
     }
@@ -225,8 +225,8 @@ Calculates IsSatisfied based on if all of the prerequisites have IsSatisfied == 
 public class IsAnyDoorOpen : AndCondition
 {
     public IsAnyDoorOpen(
-		IsLeftDoorOpen isLeftDoorOpen,
-		IsRightDoorOpen isRightDoorOpen)
+        IsLeftDoorOpen isLeftDoorOpen,
+        IsRightDoorOpen isRightDoorOpen)
         : base(isLeftDoorOpen.Negate(), isRightDoorOpen.Negate())
     {
     }
@@ -570,14 +570,14 @@ If no condition is passed in IsEnabled is true when not running.
 ```C#
 public ViewModel()
 {
-	var canExecute = new Condition(
-	    this.ObservePropertyChanged(x => x.CanExecute), 
-		() => this.CanExecute);
+    var canExecute = new Condition(
+        this.ObservePropertyChanged(x => x.CanExecute), 
+        () => this.CanExecute);
 
-	this.SimpleTaskCommand = new AsyncCommand(this.SimpleTask, canExecute);
-	this.CancelableTaskCommand = new AsyncCommand(this.CancelableTask, canExecute);
-	this.ParameterTaskCommand = new AsyncCommand<string>(this.ParameterTask, canExecute);
-	this.CancelableParameterTaskCommand = new AsyncCommand<string>(this.CancelableParameterTask, canExecute);
+    this.SimpleTaskCommand = new AsyncCommand(this.SimpleTask, canExecute);
+    this.CancelableTaskCommand = new AsyncCommand(this.CancelableTask, canExecute);
+    this.ParameterTaskCommand = new AsyncCommand<string>(this.ParameterTask, canExecute);
+    this.CancelableParameterTaskCommand = new AsyncCommand<string>(this.CancelableParameterTask, canExecute);
 }
 
 public AsyncCommand SimpleTaskCommand { get; }
@@ -622,9 +622,9 @@ A relay command where canexecute is controlled by a `ICondition`
 ```C#
 public ViewModel()
 {
-	var canExecute = new Condition(
-	    this.ObservePropertyChanged(x => x.CanExecute), 
-		() => this.CanExecute);
+    var canExecute = new Condition(
+        this.ObservePropertyChanged(x => x.CanExecute), 
+        () => this.CanExecute);
 
     this.ConditionRelayCommand = new ConditionRelayCommand(() => ..., canExecute);
     this.ConditionRelayCommandWithParameter = new ConditionRelayCommand<string>(parameter => ..., canExecute);
@@ -713,14 +713,14 @@ xmlns:reactive="http://Gu.com/Reactive"
 ...
 <DataGrid AutoGenerateColumns="False">
     <DataGrid.Columns>
-	    <!--Here the viewmodel has a Visibility property-->
+        <!--Here the viewmodel has a Visibility property-->
         <DataGridTextColumn Header="Binding" 
-		                    Visibility="{reactive:NinjaBinding {Binding Visibility}}" />
+                            Visibility="{reactive:NinjaBinding {Binding Visibility}}" />
 
         <DataGridTextColumn Header="ElementName" 
-		                    Visibility="{reactive:NinjaBinding Binding={Binding IsChecked, 
-														                        ElementName=CheckBox, 
-																				Converter={StaticResource BooleanToVisibilityConverter}}}" />
+                            Visibility="{reactive:NinjaBinding Binding={Binding IsChecked, 
+                                                                                ElementName=CheckBox, 
+                                                                                Converter={StaticResource BooleanToVisibilityConverter}}}" />
     </DataGrid.Columns>
 </DataGrid>
 ```
