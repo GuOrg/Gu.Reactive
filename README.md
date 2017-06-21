@@ -102,7 +102,7 @@ Default true meaning that the observable will call OnNExt on Subscribe
 
 ## ObserveValue
 Observe the value of a property, calls on next when the value changes. 
-Returns an Observable<Maybe<T>>, this is due to if you observe `foo.ObserveValue(x => x.Bar.Baz)` and Bar is null.
+Returns an `Observable<Maybe<T>>`, this is due to if you observe `foo.ObserveValue(x => x.Bar.Baz)` and Bar is null.
 If so it return `Maybe.None`
 
 ```c#
