@@ -1,3 +1,6 @@
+#### 3.4.1
+* BUGFIX: Expose prerquisites for NullIsFale<TCondition>.
+
 #### 3.4.0
 * BUGFIXES: Many bugfixes in tha analyzers.
 * FEATURE: observable.AsMappingView(...)

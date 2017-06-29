@@ -4,11 +4,7 @@ projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-* FEATURE: observable.AsMappingView(...)
-* FEATURE: observable.AsReadonlyFilteredView(...)
-* FEATURE: observable.AsReadonlyView(...)
-* FEATURE: NullIsFalse<TCondition>)
-* FEATURE: ObservableBatchCollection.ResetTo(newItems)
+* Expose prerquisites for NullIsFale<TCondition>
 
 excludeddependencies
   JetBrains.Annotations
