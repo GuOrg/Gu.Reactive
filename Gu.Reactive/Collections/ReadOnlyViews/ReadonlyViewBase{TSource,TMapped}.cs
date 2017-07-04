@@ -29,15 +29,15 @@ namespace Gu.Reactive
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="mapper">The mapping function.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
-        /// <param name="starteEmpty">True means that ther tracker is empty after the constructor.</param>
-        protected ReadonlyViewBase(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper, bool leaveOpen, bool starteEmpty = false)
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
+        /// <param name="startEmpty">True means that the tracker is empty after the constructor.</param>
+        protected ReadonlyViewBase(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper, bool leaveOpen, bool startEmpty = false)
         {
             Ensure.NotNull(mapper, nameof(mapper));
             this.mapper = mapper;
             this.leaveOpen = leaveOpen;
             this.source = source ?? EmptySource;
-            this.tracker = new CollectionSynchronizer<TMapped>(starteEmpty ? mapper(EmptySource) : mapper(source));
+            this.tracker = new CollectionSynchronizer<TMapped>(startEmpty ? mapper(EmptySource) : mapper(source));
         }
 
         /// <inheritdoc/>
@@ -309,8 +309,8 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Notify about the changes [PropertyChanged("Count"), PropertyChanged("Item[]", CollectionChanged].
-        /// Count is not signalled for move and replace.
-        ///  If the list has more than one change a reste notification is performed.
+        /// Count is not signaled for move and replace.
+        ///  If the list has more than one change a reset notification is performed.
         /// </summary>
         protected virtual void Notify(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
@@ -333,7 +333,7 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Notify about the changes [PropertyChanged("Count"), PropertyChanged("Item[]", CollectionChanged].
-        /// Count is not signalled for move and replace.
+        /// Count is not signaled for move and replace.
         /// </summary>
         protected virtual void Notify(NotifyCollectionChangedEventArgs change)
         {

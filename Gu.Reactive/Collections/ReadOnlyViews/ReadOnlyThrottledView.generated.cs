@@ -15,7 +15,7 @@
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="source">The source collection</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
         public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen = false)
         {
@@ -29,7 +29,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
         public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen = false)
         {
@@ -42,7 +42,7 @@
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="source">The source collection</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
         public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen = false)
         {
@@ -56,7 +56,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
         public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen = false)
         {
@@ -69,7 +69,7 @@
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="source">The source collection</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
         public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this IReadOnlyObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen = false)
         {
@@ -83,7 +83,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyThrottledView{T}"/></returns>
         public static ReadOnlyThrottledView<T> AsReadOnlyThrottledView<T>(this IReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen = false)
         {

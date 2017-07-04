@@ -6,7 +6,7 @@ namespace Gu.Reactive
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// A comparer for lamda expressions with only properties.
+    /// A comparer for lambda expressions with only properties.
     /// Example x => x.Foo.Bar or () => Foo.Bar
     /// </summary>
     public sealed class PropertyPathComparer : IEqualityComparer<LambdaExpression>

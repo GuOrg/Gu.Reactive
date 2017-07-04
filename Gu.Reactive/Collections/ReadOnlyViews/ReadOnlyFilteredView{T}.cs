@@ -25,11 +25,11 @@
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer source changes before updating the view.</param>
         /// <param name="scheduler">The scheduler to perform the filtering and notification on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when to filter.</param>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, IEnumerable<IObservable<object>> triggers)
-            : base(source, x => x.Where(filter), leaveOpen, starteEmpty: true)
+            : base(source, x => x.Where(filter), leaveOpen, startEmpty: true)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));

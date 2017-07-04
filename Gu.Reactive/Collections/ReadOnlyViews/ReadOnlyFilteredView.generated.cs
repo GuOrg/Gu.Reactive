@@ -35,7 +35,7 @@
         /// <typeparam name="T">The type of the elements in the source collection.</typeparam>
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -76,7 +76,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -119,7 +119,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -166,7 +166,7 @@
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -207,7 +207,7 @@
         /// <typeparam name="T">The type of the elements in the source collection.</typeparam>
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -248,7 +248,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -291,7 +291,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -338,7 +338,7 @@
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -379,7 +379,7 @@
         /// <typeparam name="T">The type of the elements in the source collection.</typeparam>
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -420,7 +420,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -463,7 +463,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -510,7 +510,7 @@
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -552,7 +552,7 @@
         /// <typeparam name="T">The type of the elements in the source collection.</typeparam>
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Trigger for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -595,7 +595,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Trigger for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -640,7 +640,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Trigger for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -689,7 +689,7 @@
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Trigger for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -732,7 +732,7 @@
         /// <typeparam name="T">The type of the elements in the source collection.</typeparam>
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="trigger">Trigger for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -775,7 +775,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="trigger">Trigger for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -820,7 +820,7 @@
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="trigger">Trigger for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -869,7 +869,7 @@
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="trigger">Trigger for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(

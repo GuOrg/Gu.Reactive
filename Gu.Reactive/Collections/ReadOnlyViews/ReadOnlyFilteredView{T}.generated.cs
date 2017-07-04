@@ -31,7 +31,7 @@ namespace Gu.Reactive
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer source changes before updating the view.</param>
         /// <param name="scheduler">The scheduler to perform the filtering and notification on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when to filter.</param>
         public ReadOnlyFilteredView(ObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
             : this(source, filter, bufferTime, scheduler, leaveOpen, (IEnumerable<IObservable<object>>)triggers)
@@ -58,7 +58,7 @@ namespace Gu.Reactive
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer source changes before updating the view.</param>
         /// <param name="scheduler">The scheduler to perform the filtering and notification on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when to filter.</param>
         public ReadOnlyFilteredView(ReadOnlyObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
             : this(source, filter, bufferTime, scheduler, leaveOpen, (IEnumerable<IObservable<object>>)triggers)
@@ -85,7 +85,7 @@ namespace Gu.Reactive
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer source changes before updating the view.</param>
         /// <param name="scheduler">The scheduler to perform the filtering and notification on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when to filter.</param>
         public ReadOnlyFilteredView(IReadOnlyObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
             : this(source, filter, bufferTime, scheduler, leaveOpen, (IEnumerable<IObservable<object>>)triggers)
@@ -112,7 +112,7 @@ namespace Gu.Reactive
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer source changes before updating the view.</param>
         /// <param name="scheduler">The scheduler to perform the filtering and notification on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when to filter.</param>
         public ReadOnlyFilteredView(IObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
             : this(source, filter, bufferTime, scheduler, leaveOpen, (IEnumerable<IObservable<object>>)triggers)

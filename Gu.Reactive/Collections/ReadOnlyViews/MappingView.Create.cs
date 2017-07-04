@@ -38,7 +38,7 @@ namespace Gu.Reactive
         /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
@@ -60,7 +60,7 @@ namespace Gu.Reactive
         /// <param name="source">The source collection</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
@@ -84,7 +84,7 @@ namespace Gu.Reactive
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
@@ -109,7 +109,7 @@ namespace Gu.Reactive
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
@@ -137,7 +137,7 @@ namespace Gu.Reactive
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
         /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
@@ -171,7 +171,7 @@ namespace Gu.Reactive
         /// The second parameter is the index of the element.
         /// </param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
@@ -204,7 +204,7 @@ namespace Gu.Reactive
         /// </param>
         /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
@@ -238,7 +238,7 @@ namespace Gu.Reactive
         /// </param>
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
@@ -274,7 +274,7 @@ namespace Gu.Reactive
         /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
         /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(

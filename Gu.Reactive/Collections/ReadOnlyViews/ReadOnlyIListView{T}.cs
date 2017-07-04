@@ -28,7 +28,7 @@
         /// Initializes a new instance of the <see cref="ReadOnlyIListView{T}"/> class.
         /// </summary>
         /// <param name="source">The source collection.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public ReadOnlyIListView(IObservableCollection<T> source, bool leaveOpen)
         {
             this.source = new DisposingReadOnlyCollection(source);
@@ -40,7 +40,7 @@
         /// Initializes a new instance of the <see cref="ReadOnlyIListView{T}"/> class.
         /// </summary>
         /// <param name="source">The source collection.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public ReadOnlyIListView(IReadOnlyObservableCollection<T> source, bool leaveOpen)
         {
             this.source = source;

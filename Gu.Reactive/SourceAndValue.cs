@@ -1,7 +1,7 @@
 namespace Gu.Reactive
 {
     /// <summary>
-    /// Factory methosds for <see cref="SourceAndValue{TSource,TValue}"/>
+    /// Factory methods for <see cref="SourceAndValue{TSource,TValue}"/>
     /// </summary>
     public static class SourceAndValue
     {
