@@ -1,7 +1,8 @@
 ﻿namespace Gu.Reactive
 {
+    using System;
     using System.Collections.Generic;
-    using System.Linq;
+    using Gu.Reactive.Internals;
 
     /// <summary>
     /// Used internally in <see cref="AndCondition"/>
@@ -25,17 +26,33 @@
                 return null;
             }
 
-            if (prerequisites.All(x => x.IsSatisfied == true))
+            // We do the retries here as we don't own prerequisites
+            // Not pretty and maybe allowing mutable notifying prerequisites was a huge mistake.
+            var retry = 0;
+            while (true)
             {
-                return true;
-            }
+                try
+                {
+                    var isNull = false;
+                    foreach (var prerequisite in prerequisites)
+                    {
+                        var prerequisiteIsSatisfied = prerequisite.IsSatisfied;
+                        if (prerequisiteIsSatisfied == false)
+                        {
+                            return false;
+                        }
 
-            if (prerequisites.Any(x => x.IsSatisfied == false))
-            {
-                return false;
-            }
+                        isNull |= prerequisiteIsSatisfied == null;
+                    }
 
-            return null; // Mix of trues and nulls means not enough info.
+                    return isNull ? (bool?)null : true; // Mix of trues and nulls means not enough info.
+                }
+                catch (InvalidOperationException e) when (e.Message == Exceptions.CollectionWasModified.Message &&
+                                                          retry < 5)
+                {
+                    retry++;
+                }
+            }
         }
     }
 }
