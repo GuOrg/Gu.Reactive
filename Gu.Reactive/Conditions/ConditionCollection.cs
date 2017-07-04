@@ -33,12 +33,13 @@ namespace Gu.Reactive
             Ensure.NotNull(isSatisfied, nameof(isSatisfied));
             Ensure.NotNull(prerequisites, nameof(prerequisites));
 
-            var distinct = prerequisites.Distinct().ToArray();
-            if (distinct.Length != prerequisites.Count)
+            var set = IdentitySet.Borrow<ICondition>();
+            set.UnionWith(prerequisites);
+            if (set.Count != prerequisites.Count)
             {
                 var builder = new StringBuilder();
                 builder.AppendLine("Prerequisites must be distinct");
-                foreach (var prerequisite in distinct)
+                foreach (var prerequisite in set)
                 {
                     var count = prerequisites.Count(x => x == prerequisite);
                     if (count > 1)
@@ -49,6 +50,8 @@ namespace Gu.Reactive
 
                 throw new ArgumentException(builder.ToString(), nameof(prerequisites));
             }
+
+            IdentitySet.Return(set);
 
             this.isSatisfied = isSatisfied;
             this.subscription = this.ObserveItemPropertyChangedSlim(x => x.IsSatisfied)

@@ -92,7 +92,8 @@
     <Compile Include="Collections\ObservableSet{T}.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadonlyIListView.cs" />
     <Compile Include="Internals\Exceptions.cs" />
-    <Compile Include="Internals\SetPool.cs" />
+    <Compile Include="Internals\IdentitySet.cs" />
+    <Compile Include="Internals\IdentitySet`1.cs" />
     <Compile Include="Internals\ListExt.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadonlyViewBase{TSource,TMapped}.cs" />
     <Compile Include="Collections\Internals\ThrowHelper.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Internals\PropertyPath\NotifyingPath{TNotifier,TProperty}.cs" />
     <Compile Include="Internals\PropertyTracker\IPropertyTracker{TValue}.cs" />
     <Compile Include="Internals\PropertyTracker\TrackedPropertyChangedEventHandler.cs" />
+    <Compile Include="Internals\SetPool.cs" />
     <Compile Include="Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
     <Compile Include="Reflection\Getter\IdentityGetter.cs" />

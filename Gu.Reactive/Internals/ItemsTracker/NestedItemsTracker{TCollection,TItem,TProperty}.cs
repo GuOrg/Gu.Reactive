@@ -178,7 +178,7 @@
 
         private void RemoveItems(IEnumerable items)
         {
-            var set = SetPool.Borrow<TItem>();
+            var set = IdentitySet.Borrow<TItem>();
             foreach (var item in items)
             {
                 set.Add((TItem)item);
@@ -199,7 +199,7 @@
             }
 
             set.Clear();
-            SetPool.Return(set);
+            IdentitySet.Return(set);
         }
 
         private void SignalInitial(PropertyPathTracker<TItem, TProperty> tracker)

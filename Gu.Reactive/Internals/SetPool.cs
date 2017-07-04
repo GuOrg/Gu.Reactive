@@ -1,36 +1,27 @@
-﻿namespace Gu.Reactive.Internals
+namespace Gu.Reactive.Internals
 {
     using System.Collections.Concurrent;
     using System.Collections.Generic;
 
     internal static class SetPool
     {
-        public static IdentitySet<T> Borrow<T>()
+        public static HashSet<T> Borrow<T>()
             where T : class
         {
-            return Pool<T>.Cache.GetOrCreate(() => new IdentitySet<T>());
+            return Pool<T>.Cache.GetOrCreate(() => new HashSet<T>());
         }
 
-        public static void Return<T>(IdentitySet<T> set)
+        public static void Return<T>(HashSet<T> set)
             where T : class
         {
             set.Clear();
             Pool<T>.Cache.Enqueue(set);
         }
 
-        internal class IdentitySet<T> : HashSet<T>
-            where T : class
-        {
-            public IdentitySet()
-                : base(ObjectIdentityComparer<T>.Default)
-            {
-            }
-        }
-
         private static class Pool<T>
             where T : class
         {
-            internal static readonly ConcurrentQueue<IdentitySet<T>> Cache = new ConcurrentQueue<IdentitySet<T>>();
+            internal static readonly ConcurrentQueue<HashSet<T>> Cache = new ConcurrentQueue<HashSet<T>>();
         }
     }
 }
