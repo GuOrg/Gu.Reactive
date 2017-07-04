@@ -34,8 +34,7 @@ namespace Gu.Reactive.Internals
             var parts = new INotifyingGetter[properties.Count];
             for (var i = 0; i < properties.Count; i++)
             {
-                string errorMessage;
-                if (TryGetError(properties, i, out errorMessage))
+                if (TryGetError(properties, i, out string errorMessage))
                 {
                     errorBuilder.Append(errorMessage);
                     errorBuilder.AppendLine();

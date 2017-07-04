@@ -38,8 +38,7 @@
 
         internal static PropertyPath GetPath(string path)
         {
-            PropertyPath propertyPath;
-            if (!PropertyPaths.TryGetValue(path, out propertyPath))
+            if (!PropertyPaths.TryGetValue(path, out PropertyPath propertyPath))
             {
                 propertyPath = new PropertyPath(path);
                 PropertyPaths[path] = propertyPath;

@@ -14,7 +14,7 @@
         private static readonly IReadOnlyList<string> Strings = Enumerable.Range(0, 1000).Select(x => x.ToString()).ToArray();
         private static readonly Expression<Func<Fake, int>> SingleItemPath = x => x.Value;
         private static readonly Expression<Func<Fake, int>> TwoItemPath = x => x.Next.Value;
-        private static readonly ConcurrentBag<SetPool.IdentitySet<string>> Bag = new ConcurrentBag<SetPool.IdentitySet<string>>(new[] { new SetPool.IdentitySet<string>(), });
+        private static readonly ConcurrentBag<IdentitySet<string>> Bag = new ConcurrentBag<IdentitySet<string>>(new[] { new IdentitySet<string>(), });
         private static readonly PropertyInfo Property = typeof(Fake).GetProperty("Next");
 
         [Benchmark(Baseline = true)]
@@ -26,13 +26,13 @@
         [Benchmark]
         public object NewSetPoolIdentitySet()
         {
-            return new SetPool.IdentitySet<string>();
+            return new IdentitySet<string>();
         }
 
         [Benchmark]
         public object NewSetPoolIdentitySetUnionWithStrings()
         {
-            var set = new SetPool.IdentitySet<string>();
+            var set = new IdentitySet<string>();
             set.UnionWith(Strings);
             set.Clear();
             return set;
@@ -49,8 +49,7 @@
         [Benchmark]
         public object TryTakeAdd()
         {
-            SetPool.IdentitySet<string> set;
-            if (Bag.TryTake(out set))
+            if (Bag.TryTake(out IdentitySet<string> set))
             {
                 Bag.Add(set);
             }
