@@ -34,7 +34,7 @@ namespace Gu.Reactive
             Ensure.NotNull(prerequisites, nameof(prerequisites));
 
             var set = IdentitySet.Borrow<ICondition>();
-            set.UnionWith(prerequisites);
+            set.UnionWithWithRetries(prerequisites);
             if (set.Count != prerequisites.Count)
             {
                 var builder = new StringBuilder();

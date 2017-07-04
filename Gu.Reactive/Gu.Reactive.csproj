@@ -92,9 +92,10 @@
     <Compile Include="Collections\ObservableSet{T}.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadonlyIListView.cs" />
     <Compile Include="Internals\Exceptions.cs" />
+    <Compile Include="Internals\Extensions\SetExt.cs" />
     <Compile Include="Internals\IdentitySet.cs" />
     <Compile Include="Internals\IdentitySet`1.cs" />
-    <Compile Include="Internals\ListExt.cs" />
+    <Compile Include="Internals\Extensions\ListExt.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadonlyViewBase{TSource,TMapped}.cs" />
     <Compile Include="Collections\Internals\ThrowHelper.cs" />
     <Compile Include="Conditions\ConditionExt.cs" />
@@ -134,7 +135,7 @@
     <Compile Include="Internals\ItemsTracker\NestedItemsTracker{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\ItemsTracker\SimpleItemsTracker{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\ItemsTracker\TrackedItemPropertyChangedEventHandler.cs" />
-    <Compile Include="Internals\LazyExt.cs" />
+    <Compile Include="Internals\Extensions\LazyExt.cs" />
     <Compile Include="Internals\PropertyPath\INotifyingGetter.cs" />
     <Compile Include="Internals\PropertyPath\NotifyingGetter.cs" />
     <Compile Include="Internals\PropertyTracker\IPropertyTracker.cs" />
@@ -161,7 +162,7 @@
     </Compile>
     <Compile Include="ObservableExt.cs" />
     <Compile Include="EventArgs\PropertyChangedAndValueEventArgs{TProperty}.cs" />
-    <Compile Include="Internals\ExpressionExt.cs" />
+    <Compile Include="Internals\Extensions\ExpressionExt.cs" />
     <Compile Include="Reflection\Comparers\MemberExpressionComparer.cs" />
     <Compile Include="Reflection\Getter\ClassGetter{TSource,TValue}.cs" />
     <Compile Include="Reflection\Getter\Getter.cs" />
