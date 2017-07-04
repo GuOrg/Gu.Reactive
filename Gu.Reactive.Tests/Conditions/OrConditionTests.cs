@@ -15,9 +15,17 @@ namespace Gu.Reactive.Tests.Conditions
     {
         [TestCase(true, true, true, true)]
         [TestCase(true, true, null, true)]
+        [TestCase(true, null, true, true)]
+        [TestCase(null, true, true, true)]
+        [TestCase(null, null, true, true)]
+        [TestCase(false, null, true, true)]
+        [TestCase(true, null, true, true)]
         [TestCase(true, true, false, true)]
         [TestCase(true, false, null, true)]
+        [TestCase(false, false, false, false)]
         [TestCase(false, null, null, null)]
+        [TestCase(null, false, null, null)]
+        [TestCase(null, null, false, null)]
         [TestCase(null, null, null, null)]
         public void IsSatisfied(bool? first, bool? second, bool? third, bool? expected)
         {
