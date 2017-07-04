@@ -6,7 +6,7 @@
     internal interface INotifyingGetter : IGetter
     {
         /// <summary>
-        /// Createa tracker for the property.
+        /// Create tracker for the property.
         /// </summary>
         IPropertyTracker CreateTracker(IPropertyPathTracker tracker);
     }

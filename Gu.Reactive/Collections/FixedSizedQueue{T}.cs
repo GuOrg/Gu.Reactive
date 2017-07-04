@@ -46,7 +46,7 @@
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        /// <summary>Adds an object to the end of the <see cref="FixedSizedQueue{T}"/> overflow is termmed off.</summary>
+        /// <summary>Adds an object to the end of the <see cref="FixedSizedQueue{T}"/> overflow is trimmed.</summary>
         /// <param name="item">The object to add to the end of the <see cref="FixedSizedQueue{T}"/>. The value can be a null reference (Nothing in Visual Basic) for reference types.</param>
         public virtual void Enqueue(T item)
         {
@@ -55,8 +55,7 @@
             {
                 lock (this)
                 {
-                    T overflow;
-                    while (this.innerQueue.Count > this.Size && this.innerQueue.TryDequeue(out overflow))
+                    while (this.innerQueue.Count > this.Size && this.innerQueue.TryDequeue(out T overflow))
                     {
                     }
                 }

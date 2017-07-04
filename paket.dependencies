@@ -15,8 +15,9 @@ group Analyzers
 group Test
   source http://nuget.org/api/v2
   framework: net461
+  redirects: on
   nuget Moq
-  nuget Castle.Core 4.0.0.0
+  nuget Castle.Core
   nuget NUnit
   nuget Microsoft.Reactive.Testing
   nuget FlaUI.UIA3

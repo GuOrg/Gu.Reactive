@@ -7,8 +7,12 @@ namespace Gu.Reactive
 
     internal static class CachedEventArgs
     {
+        internal static readonly ConcurrentDictionary<string, PropertyChangedEventArgs> Cache = new ConcurrentDictionary<string, PropertyChangedEventArgs>();
+
         internal static readonly PropertyChangedEventArgs CountPropertyChanged = GetOrCreatePropertyChangedEventArgs("Count");
+
         internal static readonly PropertyChangedEventArgs IndexerPropertyChanged = GetOrCreatePropertyChangedEventArgs("Item[]");
+
         internal static readonly PropertyChangedEventArgs IsSatisfiedChanged = new PropertyChangedEventArgs(nameof(ICondition.IsSatisfied));
 
         internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionReset = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
@@ -16,8 +20,6 @@ namespace Gu.Reactive
         internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> SingleNotifyCollectionReset = new[] { NotifyCollectionReset };
 
         internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];
-
-        private static readonly ConcurrentDictionary<string, PropertyChangedEventArgs> Cache = new ConcurrentDictionary<string, PropertyChangedEventArgs>();
 
         internal static PropertyChangedEventArgs GetOrCreatePropertyChangedEventArgs(string propertyName)
         {

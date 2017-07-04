@@ -72,16 +72,15 @@
             throw new ArgumentException($"Expected path to be properties only. Was: {parent}. Unexpected item: {me.Member}");
         }
 
-        internal static Type GetSourceType(this LambdaExpression lamda)
+        internal static Type GetSourceType(this LambdaExpression lambda)
         {
-            var property = lamda.GetRootProperty();
+            var property = lambda.GetRootProperty();
             while (property.Expression is MemberExpression && property.Member is PropertyInfo)
             {
                 property = (MemberExpression)property.Expression;
             }
 
-            var constant = property.Expression as ConstantExpression;
-            if (constant != null)
+            if (property.Expression is ConstantExpression constant)
             {
                 if (IsCompilerGenerated(property.Member))
                 {
@@ -91,35 +90,12 @@
                 return constant.Type;
             }
 
-            var parameter = property.Expression as ParameterExpression;
-            if (parameter != null)
+            if (property.Expression is ParameterExpression parameter)
             {
                 return parameter.Type;
             }
 
             throw new ArgumentException("Could not determine source type.");
-        }
-
-        internal static object GetSourceValue<TValue>(this Expression<Func<TValue>> lamda)
-        {
-            var property = lamda.GetRootProperty();
-            while (property.Expression is MemberExpression && property.Member is PropertyInfo)
-            {
-                property = (MemberExpression)property.Expression;
-            }
-
-            var constant = property.Expression as ConstantExpression;
-            if (constant != null)
-            {
-                if (IsCompilerGenerated(property.Member))
-                {
-                    return ((PropertyInfo)property.Member).GetValueViaDelegate(constant.Value);
-                }
-
-                return constant.Value;
-            }
-
-            throw new ArgumentException("Expected path to have a constant.");
         }
 
         private static bool IsCompilerGenerated(MemberInfo member)

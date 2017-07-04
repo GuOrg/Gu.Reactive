@@ -29,7 +29,7 @@
         /// Initializes a new instance of the <see cref="ObservableFixedSizeQueue{T}"/> class.
         /// </summary>
         /// <param name="size">The maximum number of elements in the queue.</param>
-        /// <param name="scheduler">The schedluer to notify collection changes on.</param>
+        /// <param name="scheduler">The scheduler to notify collection changes on.</param>
         public ObservableFixedSizeQueue(int size, IScheduler scheduler)
             : base(size)
         {
