@@ -1,4 +1,8 @@
 #### 3.4.1
+* PERF: Only loop once in AndCondition & OrCOndition
+* BUGFIX: Retry on collection was modified.
+
+#### 3.4.1
 * BUGFIX: Expose prerquisites for NullIsFale<TCondition>.
 
 #### 3.4.0
