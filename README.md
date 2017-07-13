@@ -83,8 +83,8 @@ var subscription = fake.ObservePropertyChanged(x => x.Level1.Level2.Value)
 4) Updates subscriptions for items in path and uses weak events.
 
 ### SignalInitial
-Default true meaning that the observable will call OnNExt on Subscribe.
-The sender will be tha last node in the path that has a value, in the example above it would be the value of the property `Level2` if it is not null, then `Level1` if not null if the entire path is null the root item `fake`is used as sender for the first notifixcation.
+Default true meaning that the observable will call OnNext on Subscribe.
+The sender will be tha last node in the path that has a value, in the example above it would be the value of the property `Level2` if it is not null, then `Level1` if not null if the entire path is null the root item `fake` is used as sender for the first notifixcation.
 The eventags for the signal initial event is `string.Empty`
 
 ## ObservePropertyChangedSlim:
@@ -95,10 +95,10 @@ var subscription = this.ObservePropertyChangedSlim(nameof(this.Value"))
 ```
 
 1) Return an `IObservable<PropertyChangedEventArgs>` so more lightweight than `ObservePropertyChanged`
-2) Filters change args mathing property name or string.IsNullOrEmpty
+2) Filters change args mathing property name or `string.IsNullOrEmpty`
 
 ### SignalInitial
-Default true meaning that the observable will call OnNExt on Subscribe
+Default true meaning that the observable will call OnNext on Subscribe
 
 ## ObserveValue
 Observe the value of a property, calls on next when the value changes. 
@@ -129,7 +129,7 @@ var subscription = collection.ObserveCollectionChanged()
 1) Create an observable from the `CollectionChangedEvent` for collection.
 
 ### SignalInitial
-Default true meaning that the observable will call OnNExt on Subscribe
+Default true meaning that the observable will call OnNext on Subscribe
 
 ## ObservePropertyChangedSlim:
 
@@ -181,24 +181,24 @@ public class HasFuel : Condition
 
 ### IsSatisfied
 
-Aveluates the criteria passed in in the ctor. Recalculates when any of the observables signals and the value changes.
+Evaluates the criteria passed to the ctor. Recalculates when any of the observables signals and the value changes.
 
 ### Name
 
-Default is GetType.Name but the property is mutable so other names can be specified.
+Default is `GetType.Name` but the property is mutable so other names can be specified.
 
 ### History
 
-The last 100 times of change and values for IsSatisfied
+The last 100 times of change and values for `IsSatisfied`
 
 ### Negate()
 
-Returns a condition wrapping the instance and negating the value of IsSatisfied.
+Returns a condition wrapping the instance and negating the value of `IsSatisfied`.
 Negating a negated condition returns the original condition.
 
 ## OrCondition
 
-Calculates IsSatisfied based on if any of the prerequisites are true. Listens to changes in IsSatisfied for prerequisites and notifies when value changes.
+Calculates `IsSatisfied` based on if any of the prerequisites are true. Listens to changes in `IsSatisfied` for prerequisites and notifies when value changes.
 
 ```c#
 public class IsAnyDoorOpen : OrCondition
@@ -213,13 +213,13 @@ public class IsAnyDoorOpen : OrCondition
 ```
 ### IsSatisfied
 
-True if IsSatisfied for any prerequisites is true.
-False if IsSatisfied for all prerequisites are false.
-Null if IsSatisfied for no prerequisite is true and any prerequisite is null.
+True if `IsSatisfied` for any prerequisites is true.
+False if `IsSatisfied` for all prerequisites are false.
+Null if `IsSatisfied` for no prerequisite is true and any prerequisite is null.
 
 ## AndCondition
 
-Calculates IsSatisfied based on if all of the prerequisites have IsSatisfied == true. Listens to changes in IsSatisfied for prerequisites and notifies when value changes.
+Calculates `IsSatisfied` based on if all of the prerequisites have IsSatisfied == true. Listens to changes in `IsSatisfied` for prerequisites and notifies when value changes.
 
 ```c#
 public class IsAnyDoorOpen : AndCondition
@@ -234,9 +234,9 @@ public class IsAnyDoorOpen : AndCondition
 ```
 ### IsSatisfied
 
-True if IsSatisfied for all prerequisites are true.
-False if IsSatisfied for any prerequisite is false.
-Null if IsSatisfied for no prerequisite is false and any prerequisite is null.
+True if `IsSatisfied` for all prerequisites are true.
+False if `IsSatisfied` for any prerequisite is false.
+Null if `IsSatisfied` for no prerequisite is false and any prerequisite is null.
 
 Se demo for more code samples.
 
@@ -320,7 +320,7 @@ public sealed class ViewModel : INotifyPropertyChanged, IDisposable
 
 ## MappingView<TSource, TResult>
 
-A view that maps from one type to another. If thge source type is a reference type the same instance produces the same mapped instance if the item appears more than once in the collection.
+A view that maps from one type to another. If the source type is a reference type the same instance produces the same mapped instance if the item appears more than once in the collection.
 
 ### Simple
 
@@ -617,7 +617,7 @@ private Task CancelableParameterTask(string arg, CancellationToken token)
 
 ### ConditionRelayCommand
 
-A relay command where canexecute is controlled by a `ICondition`
+A relay command where `CanExecute` is controlled by a `ICondition`
 
 ```C#
 public ViewModel()
@@ -637,7 +637,7 @@ public ConditionRelayCommand ConditionRelayCommandWithParameter { get; }
 
 ### ManualRelayCommand
 
-A command where you need to manually call RaiseCanExecuteChanged`.
+A command where you need to manually call `RaiseCanExecuteChanged`.
 
 ```C#
 public ViewModel()
