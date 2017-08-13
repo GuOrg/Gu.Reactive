@@ -24,8 +24,6 @@ namespace Gu.Reactive.Analyzers.CodeFixes
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
                                           .ConfigureAwait(false);
 
-            var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken)
-                                             .ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
                 var token = syntaxRoot.FindToken(diagnostic.Location.SourceSpan.Start);
@@ -41,7 +39,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(
-                            "Move obvservable before criteria.",
+                            "Move observable before criteria.",
                             cancellationToken => ApplyObservableBeforeCriteriaFixAsync(
                                 cancellationToken, context, initializer),
                             nameof(ObservableBeforeCriteriaCodeFix)),

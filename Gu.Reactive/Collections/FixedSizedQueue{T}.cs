@@ -55,7 +55,7 @@
             {
                 lock (this)
                 {
-                    while (this.innerQueue.Count > this.Size && this.innerQueue.TryDequeue(out T overflow))
+                    while (this.innerQueue.Count > this.Size && this.innerQueue.TryDequeue(out T _))
                     {
                     }
                 }
