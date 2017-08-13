@@ -17,7 +17,6 @@ group Test
   framework: net461
   redirects: on
   nuget Moq
-  nuget Castle.Core
   nuget NUnit
   nuget Microsoft.Reactive.Testing
   nuget FlaUI.UIA3
