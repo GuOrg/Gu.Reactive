@@ -17,3 +17,18 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly:Gu.Roslyn.Asserts.MetadataReferences(
+    typeof(object),
+    typeof(System.Diagnostics.Debug),
+    typeof(System.Linq.Enumerable),
+    typeof(System.Net.WebClient),
+    typeof(System.Reactive.Disposables.SerialDisposable),
+    typeof(System.Reactive.Disposables.ICancelable),
+    typeof(System.Reactive.Linq.Observable),
+    typeof(Gu.Reactive.Condition),
+    typeof(Gu.Wpf.Reactive.ConditionControl),
+    typeof(System.Xml.Serialization.XmlSerializer),
+    typeof(System.Windows.Media.Matrix),
+    typeof(Microsoft.CodeAnalysis.CSharp.CSharpCompilation),
+    typeof(Microsoft.CodeAnalysis.Compilation),
+    typeof(NUnit.Framework.Assert))]

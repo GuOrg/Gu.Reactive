@@ -5,11 +5,6 @@
 
     public class Diagnostics
     {
-        static Diagnostics()
-        {
-            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-        }
-
         [Test]
         public void OneLevel()
         {

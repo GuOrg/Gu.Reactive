@@ -44,11 +44,6 @@ namespace RoslynSandbox
     }
 }";
 
-        static CodeFix()
-        {
-            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-        }
-
         [Test]
         public void WhenCriteriaBeforeObservable()
         {

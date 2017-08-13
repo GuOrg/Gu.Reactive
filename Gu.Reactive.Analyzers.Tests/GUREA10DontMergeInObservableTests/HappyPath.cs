@@ -43,11 +43,6 @@ namespace RoslynSandbox
     }
 }";
 
-        static HappyPath()
-        {
-            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-        }
-
         [Test]
         public void WhenNoMerge()
         {

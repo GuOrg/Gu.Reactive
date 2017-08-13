@@ -5,11 +5,6 @@
 
     public class HappyPath
     {
-        static HappyPath()
-        {
-            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-        }
-
         [Test]
         public void ActionOfInt()
         {

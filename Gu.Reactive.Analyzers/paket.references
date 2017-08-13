@@ -2,7 +2,6 @@ group Roslyn
   Microsoft.CodeAnalysis.CSharp
 
 group Analyzers
-  JetBrains.Annotations
   StyleCop.Analyzers
   WpfAnalyzers
   Gu.Analyzers

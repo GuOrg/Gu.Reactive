@@ -63,11 +63,6 @@ namespace RoslynSandbox
     }
 }";
 
-        static Diagnostics()
-        {
-            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-        }
-
         [Test]
         public void ObservingDifferentThanUsedInCriteria()
         {

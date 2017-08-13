@@ -6,11 +6,6 @@
 
     public class CodeFix
     {
-        static CodeFix()
-        {
-            AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-        }
-
         [Test]
         public void EventHandlerOfInt()
         {

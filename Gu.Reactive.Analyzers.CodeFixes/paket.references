@@ -4,7 +4,6 @@ group Roslyn
   Microsoft.Composition.Analyzers
 
 group Analyzers
-  JetBrains.Annotations
   StyleCop.Analyzers
   WpfAnalyzers
   Gu.Analyzers

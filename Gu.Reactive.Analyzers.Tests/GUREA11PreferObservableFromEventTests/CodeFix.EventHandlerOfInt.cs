@@ -19,11 +19,6 @@ namespace RoslynSandbox
     }
 }";
 
-            static EventHandlerOfInt()
-            {
-                AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-            }
-
             [Test]
             public void WhenNotUsingSenderNorArgLambda()
             {

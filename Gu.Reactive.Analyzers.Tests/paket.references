@@ -6,7 +6,6 @@ group Roslyn
   Gu.Roslyn.Asserts
 
 group Analyzers
-  JetBrains.Annotations
   StyleCop.Analyzers
   Gu.Analyzers
   WpfAnalyzers

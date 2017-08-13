@@ -8,11 +8,6 @@
     {
         public class MiscEventHandlers
         {
-            static MiscEventHandlers()
-            {
-                AnalyzerAssert.MetadataReference.AddRange(MetadataReferences.All);
-            }
-
             [Test]
             public void WhenNotUsingSenderNorArgLambda()
             {
