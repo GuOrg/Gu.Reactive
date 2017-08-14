@@ -54,6 +54,7 @@ namespace RoslynSandbox
         }
     }
 }";
+
                 AnalyzerAssert.CodeFix<GUREA11PreferObservableFromEvent, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
             }
 
