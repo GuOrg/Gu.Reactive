@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Gu.Roslyn.Asserts;
 
 [assembly: AssemblyTitle("Gu.Reactive.Analyzers.Tests")]
 [assembly: AssemblyDescription("")]
@@ -17,9 +18,9 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-[assembly:Gu.Roslyn.Asserts.MetadataReferences(
-    typeof(object),
-    typeof(System.Diagnostics.Debug),
+[assembly: MetadataReference(typeof(object), new[] { "global", "mscorlib" })]
+[assembly: MetadataReference(typeof(System.Diagnostics.Debug), new[] { "global", "system" })]
+[assembly: MetadataReferences(
     typeof(System.Linq.Enumerable),
     typeof(System.Net.WebClient),
     typeof(System.Reactive.Disposables.SerialDisposable),

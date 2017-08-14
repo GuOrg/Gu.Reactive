@@ -22,12 +22,12 @@ NUGET
     Gu.Analyzers (0.1.11.25-dev)
     JetBrains.Annotations (10.4)
       System.Runtime (>= 4.1) - restriction: && (< net20) (>= netstandard1.0)
-    Microsoft.NETCore.Platforms (1.1) - restriction: || (&& (< net20) (>= netstandard1.0) (< netstandard1.2) (< monoandroid) (< win8) (< wp8)) (&& (< net20) (>= netstandard1.2) (< netstandard1.3) (< monoandroid) (< win8) (< wpa81)) (&& (< net20) (>= netstandard1.3) (< netstandard1.5) (< monoandroid) (< win8) (< wpa81)) (&& (< net20) (>= netstandard1.5) (< monotouch) (< xamarinios) (< xamarinmac)) (&& (>= dnxcore50) (>= netstandard1.0))
-    Microsoft.NETCore.Targets (1.1) - restriction: || (&& (< net20) (>= netstandard1.0) (< netstandard1.2) (< monoandroid) (< win8) (< wp8)) (&& (< net20) (>= netstandard1.2) (< netstandard1.3) (< monoandroid) (< win8) (< wpa81)) (&& (< net20) (>= netstandard1.3) (< netstandard1.5) (< monoandroid) (< win8) (< wpa81)) (&& (< net20) (>= netstandard1.5) (< monotouch) (< xamarinios) (< xamarinmac)) (&& (>= dnxcore50) (>= netstandard1.0))
+    Microsoft.NETCore.Platforms (1.1) - restriction: || (&& (< net20) (>= netstandard1.0) (< netstandard1.2) (< monoandroid) (< win8) (< wp8)) (&& (< net20) (>= netstandard1.2) (< netstandard1.3) (< monoandroid) (< win8) (< wpa81)) (&& (< net20) (>= netstandard1.3) (< netstandard1.5) (< monoandroid) (< win8) (< wpa81)) (&& (< net20) (>= netstandard1.5) (< monotouch) (< xamarintvos) (< xamarinwatchos) (< xamarinios) (< xamarinmac)) (&& (>= dnxcore50) (>= netstandard1.0))
+    Microsoft.NETCore.Targets (1.1) - restriction: || (&& (< net20) (>= netstandard1.0) (< netstandard1.2) (< monoandroid) (< win8) (< wp8)) (&& (< net20) (>= netstandard1.2) (< netstandard1.3) (< monoandroid) (< win8) (< wpa81)) (&& (< net20) (>= netstandard1.3) (< netstandard1.5) (< monoandroid) (< win8) (< wpa81)) (&& (< net20) (>= netstandard1.5) (< monotouch) (< xamarintvos) (< xamarinwatchos) (< xamarinios) (< xamarinmac)) (&& (>= dnxcore50) (>= netstandard1.0))
     StyleCop.Analyzers (1.0.2)
     System.Runtime (4.3) - restriction: && (< net20) (>= netstandard1.0)
-      Microsoft.NETCore.Platforms (>= 1.1) - restriction: || (&& (< net45) (>= netstandard1.0) (< netstandard1.2) (< monoandroid) (< win8) (< wp8)) (&& (< net45) (>= netstandard1.2) (< netstandard1.3) (< monoandroid) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.3) (< netstandard1.5) (< monoandroid) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.5) (< monotouch) (< xamarinios) (< xamarinmac)) (>= dnxcore50)
-      Microsoft.NETCore.Targets (>= 1.1) - restriction: || (&& (< net45) (>= netstandard1.0) (< netstandard1.2) (< monoandroid) (< win8) (< wp8)) (&& (< net45) (>= netstandard1.2) (< netstandard1.3) (< monoandroid) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.3) (< netstandard1.5) (< monoandroid) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.5) (< monotouch) (< xamarinios) (< xamarinmac)) (>= dnxcore50)
+      Microsoft.NETCore.Platforms (>= 1.1) - restriction: || (&& (< net45) (>= netstandard1.0) (< netstandard1.2) (< monoandroid) (< win8) (< wp8)) (&& (< net45) (>= netstandard1.2) (< netstandard1.3) (< monoandroid) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.3) (< netstandard1.5) (< monoandroid) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.5) (< monotouch) (< xamarintvos) (< xamarinwatchos) (< xamarinios) (< xamarinmac)) (>= dnxcore50)
+      Microsoft.NETCore.Targets (>= 1.1) - restriction: || (&& (< net45) (>= netstandard1.0) (< netstandard1.2) (< monoandroid) (< win8) (< wp8)) (&& (< net45) (>= netstandard1.2) (< netstandard1.3) (< monoandroid) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.3) (< netstandard1.5) (< monoandroid) (< win8) (< wpa81)) (&& (< net45) (>= netstandard1.5) (< monotouch) (< xamarintvos) (< xamarinwatchos) (< xamarinios) (< xamarinmac)) (>= dnxcore50)
     WpfAnalyzers (0.2.7.10)
 
 GROUP Benchmark
@@ -150,7 +150,7 @@ REDIRECTS: ON
 RESTRICTION: || (== net461) (== netstandard1.3)
 NUGET
   remote: http://www.nuget.org/api/v2
-    Gu.Roslyn.Asserts (0.2.1-dev)
+    Gu.Roslyn.Asserts (0.2.2.1-dev)
       Microsoft.CodeAnalysis.CSharp.Workspaces
     ManagedEsent (1.9.4) - restriction: || (== net461) (&& (== net461) (== netstandard1.3)) (&& (== netstandard1.3) (>= net46))
     Microsoft.CodeAnalysis.Analyzers (1.1)

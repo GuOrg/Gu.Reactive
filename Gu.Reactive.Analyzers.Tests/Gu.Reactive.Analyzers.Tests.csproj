@@ -73,7 +73,6 @@
     <Compile Include="GUREA13SyncParametersAndArgsTests\HappyPath.cs" />
     <Compile Include="GUREA12ObservableFromEventDelegateTypeTests\CodeFix.cs" />
     <Compile Include="GUREA12ObservableFromEventDelegateTypeTests\HappyPath.cs" />
-    <Compile Include="MetadataReferences.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -218,15 +217,6 @@
       <ItemGroup>
         <Reference Include="Gu.Roslyn.Asserts">
           <HintPath>..\packages\roslyn\Gu.Roslyn.Asserts\lib\net46\Gu.Roslyn.Asserts.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v1.3'">
-      <ItemGroup>
-        <Reference Include="Gu.Roslyn.Asserts">
-          <HintPath>..\packages\roslyn\Gu.Roslyn.Asserts\lib\netstandard1.3\Gu.Roslyn.Asserts.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
