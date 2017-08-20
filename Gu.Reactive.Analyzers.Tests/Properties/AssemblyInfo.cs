@@ -18,6 +18,7 @@ using Gu.Roslyn.Asserts;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly:IgnoredErrors("CS1569")] // this is due to a package bug not including an xml lib that is used by roslyn for writing docs during compile.
 [assembly: MetadataReference(typeof(object), new[] { "global", "mscorlib" })]
 [assembly: MetadataReference(typeof(System.Diagnostics.Debug), new[] { "global", "System" })]
 [assembly: MetadataReferences(
