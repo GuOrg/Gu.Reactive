@@ -32,3 +32,4 @@ packages/*
 publish/*
 packages/*
 .vs/*
+/paket-files/*
