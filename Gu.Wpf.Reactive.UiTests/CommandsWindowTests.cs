@@ -1,8 +1,6 @@
 namespace Gu.Wpf.Reactive.UiTests
 {
-    using FlaUI.Core.AutomationElements;
-    using FlaUI.Core.Definitions;
-
+    using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
     public class CommandsWindowTests : WindowTests
@@ -36,7 +34,7 @@ namespace Gu.Wpf.Reactive.UiTests
         [SetUp]
         public void SetUp()
         {
-            this.CanExecuteCheckBox.State = ToggleState.Off;
+            this.CanExecuteCheckBox.IsChecked = false;
             this.RaiseCanExecuteButton.Click();
             this.ExecutedTextBox.Enter(string.Empty);
         }
@@ -44,11 +42,11 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void ManualRelayCommand()
         {
-            Assert.AreEqual(false, this.ManualRelayCommandButton.Properties.IsEnabled);
-            this.CanExecuteCheckBox.State = ToggleState.On;
-            Assert.AreEqual(false, this.ManualRelayCommandButton.Properties.IsEnabled);
+            Assert.AreEqual(false, this.ManualRelayCommandButton.IsEnabled);
+            this.CanExecuteCheckBox.IsChecked = true;
+            Assert.AreEqual(false, this.ManualRelayCommandButton.IsEnabled);
             this.RaiseCanExecuteButton.Click();
-            Assert.AreEqual(true, this.ManualRelayCommandButton.Properties.IsEnabled);
+            Assert.AreEqual(true, this.ManualRelayCommandButton.IsEnabled);
 
             this.ManualRelayCommandButton.Click();
             Assert.AreEqual("ManualRelayCommand", this.ExecutedTextBox.Text);
@@ -57,9 +55,9 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void RelayCommandUpdatesCanExecuteWhenToggling()
         {
-            Assert.AreEqual(false, this.RelayCommandButton.Properties.IsEnabled);
-            this.CanExecuteCheckBox.State = ToggleState.On;
-            Assert.AreEqual(true, this.RelayCommandButton.Properties.IsEnabled);
+            Assert.AreEqual(false, this.RelayCommandButton.IsEnabled);
+            this.CanExecuteCheckBox.IsChecked = true;
+            Assert.AreEqual(true, this.RelayCommandButton.IsEnabled);
 
             this.RelayCommandButton.Click();
             Assert.AreEqual("RelayCommand", this.ExecutedTextBox.Text);
@@ -68,9 +66,9 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void RelayCommandWithParameterCanExecuteWhenToggling()
         {
-            Assert.AreEqual(false, this.RelayCommandWithParameterButton.Properties.IsEnabled);
-            this.CanExecuteCheckBox.State = ToggleState.On;
-            Assert.AreEqual(true, this.RelayCommandWithParameterButton.Properties.IsEnabled);
+            Assert.AreEqual(false, this.RelayCommandWithParameterButton.IsEnabled);
+            this.CanExecuteCheckBox.IsChecked = true;
+            Assert.AreEqual(true, this.RelayCommandWithParameterButton.IsEnabled);
 
             this.RelayCommandWithParameterButton.Click();
             Assert.AreEqual("RelayCommandWithParameter: RelayCommandWithParameter", this.ExecutedTextBox.Text);
@@ -79,15 +77,15 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void ManualRelayCommandNoConditionCanAlwaysExecute()
         {
-            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.Properties.IsEnabled);
-            this.CanExecuteCheckBox.State = ToggleState.On;
-            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.Properties.IsEnabled);
+            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.IsEnabled);
+            this.CanExecuteCheckBox.IsChecked = true;
+            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.IsEnabled);
             this.RaiseCanExecuteButton.Click();
-            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.Properties.IsEnabled);
-            this.CanExecuteCheckBox.State = ToggleState.Off;
-            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.Properties.IsEnabled);
+            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.IsEnabled);
+            this.CanExecuteCheckBox.IsChecked = false;
+            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.IsEnabled);
             this.RaiseCanExecuteButton.Click();
-            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.Properties.IsEnabled);
+            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.IsEnabled);
 
             this.ManualRelayCommandNoConditionButton.Click();
             Assert.AreEqual("ManualRelayCommandNoCondition", this.ExecutedTextBox.Text);
@@ -96,15 +94,15 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void RelayCommandNoConditionCanAlwaysExecute()
         {
-            Assert.AreEqual(true, this.RelayCommandNoConditionButton.Properties.IsEnabled);
-            this.CanExecuteCheckBox.State = ToggleState.On;
-            Assert.AreEqual(true, this.RelayCommandNoConditionButton.Properties.IsEnabled);
+            Assert.AreEqual(true, this.RelayCommandNoConditionButton.IsEnabled);
+            this.CanExecuteCheckBox.IsChecked = true;
+            Assert.AreEqual(true, this.RelayCommandNoConditionButton.IsEnabled);
             this.RaiseCanExecuteButton.Click();
-            Assert.AreEqual(true, this.RelayCommandNoConditionButton.Properties.IsEnabled);
-            this.CanExecuteCheckBox.State = ToggleState.Off;
-            Assert.AreEqual(true, this.RelayCommandNoConditionButton.Properties.IsEnabled);
+            Assert.AreEqual(true, this.RelayCommandNoConditionButton.IsEnabled);
+            this.CanExecuteCheckBox.IsChecked = false;
+            Assert.AreEqual(true, this.RelayCommandNoConditionButton.IsEnabled);
             this.RaiseCanExecuteButton.Click();
-            Assert.AreEqual(true, this.RelayCommandNoConditionButton.Properties.IsEnabled);
+            Assert.AreEqual(true, this.RelayCommandNoConditionButton.IsEnabled);
 
             this.RelayCommandNoConditionButton.Click();
             Assert.AreEqual("RelayCommandNoCondition", this.ExecutedTextBox.Text);
@@ -113,9 +111,9 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void ObservingRelayCommandUpdatesCanExecuteWhenToggling()
         {
-            Assert.AreEqual(false, this.ObservingRelayCommandButton.Properties.IsEnabled);
-            this.CanExecuteCheckBox.State = ToggleState.On;
-            Assert.AreEqual(true, this.ObservingRelayCommandButton.Properties.IsEnabled);
+            Assert.AreEqual(false, this.ObservingRelayCommandButton.IsEnabled);
+            this.CanExecuteCheckBox.IsChecked = true;
+            Assert.AreEqual(true, this.ObservingRelayCommandButton.IsEnabled);
 
             this.ObservingRelayCommandButton.Click();
             Assert.AreEqual("ObservingRelayCommand", this.ExecutedTextBox.Text);
@@ -124,9 +122,9 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void ObservingRelayCommandWithParameterUpdatesCanExecuteWhenToggling()
         {
-            Assert.AreEqual(false, this.ObservingRelayCommandWithParameterButton.Properties.IsEnabled);
-            this.CanExecuteCheckBox.State = ToggleState.On;
-            Assert.AreEqual(true, this.ObservingRelayCommandWithParameterButton.Properties.IsEnabled);
+            Assert.AreEqual(false, this.ObservingRelayCommandWithParameterButton.IsEnabled);
+            this.CanExecuteCheckBox.IsChecked = true;
+            Assert.AreEqual(true, this.ObservingRelayCommandWithParameterButton.IsEnabled);
 
             this.ObservingRelayCommandWithParameterButton.Click();
             Assert.AreEqual("ObservingRelayCommandWithParameter: ObservingRelayCommandWithParameter", this.ExecutedTextBox.Text);
@@ -135,9 +133,9 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void ConditionRelayCommandUpdatesCanExecuteWhenToggling()
         {
-            Assert.AreEqual(false, this.ConditionRelayCommandButton.Properties.IsEnabled);
-            this.CanExecuteCheckBox.State = ToggleState.On;
-            Assert.AreEqual(true, this.ConditionRelayCommandButton.Properties.IsEnabled);
+            Assert.AreEqual(false, this.ConditionRelayCommandButton.IsEnabled);
+            this.CanExecuteCheckBox.IsChecked = true;
+            Assert.AreEqual(true, this.ConditionRelayCommandButton.IsEnabled);
 
             this.ConditionRelayCommandButton.Click();
             Assert.AreEqual("ConditionRelayCommand", this.ExecutedTextBox.Text);
@@ -146,9 +144,9 @@ namespace Gu.Wpf.Reactive.UiTests
         [Test]
         public void ConditionRelayCommandWithParameterUpdatesCanExecuteWhenToggling()
         {
-            Assert.AreEqual(false, this.ConditionRelayCommandWithParameterButton.Properties.IsEnabled);
-            this.CanExecuteCheckBox.State = ToggleState.On;
-            Assert.AreEqual(true, this.ConditionRelayCommandWithParameterButton.Properties.IsEnabled);
+            Assert.AreEqual(false, this.ConditionRelayCommandWithParameterButton.IsEnabled);
+            this.CanExecuteCheckBox.IsChecked = true;
+            Assert.AreEqual(true, this.ConditionRelayCommandWithParameterButton.IsEnabled);
 
             this.ConditionRelayCommandWithParameterButton.Click();
             Assert.AreEqual("ConditionRelayCommandWithParameter: ConditionRelayCommandWithParameter", this.ExecutedTextBox.Text);

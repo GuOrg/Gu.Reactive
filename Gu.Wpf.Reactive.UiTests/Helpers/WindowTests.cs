@@ -1,18 +1,12 @@
 namespace Gu.Wpf.Reactive.UiTests
 {
     using System;
-    using FlaUI.Core;
-    using FlaUI.Core.AutomationElements;
-    using FlaUI.Core.Input;
-    using FlaUI.Core.WindowsAPI;
-    using FlaUI.UIA3;
-
+    using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
     public abstract class WindowTests : IDisposable
     {
         private Application application;
-        private UIA3Automation automation;
         private bool disposed;
 
         protected Window Window { get; private set; }
@@ -29,9 +23,7 @@ namespace Gu.Wpf.Reactive.UiTests
                     this.application?.Dispose();
                     this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
                     this.application.WaitWhileMainHandleIsMissing();
-                    this.automation?.Dispose();
-                    this.automation = new UIA3Automation();
-                    this.Window = this.application.GetMainWindow(this.automation);
+                    this.Window = this.application.MainWindow;
                     this.application.WaitWhileBusy();
                     return;
                 }
@@ -52,19 +44,7 @@ namespace Gu.Wpf.Reactive.UiTests
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            Keyboard.ReleaseScanCode((ushort)ScanCodeShort.CONTROL, isExtendedKey: false);
-            Keyboard.ReleaseScanCode((ushort)ScanCodeShort.SHIFT, isExtendedKey: false);
-
-            //// ReSharper disable once EmptyGeneralCatchClause solving problems on appveyor
-            try
-            {
-                this.application?.WaitWhileBusy();
-                this.automation?.Dispose();
-                this.application?.Dispose();
-            }
-            catch
-            {
-            }
+            this.application?.Dispose();
         }
 
         public void Dispose()
@@ -82,24 +62,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.disposed = true;
             if (disposing)
             {
-                //// ReSharper disable once EmptyGeneralCatchClause solving problems on appveyor
-                try
-                {
-                    this.application?.WaitWhileBusy();
-                    this.automation?.Dispose();
-                    this.application?.Dispose();
-                }
-                catch
-                {
-                }
-            }
-        }
-
-        protected void ThrowIfDisposed()
-        {
-            if (this.disposed)
-            {
-                throw new ObjectDisposedException(this.GetType().FullName);
+                this.application?.Dispose();
             }
         }
     }

@@ -2,30 +2,24 @@ namespace Gu.Wpf.Reactive.UiTests
 {
     using System.Collections.Generic;
     using System.Linq;
-
-    using FlaUI.Core.AutomationElements;
-    using FlaUI.Core.Definitions;
-
+    using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
     public class ReadOnlyThrottledViewWindowTests : WindowTests
     {
         protected override string WindowName { get; } = "ReadOnlyThrottledViewWindow";
 
-        private Grid ListBox => this.Window
-                                    .FindFirstDescendant(x => x.ByText("ListBox"))
-                                    .FindFirstDescendant(x => x.ByControlType(ControlType.List))
-                                    .AsGrid();
+        private ListBox ListBox => this.Window
+                                       .FindGroupBox("ListBox")
+                                       .FindListBox();
 
-        private Grid DataGrid => this.Window
-                                     .FindFirstDescendant(x => x.ByText("DataGrid"))
-                                     .FindFirstDescendant(x => x.ByControlType(ControlType.DataGrid))
-                                     .AsGrid();
+        private DataGrid DataGrid => this.Window
+                                         .FindFirstDescendant(x => x.ByText("DataGrid"))
+                                         .FindDataGrid();
 
-        private Grid DataGridIList => this.Window
-                             .FindFirstDescendant(x => x.ByText("DataGridIList"))
-                             .FindFirstDescendant(x => x.ByControlType(ControlType.DataGrid))
-                             .AsGrid();
+        private DataGrid DataGridIList => this.Window
+                                          .FindFirstDescendant(x => x.ByText("DataGridIList"))
+                                          .FindDataGrid();
 
         private Button ClearButton => this.Window.FindButton("Clear");
 
@@ -58,7 +52,7 @@ namespace Gu.Wpf.Reactive.UiTests
         public void Initializes()
         {
             this.Restart();
-            CollectionAssert.AreEqual(new[] { "1", "2", "3" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "1", "2", "3" }, this.DataGridIList.ColumnValues(0));
 
@@ -70,7 +64,7 @@ namespace Gu.Wpf.Reactive.UiTests
         public void AddOne()
         {
             this.AddOneButton.Click();
-            CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGridIList.ColumnValues(0));
 
@@ -82,7 +76,7 @@ namespace Gu.Wpf.Reactive.UiTests
         public void AddFour()
         {
             this.AddFourButton.Click();
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGridIList.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Reset", 1)), this.ViewChanges.Select(x => x.Text));
@@ -93,7 +87,7 @@ namespace Gu.Wpf.Reactive.UiTests
         public void AddOneOnOtherThread()
         {
             this.AddOneOnOtherThreadButton.Click();
-            CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGridIList.ColumnValues(0));
         }
@@ -102,7 +96,7 @@ namespace Gu.Wpf.Reactive.UiTests
         public void EditDataGrid()
         {
             this.AddFourButton.Click();
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, this.DataGridIList.ColumnValues(0));
 
@@ -111,7 +105,7 @@ namespace Gu.Wpf.Reactive.UiTests
             cell.AsTextBox().Text = "5";
             this.ListBox.Focus();
 
-            CollectionAssert.AreEqual(new[] { "5", "2", "3", "4" }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
+            CollectionAssert.AreEqual(new[] { "5", "2", "3", "4" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "5", "2", "3", "4" }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "5", "2", "3", "4" }, this.DataGridIList.ColumnValues(0));
         }

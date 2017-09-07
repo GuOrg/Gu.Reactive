@@ -2,25 +2,20 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
-    using FlaUI.Core.AutomationElements;
-    using FlaUI.Core.Definitions;
-
+    using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
     public class FilteredDispatchingWindowTests : WindowTests
     {
         protected override string WindowName { get; } = "FilteredDispatchingWindow";
 
-        private Grid ListBox => this.Window
+        private ListBox ListBox => this.Window
                                     .FindFirstDescendant(x => x.ByText("ListBox"))
-                                    .FindFirstDescendant(x => x.ByControlType(ControlType.List))
-                                    .AsGrid();
+                                    .FindListBox();
 
-        private Grid DataGrid => this.Window
+        private DataGrid DataGrid => this.Window
                                       .FindFirstDescendant(x => x.ByText("DataGrid"))
-                                      .FindFirstDescendant(x => x.ByControlType(ControlType.DataGrid))
-                                      .AsGrid();
+                                      .FindDataGrid();
 
         private Button ClearButton => this.Window.FindButton("Clear");
 
@@ -58,8 +53,8 @@
         public void Initializes()
         {
             this.Restart();
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", string.Empty }, this.DataGrid.ColumnValues(0));
 
             CollectionAssert.AreEqual(new[] { "Reset" }, this.ViewChanges.Select(x => x.Text));
             CollectionAssert.AreEqual(new[] { "Reset" }, this.SourceChanges.Select(x => x.Text));
@@ -69,8 +64,8 @@
         public void AddOne()
         {
             this.AddOneButton.Click();
-            CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.DataGrid.ColumnValues(0));
 
             CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.ViewChanges.Select(x => x.Text));
             CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.SourceChanges.Select(x => x.Text));
@@ -80,8 +75,8 @@
         public void AddTen()
         {
             this.AddTenButton.Click();
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.DataGrid.ColumnValues(0));
             CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Reset", 1)), this.ViewChanges.Select(x => x.Text));
             CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Add", 10)), this.SourceChanges.Select(x => x.Text));
         }
@@ -90,48 +85,48 @@
         public void FilterThenTrigger()
         {
             this.AddTenButton.Click();
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.DataGrid.ColumnValues(0));
 
             this.FilterTextBox.Text = "2";
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.DataGrid.ColumnValues(0));
 
             this.TriggerButton.Click();
-            CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.DataGrid.ColumnValues(0));
         }
 
         [Test]
         public void FilterThenTriggerOnOtherThread()
         {
             this.AddTenButton.Click();
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.DataGrid.ColumnValues(0));
 
             this.FilterTextBox.Text = "2";
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.DataGrid.ColumnValues(0));
 
             this.TriggerOnOtherThreadButton.Click();
-            CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.DataGrid.ColumnValues(0));
         }
 
         [Test]
         public void EditDataGrid()
         {
             this.AddTenButton.Click();
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.DataGrid.ColumnValues(0));
 
             var cell = this.DataGrid.Rows[0].Cells[0];
             cell.Click();
             cell.AsTextBox().Text = "5";
             this.ListBox.Focus();
 
-            CollectionAssert.AreEqual(new[] { "5", "2", "3", "4", string.Empty }, this.ListBox.Rows.Select(x => x.Cells[0].AsLabel().Text));
-            CollectionAssert.AreEqual(new[] { "5", "2", "3", "4", "{NewItemPlaceholder}" }, this.DataGrid.ColumnValues(0));
+            CollectionAssert.AreEqual(new[] { "5", "2", "3", "4", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            CollectionAssert.AreEqual(new[] { "5", "2", "3", "4", string.Empty }, this.DataGrid.ColumnValues(0));
         }
     }
 }

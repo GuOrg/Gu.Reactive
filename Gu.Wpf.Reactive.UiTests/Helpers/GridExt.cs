@@ -2,20 +2,19 @@ namespace Gu.Wpf.Reactive.UiTests
 {
     using System.Collections.Generic;
     using System.Linq;
-
-    using FlaUI.Core.AutomationElements;
+    using Gu.Wpf.UiAutomation;
 
     public static class GridExt
     {
-        public static IReadOnlyList<string> RowValues(this Grid table)
+        public static IReadOnlyList<string> RowValues(this DataGrid dataGrid)
         {
-            return ColumnValues(table, 0);
+            return ColumnValues(dataGrid, 0);
         }
 
-        public static IReadOnlyList<string> ColumnValues(this Grid grid, int column)
+        public static IReadOnlyList<string> ColumnValues(this DataGrid dataGrid, int column)
         {
-            return grid.Rows.Select(x => x.Cells[column].Text())
-                       .ToArray();
+            return dataGrid.Rows.Select(x => x.Cells[column].Value)
+                           .ToArray();
         }
     }
 }

@@ -54,8 +54,6 @@
     <Compile Include="CommandsWindowTests.cs" />
     <Compile Include="DispatchingCollectionWindowTests.cs" />
     <Compile Include="DispatchingViewWindowTests.cs" />
-    <Compile Include="Helpers\AutomationElementExt.cs" />
-    <Compile Include="Helpers\GridCellExt.cs" />
     <Compile Include="Helpers\GridExt.cs" />
     <Compile Include="Helpers\Info.cs" />
     <Compile Include="Helpers\WindowTests.cs" />
@@ -203,24 +201,13 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.1'">
       <ItemGroup>
-        <Reference Include="FlaUI.Core">
-          <HintPath>..\packages\test\FlaUI.Core\lib\net45\FlaUI.Core.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.1'">
-      <ItemGroup>
-        <Reference Include="FlaUI.UIA3">
-          <HintPath>..\packages\test\FlaUI.UIA3\lib\net45\FlaUI.UIA3.dll</HintPath>
+        <Reference Include="Gu.Wpf.UiAutomation">
+          <HintPath>..\packages\test\Gu.Wpf.UiAutomation\lib\net45\Gu.Wpf.UiAutomation.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
         <Reference Include="Interop.UIAutomationClient">
-          <HintPath>..\packages\test\FlaUI.UIA3\lib\net45\Interop.UIAutomationClient.dll</HintPath>
+          <HintPath>..\packages\test\Gu.Wpf.UiAutomation\lib\net45\Interop.UIAutomationClient.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

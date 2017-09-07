@@ -19,7 +19,7 @@ group Test
   nuget Moq
   nuget NUnit
   nuget Microsoft.Reactive.Testing
-  nuget FlaUI.UIA3
+  nuget Gu.Wpf.UiAutomation
 
 group Roslyn
   redirects: on
