@@ -44,7 +44,7 @@
         <TabItem Header="ReadonlyFilteredDispatchingView">
             <demo:ReadonlyFilteredDispatchingView />
         </TabItem>
-        
+
         <TabItem Header="ThrottledView">
             <demo:ThrottledViewView />
         </TabItem>

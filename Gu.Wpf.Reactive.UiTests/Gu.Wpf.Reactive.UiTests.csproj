@@ -58,6 +58,7 @@
     <Compile Include="Helpers\Changes.cs" />
     <Compile Include="Helpers\GridExt.cs" />
     <Compile Include="Helpers\Info.cs" />
+    <Compile Include="MainWindowTests.cs" />
     <Compile Include="MappingViewWindowTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FilteredDispatchingWindowTests.cs" />
