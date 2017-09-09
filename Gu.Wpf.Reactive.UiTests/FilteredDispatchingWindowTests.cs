@@ -14,7 +14,7 @@
                                     .FindListBox();
 
         private DataGrid DataGrid => this.Window
-                                      .FindFirstDescendant(x => x.ByText("DataGrid"))
+                                      .FindGroupBox("DataGrid")
                                       .FindDataGrid();
 
         private Button ClearButton => this.Window.FindButton("Clear");
@@ -28,18 +28,6 @@
         private Button TriggerOnOtherThreadButton => this.Window.FindButton("TriggerOnOtherThread");
 
         private TextBox FilterTextBox => this.Window.FindTextBox("FilterText");
-
-        private IEnumerable<Label> ViewChanges => this.Window
-                                                      .FindFirstDescendant(x => x.ByText("ViewChanges"))
-                                                      .FindAllChildren()
-                                                      .Skip(1)
-                                                      .Select(x => x.AsLabel());
-
-        private IEnumerable<Label> SourceChanges => this.Window
-                                                        .FindFirstDescendant(x => x.ByText("SourceChanges"))
-                                                        .FindAllChildren()
-                                                        .Skip(1)
-                                                        .Select(x => x.AsLabel());
 
         [SetUp]
         public void SetUp()
@@ -62,8 +50,8 @@
             CollectionAssert.AreEqual(new[] { "1", "2", "3", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", string.Empty }, this.DataGrid.ColumnValues(0));
 
-            CollectionAssert.AreEqual(new[] { "Reset" }, this.ViewChanges.Select(x => x.Text));
-            CollectionAssert.AreEqual(new[] { "Reset" }, this.SourceChanges.Select(x => x.Text));
+            CollectionAssert.AreEqual(new[] { "Reset" }, this.Window.FindChangesGroupBox("ViewChanges").Texts);
+            CollectionAssert.AreEqual(new[] { "Reset" }, this.Window.FindChangesGroupBox("SourceChanges").Texts);
         }
 
         [Test]
@@ -73,8 +61,8 @@
             CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "1", string.Empty }, this.DataGrid.ColumnValues(0));
 
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.ViewChanges.Select(x => x.Text));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.SourceChanges.Select(x => x.Text));
+            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.Window.FindChangesGroupBox("ViewChanges").Texts);
+            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.Window.FindChangesGroupBox("SourceChanges").Texts);
         }
 
         [Test]
@@ -83,8 +71,8 @@
             this.AddTenButton.Click();
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, this.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Reset", 1)), this.ViewChanges.Select(x => x.Text));
-            CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Add", 10)), this.SourceChanges.Select(x => x.Text));
+            CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Reset", 1)), this.Window.FindChangesGroupBox("ViewChanges").Texts);
+            CollectionAssert.AreEqual(new[] { "Reset" }.Concat(Enumerable.Repeat("Add", 10)), this.Window.FindChangesGroupBox("SourceChanges").Texts);
         }
 
         [Test]

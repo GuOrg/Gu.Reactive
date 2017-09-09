@@ -14,7 +14,7 @@ namespace Gu.Wpf.Reactive.UiTests
                                     .FindListBox();
 
         private DataGrid DataGrid => this.Window
-                                     .FindFirstDescendant(x => x.ByText("DataGrid"))
+                                     .FindGroupBox("DataGrid")
                                      .FindDataGrid();
 
         private Button ClearButton => this.Window.FindButton("Clear");
@@ -24,12 +24,6 @@ namespace Gu.Wpf.Reactive.UiTests
         private Button UpdateButton => this.Window.FindButton("Update");
 
         private Button ClearSourceButton => this.Window.FindButton("ClearSource");
-
-        private IEnumerable<Label> ViewChanges => this.Window
-                                                      .FindFirstDescendant(x => x.ByText("ViewChanges"))
-                                                      .FindAllChildren()
-                                                      .Skip(1)
-                                                      .Select(x => x.AsLabel());
 
         [SetUp]
         public void SetUp()
@@ -50,7 +44,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.Restart();
             CollectionAssert.IsEmpty(this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.IsEmpty(this.DataGrid.ColumnValues(0));
-            CollectionAssert.IsEmpty(this.ViewChanges.Select(x => x.Text));
+            CollectionAssert.IsEmpty(this.Window.FindChangesGroupBox("ViewChanges").Texts);
         }
 
         [Test]
@@ -60,7 +54,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.UpdateButton.Click();
             CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "Add" }, this.ViewChanges.Select(x => x.Text).ToArray());
+            CollectionAssert.AreEqual(new[] { "Add" }, this.Window.FindChangesGroupBox("ViewChanges").Texts.ToArray());
         }
 
         [Test]
@@ -70,7 +64,7 @@ namespace Gu.Wpf.Reactive.UiTests
             this.UpdateButton.Click();
             CollectionAssert.AreEqual(new[] { "1", "2" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "1", "2" }, this.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "Reset" }, this.ViewChanges.Select(x => x.Text));
+            CollectionAssert.AreEqual(new[] { "Reset" }, this.Window.FindChangesGroupBox("ViewChanges").Texts);
         }
 
         [Test]
@@ -80,18 +74,18 @@ namespace Gu.Wpf.Reactive.UiTests
             this.UpdateButton.Click();
             CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "1" }, this.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "Add" }, this.ViewChanges.Select(x => x.Text));
+            CollectionAssert.AreEqual(new[] { "Add" }, this.Window.FindChangesGroupBox("ViewChanges").Texts);
 
             this.ClearSourceButton.Click();
             CollectionAssert.IsEmpty(this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.IsEmpty(this.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "Add", "Remove" }, this.ViewChanges.Select(x => x.Text));
+            CollectionAssert.AreEqual(new[] { "Add", "Remove" }, this.Window.FindChangesGroupBox("ViewChanges").Texts);
 
             this.ItemsTextBox.Enter("2");
             this.UpdateButton.Click();
             CollectionAssert.AreEqual(new[] { "2" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
             CollectionAssert.AreEqual(new[] { "2" }, this.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "Add", "Remove", "Add" }, this.ViewChanges.Select(x => x.Text));
+            CollectionAssert.AreEqual(new[] { "Add", "Remove", "Add" }, this.Window.FindChangesGroupBox("ViewChanges").Texts);
         }
     }
 }

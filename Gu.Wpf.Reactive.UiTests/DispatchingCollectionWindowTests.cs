@@ -22,7 +22,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 var window = app.MainWindow;
                 var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
                 var listBox = window.FindGroupBox("ListBox").FindListBox();
-                var sourceChanges = window.FindGroupBox("SourceChanges");
+                var sourceChanges = window.FindChangesGroupBox("SourceChanges");
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", string.Empty }, listBox.Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", string.Empty }, dataGrid.ColumnValues(0));
                 CollectionAssert.IsEmpty(sourceChanges.ContentCollection);
