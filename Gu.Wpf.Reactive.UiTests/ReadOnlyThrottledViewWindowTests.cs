@@ -36,11 +36,12 @@ namespace Gu.Wpf.Reactive.UiTests
             {
                 var window = app.MainWindow;
                 window.FindButton("Reset").Invoke();
+                window.FindButton("Reset").Invoke();
                 window.FindButton("AddOne").Click();
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("DataGridIList").FindDataGrid().ColumnValues(0));
-                //CollectionAssert.AreEqual(new[] { "Add" }, window.FindChangesGroupBox("ViewChanges").Texts);
+                CollectionAssert.AreEqual(new[] { "Add" }, window.FindChangesGroupBox("ViewChanges").Texts);
                 CollectionAssert.AreEqual(new[] { "Add" }, window.FindChangesGroupBox("SourceChanges").Texts);
             }
         }
@@ -52,11 +53,12 @@ namespace Gu.Wpf.Reactive.UiTests
             {
                 var window = app.MainWindow;
                 window.FindButton("Reset").Invoke();
+                window.FindButton("Reset").Invoke();
                 window.FindButton("AddFour").Click();
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, window.FindGroupBox("DataGridIList").FindDataGrid().ColumnValues(0));
-                //CollectionAssert.AreEqual(new[] { "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
+                CollectionAssert.AreEqual(new[] { "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
                 CollectionAssert.AreEqual(new[] { "Add", "Add", "Add", "Add" }, window.FindChangesGroupBox("SourceChanges").Texts);
             }
         }
@@ -68,11 +70,12 @@ namespace Gu.Wpf.Reactive.UiTests
             {
                 var window = app.MainWindow;
                 window.FindButton("Reset").Invoke();
+                window.FindButton("Reset").Invoke();
                 window.FindButton("AddOneOnOtherThread").Click();
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("DataGridIList").FindDataGrid().ColumnValues(0));
-                //CollectionAssert.AreEqual(new[] { "Add" }, window.FindChangesGroupBox("ViewChanges").Texts);
+                CollectionAssert.AreEqual(new[] { "Add" }, window.FindChangesGroupBox("ViewChanges").Texts);
                 CollectionAssert.AreEqual(new[] { "Add" }, window.FindChangesGroupBox("SourceChanges").Texts);
             }
         }
@@ -84,6 +87,7 @@ namespace Gu.Wpf.Reactive.UiTests
             {
                 var window = app.MainWindow;
                 window.FindButton("Reset").Invoke();
+                window.FindButton("Reset").Invoke();
                 window.FindButton("AddFour").Click();
                 var listBox = window.FindGroupBox("ListBox").FindListBox();
                 var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
@@ -91,7 +95,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, listBox.Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, dataGrid.ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, window.FindGroupBox("DataGridIList").FindDataGrid().ColumnValues(0));
-                //CollectionAssert.AreEqual(new[] { "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
+                CollectionAssert.AreEqual(new[] { "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
                 CollectionAssert.AreEqual(new[] { "Add", "Add", "Add", "Add" }, window.FindChangesGroupBox("SourceChanges").Texts);
 
                 dataGrid[0, 0].Value = "5";
@@ -100,6 +104,8 @@ namespace Gu.Wpf.Reactive.UiTests
                 CollectionAssert.AreEqual(new[] { "5", "2", "3", "4" }, listBox.Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "5", "2", "3", "4" }, dataGrid.ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "5", "2", "3", "4" }, window.FindGroupBox("DataGridIList").FindDataGrid().ColumnValues(0));
+                CollectionAssert.AreEqual(new[] { "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
+                CollectionAssert.AreEqual(new[] { "Add", "Add", "Add", "Add" }, window.FindChangesGroupBox("SourceChanges").Texts);
             }
         }
     }

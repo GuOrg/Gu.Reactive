@@ -3,14 +3,16 @@
     using System;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
+    using System.Reactive.Disposables;
     using System.Reactive.Linq;
     using System.Threading.Tasks;
     using System.Windows.Input;
-    using System.Windows.Threading;
     using Gu.Wpf.Reactive;
 
     public sealed class ReadOnlyThrottledViewViewModel : IDisposable
     {
+        private readonly SerialDisposable sourceChanges = new SerialDisposable();
+        private readonly SerialDisposable viewChanges = new SerialDisposable();
         private bool disposed;
 
         public ReadOnlyThrottledViewViewModel()
@@ -20,21 +22,21 @@
             this.View = this.Source.AsReadOnlyThrottledView(this.DeferTime, WpfSchedulers.Dispatcher);
             this.ReadOnlyIListThrottledView = this.View.AsReadonlyIListView();
 
-            this.Source
-                .ObserveCollectionChanged(signalInitial: false)
-                .ObserveOnDispatcher()
-                .Subscribe(x => this.SourceChanges.Add(x.EventArgs));
+            this.sourceChanges.Disposable = this.Source
+                                                .ObserveCollectionChanged(signalInitial: false)
+                                                .ObserveOnDispatcher()
+                                                .Subscribe(x => this.SourceChanges.Add(x.EventArgs));
 
-            this.View
-                .ObserveCollectionChanged(signalInitial: false)
-                .ObserveOnDispatcher()
-                .Subscribe(x => this.ViewChanges.Add(x.EventArgs));
+            this.viewChanges.Disposable = this.View
+                                              .ObserveCollectionChanged(signalInitial: false)
+                                              .ObserveOnDispatcher()
+                                              .Subscribe(x => this.ViewChanges.Add(x.EventArgs));
 
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddFourCommand = new RelayCommand(() => this.Add(4), () => true);
             this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
             this.ClearCommand = new RelayCommand(this.Source.Clear, () => true);
-            this.ResetCommand = new AsyncCommand(this.ResetAsync);
+            this.ResetCommand = new RelayCommand(this.Reset);
         }
 
         public ObservableCollection<DummyItem> Source { get; } = new ObservableCollection<DummyItem>();
@@ -69,7 +71,8 @@
             this.disposed = true;
             (this.View as IDisposable)?.Dispose();
             (this.ReadOnlyIListThrottledView as IDisposable)?.Dispose();
-            (this.ResetCommand as IDisposable)?.Dispose();
+            this.sourceChanges.Dispose();
+            this.viewChanges.Dispose();
         }
 
         private void AddOne()
@@ -85,12 +88,22 @@
             }
         }
 
-        private async Task ResetAsync()
+        private void Reset()
         {
+            this.sourceChanges.Disposable = null;
+            this.viewChanges.Disposable = null;
             this.Source.Clear();
-            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             this.SourceChanges.Clear();
             this.ViewChanges.Clear();
+            this.sourceChanges.Disposable = this.Source
+                                                .ObserveCollectionChanged(signalInitial: false)
+                                                .ObserveOnDispatcher()
+                                                .Subscribe(x => this.SourceChanges.Add(x.EventArgs));
+
+            this.viewChanges.Disposable = this.View
+                                              .ObserveCollectionChanged(signalInitial: false)
+                                              .ObserveOnDispatcher()
+                                              .Subscribe(x => this.ViewChanges.Add(x.EventArgs));
         }
     }
 }

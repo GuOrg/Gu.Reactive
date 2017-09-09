@@ -11,7 +11,8 @@
     <!--<Application.StartupUri>UiTestWindows/MappingViewWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/ReadonlyFilteredDispatchingWindow.xaml</Application.StartupUri>-->
     <!--<Application.StartupUri>UiTestWindows/ReadOnlySerialViewWindow.xaml</Application.StartupUri>-->
-    <Application.StartupUri>MainWindow.xaml</Application.StartupUri>
+    <Application.StartupUri>UiTestWindows/ReadOnlyThrottledViewWindow.xaml</Application.StartupUri>
+    <!--<Application.StartupUri>MainWindow.xaml</Application.StartupUri>-->
     <Application.Resources>
         <ResourceDictionary>
             <!--  Must have x:Shared="False" or else the same instance of tooltip is used.  -->
