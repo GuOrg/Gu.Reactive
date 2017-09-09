@@ -6,7 +6,7 @@
     using System.Reactive.Linq;
     using System.Threading.Tasks;
     using System.Windows.Input;
-
+    using System.Windows.Threading;
     using Gu.Wpf.Reactive;
 
     public sealed class ReadOnlyThrottledViewViewModel : IDisposable
@@ -21,19 +21,20 @@
             this.ReadOnlyIListThrottledView = this.View.AsReadonlyIListView();
 
             this.Source
-                .ObserveCollectionChanged()
+                .ObserveCollectionChanged(signalInitial: false)
                 .ObserveOnDispatcher()
                 .Subscribe(x => this.SourceChanges.Add(x.EventArgs));
 
             this.View
-                .ObserveCollectionChanged()
+                .ObserveCollectionChanged(signalInitial: false)
                 .ObserveOnDispatcher()
                 .Subscribe(x => this.ViewChanges.Add(x.EventArgs));
 
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddFourCommand = new RelayCommand(() => this.Add(4), () => true);
             this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
-            this.ClearCommand = new RelayCommand(this.Clear, () => true);
+            this.ClearCommand = new RelayCommand(this.Source.Clear, () => true);
+            this.ResetCommand = new AsyncCommand(this.ResetAsync);
         }
 
         public ObservableCollection<DummyItem> Source { get; } = new ObservableCollection<DummyItem>();
@@ -56,6 +57,8 @@
 
         public ICommand ClearCommand { get; }
 
+        public ICommand ResetCommand { get; }
+
         public void Dispose()
         {
             if (this.disposed)
@@ -66,6 +69,7 @@
             this.disposed = true;
             (this.View as IDisposable)?.Dispose();
             (this.ReadOnlyIListThrottledView as IDisposable)?.Dispose();
+            (this.ResetCommand as IDisposable)?.Dispose();
         }
 
         private void AddOne()
@@ -81,9 +85,10 @@
             }
         }
 
-        private void Clear()
+        private async Task ResetAsync()
         {
             this.Source.Clear();
+            await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
             this.SourceChanges.Clear();
             this.ViewChanges.Clear();
         }

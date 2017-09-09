@@ -5,7 +5,7 @@
              xmlns:demo="clr-namespace:Gu.Reactive.Demo"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DesignHeight="300"
-             d:DesignWidth="300"
+             d:DesignWidth="500"
              mc:Ignorable="d">
     <UserControl.DataContext>
         <demo:ReadOnlyThrottledViewViewModel />
@@ -23,6 +23,8 @@
             <Button Command="{Binding AddOneOnOtherThreadCommand}" Content="AddOneOnOtherThread" />
 
             <Button Command="{Binding ClearCommand}" Content="Clear" />
+
+            <Button Command="{Binding ResetCommand}" Content="Reset" />
         </WrapPanel>
 
         <UniformGrid Grid.Row="1" Rows="1">
