@@ -192,6 +192,7 @@
       <DependentUpon>ToolTipsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TypeNameConverter.cs" />
+    <Compile Include="Wait.cs" />
     <Page Include="AsyncCommandsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

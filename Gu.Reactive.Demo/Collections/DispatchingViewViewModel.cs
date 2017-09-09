@@ -5,9 +5,11 @@ namespace Gu.Reactive.Demo
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Reactive.Linq;
+    using System.Threading;
     using System.Threading.Tasks;
+    using System.Windows;
     using System.Windows.Input;
-
+    using System.Windows.Threading;
     using Gu.Wpf.Reactive;
 
     public sealed class DispatchingViewViewModel : IDisposable
@@ -22,14 +24,15 @@ namespace Gu.Reactive.Demo
             this.AddOneToViewCommand = new RelayCommand(this.AddOneToView, () => true);
             this.AddFourCommand = new RelayCommand(() => this.Add(4), () => true);
             this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
-            this.ClearCommand = new RelayCommand(this.Clear, () => true);
+            this.ClearCommand = new RelayCommand(this.Source.Clear);
+            this.ResetCommand = new RelayCommand(this.Reset);
             this.Source
-                .ObserveCollectionChanged()
+                .ObserveCollectionChanged(signalInitial: false)
                 .ObserveOnDispatcher()
                 .Subscribe(x => this.SourceChanges.Add(x.EventArgs));
 
             this.View
-                .ObserveCollectionChanged()
+                .ObserveCollectionChanged(signalInitial: false)
                 .ObserveOnDispatcher()
                 .Subscribe(x => this.ViewChanges.Add(x.EventArgs));
         }
@@ -45,6 +48,8 @@ namespace Gu.Reactive.Demo
         public ICommand AddOneOnOtherThreadCommand { get; }
 
         public RelayCommand ClearCommand { get; }
+
+        public RelayCommand ResetCommand { get; }
 
         public ObservableCollection<NotifyCollectionChangedEventArgs> SourceChanges { get; } = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
@@ -81,9 +86,10 @@ namespace Gu.Reactive.Demo
             }
         }
 
-        private void Clear()
+        private async void Reset()
         {
             this.Source.Clear();
+            await Dispatcher.Yield(DispatcherPriority.Background);
             this.SourceChanges.Clear();
             this.ViewChanges.Clear();
         }
