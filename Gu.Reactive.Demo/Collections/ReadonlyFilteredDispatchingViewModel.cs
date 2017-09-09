@@ -9,6 +9,7 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows.Input;
+    using System.Windows.Threading;
     using Gu.Wpf.Reactive;
 
     public class ReadonlyFilteredDispatchingViewModel : IDisposable, INotifyPropertyChanged
@@ -30,18 +31,19 @@
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
             this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
-            this.ClearCommand = new RelayCommand(this.Clear, () => true);
+            this.ClearCommand = new RelayCommand(this.Source.Clear, () => true);
+            this.ResetCommand = new RelayCommand(this.Reset, () => true);
             this.TriggerCommand = new RelayCommand(() => this.trigger.OnNext(null), () => true);
             this.TriggerOnOtherThreadCommand = new RelayCommand(
                 () => Task.Run(() => this.trigger.OnNext(null)),
                 () => true);
             this.Source
-                .ObserveCollectionChanged()
+                .ObserveCollectionChanged(signalInitial: false)
                 .ObserveOnDispatcher()
                 .Subscribe(x => this.SourceChanges.Add(x.EventArgs));
 
             this.View
-                .ObserveCollectionChanged()
+                .ObserveCollectionChanged(signalInitial: false)
                 .ObserveOnDispatcher()
                 .Subscribe(x => this.ViewChanges.Add(x.EventArgs));
         }
@@ -59,6 +61,8 @@
         public ICommand AddOneOnOtherThreadCommand { get; }
 
         public RelayCommand ClearCommand { get; }
+
+        public RelayCommand ResetCommand { get; }
 
         public RelayCommand TriggerCommand { get; }
 
@@ -129,9 +133,11 @@
             }
         }
 
-        private void Clear()
+        private async void Reset()
         {
             this.Source.Clear();
+            this.Max = 5;
+            await Dispatcher.Yield(DispatcherPriority.Background);
             ((IRefreshAble)this.View).Refresh();
             this.SourceChanges.Clear();
             this.ViewChanges.Clear();
