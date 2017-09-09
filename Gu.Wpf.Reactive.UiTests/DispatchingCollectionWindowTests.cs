@@ -9,6 +9,19 @@ namespace Gu.Wpf.Reactive.UiTests
     {
         private static readonly string WindowName = "DispatchingCollectionWindow";
 
+        [SetUp]
+        public void SetUp()
+        {
+            if (Application.TryAttach(Info.ExeFileName, WindowName, out var app))
+            {
+                using (app)
+                {
+                    var window = app.MainWindow;
+                    window.FindButton("Reset").Invoke();
+                }
+            }
+        }
+
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
@@ -36,7 +49,6 @@ namespace Gu.Wpf.Reactive.UiTests
             using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
-                window.FindButton("Reset").Invoke();
                 var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
                 var listBox = window.FindGroupBox("ListBox").FindListBox();
                 var sourceChanges = window.FindGroupBox("SourceChanges");
@@ -55,7 +67,6 @@ namespace Gu.Wpf.Reactive.UiTests
             using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
-                window.FindButton("Reset").Invoke();
                 var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
                 var listBox = window.FindGroupBox("ListBox").FindListBox();
                 var sourceChanges = window.FindGroupBox("SourceChanges");
@@ -74,7 +85,6 @@ namespace Gu.Wpf.Reactive.UiTests
             using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
-                window.FindButton("Reset").Invoke();
                 var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
                 var listBox = window.FindGroupBox("ListBox").FindListBox();
                 var sourceChanges = window.FindGroupBox("SourceChanges");
@@ -93,7 +103,6 @@ namespace Gu.Wpf.Reactive.UiTests
             using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
-                window.FindButton("Reset").Invoke();
                 var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
                 var listBox = window.FindGroupBox("ListBox").FindListBox();
                 var sourceChanges = window.FindGroupBox("SourceChanges");
