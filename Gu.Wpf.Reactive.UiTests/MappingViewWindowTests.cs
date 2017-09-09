@@ -145,11 +145,9 @@ namespace Gu.Wpf.Reactive.UiTests
                 this.groupBox = groupBox;
             }
 
-            public DataGrid DataGrid => this.groupBox
-                                            .FindDataGrid();
+            public DataGrid DataGrid => this.groupBox.FindDataGrid();
 
-            public ListBox Events => this.groupBox
-                                         .FindListBox();
+            public ListBox Events => this.groupBox.FindListBox();
         }
     }
 }

@@ -66,20 +66,23 @@
                 var window = app.MainWindow;
                 window.FindButton("Reset").Invoke();
                 window.FindButton("AddTen").Click();
-                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
-                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
+                var listBox = window.FindGroupBox("ListBox").FindListBox();
+                var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
+
+                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, listBox.Items.Select(x => x.FindTextBlock().Text));
+                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, dataGrid.ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
                 CollectionAssert.AreEqual(Enumerable.Repeat("Add", 10), window.FindChangesGroupBox("SourceChanges").Texts);
 
                 window.FindTextBox("FilterText").Text = "2";
-                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
-                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
+                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, listBox.Items.Select(x => x.FindTextBlock().Text));
+                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, dataGrid.ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
                 CollectionAssert.AreEqual(Enumerable.Repeat("Add", 10), window.FindChangesGroupBox("SourceChanges").Texts);
 
                 window.FindButton("Trigger").Click();
-                CollectionAssert.AreEqual(new[] { "1", string.Empty }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
-                CollectionAssert.AreEqual(new[] { "1", string.Empty }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
+                CollectionAssert.AreEqual(new[] { "1", string.Empty }, listBox.Items.Select(x => x.FindTextBlock().Text));
+                CollectionAssert.AreEqual(new[] { "1", string.Empty }, dataGrid.ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "Reset", "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
                 CollectionAssert.AreEqual(Enumerable.Repeat("Add", 10), window.FindChangesGroupBox("SourceChanges").Texts);
             }
@@ -93,20 +96,23 @@
                 var window = app.MainWindow;
                 window.FindButton("Reset").Invoke();
                 window.FindButton("AddTen").Click();
-                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
-                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
+                var listBox = window.FindGroupBox("ListBox").FindListBox();
+                var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
+
+                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, listBox.Items.Select(x => x.FindTextBlock().Text));
+                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, dataGrid.ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
                 CollectionAssert.AreEqual(Enumerable.Repeat("Add", 10), window.FindChangesGroupBox("SourceChanges").Texts);
 
                 window.FindTextBox("FilterText").Text = "2";
-                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
-                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
+                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, listBox.Items.Select(x => x.FindTextBlock().Text));
+                CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, dataGrid.ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
                 CollectionAssert.AreEqual(Enumerable.Repeat("Add", 10), window.FindChangesGroupBox("SourceChanges").Texts);
 
                 window.FindButton("TriggerOnOtherThread").Click();
-                CollectionAssert.AreEqual(new[] { "1", string.Empty }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
-                CollectionAssert.AreEqual(new[] { "1", string.Empty }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
+                CollectionAssert.AreEqual(new[] { "1", string.Empty }, listBox.Items.Select(x => x.FindTextBlock().Text));
+                CollectionAssert.AreEqual(new[] { "1", string.Empty }, dataGrid.ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "Reset", "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
                 CollectionAssert.AreEqual(Enumerable.Repeat("Add", 10), window.FindChangesGroupBox("SourceChanges").Texts);
             }
