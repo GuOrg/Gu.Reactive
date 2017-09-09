@@ -22,6 +22,8 @@
             <Button Command="{Binding AddOneOnOtherThreadCommand}" Content="AddOneOnOtherThread" />
 
             <Button Command="{Binding ClearCommand}" Content="Clear" />
+
+            <Button Command="{Binding ResetCommand}" Content="Reset" />
         </StackPanel>
 
         <Grid Grid.Row="2">
