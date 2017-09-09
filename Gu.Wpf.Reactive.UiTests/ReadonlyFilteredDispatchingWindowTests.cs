@@ -1,6 +1,5 @@
 ﻿namespace Gu.Wpf.Reactive.UiTests
 {
-    using System.Collections.Generic;
     using System.Linq;
 
     using Gu.Wpf.UiAutomation;
@@ -11,7 +10,7 @@
         protected override string WindowName { get; } = "ReadonlyFilteredDispatchingWindow";
 
         private ListBox ListBox => this.Window
-                                    .FindFirstDescendant(x => x.ByText("ListBox"))
+                                    .FindGroupBox("ListBox")
                                     .FindListBox();
 
         private DataGrid DataGrid => this.Window

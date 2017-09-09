@@ -5,9 +5,7 @@ namespace Gu.Reactive.Demo
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.Reactive.Linq;
-    using System.Threading;
     using System.Threading.Tasks;
-    using System.Windows;
     using System.Windows.Input;
     using System.Windows.Threading;
     using Gu.Wpf.Reactive;

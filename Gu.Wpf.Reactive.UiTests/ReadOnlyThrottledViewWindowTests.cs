@@ -1,6 +1,5 @@
 namespace Gu.Wpf.Reactive.UiTests
 {
-    using System.Collections.Generic;
     using System.Linq;
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;

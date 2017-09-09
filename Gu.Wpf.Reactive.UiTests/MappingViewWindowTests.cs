@@ -8,21 +8,19 @@ namespace Gu.Wpf.Reactive.UiTests
     {
         protected override string WindowName { get; } = "MappingViewWindow";
 
-        private ListBox ListBox => this.Window
-                                    .FindFirstDescendant(x => x.ByText("Source"))
-                                    .FindListBox();
+        private ListBox ListBox => this.Window.FindGroupBox("Source").FindListBox();
 
-        private DataGridAndEvents MappedInts => new DataGridAndEvents(this.Window.FindFirstDescendant(x => x.ByText("MappedInts")));
+        private DataGridAndEvents MappedInts => new DataGridAndEvents(this.Window.FindGroupBox("MappedInts"));
 
-        private DataGridAndEvents MappedIndexedInts => new DataGridAndEvents(this.Window.FindFirstDescendant(x => x.ByText("MappedIndexedInts")));
+        private DataGridAndEvents MappedIndexedInts => new DataGridAndEvents(this.Window.FindGroupBox("MappedIndexedInts"));
 
-        private DataGridAndEvents MappedMapped => new DataGridAndEvents(this.Window.FindFirstDescendant(x => x.ByText("MappedMapped")));
+        private DataGridAndEvents MappedMapped => new DataGridAndEvents(this.Window.FindGroupBox("MappedMapped"));
 
-        private DataGridAndEvents MappedMappedIndexed => new DataGridAndEvents(this.Window.FindFirstDescendant(x => x.ByText("MappedMappedIndexed")));
+        private DataGridAndEvents MappedMappedIndexed => new DataGridAndEvents(this.Window.FindGroupBox("MappedMappedIndexed"));
 
-        private DataGridAndEvents MappedMappedUpdateIndexed => new DataGridAndEvents(this.Window.FindFirstDescendant(x => x.ByText("MappedMappedUpdateIndexed")));
+        private DataGridAndEvents MappedMappedUpdateIndexed => new DataGridAndEvents(this.Window.FindGroupBox("MappedMappedUpdateIndexed"));
 
-        private DataGridAndEvents MappedMappedUpdateNewIndexed => new DataGridAndEvents(this.Window.FindFirstDescendant(x => x.ByText("MappedMappedUpdateNewIndexed")));
+        private DataGridAndEvents MappedMappedUpdateNewIndexed => new DataGridAndEvents(this.Window.FindGroupBox("MappedMappedUpdateNewIndexed"));
 
         private Button ClearButton => this.Window.FindButton("Clear");
 
