@@ -4,37 +4,9 @@ namespace Gu.Wpf.Reactive.UiTests
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class MappingViewWindowTests : WindowTests
+    public class MappingViewWindowTests
     {
-        protected override string WindowName { get; } = "MappingViewWindow";
-
-        private ListBox ListBox => this.Window.FindGroupBox("Source").FindListBox();
-
-        private DataGridAndEvents MappedInts => new DataGridAndEvents(this.Window.FindGroupBox("MappedInts"));
-
-        private DataGridAndEvents MappedIndexedInts => new DataGridAndEvents(this.Window.FindGroupBox("MappedIndexedInts"));
-
-        private DataGridAndEvents MappedMapped => new DataGridAndEvents(this.Window.FindGroupBox("MappedMapped"));
-
-        private DataGridAndEvents MappedMappedIndexed => new DataGridAndEvents(this.Window.FindGroupBox("MappedMappedIndexed"));
-
-        private DataGridAndEvents MappedMappedUpdateIndexed => new DataGridAndEvents(this.Window.FindGroupBox("MappedMappedUpdateIndexed"));
-
-        private DataGridAndEvents MappedMappedUpdateNewIndexed => new DataGridAndEvents(this.Window.FindGroupBox("MappedMappedUpdateNewIndexed"));
-
-        private Button ClearButton => this.Window.FindButton("Clear");
-
-        private Button AddOneButton => this.Window.FindButton("Add to source");
-
-        private Button AddOneOnOtherThreadButton => this.Window.FindButton("Add to source on thread");
-
-        [SetUp]
-        public void SetUp()
-        {
-            this.AddOneButton.Click();
-            this.AddOneButton.Click();
-            this.ClearButton.Click();
-        }
+        private static readonly string WindowName = "MappingViewWindow";
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
@@ -42,105 +14,75 @@ namespace Gu.Wpf.Reactive.UiTests
             Application.KillLaunched(Info.ExeFileName);
         }
 
-        [Test]
-        public void Initializes()
+        [TestCase("MappedInts", new[] { "1", "2", "3" }, new[] { "", "", "" })]
+        [TestCase("MappedIndexedInts", new[] { "1", "2", "3" }, new[] { "0", "1", "2" })]
+        [TestCase("MappedMapped", new[] { "2", "4", "6" }, new[] { "", "", "" })]
+        [TestCase("MappedMappedIndexed", new[] { "2", "4", "6" }, new[] { "0", "1", "2" })]
+        [TestCase("MappedMappedUpdateIndexed", new[] { "2", "4", "6" }, new[] { "0", "1", "2" })]
+        [TestCase("MappedMappedUpdateNewIndexed", new[] { "2", "4", "6" }, new[] { "0", "1", "2" })]
+        public void Initializes(string header, string[] col1, string[] col2)
         {
-            this.Restart();
-            CollectionAssert.AreEqual(new[] { "1", "2", "3" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                CollectionAssert.AreEqual(new[] { "1", "2", "3" }, window.FindGroupBox("Source").FindListBox().Items.Select(x => x.FindTextBlock().Text));
 
-            CollectionAssert.AreEqual(new[] { "1", "2", "3" }, this.MappedInts.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { string.Empty, string.Empty, string.Empty }, this.MappedInts.DataGrid.ColumnValues(1));
-            CollectionAssert.IsEmpty(this.MappedInts.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "1", "2", "3" }, this.MappedIndexedInts.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0", "1", "2" }, this.MappedIndexedInts.DataGrid.ColumnValues(1));
-            CollectionAssert.IsEmpty(this.MappedIndexedInts.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2", "4", "6" }, this.MappedMapped.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { string.Empty, string.Empty, string.Empty }, this.MappedMapped.DataGrid.ColumnValues(1));
-            CollectionAssert.IsEmpty(this.MappedMapped.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2", "4", "6" }, this.MappedMappedIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0", "1", "2" }, this.MappedMappedIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.IsEmpty(this.MappedMappedIndexed.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2", "4", "6" }, this.MappedMappedUpdateIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0", "1", "2" }, this.MappedMappedUpdateIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.IsEmpty(this.MappedMappedUpdateIndexed.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2", "4", "6" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0", "1", "2" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.IsEmpty(this.MappedMappedUpdateNewIndexed.Events.Items.Select(x => x.FindTextBlock().Text));
+                var dataGridAndEVents = new DataGridAndEvents(window.FindGroupBox(header));
+                CollectionAssert.AreEqual(col1, dataGridAndEVents.DataGrid.ColumnValues(0));
+                CollectionAssert.AreEqual(col2, dataGridAndEVents.DataGrid.ColumnValues(1));
+                CollectionAssert.IsEmpty(dataGridAndEVents.Events.Items);
+            }
         }
 
-        [Test]
-        public void AddOne()
+        [TestCase("MappedInts", "1", "")]
+        [TestCase("MappedIndexedInts", "1", "0")]
+        [TestCase("MappedMapped", "2", "")]
+        [TestCase("MappedMappedIndexed", "2", "0")]
+        [TestCase("MappedMappedUpdateIndexed", "2", "0")]
+        [TestCase("MappedMappedUpdateNewIndexed", "2", "0")]
+        public void AddOne(string header, string col1, string col2)
         {
-            this.AddOneButton.Click();
-            CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                window.FindButton("Clear").Click();
+                window.FindButton("Add to source").Click();
+                CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("Source").FindListBox().Items.Select(x => x.FindTextBlock().Text));
 
-            CollectionAssert.AreEqual(new[] { "1" }, this.MappedInts.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { string.Empty }, this.MappedInts.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedInts.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "1" }, this.MappedIndexedInts.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedIndexedInts.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedIndexedInts.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMapped.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { string.Empty }, this.MappedMapped.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMapped.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMappedIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedMappedIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMappedIndexed.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMappedUpdateIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedMappedUpdateIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMappedUpdateIndexed.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMappedUpdateNewIndexed.Events.Items.Select(x => x.FindTextBlock().Text));
+                var dataGridAndEVents = new DataGridAndEvents(window.FindGroupBox(header));
+                CollectionAssert.AreEqual(new[] { col1 }, dataGridAndEVents.DataGrid.ColumnValues(0));
+                CollectionAssert.AreEqual(new[] { col2 }, dataGridAndEVents.DataGrid.ColumnValues(1));
+                CollectionAssert.AreEqual(new[] { "Reset", "Add" }, dataGridAndEVents.Events.Items.Select(x => x.FindTextBlock().Text));
+            }
         }
 
-        [Test]
-        public void AddOneOnOtherThread()
+        [TestCase("MappedInts", "1", "")]
+        [TestCase("MappedIndexedInts", "1", "0")]
+        [TestCase("MappedMapped", "2", "")]
+        [TestCase("MappedMappedIndexed", "2", "0")]
+        [TestCase("MappedMappedUpdateIndexed", "2", "0")]
+        [TestCase("MappedMappedUpdateNewIndexed", "2", "0")]
+        public void AddOneOnOtherThread(string header, string col1, string col2)
         {
-            this.AddOneOnOtherThreadButton.Click();
-            Wait.UntilInputIsProcessed();
-            CollectionAssert.AreEqual(new[] { "1" }, this.ListBox.Items.Select(x => x.FindTextBlock().Text));
+            using (var app = Application.Launch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                window.FindButton("Clear").Click();
+                window.FindButton("Add to source on thread").Click();
+                CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("Source").FindListBox().Items.Select(x => x.FindTextBlock().Text));
 
-            CollectionAssert.AreEqual(new[] { "1" }, this.MappedInts.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { string.Empty }, this.MappedInts.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedInts.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "1" }, this.MappedIndexedInts.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedIndexedInts.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedIndexedInts.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMapped.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { string.Empty }, this.MappedMapped.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMapped.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMappedIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedMappedIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMappedIndexed.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMappedUpdateIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedMappedUpdateIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMappedUpdateIndexed.Events.Items.Select(x => x.FindTextBlock().Text));
-
-            CollectionAssert.AreEqual(new[] { "2" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(0));
-            CollectionAssert.AreEqual(new[] { "0" }, this.MappedMappedUpdateNewIndexed.DataGrid.ColumnValues(1));
-            CollectionAssert.AreEqual(new[] { "Reset", "Add" }, this.MappedMappedUpdateNewIndexed.Events.Items.Select(x => x.FindTextBlock().Text));
+                var dataGridAndEVents = new DataGridAndEvents(window.FindGroupBox(header));
+                CollectionAssert.AreEqual(new[] { col1 }, dataGridAndEVents.DataGrid.ColumnValues(0));
+                CollectionAssert.AreEqual(new[] { col2 }, dataGridAndEVents.DataGrid.ColumnValues(1));
+                CollectionAssert.AreEqual(new[] { "Reset", "Add" }, dataGridAndEVents.Events.Items.Select(x => x.FindTextBlock().Text));
+            }
         }
 
         private class DataGridAndEvents
         {
-            private readonly AutomationElement groupBox;
+            private readonly GroupBox groupBox;
 
-            public DataGridAndEvents(AutomationElement groupBox)
+            public DataGridAndEvents(GroupBox groupBox)
             {
                 this.groupBox = groupBox;
             }

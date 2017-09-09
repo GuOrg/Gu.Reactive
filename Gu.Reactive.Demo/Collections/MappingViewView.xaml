@@ -1,13 +1,12 @@
-﻿<UserControl
-    x:Class="Gu.Reactive.Demo.MappingViewView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:demo="clr-namespace:Gu.Reactive.Demo"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DataContext="{d:DesignInstance demo:MappingViewViewModel}"
-    d:DesignHeight="300"
-    mc:Ignorable="d">
+﻿<UserControl x:Class="Gu.Reactive.Demo.MappingViewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:demo="clr-namespace:Gu.Reactive.Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{d:DesignInstance demo:MappingViewViewModel}"
+             d:DesignHeight="300"
+             mc:Ignorable="d">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type demo:MappedVm}">
             <GroupBox Header="Mapped">
@@ -27,48 +26,22 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Button
-                Grid.Column="0"
-                Command="{Binding AddOneToSourceCommand}"
-                Content="Add to source" />
+        <UniformGrid Rows="1">
+            <Button Command="{Binding AddOneToSourceCommand}" Content="Add to source" />
 
-            <Button
-                Grid.Column="1"
-                Command="{Binding AddTenToSourceCommand}"
-                Content="Add ten to source" />
+            <Button Command="{Binding AddTenToSourceCommand}" Content="Add ten to source" />
 
-            <Button
-                Grid.Column="2"
-                Command="{Binding AddOneToSourceOnOtherThreadCommand}"
-                Content="Add to source on thread" />
+            <Button Command="{Binding AddOneToSourceOnOtherThreadCommand}" Content="Add to source on thread" />
 
-            <Slider
-                x:Name="RemoveAt"
-                Grid.Column="3"
-                Maximum="{Binding Ints.Count}"
-                Minimum="0"
-                Value="{Binding RemoveAt}" />
+            <Slider x:Name="RemoveAt"
+                    Maximum="{Binding Ints.Count}"
+                    Minimum="0"
+                    Value="{Binding RemoveAt}" />
 
-            <Button
-                Grid.Column="4"
-                Command="{Binding RemoveAtCommand}"
-                Content="RemoveAt" />
+            <Button Command="{Binding RemoveAtCommand}" Content="RemoveAt" />
 
-            <Button
-                Grid.Column="5"
-                Command="{Binding ClearCommand}"
-                Content="Clear" />
-
-        </Grid>
+            <Button Command="{Binding ClearCommand}" Content="Clear" />
+        </UniformGrid>
 
         <UniformGrid Grid.Row="1" Columns="{Binding Children.Count, RelativeSource={RelativeSource Self}}">
             <GroupBox Header="Source">

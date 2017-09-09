@@ -8,7 +8,6 @@
     using System.Threading.Tasks;
     using System.Windows.Input;
     using Gu.Wpf.Reactive;
-    using JetBrains.Annotations;
 
     public sealed class MappingViewViewModel : INotifyPropertyChanged, IDisposable
     {
@@ -62,7 +61,7 @@
             this.AddTenToSourceCommand = new RelayCommand(this.AddTen, () => true);
             this.AddOneToSourceOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.source.Add(this.source.Count + 1)));
 
-            this.ClearCommand = new RelayCommand(this.Clear);
+            this.ClearCommand = new RelayCommand(this.source.Clear);
 
             this.RemoveAtCommand = new ConditionRelayCommand(
                 () => this.source.RemoveAt(this.RemoveAt >= this.source.Count ? this.source.Count - 1 : this.RemoveAt),
@@ -144,13 +143,6 @@
             (this.RemoveAtCommand as IDisposable)?.Dispose();
         }
 
-        private void Clear()
-        {
-            this.source.Clear();
-            this.OnPropertyChanged(string.Empty);
-        }
-
-        [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
