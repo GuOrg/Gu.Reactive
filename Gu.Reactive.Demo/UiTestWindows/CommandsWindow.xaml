@@ -5,6 +5,8 @@
         xmlns:demo="clr-namespace:Gu.Reactive.Demo"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="CommandWindow"
+        Width="600"
+        Height="400"
         mc:Ignorable="d">
     <demo:CommandsView />
 </Window>

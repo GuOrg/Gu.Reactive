@@ -38,16 +38,6 @@
                     Command="{Binding RaiseCanExecuteCommand}"
                     Content="RaiseCanExecute" />
 
-            <TextBlock Grid.Row="4"
-                       Grid.Column="0"
-                       VerticalAlignment="Center"
-                       Text="Executed:" />
-
-            <TextBox x:Name="Executed"
-                     Grid.Row="4"
-                     Grid.Column="1"
-                     Text="{Binding Executed}" />
-
             <Button Grid.Row="2"
                     Grid.Column="1"
                     Command="{Binding RaiseCanExecuteOnOtherThread}"
@@ -57,8 +47,19 @@
                     Grid.Column="1"
                     Command="{Binding DelayedToggleCanExecute}"
                     Content="DelayedToggleCanExecute" />
+
+            <TextBlock Grid.Row="4"
+                       Grid.Column="0"
+                       VerticalAlignment="Center"
+                       Text="Executed:" />
+
+            <TextBox x:Name="Executed"
+                     Grid.Row="4"
+                     Grid.Column="1"
+                     Text="{Binding Executed}" />
         </Grid>
-        <UniformGrid Grid.Row="1" Columns="1">
+
+        <UniformGrid Grid.Row="1" Columns="2">
             <UniformGrid.Resources>
                 <Style TargetType="{x:Type Button}">
                     <Setter Property="Width" Value="250" />

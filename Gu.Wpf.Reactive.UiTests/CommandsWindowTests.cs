@@ -3,153 +3,110 @@ namespace Gu.Wpf.Reactive.UiTests
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class CommandsWindowTests : WindowTests
+    public class CommandsWindowTests
     {
-        protected override string WindowName { get; } = "CommandsWindow";
-
-        private CheckBox CanExecuteCheckBox => this.Window.FindCheckBox("CanExecute");
-
-        private Button RaiseCanExecuteButton => this.Window.FindButton("RaiseCanExecute");
-
-        private TextBox ExecutedTextBox => this.Window.FindTextBox("Executed");
-
-        private Button ManualRelayCommandButton => this.Window.FindButton("ManualRelayCommand");
-
-        private Button ManualRelayCommandNoConditionButton => this.Window.FindButton("ManualRelayCommandNoCondition");
-
-        private Button RelayCommandButton => this.Window.FindButton("RelayCommand");
-
-        private Button RelayCommandWithParameterButton => this.Window.FindButton("RelayCommandWithParameter");
-
-        private Button RelayCommandNoConditionButton => this.Window.FindButton("RelayCommandNoCondition");
-
-        private Button ObservingRelayCommandButton => this.Window.FindButton("ObservingRelayCommand");
-
-        private Button ObservingRelayCommandWithParameterButton => this.Window.FindButton("ObservingRelayCommandWithParameter");
-
-        private Button ConditionRelayCommandButton => this.Window.FindButton("ConditionRelayCommand");
-
-        private Button ConditionRelayCommandWithParameterButton => this.Window.FindButton("ConditionRelayCommandWithParameter");
+        private static readonly string WindowName = "CommandsWindow";
 
         [SetUp]
         public void SetUp()
         {
-            this.CanExecuteCheckBox.IsChecked = false;
-            this.RaiseCanExecuteButton.Click();
-            this.ExecutedTextBox.Enter(string.Empty);
+            if (Application.TryAttach(Info.ExeFileName, WindowName, out var app))
+            {
+                using (app)
+                {
+                    var window = app.MainWindow;
+                    var canExecuteCheckBox = window.FindCheckBox("CanExecute");
+                    canExecuteCheckBox.IsChecked = false;
+
+                    var raiseCanExecuteButton = window.FindButton("RaiseCanExecute");
+                    raiseCanExecuteButton.Invoke();
+
+                    var executedTextBox = window.FindTextBox("Executed");
+                    executedTextBox.Text = string.Empty;
+                }
+            }
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            Application.KillLaunched(Info.ExeFileName);
         }
 
         [Test]
         public void ManualRelayCommand()
         {
-            Assert.AreEqual(false, this.ManualRelayCommandButton.IsEnabled);
-            this.CanExecuteCheckBox.IsChecked = true;
-            Assert.AreEqual(false, this.ManualRelayCommandButton.IsEnabled);
-            this.RaiseCanExecuteButton.Click();
-            Assert.AreEqual(true, this.ManualRelayCommandButton.IsEnabled);
+            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                var button = window.FindButton("ManualRelayCommand");
+                var canExecuteCheckBox = window.FindCheckBox("CanExecute");
+                var raiseCanExecuteButton = window.FindButton("RaiseCanExecute");
 
-            this.ManualRelayCommandButton.Click();
-            Assert.AreEqual("ManualRelayCommand", this.ExecutedTextBox.Text);
+                Assert.AreEqual(false, button.IsEnabled);
+
+                canExecuteCheckBox.IsChecked = true;
+                Assert.AreEqual(false, button.IsEnabled);
+
+                raiseCanExecuteButton.Invoke();
+                Assert.AreEqual(true, button.IsEnabled);
+
+                button.Invoke();
+                Assert.AreEqual("ManualRelayCommand", window.FindTextBox("Executed").Text);
+            }
         }
 
-        [Test]
-        public void RelayCommandUpdatesCanExecuteWhenToggling()
+        [TestCase("RelayCommand", "RelayCommand")]
+        [TestCase("RelayCommandWithParameter", "RelayCommandWithParameter: RelayCommandWithParameter")]
+        [TestCase("ObservingRelayCommand", "ObservingRelayCommand")]
+        [TestCase("ConditionRelayCommand", "ConditionRelayCommand")]
+        [TestCase("ConditionRelayCommandWithParameter", "ConditionRelayCommandWithParameter: ConditionRelayCommandWithParameter")]
+        [TestCase("ObservingRelayCommandWithParameter", "ObservingRelayCommandWithParameter: ObservingRelayCommandWithParameter")]
+        public void UpdatesCanExecuteWhenToggling(string buttonContent, string expected)
         {
-            Assert.AreEqual(false, this.RelayCommandButton.IsEnabled);
-            this.CanExecuteCheckBox.IsChecked = true;
-            Assert.AreEqual(true, this.RelayCommandButton.IsEnabled);
+            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                var button = window.FindButton(buttonContent);
+                var canExecuteCheckBox = window.FindCheckBox("CanExecute");
 
-            this.RelayCommandButton.Click();
-            Assert.AreEqual("RelayCommand", this.ExecutedTextBox.Text);
+                Assert.AreEqual(false, button.IsEnabled);
+                canExecuteCheckBox.IsChecked = true;
+                window.FindButton("RaiseCanExecute").Invoke();
+                Assert.AreEqual(true, button.IsEnabled);
+
+                button.Invoke();
+                Assert.AreEqual(expected, window.FindTextBox("Executed").Text);
+            }
         }
 
-        [Test]
-        public void RelayCommandWithParameterCanExecuteWhenToggling()
+        [TestCase("ManualRelayCommandNoCondition", "ManualRelayCommandNoCondition")]
+        [TestCase("RelayCommandNoCondition", "RelayCommandNoCondition")]
+        public void CanAlwaysExecute(string buttonContent, string expected)
         {
-            Assert.AreEqual(false, this.RelayCommandWithParameterButton.IsEnabled);
-            this.CanExecuteCheckBox.IsChecked = true;
-            Assert.AreEqual(true, this.RelayCommandWithParameterButton.IsEnabled);
+            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                var button = window.FindButton(buttonContent);
+                Assert.AreEqual(true, button.IsEnabled);
 
-            this.RelayCommandWithParameterButton.Click();
-            Assert.AreEqual("RelayCommandWithParameter: RelayCommandWithParameter", this.ExecutedTextBox.Text);
-        }
+                var canExecuteCheckBox = window.FindCheckBox("CanExecute");
+                canExecuteCheckBox.IsChecked = true;
+                Assert.AreEqual(true, button.IsEnabled);
 
-        [Test]
-        public void ManualRelayCommandNoConditionCanAlwaysExecute()
-        {
-            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.IsEnabled);
-            this.CanExecuteCheckBox.IsChecked = true;
-            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.IsEnabled);
-            this.RaiseCanExecuteButton.Click();
-            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.IsEnabled);
-            this.CanExecuteCheckBox.IsChecked = false;
-            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.IsEnabled);
-            this.RaiseCanExecuteButton.Click();
-            Assert.AreEqual(true, this.ManualRelayCommandNoConditionButton.IsEnabled);
+                var raiseCanExecuteButton = window.FindButton("RaiseCanExecute");
+                raiseCanExecuteButton.Invoke();
+                Assert.AreEqual(true, button.IsEnabled);
 
-            this.ManualRelayCommandNoConditionButton.Click();
-            Assert.AreEqual("ManualRelayCommandNoCondition", this.ExecutedTextBox.Text);
-        }
+                canExecuteCheckBox.IsChecked = false;
+                Assert.AreEqual(true, button.IsEnabled);
 
-        [Test]
-        public void RelayCommandNoConditionCanAlwaysExecute()
-        {
-            Assert.AreEqual(true, this.RelayCommandNoConditionButton.IsEnabled);
-            this.CanExecuteCheckBox.IsChecked = true;
-            Assert.AreEqual(true, this.RelayCommandNoConditionButton.IsEnabled);
-            this.RaiseCanExecuteButton.Click();
-            Assert.AreEqual(true, this.RelayCommandNoConditionButton.IsEnabled);
-            this.CanExecuteCheckBox.IsChecked = false;
-            Assert.AreEqual(true, this.RelayCommandNoConditionButton.IsEnabled);
-            this.RaiseCanExecuteButton.Click();
-            Assert.AreEqual(true, this.RelayCommandNoConditionButton.IsEnabled);
+                raiseCanExecuteButton.Invoke();
+                Assert.AreEqual(true, button.IsEnabled);
 
-            this.RelayCommandNoConditionButton.Click();
-            Assert.AreEqual("RelayCommandNoCondition", this.ExecutedTextBox.Text);
-        }
-
-        [Test]
-        public void ObservingRelayCommandUpdatesCanExecuteWhenToggling()
-        {
-            Assert.AreEqual(false, this.ObservingRelayCommandButton.IsEnabled);
-            this.CanExecuteCheckBox.IsChecked = true;
-            Assert.AreEqual(true, this.ObservingRelayCommandButton.IsEnabled);
-
-            this.ObservingRelayCommandButton.Click();
-            Assert.AreEqual("ObservingRelayCommand", this.ExecutedTextBox.Text);
-        }
-
-        [Test]
-        public void ObservingRelayCommandWithParameterUpdatesCanExecuteWhenToggling()
-        {
-            Assert.AreEqual(false, this.ObservingRelayCommandWithParameterButton.IsEnabled);
-            this.CanExecuteCheckBox.IsChecked = true;
-            Assert.AreEqual(true, this.ObservingRelayCommandWithParameterButton.IsEnabled);
-
-            this.ObservingRelayCommandWithParameterButton.Click();
-            Assert.AreEqual("ObservingRelayCommandWithParameter: ObservingRelayCommandWithParameter", this.ExecutedTextBox.Text);
-        }
-
-        [Test]
-        public void ConditionRelayCommandUpdatesCanExecuteWhenToggling()
-        {
-            Assert.AreEqual(false, this.ConditionRelayCommandButton.IsEnabled);
-            this.CanExecuteCheckBox.IsChecked = true;
-            Assert.AreEqual(true, this.ConditionRelayCommandButton.IsEnabled);
-
-            this.ConditionRelayCommandButton.Click();
-            Assert.AreEqual("ConditionRelayCommand", this.ExecutedTextBox.Text);
-        }
-
-        [Test]
-        public void ConditionRelayCommandWithParameterUpdatesCanExecuteWhenToggling()
-        {
-            Assert.AreEqual(false, this.ConditionRelayCommandWithParameterButton.IsEnabled);
-            this.CanExecuteCheckBox.IsChecked = true;
-            Assert.AreEqual(true, this.ConditionRelayCommandWithParameterButton.IsEnabled);
-
-            this.ConditionRelayCommandWithParameterButton.Click();
-            Assert.AreEqual("ConditionRelayCommandWithParameter: ConditionRelayCommandWithParameter", this.ExecutedTextBox.Text);
+                button.Invoke();
+                Assert.AreEqual(expected, window.FindTextBox("Executed").Text);
+            }
         }
     }
 }
