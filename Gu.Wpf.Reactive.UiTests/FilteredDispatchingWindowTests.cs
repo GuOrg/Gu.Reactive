@@ -49,6 +49,12 @@
             this.ClearButton.Click();
         }
 
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            Application.KillLaunched(Info.ExeFileName);
+        }
+
         [Test]
         public void Initializes()
         {

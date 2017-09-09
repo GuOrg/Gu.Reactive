@@ -21,7 +21,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 {
                     this.application?.WaitWhileBusy();
                     this.application?.Dispose();
-                    this.application = Application.AttachOrLaunch(Info.CreateStartInfo(this.WindowName));
+                    this.application = Application.Launch(Info.CreateStartInfo(this.WindowName));
                     this.Window = this.application.MainWindow;
                     this.application.WaitWhileBusy();
                     return;
