@@ -22,7 +22,7 @@
             <TextBlock MinWidth="50" Text="{Binding Count, StringFormat='Count: {0}'}" />
         </StackPanel>
 
-        <WrapPanel Grid.Row="1">
+        <UniformGrid Grid.Row="1" Rows="2">
             <GroupBox Header="AsyncCommand">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -57,7 +57,7 @@
             <GroupBox Header="AsyncCancelableParameterCommand">
                 <ContentPresenter Content="{Binding AsyncCancelableParameterCommand}" ContentTemplate="{StaticResource AsyncParameterCommandTemplate}" />
             </GroupBox>
-        </WrapPanel>
+        </UniformGrid>
 
         <StackPanel Grid.Row="2">
             <Button Command="{Binding AsyncCancelableCommand}" Content="Run" />

@@ -3,71 +3,67 @@ namespace Gu.Wpf.Reactive.UiTests
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
-    public class AsyncCommandsWindowTests : WindowTests
+    public class AsyncCommandsWindowTests
     {
-        protected override string WindowName { get; } = "AsyncCommandsWindow";
+        private static readonly string WindowName = "AsyncCommandsWindow";
 
-        private TextBox DelatTextBox => this.Window.FindTextBox("Delay");
-
-        private Button AsyncCommandButton => this.Window
-                                                 .FindFirstDescendant(x => x.ByText("AsyncCommand"))
-                                                 .FindButton("Run");
-
-        private Button AsyncThrowCommandButton => this.Window
-                                         .FindFirstDescendant(x => x.ByText("AsyncThrowCommand"))
-                                         .FindButton("Run");
-
-        private Button AsyncParameterCommandButton => this.Window
-                                 .FindFirstDescendant(x => x.ByText("AsyncParameterCommand"))
-                                 .FindButton("Run");
-
-        private Button AsyncCancelableCommandButton => this.Window
-                         .FindFirstDescendant(x => x.ByText("AsyncCancelableCommand"))
-                         .FindButton("Run");
-
-        private Button AsyncCancelableParameterCommandButton => this.Window
-                 .FindFirstDescendant(x => x.ByText("AsyncCancelableParameterCommand"))
-                 .FindButton("Run");
-
-        [SetUp]
-        public void SetUp()
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
         {
-            this.DelatTextBox.Enter("100");
+            Application.KillLaunched(Info.ExeFileName);
         }
 
-        [Test]
-        public void AsyncCommand()
+        [TestCase("AsyncCommand")]
+        [TestCase("AsyncThrowCommand")]
+        [TestCase("AsyncParameterCommand")]
+        [TestCase("AsyncCancelableCommand")]
+        [TestCase("AsyncCancelableParameterCommand")]
+        public void ClickOnce(string header)
         {
-            this.AsyncCommandButton.Click();
-            this.AsyncCommandButton.Click();
+            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                window.FindTextBox("Delay").Text = "100";
+                var button = window.FindGroupBox(header)
+                                   .FindButton("Run");
+                button.Click();
+            }
         }
 
-        [Test]
-        public void AsyncThrowCommand()
+        [TestCase("AsyncCommand")]
+        [TestCase("AsyncThrowCommand")]
+        [TestCase("AsyncParameterCommand")]
+        [TestCase("AsyncCancelableCommand")]
+        [TestCase("AsyncCancelableParameterCommand")]
+        public void ClickTwice(string header)
         {
-            this.AsyncThrowCommandButton.Click();
-            this.AsyncThrowCommandButton.Click();
+            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                window.FindTextBox("Delay").Text = "100";
+                var button = window.FindGroupBox(header)
+                                   .FindButton("Run");
+                button.Click();
+                button.Click();
+            }
         }
 
-        [Test]
-        public void AsyncParameterCommand()
+        [TestCase("AsyncCancelableCommand")]
+        [TestCase("AsyncCancelableParameterCommand")]
+        public void CancelCommand(string header)
         {
-            this.AsyncParameterCommandButton.Click();
-            this.AsyncParameterCommandButton.Click();
-        }
+            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            {
+                var window = app.MainWindow;
+                window.FindTextBox("Delay").Text = "200";
+                var groupBox = window.FindGroupBox(header);
+                var button = groupBox.FindButton("Run");
+                var cancelButton = groupBox.FindButton("Cancel");
 
-        [Test]
-        public void AsyncCancelableCommand()
-        {
-            this.AsyncCancelableCommandButton.Click();
-            this.AsyncCancelableCommandButton.Click();
-        }
-
-        [Test]
-        public void AsyncCancelableParameterCommand()
-        {
-            this.AsyncCancelableParameterCommandButton.Click();
-            this.AsyncCancelableParameterCommandButton.Click();
+                Assert.AreEqual(false, cancelButton.IsEnabled);
+                button.Click();
+                Assert.AreEqual(true, cancelButton.IsEnabled);
+            }
         }
     }
 }

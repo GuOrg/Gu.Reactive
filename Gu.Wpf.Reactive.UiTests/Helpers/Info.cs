@@ -7,6 +7,8 @@ namespace Gu.Wpf.Reactive.UiTests
 
     public static class Info
     {
+        public static string ExeFileName { get; } = GetExeFileName();
+
         public static ProcessStartInfo ProcessStartInfo
         {
             get
