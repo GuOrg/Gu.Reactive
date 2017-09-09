@@ -1,13 +1,12 @@
-﻿<UserControl
-    x:Class="Gu.Reactive.Demo.ReadOnlyFilteredViewView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:demo="clr-namespace:Gu.Reactive.Demo"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="300"
-    d:DesignWidth="300"
-    mc:Ignorable="d">
+﻿<UserControl x:Class="Gu.Reactive.Demo.ReadOnlyFilteredViewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:demo="clr-namespace:Gu.Reactive.Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="300"
+             d:DesignWidth="500"
+             mc:Ignorable="d">
     <UserControl.DataContext>
         <demo:ReadOnlyFilteredViewViewModel />
     </UserControl.DataContext>
@@ -25,6 +24,7 @@
             <Button Command="{Binding AddOneOnOtherThreadCommand}" Content="AddOneOnOtherThread" />
 
             <Button Command="{Binding ClearCommand}" Content="Clear" />
+            <Button Command="{Binding ResetCommand}" Content="Reset" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">

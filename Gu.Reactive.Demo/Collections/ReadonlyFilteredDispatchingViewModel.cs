@@ -137,8 +137,8 @@
         {
             this.Source.Clear();
             this.Max = 5;
-            await Dispatcher.Yield(DispatcherPriority.Background);
             ((IRefreshAble)this.View).Refresh();
+            await Dispatcher.Yield(DispatcherPriority.Background);
             this.SourceChanges.Clear();
             this.ViewChanges.Clear();
         }
