@@ -24,8 +24,7 @@
         {
             this.Source = new ObservableCollection<DummyItem>();
             this.Add(3);
-            this.View = this.Source
-                            .AsReadOnlyFilteredView(this.Filter, TimeSpan.FromMilliseconds(20), Schedulers.DispatcherOrCurrentThread, this.trigger);
+            this.View = this.Source.AsReadOnlyFilteredView(this.Filter, TimeSpan.FromMilliseconds(20), Schedulers.DispatcherOrCurrentThread, this.trigger);
 
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);

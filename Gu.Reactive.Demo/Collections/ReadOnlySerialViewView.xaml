@@ -16,10 +16,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <WrapPanel Grid.Row="0">
-            <TextBox x:Name="Items" Text="{Binding Items}" MinWidth="100"/>
+            <TextBox x:Name="Items"
+                     MinWidth="100"
+                     Text="{Binding Items}" />
             <Button Command="{Binding UpdateCommand}" Content="Update" />
             <Button Command="{Binding ClearSourceCommand}" Content="ClearSource" />
-            <Button Command="{Binding ClearCommand}" Content="Clear" />
+            <Button Command="{Binding ResetCommand}" Content="Reset" />
         </WrapPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>

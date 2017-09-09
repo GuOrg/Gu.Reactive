@@ -8,7 +8,7 @@ namespace Gu.Reactive.Demo
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
     using System.Windows.Input;
-
+    using System.Windows.Threading;
     using Gu.Wpf.Reactive;
 
     public sealed class ReadOnlySerialViewViewModel : INotifyPropertyChanged, IDisposable
@@ -20,12 +20,7 @@ namespace Gu.Reactive.Demo
         {
             this.UpdateCommand = new RelayCommand(() => this.View.SetSource(this.items.Split(',').Select(x => new DummyItem(int.Parse(x)))));
             this.ClearSourceCommand = new RelayCommand(() => this.View.ClearSource());
-            this.ClearCommand = new RelayCommand(
-                () =>
-                    {
-                        this.View.ClearSource();
-                        this.ViewChanges.Clear();
-                    });
+            this.ResetCommand = new RelayCommand(Reset);
             this.View
                 .ObserveCollectionChangedSlim(signalInitial: false)
                 .ObserveOnDispatcher()
@@ -42,7 +37,7 @@ namespace Gu.Reactive.Demo
 
         public ICommand ClearSourceCommand { get; }
 
-        public ICommand ClearCommand { get; }
+        public ICommand ResetCommand { get; }
 
         public string Items
         {
@@ -74,6 +69,13 @@ namespace Gu.Reactive.Demo
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private async void Reset()
+        {
+            this.View.ClearSource();
+            await Dispatcher.Yield(DispatcherPriority.Background);
+            this.ViewChanges.Clear();
         }
     }
 }
