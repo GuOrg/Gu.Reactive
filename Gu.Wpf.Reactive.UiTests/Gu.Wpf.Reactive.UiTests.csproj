@@ -54,6 +54,8 @@
     <Compile Include="CommandsWindowTests.cs" />
     <Compile Include="DispatchingCollectionWindowTests.cs" />
     <Compile Include="DispatchingViewWindowTests.cs" />
+    <Compile Include="Helpers\AutomationElementExt.cs" />
+    <Compile Include="Helpers\Changes.cs" />
     <Compile Include="Helpers\GridExt.cs" />
     <Compile Include="Helpers\Info.cs" />
     <Compile Include="Helpers\WindowTests.cs" />
