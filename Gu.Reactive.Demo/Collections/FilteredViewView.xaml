@@ -7,7 +7,7 @@
              xmlns:converters="clr-namespace:Gu.Reactive.Demo.Converters"
              d:DataContext="{d:DesignInstance demo:FilteredViewViewModel}"
              d:DesignHeight="300"
-             d:DesignWidth="300"
+             d:DesignWidth="600"
              mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>

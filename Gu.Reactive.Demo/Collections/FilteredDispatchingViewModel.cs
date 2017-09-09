@@ -9,7 +9,7 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
     using System.Windows.Input;
-
+    using System.Windows.Threading;
     using Gu.Wpf.Reactive;
 
     public class FilteredDispatchingViewModel : IDisposable, INotifyPropertyChanged
@@ -30,7 +30,8 @@
 
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
-            this.ClearCommand = new RelayCommand(this.Clear, () => true);
+            this.ClearCommand = new RelayCommand(this.Source.Clear, () => true);
+            this.ResetCommand = new RelayCommand(this.Reset, () => true);
             this.TriggerCommand = new RelayCommand(() => this.trigger.OnNext(null), () => true);
             this.TriggerOnOtherThreadCommand = new RelayCommand(
                 () => Task.Run(() => this.trigger.OnNext(null)),
@@ -57,6 +58,8 @@
         public ICommand AddTenCommand { get; }
 
         public RelayCommand ClearCommand { get; }
+
+        public RelayCommand ResetCommand { get; }
 
         public RelayCommand TriggerCommand { get; }
 
@@ -127,9 +130,11 @@
             }
         }
 
-        private void Clear()
+        private async void Reset()
         {
             this.Source.Clear();
+            this.Max = 5;
+            await Dispatcher.Yield(DispatcherPriority.Background);
             ((IRefreshAble)this.View).Refresh();
             this.SourceChanges.Clear();
             this.ViewChanges.Clear();
