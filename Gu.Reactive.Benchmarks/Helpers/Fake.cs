@@ -4,8 +4,6 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
 
-    using JetBrains.Annotations;
-
     public class Fake : INotifyPropertyChanged, IFake
     {
         private bool isTrue;
@@ -128,7 +126,6 @@
             return this.Next;
         }
 
-        [NotifyPropertyChangedInvocator]
         public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

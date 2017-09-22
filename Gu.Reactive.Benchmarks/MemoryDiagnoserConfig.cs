@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Benchmarks
+﻿[assembly: BenchmarkDotNet.Attributes.Config(typeof(Gu.Reactive.Benchmarks.MemoryDiagnoserConfig))]
+namespace Gu.Reactive.Benchmarks
 {
     using BenchmarkDotNet.Configs;
     using BenchmarkDotNet.Diagnosers;

@@ -4,7 +4,6 @@ namespace Gu.Reactive.Benchmarks
     using System;
     using System.Collections.ObjectModel;
     using BenchmarkDotNet.Attributes;
-
     using Gu.Wpf.Reactive;
 
     public class ThrottledView : IDisposable

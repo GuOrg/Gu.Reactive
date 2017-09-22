@@ -22,9 +22,7 @@ group Test
   nuget Gu.Wpf.UiAutomation
 
 group Roslyn
-  redirects: on
   source http://nuget.org/api/v2
-  framework: netstandard13, net461
   nuget Microsoft.CodeAnalysis.CSharp.Workspaces
   nuget Microsoft.Composition.Analyzers
   nuget Gu.Roslyn.Asserts
@@ -32,6 +30,7 @@ group Roslyn
   nuget NUnit3TestAdapter
 
 group Benchmark
+  storage: none
   source http://nuget.org/api/v2
-  framework: net461
   nuget BenchmarkDotNet.Diagnostics.Windows
+  nuget System.Reactive
