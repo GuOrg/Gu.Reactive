@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
-    <CodeAnalysisRuleSet>Gu.Reactive.Analyzers.CodeFixes.ruleset</CodeAnalysisRuleSet>
     <PackageTargetFallback>portable-net45+win8+wp8+wpa81</PackageTargetFallback>
+    <CodeAnalysisRuleSet>Gu.Reactive.Analyzers.CodeFixes.ruleset</CodeAnalysisRuleSet>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>

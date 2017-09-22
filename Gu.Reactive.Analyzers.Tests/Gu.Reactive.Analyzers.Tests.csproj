@@ -4,6 +4,8 @@
     <TargetFramework>net461</TargetFramework>
     <CodeAnalysisRuleSet>Gu.Reactive.Analyzers.Tests.ruleset</CodeAnalysisRuleSet>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive.Analyzers.CodeFixes\Gu.Reactive.Analyzers.CodeFixes.csproj" />

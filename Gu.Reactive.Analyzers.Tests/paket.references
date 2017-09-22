@@ -3,8 +3,6 @@ System.Reactive
 group Roslyn
   Microsoft.CodeAnalysis.CSharp.Workspaces
   Gu.Roslyn.Asserts
-  Microsoft.NET.Test.Sdk
-  NUnit3TestAdapter
 
 group Analyzers
   StyleCop.Analyzers

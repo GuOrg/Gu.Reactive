@@ -22,12 +22,11 @@ group Test
   nuget Gu.Wpf.UiAutomation
 
 group Roslyn
+  storage: none
   source http://nuget.org/api/v2
   nuget Microsoft.CodeAnalysis.CSharp.Workspaces
   nuget Microsoft.Composition.Analyzers
   nuget Gu.Roslyn.Asserts
-  nuget Microsoft.NET.Test.Sdk
-  nuget NUnit3TestAdapter
 
 group Benchmark
   storage: none
