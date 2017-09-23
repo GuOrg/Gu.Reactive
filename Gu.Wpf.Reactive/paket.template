@@ -4,8 +4,7 @@ projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-* PERF: Only loop once in AndCondition & OrCOndition
-* BUGFIX: Retry on collection was modified.
+* FEATURE: sign
 
 excludeddependencies
   JetBrains.Annotations

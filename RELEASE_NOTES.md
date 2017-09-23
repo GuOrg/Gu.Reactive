@@ -1,4 +1,7 @@
-#### 3.4.1
+#### 3.4.4
+* FEATURE: sign
+
+#### 3.4.2
 * PERF: Only loop once in AndCondition & OrCOndition
 * BUGFIX: Retry on collection was modified.
 
