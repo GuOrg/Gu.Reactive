@@ -91,7 +91,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA05FullPathMustHaveMoreThanOneItem>(fooCode, barCode, testCode);
+            AnalyzerAssert.Valid<GUREA05FullPathMustHaveMoreThanOneItem>(fooCode, barCode, testCode);
         }
     }
 }

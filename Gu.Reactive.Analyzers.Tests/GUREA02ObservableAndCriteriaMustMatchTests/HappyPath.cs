@@ -81,7 +81,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA02ObservableAndCriteriaMustMatch>(FooCode, testCode);
+            AnalyzerAssert.Valid<GUREA02ObservableAndCriteriaMustMatch>(FooCode, testCode);
         }
 
         [Test]
@@ -150,7 +150,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA02ObservableAndCriteriaMustMatch>(fooCode, barCode, testCode);
+            AnalyzerAssert.Valid<GUREA02ObservableAndCriteriaMustMatch>(fooCode, barCode, testCode);
         }
 
         [Test]
@@ -206,7 +206,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA02ObservableAndCriteriaMustMatch>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA02ObservableAndCriteriaMustMatch>(fooCode, testCode);
         }
 
         [Test]
@@ -286,7 +286,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA02ObservableAndCriteriaMustMatch>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA02ObservableAndCriteriaMustMatch>(fooCode, testCode);
         }
 
         [Test]
@@ -423,7 +423,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA02ObservableAndCriteriaMustMatch>(fooCode, barCode, testCode);
+            AnalyzerAssert.Valid<GUREA02ObservableAndCriteriaMustMatch>(fooCode, barCode, testCode);
         }
     }
 }

@@ -61,7 +61,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, testCode);
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, testCode);
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, testCode);
         }
 
         [Test]
@@ -154,7 +154,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(testCode);
+            AnalyzerAssert.Valid<GUREA03PathMustNotify>(testCode);
         }
 
         [Test]
@@ -186,7 +186,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, testCode);
         }
 
         [Test]
@@ -219,7 +219,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, testCode);
         }
 
         [Test]
@@ -264,7 +264,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(iBarCode, iFooCode, testCode);
+            AnalyzerAssert.Valid<GUREA03PathMustNotify>(iBarCode, iFooCode, testCode);
         }
 
         [Test]
@@ -310,7 +310,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(iBarCode, iFooCode, testCode);
+            AnalyzerAssert.Valid<GUREA03PathMustNotify>(iBarCode, iFooCode, testCode);
         }
 
         [Test]
@@ -399,7 +399,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA03PathMustNotify>(fooCode, barCode, testCode);
+            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, barCode, testCode);
         }
     }
 }

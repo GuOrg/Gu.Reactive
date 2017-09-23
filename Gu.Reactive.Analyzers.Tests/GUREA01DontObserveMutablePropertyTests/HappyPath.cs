@@ -60,7 +60,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA01DontObserveMutableProperty>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA01DontObserveMutableProperty>(fooCode, testCode);
         }
 
         [Test]
@@ -120,7 +120,7 @@ namespace RoslynSandbox
         public Foo Foo { get; }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA01DontObserveMutableProperty>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA01DontObserveMutableProperty>(fooCode, testCode);
         }
     }
 }

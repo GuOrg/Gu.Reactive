@@ -61,7 +61,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA08InlineSingleLine>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA08InlineSingleLine>(fooCode, testCode);
         }
     }
 }

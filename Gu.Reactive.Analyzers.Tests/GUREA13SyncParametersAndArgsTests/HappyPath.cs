@@ -66,7 +66,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA13SyncParametersAndArgs>(Condition1, Condition2, testCode);
+            AnalyzerAssert.Valid<GUREA13SyncParametersAndArgs>(Condition1, Condition2, testCode);
         }
     }
 }

@@ -62,7 +62,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA11PreferObservableFromEvent>(FooCode, testCode);
+            AnalyzerAssert.Valid<GUREA11PreferObservableFromEvent>(FooCode, testCode);
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA11PreferObservableFromEvent>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA11PreferObservableFromEvent>(fooCode, testCode);
         }
     }
 }

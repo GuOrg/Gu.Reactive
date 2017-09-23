@@ -62,7 +62,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA09ObservableBeforeCriteria>(FooCode, testCode);
+            AnalyzerAssert.Valid<GUREA09ObservableBeforeCriteria>(FooCode, testCode);
         }
     }
 }

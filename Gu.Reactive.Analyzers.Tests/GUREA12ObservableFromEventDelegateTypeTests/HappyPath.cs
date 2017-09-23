@@ -36,7 +36,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA12ObservableFromEventDelegateType>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA12ObservableFromEventDelegateType>(fooCode, testCode);
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA12ObservableFromEventDelegateType>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA12ObservableFromEventDelegateType>(fooCode, testCode);
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA12ObservableFromEventDelegateType>(fooCode, testCode);
+            AnalyzerAssert.Valid<GUREA12ObservableFromEventDelegateType>(fooCode, testCode);
         }
     }
 }

@@ -77,7 +77,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.NoDiagnostics<GUREA06DontNewCondition>(fooCode, conditionCode, testCode);
+            AnalyzerAssert.Valid<GUREA06DontNewCondition>(fooCode, conditionCode, testCode);
         }
     }
 }
