@@ -19,9 +19,9 @@ namespace Gu.Wpf.Reactive
     {
         var typeName = typeNames[i];
         if(i > 0)
-		{#>
+        {#>
 
-<#      }	
+<#      }
 #>
         /// <summary>
         /// Create a <see cref="DispatchingView{T}"/> for <paramref name="collection"/>
