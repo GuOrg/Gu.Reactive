@@ -5,7 +5,6 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    using JetBrains.Annotations;
     using Wpf.Reactive;
 
     public sealed class CommandsViewModel : INotifyPropertyChanged, IDisposable
@@ -116,7 +115,6 @@
             this.canExecuteCondition.Dispose();
         }
 
-        [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

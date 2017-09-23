@@ -5,7 +5,6 @@
     using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
-    using JetBrains.Annotations;
     using Wpf.Reactive;
 
     public sealed class AsyncCommandsViewModel : INotifyPropertyChanged, IDisposable
@@ -135,7 +134,6 @@
             throw new Exception("Something went wrong");
         }
 
-        [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

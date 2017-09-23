@@ -3,8 +3,6 @@ namespace Gu.Reactive.Demo
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    using JetBrains.Annotations;
-
     public class ConditionState : INotifyPropertyChanged
     {
         public static readonly ConditionState Instance = new ConditionState();
@@ -100,7 +98,6 @@ namespace Gu.Reactive.Demo
             }
         }
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

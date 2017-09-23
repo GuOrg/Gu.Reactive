@@ -7,8 +7,6 @@
 
     using Gu.Wpf.Reactive;
 
-    using JetBrains.Annotations;
-
     public sealed class EitherCommandsVm : INotifyPropertyChanged, IDisposable
     {
         private readonly Condition isAddingOne;
@@ -71,7 +69,6 @@
             this.isNotAddingAny.Dispose();
         }
 
-        [NotifyPropertyChangedInvocator]
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

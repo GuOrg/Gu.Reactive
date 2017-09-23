@@ -4,8 +4,6 @@
     using System.Runtime.CompilerServices;
     using System.Windows;
 
-    using JetBrains.Annotations;
-
     public class NinjaBindingViewModel : INotifyPropertyChanged
     {
         private bool visible = true;
@@ -47,7 +45,6 @@
             }
         }
 
-        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
