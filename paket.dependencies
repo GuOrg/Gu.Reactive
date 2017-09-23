@@ -1,21 +1,18 @@
 source http://www.nuget.org/api/v2/
-redirects: on
-framework: >= net45
 
 nuget System.Reactive
 nuget Gu.Wpf.ToolTips
+nuget JetBrains.Annotations
 
 group Analyzers
   source http://nuget.org/api/v2
   nuget StyleCop.Analyzers
   nuget WpfAnalyzers
   nuget Gu.Analyzers
-  nuget JetBrains.Annotations
 
 group Test
+  storage: none
   source http://nuget.org/api/v2
-  framework: net461
-  redirects: on
   nuget Moq
   nuget NUnit
   nuget Microsoft.Reactive.Testing
