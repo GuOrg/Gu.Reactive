@@ -6,6 +6,10 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>    
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive.Tests\Gu.Reactive.Tests.csproj" />
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" />

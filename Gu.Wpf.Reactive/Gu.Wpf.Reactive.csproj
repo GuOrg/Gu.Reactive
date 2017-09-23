@@ -36,6 +36,10 @@
     <DocumentationFile>bin\Release\Gu.Wpf.Reactive.XML</DocumentationFile>
     <CodeAnalysisRuleSet>Gu.Wpf.Reactive.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />

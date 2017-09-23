@@ -34,6 +34,10 @@
     <DocumentationFile>bin\Release\Gu.Reactive.XML</DocumentationFile>
     <CodeAnalysisRuleSet>Gu.Reactive.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
