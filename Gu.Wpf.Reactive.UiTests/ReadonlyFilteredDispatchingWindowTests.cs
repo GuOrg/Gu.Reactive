@@ -146,7 +146,7 @@
                 CollectionAssert.AreEqual(new[] { "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);
                 CollectionAssert.AreEqual(Enumerable.Repeat("Add", 10), window.FindChangesGroupBox("SourceChanges").Texts);
 
-                dataGrid[0,0].Value = "5";
+                dataGrid[0, 0].Value = "5";
                 listBox.Focus();
 
                 CollectionAssert.AreEqual(new[] { "5", "2", "3", "4" }, listBox.Items.Select(x => x.FindTextBlock().Text));

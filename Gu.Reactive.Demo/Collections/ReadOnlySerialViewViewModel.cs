@@ -20,7 +20,7 @@ namespace Gu.Reactive.Demo
         {
             this.UpdateCommand = new RelayCommand(() => this.View.SetSource(this.items.Split(',').Select(x => new DummyItem(int.Parse(x)))));
             this.ClearSourceCommand = new RelayCommand(() => this.View.ClearSource());
-            this.ResetCommand = new RelayCommand(Reset);
+            this.ResetCommand = new RelayCommand(this.Reset);
             this.View
                 .ObserveCollectionChangedSlim(signalInitial: false)
                 .ObserveOnDispatcher()

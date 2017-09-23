@@ -5,6 +5,8 @@
         xmlns:demo="clr-namespace:Gu.Reactive.Demo"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="MappingViewWindow"
+        Width="800"
+        Height="600"
         mc:Ignorable="d">
     <demo:MappingViewView />
 </Window>
