@@ -115,7 +115,7 @@ namespace RoslynSandbox
     public class FooCondition : OrCondition
     {
         public FooCondition(
-            Condition1 condition1, 
+            Condition1 condition1,
             Condition2 condition2,
             Condition3 condition3)
             : base(
@@ -173,7 +173,7 @@ namespace RoslynSandbox
     public class FooCondition : OrCondition
     {
         public FooCondition(
-            Condition2 condition2, 
+            Condition2 condition2,
             Condition3 condition3,
             Condition1 condition1)
             ↓: base(
@@ -193,7 +193,7 @@ namespace RoslynSandbox
     public class FooCondition : OrCondition
     {
         public FooCondition(
-            Condition1 condition1, 
+            Condition1 condition1,
             Condition2 condition2,
             Condition3 condition3)
             : base(
