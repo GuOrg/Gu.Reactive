@@ -10,7 +10,7 @@ description Roslyn analyzers.
 tags Roslyn Diagnostic Analyzer Reactive
 
 releasenotes
-
+  Fix dependencies.
 
 projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
