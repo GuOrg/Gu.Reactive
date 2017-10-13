@@ -2,13 +2,13 @@ source http://www.nuget.org/api/v2/
 
 nuget System.Reactive
 nuget Gu.Wpf.ToolTips
-nuget JetBrains.Annotations
 
 group Analyzers
   source http://nuget.org/api/v2
   nuget StyleCop.Analyzers
   nuget WpfAnalyzers
   nuget Gu.Analyzers
+  nuget JetBrains.Annotations
 
 group Test
   storage: none

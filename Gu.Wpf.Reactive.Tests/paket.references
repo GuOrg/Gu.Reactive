@@ -1,11 +1,11 @@
 Gu.Wpf.ToolTips
 System.Reactive
-JetBrains.Annotations
 
 group Analyzers
   StyleCop.Analyzers
   Gu.Analyzers
   WpfAnalyzers
+  JetBrains.Annotations
 
 group Test
   Moq

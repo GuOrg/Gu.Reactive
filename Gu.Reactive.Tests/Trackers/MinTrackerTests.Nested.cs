@@ -5,7 +5,6 @@
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using Gu.Reactive.Tests.Helpers;
-    using JetBrains.Annotations;
 
     using NUnit.Framework;
 
@@ -156,7 +155,6 @@
                     }
                 }
 
-                [NotifyPropertyChangedInvocator]
                 protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
                 {
                     this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -8,8 +8,6 @@ namespace Gu.Reactive.Tests.Trackers
 
     using Gu.Reactive.Tests.Helpers;
 
-    using JetBrains.Annotations;
-
     using NUnit.Framework;
 
     public partial class MinMaxTrackerTests
@@ -185,7 +183,6 @@ namespace Gu.Reactive.Tests.Trackers
                     return $"{nameof(this.Value)}: {this.Value}";
                 }
 
-                [NotifyPropertyChangedInvocator]
                 protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
                 {
                     this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

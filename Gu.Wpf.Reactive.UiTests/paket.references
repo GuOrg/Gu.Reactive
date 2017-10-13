@@ -1,8 +1,8 @@
-JetBrains.Annotations
-
 group Analyzers
   StyleCop.Analyzers
   Gu.Analyzers
+  JetBrains.Annotations
+
 
 group Test
   NUnit
