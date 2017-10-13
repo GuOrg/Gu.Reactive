@@ -1,7 +1,7 @@
 ﻿type file
 title Gu.Reactive.Analyzers
 id Gu.Reactive.Analyzers
-version 0.1.2.3-dev
+version 0.1.2.4-dev
 authors Johan Larsson
 owners Johan Larsson
 copyright Copyright Johan Larsson 2017
@@ -16,9 +16,9 @@ projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
 files
-  ../Gu.Reactive.Analyzers/bin/Release/netstandard1.3/Gu.Reactive.Analyzers.dll ==> analyzers/dotnet/cs
-  ../Gu.Reactive.Analyzers/bin/Release/netstandard1.3/Gu.Reactive.Analyzers.pdb ==> analyzers/dotnet/cs
-  ../Gu.Reactive.Analyzers.CodeFixes/bin/Release/netstandard1.3/Gu.Reactive.Analyzers.CodeFixes.dll ==> analyzers/dotnet/cs
-  ../Gu.Reactive.Analyzers.CodeFixes/bin/Release/netstandard1.3/Gu.Reactive.Analyzers.CodeFixes.pdb ==> analyzers/dotnet/cs
+  bin/Release/netstandard1.3/Gu.Reactive.Analyzers.dll ==> analyzers/dotnet/cs
+  bin/Release/netstandard1.3/Gu.Reactive.Analyzers.pdb ==> analyzers/dotnet/cs
+  bin/Release/netstandard1.3/Gu.Reactive.Analyzers.CodeFixes.dll ==> analyzers/dotnet/cs
+  bin/Release/netstandard1.3/Gu.Reactive.Analyzers.CodeFixes.pdb ==> analyzers/dotnet/cs
   ../.paket/tools/*.ps1 ==> tools
 
