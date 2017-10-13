@@ -3,7 +3,6 @@ group Analyzers
   Gu.Analyzers
   JetBrains.Annotations
 
-
 group Test
   NUnit
   Gu.Wpf.UiAutomation

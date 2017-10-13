@@ -19,14 +19,16 @@ group Test
   nuget Gu.Wpf.UiAutomation
 
 group Roslyn
+  strategy: min
   storage: none
   source http://nuget.org/api/v2
-  nuget Microsoft.CodeAnalysis.CSharp.Workspaces 1.2.1 strategy: min
+  nuget Microsoft.CodeAnalysis.CSharp.Workspaces 1.2.1
 
 group RoslynTest
+  strategy: min
   storage: none
   source http://nuget.org/api/v2
-  nuget Microsoft.CodeAnalysis.CSharp.Workspaces
+  nuget Microsoft.CodeAnalysis.CSharp.Workspaces 1.2.1
   nuget Gu.Roslyn.Asserts
   nuget NUnit
   nuget System.Reactive
