@@ -1,9 +1,8 @@
-System.Reactive
-
-group Roslyn
+group RoslynTest
   Microsoft.CodeAnalysis.CSharp.Workspaces
   Gu.Roslyn.Asserts
   NUnit
+  System.Reactive
 
 group Analyzers
   StyleCop.Analyzers

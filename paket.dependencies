@@ -22,8 +22,14 @@ group Roslyn
   storage: none
   source http://nuget.org/api/v2
   nuget Microsoft.CodeAnalysis.CSharp.Workspaces 1.2.1 strategy: min
+
+group RoslynTest
+  storage: none
+  source http://nuget.org/api/v2
+  nuget Microsoft.CodeAnalysis.CSharp.Workspaces
   nuget Gu.Roslyn.Asserts
   nuget NUnit
+  nuget System.Reactive
 
 group Benchmark
   storage: none
