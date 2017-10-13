@@ -1,13 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{E9C570CF-F85E-4A34-B54B-86B6801E9B19}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
+		.paket\Paket.Restore.targets = .paket\Paket.Restore.targets
 		.paket\paket.targets = .paket\paket.targets
 		.paket\Readme.paket.md = .paket\Readme.paket.md
 	EndProjectSection
@@ -22,25 +23,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C15ED745-9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive", "Gu.Reactive\Gu.Reactive.csproj", "{2230088E-F6DC-4C79-9983-D9654274D689}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Tests", "Gu.Reactive.Tests\Gu.Reactive.Tests.csproj", "{F0E0A5A6-1FE8-4996-8A37-F00F690613F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.Tests", "Gu.Reactive.Tests\Gu.Reactive.Tests.csproj", "{F0E0A5A6-1FE8-4996-8A37-F00F690613F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Demo", "Gu.Reactive.Demo\Gu.Reactive.Demo.csproj", "{E82B1D44-E08C-4D56-8F7A-D203315E6F46}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive", "Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj", "{4C0610EE-96A2-4E34-BCE1-17B06A64556B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive.Tests", "Gu.Wpf.Reactive.Tests\Gu.Wpf.Reactive.Tests.csproj", "{F94EA890-7658-47C9-A033-8967F626360A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Reactive.Tests", "Gu.Wpf.Reactive.Tests\Gu.Wpf.Reactive.Tests.csproj", "{F94EA890-7658-47C9-A033-8967F626360A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Benchmarks", "Gu.Reactive.Benchmarks\Gu.Reactive.Benchmarks.csproj", "{DF62EBA0-B27F-464B-976B-2E0F41F2421E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.Benchmarks", "Gu.Reactive.Benchmarks\Gu.Reactive.Benchmarks.csproj", "{DF62EBA0-B27F-464B-976B-2E0F41F2421E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive.UiTests", "Gu.Wpf.Reactive.UiTests\Gu.Wpf.Reactive.UiTests.csproj", "{57060616-3F95-494C-9F2F-312422E24E00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Reactive.UiTests", "Gu.Wpf.Reactive.UiTests\Gu.Wpf.Reactive.UiTests.csproj", "{57060616-3F95-494C-9F2F-312422E24E00}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers", "Analyzers", "{F7100AE6-1457-49B7-BCDF-0B7160B0DB88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Analyzers", "Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj", "{4A18B544-BB42-4917-955B-CF0853802117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.Analyzers", "Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj", "{4A18B544-BB42-4917-955B-CF0853802117}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Analyzers.CodeFixes", "Gu.Reactive.Analyzers.CodeFixes\Gu.Reactive.Analyzers.CodeFixes.csproj", "{2B3410AA-3226-4B5E-9E1D-F1180312A329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.Analyzers.CodeFixes", "Gu.Reactive.Analyzers.CodeFixes\Gu.Reactive.Analyzers.CodeFixes.csproj", "{2B3410AA-3226-4B5E-9E1D-F1180312A329}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Analyzers.Tests", "Gu.Reactive.Analyzers.Tests\Gu.Reactive.Analyzers.Tests.csproj", "{F154810D-9D97-4EFE-8A86-1312A780802C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.Analyzers.Tests", "Gu.Reactive.Analyzers.Tests\Gu.Reactive.Analyzers.Tests.csproj", "{F154810D-9D97-4EFE-8A86-1312A780802C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,5 +97,8 @@ Global
 		{4A18B544-BB42-4917-955B-CF0853802117} = {F7100AE6-1457-49B7-BCDF-0B7160B0DB88}
 		{2B3410AA-3226-4B5E-9E1D-F1180312A329} = {F7100AE6-1457-49B7-BCDF-0B7160B0DB88}
 		{F154810D-9D97-4EFE-8A86-1312A780802C} = {F7100AE6-1457-49B7-BCDF-0B7160B0DB88}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {32F355E4-1027-45EB-9C9D-B932252AEEB5}
 	EndGlobalSection
 EndGlobal
