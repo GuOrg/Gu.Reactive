@@ -1,5 +1,6 @@
 group Analyzers
   StyleCop.Analyzers
+  IDisposableAnalyzers
   Gu.Analyzers
 
 group Benchmark

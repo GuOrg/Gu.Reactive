@@ -1,6 +1,7 @@
 group Analyzers
   StyleCop.Analyzers
   Gu.Analyzers
+  IDisposableAnalyzers
   JetBrains.Annotations
 
 group Test

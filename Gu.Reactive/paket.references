@@ -4,5 +4,6 @@ System.Reactive.PlatformServices
 group Analyzers
   StyleCop.Analyzers
   PropertyChangedAnalyzers
+  IDisposableAnalyzers
   Gu.Analyzers
   JetBrains.Annotations
