@@ -6,8 +6,6 @@ licenseUrl http://opensource.org/licenses/MIT
 releasenotes
   FEATURE: sign
 
-excludeddependencies
-  JetBrains.Annotations
-  StyleCop.Analyzers
-  WpfAnalyzers
-  # Gu.Analyzers
+excludedgroups
+  Analyzers
+  Build
