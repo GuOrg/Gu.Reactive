@@ -6,7 +6,6 @@ group Analyzers
   Gu.Analyzers
   PropertyChangedAnalyzers
   IDisposableAnalyzers
-  JetBrains.Annotations
 
 group Test
   Moq
