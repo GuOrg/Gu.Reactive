@@ -8,6 +8,12 @@
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <NoWarn>NU1605</NoWarn>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive.Analyzers.CodeFixes\Gu.Reactive.Analyzers.CodeFixes.csproj" />
     <ProjectReference Include="..\Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj" />

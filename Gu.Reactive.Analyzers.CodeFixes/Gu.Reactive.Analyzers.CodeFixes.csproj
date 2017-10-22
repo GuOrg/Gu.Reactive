@@ -4,7 +4,14 @@
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
     <CodeAnalysisRuleSet>Gu.Reactive.Analyzers.CodeFixes.ruleset</CodeAnalysisRuleSet>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <NoWarn>NU1605</NoWarn>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj" />
   </ItemGroup>
