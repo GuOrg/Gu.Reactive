@@ -88,7 +88,8 @@ namespace RoslynSandbox
                            "  RoslynSandbox.Foo.Value2\r\n" +
                            "Not observed:\r\n" +
                            "  RoslynSandbox.Foo.Value2";
-            AnalyzerAssert.Diagnostics<GUREA02ObservableAndCriteriaMustMatch>(ExpectedMessage.Create(expected), FooCode, testCode);
+            var expectedDiagnostic = ExpectedDiagnostic.CreateFromCodeWithErrorsIndicated("GUREA02", expected, testCode, out testCode);
+            AnalyzerAssert.Diagnostics<GUREA02ObservableAndCriteriaMustMatch>(expectedDiagnostic, FooCode, testCode);
         }
     }
 }

@@ -29,7 +29,7 @@ group RoslynTest
   storage: none
   source http://nuget.org/api/v2
   nuget Microsoft.CodeAnalysis.CSharp.Workspaces 1.2.1
-  nuget Gu.Roslyn.Asserts
+  nuget Gu.Roslyn.Asserts ~> 1
   nuget NUnit
   nuget System.Reactive
 
