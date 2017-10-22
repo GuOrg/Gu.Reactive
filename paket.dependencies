@@ -5,10 +5,11 @@ nuget Gu.Wpf.ToolTips
 
 group Analyzers
   source http://nuget.org/api/v2
+  nuget AsyncUsageAnalyzers
+  nuget IDisposableAnalyzers
+  nuget PropertyChangedAnalyzers
   nuget StyleCop.Analyzers
   nuget WpfAnalyzers
-  nuget PropertyChangedAnalyzers
-  nuget IDisposableAnalyzers
   nuget Gu.Analyzers
   nuget JetBrains.Annotations
 
@@ -21,16 +22,14 @@ group Test
   nuget Gu.Wpf.UiAutomation
 
 group Roslyn
-  strategy: min
   storage: none
   source http://nuget.org/api/v2
-  nuget Microsoft.CodeAnalysis.CSharp.Workspaces 1.2.1
+  nuget Microsoft.CodeAnalysis.CSharp.Workspaces 1.2.1 strategy: min
 
 group RoslynTest
-  strategy: min
   storage: none
   source http://nuget.org/api/v2
-  nuget Microsoft.CodeAnalysis.CSharp.Workspaces 1.2.1
+  nuget Microsoft.CodeAnalysis.CSharp.Workspaces 1.2.1 strategy: min
   nuget Gu.Roslyn.Asserts ~> 1
   nuget NUnit
   nuget System.Reactive

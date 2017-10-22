@@ -5,5 +5,7 @@ group RoslynTest
   System.Reactive
 
 group Analyzers
+  AsyncUsageAnalyzers
+  IDisposableAnalyzers
   StyleCop.Analyzers
   Gu.Analyzers
