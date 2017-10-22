@@ -1,6 +1,5 @@
 group Analyzers
   StyleCop.Analyzers
-  WpfAnalyzers
   Gu.Analyzers
 
 group Benchmark

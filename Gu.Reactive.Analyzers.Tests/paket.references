@@ -7,4 +7,3 @@ group RoslynTest
 group Analyzers
   StyleCop.Analyzers
   Gu.Analyzers
-  WpfAnalyzers

@@ -3,5 +3,4 @@ group Roslyn
 
 group Analyzers
   StyleCop.Analyzers
-  WpfAnalyzers
   Gu.Analyzers

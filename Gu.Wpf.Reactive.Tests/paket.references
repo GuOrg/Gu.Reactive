@@ -4,7 +4,7 @@ System.Reactive
 group Analyzers
   StyleCop.Analyzers
   Gu.Analyzers
-  WpfAnalyzers
+  PropertyChangedAnalyzers
   JetBrains.Annotations
 
 group Test

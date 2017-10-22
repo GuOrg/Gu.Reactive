@@ -7,6 +7,7 @@ group Analyzers
   source http://nuget.org/api/v2
   nuget StyleCop.Analyzers
   nuget WpfAnalyzers
+  nuget PropertyChangedAnalyzers
   nuget Gu.Analyzers
   nuget JetBrains.Annotations
 

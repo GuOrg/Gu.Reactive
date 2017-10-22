@@ -3,6 +3,6 @@ System.Reactive.PlatformServices
 
 group Analyzers
   StyleCop.Analyzers
-  WpfAnalyzers
+  PropertyChangedAnalyzers
   Gu.Analyzers
   JetBrains.Annotations

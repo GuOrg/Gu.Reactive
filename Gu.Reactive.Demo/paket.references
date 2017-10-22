@@ -4,4 +4,5 @@ Gu.Wpf.ToolTips
 group Analyzers
   StyleCop.Analyzers
   WpfAnalyzers
+  PropertyChangedAnalyzers
   Gu.Analyzers
