@@ -216,7 +216,7 @@ GROUP Analyzers
 NUGET
   remote: http://www.nuget.org/api/v2
     AsyncUsageAnalyzers (1.0.0-alpha003)
-    Gu.Analyzers (1.0.0-dev)
+    Gu.Analyzers (1.0.0.1-dev)
     IDisposableAnalyzers (0.1.0.2-dev)
     JetBrains.Annotations (11.0)
       System.Runtime (>= 4.1) - restriction: && (< net10) (>= netstandard1.0)
