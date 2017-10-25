@@ -5,6 +5,7 @@
 
     public class HappyPath
     {
+        private static readonly GUREA13SyncParametersAndArgs Analyzer = new GUREA13SyncParametersAndArgs();
         private const string Condition1 = @"
 namespace RoslynSandbox
 {
@@ -66,7 +67,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA13SyncParametersAndArgs>(Condition1, Condition2, testCode);
+            AnalyzerAssert.Valid(Analyzer, Condition1, Condition2, testCode);
         }
     }
 }

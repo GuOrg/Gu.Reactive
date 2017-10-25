@@ -5,6 +5,8 @@
 
     internal class HappyPath
     {
+        private static readonly GUREA07DontNegateCondition Analyzer = new GUREA07DontNegateCondition();
+
         [Test]
         public void WhenInjectingCondition()
         {
@@ -77,7 +79,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA07DontNegateCondition>(fooCode, conditionCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, conditionCode, testCode);
         }
     }
 }

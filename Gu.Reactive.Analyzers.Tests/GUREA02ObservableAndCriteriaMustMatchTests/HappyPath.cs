@@ -5,6 +5,8 @@
 
     internal class HappyPath
     {
+        private static readonly GUREA02ObservableAndCriteriaMustMatch Analyzer = new GUREA02ObservableAndCriteriaMustMatch();
+
         private const string FooCode = @"
 namespace RoslynSandbox
 {
@@ -81,7 +83,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA02ObservableAndCriteriaMustMatch>(FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
         }
 
         [Test]
@@ -150,7 +152,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA02ObservableAndCriteriaMustMatch>(fooCode, barCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, barCode, testCode);
         }
 
         [Test]
@@ -206,7 +208,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA02ObservableAndCriteriaMustMatch>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -286,7 +288,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA02ObservableAndCriteriaMustMatch>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -423,7 +425,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA02ObservableAndCriteriaMustMatch>(fooCode, barCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, barCode, testCode);
         }
     }
 }

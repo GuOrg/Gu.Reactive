@@ -5,6 +5,8 @@
 
     internal class HappyPath
     {
+        private static readonly GUREA09ObservableBeforeCriteria Analyzer = new GUREA09ObservableBeforeCriteria();
+
         private const string FooCode = @"
 namespace RoslynSandbox
 {
@@ -62,7 +64,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA09ObservableBeforeCriteria>(FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
         }
     }
 }

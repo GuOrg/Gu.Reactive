@@ -5,6 +5,8 @@
 
     internal class HappyPath
     {
+        private static readonly GUREA11PreferObservableFromEvent Analyzer = new GUREA11PreferObservableFromEvent();
+
         private const string FooCode = @"
 namespace RoslynSandbox
 {
@@ -62,7 +64,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA11PreferObservableFromEvent>(FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
         }
 
         [Test]
@@ -97,7 +99,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA11PreferObservableFromEvent>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
     }
 }

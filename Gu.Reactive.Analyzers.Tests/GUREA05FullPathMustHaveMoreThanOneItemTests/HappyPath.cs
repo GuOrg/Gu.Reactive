@@ -5,6 +5,8 @@
 
     internal class HappyPath
     {
+        private static readonly GUREA05FullPathMustHaveMoreThanOneItem Analyzer = new GUREA05FullPathMustHaveMoreThanOneItem();
+
         [Test]
         public void TwoLevels()
         {
@@ -91,7 +93,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA05FullPathMustHaveMoreThanOneItem>(fooCode, barCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, barCode, testCode);
         }
     }
 }

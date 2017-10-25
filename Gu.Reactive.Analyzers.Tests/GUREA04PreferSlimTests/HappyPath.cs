@@ -5,6 +5,8 @@
 
     internal class HappyPath
     {
+        private static readonly GUREA04PreferSlim Analyzer = new GUREA04PreferSlim();
+
         private const string FooCode = @"
 namespace RoslynSandbox
 {
@@ -61,7 +63,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA04PreferSlim>(FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
         }
 
         [Test]
@@ -83,7 +85,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA04PreferSlim>(FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
         }
 
         [Test]
@@ -105,7 +107,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA04PreferSlim>(FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
         }
     }
 }

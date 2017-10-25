@@ -5,6 +5,8 @@
 
     public class HappyPath
     {
+        private static readonly GUREA12ObservableFromEventDelegateType Analyzer = new GUREA12ObservableFromEventDelegateType();
+
         [Test]
         public void ActionOfInt()
         {
@@ -36,7 +38,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA12ObservableFromEventDelegateType>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -71,7 +73,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA12ObservableFromEventDelegateType>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -106,7 +108,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA12ObservableFromEventDelegateType>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
     }
 }

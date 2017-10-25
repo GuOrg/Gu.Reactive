@@ -5,6 +5,8 @@
 
     internal class HappyPath
     {
+        private static readonly GUREA06DontNewCondition Analyzer = new GUREA06DontNewCondition();
+
         [Test]
         public void WhenInjectingCondition()
         {
@@ -77,7 +79,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA06DontNewCondition>(fooCode, conditionCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, conditionCode, testCode);
         }
     }
 }

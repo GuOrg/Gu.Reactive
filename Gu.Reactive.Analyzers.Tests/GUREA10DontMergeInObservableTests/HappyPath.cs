@@ -5,6 +5,8 @@
 
     internal class HappyPath
     {
+        private static readonly GUREA10DontMergeInObservable Analyzer = new GUREA10DontMergeInObservable();
+
         private const string FooCode = @"
 namespace RoslynSandbox
 {
@@ -62,7 +64,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA10DontMergeInObservable>(FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
         }
     }
 }

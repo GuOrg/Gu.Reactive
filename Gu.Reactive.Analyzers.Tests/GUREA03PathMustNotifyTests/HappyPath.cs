@@ -5,6 +5,8 @@
 
     internal class HappyPath
     {
+        private static readonly GUREA03PathMustNotify Analyzer = new GUREA03PathMustNotify();
+
         [Test]
         public void OneLevel()
         {
@@ -61,7 +63,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -101,7 +103,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -133,7 +135,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -154,7 +156,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA03PathMustNotify>(testCode);
+            AnalyzerAssert.Valid(Analyzer, testCode);
         }
 
         [Test]
@@ -186,7 +188,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -219,7 +221,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -264,7 +266,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA03PathMustNotify>(iBarCode, iFooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, iBarCode, iFooCode, testCode);
         }
 
         [Test]
@@ -310,7 +312,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA03PathMustNotify>(iBarCode, iFooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, iBarCode, iFooCode, testCode);
         }
 
         [Test]
@@ -399,7 +401,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA03PathMustNotify>(fooCode, barCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, barCode, testCode);
         }
     }
 }

@@ -5,6 +5,8 @@
 
     internal class HappyPath
     {
+        private static readonly GUREA08InlineSingleLine Analyzer = new GUREA08InlineSingleLine();
+
         [Test]
         public void WhenSingleLine()
         {
@@ -61,7 +63,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA08InlineSingleLine>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
     }
 }
