@@ -115,6 +115,11 @@
                 {
                     retry++;
                 }
+                catch (ArgumentException e) when (e.Message == Exceptions.DestinationNotLongEnough.Message &&
+                                                          retry < 5)
+                {
+                    retry++;
+                }
             }
 
             if (propertyChanged != null || collectionChanged != null)

@@ -6,10 +6,13 @@
     internal static class Exceptions
     {
         private static InvalidOperationException collectionWasModified;
+        private static ArgumentException destinationNotLongEnough;
 
-        public static InvalidOperationException CollectionWasModified => collectionWasModified ?? (collectionWasModified = Create());
+        public static InvalidOperationException CollectionWasModified => collectionWasModified ?? (collectionWasModified = CreateCollectionWasModified());
 
-        private static InvalidOperationException Create()
+        public static ArgumentException DestinationNotLongEnough => destinationNotLongEnough ?? (destinationNotLongEnough = CreateDestinationNotLongEnough());
+
+        private static InvalidOperationException CreateCollectionWasModified()
         {
             // ReSharper disable once CollectionNeverUpdated.Local
             var ints = new List<int>(1);
@@ -29,7 +32,21 @@
                 return e;
             }
 
-            throw new NotImplementedException("Should never get here.");
+            throw new InvalidOperationException("Should never get here.");
+        }
+
+        private static ArgumentException CreateDestinationNotLongEnough()
+        {
+            try
+            {
+                Array.Copy(new[] { 1, 2 }, 0, new int[1], 0, 2);
+            }
+            catch (ArgumentException e)
+            {
+                return e;
+            }
+
+            throw new InvalidOperationException("Should never get here.");
         }
     }
 }

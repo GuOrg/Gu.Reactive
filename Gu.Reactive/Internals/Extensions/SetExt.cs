@@ -23,6 +23,11 @@ namespace Gu.Reactive.Internals
                 {
                     retry++;
                 }
+                catch (ArgumentException e) when (e.Message == Exceptions.DestinationNotLongEnough.Message &&
+                                                  retry < 5)
+                {
+                    retry++;
+                }
             }
         }
     }
