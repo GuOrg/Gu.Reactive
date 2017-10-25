@@ -124,4 +124,8 @@
     <Rule Id="GU0003" Action="Warning" />
     <Rule Id="GU0036" Action="None" />
   </Rules>
+  <Rules AnalyzerId="PropertyChangedAnalyzers.Analyzers" RuleNamespace="PropertyChangedAnalyzers.Analyzers">
+    <Rule Id="INPC013" Action="None" />
+    <Rule Id="INPC009" Action="None" />
+  </Rules>
 </RuleSet>
