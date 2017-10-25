@@ -13,9 +13,9 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.FilterTests
             App.Start();
             this.Scheduler = new TestDispatcherScheduler();
             base.SetUp();
-#pragma warning disable GU0036 // Don't dispose injected.
+#pragma warning disable IDISP007 // Don't dispose injected.
             this.View?.Dispose();
-#pragma warning restore GU0036 // Don't dispose injected.
+#pragma warning restore IDISP007 // Don't dispose injected.
             this.View = this.Source.AsFilteredView(x => true, TimeSpan.Zero);
         }
     }

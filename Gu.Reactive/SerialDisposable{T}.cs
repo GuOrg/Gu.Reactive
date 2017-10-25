@@ -50,9 +50,9 @@ namespace Gu.Reactive
 
                 if (this.disposed)
                 {
-#pragma warning disable GU0036 // Don't dispose injected.
+#pragma warning disable IDISP007 // Don't dispose injected.
                     value?.Dispose();
-#pragma warning restore GU0036 // Don't dispose injected.
+#pragma warning restore IDISP007 // Don't dispose injected.
                     return;
                 }
 
@@ -76,9 +76,9 @@ namespace Gu.Reactive
                 }
 
                 this.OnPropertyChanged();
-#pragma warning disable GU0036 // Don't dispose injected.
+#pragma warning disable IDISP007 // Don't dispose injected.
                 toDispose?.Dispose();
-#pragma warning restore GU0036 // Don't dispose injected.
+#pragma warning restore IDISP007 // Don't dispose injected.
             }
         }
 

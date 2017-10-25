@@ -585,10 +585,10 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var fake = new Fake();
                 var wr = new WeakReference(fake);
                 var observable = fake.ObserveValue(x => x.IsTrueOrNull);
-#pragma warning disable GU0030 // Use using.
+#pragma warning disable IDISP001  // Dispose created.
                 //// ReSharper disable once UnusedVariable
                 var subscribe = observable.Subscribe();
-#pragma warning restore GU0030 // Use using.
+#pragma warning restore IDISP001  // Dispose created.
                 GC.Collect();
                 Assert.IsFalse(wr.IsAlive);
             }
@@ -602,10 +602,10 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var fake = new Fake();
                 var wr = new WeakReference(fake);
                 var observable = fake.ObserveValue(x => x.Next.Next.Value);
-#pragma warning disable GU0030 // Use using.
+#pragma warning disable IDISP001  // Dispose created.
                 //// ReSharper disable once UnusedVariable
                 var subscribe = observable.Subscribe();
-#pragma warning restore GU0030 // Use using.
+#pragma warning restore IDISP001  // Dispose created.
                 GC.Collect();
                 Assert.IsFalse(wr.IsAlive);
             }

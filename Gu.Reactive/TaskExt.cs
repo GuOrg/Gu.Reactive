@@ -71,7 +71,7 @@
             }
 
             // Set up a timer to complete after the specified timeout period
-#pragma warning disable GU0030 // Use using.
+#pragma warning disable IDISP001  // Dispose created.
             var timer = new Timer(
                 callback: state =>
                     {
@@ -84,7 +84,7 @@
                 state: tcs,
                 dueTime: millisecondsTimeout,
                 period: Timeout.Infinite);
-#pragma warning restore GU0030 // Use using.
+#pragma warning restore IDISP001  // Dispose created.
 
             // Wire up the logic for what happens when source task completes
             task.ContinueWith(
@@ -144,7 +144,7 @@
             }
 
             // Set up a timer to complete after the specified timeout period
-#pragma warning disable GU0030 // Use using.
+#pragma warning disable IDISP001  // Dispose created.
             var timer = new Timer(
                 callback: state =>
                     {
@@ -157,7 +157,7 @@
                 state: tcs,
                 dueTime: millisecondsTimeout,
                 period: Timeout.Infinite);
-#pragma warning restore GU0030 // Use using.
+#pragma warning restore IDISP001  // Dispose created.
 
             // Wire up the logic for what happens when source task completes
             task.ContinueWith(

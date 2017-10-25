@@ -216,9 +216,9 @@ namespace Gu.Reactive
                 {
                     if (!this.leaveOpen)
                     {
-#pragma warning disable GU0036 // Don't dispose injected.
+#pragma warning disable IDISP007 // Don't dispose injected.
                         (this.source as IDisposable)?.Dispose();
-#pragma warning restore GU0036 // Don't dispose injected.
+#pragma warning restore IDISP007 // Don't dispose injected.
                     }
 
                     this.source = EmptySource;

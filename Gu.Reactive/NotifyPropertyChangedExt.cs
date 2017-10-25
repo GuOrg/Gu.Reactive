@@ -385,9 +385,9 @@
             return Observable.Create<T>(
                 o =>
                     {
-#pragma warning disable GU0030 // Use using.
+#pragma warning disable IDISP001  // Dispose created.
                         var tracker = notifyingPath.CreateTracker(source);
-#pragma warning restore GU0030 // Use using.
+#pragma warning restore IDISP001  // Dispose created.
                         void Handler(object sender, PropertyChangedEventArgs e) => o.OnNext(create(sender, e));
                         foreach (var propertyTracker in tracker)
                         {

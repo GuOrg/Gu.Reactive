@@ -651,9 +651,9 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 IObservable<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>> observable = collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false);
                 Assert.IsTrue(collectionRef.IsAlive);
                 //// http://stackoverflow.com/a/579001/1069200
-#pragma warning disable GU0030 // Use using.
+#pragma warning disable IDISP001  // Dispose created.
                 var subscription = observable.Subscribe(changes.Add);
-#pragma warning restore GU0030 // Use using.
+#pragma warning restore IDISP001  // Dispose created.
                 GC.KeepAlive(observable);
                 GC.KeepAlive(subscription);
                 CollectionAssert.IsEmpty(changes);

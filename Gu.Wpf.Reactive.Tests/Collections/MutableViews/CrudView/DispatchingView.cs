@@ -17,9 +17,9 @@
             App.Start();
             base.SetUp();
             this.Scheduler = new TestScheduler();
-#pragma warning disable GU0036 // Don't dispose injected.
+#pragma warning disable IDISP007 // Don't dispose injected.
             (this.View as IDisposable)?.Dispose();
-#pragma warning restore GU0036 // Don't dispose injected.
+#pragma warning restore IDISP007 // Don't dispose injected.
             this.View = new DispatchingView<int>(this.Ints, TimeSpan.Zero, leaveOpen: false);
         }
 

@@ -139,9 +139,9 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var ints = new ObservableCollection<int>();
                 var wr = new WeakReference(ints);
                 var observable = ints.ObserveCollectionChanged();
-#pragma warning disable GU0030 // Use using.
+#pragma warning disable IDISP001  // Dispose created.
                 var subscription = observable.Subscribe();
-#pragma warning restore GU0030 // Use using.
+#pragma warning restore IDISP001  // Dispose created.
                 GC.KeepAlive(observable);
                 GC.KeepAlive(subscription);
 

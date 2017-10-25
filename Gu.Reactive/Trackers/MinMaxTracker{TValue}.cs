@@ -95,9 +95,9 @@
             this.source.Add -= this.OnAdd;
             this.source.Remove -= this.OnRemove;
             this.source.Reset -= this.OnReset;
-#pragma warning disable GU0036 // Don't dispose injected.
+#pragma warning disable IDISP007 // Don't dispose injected.
             this.source.Dispose();
-#pragma warning restore GU0036 // Don't dispose injected.
+#pragma warning restore IDISP007 // Don't dispose injected.
         }
 
         private void OnAdd(TValue value)

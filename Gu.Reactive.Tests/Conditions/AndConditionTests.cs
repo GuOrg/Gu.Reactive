@@ -83,33 +83,33 @@ namespace Gu.Reactive.Tests.Conditions
         [SuppressMessage("ReSharper", "ObjectCreationAsStatement")]
         public void ThrowsIfPrerequisiteIsNull()
         {
-#pragma warning disable GU0030 // Use using.
+#pragma warning disable IDISP001  // Dispose created.
             var mock = Mock.Of<ICondition>();
             var exception = Assert.Throws<ArgumentNullException>(() => new AndCondition(mock, null));
             Assert.AreEqual("Value cannot be null.\r\nParameter name: condition2", exception.Message);
 
             exception = Assert.Throws<ArgumentNullException>(() => new AndCondition(null, mock));
             Assert.AreEqual("Value cannot be null.\r\nParameter name: condition1", exception.Message);
-#pragma warning restore GU0030 // Use using.
+#pragma warning restore IDISP001  // Dispose created.
         }
 
         [Test]
         public void Prerequisites2()
         {
-#pragma warning disable GU0030 // Use using.
+#pragma warning disable IDISP001  // Dispose created.
             var mock1 = Mock.Of<ICondition>();
             var mock2 = Mock.Of<ICondition>();
             using (var condition = new AndCondition(mock1, mock2))
             {
                 CollectionAssert.AreEqual(new[] { mock1, mock2 }, condition.Prerequisites);
             }
-#pragma warning restore GU0030 // Use using.
+#pragma warning restore IDISP001  // Dispose created.
         }
 
         [Test]
         public void Prerequisites3()
         {
-#pragma warning disable GU0030 // Use using.
+#pragma warning disable IDISP001  // Dispose created.
             var mock1 = Mock.Of<ICondition>();
             var mock2 = Mock.Of<ICondition>();
             var mock3 = Mock.Of<ICondition>();
@@ -117,13 +117,13 @@ namespace Gu.Reactive.Tests.Conditions
             {
                 CollectionAssert.AreEqual(new[] { mock1, mock2, mock3 }, condition.Prerequisites);
             }
-#pragma warning restore GU0030 // Use using.
+#pragma warning restore IDISP001  // Dispose created.
         }
 
         [Test]
         public void Prerequisites4()
         {
-#pragma warning disable GU0030 // Use using.
+#pragma warning disable IDISP001  // Dispose created.
             var mock1 = Mock.Of<ICondition>();
             var mock2 = Mock.Of<ICondition>();
             var mock3 = Mock.Of<ICondition>();
@@ -132,7 +132,7 @@ namespace Gu.Reactive.Tests.Conditions
             {
                 CollectionAssert.AreEqual(new[] { mock1, mock2, mock3, mock4 }, condition.Prerequisites);
             }
-#pragma warning restore GU0030 // Use using.
+#pragma warning restore IDISP001  // Dispose created.
         }
 
         [Test]

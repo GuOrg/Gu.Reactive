@@ -23,9 +23,9 @@
         private readonly IDisposable refreshSubscription;
         private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;
 
-#pragma warning disable GU0037 // Don't assign member with injected and created disposables.
+#pragma warning disable IDISP008  // Don't assign member with injected and created disposables.
         private readonly IMapper<TSource, TResult> factory;
-#pragma warning restore GU0037 // Don't assign member with injected and created disposables.
+#pragma warning restore IDISP008  // Don't assign member with injected and created disposables.
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         internal MappingView(IEnumerable<TSource> source, IMapper<TSource, TResult> factory, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
@@ -135,9 +135,9 @@
             {
                 this.refreshSubscription.Dispose();
                 this.chunk.ClearItems();
-#pragma warning disable GU0036 // Don't dispose injected.
+#pragma warning disable IDISP007 // Don't dispose injected.
                 this.factory.Dispose();
-#pragma warning restore GU0036 // Don't dispose injected.
+#pragma warning restore IDISP007 // Don't dispose injected.
             }
 
             base.Dispose(disposing);
