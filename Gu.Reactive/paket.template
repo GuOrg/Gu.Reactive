@@ -4,7 +4,7 @@ projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  BUGFIX: Sign Gu.Wpfg.ToolTips and update dependency.
+  BUGFIX: Retryn on destination was not long enough.
 
 excludedgroups
   Analyzers

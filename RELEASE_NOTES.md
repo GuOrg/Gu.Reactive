@@ -1,4 +1,7 @@
 #### 3.5.0
+* BUGFIX: Retryn on destination was not long enough.
+
+#### 3.5.0
 * BUGFIX: Sign Gu.Wpfg.ToolTips and update dependency.
 
 #### 3.4.4
