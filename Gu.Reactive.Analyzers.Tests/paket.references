@@ -1,4 +1,4 @@
-group RoslynTest
+group Roslyn
   Microsoft.CodeAnalysis.CSharp.Workspaces
   Gu.Roslyn.Asserts
   NUnit

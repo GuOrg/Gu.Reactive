@@ -29,8 +29,6 @@ group Roslyn
   nuget System.Reflection.Metadata 1.2.0
   nuget Microsoft.Composition 1.0.27
   nuget Gu.Roslyn.Asserts ~> 1
-  nuget Microsoft.CodeAnalysis.CSharp.Workspaces 1.2.1 strategy: min
-  nuget Gu.Roslyn.Asserts ~> 1
   nuget NUnit
   nuget System.Reactive
 
