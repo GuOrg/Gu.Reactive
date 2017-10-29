@@ -17,8 +17,5 @@ licenseUrl http://opensource.org/licenses/MIT
 
 files
   bin/Release/netstandard1.3/Gu.Reactive.Analyzers.dll ==> analyzers/dotnet/cs
-  bin/Release/netstandard1.3/Gu.Reactive.Analyzers.pdb ==> analyzers/dotnet/cs
   bin/Release/netstandard1.3/Gu.Reactive.Analyzers.CodeFixes.dll ==> analyzers/dotnet/cs
-  bin/Release/netstandard1.3/Gu.Reactive.Analyzers.CodeFixes.pdb ==> analyzers/dotnet/cs
   ../.paket/tools/*.ps1 ==> tools
-
