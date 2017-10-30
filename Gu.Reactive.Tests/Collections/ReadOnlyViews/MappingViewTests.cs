@@ -102,8 +102,11 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
         }
 
-        public class Vm<T>
+        public class Vm<T> : System.ComponentModel.INotifyPropertyChanged
         {
+            private Model<T> model;
+            private int index;
+
             public Vm()
             {
             }
@@ -114,9 +117,37 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 this.Index = index;
             }
 
-            public Model<T> Model { get; set; }
+            public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
-            public int Index { get; set; }
+            public Model<T> Model
+            {
+                get => this.model;
+                set
+                {
+                    if (ReferenceEquals(value, this.model))
+                    {
+                        return;
+                    }
+
+                    this.model = value;
+                    this.OnPropertyChanged();
+                }
+            }
+
+            public int Index
+            {
+                get => this.index;
+                set
+                {
+                    if (value == this.index)
+                    {
+                        return;
+                    }
+
+                    this.index = value;
+                    this.OnPropertyChanged();
+                }
+            }
 
             public Vm<T> WithIndex(int i)
             {
@@ -127,6 +158,11 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             public override string ToString()
             {
                 return $"{nameof(this.Index)}: {this.Index}, {nameof(this.Model)}: {this.Model}";
+            }
+
+            protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+            {
+                this.PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
     }

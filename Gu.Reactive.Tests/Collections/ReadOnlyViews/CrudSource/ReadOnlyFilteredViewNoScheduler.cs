@@ -10,7 +10,9 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         public override void SetUp()
         {
             base.SetUp();
+#pragma warning disable IDISP007 // Don't dispose injected.
             (this.View as IDisposable)?.Dispose();
+#pragma warning restore IDISP007 // Don't dispose injected.
             this.View = new ReadOnlyFilteredView<int>(this.Source, x => true, TimeSpan.Zero, null);
         }
 

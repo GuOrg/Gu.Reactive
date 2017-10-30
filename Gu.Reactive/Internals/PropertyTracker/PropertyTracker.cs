@@ -5,7 +5,7 @@ namespace Gu.Reactive.Internals
     using System.Diagnostics;
 
     [DebuggerDisplay("{this.Getter.Property}")]
-    internal sealed class PropertyTracker<TSource, TValue> : IPropertyTracker<TValue>
+    internal sealed class PropertyTracker<TSource, TValue> : IPropertyTracker<TValue>, INotifyPropertyChanged
         where TSource : class, INotifyPropertyChanged
     {
         private readonly PropertyChangedEventHandler onTrackedPropertyChanged;
@@ -62,6 +62,8 @@ namespace Gu.Reactive.Internals
 
         public event TrackedPropertyChangedEventHandler<TValue> TrackedPropertyChanged;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         event PropertyChangedEventHandler IPropertyTracker.TrackedPropertyChanged
         {
             add => this.TrackedPropertyChangedInternal += value;
@@ -111,6 +113,7 @@ namespace Gu.Reactive.Internals
                     }
 
                     this.source = value;
+                    this.OnPropertyChanged();
                 }
             }
         }
@@ -174,6 +177,11 @@ namespace Gu.Reactive.Internals
             }
 
             this.TrackedPropertyChanged?.Invoke(this, sender, e, SourceAndValue.Create(newSource, value));
+        }
+
+        private void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

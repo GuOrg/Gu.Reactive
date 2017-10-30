@@ -53,14 +53,16 @@ namespace Gu.Reactive.Analyzers
             for (var i = 0; i < initializer.ArgumentList.Arguments.Count; i++)
             {
                 var argument = initializer.ArgumentList.Arguments[i];
-                if (!(context.SemanticModel.GetSymbolSafe(argument.Expression, context.CancellationToken) is IParameterSymbol parameter))
+                if (context.SemanticModel.GetSymbolSafe(argument.Expression, context.CancellationToken) is IParameterSymbol parameter)
+                {
+                    if (ctor.Parameters.IndexOf(parameter) != i)
+                    {
+                        isOutOfSync = true;
+                    }
+                }
+                else
                 {
                     return;
-                }
-
-                if (ctor.Parameters.IndexOf(parameter) != i)
-                {
-                    isOutOfSync = true;
                 }
             }
 
