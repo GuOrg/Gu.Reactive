@@ -90,7 +90,7 @@ The eventags for the signal initial event is `string.Empty`
 ## ObservePropertyChangedSlim:
 
 ```c#
-var subscription = this.ObservePropertyChangedSlim(nameof(this.Value"))
+var subscription = this.ObservePropertyChangedSlim(nameof(this.Value))
                        .Subscribe(...);
 ```
 
