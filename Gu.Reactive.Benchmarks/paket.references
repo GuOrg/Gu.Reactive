@@ -6,3 +6,6 @@ group Analyzers
 group Benchmark
   BenchmarkDotNet.Diagnostics.Windows
   System.Reactive
+  Microsoft.CodeAnalysis.CSharp.Workspaces
+  Gu.Roslyn.Asserts
+  NUnit

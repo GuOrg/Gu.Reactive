@@ -6,10 +6,13 @@
     using System.Linq;
     using BenchmarkDotNet.Reports;
     using BenchmarkDotNet.Running;
+    using Gu.Roslyn.Asserts;
 
     public class Program
     {
-        private static readonly string ProjectDirectory = Directory.GetCurrentDirectory();
+        public static string ProjectDirectory => CodeFactory.FindProjectFile("Gu.Reactive.Benchmarks.csproj").DirectoryName;
+
+        public static string BenchmarksDirectory { get; } = Path.Combine(ProjectDirectory, "Benchmarks");
 
         public static void Main()
         {
@@ -56,12 +59,12 @@
 
         private static void CopyResult(Summary summary)
         {
-            Console.WriteLine($"DestinationDirectory: {ProjectDirectory}");
-            if (Directory.Exists(ProjectDirectory))
+            Console.WriteLine($"DestinationDirectory: {BenchmarksDirectory}");
+            if (Directory.Exists(BenchmarksDirectory))
             {
                 var sourceFileName = Directory.EnumerateFiles(summary.ResultsDirectoryPath)
                                               .Single(x => x.EndsWith(summary.Title + "-report-github.md"));
-                var destinationFileName = Path.Combine(ProjectDirectory, "Benchmarks", summary + ".md");
+                var destinationFileName = Path.Combine(BenchmarksDirectory, summary + ".md");
                 Console.WriteLine($"Copy: {sourceFileName} -> {destinationFileName}");
                 File.Copy(sourceFileName, destinationFileName, overwrite: true);
             }

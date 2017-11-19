@@ -37,3 +37,6 @@ group Benchmark
   source http://nuget.org/api/v2
   nuget BenchmarkDotNet.Diagnostics.Windows
   nuget System.Reactive
+  nuget Microsoft.CodeAnalysis.CSharp.Workspaces
+  nuget NUnit
+  nuget Gu.Roslyn.Asserts
