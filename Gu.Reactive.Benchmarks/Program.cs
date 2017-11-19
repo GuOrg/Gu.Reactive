@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using BenchmarkDotNet.Reports;
     using BenchmarkDotNet.Running;
 
@@ -10,13 +11,33 @@
     {
         private static readonly string ProjectDirectory = Directory.GetCurrentDirectory();
 
-        private static string ArtifactsDirectory { get; } = Path.Combine(ProjectDirectory, "BenchmarkDotNet.Artifacts", "results");
-
         public static void Main()
         {
-            foreach (var summary in RunAll())
+            if (false)
             {
-                CopyResult(summary.Title);
+                //var benchmark = Gu.Roslyn.Asserts.Benchmark.Create(
+                //    Code.AnalyzersProject,
+                //    new IDISP001DisposeCreated());
+
+                //// Warmup
+                //benchmark.Run();
+                //Console.WriteLine("Attach profiler and press any key to continue...");
+                //Console.ReadKey();
+                //benchmark.Run();
+            }
+            else if (false)
+            {
+                foreach (var summary in RunSingle<Diff>())
+                {
+                    CopyResult(summary);
+                }
+            }
+            else
+            {
+                foreach (var summary in RunAll())
+                {
+                    CopyResult(summary);
+                }
             }
         }
 
@@ -33,13 +54,14 @@
             return summaries;
         }
 
-        private static void CopyResult(string name)
+        private static void CopyResult(Summary summary)
         {
             Console.WriteLine($"DestinationDirectory: {ProjectDirectory}");
             if (Directory.Exists(ProjectDirectory))
             {
-                var sourceFileName = Path.Combine(ArtifactsDirectory, name + "-report-github.md");
-                var destinationFileName = Path.Combine(ProjectDirectory, "Benchmarks", name + ".md");
+                var sourceFileName = Directory.EnumerateFiles(summary.ResultsDirectoryPath)
+                                              .Single(x => x.EndsWith(summary.Title + "-report-github.md"));
+                var destinationFileName = Path.Combine(ProjectDirectory, "Benchmarks", summary + ".md");
                 Console.WriteLine($"Copy: {sourceFileName} -> {destinationFileName}");
                 File.Copy(sourceFileName, destinationFileName, overwrite: true);
             }
