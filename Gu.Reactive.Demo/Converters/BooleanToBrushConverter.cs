@@ -6,7 +6,8 @@
     using System.Windows.Markup;
     using System.Windows.Media;
 
-    [MarkupExtensionReturnType(typeof(IValueConverter))]
+    [MarkupExtensionReturnType(typeof(BooleanToBrushConverter))]
+    [ValueConversion(typeof(bool?), typeof(Brush))]
     public class BooleanToBrushConverter : MarkupExtension, IValueConverter
     {
         public Brush WhenTrue { get; set; }
@@ -17,15 +18,14 @@
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var meh = value as bool?;
-            if (meh == null)
+            if (value is bool b)
             {
-                return this.WhenNull;
+                return b
+                    ? this.WhenTrue
+                    : this.WhenFalse;
             }
 
-            return meh == true
-                       ? this.WhenTrue
-                       : this.WhenFalse;
+            return this.WhenNull;
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

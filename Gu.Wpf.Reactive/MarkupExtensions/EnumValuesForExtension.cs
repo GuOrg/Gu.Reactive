@@ -1,7 +1,6 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
-    using System.Collections;
     using System.Windows.Markup;
 
     using Gu.Reactive.Internals;
@@ -9,7 +8,7 @@
     /// <summary>
     /// Markupextension for getting Enum.GetValues(this.Type)
     /// </summary>
-    [MarkupExtensionReturnType(typeof(IEnumerable))]
+    [MarkupExtensionReturnType(typeof(Array))]
     public class EnumValuesForExtension : MarkupExtension
     {
         private Type type;
@@ -21,7 +20,7 @@
         public EnumValuesForExtension(Type type)
         {
             Ensure.IsTrue(type.IsEnum, nameof(type), "Expected type to be an enum");
-            this.Type = type;
+            this.type = type;
         }
 
         /// <summary>
@@ -30,10 +29,7 @@
         [ConstructorArgument("type")]
         public Type Type
         {
-            get
-            {
-                return this.type;
-            }
+            get => this.type;
 
             set
             {

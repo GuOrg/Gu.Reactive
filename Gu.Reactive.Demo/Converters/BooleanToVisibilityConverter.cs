@@ -6,7 +6,8 @@
     using System.Windows.Data;
     using System.Windows.Markup;
 
-    [MarkupExtensionReturnType(typeof(IValueConverter))]
+    [MarkupExtensionReturnType(typeof(BooleanToVisibilityConverter))]
+    [ValueConversion(typeof(bool?), typeof(Visibility))]
     public class BooleanToVisibilityConverter : MarkupExtension, IValueConverter
     {
         public Visibility WhenTrue { get; set; } = Visibility.Visible;

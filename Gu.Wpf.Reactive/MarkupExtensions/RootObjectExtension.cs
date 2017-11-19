@@ -5,10 +5,12 @@
     using System.Windows.Markup;
     using System.Xaml;
 
-    /// <summary>
-    /// Markupextension for binding to the root object when not in the visual tree.
-    /// </summary>
+#pragma warning disable WPF0081 // MarkupExtensionReturnType must use correct return type.
+                               /// <summary>
+                               /// Markupextension for binding to the root object when not in the visual tree.
+                               /// </summary>
     [MarkupExtensionReturnType(typeof(ContentControl))]
+#pragma warning restore WPF0081 // MarkupExtensionReturnType must use correct return type.
     public class RootObjectExtension : MarkupExtension
     {
         /// <inheritdoc/>
