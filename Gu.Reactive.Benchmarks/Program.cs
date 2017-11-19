@@ -6,6 +6,7 @@
     using System.Linq;
     using BenchmarkDotNet.Reports;
     using BenchmarkDotNet.Running;
+    using Gu.Reactive.Analyzers;
     using Gu.Roslyn.Asserts;
 
     public class Program
@@ -18,15 +19,13 @@
         {
             if (false)
             {
-                //var benchmark = Gu.Roslyn.Asserts.Benchmark.Create(
-                //    Code.AnalyzersProject,
-                //    new IDISP001DisposeCreated());
+                var benchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new GUREA01DontObserveMutableProperty());
 
-                //// Warmup
-                //benchmark.Run();
-                //Console.WriteLine("Attach profiler and press any key to continue...");
-                //Console.ReadKey();
-                //benchmark.Run();
+                // Warmup
+                benchmark.Run();
+                Console.WriteLine("Attach profiler and press any key to continue...");
+                Console.ReadKey();
+                benchmark.Run();
             }
             else if (false)
             {
