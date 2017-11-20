@@ -17,7 +17,7 @@ namespace Gu.Reactive.Benchmarks
             foreach (var ints in new[] { this.ints1, this.ints2 })
             {
                 ints.Clear();
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 1000; i++)
                 {
                     ints.Add(i);
                 }
@@ -28,7 +28,7 @@ namespace Gu.Reactive.Benchmarks
         public int? Linq()
         {
             var min = this.ints1.Min(x => x);
-            this.ints1.Add(5);
+            Update(this.ints1);
             return Math.Min(min, this.ints1.Min(x => x));
         }
 
@@ -37,8 +37,20 @@ namespace Gu.Reactive.Benchmarks
         {
             using (var tracker = this.ints2.TrackMin())
             {
-                this.ints2.Add(5);
+                Update(this.ints2);
                 return tracker.Value;
+            }
+        }
+
+        private static void Update(ObservableCollection<int> ints)
+        {
+            if (ints.Count > 1000)
+            {
+                ints.RemoveAt(ints.Count - 1);
+            }
+            else
+            {
+                ints.Add(5);
             }
         }
     }

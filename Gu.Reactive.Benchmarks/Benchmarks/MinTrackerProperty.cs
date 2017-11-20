@@ -18,7 +18,7 @@ namespace Gu.Reactive.Benchmarks
             foreach (var fakes in new[] { this.fakes1, this.fakes2, this.fakes3 })
             {
                 fakes.Clear();
-                for (int i = -5; i < 10; i++)
+                for (var i = -5; i < 10; i++)
                 {
                     fakes.Add(new Fake { Value = i });
                 }
@@ -29,7 +29,7 @@ namespace Gu.Reactive.Benchmarks
         public int? Linq()
         {
             var min = this.fakes1.Min(x => x.Value);
-            this.fakes1.Add(new Fake());
+            Update(this.fakes1);
             return Math.Min(min, this.fakes1.Min(x => x.Value));
         }
 
@@ -38,7 +38,7 @@ namespace Gu.Reactive.Benchmarks
         {
             using (var tracker = this.fakes2.TrackMin(x => x.Value))
             {
-                this.fakes2.Add(new Fake { Value = 5 });
+                Update(this.fakes2);
                 return tracker.Value;
             }
         }
@@ -48,8 +48,20 @@ namespace Gu.Reactive.Benchmarks
         {
             using (var changeTracker = this.fakes3.TrackMin(x => x.Value))
             {
-                this.fakes3.Add(new Fake { Value = 5 });
+                Update(this.fakes3);
                 return changeTracker.Value;
+            }
+        }
+
+        private static void Update(ObservableCollection<Fake> ints)
+        {
+            if (ints.Count > 1000)
+            {
+                ints.RemoveAt(ints.Count - 1);
+            }
+            else
+            {
+                ints.Add(new Fake { Value = 5 });
             }
         }
     }

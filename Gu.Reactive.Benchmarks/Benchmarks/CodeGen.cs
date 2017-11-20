@@ -15,7 +15,7 @@
         private static IReadOnlyList<DiagnosticAnalyzer> AllAnalyzers { get; } = typeof(GUREA01DontObserveMutableProperty).Assembly
                                                                                                                           .GetTypes()
                                                                                                                           .Where(typeof(DiagnosticAnalyzer).IsAssignableFrom)
-                                                                                                                          .Select(t => (DiagnosticAnalyzer) Activator.CreateInstance(t))
+                                                                                                                          .Select(t => (DiagnosticAnalyzer)Activator.CreateInstance(t))
                                                                                                                           .ToArray();
 
         [TestCaseSource(nameof(AllAnalyzers))]
