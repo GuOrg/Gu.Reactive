@@ -15,7 +15,7 @@
     public class ReadonlyFilteredDispatchingViewModel : IDisposable, INotifyPropertyChanged
     {
         private readonly Subject<object> trigger = new Subject<object>();
-
+        private readonly System.Reactive.Disposables.CompositeDisposable disposable;
         private bool disposed;
 
         private int max = 5;
@@ -37,15 +37,17 @@
             this.TriggerOnOtherThreadCommand = new RelayCommand(
                 () => Task.Run(() => this.trigger.OnNext(null)),
                 () => true);
-            this.Source
-                .ObserveCollectionChanged(signalInitial: false)
-                .ObserveOnDispatcher()
-                .Subscribe(x => this.SourceChanges.Add(x.EventArgs));
-
-            this.View
-                .ObserveCollectionChanged(signalInitial: false)
-                .ObserveOnDispatcher()
-                .Subscribe(x => this.ViewChanges.Add(x.EventArgs));
+            this.disposable = new System.Reactive.Disposables.CompositeDisposable
+                              {
+                                  this.Source
+                                      .ObserveCollectionChanged(signalInitial: false)
+                                      .ObserveOnDispatcher()
+                                      .Subscribe(x => this.SourceChanges.Add(x.EventArgs)),
+                                  this.View
+                                      .ObserveCollectionChanged(signalInitial: false)
+                                      .ObserveOnDispatcher()
+                                      .Subscribe(x => this.ViewChanges.Add(x.EventArgs)),
+                              };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -98,6 +100,7 @@
             this.disposed = true;
             (this.View as IDisposable)?.Dispose();
             this.trigger.Dispose();
+            this.disposable.Dispose();
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

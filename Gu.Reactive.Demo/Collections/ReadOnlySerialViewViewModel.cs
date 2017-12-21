@@ -13,6 +13,7 @@ namespace Gu.Reactive.Demo
 
     public sealed class ReadOnlySerialViewViewModel : INotifyPropertyChanged, IDisposable
     {
+        private readonly IDisposable disposable;
         private string items;
         private bool disposed;
 
@@ -21,7 +22,7 @@ namespace Gu.Reactive.Demo
             this.UpdateCommand = new RelayCommand(() => this.View.SetSource(this.items.Split(',').Select(x => new DummyItem(int.Parse(x)))));
             this.ClearSourceCommand = new RelayCommand(() => this.View.ClearSource());
             this.ResetCommand = new RelayCommand(this.Reset);
-            this.View
+            this.disposable = this.View
                 .ObserveCollectionChangedSlim(signalInitial: false)
                 .ObserveOnDispatcher()
                 .Subscribe(x => this.ViewChanges.Add(x));
@@ -64,6 +65,7 @@ namespace Gu.Reactive.Demo
 
             this.disposed = true;
             this.View.Dispose();
+            this.disposable?.Dispose();
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

@@ -12,6 +12,7 @@ namespace Gu.Reactive.Demo
 
     public sealed class DispatchingViewViewModel : IDisposable
     {
+        private readonly System.Reactive.Disposables.CompositeDisposable disposable;
         private bool disposed;
 
         public DispatchingViewViewModel()
@@ -24,15 +25,17 @@ namespace Gu.Reactive.Demo
             this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
             this.ClearCommand = new RelayCommand(this.Source.Clear);
             this.ResetCommand = new RelayCommand(this.Reset);
-            this.Source
-                .ObserveCollectionChanged(signalInitial: false)
-                .ObserveOnDispatcher()
-                .Subscribe(x => this.SourceChanges.Add(x.EventArgs));
-
-            this.View
-                .ObserveCollectionChanged(signalInitial: false)
-                .ObserveOnDispatcher()
-                .Subscribe(x => this.ViewChanges.Add(x.EventArgs));
+            this.disposable = new System.Reactive.Disposables.CompositeDisposable
+                              {
+                                  this.Source
+                                      .ObserveCollectionChanged(signalInitial: false)
+                                      .ObserveOnDispatcher()
+                                      .Subscribe(x => this.SourceChanges.Add(x.EventArgs)),
+                                  this.View
+                                      .ObserveCollectionChanged(signalInitial: false)
+                                      .ObserveOnDispatcher()
+                                      .Subscribe(x => this.ViewChanges.Add(x.EventArgs)),
+                              };
         }
 
         public IObservableCollection<DummyItem> View { get; }
@@ -64,6 +67,7 @@ namespace Gu.Reactive.Demo
 
             this.disposed = true;
             (this.View as IDisposable)?.Dispose();
+            this.disposable.Dispose();
         }
 
         private void AddOne()

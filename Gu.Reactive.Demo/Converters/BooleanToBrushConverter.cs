@@ -7,7 +7,7 @@
     using System.Windows.Media;
 
     [MarkupExtensionReturnType(typeof(BooleanToBrushConverter))]
-    [ValueConversion(typeof(bool?), typeof(Brush))]
+    [ValueConversion(typeof(bool), typeof(Brush))]
     public class BooleanToBrushConverter : MarkupExtension, IValueConverter
     {
         public Brush WhenTrue { get; set; }
