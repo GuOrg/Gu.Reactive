@@ -13,6 +13,7 @@ namespace Gu.Reactive.Demo
 
     public sealed class CollectionViewDemoViewModel : INotifyPropertyChanged, IDisposable
     {
+        private readonly IDisposable disposable;
         private Func<int, bool> filter = x => true;
         private bool disposed;
 
@@ -26,15 +27,14 @@ namespace Gu.Reactive.Demo
             this.ObservableDefaultView = CollectionViewSource.GetDefaultView(this.ObservableCollection);
             this.ObservableFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.Zero);
             this.ThrottledFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.FromMilliseconds(10));
-
-            this.ObservePropertyChanged(x => x.Filter, signalInitial: false)
-                .Subscribe(
-                    x =>
-                    {
-                        WpfSchedulers.Dispatcher.Schedule(() => this.ObservableDefaultView.Filter = o => this.Filter((int)o));
-                        this.ObservableFilteredView.Filter = this.Filter;
-                        this.ThrottledFilteredView.Filter = this.Filter;
-                    });
+            this.disposable = this.ObservePropertyChanged(x => x.Filter, signalInitial: false)
+                                  .Subscribe(
+                                      x =>
+                                      {
+                                          WpfSchedulers.Dispatcher.Schedule(() => this.ObservableDefaultView.Filter = o => this.Filter((int)o));
+                                          this.ObservableFilteredView.Filter = this.Filter;
+                                          this.ThrottledFilteredView.Filter = this.Filter;
+                                      });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -81,6 +81,7 @@ namespace Gu.Reactive.Demo
             this.FilteredView2.Dispose();
             this.ObservableFilteredView.Dispose();
             this.ThrottledFilteredView.Dispose();
+            this.disposable?.Dispose();
         }
 
         private bool FilterMethod(int value)

@@ -65,21 +65,23 @@ namespace Gu.Wpf.Reactive.Tests
             {
                 command.CanExecuteChanged += (_, __) => count++;
                 var isExecutingCount = 0;
-                command.ObservePropertyChangedSlim(nameof(command.IsExecuting), signalInitial: false)
-                       .Subscribe(_ => isExecutingCount++);
-                Assert.IsFalse(command.IsExecuting);
-                Assert.IsFalse(command.CancelCommand.CanExecute());
-                Assert.AreEqual(0, isExecutingCount);
-                command.Execute(1);
-                Assert.IsTrue(command.IsExecuting);
-                Assert.AreEqual(1, isExecutingCount);
-                Assert.IsFalse(command.CancelCommand.CanExecute());
-                Assert.AreEqual(1, count);
-                tcs.SetResult(1);
-                await command.Execution.Task.ConfigureAwait(false);
-                Assert.IsFalse(command.IsExecuting);
-                Assert.AreEqual(2, count);
-                Assert.AreEqual(2, isExecutingCount);
+                using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), signalInitial: false)
+                       .Subscribe(_ => isExecutingCount++))
+                {
+                    Assert.IsFalse(command.IsExecuting);
+                    Assert.IsFalse(command.CancelCommand.CanExecute());
+                    Assert.AreEqual(0, isExecutingCount);
+                    command.Execute(1);
+                    Assert.IsTrue(command.IsExecuting);
+                    Assert.AreEqual(1, isExecutingCount);
+                    Assert.IsFalse(command.CancelCommand.CanExecute());
+                    Assert.AreEqual(1, count);
+                    tcs.SetResult(1);
+                    await command.Execution.Task.ConfigureAwait(false);
+                    Assert.IsFalse(command.IsExecuting);
+                    Assert.AreEqual(2, count);
+                    Assert.AreEqual(2, isExecutingCount);
+                }
             }
         }
 
@@ -92,20 +94,22 @@ namespace Gu.Wpf.Reactive.Tests
             using (var command = new AsyncCommand<int>(x => tcs.Task))
             {
                 var taskStatuses = new List<TaskStatus>();
-                command.ObservePropertyChangedWithValue(x => x.Execution.Status)
-                       .Subscribe(x => taskStatuses.Add(x.EventArgs.Value));
-                Assert.IsFalse(command.IsExecuting);
-                Assert.IsFalse(command.CancelCommand.CanExecute());
-                command.Execute(1);
-                Assert.IsTrue(command.IsExecuting);
-                Assert.IsFalse(command.CancelCommand.CanExecute());
-                var expectedStatuses = new List<TaskStatus> { TaskStatus.Created, TaskStatus.WaitingForActivation, TaskStatus.Running, };
-                CollectionAssert.AreEqual(expectedStatuses, taskStatuses);
-                tcs.SetResult(1);
-                await command.Execution.Task.ConfigureAwait(false);
-                Assert.IsFalse(command.IsExecuting);
-                expectedStatuses.Add(TaskStatus.RanToCompletion);
-                CollectionAssert.AreEqual(expectedStatuses, taskStatuses);
+                using (command.ObservePropertyChangedWithValue(x => x.Execution.Status)
+                       .Subscribe(x => taskStatuses.Add(x.EventArgs.Value)))
+                {
+                    Assert.IsFalse(command.IsExecuting);
+                    Assert.IsFalse(command.CancelCommand.CanExecute());
+                    command.Execute(1);
+                    Assert.IsTrue(command.IsExecuting);
+                    Assert.IsFalse(command.CancelCommand.CanExecute());
+                    var expectedStatuses = new List<TaskStatus> { TaskStatus.Created, TaskStatus.WaitingForActivation, TaskStatus.Running, };
+                    CollectionAssert.AreEqual(expectedStatuses, taskStatuses);
+                    tcs.SetResult(1);
+                    await command.Execution.Task.ConfigureAwait(false);
+                    Assert.IsFalse(command.IsExecuting);
+                    expectedStatuses.Add(TaskStatus.RanToCompletion);
+                    CollectionAssert.AreEqual(expectedStatuses, taskStatuses);
+                }
             }
         }
 
