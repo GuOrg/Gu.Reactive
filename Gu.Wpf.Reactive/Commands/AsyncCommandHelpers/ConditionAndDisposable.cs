@@ -7,14 +7,8 @@ namespace Gu.Wpf.Reactive
 
     internal struct ConditionAndDisposable
     {
-#pragma warning disable IDISP008  // Don't assign member with injected and created disposables.
-#pragma warning disable IDISP002 // Dispose member.
-#pragma warning disable IDISP006 // Implement IDisposable.
         internal readonly ICondition Condition;
         internal readonly IDisposable Disposable;
-#pragma warning restore IDISP006 // Implement IDisposable.
-#pragma warning restore IDISP008  // Don't assign member with injected and created disposables.
-#pragma warning restore IDISP002 // Dispose member.
 
         private ConditionAndDisposable(ICondition condition, IDisposable disposable)
         {

@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Benchmarks
+﻿#pragma warning disable 162
+namespace Gu.Reactive.Benchmarks
 {
     using System;
     using System.Collections.Generic;
