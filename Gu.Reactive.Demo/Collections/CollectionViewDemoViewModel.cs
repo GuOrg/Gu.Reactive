@@ -7,6 +7,7 @@ namespace Gu.Reactive.Demo
     using System.ComponentModel;
     using System.Reactive.Concurrency;
     using System.Runtime.CompilerServices;
+    using System.Windows;
     using System.Windows.Data;
 
     using Wpf.Reactive;
@@ -31,7 +32,7 @@ namespace Gu.Reactive.Demo
                                   .Subscribe(
                                       x =>
                                       {
-                                          WpfSchedulers.Dispatcher.Schedule(() => this.ObservableDefaultView.Filter = o => this.Filter((int)o));
+                                          Application.Current.Dispatcher.Invoke(() => this.ObservableDefaultView.Filter = o => this.Filter((int)o));
                                           this.ObservableFilteredView.Filter = this.Filter;
                                           this.ThrottledFilteredView.Filter = this.Filter;
                                       });
