@@ -18,6 +18,7 @@ namespace Gu.Reactive.Demo
         private static readonly CultureInfo InvariantCulture = CultureInfo.InvariantCulture;
         private readonly ObservableCollection<Person> peopleRaw;
         private readonly Random random = new Random();
+        private readonly System.Reactive.Disposables.CompositeDisposable disposable;
         private string searchText;
         private bool hasSearchText;
         private IEnumerable<int> selectedTags = Enumerable.Empty<int>();
@@ -28,8 +29,7 @@ namespace Gu.Reactive.Demo
         {
             this.Tags = new HashSet<int>(Enumerable.Range(0, 10));
             this.peopleRaw = new ObservableCollection<Person>();
-            this.ObservePropertyChanged(x => x.NumberOfItems)
-                .Subscribe(_ => this.UpdateRawCollection());
+
             this.Filtered = this.peopleRaw.AsFilteredView(
                 this.Filter,
                 TimeSpan.FromMilliseconds(10),
@@ -43,9 +43,14 @@ namespace Gu.Reactive.Demo
                 this.ObservePropertyChanged(x => x.SearchText),
                 this.ObservePropertyChanged(x => x.SelectedTags));
             this.PeopleRaw = this.peopleRaw.AsDispatchingView();
-            this.ObservePropertyChanged(x => x.SearchText)
-                .Subscribe(_ => this.HasSearchText = !string.IsNullOrEmpty(this.SearchText));
             this.AddOneOnOtherThread = new AsyncCommand(() => Task.Run(() => this.AddOne()));
+            this.disposable = new System.Reactive.Disposables.CompositeDisposable
+                              {
+                                  this.ObservePropertyChanged(x => x.NumberOfItems)
+                                      .Subscribe(_ => this.UpdateRawCollection()),
+                                  this.ObservePropertyChanged(x => x.SearchText)
+                                      .Subscribe(_ => this.HasSearchText = !string.IsNullOrEmpty(this.SearchText)),
+                              };
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -136,6 +141,7 @@ namespace Gu.Reactive.Demo
             (this.PeopleRaw as IDisposable)?.Dispose();
             this.Filtered.Dispose();
             (this.ReadOnlyFiltered as IDisposable)?.Dispose();
+            this.disposable.Dispose();
         }
 
         private static bool IsMatch(string value, string pattern)

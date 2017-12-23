@@ -135,12 +135,12 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             }
 
             using (source.AsFilteredView(x => true)
-                       .AsMappingView(x => x.ToString()))
+                         .AsMappingView(x => x.ToString()))
             {
             }
 
             using (source.AsThrottledView(TimeSpan.Zero)
-                       .AsMappingView(x => x.ToString()))
+                         .AsMappingView(x => x.ToString()))
             {
             }
 
