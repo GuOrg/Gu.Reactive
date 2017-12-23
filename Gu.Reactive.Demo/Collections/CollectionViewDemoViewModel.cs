@@ -5,7 +5,6 @@ namespace Gu.Reactive.Demo
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Reactive.Concurrency;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Data;

@@ -1,3 +1,7 @@
+#pragma warning disable IDISP001 // Dispose created.
+#pragma warning disable IDISP004 // Don't ignore return value of type IDisposable.
+#pragma warning disable IDISP006 // Implement IDisposable.
+#pragma warning disable IDISP008 // Don't assign member with injected and created disposables.
 namespace Gu.Wpf.Reactive
 {
     using System;
