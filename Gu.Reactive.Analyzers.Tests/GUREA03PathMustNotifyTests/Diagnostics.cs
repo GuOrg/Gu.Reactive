@@ -5,6 +5,9 @@
 
     public class Diagnostics
     {
+        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create("GUREA03");
+
         [Test]
         public void OneLevel()
         {
@@ -44,7 +47,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Diagnostics<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, testCode);
         }
 
         [Test]
@@ -86,7 +89,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Diagnostics<GUREA03PathMustNotify>(fooCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, testCode);
         }
 
         [Test]
@@ -158,7 +161,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Diagnostics<GUREA03PathMustNotify>(fooCode, barCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, barCode, testCode);
         }
 
         [Test]
@@ -228,7 +231,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Diagnostics<GUREA03PathMustNotify>(fooCode, barCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, barCode, testCode);
         }
     }
 }

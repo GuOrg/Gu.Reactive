@@ -5,7 +5,7 @@
 
     internal class HappyPath
     {
-        private static readonly GUREA03PathMustNotify Analyzer = new GUREA03PathMustNotify();
+        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
 
         [Test]
         public void OneLevel()

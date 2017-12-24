@@ -20,7 +20,7 @@ namespace Gu.Reactive.Benchmarks
         {
             if (false)
             {
-                var benchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new GUREA01DontObserveMutableProperty());
+                var benchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new InvocationAnalyzer());
 
                 // Warmup
                 benchmark.Run();
@@ -30,7 +30,7 @@ namespace Gu.Reactive.Benchmarks
             }
             else if (true)
             {
-                foreach (var summary in RunSingle<GUREA13Benchmarks>())
+                foreach (var summary in RunSingle<InvocationAnalyzerBenchmarks>())
                 {
                     CopyResult(summary);
                 }

@@ -10,8 +10,9 @@
     public class InvocationAnalyzer : DiagnosticAnalyzer
     {
         /// <inheritdoc/>
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
-            ImmutableArray.Create(GUREA01DontObserveMutableProperty.Descriptor);
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
+            GUREA01DontObserveMutableProperty.Descriptor,
+            GUREA03PathMustNotify.Descriptor);
 
         /// <inheritdoc/>
         public override void Initialize(AnalysisContext context)
@@ -34,16 +35,19 @@
                 method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChangedSlim ||
                 method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim)
             {
-                if (invocation.Expression is MemberAccessExpressionSyntax memberAccess)
+                if (invocation.Expression is MemberAccessExpressionSyntax memberAccess &&
+                    memberAccess.Expression is MemberAccessExpressionSyntax member)
                 {
-                    if (memberAccess.Expression is MemberAccessExpressionSyntax member)
+                    var symbol = context.SemanticModel.GetSymbolSafe(member, context.CancellationToken);
+                    if (IsMutable(symbol))
                     {
-                        var symbol = context.SemanticModel.GetSymbolSafe(member, context.CancellationToken);
-                        if (IsMutable(symbol))
-                        {
-                            context.ReportDiagnostic(Diagnostic.Create(GUREA01DontObserveMutableProperty.Descriptor, memberAccess.Name.GetLocation()));
-                        }
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA01DontObserveMutableProperty.Descriptor, memberAccess.Name.GetLocation()));
                     }
+                }
+
+                if (TryGetSilentNode(invocation, context, out var node))
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(GUREA03PathMustNotify.Descriptor, node.GetLocation()));
                 }
             }
         }
@@ -60,6 +64,66 @@
                 !field.IsReadOnly)
             {
                 return true;
+            }
+
+            return false;
+        }
+
+        private static bool TryGetSilentNode(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out SyntaxNode node)
+        {
+            node = null;
+            if (invocation.ArgumentList != null &&
+                invocation.ArgumentList.Arguments.TryGetFirst(out ArgumentSyntax argument))
+            {
+                if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
+                {
+                    var memberAccess = lambda.Body as MemberAccessExpressionSyntax;
+                    if (memberAccess == null)
+                    {
+                        node = lambda;
+                        return true;
+                    }
+
+                    while (memberAccess != null)
+                    {
+                        var symbol = context.SemanticModel.GetSymbolSafe(memberAccess, context.CancellationToken);
+                        if (!(symbol is IPropertySymbol))
+                        {
+                            node = memberAccess.Name;
+                            return true;
+                        }
+
+                        var containingType = context.SemanticModel.GetTypeInfoSafe(memberAccess.Expression, context.CancellationToken).Type;
+                        if (containingType == null)
+                        {
+                            continue;
+                        }
+
+                        if (containingType.IsValueType ||
+                            !containingType.Is(KnownSymbol.INotifyPropertyChanged))
+                        {
+                            node = memberAccess.Name;
+                            return true;
+                        }
+
+                        if (symbol.DeclaringSyntaxReferences.Length > 0 &&
+                            !symbol.IsAbstract)
+                        {
+                            foreach (var reference in symbol.DeclaringSyntaxReferences)
+                            {
+                                var propertyDeclaration = (PropertyDeclarationSyntax)reference.GetSyntax(context.CancellationToken);
+                                if (propertyDeclaration.TryGetSetAccessorDeclaration(out AccessorDeclarationSyntax setter) &&
+                                    setter.Body == null)
+                                {
+                                    node = memberAccess.Name;
+                                    return true;
+                                }
+                            }
+                        }
+
+                        memberAccess = memberAccess.Expression as MemberAccessExpressionSyntax;
+                    }
+                }
             }
 
             return false;

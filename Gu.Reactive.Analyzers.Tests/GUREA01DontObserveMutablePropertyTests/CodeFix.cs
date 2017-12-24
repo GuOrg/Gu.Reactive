@@ -6,6 +6,7 @@
     public class Diagnostics
     {
         private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create("GUREA01");
 
         [Test]
         public void ObservingMutablePropertyInSelf()
@@ -64,7 +65,7 @@ namespace RoslynSandbox
         public Foo Foo { get; set; }
     }
 }";
-            AnalyzerAssert.Diagnostics(Analyzer, fooCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, testCode);
         }
     }
 }
