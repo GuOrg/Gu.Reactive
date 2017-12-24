@@ -5,6 +5,8 @@
 
     internal class HappyPath
     {
+        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
+
         [Test]
         public void ObservingLocal()
         {
@@ -60,7 +62,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid<GUREA01DontObserveMutableProperty>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -120,7 +122,7 @@ namespace RoslynSandbox
         public Foo Foo { get; }
     }
 }";
-            AnalyzerAssert.Valid<GUREA01DontObserveMutableProperty>(fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
     }
 }

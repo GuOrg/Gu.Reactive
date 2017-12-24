@@ -3,8 +3,10 @@
     using Gu.Roslyn.Asserts;
     using NUnit.Framework;
 
-    public class CodeFix
+    public class Diagnostics
     {
+        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
+
         [Test]
         public void ObservingMutablePropertyInSelf()
         {
@@ -62,7 +64,7 @@ namespace RoslynSandbox
         public Foo Foo { get; set; }
     }
 }";
-            AnalyzerAssert.Diagnostics<GUREA01DontObserveMutableProperty>(fooCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, fooCode, testCode);
         }
     }
 }
