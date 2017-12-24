@@ -6,6 +6,10 @@
 
     public class CodeFix
     {
+        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly ObservableFromEventArgsFix Codefix = new ObservableFromEventArgsFix();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create("GUREA12");
+
         [Test]
         public void EventHandlerOfInt()
         {
@@ -55,7 +59,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA12ObservableFromEventDelegateType, ObservableFromEventArgsFix>(new[] { fooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic,new[] { fooCode, testCode }, fixedCode);
         }
 
         [Test]
@@ -107,7 +111,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA12ObservableFromEventDelegateType, ObservableFromEventArgsFix>(new[] { fooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic,new[] { fooCode, testCode }, fixedCode);
         }
     }
 }

@@ -5,7 +5,7 @@
 
     public class HappyPath
     {
-        private static readonly GUREA12ObservableFromEventDelegateType Analyzer = new GUREA12ObservableFromEventDelegateType();
+        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
 
         [Test]
         public void ActionOfInt()

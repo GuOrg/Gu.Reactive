@@ -14,7 +14,8 @@
             GUREA01DontObserveMutableProperty.Descriptor,
             GUREA03PathMustNotify.Descriptor,
             GUREA05FullPathMustHaveMoreThanOneItem.Descriptor,
-            GUREA07DontNegateCondition.Descriptor);
+            GUREA07DontNegateCondition.Descriptor,
+            GUREA12ObservableFromEventDelegateType.Descriptor);
 
         /// <inheritdoc/>
         public override void Initialize(AnalysisContext context)
@@ -81,6 +82,12 @@
                     {
                         context.ReportDiagnostic(Diagnostic.Create(GUREA07DontNegateCondition.Descriptor, invocation.GetLocation()));
                     }
+                }
+                else if (method == KnownSymbol.Observable.FromEvent &&
+                     method.Parameters.Length == 2 &&
+                     IsForEventHandler(method.Parameters[0]))
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(GUREA12ObservableFromEventDelegateType.Descriptor, invocation.GetLocation()));
                 }
             }
         }
@@ -157,6 +164,19 @@
                         memberAccess = memberAccess.Expression as MemberAccessExpressionSyntax;
                     }
                 }
+            }
+
+            return false;
+        }
+
+        private static bool IsForEventHandler(IParameterSymbol parameter)
+        {
+            if (parameter.Type is INamedTypeSymbol namedType &&
+                namedType.Name == "Action" &&
+                namedType.TypeArguments.Length == 1 &&
+                namedType.TypeArguments[0] is INamedTypeSymbol argType)
+            {
+                return argType.Name == "EventHandler";
             }
 
             return false;

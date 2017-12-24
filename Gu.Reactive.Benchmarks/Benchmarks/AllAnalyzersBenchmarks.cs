@@ -17,8 +17,6 @@ namespace Gu.Reactive.Benchmarks
 
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA11PreferObservableFromEventBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA11PreferObservableFromEvent());
 
-        private static readonly Gu.Roslyn.Asserts.Benchmark GUREA12ObservableFromEventDelegateTypeBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA12ObservableFromEventDelegateType());
-
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA13SyncParametersAndArgsBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA13SyncParametersAndArgs());
 
         private static readonly Gu.Roslyn.Asserts.Benchmark InvocationAnalyzerBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.InvocationAnalyzer());
@@ -63,12 +61,6 @@ namespace Gu.Reactive.Benchmarks
         public void GUREA11PreferObservableFromEvent()
         {
             GUREA11PreferObservableFromEventBenchmark.Run();
-        }
-
-        [BenchmarkDotNet.Attributes.Benchmark]
-        public void GUREA12ObservableFromEventDelegateType()
-        {
-            GUREA12ObservableFromEventDelegateTypeBenchmark.Run();
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]
