@@ -7,11 +7,7 @@ namespace Gu.Reactive.Benchmarks
 
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA04PreferSlimBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA04PreferSlim());
 
-        private static readonly Gu.Roslyn.Asserts.Benchmark GUREA05FullPathMustHaveMoreThanOneItemBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA05FullPathMustHaveMoreThanOneItem());
-
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA06DontNewConditionBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA06DontNewCondition());
-
-        private static readonly Gu.Roslyn.Asserts.Benchmark GUREA07DontNegateConditionBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA07DontNegateCondition());
 
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA08InlineSingleLineBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA08InlineSingleLine());
 
@@ -40,21 +36,9 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]
-        public void GUREA05FullPathMustHaveMoreThanOneItem()
-        {
-            GUREA05FullPathMustHaveMoreThanOneItemBenchmark.Run();
-        }
-
-        [BenchmarkDotNet.Attributes.Benchmark]
         public void GUREA06DontNewCondition()
         {
             GUREA06DontNewConditionBenchmark.Run();
-        }
-
-        [BenchmarkDotNet.Attributes.Benchmark]
-        public void GUREA07DontNegateCondition()
-        {
-            GUREA07DontNegateConditionBenchmark.Run();
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]

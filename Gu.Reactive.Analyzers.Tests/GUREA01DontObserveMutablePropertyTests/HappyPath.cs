@@ -115,7 +115,7 @@ namespace RoslynSandbox
         public Meh()
         {
             this.Foo = new Foo();
-            this.Foo.ObserveFullPropertyPathSlim(x => x.Value)
+            this.Foo.ObservePropertyChanged(x => x.Value)
                     .Subscribe(_ => Console.WriteLine(""meh""));
         }
 

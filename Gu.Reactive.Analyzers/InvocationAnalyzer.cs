@@ -12,7 +12,9 @@
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             GUREA01DontObserveMutableProperty.Descriptor,
-            GUREA03PathMustNotify.Descriptor);
+            GUREA03PathMustNotify.Descriptor,
+            GUREA05FullPathMustHaveMoreThanOneItem.Descriptor,
+            GUREA07DontNegateCondition.Descriptor);
 
         /// <inheritdoc/>
         public override void Initialize(AnalysisContext context)
@@ -29,25 +31,56 @@
                 return;
             }
 
-            var invocation = (InvocationExpressionSyntax)context.Node;
-            var method = context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken);
-            if (method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChanged ||
-                method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChangedSlim ||
-                method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim)
+            if (context.Node is InvocationExpressionSyntax invocation &&
+                context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) is IMethodSymbol method)
             {
-                if (invocation.Expression is MemberAccessExpressionSyntax memberAccess &&
-                    memberAccess.Expression is MemberAccessExpressionSyntax member)
+                if (method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChanged ||
+                    method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChangedSlim ||
+                    method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim)
                 {
-                    var symbol = context.SemanticModel.GetSymbolSafe(member, context.CancellationToken);
-                    if (IsMutable(symbol))
+                    if (invocation.Expression is MemberAccessExpressionSyntax memberAccess &&
+                        memberAccess.Expression is MemberAccessExpressionSyntax member)
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA01DontObserveMutableProperty.Descriptor, memberAccess.Name.GetLocation()));
+                        var symbol = context.SemanticModel.GetSymbolSafe(member, context.CancellationToken);
+                        if (IsMutable(symbol))
+                        {
+                            context.ReportDiagnostic(Diagnostic.Create(GUREA01DontObserveMutableProperty.Descriptor, memberAccess.Name.GetLocation()));
+                        }
+                    }
+
+                    if (TryGetSilentNode(invocation, context, out var node))
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA03PathMustNotify.Descriptor, node.GetLocation()));
+                    }
+
+                    if (method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim)
+                    {
+                        if (invocation.ArgumentList != null &&
+                            invocation.ArgumentList.Arguments.TryGetFirst(out ArgumentSyntax argument))
+                        {
+                            if (argument.Expression is SimpleLambdaExpressionSyntax lambda &&
+                                lambda.Body != null)
+                            {
+                                var firstMember = lambda.Body as MemberAccessExpressionSyntax;
+                                if (firstMember == null ||
+                                    !(firstMember.Expression is MemberAccessExpressionSyntax))
+                                {
+                                    context.ReportDiagnostic(Diagnostic.Create(GUREA05FullPathMustHaveMoreThanOneItem.Descriptor, lambda.Body.GetLocation()));
+                                }
+                            }
+                        }
                     }
                 }
-
-                if (TryGetSilentNode(invocation, context, out var node))
+                else if (method == KnownSymbol.ICondition.Negate)
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(GUREA03PathMustNotify.Descriptor, node.GetLocation()));
+                    if (invocation.Expression is MemberAccessExpressionSyntax memberAccess)
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA07DontNegateCondition.Descriptor, memberAccess.Name.GetLocation()));
+                    }
+                    else
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA07DontNegateCondition.Descriptor, invocation.GetLocation()));
+                    }
                 }
             }
         }

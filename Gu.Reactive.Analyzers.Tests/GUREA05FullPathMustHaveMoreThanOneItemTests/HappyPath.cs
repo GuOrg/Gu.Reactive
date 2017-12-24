@@ -5,7 +5,7 @@
 
     internal class HappyPath
     {
-        private static readonly GUREA05FullPathMustHaveMoreThanOneItem Analyzer = new GUREA05FullPathMustHaveMoreThanOneItem();
+        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
 
         [Test]
         public void TwoLevels()

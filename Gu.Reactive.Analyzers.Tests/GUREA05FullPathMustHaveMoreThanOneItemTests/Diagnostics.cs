@@ -5,6 +5,9 @@
 
     public class Diagnostics
     {
+        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create("GUREA05");
+
         [Test]
         public void OneLevel()
         {
@@ -61,7 +64,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Diagnostics<GUREA05FullPathMustHaveMoreThanOneItem>(fooCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, testCode);
         }
     }
 }

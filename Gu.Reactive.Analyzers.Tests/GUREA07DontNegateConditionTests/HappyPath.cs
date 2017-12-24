@@ -5,7 +5,7 @@
 
     internal class HappyPath
     {
-        private static readonly GUREA07DontNegateCondition Analyzer = new GUREA07DontNegateCondition();
+        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
 
         [Test]
         public void WhenInjectingCondition()
