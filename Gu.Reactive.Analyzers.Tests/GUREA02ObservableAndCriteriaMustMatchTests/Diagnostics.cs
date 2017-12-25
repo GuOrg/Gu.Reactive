@@ -64,7 +64,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void ObservingDifferentThanUsedInCriteria()
+        public void BaseCall()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -88,8 +88,38 @@ namespace RoslynSandbox
                            "  RoslynSandbox.Foo.Value2\r\n" +
                            "Not observed:\r\n" +
                            "  RoslynSandbox.Foo.Value2";
-            var expectedDiagnostic = ExpectedDiagnostic.CreateFromCodeWithErrorsIndicated("GUREA02", message, testCode, out testCode);
-            AnalyzerAssert.Diagnostics<GUREA02ObservableAndCriteriaMustMatch>(expectedDiagnostic, FooCode, testCode);
+            var expectedDiagnostic = ExpectedDiagnostic.Create("GUREA02", message);
+            AnalyzerAssert.Diagnostics<ConstructorAnalyzer>(expectedDiagnostic, FooCode, testCode);
+        }
+
+        [Test]
+        public void New()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    class Bar
+    {
+        public static ICondition Create()
+        {
+            var foo = new Foo();
+            return ↓new Condition(
+                foo.ObservePropertyChangedSlim(x => x.Value1),
+                () => foo.Value2 == 2);
+        }
+    }
+}";
+            var message = "Observable and criteria must match.\r\n" +
+                          "Observed:\r\n" +
+                          "  RoslynSandbox.Foo.Value1\r\n" +
+                          "Used in criteria:\r\n" +
+                          "  RoslynSandbox.Foo.Value2\r\n" +
+                          "Not observed:\r\n" +
+                          "  RoslynSandbox.Foo.Value2";
+            var expectedDiagnostic = ExpectedDiagnostic.Create("GUREA02", message);
+            AnalyzerAssert.Diagnostics<ConstructorAnalyzer>(expectedDiagnostic, FooCode, testCode);
         }
     }
 }
