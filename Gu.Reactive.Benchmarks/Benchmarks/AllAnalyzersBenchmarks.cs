@@ -5,8 +5,6 @@ namespace Gu.Reactive.Benchmarks
     {
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA02ObservableAndCriteriaMustMatchBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA02ObservableAndCriteriaMustMatch());
 
-        private static readonly Gu.Roslyn.Asserts.Benchmark GUREA04PreferSlimBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA04PreferSlim());
-
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA06DontNewConditionBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA06DontNewCondition());
 
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA08InlineSingleLineBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA08InlineSingleLine());
@@ -25,12 +23,6 @@ namespace Gu.Reactive.Benchmarks
         public void GUREA02ObservableAndCriteriaMustMatch()
         {
             GUREA02ObservableAndCriteriaMustMatchBenchmark.Run();
-        }
-
-        [BenchmarkDotNet.Attributes.Benchmark]
-        public void GUREA04PreferSlim()
-        {
-            GUREA04PreferSlimBenchmark.Run();
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]

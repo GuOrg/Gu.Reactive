@@ -5,7 +5,7 @@
 
     internal class HappyPath
     {
-        private static readonly GUREA04PreferSlim Analyzer = new GUREA04PreferSlim();
+        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
 
         private const string FooCode = @"
 namespace RoslynSandbox

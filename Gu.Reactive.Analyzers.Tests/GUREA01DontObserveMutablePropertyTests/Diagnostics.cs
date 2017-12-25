@@ -6,7 +6,7 @@
     public class Diagnostics
     {
         private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create("GUREA01");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA01");
 
         [Test]
         public void ObservingMutablePropertyInSelf()

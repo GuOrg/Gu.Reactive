@@ -116,7 +116,7 @@ namespace RoslynSandbox
         {
             this.Foo = new Foo();
             this.Foo.ObservePropertyChanged(x => x.Value)
-                    .Subscribe(_ => Console.WriteLine(""meh""));
+                    .Subscribe(x => Console.WriteLine(x));
         }
 
         public Foo Foo { get; }

@@ -59,7 +59,7 @@ namespace RoslynSandbox
         {
             var foo = new Foo();
             foo.ObservePropertyChanged(x => x.Value)
-               .Subscribe(_ => Console.WriteLine(string.Empty));
+               .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";
@@ -99,7 +99,7 @@ namespace RoslynSandbox
         {
             var foo = new Foo();
             foo.ObservePropertyChanged(x => x.Value)
-               .Subscribe(_ => Console.WriteLine(string.Empty));
+               .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";
@@ -131,7 +131,7 @@ namespace RoslynSandbox
         public Bar(IFoo foo)
         {
             foo.ObservePropertyChanged(x => x.Value)
-               .Subscribe(_ => Console.WriteLine(string.Empty));
+               .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";
@@ -152,7 +152,7 @@ namespace RoslynSandbox
         public Bar(System.Collections.ObjectModel.ObservableCollection<int> foo)
         {
             foo.ObservePropertyChanged(x => x.Count)
-               .Subscribe(_ => Console.WriteLine(string.Empty));
+               .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";
@@ -184,7 +184,7 @@ namespace RoslynSandbox
         public Bar(IFoo foo)
         {
             foo.ObservePropertyChanged(x => x.Value)
-               .Subscribe(_ => Console.WriteLine(string.Empty));
+               .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";
@@ -217,7 +217,7 @@ namespace RoslynSandbox
         public Bar(T foo)
         {
             foo.ObservePropertyChanged(x => x.Value)
-               .Subscribe(_ => Console.WriteLine(string.Empty));
+               .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";
@@ -397,7 +397,7 @@ namespace RoslynSandbox
         {
             var foo = new Foo();
             foo.ObservePropertyChanged(x => x.Bar.Value)
-               .Subscribe(_ => Console.WriteLine(string.Empty));
+               .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";

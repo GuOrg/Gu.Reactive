@@ -13,6 +13,7 @@
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             GUREA01DontObserveMutableProperty.Descriptor,
             GUREA03PathMustNotify.Descriptor,
+            GUREA04PreferSlim.Descriptor,
             GUREA05FullPathMustHaveMoreThanOneItem.Descriptor,
             GUREA07DontNegateCondition.Descriptor,
             GUREA12ObservableFromEventDelegateType.Descriptor);
@@ -35,6 +36,18 @@
             if (context.Node is InvocationExpressionSyntax invocation &&
                 context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) is IMethodSymbol method)
             {
+                if (method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim &&
+                    TryGetInvalidFullPropertyPath(invocation, context, out var location))
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(GUREA05FullPathMustHaveMoreThanOneItem.Descriptor, location.GetLocation()));
+                }
+
+                if (method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChanged &&
+                    TryGetCanBeSlim(invocation, context, out location))
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(GUREA04PreferSlim.Descriptor, location.GetLocation()));
+                }
+
                 if (method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChanged ||
                     method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChangedSlim ||
                     method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim)
@@ -52,24 +65,6 @@
                     if (TryGetSilentNode(invocation, context, out var node))
                     {
                         context.ReportDiagnostic(Diagnostic.Create(GUREA03PathMustNotify.Descriptor, node.GetLocation()));
-                    }
-
-                    if (method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim)
-                    {
-                        if (invocation.ArgumentList != null &&
-                            invocation.ArgumentList.Arguments.TryGetFirst(out ArgumentSyntax argument))
-                        {
-                            if (argument.Expression is SimpleLambdaExpressionSyntax lambda &&
-                                lambda.Body != null)
-                            {
-                                var firstMember = lambda.Body as MemberAccessExpressionSyntax;
-                                if (firstMember == null ||
-                                    !(firstMember.Expression is MemberAccessExpressionSyntax))
-                                {
-                                    context.ReportDiagnostic(Diagnostic.Create(GUREA05FullPathMustHaveMoreThanOneItem.Descriptor, lambda.Body.GetLocation()));
-                                }
-                            }
-                        }
                     }
                 }
                 else if (method == KnownSymbol.ICondition.Negate)
@@ -90,6 +85,75 @@
                     context.ReportDiagnostic(Diagnostic.Create(GUREA12ObservableFromEventDelegateType.Descriptor, invocation.GetLocation()));
                 }
             }
+        }
+
+        private static bool TryGetInvalidFullPropertyPath(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out SyntaxNode node)
+        {
+            node = null;
+            if (invocation.ArgumentList != null &&
+                invocation.ArgumentList.Arguments.TryGetFirst(out ArgumentSyntax argument))
+            {
+                if (argument.Expression is SimpleLambdaExpressionSyntax lambda &&
+                    lambda.Body != null)
+                {
+                    var firstMember = lambda.Body as MemberAccessExpressionSyntax;
+                    if (!(firstMember?.Expression is MemberAccessExpressionSyntax))
+                    {
+                        node = lambda.Body;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static bool TryGetCanBeSlim(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out SyntaxNode path)
+        {
+            path = null;
+            var argument = invocation.FirstAncestor<ArgumentSyntax>();
+            if (argument != null)
+            {
+                if (argument.TryGetParameter(context.SemanticModel, context.CancellationToken, out var parameter) &&
+                    parameter.Type == KnownSymbol.IObservableOfT)
+                {
+                    if (parameter.Type is INamedTypeSymbol namedType &&
+                        namedType.TypeArguments[0] == KnownSymbol.Object)
+                    {
+                        path = invocation.Expression is MemberAccessExpressionSyntax memberAccess
+                            ? (SyntaxNode)memberAccess.Name
+                            : invocation;
+                        return true;
+                    }
+                }
+            }
+
+            var parentInvocation = invocation.FirstAncestor<InvocationExpressionSyntax>();
+            if (parentInvocation != null)
+            {
+                var parentMethod = (IMethodSymbol)context.SemanticModel.GetSymbolSafe(parentInvocation, context.CancellationToken);
+                if (parentMethod == KnownSymbol.ObservableExtensions.Subscribe &&
+                    parentInvocation.ArgumentList?.Arguments.TryGetSingle(out argument) == true)
+                {
+                    if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
+                    {
+                        using (var pooled = IdentifierNameWalker.Create(lambda.Body))
+                        {
+                            if (pooled.Item.IdentifierNames.TryGetFirst(x => x.Identifier.ValueText == lambda.Parameter.Identifier.ValueText, out IdentifierNameSyntax _))
+                            {
+                                return false;
+                            }
+
+                            path = invocation.Expression is MemberAccessExpressionSyntax memberAccess
+                                ? (SyntaxNode)memberAccess.Name
+                                : invocation;
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
 
         private static bool IsMutable(ISymbol symbol)

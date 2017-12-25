@@ -59,7 +59,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic,new[] { fooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { fooCode, testCode }, fixedCode);
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic,new[] { fooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { fooCode, testCode }, fixedCode);
         }
     }
 }
