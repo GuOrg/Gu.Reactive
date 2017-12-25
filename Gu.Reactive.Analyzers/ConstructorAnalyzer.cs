@@ -14,6 +14,7 @@
         /// <inheritdoc />
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             GUREA02ObservableAndCriteriaMustMatch.Descriptor,
+            GUREA06DontNewCondition.Descriptor,
             GUREA13SyncParametersAndArgs.Descriptor);
 
         /// <inheritdoc />
@@ -52,6 +53,11 @@
                     TryGetObservableAndCriteriaMismatch(objectCreation.ArgumentList, ctor, context, out var observedText, out var criteriaText, out var missingText))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(GUREA02ObservableAndCriteriaMustMatch.Descriptor, objectCreation.GetLocation(), observedText, criteriaText, missingText));
+                }
+
+                if (ctor.ContainingType.Is(KnownSymbol.Condition))
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(GUREA06DontNewCondition.Descriptor, objectCreation.GetLocation()));
                 }
             }
         }

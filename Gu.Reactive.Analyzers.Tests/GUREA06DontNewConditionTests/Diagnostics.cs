@@ -5,6 +5,9 @@
 
     public class Diagnostics
     {
+        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA06");
+
         [Test]
         public void WhenCreatingCondition()
         {
@@ -76,7 +79,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Diagnostics<GUREA06DontNewCondition>(fooCode, conditionCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, conditionCode, testCode);
         }
     }
 }
