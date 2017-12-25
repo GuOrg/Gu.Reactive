@@ -15,6 +15,7 @@
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             GUREA02ObservableAndCriteriaMustMatch.Descriptor,
             GUREA06DontNewCondition.Descriptor,
+            GUREA08InlineSingleLine.Descriptor,
             GUREA09ObservableBeforeCriteria.Descriptor,
             GUREA10DontMergeInObservable.Descriptor,
             GUREA13SyncParametersAndArgs.Descriptor);
@@ -54,6 +55,18 @@
                     {
                         context.ReportDiagnostic(Diagnostic.Create(GUREA10DontMergeInObservable.Descriptor, location.GetLocation()));
                     }
+
+                    if (TryGetObservableArgument(initializer.ArgumentList, baseCtor, out var observableArgument) &&
+                        CanBeInlined(observableArgument, context, out var inlinable))
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA08InlineSingleLine.Descriptor, observableArgument.GetLocation()));
+                    }
+
+                    if (TryGetCriteriaArgument(initializer.ArgumentList, baseCtor, out var criteriaArgument) &&
+                        CanBeInlined(criteriaArgument, context, out inlinable))
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA08InlineSingleLine.Descriptor, inlinable.GetLocation()));
+                    }
                 }
                 else if (baseCtor.ContainingType.IsEither(KnownSymbol.AndCondition, KnownSymbol.OrCondition) &&
                          HasMatchingArgumentAndParameterPositions(initializer, context) == false)
@@ -82,6 +95,53 @@
                 {
                     context.ReportDiagnostic(Diagnostic.Create(GUREA06DontNewCondition.Descriptor, objectCreation.GetLocation()));
                 }
+            }
+        }
+
+        private static bool CanBeInlined(ArgumentSyntax argument, SyntaxNodeAnalysisContext context, out InvocationExpressionSyntax result)
+        {
+            result = null;
+            if (argument == null)
+            {
+                return false;
+            }
+
+            if (argument.Expression is InvocationExpressionSyntax argumentInvocation &&
+                CanBeInlined(argumentInvocation))
+            {
+                result = argumentInvocation;
+                return true;
+            }
+
+            if (argument.Expression is LambdaExpressionSyntax lamda &&
+                lamda.Body is InvocationExpressionSyntax lambdaInvocation &&
+                CanBeInlined(lambdaInvocation))
+            {
+                result = lambdaInvocation;
+                return true;
+            }
+
+            return false;
+
+            bool CanBeInlined(InvocationExpressionSyntax invocation)
+            {
+                if (context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) is IMethodSymbol method &&
+                    method.IsStatic &&
+                    method.TryGetSingleDeclaration<MethodDeclarationSyntax>(context.CancellationToken, out var declaration))
+                {
+                    if (declaration.ExpressionBody != null)
+                    {
+                        return true;
+                    }
+
+                    if (declaration.Body is BlockSyntax block &&
+                        block.Statements.TryGetSingle(out StatementSyntax statement))
+                    {
+                        return statement is ReturnStatementSyntax;
+                    }
+                }
+
+                return false;
             }
         }
 

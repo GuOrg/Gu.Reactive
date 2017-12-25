@@ -108,7 +108,7 @@ namespace RoslynSandbox
     }
 }";
 
-            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic,FooCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, FooCode, testCode);
         }
 
         [Test]
@@ -140,7 +140,7 @@ namespace RoslynSandbox
     }
 }";
 
-            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic,FooCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, FooCode, testCode);
         }
     }
 }

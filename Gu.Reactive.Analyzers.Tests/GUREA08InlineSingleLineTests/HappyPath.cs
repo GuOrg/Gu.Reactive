@@ -5,7 +5,7 @@
 
     internal class HappyPath
     {
-        private static readonly GUREA08InlineSingleLine Analyzer = new GUREA08InlineSingleLine();
+        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
 
         [Test]
         public void WhenSingleLine()

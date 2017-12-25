@@ -6,6 +6,10 @@
 
     public class CodeFix
     {
+        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly InlineSingleLineCodeFix Codefix = new InlineSingleLineCodeFix();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA08");
+
         private const string FooCode = @"
 namespace RoslynSandbox
 {
@@ -87,7 +91,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA08InlineSingleLine, InlineSingleLineCodeFix>(new[] { FooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { FooCode, testCode }, fixedCode);
         }
 
         [Test]
@@ -129,7 +133,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA08InlineSingleLine, InlineSingleLineCodeFix>(new[] { FooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { FooCode, testCode }, fixedCode);
         }
     }
 }
