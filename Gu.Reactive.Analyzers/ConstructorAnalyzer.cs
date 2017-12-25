@@ -16,6 +16,7 @@
             GUREA02ObservableAndCriteriaMustMatch.Descriptor,
             GUREA06DontNewCondition.Descriptor,
             GUREA09ObservableBeforeCriteria.Descriptor,
+            GUREA10DontMergeInObservable.Descriptor,
             GUREA13SyncParametersAndArgs.Descriptor);
 
         /// <inheritdoc />
@@ -48,9 +49,14 @@
                     {
                         context.ReportDiagnostic(Diagnostic.Create(GUREA09ObservableBeforeCriteria.Descriptor, initializer.ArgumentList.GetLocation()));
                     }
+
+                    if (MergesObservable(initializer.ArgumentList, baseCtor, context, out var location))
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA10DontMergeInObservable.Descriptor, location.GetLocation()));
+                    }
                 }
                 else if (baseCtor.ContainingType.IsEither(KnownSymbol.AndCondition, KnownSymbol.OrCondition) &&
-                    HasMatchingArgumentAndParameterPositions(initializer, context) == false)
+                         HasMatchingArgumentAndParameterPositions(initializer, context) == false)
                 {
                     context.ReportDiagnostic(Diagnostic.Create(GUREA13SyncParametersAndArgs.Descriptor, initializer.ArgumentList.GetLocation()));
                 }
@@ -81,46 +87,48 @@
 
         private static bool TryGetObservableAndCriteriaMismatch(ArgumentListSyntax argumentList, IMethodSymbol ctor, SyntaxNodeAnalysisContext context, out string observedText, out string criteriaText, out string missingText)
         {
-            var observableArg = ObservableArg(argumentList, ctor);
-            var criteriaArg = CriteriaArg(argumentList, ctor);
-            using (var observableIdentifiers = IdentifierNameWalker.Create(observableArg, Search.Recursive, context.SemanticModel, context.CancellationToken))
+            if (TryGetObservableArgument(argumentList, ctor, out var observableArg) &&
+                TryGetCriteriaArgument(argumentList, ctor, out var criteriaArg))
             {
-                using (var criteriaIdentifiers = IdentifierNameWalker.Create(criteriaArg, Search.Recursive, context.SemanticModel, context.CancellationToken))
+                using (var observableIdentifiers = IdentifierNameWalker.Create(observableArg, Search.Recursive, context.SemanticModel, context.CancellationToken))
                 {
-                    using (var observed = SetPool<IPropertySymbol>.Create())
+                    using (var criteriaIdentifiers = IdentifierNameWalker.Create(criteriaArg, Search.Recursive, context.SemanticModel, context.CancellationToken))
                     {
-                        foreach (var name in observableIdentifiers.Item.IdentifierNames)
+                        using (var observed = SetPool<IPropertySymbol>.Create())
                         {
-                            if (context.SemanticModel.GetSymbolSafe(name, context.CancellationToken) is IPropertySymbol property)
-                            {
-                                observed.Item.Add(property);
-                            }
-                        }
-
-                        using (var usedInCriteria = SetPool<IPropertySymbol>.Create())
-                        {
-                            foreach (var name in criteriaIdentifiers.Item.IdentifierNames)
+                            foreach (var name in observableIdentifiers.Item.IdentifierNames)
                             {
                                 if (context.SemanticModel.GetSymbolSafe(name, context.CancellationToken) is IPropertySymbol property)
                                 {
-                                    if (!property.ContainingType.IsValueType &&
-                                        !property.IsGetOnly())
-                                    {
-                                        usedInCriteria.Item.Add(property);
-                                    }
+                                    observed.Item.Add(property);
                                 }
                             }
 
-                            using (var missing = SetPool<IPropertySymbol>.Create())
+                            using (var usedInCriteria = SetPool<IPropertySymbol>.Create())
                             {
-                                missing.Item.UnionWith(usedInCriteria.Item);
-                                missing.Item.ExceptWith(observed.Item);
-                                if (missing.Item.Count != 0)
+                                foreach (var name in criteriaIdentifiers.Item.IdentifierNames)
                                 {
-                                    observedText = string.Join(Environment.NewLine, observed.Item.Select(p => $"  {p}"));
-                                    criteriaText = string.Join(Environment.NewLine, usedInCriteria.Item.Select(p => $"  {p}"));
-                                    missingText = string.Join(Environment.NewLine, missing.Item.Select(p => $"  {p}"));
-                                    return true;
+                                    if (context.SemanticModel.GetSymbolSafe(name, context.CancellationToken) is IPropertySymbol property)
+                                    {
+                                        if (!property.ContainingType.IsValueType &&
+                                            !property.IsGetOnly())
+                                        {
+                                            usedInCriteria.Item.Add(property);
+                                        }
+                                    }
+                                }
+
+                                using (var missing = SetPool<IPropertySymbol>.Create())
+                                {
+                                    missing.Item.UnionWith(usedInCriteria.Item);
+                                    missing.Item.ExceptWith(observed.Item);
+                                    if (missing.Item.Count != 0)
+                                    {
+                                        observedText = string.Join(Environment.NewLine, observed.Item.Select(p => $"  {p}"));
+                                        criteriaText = string.Join(Environment.NewLine, usedInCriteria.Item.Select(p => $"  {p}"));
+                                        missingText = string.Join(Environment.NewLine, missing.Item.Select(p => $"  {p}"));
+                                        return true;
+                                    }
                                 }
                             }
                         }
@@ -131,6 +139,27 @@
             observedText = null;
             criteriaText = null;
             missingText = null;
+            return false;
+        }
+
+        private static bool MergesObservable(ArgumentListSyntax argumentList, IMethodSymbol ctor, SyntaxNodeAnalysisContext context, out SyntaxNode location)
+        {
+            if (TryGetObservableArgument(argumentList, ctor, out var argument))
+            {
+                using (var pooled = InvocationWalker.Create(argument, Search.Recursive, context.SemanticModel, context.CancellationToken))
+                {
+                    foreach (var invocation in pooled.Item.Invocations)
+                    {
+                        if (context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) == KnownSymbol.Observable.Merge)
+                        {
+                            location = argument;
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            location = null;
             return false;
         }
 
@@ -162,26 +191,44 @@
             return true;
         }
 
-        private static ArgumentSyntax ObservableArg(ArgumentListSyntax argumentList, IMethodSymbol ctor)
+        private static bool TryGetObservableArgument(ArgumentListSyntax argumentList, IMethodSymbol ctor, out ArgumentSyntax argument)
         {
+            if (ctor.Parameters[0].Type == KnownSymbol.IObservableOfT &&
+                ctor.Parameters[1].Type == KnownSymbol.FuncOfT)
+            {
+                argument = argumentList.Arguments[0];
+                return true;
+            }
+
             if (ctor.Parameters[0].Type == KnownSymbol.FuncOfT &&
                 ctor.Parameters[1].Type == KnownSymbol.IObservableOfT)
             {
-                return argumentList.Arguments[1];
+                argument = argumentList.Arguments[1];
+                return true;
             }
 
-            return argumentList.Arguments[0];
+            argument = null;
+            return false;
         }
 
-        private static ArgumentSyntax CriteriaArg(ArgumentListSyntax argumentList, IMethodSymbol ctor)
+        private static bool TryGetCriteriaArgument(ArgumentListSyntax argumentList, IMethodSymbol ctor, out ArgumentSyntax argument)
         {
+            if (ctor.Parameters[0].Type == KnownSymbol.IObservableOfT &&
+                ctor.Parameters[1].Type == KnownSymbol.FuncOfT)
+            {
+                argument = argumentList.Arguments[1];
+                return true;
+            }
+
             if (ctor.Parameters[0].Type == KnownSymbol.FuncOfT &&
                 ctor.Parameters[1].Type == KnownSymbol.IObservableOfT)
             {
-                return argumentList.Arguments[0];
+                argument = argumentList.Arguments[0];
+                return true;
             }
 
-            return argumentList.Arguments[1];
+            argument = null;
+            return false;
         }
     }
 }

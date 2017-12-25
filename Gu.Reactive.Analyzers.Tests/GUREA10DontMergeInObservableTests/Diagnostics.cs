@@ -3,8 +3,11 @@
     using Gu.Roslyn.Asserts;
     using NUnit.Framework;
 
-    public class CodeFix
+    public class Diagnostics
     {
+        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA10");
+
         private const string FooCode = @"
 namespace RoslynSandbox
 {
@@ -105,7 +108,7 @@ namespace RoslynSandbox
     }
 }";
 
-            AnalyzerAssert.Diagnostics<GUREA10DontMergeInObservable>(FooCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic,FooCode, testCode);
         }
 
         [Test]
@@ -137,7 +140,7 @@ namespace RoslynSandbox
     }
 }";
 
-            AnalyzerAssert.Diagnostics<GUREA10DontMergeInObservable>(FooCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic,FooCode, testCode);
         }
     }
 }

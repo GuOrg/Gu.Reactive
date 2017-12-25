@@ -5,7 +5,7 @@
 
     internal class HappyPath
     {
-        private static readonly GUREA10DontMergeInObservable Analyzer = new GUREA10DontMergeInObservable();
+        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
 
         private const string FooCode = @"
 namespace RoslynSandbox

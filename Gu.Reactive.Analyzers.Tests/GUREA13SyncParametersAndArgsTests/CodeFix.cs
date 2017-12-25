@@ -9,7 +9,7 @@
         private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly SortArgsCodeFix SortArgsCodeFix = new SortArgsCodeFix();
         private static readonly SortParametersCodeFix SortParametersCodeFix = new SortParametersCodeFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create("GUREA13");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA13");
 
         private const string Condition1 = @"
 namespace RoslynSandbox
@@ -67,7 +67,7 @@ namespace RoslynSandbox
     public class FooCondition : AndCondition
     {
         public FooCondition(Condition1 condition1, Condition2 condition2)
-            ↓: base(condition2, condition1)
+            : base↓(condition2, condition1)
         {
         }
     }
@@ -103,7 +103,7 @@ namespace RoslynSandbox
             Condition1 condition1,
             Condition2 condition2,
             Condition3 condition3)
-            ↓: base(
+            : base↓(
                 condition2,
                 condition3,
                 condition1)
@@ -145,7 +145,7 @@ namespace RoslynSandbox
     public class FooCondition : AndCondition
     {
         public FooCondition(Condition1 condition1, Condition2 condition2)
-            ↓: base(condition2, condition1)
+            : base↓(condition2, condition1)
         {
         }
     }
@@ -181,7 +181,7 @@ namespace RoslynSandbox
             Condition2 condition2,
             Condition3 condition3,
             Condition1 condition1)
-            ↓: base(
+            : base↓(
                 condition1,
                 condition2,
                 condition3)
