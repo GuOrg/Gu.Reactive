@@ -5,11 +5,7 @@ namespace Gu.Reactive.Benchmarks
     {
         private static readonly Gu.Roslyn.Asserts.Benchmark ConstructorAnalyzerBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.ConstructorAnalyzer());
 
-        private static readonly Gu.Roslyn.Asserts.Benchmark GUREA06DontNewConditionBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA06DontNewCondition());
-
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA08InlineSingleLineBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA08InlineSingleLine());
-
-        private static readonly Gu.Roslyn.Asserts.Benchmark GUREA09ObservableBeforeCriteriaBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA09ObservableBeforeCriteria());
 
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA10DontMergeInObservableBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA10DontMergeInObservable());
 
@@ -24,21 +20,9 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]
-        public void GUREA06DontNewCondition()
-        {
-            GUREA06DontNewConditionBenchmark.Run();
-        }
-
-        [BenchmarkDotNet.Attributes.Benchmark]
         public void GUREA08InlineSingleLine()
         {
             GUREA08InlineSingleLineBenchmark.Run();
-        }
-
-        [BenchmarkDotNet.Attributes.Benchmark]
-        public void GUREA09ObservableBeforeCriteria()
-        {
-            GUREA09ObservableBeforeCriteriaBenchmark.Run();
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]

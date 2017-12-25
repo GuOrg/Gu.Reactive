@@ -6,6 +6,10 @@
 
     public class CodeFix
     {
+        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly ObservableBeforeCriteriaCodeFix Codefix = new ObservableBeforeCriteriaCodeFix();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create("GUREA09");
+
         private const string FooCode = @"
 namespace RoslynSandbox
 {
@@ -45,7 +49,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void WhenCriteriaBeforeObservable()
+        public void BaseCall()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -55,7 +59,7 @@ namespace RoslynSandbox
     public class FooCondition : Condition
     {
         public FooCondition(Foo foo)
-            ↓: base(
+            : base↓(
                 () => foo.Value == 2,
                 foo.ObservePropertyChangedSlim(x => x.Value))
         {
@@ -78,7 +82,46 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA09ObservableBeforeCriteria, ObservableBeforeCriteriaCodeFix>(new[] { FooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { FooCode, testCode }, fixedCode);
+        }
+
+        [Test]
+        public void New()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    class Bar
+    {
+        public static ICondition Create()
+        {
+            var foo = new Foo();
+            return new Condition↓(
+                () => foo.Value == 2,
+                foo.ObservePropertyChangedSlim(x => x.Value));
+        }
+    }
+}";
+
+            var fixedCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    class Bar
+    {
+        public static ICondition Create()
+        {
+            var foo = new Foo();
+            return new Condition(
+                foo.ObservePropertyChangedSlim(x => x.Value),
+                () => foo.Value == 2);
+        }
+    }
+}";
+            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic,  new[] { FooCode, testCode }, fixedCode);
         }
     }
 }

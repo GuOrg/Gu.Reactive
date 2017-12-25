@@ -5,7 +5,8 @@
 
     internal class HappyPath
     {
-        private static readonly GUREA09ObservableBeforeCriteria Analyzer = new GUREA09ObservableBeforeCriteria();
+        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA09");
 
         private const string FooCode = @"
 namespace RoslynSandbox
@@ -46,7 +47,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void WhenCorrectOrder()
+        public void BaseCall()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -64,7 +65,29 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, ExpectedDiagnostic, FooCode, testCode);
+        }
+
+        [Test]
+        public void CorrectNew()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    class Bar
+    {
+        public static ICondition Create()
+        {
+            var foo = new Foo();
+            return new Condition(
+                foo.ObservePropertyChangedSlim(x => x.Value),
+                () => foo.Value == 2);
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, ExpectedDiagnostic, FooCode, testCode);
         }
     }
 }

@@ -15,6 +15,7 @@
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             GUREA02ObservableAndCriteriaMustMatch.Descriptor,
             GUREA06DontNewCondition.Descriptor,
+            GUREA09ObservableBeforeCriteria.Descriptor,
             GUREA13SyncParametersAndArgs.Descriptor);
 
         /// <inheritdoc />
@@ -35,24 +36,40 @@
             if (context.Node is ConstructorInitializerSyntax initializer &&
                 context.SemanticModel.GetSymbolSafe(initializer, context.CancellationToken) is IMethodSymbol baseCtor)
             {
-                if (baseCtor.ContainingType == KnownSymbol.Condition &&
-                    TryGetObservableAndCriteriaMismatch(initializer.ArgumentList, baseCtor, context, out var observedText, out var criteriaText, out var missingText))
+                if (baseCtor.ContainingType == KnownSymbol.Condition)
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(GUREA02ObservableAndCriteriaMustMatch.Descriptor, initializer.GetLocation(), observedText, criteriaText, missingText));
+                    if (TryGetObservableAndCriteriaMismatch(initializer.ArgumentList, baseCtor, context, out var observedText, out var criteriaText, out var missingText))
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA02ObservableAndCriteriaMustMatch.Descriptor, initializer.GetLocation(), observedText, criteriaText, missingText));
+                    }
+
+                    if (baseCtor.Parameters[0].Type == KnownSymbol.FuncOfT &&
+                        baseCtor.Parameters[1].Type == KnownSymbol.IObservableOfT)
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA09ObservableBeforeCriteria.Descriptor, initializer.ArgumentList.GetLocation()));
+                    }
                 }
                 else if (baseCtor.ContainingType.IsEither(KnownSymbol.AndCondition, KnownSymbol.OrCondition) &&
                     HasMatchingArgumentAndParameterPositions(initializer, context) == false)
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(GUREA13SyncParametersAndArgs.Descriptor, initializer.GetLocation()));
+                    context.ReportDiagnostic(Diagnostic.Create(GUREA13SyncParametersAndArgs.Descriptor, initializer.ArgumentList.GetLocation()));
                 }
             }
             else if (context.Node is ObjectCreationExpressionSyntax objectCreation &&
                      context.SemanticModel.GetSymbolSafe(objectCreation, context.CancellationToken) is IMethodSymbol ctor)
             {
-                if (ctor.ContainingType == KnownSymbol.Condition &&
-                    TryGetObservableAndCriteriaMismatch(objectCreation.ArgumentList, ctor, context, out var observedText, out var criteriaText, out var missingText))
+                if (ctor.ContainingType == KnownSymbol.Condition)
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(GUREA02ObservableAndCriteriaMustMatch.Descriptor, objectCreation.GetLocation(), observedText, criteriaText, missingText));
+                    if (TryGetObservableAndCriteriaMismatch(objectCreation.ArgumentList, ctor, context, out var observedText, out var criteriaText, out var missingText))
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA02ObservableAndCriteriaMustMatch.Descriptor, objectCreation.GetLocation(), observedText, criteriaText, missingText));
+                    }
+
+                    if (ctor.Parameters[0].Type == KnownSymbol.FuncOfT &&
+                        ctor.Parameters[1].Type == KnownSymbol.IObservableOfT)
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA09ObservableBeforeCriteria.Descriptor, objectCreation.ArgumentList.GetLocation()));
+                    }
                 }
 
                 if (ctor.ContainingType.Is(KnownSymbol.Condition))

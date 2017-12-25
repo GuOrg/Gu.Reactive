@@ -33,15 +33,15 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                     continue;
                 }
 
-                var initializer = syntaxRoot.FindNode(diagnostic.Location.SourceSpan)
-                                            .FirstAncestorOrSelf<ConstructorInitializerSyntax>();
-                if (initializer != null)
+                var argumentList = syntaxRoot.FindNode(diagnostic.Location.SourceSpan)
+                                            .FirstAncestorOrSelf<ArgumentListSyntax>();
+                if (argumentList != null)
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             "Move observable before criteria.",
                             cancellationToken => ApplyObservableBeforeCriteriaFixAsync(
-                                cancellationToken, context, initializer),
+                                cancellationToken, context, argumentList),
                             nameof(ObservableBeforeCriteriaCodeFix)),
                         diagnostic);
                 }
@@ -51,18 +51,18 @@ namespace Gu.Reactive.Analyzers.CodeFixes
         private static async Task<Document> ApplyObservableBeforeCriteriaFixAsync(
                 CancellationToken cancellationToken,
                 CodeFixContext context,
-                ConstructorInitializerSyntax initializer)
+                ArgumentListSyntax argumentList)
         {
             var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
                                              .ConfigureAwait(false);
             editor.ReplaceNode(
-                initializer.ArgumentList.Arguments[0].Expression,
-                initializer.ArgumentList.Arguments[1].Expression
-                           .WithLeadingTrivia(initializer.ArgumentList.Arguments[0].Expression.GetLeadingTrivia()));
+                argumentList.Arguments[0].Expression,
+                argumentList.Arguments[1].Expression
+                           .WithLeadingTrivia(argumentList.Arguments[0].Expression.GetLeadingTrivia()));
             editor.ReplaceNode(
-                initializer.ArgumentList.Arguments[1].Expression,
-                initializer.ArgumentList.Arguments[0].Expression
-                           .WithLeadingTrivia(initializer.ArgumentList.Arguments[1].Expression.GetLeadingTrivia()));
+                argumentList.Arguments[1].Expression,
+                argumentList.Arguments[0].Expression
+                           .WithLeadingTrivia(argumentList.Arguments[1].Expression.GetLeadingTrivia()));
             return editor.GetChangedDocument();
         }
     }
