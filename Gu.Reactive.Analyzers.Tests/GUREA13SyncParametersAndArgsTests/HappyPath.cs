@@ -5,7 +5,7 @@
 
     public class HappyPath
     {
-        private static readonly GUREA13SyncParametersAndArgs Analyzer = new GUREA13SyncParametersAndArgs();
+        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
         private const string Condition1 = @"
 namespace RoslynSandbox
 {

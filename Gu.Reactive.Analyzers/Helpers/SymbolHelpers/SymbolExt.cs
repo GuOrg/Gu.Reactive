@@ -12,6 +12,11 @@
             return symbol is T1 || symbol is T2;
         }
 
+        internal static bool IsEither(this ITypeSymbol symbol, QualifiedType t1, QualifiedType t2)
+        {
+            return symbol == t1 || symbol == t2;
+        }
+
         internal static bool TryGetSingleDeclaration<T>(this ISymbol symbol, CancellationToken cancellationToken, out T declaration)
             where T : SyntaxNode
         {

@@ -6,6 +6,11 @@
 
     public class CodeFix
     {
+        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly SortArgsCodeFix SortArgsCodeFix = new SortArgsCodeFix();
+        private static readonly SortParametersCodeFix SortParametersCodeFix = new SortParametersCodeFix();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create("GUREA13");
+
         private const string Condition1 = @"
 namespace RoslynSandbox
 {
@@ -81,7 +86,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA13SyncParametersAndArgs, SortArgsCodeFix>(new[] { Condition1, Condition2, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, SortArgsCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
         }
 
         [Test]
@@ -126,7 +131,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA13SyncParametersAndArgs, SortArgsCodeFix>(new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, SortArgsCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
         }
 
         [Test]
@@ -159,7 +164,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA13SyncParametersAndArgs, SortParametersCodeFix>(new[] { Condition1, Condition2, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, SortParametersCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
         }
 
         [Test]
@@ -204,7 +209,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix<GUREA13SyncParametersAndArgs, SortParametersCodeFix>(new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, SortParametersCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
         }
     }
 }

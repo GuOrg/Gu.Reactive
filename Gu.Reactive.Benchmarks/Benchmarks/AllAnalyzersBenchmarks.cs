@@ -3,6 +3,8 @@ namespace Gu.Reactive.Benchmarks
 {
     public class AllAnalyzersBenchmarks
     {
+        private static readonly Gu.Roslyn.Asserts.Benchmark ConstructorAnalyzerBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.ConstructorAnalyzer());
+
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA02ObservableAndCriteriaMustMatchBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA02ObservableAndCriteriaMustMatch());
 
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA06DontNewConditionBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA06DontNewCondition());
@@ -15,9 +17,13 @@ namespace Gu.Reactive.Benchmarks
 
         private static readonly Gu.Roslyn.Asserts.Benchmark GUREA11PreferObservableFromEventBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA11PreferObservableFromEvent());
 
-        private static readonly Gu.Roslyn.Asserts.Benchmark GUREA13SyncParametersAndArgsBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA13SyncParametersAndArgs());
-
         private static readonly Gu.Roslyn.Asserts.Benchmark InvocationAnalyzerBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.InvocationAnalyzer());
+
+        [BenchmarkDotNet.Attributes.Benchmark]
+        public void ConstructorAnalyzer()
+        {
+            ConstructorAnalyzerBenchmark.Run();
+        }
 
         [BenchmarkDotNet.Attributes.Benchmark]
         public void GUREA02ObservableAndCriteriaMustMatch()
@@ -53,12 +59,6 @@ namespace Gu.Reactive.Benchmarks
         public void GUREA11PreferObservableFromEvent()
         {
             GUREA11PreferObservableFromEventBenchmark.Run();
-        }
-
-        [BenchmarkDotNet.Attributes.Benchmark]
-        public void GUREA13SyncParametersAndArgs()
-        {
-            GUREA13SyncParametersAndArgsBenchmark.Run();
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]
