@@ -36,21 +36,6 @@ namespace RoslynSandbox
     }
 }";
 
-        private const string Condition3 = @"
-namespace RoslynSandbox
-{
-    using System.Reactive.Linq;
-    using Gu.Reactive;
-
-    public class Condition3 : Condition
-    {
-        public Condition3()
-            : base(Observable.Never<object>(), () => true)
-        {
-        }
-    }
-}";
-
         [Test]
         public void AndConditionSortArgs()
         {

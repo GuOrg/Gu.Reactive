@@ -8,7 +8,7 @@
     {
         private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly InjectNegatedCodeFix Codefix = new InjectNegatedCodeFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create("GUREA07");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA07");
 
         private const string FooCode = @"
 namespace RoslynSandbox
