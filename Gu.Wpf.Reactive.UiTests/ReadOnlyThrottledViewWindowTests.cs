@@ -37,7 +37,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 var window = app.MainWindow;
                 window.FindButton("Reset").Invoke();
                 window.FindButton("Reset").Invoke();
-                window.FindButton("AddOne").Click();
+                window.FindButton("AddOne").Invoke();
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("DataGridIList").FindDataGrid().ColumnValues(0));
@@ -54,7 +54,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 var window = app.MainWindow;
                 window.FindButton("Reset").Invoke();
                 window.FindButton("Reset").Invoke();
-                window.FindButton("AddFour").Click();
+                window.FindButton("AddFour").Invoke();
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, window.FindGroupBox("DataGridIList").FindDataGrid().ColumnValues(0));
@@ -71,7 +71,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 var window = app.MainWindow;
                 window.FindButton("Reset").Invoke();
                 window.FindButton("Reset").Invoke();
-                window.FindButton("AddOneOnOtherThread").Click();
+                window.FindButton("AddOneOnOtherThread").Invoke();
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("DataGridIList").FindDataGrid().ColumnValues(0));
@@ -88,7 +88,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 var window = app.MainWindow;
                 window.FindButton("Reset").Invoke();
                 window.FindButton("Reset").Invoke();
-                window.FindButton("AddFour").Click();
+                window.FindButton("AddFour").Invoke();
                 var listBox = window.FindGroupBox("ListBox").FindListBox();
                 var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
 

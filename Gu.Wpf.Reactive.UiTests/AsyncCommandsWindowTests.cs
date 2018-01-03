@@ -61,7 +61,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 var cancelButton = groupBox.FindButton("Cancel");
 
                 Assert.AreEqual(false, cancelButton.IsEnabled);
-                button.Click();
+                button.Invoke();
                 Assert.AreEqual(true, cancelButton.IsEnabled);
             }
         }

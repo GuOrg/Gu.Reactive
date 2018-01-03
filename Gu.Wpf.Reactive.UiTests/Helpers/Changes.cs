@@ -1,13 +1,14 @@
-﻿namespace Gu.Wpf.Reactive.UiTests
+namespace Gu.Wpf.Reactive.UiTests
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows.Automation;
     using Gu.Wpf.UiAutomation;
 
     public class ChangesGroupBox : GroupBox
     {
-        public ChangesGroupBox(BasicAutomationElementBase basicAutomationElement)
-            : base(basicAutomationElement)
+        public ChangesGroupBox(AutomationElement automationElement)
+            : base(automationElement)
         {
         }
 

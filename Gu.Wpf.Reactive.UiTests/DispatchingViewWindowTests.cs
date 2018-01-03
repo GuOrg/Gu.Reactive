@@ -36,7 +36,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 var window = app.MainWindow;
                 window.FindButton("Reset").Invoke();
 
-                window.FindButton("AddOne").Click();
+                window.FindButton("AddOne").Invoke();
                 CollectionAssert.AreEqual(new[] { "1", string.Empty }, window.FindGroupBox("ListBox").FindListBox().Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1", string.Empty }, window.FindGroupBox("DataGrid").FindDataGrid().ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "Add" }, window.FindChangesGroupBox("ViewChanges").Texts);
@@ -55,7 +55,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 var listBox = window.FindGroupBox("ListBox").FindListBox();
                 var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
 
-                window.FindButton("AddFour").Click();
+                window.FindButton("AddFour").Invoke();
 
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, listBox.Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, dataGrid.ColumnValues(0));
@@ -74,7 +74,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 var listBox = window.FindGroupBox("ListBox").FindListBox();
                 var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
 
-                window.FindButton("AddOneOnOtherThread").Click();
+                window.FindButton("AddOneOnOtherThread").Invoke();
                 CollectionAssert.AreEqual(new[] { "1", string.Empty }, listBox.Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1", string.Empty }, dataGrid.ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "Add" }, window.FindChangesGroupBox("ViewChanges").Texts);
@@ -92,7 +92,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 var listBox = window.FindGroupBox("ListBox").FindListBox();
                 var dataGrid = window.FindGroupBox("DataGrid").FindDataGrid();
 
-                window.FindButton("AddFour").Click();
+                window.FindButton("AddFour").Invoke();
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, listBox.Items.Select(x => x.FindTextBlock().Text));
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4", string.Empty }, dataGrid.ColumnValues(0));
                 CollectionAssert.AreEqual(new[] { "Reset" }, window.FindChangesGroupBox("ViewChanges").Texts);

@@ -45,8 +45,8 @@ namespace Gu.Wpf.Reactive.UiTests
             using (var app = Application.Launch(Info.ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
-                window.FindButton("Clear").Click();
-                window.FindButton("Add to source").Click();
+                window.FindButton("Clear").Invoke();
+                window.FindButton("Add to source").Invoke();
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("Source").FindListBox().Items.Select(x => x.FindTextBlock().Text));
 
                 var dataGridAndEVents = new DataGridAndEvents(window.FindGroupBox(header));
@@ -67,8 +67,8 @@ namespace Gu.Wpf.Reactive.UiTests
             using (var app = Application.Launch(Info.ExeFileName, WindowName))
             {
                 var window = app.MainWindow;
-                window.FindButton("Clear").Click();
-                window.FindButton("Add to source on thread").Click();
+                window.FindButton("Clear").Invoke();
+                window.FindButton("Add to source on thread").Invoke();
                 CollectionAssert.AreEqual(new[] { "1" }, window.FindGroupBox("Source").FindListBox().Items.Select(x => x.FindTextBlock().Text));
 
                 var dataGridAndEVents = new DataGridAndEvents(window.FindGroupBox(header));

@@ -16,7 +16,7 @@ namespace Gu.Wpf.Reactive.UiTests
                 var tab = window.FindTabControl();
                 foreach (var tabItem in tab.Items)
                 {
-                    tabItem.Click();
+                    tabItem.Select();
                 }
             }
         }
