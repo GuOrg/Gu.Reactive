@@ -1,5 +1,6 @@
 namespace Gu.Wpf.Reactive.UiTests
 {
+    using System;
     using System.Linq;
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
@@ -139,6 +140,7 @@ namespace Gu.Wpf.Reactive.UiTests
 
                 window.FindButton("Reset").Invoke();
                 window.FindButton("AddTen").Invoke();
+                Wait.For(TimeSpan.FromMilliseconds(100));
 
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, listBox.Items.Select(x => x.FindTextBlock().Text).ToArray());
                 CollectionAssert.AreEqual(new[] { "1", "2", "3", "4" }, dataGrid.ColumnValues(0));
