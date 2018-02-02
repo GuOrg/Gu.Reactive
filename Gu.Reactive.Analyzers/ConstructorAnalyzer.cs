@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Analyzers
+namespace Gu.Reactive.Analyzers
 {
     using System;
     using System.Collections.Immutable;
@@ -57,15 +57,15 @@
                     }
 
                     if (TryGetObservableArgument(initializer.ArgumentList, baseCtor, out var observableArgument) &&
-                        CanBeInlined(observableArgument, context, out var inlinable))
+                        CanBeInlined(observableArgument, context, out _))
                     {
                         context.ReportDiagnostic(Diagnostic.Create(GUREA08InlineSingleLine.Descriptor, observableArgument.GetLocation()));
                     }
 
                     if (TryGetCriteriaArgument(initializer.ArgumentList, baseCtor, out var criteriaArgument) &&
-                        CanBeInlined(criteriaArgument, context, out inlinable))
+                        CanBeInlined(criteriaArgument, context, out var inline))
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA08InlineSingleLine.Descriptor, inlinable.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA08InlineSingleLine.Descriptor, inline.GetLocation()));
                     }
                 }
                 else if (baseCtor.ContainingType.IsEither(KnownSymbol.AndCondition, KnownSymbol.OrCondition) &&
@@ -113,8 +113,8 @@
                 return true;
             }
 
-            if (argument.Expression is LambdaExpressionSyntax lamda &&
-                lamda.Body is InvocationExpressionSyntax lambdaInvocation &&
+            if (argument.Expression is LambdaExpressionSyntax lambda &&
+                lambda.Body is InvocationExpressionSyntax lambdaInvocation &&
                 CanBeInlined(lambdaInvocation))
             {
                 result = lambdaInvocation;
@@ -171,7 +171,8 @@
                                     if (context.SemanticModel.GetSymbolSafe(name, context.CancellationToken) is IPropertySymbol property)
                                     {
                                         if (!property.ContainingType.IsValueType &&
-                                            !property.IsGetOnly())
+                                            !property.IsGetOnly() &&
+                                            !property.IsPrivateSetAssignedInCtorOnly(context.SemanticModel, context.CancellationToken))
                                         {
                                             usedInCriteria.Item.Add(property);
                                         }

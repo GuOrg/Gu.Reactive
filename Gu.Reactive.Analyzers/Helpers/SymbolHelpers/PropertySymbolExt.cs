@@ -1,5 +1,6 @@
 namespace Gu.Reactive.Analyzers
 {
+    using System.Threading;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -17,18 +18,43 @@ namespace Gu.Reactive.Analyzers
                 return true;
             }
 
-            if (!TryGetDeclaration(property, out BasePropertyDeclarationSyntax declaration))
+            if (!TryGetDeclaration(property, out var declaration))
             {
                 return false;
             }
 
-            if (!TryGetGetter(declaration, out AccessorDeclarationSyntax getter) ||
+            if (!TryGetGetter(declaration, out var getter) ||
                 getter.Body != null)
             {
                 return false;
             }
 
             return !TryGetSetter(declaration, out AccessorDeclarationSyntax _);
+        }
+
+        internal static bool IsPrivateSetAssignedInCtorOnly(this IPropertySymbol property, SemanticModel semanticModel, CancellationToken cancellationToken)
+        {
+            if (TryGetDeclaration(property, out var declaration) &&
+                TryGetGetter(declaration, out var getter) &&
+                getter.Body == null &&
+                TryGetSetter(declaration, out var setter) &&
+                setter.Body == null)
+            {
+                using (var walker = MutationWalker.Borrow(declaration.FirstAncestor<TypeDeclarationSyntax>(), property, semanticModel, cancellationToken))
+                {
+                    foreach (var mutation in walker)
+                    {
+                        if (mutation.FirstAncestor<ConstructorDeclarationSyntax>() == null)
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static bool TryGetGetter(BasePropertyDeclarationSyntax declaration, out AccessorDeclarationSyntax getter)

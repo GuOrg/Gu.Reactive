@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA02ObservableAndCriteriaMustMatchTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA02ObservableAndCriteriaMustMatchTests
 {
     using Gu.Roslyn.Asserts;
     using NUnit.Framework;
@@ -157,6 +157,75 @@ namespace RoslynSandbox
         }
 
         public int Value { get; }
+    }
+}";
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : Condition
+    {
+        public FooCondition(Foo foo)
+            : base(
+                foo.ObservePropertyChangedSlim(x => x.Bar),
+                () => foo.Bar.Value == 2)
+        {
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, fooCode, barCode, testCode);
+        }
+
+        [Test]
+        public void WhenUsingPrivateSetPropertyOnlyAssignedInCtor()
+        {
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public sealed class Foo : INotifyPropertyChanged
+    {
+        private Bar bar;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public Bar Bar
+        {
+            get => this.bar;
+
+            set
+            {
+                if (ReferenceEquals(value, this.bar))
+                {
+                    return;
+                }
+
+                this.bar = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}";
+
+            var barCode = @"
+namespace RoslynSandbox
+{
+    public class Bar
+    {
+        public Bar(int value)
+        {
+            Value = value;
+        }
+
+        public int Value { get; private set; }
     }
 }";
             var testCode = @"
