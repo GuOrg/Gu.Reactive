@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Analyzers.CodeFixes
+namespace Gu.Reactive.Analyzers.CodeFixes
 {
     using System.Collections.Immutable;
     using System.Composition;
@@ -18,6 +18,8 @@
         /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
             ImmutableArray.Create(GUREA07DontNegateCondition.DiagnosticId);
+
+        public override FixAllProvider GetFixAllProvider() => null;
 
         /// <inheritdoc/>
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
@@ -68,7 +70,6 @@
                                     cancellationToken => ApplyInjectNegatedFixAsync(cancellationToken, context, parameterSyntax, invocation),
                                     nameof(InjectNegatedCodeFix)),
                                 diagnostic);
-                            continue;
                         }
                     }
                 }

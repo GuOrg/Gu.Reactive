@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Analyzers.CodeFixes
+namespace Gu.Reactive.Analyzers.CodeFixes
 {
     using System.Collections.Immutable;
     using System.Composition;
@@ -30,6 +30,8 @@
         /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
             ImmutableArray.Create(GUREA11PreferObservableFromEvent.DiagnosticId);
+
+        public override FixAllProvider GetFixAllProvider() => null;
 
         /// <inheritdoc/>
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
