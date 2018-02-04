@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Analyzers
+namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Generic;
     using System.Threading;
@@ -26,7 +26,7 @@
         private readonly List<InvocationExpressionSyntax> invocations = new List<InvocationExpressionSyntax>();
         private readonly List<ConstructorInitializerSyntax> initializers = new List<ConstructorInitializerSyntax>();
         private readonly List<ObjectCreationExpressionSyntax> objectCreations = new List<ObjectCreationExpressionSyntax>();
-        private readonly HashSet<IMethodSymbol> ctors = new HashSet<IMethodSymbol>(SymbolComparer.Default);
+        private readonly HashSet<IMethodSymbol> ctors = new HashSet<IMethodSymbol>(MethodSymbolComparer.Default);
 
         private IMethodSymbol method;
         private ITypeSymbol contextType;
