@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Analyzers
+namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
     using Microsoft.CodeAnalysis;
@@ -37,7 +37,7 @@
                 context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) is IMethodSymbol method)
             {
                 if (method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim &&
-                    TryGetInvalidFullPropertyPath(invocation, context, out var location))
+                    TryGetInvalidFullPropertyPath(invocation, out var location))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(GUREA05FullPathMustHaveMoreThanOneItem.Descriptor, location.GetLocation()));
                 }
@@ -87,7 +87,7 @@
             }
         }
 
-        private static bool TryGetInvalidFullPropertyPath(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out SyntaxNode node)
+        private static bool TryGetInvalidFullPropertyPath(InvocationExpressionSyntax invocation, out SyntaxNode node)
         {
             node = null;
             if (invocation.ArgumentList != null &&
