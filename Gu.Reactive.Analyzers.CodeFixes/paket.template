@@ -1,7 +1,7 @@
 ﻿type file
 title Gu.Reactive.Analyzers
 id Gu.Reactive.Analyzers
-version 0.1.3.2-dev
+version 0.1.3.3-dev
 authors Johan Larsson
 owners Johan Larsson
 copyright Copyright Johan Larsson 2017
@@ -10,7 +10,7 @@ description Roslyn analyzers.
 tags Roslyn Diagnostic Analyzer Reactive
 
 releasenotes
-  Fix dependencies.
+  BUGFIX: GUREA02 handle symbols from other projects.
 
 projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
