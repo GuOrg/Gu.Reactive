@@ -1,8 +1,7 @@
-﻿namespace Gu.Reactive.Analyzers
+namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Generic;
     using System.Threading;
-
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -41,7 +40,7 @@
         public override void VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
         {
             var ctor = this.semanticModel.GetDeclaredSymbolSafe(node, this.cancellationToken);
-            if (SymbolComparer.Equals(this.type, ctor.ContainingType))
+            if (TypeSymbolComparer.Equals(this.type, ctor.ContainingType))
             {
                 if (ctor.DeclaredAccessibility != Accessibility.Private)
                 {
@@ -60,7 +59,7 @@
         public override void VisitObjectCreationExpression(ObjectCreationExpressionSyntax node)
         {
             var ctor = this.semanticModel.GetSymbolSafe(node, this.cancellationToken) as IMethodSymbol;
-            if (SymbolComparer.Equals(this.type, ctor?.ContainingType))
+            if (TypeSymbolComparer.Equals(this.type, ctor?.ContainingType))
             {
                 this.objectCreations.Add(node);
             }

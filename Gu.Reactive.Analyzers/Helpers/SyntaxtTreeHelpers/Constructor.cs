@@ -1,8 +1,7 @@
-﻿namespace Gu.Reactive.Analyzers
+namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Generic;
     using System.Threading;
-
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -13,7 +12,7 @@
         {
             var created = semanticModel.GetSymbolSafe(creation, cancellationToken) as IMethodSymbol;
             var ctorSymbol = semanticModel.GetDeclaredSymbolSafe(ctor, cancellationToken);
-            if (SymbolComparer.Equals(ctorSymbol, created))
+            if (MethodSymbolComparer.Equals(ctorSymbol, created))
             {
                 return true;
             }
@@ -154,7 +153,7 @@
 
             if (TryGetInitializer(other, cancellationToken, out ConstructorInitializerSyntax initializer))
             {
-                if (SymbolComparer.Equals(first.ContainingType, other.ContainingType) &&
+                if (TypeSymbolComparer.Equals(first.ContainingType, other.ContainingType) &&
                    !initializer.ThisOrBaseKeyword.IsKind(SyntaxKind.ThisKeyword))
                 {
                     return false;
@@ -168,7 +167,7 @@
             }
             else
             {
-                if (SymbolComparer.Equals(first.ContainingType, other.ContainingType) ||
+                if (TypeSymbolComparer.Equals(first.ContainingType, other.ContainingType) ||
                     !other.ContainingType.Is(first.ContainingType))
                 {
                     return false;
@@ -176,7 +175,7 @@
             }
 
             var next = semanticModel.GetSymbolSafe(initializer, cancellationToken);
-            if (SymbolComparer.Equals(first, next))
+            if (MethodSymbolComparer.Equals(first, next))
             {
                 return true;
             }
@@ -185,7 +184,7 @@
             {
                 if (TryGetDefault(other.ContainingType?.BaseType, out next))
                 {
-                    return SymbolComparer.Equals(first, next);
+                    return MethodSymbolComparer.Equals(first, next);
                 }
 
                 return false;

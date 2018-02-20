@@ -1,8 +1,7 @@
-﻿namespace Gu.Reactive.Analyzers
+namespace Gu.Reactive.Analyzers
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
-
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -46,22 +45,6 @@
             }
 
             return member != null;
-        }
-
-        internal static bool IsSameType(this ITypeSymbol first, ITypeSymbol other)
-        {
-            if (first == null ||
-                other == null)
-            {
-                return false;
-            }
-
-            if (first.IsDefinition ^ other.IsDefinition)
-            {
-                return IsSameType(first.OriginalDefinition, other.OriginalDefinition);
-            }
-
-            return first.Equals(other);
         }
 
         internal static bool IsRepresentationPreservingConversion(
@@ -121,7 +104,7 @@
             }
 
             var typeInfo = semanticModel.GetTypeInfoSafe(value, cancellationToken);
-            return namedTypeSymbol.TypeArguments[0].IsSameType(typeInfo.Type);
+            return TypeSymbolComparer.Equals(namedTypeSymbol.TypeArguments[0], typeInfo.Type);
         }
 
         internal static bool Is(this ITypeSymbol type, QualifiedType qualifiedType)
@@ -171,7 +154,7 @@
             {
                 foreach (var @interface in type.AllInterfaces)
                 {
-                    if (IsSameType(@interface, other))
+                    if (TypeSymbolComparer.Equals(@interface, other))
                     {
                         return true;
                     }
@@ -182,7 +165,7 @@
 
             while (type?.BaseType != null)
             {
-                if (IsSameType(type, other))
+                if (TypeSymbolComparer.Equals(type, other))
                 {
                     return true;
                 }

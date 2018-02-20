@@ -1,11 +1,12 @@
 namespace Gu.Reactive.Analyzers
 {
+    using System;
     using System.Collections.Generic;
     using Microsoft.CodeAnalysis;
 
-    internal class MethodSymbolComparer : IEqualityComparer<IMethodSymbol>
+    public class MethodSymbolComparer : IEqualityComparer<IMethodSymbol>
     {
-        internal static readonly MethodSymbolComparer Default = new MethodSymbolComparer();
+        public static readonly MethodSymbolComparer Default = new MethodSymbolComparer();
 
         private MethodSymbolComparer()
         {
@@ -28,6 +29,14 @@ namespace Gu.Reactive.Analyzers
                    NamedTypeSymbolComparer.Equals(x.ContainingType, y.ContainingType) &&
                    ParametersMatches(x, y);
         }
+
+        //// ReSharper disable once UnusedMember.Global
+        //// ReSharper disable UnusedParameter.Global
+#pragma warning disable SA1313 // Parameter names must begin with lower-case letter
+        [Obsolete("Should only be called with arguments of type IMethodSymbol.", error: true)]
+        public static new bool Equals(object _, object __) => throw new InvalidOperationException("This is hidden so that it is not called by accident.");
+#pragma warning restore SA1313 // Parameter names must begin with lower-case letter
+        //// ReSharper restore UnusedParameter.Global
 
         /// <inheritdoc />
         bool IEqualityComparer<IMethodSymbol>.Equals(IMethodSymbol x, IMethodSymbol y) => Equals(x, y);

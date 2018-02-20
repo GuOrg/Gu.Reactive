@@ -2,7 +2,6 @@ namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Generic;
     using System.Threading;
-
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -76,7 +75,7 @@ namespace Gu.Reactive.Analyzers
         public override void VisitInvocationExpression(InvocationExpressionSyntax node)
         {
             var invokedMethod = this.semanticModel.GetSymbolSafe(node, this.cancellationToken) as IMethodSymbol;
-            if (SymbolComparer.Equals(this.method, invokedMethod))
+            if (MethodSymbolComparer.Equals(this.method, invokedMethod))
             {
                 this.invocations.Add(node);
             }
@@ -92,7 +91,7 @@ namespace Gu.Reactive.Analyzers
                 if (this.IsValidCtor(calledCtor))
                 {
                     var callingCtor = this.semanticModel.GetDeclaredSymbolSafe(node.Parent, this.cancellationToken) as IMethodSymbol;
-                    if (SymbolComparer.Equals(calledCtor.ContainingType, callingCtor?.ContainingType))
+                    if (TypeSymbolComparer.Equals(calledCtor.ContainingType, callingCtor?.ContainingType))
                     {
                         this.initializers.Add(node);
                     }
@@ -130,12 +129,12 @@ namespace Gu.Reactive.Analyzers
 
         private bool IsValidCtor(IMethodSymbol ctor)
         {
-            if (!SymbolComparer.Equals(this.method, ctor))
+            if (!MethodSymbolComparer.Equals(this.method, ctor))
             {
                 return false;
             }
 
-            if (SymbolComparer.Equals(this.contextType, ctor?.ContainingType))
+            if (TypeSymbolComparer.Equals(this.contextType, ctor?.ContainingType))
             {
                 return true;
             }

@@ -4,15 +4,15 @@ namespace Gu.Reactive.Analyzers
     using System.Collections.Generic;
     using Microsoft.CodeAnalysis;
 
-    public class TypeSymbolComparer : IEqualityComparer<ITypeSymbol>
+    public class ParameterSymbolComparer : IEqualityComparer<IParameterSymbol>
     {
-        public static readonly TypeSymbolComparer Default = new TypeSymbolComparer();
+        public static readonly ParameterSymbolComparer Default = new ParameterSymbolComparer();
 
-        private TypeSymbolComparer()
+        private ParameterSymbolComparer()
         {
         }
 
-        public static bool Equals(ITypeSymbol x, ITypeSymbol y)
+        public static bool Equals(IParameterSymbol x, IParameterSymbol y)
         {
             if (ReferenceEquals(x, y))
             {
@@ -25,29 +25,23 @@ namespace Gu.Reactive.Analyzers
                 return false;
             }
 
-            if (x is INamedTypeSymbol xNamedType &&
-                y is INamedTypeSymbol yNamedType)
-            {
-                return NamedTypeSymbolComparer.Equals(xNamedType, yNamedType);
-            }
-
             return x.MetadataName == y.MetadataName &&
-                   x.ContainingNamespace?.MetadataName == y.ContainingNamespace?.MetadataName;
+                   SymbolComparer.Equals(x.ContainingSymbol, y.ContainingSymbol);
         }
 
         //// ReSharper disable once UnusedMember.Global
         //// ReSharper disable UnusedParameter.Global
 #pragma warning disable SA1313 // Parameter names must begin with lower-case letter
-        [Obsolete("Should only be called with arguments of type ITypeSymbol.", error: true)]
+        [Obsolete("Should only be called with arguments of type IParameterSymbol.", error: true)]
         public static new bool Equals(object _, object __) => throw new InvalidOperationException("This is hidden so that it is not called by accident.");
 #pragma warning restore SA1313 // Parameter names must begin with lower-case letter
         //// ReSharper restore UnusedParameter.Global
 
         /// <inheritdoc />
-        bool IEqualityComparer<ITypeSymbol>.Equals(ITypeSymbol x, ITypeSymbol y) => Equals(x, y);
+        bool IEqualityComparer<IParameterSymbol>.Equals(IParameterSymbol x, IParameterSymbol y) => Equals(x, y);
 
         /// <inheritdoc />
-        public int GetHashCode(ITypeSymbol obj)
+        public int GetHashCode(IParameterSymbol obj)
         {
             return obj?.MetadataName.GetHashCode() ?? 0;
         }

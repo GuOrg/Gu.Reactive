@@ -1,4 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedMember.Global
 namespace Gu.Reactive.Analyzers
 {
     using System.Threading;
@@ -61,7 +61,7 @@ namespace Gu.Reactive.Analyzers
 
             var symbol = semanticModel.GetTypeInfoSafe(expression, cancellationToken)
                                       .Type;
-            return symbol.IsSameType(type);
+            return TypeSymbolComparer.Equals(symbol, type);
         }
     }
 }
