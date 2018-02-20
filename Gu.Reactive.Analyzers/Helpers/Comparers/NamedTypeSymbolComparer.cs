@@ -26,7 +26,8 @@ namespace Gu.Reactive.Analyzers
             }
 
             if (x.MetadataName != y.MetadataName ||
-                x.ContainingNamespace?.MetadataName != y.ContainingNamespace?.MetadataName ||
+                !TypeSymbolComparer.Equals(x.ContainingType, y.ContainingType) ||
+                !NamespaceSymbolComparer.Equals(x.ContainingNamespace, y.ContainingNamespace) ||
                 x.Arity != y.Arity)
             {
                 return false;

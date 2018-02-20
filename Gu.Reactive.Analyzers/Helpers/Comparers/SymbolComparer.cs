@@ -55,6 +55,12 @@ namespace Gu.Reactive.Analyzers
                 return NamedTypeSymbolComparer.Equals(xNamedType, yNamedType);
             }
 
+            if (x is INamespaceSymbol xNamespace &&
+                y is INamespaceSymbol yNamespace)
+            {
+                return NamespaceSymbolComparer.Equals(xNamespace, yNamespace);
+            }
+
             if (x is IParameterSymbol xParameter &&
                 y is IParameterSymbol yParameter)
             {
@@ -96,6 +102,9 @@ namespace Gu.Reactive.Analyzers
 
         [Obsolete("Should only be called with arguments of type ISymbol.", error: true)]
         public static bool Equals(INamedTypeSymbol _, INamedTypeSymbol __) => throw new InvalidOperationException("This is hidden so that it is not called by accident.");
+
+        [Obsolete("Should only be called with arguments of type ISymbol.", error: true)]
+        public static bool Equals(INamespaceSymbol _, INamespaceSymbol __) => throw new InvalidOperationException("This is hidden so that it is not called by accident.");
 
         [Obsolete("Should only be called with arguments of type ISymbol.", error: true)]
         public static bool Equals(IParameterSymbol _, IParameterSymbol __) => throw new InvalidOperationException("This is hidden so that it is not called by accident.");
