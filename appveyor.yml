@@ -4,5 +4,9 @@ before_build:
 - ps: dotnet restore -v d
  
 configuration: Release
+
 build:
   verbosity: minimal
+
+on_failure:
+  - ps: Get-ChildItem $env:temp\*.png | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }

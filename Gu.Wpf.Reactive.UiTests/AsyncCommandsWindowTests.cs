@@ -1,5 +1,7 @@
 namespace Gu.Wpf.Reactive.UiTests
 {
+    using System;
+    using System.IO;
     using Gu.Wpf.UiAutomation;
     using NUnit.Framework;
 
@@ -52,17 +54,25 @@ namespace Gu.Wpf.Reactive.UiTests
         [TestCase("AsyncCancelableParameterCommand")]
         public void CancelCommand(string header)
         {
-            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            try
             {
-                var window = app.MainWindow;
-                window.FindTextBox("Delay").Text = "200";
-                var groupBox = window.FindGroupBox(header);
-                var button = groupBox.FindButton("Run");
-                var cancelButton = groupBox.FindButton("Cancel");
+                using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+                {
+                    var window = app.MainWindow;
+                    window.FindTextBox("Delay").Text = "200";
+                    var groupBox = window.FindGroupBox(header);
+                    var button = groupBox.FindButton("Run");
+                    var cancelButton = groupBox.FindButton("Cancel");
 
-                Assert.AreEqual(false, cancelButton.IsEnabled);
-                button.Invoke();
-                Assert.AreEqual(true, cancelButton.IsEnabled);
+                    Assert.AreEqual(false, cancelButton.IsEnabled);
+                    button.Invoke();
+                    Assert.AreEqual(true, cancelButton.IsEnabled);
+                }
+            }
+            catch (TimeoutException e)
+            {
+                Capture.ScreenToFile(Path.Combine(Path.GetTempPath(), "AsyncCommandsWindowTests.CancelCommand.png"));
+                throw;
             }
         }
     }
