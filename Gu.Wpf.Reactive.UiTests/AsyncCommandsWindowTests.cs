@@ -69,7 +69,7 @@ namespace Gu.Wpf.Reactive.UiTests
                     Assert.AreEqual(true, cancelButton.IsEnabled);
                 }
             }
-            catch (TimeoutException e)
+            catch (TimeoutException)
             {
                 Capture.ScreenToFile(Path.Combine(Path.GetTempPath(), "AsyncCommandsWindowTests.CancelCommand.png"));
                 throw;
