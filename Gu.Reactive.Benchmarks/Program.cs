@@ -1,4 +1,4 @@
-﻿#pragma warning disable 162
+#pragma warning disable 162
 namespace Gu.Reactive.Benchmarks
 {
     using System;
@@ -8,6 +8,7 @@ namespace Gu.Reactive.Benchmarks
     using BenchmarkDotNet.Reports;
     using BenchmarkDotNet.Running;
     using Gu.Reactive.Analyzers;
+    using Gu.Reactive.Internals;
     using Gu.Roslyn.Asserts;
 
     public class Program
@@ -25,7 +26,7 @@ namespace Gu.Reactive.Benchmarks
                 // Warmup
                 benchmark.Run();
                 Console.WriteLine("Attach profiler and press any key to continue...");
-                Console.ReadKey();
+                Console.ReadKey().IgnoreReturnValue();
                 benchmark.Run();
             }
             else if (true)

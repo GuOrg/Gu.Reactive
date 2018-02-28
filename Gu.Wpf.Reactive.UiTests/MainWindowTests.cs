@@ -1,3 +1,4 @@
+#pragma warning disable GU0011 // Don't ignore the return value.
 namespace Gu.Wpf.Reactive.UiTests
 {
     using Gu.Wpf.UiAutomation;

@@ -160,7 +160,7 @@ namespace Gu.Reactive.Analyzers
                             {
                                 if (context.SemanticModel.GetSymbolSafe(name, context.CancellationToken) is IPropertySymbol property)
                                 {
-                                    observed.Item.Add(property);
+                                    observed.Item.Add(property).IgnoreReturnValue();
                                 }
                             }
 
@@ -174,7 +174,7 @@ namespace Gu.Reactive.Analyzers
                                             !property.IsGetOnly() &&
                                             !property.IsPrivateSetAssignedInCtorOnly(context.SemanticModel, context.CancellationToken))
                                         {
-                                            usedInCriteria.Item.Add(property);
+                                            usedInCriteria.Item.Add(property).IgnoreReturnValue();
                                         }
                                     }
                                 }

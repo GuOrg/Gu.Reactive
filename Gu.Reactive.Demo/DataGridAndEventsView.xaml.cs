@@ -1,9 +1,10 @@
-﻿namespace Gu.Reactive.Demo
+namespace Gu.Reactive.Demo
 {
     using System;
     using System.Collections;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
+    using System.Reactive.Disposables;
     using System.Reactive.Linq;
     using System.Windows;
     using System.Windows.Controls;
@@ -11,7 +12,7 @@
     /// <summary>
     /// Interaction logic for DataGridAndEventsView.xaml
     /// </summary>
-    public partial class DataGridAndEventsView : UserControl
+    public partial class DataGridAndEventsView : UserControl, IDisposable
     {
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source),
@@ -33,6 +34,9 @@
             typeof(string),
             typeof(DataGridAndEventsView),
             new PropertyMetadata(default(string)));
+
+        private readonly SerialDisposable disposable = new SerialDisposable();
+        private bool disposed;
 
         public DataGridAndEventsView()
         {
@@ -58,6 +62,17 @@
             set => this.SetValue(HeaderProperty, value);
         }
 
+        public void Dispose()
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.disposable.Dispose();
+        }
+
         private static object CoerceSource(DependencyObject d, object basevalue)
         {
             ((DataGridAndEventsView)d).Changes?.Clear();
@@ -67,10 +82,17 @@
         private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var dataGridAndEventsView = (DataGridAndEventsView)d;
-            var notifyCollectionChanged = e.NewValue as INotifyCollectionChanged;
-            notifyCollectionChanged.ObserveCollectionChangedSlim(signalInitial: false)
-                                   .ObserveOnDispatcher()
-                                   .Subscribe(x => dataGridAndEventsView.Changes.Add(x));
+            if (e.NewValue is INotifyCollectionChanged notifyCollectionChanged)
+            {
+                dataGridAndEventsView.disposable.Disposable = notifyCollectionChanged
+                                                              .ObserveCollectionChangedSlim(signalInitial: false)
+                                                              .ObserveOnDispatcher()
+                                                              .Subscribe(x => dataGridAndEventsView.Changes.Add(x));
+            }
+            else
+            {
+                dataGridAndEventsView.disposable.Disposable = null;
+            }
         }
     }
 }

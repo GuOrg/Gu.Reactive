@@ -78,8 +78,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                     using (var actual = view.SubscribeAll())
                     {
                         source.Add(4);
-                        await Task.Delay(TimeSpan.FromMilliseconds(20))
-                                  .ConfigureAwait(false);
+                        await Task.Delay(TimeSpan.FromMilliseconds(40)).ConfigureAwait(false);
                         CollectionAssert.AreEqual(source, view);
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     }

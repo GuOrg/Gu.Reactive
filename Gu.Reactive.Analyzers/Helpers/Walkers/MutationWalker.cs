@@ -66,7 +66,8 @@ namespace Gu.Reactive.Analyzers
         internal static MutationWalker Borrow(SyntaxNode node, ISymbol symbol, SemanticModel semanticModel, CancellationToken cancellationToken)
         {
             var walker = BorrowAndVisit(node, () => new MutationWalker());
-            walker.mutations.RemoveAll(x => !IsForSymbol(x, symbol, semanticModel, cancellationToken));
+            walker.mutations.RemoveAll(x => !IsForSymbol(x, symbol, semanticModel, cancellationToken))
+                            .IgnoreReturnValue();
             return walker;
         }
 
