@@ -2,11 +2,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
-    <CodeAnalysisRuleSet>Gu.Reactive.Analyzers.Tests.ruleset</CodeAnalysisRuleSet>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     <NoWarn>NU1605</NoWarn>
+    <CodeAnalysisRuleSet>Gu.Reactive.Analyzers.Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -20,5 +20,6 @@
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" />
     <ProjectReference Include="..\Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj" />
   </ItemGroup>
+
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

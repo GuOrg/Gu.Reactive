@@ -2,16 +2,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
-    <CodeAnalysisRuleSet>Gu.Reactive.Tests.ruleset</CodeAnalysisRuleSet>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <CodeAnalysisRuleSet>Gu.Reactive.Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>    
+  
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" />
   </ItemGroup>
+  
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

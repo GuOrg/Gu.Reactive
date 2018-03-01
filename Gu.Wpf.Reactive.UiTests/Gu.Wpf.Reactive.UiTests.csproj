@@ -2,9 +2,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
-    <CodeAnalysisRuleSet>Gu.Wpf.Reactive.UiTests.ruleset</CodeAnalysisRuleSet>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <CodeAnalysisRuleSet>Gu.Wpf.Reactive.UiTests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

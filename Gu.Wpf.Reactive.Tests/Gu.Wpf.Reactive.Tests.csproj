@@ -2,19 +2,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
-    <CodeAnalysisRuleSet>Gu.Wpf.Reactive.Tests.ruleset</CodeAnalysisRuleSet>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <CodeAnalysisRuleSet>Gu.Wpf.Reactive.Tests.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>    
+  
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive.Tests\Gu.Reactive.Tests.csproj" />
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" />
     <ProjectReference Include="..\Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj" />
   </ItemGroup>
+  
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
