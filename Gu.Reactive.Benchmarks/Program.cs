@@ -1,3 +1,4 @@
+// ReSharper disable HeuristicUnreachableCode
 #pragma warning disable 162
 namespace Gu.Reactive.Benchmarks
 {
@@ -54,21 +55,16 @@ namespace Gu.Reactive.Benchmarks
 
         private static IEnumerable<Summary> RunSingle<T>()
         {
-            var summaries = new[] { BenchmarkRunner.Run<T>() };
-            return summaries;
+            yield return BenchmarkRunner.Run<T>();
         }
 
         private static void CopyResult(Summary summary)
         {
-            Console.WriteLine($"DestinationDirectory: {BenchmarksDirectory}");
-            if (Directory.Exists(BenchmarksDirectory))
-            {
-                var sourceFileName = Directory.EnumerateFiles(summary.ResultsDirectoryPath)
-                                              .Single(x => x.EndsWith(summary.Title + "-report-github.md"));
-                var destinationFileName = Path.Combine(BenchmarksDirectory, summary.Title + ".md");
-                Console.WriteLine($"Copy: {sourceFileName} -> {destinationFileName}");
-                File.Copy(sourceFileName, destinationFileName, overwrite: true);
-            }
+            var sourceFileName = Directory.EnumerateFiles(summary.ResultsDirectoryPath, $"*{summary.Title}-report-github.md")
+                                          .Single();
+            var destinationFileName = Path.Combine(summary.ResultsDirectoryPath, "..\\..\\Benchmarks", summary.Title + ".md");
+            Console.WriteLine($"Copy: {sourceFileName} -> {destinationFileName}");
+            File.Copy(sourceFileName, destinationFileName, overwrite: true);
         }
     }
 }
