@@ -89,7 +89,6 @@
     <Rule Id="GU0007" Action="None" />
     <Rule Id="GU0008" Action="None" />
     <Rule Id="GU0010" Action="Warning" />
-    <Rule Id="GU0011" Action="None" />
     <Rule Id="GU0020" Action="Warning" />
     <Rule Id="GU0021" Action="Warning" />
     <Rule Id="GU0022" Action="Warning" />
