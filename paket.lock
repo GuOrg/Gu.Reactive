@@ -216,8 +216,8 @@ GROUP Analyzers
 NUGET
   remote: http://www.nuget.org/api/v2
     AsyncUsageAnalyzers (1.0.0-alpha003)
-    Gu.Analyzers (1.2.9.1-dev)
-    IDisposableAnalyzers (2.0.0.2)
+    Gu.Analyzers (1.2.10-dev)
+    IDisposableAnalyzers (2.0.1)
     JetBrains.Annotations (11.1)
       System.Runtime (>= 4.1) - restriction: && (< net10) (>= netstandard1.0)
     Microsoft.NETCore.Platforms (2.0.1) - restriction: || (&& (< monoandroid) (< monotouch) (< net10) (>= netstandard1.5) (< win8) (< wpa81) (< xamarinios) (< xamarinmac) (< xamarintvos) (< xamarinwatchos)) (&& (< monoandroid) (< net10) (>= netstandard1.0) (< netstandard1.2) (< win8) (< wp8)) (&& (< monoandroid) (< net10) (>= netstandard1.2) (< netstandard1.3) (< win8) (< wpa81)) (&& (< monoandroid) (< net10) (>= netstandard1.3) (< netstandard1.5) (< win8) (< wpa81)) (&& (< net10) (>= netstandard1.0) (< portable-net45+win8+wp8+wpa81))

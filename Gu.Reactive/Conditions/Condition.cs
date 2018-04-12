@@ -1,4 +1,4 @@
-﻿// ReSharper disable VirtualMemberNeverOverridden.Global
+// ReSharper disable VirtualMemberNeverOverridden.Global
 // ReSharper disable MemberCanBePrivate.Global
 namespace Gu.Reactive
 {
@@ -93,7 +93,9 @@ namespace Gu.Reactive
         /// Evaluates the criteria and returns if it is satisfied.
         /// Notifies via PropertyChanged when it changes.
         /// </summary>
+#pragma warning disable INPC010 // The property sets a different field than it returns.
         public bool? IsSatisfied
+#pragma warning restore INPC010 // The property sets a different field than it returns.
         {
             get
             {

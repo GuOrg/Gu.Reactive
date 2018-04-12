@@ -1,4 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable MemberCanBePrivate.Global
 namespace Gu.Reactive
 {
     using System;
@@ -22,7 +22,7 @@ namespace Gu.Reactive
         public NegatedCondition(ICondition condition)
         {
             this.condition = condition;
-            this.Name = $"Not_{this.condition.Name}";
+            this.Name = $"Not_{condition.Name}";
 
             this.subscription = condition.ObserveIsSatisfiedChanged()
                                          .Subscribe(

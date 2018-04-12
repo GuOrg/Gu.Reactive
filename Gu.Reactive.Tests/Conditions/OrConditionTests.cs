@@ -19,7 +19,6 @@ namespace Gu.Reactive.Tests.Conditions
         [TestCase(null, true, true, true)]
         [TestCase(null, null, true, true)]
         [TestCase(false, null, true, true)]
-        [TestCase(true, null, true, true)]
         [TestCase(true, true, false, true)]
         [TestCase(true, false, null, true)]
         [TestCase(false, false, false, false)]

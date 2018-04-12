@@ -53,7 +53,7 @@ namespace Gu.Reactive.Internals
             this.Getter = getter;
             this.onTrackedPropertyChanged = (o, e) =>
                 {
-                    if (NotifyPropertyChangedExt.IsMatch(e, this.Getter.Property))
+                    if (NotifyPropertyChangedExt.IsMatch(e, getter.Property))
                     {
                         this.OnTrackedPropertyChanged(o, e);
                     }

@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
 
@@ -24,8 +24,8 @@
             : base(action, _ => condition.IsSatisfied == true)
         {
             this.Condition = condition;
-            this.subscription = this.Condition.ObserveIsSatisfiedChanged()
-                                     .Subscribe(_ => this.RaiseCanExecuteChanged());
+            this.subscription = condition.ObserveIsSatisfiedChanged()
+                                         .Subscribe(_ => this.RaiseCanExecuteChanged());
         }
 
         /// <inheritdoc/>

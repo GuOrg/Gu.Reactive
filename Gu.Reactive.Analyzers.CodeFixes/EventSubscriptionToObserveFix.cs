@@ -81,8 +81,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                         context.RegisterCodeFix(
                             CodeAction.Create(
                                 "Observe.Event",
-                                cancellationToken => ApplyObserveEventLamdaFixAsync(
-                                    cancellationToken, context, assignment, usesArg),
+                                cancellationToken => ApplyObserveEventLamdaFixAsync(cancellationToken, context, assignment, usesArg),
                                 nameof(EventSubscriptionToObserveFix)),
                             diagnostic);
                     }

@@ -1,4 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable MemberCanBePrivate.Global
 namespace Gu.Reactive
 {
     using System;
@@ -55,7 +55,7 @@ namespace Gu.Reactive
 
             this.isSatisfied = isSatisfied;
             this.subscription = this.ObserveItemPropertyChangedSlim(x => x.IsSatisfied)
-                                    .Subscribe(_ => this.IsSatisfied = this.isSatisfied(this));
+                                    .Subscribe(_ => this.IsSatisfied = isSatisfied(this));
             this.previousIsSatisfied = isSatisfied(this);
         }
 

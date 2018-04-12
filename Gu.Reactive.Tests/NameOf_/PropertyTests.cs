@@ -1,4 +1,5 @@
-﻿// ReSharper disable UnassignedGetOnlyAutoProperty
+// ReSharper disable UnassignedGetOnlyAutoProperty
+#pragma warning disable GU0011 // Don't ignore the return value.
 #pragma warning disable 618
 namespace Gu.Reactive.Tests.NameOf_
 {

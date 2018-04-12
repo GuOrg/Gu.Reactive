@@ -20,7 +20,7 @@ namespace Gu.Reactive
                 () => prerequisites.IsSatisfied)
         {
             this.prerequisites = prerequisites;
-            this.prerequisites.CollectionChanged += this.OnPreRequisitesChanged;
+            prerequisites.CollectionChanged += this.OnPreRequisitesChanged;
         }
 
         /// <inheritdoc/>

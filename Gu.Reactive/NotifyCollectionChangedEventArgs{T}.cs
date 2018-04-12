@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -20,8 +20,8 @@
         public NotifyCollectionChangedEventArgs(NotifyCollectionChangedEventArgs args)
         {
             this.args = args;
-            this.NewItems = GetItems(this.args.NewItems);
-            this.OldItems = GetItems(this.args.OldItems);
+            this.NewItems = GetItems(args.NewItems);
+            this.OldItems = GetItems(args.OldItems);
         }
 
         /// <summary>Gets the list of new items involved in the change.</summary>

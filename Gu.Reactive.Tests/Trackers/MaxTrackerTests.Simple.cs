@@ -30,7 +30,6 @@ namespace Gu.Reactive.Tests.Trackers
 
             [TestCase(0, 4, 4, 1)]
             [TestCase(2, 4, 4, 1)]
-            [TestCase(0, 4, 4, 1)]
             [TestCase(1, 3, 3, 0)]
             public void Replace(int index, int value, int expectedValue, int expectedCount)
             {

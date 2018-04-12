@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Internals
+namespace Gu.Reactive.Internals
 {
     using System;
     using System.Threading;
@@ -88,7 +88,7 @@
             public Reader(ReaderWriterLockSlim rwLock)
             {
                 this.rwLock = rwLock;
-                this.rwLock.EnterReadLock();
+                rwLock.EnterReadLock();
             }
 
             public void Dispose()
@@ -114,7 +114,7 @@
             public UpgradeableReader(ReaderWriterLockSlim rwLock)
             {
                 this.rwLock = rwLock;
-                this.rwLock.EnterUpgradeableReadLock();
+                rwLock.EnterUpgradeableReadLock();
             }
 
             public void Dispose()
@@ -140,7 +140,7 @@
             public Writer(ReaderWriterLockSlim rwLock)
             {
                 this.rwLock = rwLock;
-                this.rwLock.EnterWriteLock();
+                rwLock.EnterWriteLock();
             }
 
             public void Dispose()
