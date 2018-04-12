@@ -509,20 +509,17 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             private static Mock<IDisposableVm> CreateStrictMock(int value, int index)
             {
                 var mock = new Mock<IDisposableVm>(MockBehavior.Strict);
-                mock.SetupGet(x => x.Value)
-                    .Returns(value);
+                mock.SetupGet(x => x.Value).Returns(value);
 
                 mock.Name = "Original";
 
-                mock.SetupGet(x => x.Index)
-                    .Returns(index);
+                mock.SetupGet(x => x.Index).Returns(index);
                 return mock;
             }
 
             private static Mock<IDisposableVm> WithIndex(Mock<IDisposableVm> mock, int index)
             {
-                mock.SetupGet(x => x.Index)
-                    .Returns(index);
+                mock.SetupGet(x => x.Index).Returns(index);
                 return mock;
             }
 

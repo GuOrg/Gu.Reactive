@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Internals
+namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections.Generic;
@@ -24,7 +24,7 @@
                     ints.Clear();
 
                     // this throws collection was modified.
-                    enumerator.MoveNext();
+                    enumerator.MoveNext().IgnoreReturnValue();
                 }
             }
             catch (InvalidOperationException e)
