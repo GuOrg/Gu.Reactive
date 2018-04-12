@@ -9,6 +9,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Data;
+    using Gu.Reactive.Internals;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
 
@@ -45,13 +46,16 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             {
                 var listBox = new ListBox();
                 var source = new ObservableCollection<int> { 1, 2, 3 };
-                using (var view = new FilteredView<int>(source, x => x == 2, TimeSpan.Zero, WpfSchedulers.Dispatcher, leaveOpen: true, triggers: new Subject<object>()))
+                using (var subject = new Subject<object>())
                 {
-                    var binding = new Binding { Source = view, };
-                    BindingOperations.SetBinding(listBox, ItemsControl.ItemsSourceProperty, binding);
-                    view.Refresh();
-                    await Application.Current.Dispatcher.SimulateYield();
-                    CollectionAssert.AreEqual(new[] { 2 }, listBox.Items); // Filtered
+                    using (var view = new FilteredView<int>(source, x => x == 2, TimeSpan.Zero, WpfSchedulers.Dispatcher, leaveOpen: true, triggers: subject))
+                    {
+                        var binding = new Binding { Source = view, };
+                        BindingOperations.SetBinding(listBox, ItemsControl.ItemsSourceProperty, binding).IgnoreReturnValue();
+                        view.Refresh();
+                        await Application.Current.Dispatcher.SimulateYield();
+                        CollectionAssert.AreEqual(new[] { 2 }, listBox.Items); // Filtered
+                    }
                 }
             }
         }

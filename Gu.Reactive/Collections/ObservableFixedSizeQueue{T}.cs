@@ -5,7 +5,6 @@ namespace Gu.Reactive
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Reactive.Concurrency;
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// A fixed size queue that notifies.

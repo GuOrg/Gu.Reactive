@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.Tests
+namespace Gu.Wpf.Reactive.Tests
 {
     using System;
     using System.Threading.Tasks;
@@ -27,7 +27,7 @@
             listener = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
-            command.CanExecute(0); // Touching it after to prevent GC
+            Assert.NotNull(command); // Touching it after to prevent GC
         }
 
         [Test]
