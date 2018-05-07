@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Analyzers
+namespace Gu.Reactive.Analyzers
 {
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
@@ -6,17 +6,12 @@
 
     internal static class BasePropertyDeclarationSyntaxExt
     {
-        internal static bool IsPropertyOrIndexer(this BasePropertyDeclarationSyntax declaration)
-        {
-            return declaration is PropertyDeclarationSyntax || declaration is IndexerDeclarationSyntax;
-        }
-
-        internal static bool TryGetGetAccessorDeclaration(this BasePropertyDeclarationSyntax property, out AccessorDeclarationSyntax result)
+        internal static bool TryGetGetter(this BasePropertyDeclarationSyntax property, out AccessorDeclarationSyntax result)
         {
             return TryGetAccessorDeclaration(property, SyntaxKind.GetAccessorDeclaration, out result);
         }
 
-        internal static bool TryGetSetAccessorDeclaration(this BasePropertyDeclarationSyntax property, out AccessorDeclarationSyntax result)
+        internal static bool TryGetSetter(this BasePropertyDeclarationSyntax property, out AccessorDeclarationSyntax result)
         {
             return TryGetAccessorDeclaration(property, SyntaxKind.SetAccessorDeclaration, out result);
         }

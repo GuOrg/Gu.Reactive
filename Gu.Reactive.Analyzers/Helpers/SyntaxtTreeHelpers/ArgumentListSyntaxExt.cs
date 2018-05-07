@@ -6,7 +6,7 @@ namespace Gu.Reactive.Analyzers
 
     internal static class ArgumentListSyntaxExt
     {
-        internal static bool TryGetMatchingArgument(this ArgumentListSyntax arguments, IParameterSymbol parameter, out ArgumentSyntax argument)
+        internal static bool TryFindArgument(this ArgumentListSyntax arguments, IParameterSymbol parameter, out ArgumentSyntax argument)
         {
             argument = null;
             if (parameter == null ||
@@ -44,7 +44,7 @@ namespace Gu.Reactive.Analyzers
                 return false;
             }
 
-            if (TryGetMatchingArgument(arguments, parameter, out ArgumentSyntax argument))
+            if (TryFindArgument(arguments, parameter, out ArgumentSyntax argument))
             {
                 value = argument.Expression;
                 return value != null;

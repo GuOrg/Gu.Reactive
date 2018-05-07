@@ -91,7 +91,7 @@ namespace Gu.Reactive.Analyzers
         {
             node = null;
             if (invocation.ArgumentList != null &&
-                invocation.ArgumentList.Arguments.TryGetFirst(out ArgumentSyntax argument))
+                invocation.ArgumentList.Arguments.TryFirst(out ArgumentSyntax argument))
             {
                 if (argument.Expression is SimpleLambdaExpressionSyntax lambda &&
                     lambda.Body != null)
@@ -133,13 +133,13 @@ namespace Gu.Reactive.Analyzers
             {
                 var parentMethod = (IMethodSymbol)context.SemanticModel.GetSymbolSafe(parentInvocation, context.CancellationToken);
                 if (parentMethod == KnownSymbol.ObservableExtensions.Subscribe &&
-                    parentInvocation.ArgumentList?.Arguments.TryGetSingle(out argument) == true)
+                    parentInvocation.ArgumentList?.Arguments.TrySingle(out argument) == true)
                 {
                     if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
                     {
                         using (var pooled = IdentifierNameWalker.Create(lambda.Body))
                         {
-                            if (pooled.Item.IdentifierNames.TryGetFirst(x => x.Identifier.ValueText == lambda.Parameter.Identifier.ValueText, out IdentifierNameSyntax _))
+                            if (pooled.Item.IdentifierNames.TryFirst(x => x.Identifier.ValueText == lambda.Parameter.Identifier.ValueText, out IdentifierNameSyntax _))
                             {
                                 return false;
                             }
@@ -177,7 +177,7 @@ namespace Gu.Reactive.Analyzers
         {
             node = null;
             if (invocation.ArgumentList != null &&
-                invocation.ArgumentList.Arguments.TryGetFirst(out ArgumentSyntax argument))
+                invocation.ArgumentList.Arguments.TryFirst(out ArgumentSyntax argument))
             {
                 if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
                 {
@@ -216,7 +216,7 @@ namespace Gu.Reactive.Analyzers
                             foreach (var reference in symbol.DeclaringSyntaxReferences)
                             {
                                 var propertyDeclaration = (PropertyDeclarationSyntax)reference.GetSyntax(context.CancellationToken);
-                                if (propertyDeclaration.TryGetSetAccessorDeclaration(out AccessorDeclarationSyntax setter) &&
+                                if (propertyDeclaration.TryGetSetter(out AccessorDeclarationSyntax setter) &&
                                     setter.Body == null)
                                 {
                                     node = memberAccess.Name;

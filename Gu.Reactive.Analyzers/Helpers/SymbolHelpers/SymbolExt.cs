@@ -27,7 +27,7 @@ namespace Gu.Reactive.Analyzers
                 return false;
             }
 
-            if (symbol.DeclaringSyntaxReferences.TryGetSingle(out SyntaxReference syntaxReference))
+            if (EnumerableExt.TrySingle(symbol.DeclaringSyntaxReferences, out SyntaxReference syntaxReference))
             {
                 declaration = syntaxReference.GetSyntax(cancellationToken) as T;
                 return declaration != null;

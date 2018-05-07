@@ -208,7 +208,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                 namedTypeSymbol.DelegateInvokeMethod?.Parameters != null &&
                 namedTypeSymbol.DelegateInvokeMethod.Parameters.Length <= 2)
             {
-                if (namedTypeSymbol.DelegateInvokeMethod.Parameters.TryGetLast(out IParameterSymbol parameter))
+                if (namedTypeSymbol.DelegateInvokeMethod.Parameters.TryLast(out IParameterSymbol parameter))
                 {
                     return parameter.Type.ToDisplayString();
                 }

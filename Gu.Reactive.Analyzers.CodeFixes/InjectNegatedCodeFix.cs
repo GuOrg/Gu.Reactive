@@ -62,7 +62,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                             }
                         }
 
-                        if (ctor.ParameterList.Parameters.TryGetFirst(p => p.Identifier.ValueText == parameter.Name, out ParameterSyntax parameterSyntax))
+                        if (ctor.ParameterList.Parameters.TryFirst(p => p.Identifier.ValueText == parameter.Name, out ParameterSyntax parameterSyntax))
                         {
                             context.RegisterCodeFix(
                                 CodeAction.Create(

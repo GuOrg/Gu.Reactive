@@ -32,7 +32,7 @@
             {
                 var index = argument.FirstAncestorOrSelf<ArgumentListSyntax>()
                                     .Arguments.IndexOf(argument);
-                if (method.Parameters.TryGetAtIndex(index, out result))
+                if (method.Parameters.TryElementAt(index, out result))
                 {
                     return true;
                 }

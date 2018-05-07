@@ -1,28 +1,10 @@
-﻿namespace Gu.Reactive.Analyzers
+namespace Gu.Reactive.Analyzers
 {
-    using System.Threading;
     using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     internal static class SyntaxNodeExt
     {
-        internal static int StartingLineNumber(this SyntaxNode node, CancellationToken cancellationToken)
-        {
-            return node.SyntaxTree.GetLineSpan(node.Span, cancellationToken).Span.Start.Line;
-        }
-
-        internal static int StartingLineNumber(this SyntaxToken token, CancellationToken cancellationToken)
-        {
-            return token.SyntaxTree.GetLineSpan(token.Span, cancellationToken).Span.Start.Line;
-        }
-
-        internal static bool IsEitherKind(this SyntaxNode node, SyntaxKind first, SyntaxKind other)
-        {
-            var kind = node?.Kind();
-            return kind == first || kind == other;
-        }
-
         internal static T FirstAncestor<T>(this SyntaxNode node)
             where T : SyntaxNode
         {
@@ -35,24 +17,6 @@
             return ReferenceEquals(ancestor, node)
                        ? node.Parent?.FirstAncestorOrSelf<T>()
                        : ancestor;
-        }
-
-        internal static bool IsInExpressionTree(this SyntaxNode node, SemanticModel semanticModel, CancellationToken cancellationToken)
-        {
-            var lambda = node.FirstAncestor<LambdaExpressionSyntax>();
-            while (lambda != null)
-            {
-                var lambdaType = semanticModel.GetTypeInfoSafe(lambda, cancellationToken).ConvertedType;
-                if (lambdaType != null &&
-                    lambdaType.Is(KnownSymbol.Expression))
-                {
-                    return true;
-                }
-
-                lambda = lambda.FirstAncestor<LambdaExpressionSyntax>();
-            }
-
-            return false;
         }
 
         internal static Result IsBeforeInScope(this SyntaxNode node, SyntaxNode other)

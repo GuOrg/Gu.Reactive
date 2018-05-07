@@ -135,7 +135,7 @@ namespace Gu.Reactive.Analyzers
                     }
 
                     if (declaration.Body is BlockSyntax block &&
-                        block.Statements.TryGetSingle(out StatementSyntax statement))
+                        block.Statements.TrySingle(out StatementSyntax statement))
                     {
                         return statement is ReturnStatementSyntax;
                     }
