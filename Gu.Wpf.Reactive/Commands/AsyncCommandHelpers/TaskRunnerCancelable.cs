@@ -67,7 +67,7 @@ namespace Gu.Wpf.Reactive
             this.cancellationTokenSource?.Dispose();
             this.cancellationTokenSource = new CancellationTokenSource();
             this.cancellationSubscription.Disposable = this.cancellationTokenSource.Token.AsObservable()
-                                                                           .Subscribe(_ => this.OnPropertyChanged(nameof(this.CanCancel)));
+                                                           .Subscribe(_ => this.OnPropertyChanged(nameof(this.CanCancel)));
             this.TaskCompletion = new NotifyTaskCompletion(this.action(this.cancellationTokenSource.Token));
         }
 
