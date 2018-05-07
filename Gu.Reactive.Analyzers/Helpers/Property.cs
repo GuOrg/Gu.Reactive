@@ -1,6 +1,7 @@
-﻿namespace Gu.Reactive.Analyzers
+namespace Gu.Reactive.Analyzers
 {
     using System.Threading;
+    using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -38,31 +39,6 @@
             {
                 var propertyDeclaration = reference.GetSyntax(cancellationToken) as PropertyDeclarationSyntax;
                 if (propertyDeclaration.TryGetSetter(out setter))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        internal static bool IsAutoProperty(this IPropertySymbol propertySymbol, CancellationToken cancellationToken)
-        {
-            if (propertySymbol == null)
-            {
-                return false;
-            }
-
-            foreach (var reference in propertySymbol.DeclaringSyntaxReferences)
-            {
-                var declaration = (BasePropertyDeclarationSyntax)reference.GetSyntax(cancellationToken);
-                if ((declaration as PropertyDeclarationSyntax)?.ExpressionBody != null)
-                {
-                    return false;
-                }
-
-                if (declaration.TryGetGetter(out AccessorDeclarationSyntax getter) &&
-                    getter.Body == null)
                 {
                     return true;
                 }
