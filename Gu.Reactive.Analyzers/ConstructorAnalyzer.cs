@@ -151,13 +151,13 @@ namespace Gu.Reactive.Analyzers
             if (TryGetObservableArgument(argumentList, ctor, out var observableArg) &&
                 TryGetCriteriaArgument(argumentList, ctor, out var criteriaArg))
             {
-                using (var observableIdentifiers = IdentifierNameWalker.Create(observableArg, Search.Recursive, context.SemanticModel, context.CancellationToken))
+                using (var observableIdentifiers = IdentifierNameExecutionWalker.Create(observableArg, Scope.Recursive, context.SemanticModel, context.CancellationToken))
                 {
-                    using (var criteriaIdentifiers = IdentifierNameWalker.Create(criteriaArg, Search.Recursive, context.SemanticModel, context.CancellationToken))
+                    using (var criteriaIdentifiers = IdentifierNameExecutionWalker.Create(criteriaArg, Scope.Recursive, context.SemanticModel, context.CancellationToken))
                     {
                         using (var observed = PooledSet<IPropertySymbol>.Borrow())
                         {
-                            foreach (var name in observableIdentifiers.Item.IdentifierNames)
+                            foreach (var name in observableIdentifiers.IdentifierNames)
                             {
                                 if (context.SemanticModel.GetSymbolSafe(name, context.CancellationToken) is IPropertySymbol property)
                                 {
@@ -167,7 +167,7 @@ namespace Gu.Reactive.Analyzers
 
                             using (var usedInCriteria = PooledSet<IPropertySymbol>.Borrow())
                             {
-                                foreach (var name in criteriaIdentifiers.Item.IdentifierNames)
+                                foreach (var name in criteriaIdentifiers.IdentifierNames)
                                 {
                                     if (context.SemanticModel.GetSymbolSafe(name, context.CancellationToken) is IPropertySymbol property)
                                     {
@@ -208,9 +208,9 @@ namespace Gu.Reactive.Analyzers
         {
             if (TryGetObservableArgument(argumentList, ctor, out var argument))
             {
-                using (var pooled = InvocationWalker.Create(argument, Search.Recursive, context.SemanticModel, context.CancellationToken))
+                using (var pooled = InvocationExecutionWalker.Borrow(argument, Scope.Recursive, context.SemanticModel, context.CancellationToken))
                 {
-                    foreach (var invocation in pooled.Item.Invocations)
+                    foreach (var invocation in pooled.Invocations)
                     {
                         if (context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) == KnownSymbol.Observable.Merge)
                         {
