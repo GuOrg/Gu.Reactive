@@ -5,6 +5,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
     using System.Threading;
     using System.Threading.Tasks;
     using Gu.Roslyn.AnalyzerExtensions;
+    using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -90,7 +91,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                 genericName.TypeArgumentList?.Arguments.Count == 1 &&
                 parameter.Identifier.ValueText.StartsWith("not"))
             {
-                var name = parameter.Identifier.ValueText.Replace("not", string.Empty).FirstCharLower();
+                var name = parameter.Identifier.ValueText.Replace("not", string.Empty).ToFirstCharLower();
                 editor.ReplaceNode(
                     parameter,
                     editor.Generator.ParameterDeclaration(
@@ -104,7 +105,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
             }
             else
             {
-                var name = "not" + parameter.Identifier.ValueText.FirstCharUpper();
+                var name = "not" + parameter.Identifier.ValueText.ToFirstCharUpper();
                 editor.ReplaceNode(
                     parameter,
                     editor.Generator.ParameterDeclaration(

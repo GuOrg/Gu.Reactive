@@ -161,7 +161,7 @@ namespace Gu.Reactive.Analyzers
                             {
                                 if (context.SemanticModel.GetSymbolSafe(name, context.CancellationToken) is IPropertySymbol property)
                                 {
-                                    observed.Add(property).IgnoreReturnValue();
+                                    observed.Add(property);
                                 }
                             }
 
