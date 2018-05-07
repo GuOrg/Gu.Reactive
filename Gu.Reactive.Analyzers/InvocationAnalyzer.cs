@@ -138,9 +138,9 @@ namespace Gu.Reactive.Analyzers
                 {
                     if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
                     {
-                        using (var pooled = IdentifierNameWalker.Create(lambda.Body))
+                        using (var pooled = Gu.Roslyn.AnalyzerExtensions.IdentifierNameWalker.Borrow(lambda.Body))
                         {
-                            if (pooled.Item.IdentifierNames.TryFirst(x => x.Identifier.ValueText == lambda.Parameter.Identifier.ValueText, out IdentifierNameSyntax _))
+                            if (pooled.IdentifierNames.TryFirst(x => x.Identifier.ValueText == lambda.Parameter.Identifier.ValueText, out IdentifierNameSyntax _))
                             {
                                 return false;
                             }

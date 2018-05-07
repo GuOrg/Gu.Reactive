@@ -41,7 +41,7 @@ namespace Gu.Reactive.Analyzers
                 TryGetSetter(declaration, out var setter) &&
                 setter.Body == null)
             {
-                using (var walker = MutationWalker.Borrow(declaration.FirstAncestor<TypeDeclarationSyntax>(), property, semanticModel, cancellationToken))
+                using (var walker = MutationWalker.For(property, semanticModel, cancellationToken))
                 {
                     foreach (var mutation in walker)
                     {
