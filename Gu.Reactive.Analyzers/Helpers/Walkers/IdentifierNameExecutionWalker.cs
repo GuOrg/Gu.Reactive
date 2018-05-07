@@ -23,7 +23,7 @@ namespace Gu.Reactive.Analyzers
 
         public static IdentifierNameExecutionWalker Create(SyntaxNode node, Scope search, SemanticModel semanticModel, CancellationToken cancellationToken)
         {
-            return BorrowAndVisit(node, search, semanticModel, cancellationToken, ()=> new IdentifierNameExecutionWalker());
+            return BorrowAndVisit(node, search, semanticModel, cancellationToken, () => new IdentifierNameExecutionWalker());
         }
 
         public IEnumerator<IdentifierNameSyntax> GetEnumerator() => this.identifierNames.GetEnumerator();

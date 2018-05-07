@@ -132,13 +132,13 @@ namespace Gu.Reactive.Analyzers
             var parentInvocation = invocation.FirstAncestor<InvocationExpressionSyntax>();
             if (parentInvocation != null)
             {
-                var parentMethod = (IMethodSymbol)context.SemanticModel.GetSymbolSafe(parentInvocation, context.CancellationToken);
+                var parentMethod = context.SemanticModel.GetSymbolSafe(parentInvocation, context.CancellationToken);
                 if (parentMethod == KnownSymbol.ObservableExtensions.Subscribe &&
                     parentInvocation.ArgumentList?.Arguments.TrySingle(out argument) == true)
                 {
                     if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
                     {
-                        using (var pooled = Gu.Roslyn.AnalyzerExtensions.IdentifierNameWalker.Borrow(lambda.Body))
+                        using (var pooled = IdentifierNameWalker.Borrow(lambda.Body))
                         {
                             if (pooled.IdentifierNames.TryFirst(x => x.Identifier.ValueText == lambda.Parameter.Identifier.ValueText, out IdentifierNameSyntax _))
                             {
@@ -205,7 +205,7 @@ namespace Gu.Reactive.Analyzers
                         }
 
                         if (containingType.IsValueType ||
-                            !containingType.Is(KnownSymbol.INotifyPropertyChanged))
+                            !containingType.IsAssignableTo(KnownSymbol.INotifyPropertyChanged, context.Compilation))
                         {
                             node = memberAccess.Name;
                             return true;
