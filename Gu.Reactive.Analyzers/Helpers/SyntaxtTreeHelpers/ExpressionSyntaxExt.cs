@@ -2,6 +2,7 @@
 namespace Gu.Reactive.Analyzers
 {
     using System.Threading;
+    using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Diagnostics;
@@ -31,9 +32,9 @@ namespace Gu.Reactive.Analyzers
                 return false;
             }
 
-            var symbol = semanticModel.GetTypeInfoSafe(expression, cancellationToken)
+            var symbol = SemanticModelExt.GetTypeInfoSafe(semanticModel, expression, cancellationToken)
                                       .Type;
-            return symbol.Is(type);
+            return TypeSymbolExt.Is(symbol, type);
         }
 
         internal static bool IsSameType(this ExpressionSyntax expression, QualifiedType metadataName, SyntaxNodeAnalysisContext context)
@@ -59,7 +60,7 @@ namespace Gu.Reactive.Analyzers
                 return false;
             }
 
-            var symbol = semanticModel.GetTypeInfoSafe(expression, cancellationToken)
+            var symbol = SemanticModelExt.GetTypeInfoSafe(semanticModel, expression, cancellationToken)
                                       .Type;
             return TypeSymbolComparer.Equals(symbol, type);
         }

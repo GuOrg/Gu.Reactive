@@ -1,5 +1,7 @@
-﻿namespace Gu.Reactive.Analyzers
+namespace Gu.Reactive.Analyzers
 {
+    using Gu.Roslyn.AnalyzerExtensions;
+
     internal class NotifyPropertyChangedExtType : QualifiedType
     {
         internal readonly QualifiedMethod ObservePropertyChanged;

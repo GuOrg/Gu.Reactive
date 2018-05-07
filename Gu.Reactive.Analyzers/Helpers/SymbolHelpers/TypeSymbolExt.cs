@@ -2,6 +2,7 @@ namespace Gu.Reactive.Analyzers
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
+    using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -53,7 +54,7 @@ namespace Gu.Reactive.Analyzers
             SemanticModel semanticModel,
             CancellationToken cancellationToken)
         {
-            var conversion = semanticModel.SemanticModelFor(valueExpression)
+            var conversion = SemanticModelExt.SemanticModelFor(semanticModel, valueExpression)
                                           .ClassifyConversion(valueExpression, toType);
             if (!conversion.Exists)
             {
@@ -82,7 +83,7 @@ namespace Gu.Reactive.Analyzers
                 return true;
             }
 
-            if (toType.IsNullable(valueExpression, semanticModel, cancellationToken))
+            if (IsNullable(toType, valueExpression, semanticModel, cancellationToken))
             {
                 return true;
             }
@@ -103,7 +104,7 @@ namespace Gu.Reactive.Analyzers
                 return true;
             }
 
-            var typeInfo = semanticModel.GetTypeInfoSafe(value, cancellationToken);
+            var typeInfo = SemanticModelExt.GetTypeInfoSafe(semanticModel, value, cancellationToken);
             return TypeSymbolComparer.Equals(namedTypeSymbol.TypeArguments[0], typeInfo.Type);
         }
 
@@ -118,7 +119,7 @@ namespace Gu.Reactive.Analyzers
             {
                 foreach (var constraint in typeParameter.ConstraintTypes)
                 {
-                    if (constraint.Is(qualifiedType))
+                    if (Is(constraint, qualifiedType))
                     {
                         return true;
                     }

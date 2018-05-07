@@ -1,5 +1,7 @@
 namespace Gu.Reactive.Analyzers
 {
+    using Gu.Roslyn.AnalyzerExtensions;
+
     internal class IConditionType : QualifiedType
     {
         internal readonly QualifiedMethod Negate;

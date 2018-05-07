@@ -1,5 +1,7 @@
 namespace Gu.Reactive.Analyzers
 {
+    using Gu.Roslyn.AnalyzerExtensions;
+
     internal class NullableOfTType : QualifiedType
     {
         internal readonly QualifiedProperty Value;

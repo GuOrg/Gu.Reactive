@@ -1,5 +1,7 @@
 namespace Gu.Reactive.Analyzers
 {
+    using Gu.Roslyn.AnalyzerExtensions;
+
     internal class ObservableExtensionsType : QualifiedType
     {
         internal readonly QualifiedMethod Subscribe;
