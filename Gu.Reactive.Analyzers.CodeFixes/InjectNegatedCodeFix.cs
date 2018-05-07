@@ -4,6 +4,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
     using System.Composition;
     using System.Threading;
     using System.Threading.Tasks;
+    using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -48,9 +49,9 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                     var symbol = semanticModel.GetSymbolSafe(condition, context.CancellationToken);
                     if (symbol is IParameterSymbol parameter)
                     {
-                        using (var pooled = IdentifierNameWalker.Create(ctor))
+                        using (var pooled = IdentifierNameWalker.Borrow(ctor))
                         {
-                            foreach (var name in pooled.Item.IdentifierNames)
+                            foreach (var name in pooled.IdentifierNames)
                             {
                                 if (name.Identifier.ValueText == parameter.Name)
                                 {

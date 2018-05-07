@@ -18,7 +18,7 @@ namespace Gu.Reactive.Analyzers
 
             if (TryGetSetter(property, cancellationToken, out AccessorDeclarationSyntax setter))
             {
-                if (Assignment.FirstForSymbol(symbol, setter, Search.Recursive, semanticModel, cancellationToken))
+                if (AssignmentExecutionWalker.FirstFor(symbol, setter, Scope.Instance, semanticModel, cancellationToken, out _))
                 {
                     return true;
                 }

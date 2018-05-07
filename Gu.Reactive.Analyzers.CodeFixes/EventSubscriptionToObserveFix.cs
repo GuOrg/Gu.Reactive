@@ -4,6 +4,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
     using System.Composition;
     using System.Threading;
     using System.Threading.Tasks;
+    using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -60,10 +61,10 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                 if (assignment.Right is ParenthesizedLambdaExpressionSyntax lambda &&
                     lambda.Body != null)
                 {
-                    using (var pooled = IdentifierNameWalker.Create(lambda.Body))
+                    using (var pooled = IdentifierNameWalker.Borrow(lambda.Body))
                     {
                         var usesArg = false;
-                        foreach (var name in pooled.Item.IdentifierNames)
+                        foreach (var name in pooled.IdentifierNames)
                         {
                             if (name.Identifier.ValueText == lambda.ParameterList.Parameters[0]
                                                                    .Identifier.ValueText)
@@ -138,9 +139,9 @@ namespace Gu.Reactive.Analyzers.CodeFixes
             var usesArg = false;
             if (methodDeclaration.ParameterList.Parameters.Any())
             {
-                using (var pooled = IdentifierNameWalker.Create((SyntaxNode)methodDeclaration.Body ?? methodDeclaration.ExpressionBody))
+                using (var pooled = IdentifierNameWalker.Borrow((SyntaxNode)methodDeclaration.Body ?? methodDeclaration.ExpressionBody))
                 {
-                    foreach (var name in pooled.Item.IdentifierNames)
+                    foreach (var name in pooled.IdentifierNames)
                     {
                         if (name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[0].Identifier.ValueText)
                         {

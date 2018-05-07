@@ -3,6 +3,7 @@ namespace Gu.Reactive.Analyzers
     using System;
     using System.Collections.Immutable;
     using System.Linq;
+    using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -91,7 +92,7 @@ namespace Gu.Reactive.Analyzers
                     }
                 }
 
-                if (ctor.ContainingType.Is(KnownSymbol.Condition))
+                if (ctor.ContainingType.IsAssignableTo(KnownSymbol.Condition, context.Compilation))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(GUREA06DontNewCondition.Descriptor, objectCreation.GetLocation()));
                 }
