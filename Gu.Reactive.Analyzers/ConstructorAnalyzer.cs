@@ -128,7 +128,7 @@ namespace Gu.Reactive.Analyzers
             {
                 if (context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) is IMethodSymbol method &&
                     method.IsStatic &&
-                    method.TryGetSingleDeclaration<MethodDeclarationSyntax>(context.CancellationToken, out var declaration))
+                    method.TrySingleDeclaration<MethodDeclarationSyntax>(context.CancellationToken, out var declaration))
                 {
                     if (declaration.ExpressionBody != null)
                     {
@@ -155,17 +155,17 @@ namespace Gu.Reactive.Analyzers
                 {
                     using (var criteriaIdentifiers = IdentifierNameWalker.Create(criteriaArg, Search.Recursive, context.SemanticModel, context.CancellationToken))
                     {
-                        using (var observed = SetPool<IPropertySymbol>.Create())
+                        using (var observed = PooledSet<IPropertySymbol>.Borrow())
                         {
                             foreach (var name in observableIdentifiers.Item.IdentifierNames)
                             {
                                 if (context.SemanticModel.GetSymbolSafe(name, context.CancellationToken) is IPropertySymbol property)
                                 {
-                                    observed.Item.Add(property).IgnoreReturnValue();
+                                    observed.Add(property).IgnoreReturnValue();
                                 }
                             }
 
-                            using (var usedInCriteria = SetPool<IPropertySymbol>.Create())
+                            using (var usedInCriteria = PooledSet<IPropertySymbol>.Borrow())
                             {
                                 foreach (var name in criteriaIdentifiers.Item.IdentifierNames)
                                 {
@@ -175,20 +175,20 @@ namespace Gu.Reactive.Analyzers
                                             !property.IsGetOnly() &&
                                             !property.IsPrivateSetAssignedInCtorOnly(context.SemanticModel, context.CancellationToken))
                                         {
-                                            usedInCriteria.Item.Add(property).IgnoreReturnValue();
+                                            usedInCriteria.Add(property);
                                         }
                                     }
                                 }
 
-                                using (var missing = SetPool<IPropertySymbol>.Create())
+                                using (var missing = PooledSet<IPropertySymbol>.Borrow())
                                 {
-                                    missing.Item.UnionWith(usedInCriteria.Item);
-                                    missing.Item.ExceptWith(observed.Item);
-                                    if (missing.Item.Count != 0)
+                                    missing.UnionWith(usedInCriteria);
+                                    missing.ExceptWith(observed);
+                                    if (missing.Count != 0)
                                     {
-                                        observedText = string.Join(Environment.NewLine, observed.Item.Select(p => $"  {p}"));
-                                        criteriaText = string.Join(Environment.NewLine, usedInCriteria.Item.Select(p => $"  {p}"));
-                                        missingText = string.Join(Environment.NewLine, missing.Item.Select(p => $"  {p}"));
+                                        observedText = string.Join(Environment.NewLine, observed.Select(p => $"  {p}"));
+                                        criteriaText = string.Join(Environment.NewLine, usedInCriteria.Select(p => $"  {p}"));
+                                        missingText = string.Join(Environment.NewLine, missing.Select(p => $"  {p}"));
                                         return true;
                                     }
                                 }

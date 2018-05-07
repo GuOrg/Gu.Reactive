@@ -1,6 +1,7 @@
 namespace Gu.Reactive.Analyzers
 {
     using System.Threading;
+    using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -50,7 +51,7 @@ namespace Gu.Reactive.Analyzers
                 return value != null;
             }
 
-            if (parameter.HasExplicitDefaultValue && parameter.TryGetSingleDeclaration(cancellationToken, out SyntaxNode declaration))
+            if (parameter.HasExplicitDefaultValue && parameter.TrySingleDeclaration(cancellationToken, out SyntaxNode declaration))
             {
                 value = (declaration as ParameterSyntax)?.Default.Value;
             }
