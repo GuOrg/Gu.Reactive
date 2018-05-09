@@ -1,18 +1,4 @@
-using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Gu.Reactive.Analyzers")]
-[assembly: AssemblyDescription("Roslyn analyzers for Gu.Reactive")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Johan Larsson")]
-[assembly: AssemblyProduct("Gu.Reactive.Analyzers")]
-[assembly: AssemblyCopyright("Copyright © Johan Larsson 2017")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-[assembly: ComVisible(false)]
-[assembly: Guid("6c9f9c93-09e1-4b56-aedb-cc4d34053a5c")]
-[assembly: AssemblyVersion("0.1.3.3")]
-[assembly: AssemblyFileVersion("0.1.3.3")]
 [assembly: InternalsVisibleTo("Gu.Reactive.Analyzers.CodeFixes, PublicKey=0024000004800000940000000602000000240000525341310004000001000100AB5BC1D032E9E344649AF43E93555B9F69733DCB59951999FEF8A5ADAB5985D5D27DFC91615F062B1AE47FACC549F07E182E0D1F247D587DB83ED87524E18E806336EAEAEB87271C60C790693A3BD6A199D896DD8ED367FD3B3E350B1B0DD78F8BD212872805939C337D96F104DAF36B79ABCEB6D3C7F0F951CC9880A66846AB")]
 [assembly: InternalsVisibleTo("Gu.Reactive.Analyzers.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100AB5BC1D032E9E344649AF43E93555B9F69733DCB59951999FEF8A5ADAB5985D5D27DFC91615F062B1AE47FACC549F07E182E0D1F247D587DB83ED87524E18E806336EAEAEB87271C60C790693A3BD6A199D896DD8ED367FD3B3E350B1B0DD78F8BD212872805939C337D96F104DAF36B79ABCEB6D3C7F0F951CC9880A66846AB")]

@@ -2,10 +2,12 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
-    <OutputType>Library</OutputType>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Version>0.1.3.3</Version>
+    <Authors>Johan Larsson</Authors>
+    <RootNamespace>Gu.Reactive.Analyzers</RootNamespace>
+    <NeutralLanguage>en-US</NeutralLanguage>
     <CodeAnalysisRuleSet>Gu.Reactive.Analyzers.ruleset</CodeAnalysisRuleSet>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <NoWarn>NU1605</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
