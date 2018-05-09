@@ -4,7 +4,7 @@ include-referenced-projects true
 developmentDependency true
 
 excludedgroups
-  Main
+  Roslyn
   Analyzers
 
 files
