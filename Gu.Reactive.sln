@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers", "Analyzers", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.Analyzers", "Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj", "{4A18B544-BB42-4917-955B-CF0853802117}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.CodeFixes", "Gu.Reactive.Analyzers.CodeFixes\Gu.Reactive.CodeFixes.csproj", "{2B3410AA-3226-4B5E-9E1D-F1180312A329}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.CodeFixes", "Gu.Reactive.CodeFixes\Gu.Reactive.CodeFixes.csproj", "{2B3410AA-3226-4B5E-9E1D-F1180312A329}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.Analyzers.Tests", "Gu.Reactive.Analyzers.Tests\Gu.Reactive.Analyzers.Tests.csproj", "{F154810D-9D97-4EFE-8A86-1312A780802C}"
 EndProject

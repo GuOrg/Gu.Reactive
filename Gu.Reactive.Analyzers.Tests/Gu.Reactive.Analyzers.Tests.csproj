@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gu.Reactive.Analyzers.CodeFixes\Gu.Reactive.CodeFixes.csproj" />
+    <ProjectReference Include="..\Gu.Reactive.CodeFixes\Gu.Reactive.CodeFixes.csproj" />
     <ProjectReference Include="..\Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj" />
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" />
     <ProjectReference Include="..\Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj" />
