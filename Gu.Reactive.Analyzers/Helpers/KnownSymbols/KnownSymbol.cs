@@ -15,11 +15,6 @@ namespace Gu.Reactive.Analyzers
         internal static readonly QualifiedType Type = Create("System.Type");
         internal static readonly QualifiedType INotifyPropertyChanged = Create("System.ComponentModel.INotifyPropertyChanged");
 
-        internal static readonly QualifiedType IDictionary = Create("System.Collections.IDictionary");
-
-        internal static readonly QualifiedType Expression = Create("System.Linq.Expressions.Expression");
-        internal static readonly TaskType Task = new TaskType();
-
         internal static readonly QualifiedType Condition = new QualifiedType("Gu.Reactive.Condition");
         internal static readonly QualifiedType OrCondition = new QualifiedType("Gu.Reactive.OrCondition");
         internal static readonly QualifiedType AndCondition = new QualifiedType("Gu.Reactive.AndCondition");
