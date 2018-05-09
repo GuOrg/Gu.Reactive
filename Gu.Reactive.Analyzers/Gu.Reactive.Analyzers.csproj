@@ -7,6 +7,7 @@
     <Authors>Johan Larsson</Authors>
     <RootNamespace>Gu.Reactive.Analyzers</RootNamespace>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageId>Gu.Reactive.Analyzers.NewIdRequiredDueToNuGetBug</PackageId>
     <CodeAnalysisRuleSet>Gu.Reactive.Analyzers.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
