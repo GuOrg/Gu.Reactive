@@ -14,7 +14,7 @@ namespace Gu.Reactive.Benchmarks
 
     public class Program
     {
-        public static string ProjectDirectory => CodeFactory.FindProjectFile("Gu.Reactive.Benchmarks.csproj").DirectoryName;
+        public static string ProjectDirectory => ProjectFile.Find("Gu.Reactive.Benchmarks.csproj").DirectoryName;
 
         public static string BenchmarksDirectory { get; } = Path.Combine(ProjectDirectory, "Benchmarks");
 

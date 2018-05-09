@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Benchmarks
+namespace Gu.Reactive.Benchmarks
 {
     using System;
     using System.Collections.Generic;
@@ -31,7 +31,7 @@
                                                                                                                           .ToArray();
 
         public static Solution AnalyzersProject { get; } = CodeFactory.CreateSolution(
-            CodeFactory.FindProjectFile("Gu.Reactive.Benchmarks.csproj"),
+            ProjectFile.Find("Gu.Reactive.Benchmarks.csproj"),
             AllAnalyzers,
             MetadataReferences);
     }
