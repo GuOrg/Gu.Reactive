@@ -10,7 +10,7 @@ namespace Gu.Reactive.Analyzers
         internal static bool IsPrivateSetAssignedInCtorOnly(this IPropertySymbol property, SemanticModel semanticModel, CancellationToken cancellationToken)
         {
             if (TryGetDeclaration(property, out var declaration) &&
-               declaration. TryGetGetter(out var getter) &&
+                declaration.TryGetGetter(out var getter) &&
                 getter.Body == null &&
                 getter.ExpressionBody == null &&
                 declaration.TryGetSetter(out var setter) &&
