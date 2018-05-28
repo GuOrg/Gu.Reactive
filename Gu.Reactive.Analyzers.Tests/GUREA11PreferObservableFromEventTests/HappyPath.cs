@@ -1,11 +1,12 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
 {
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     internal class HappyPath
     {
-        private static readonly GUREA11PreferObservableFromEvent Analyzer = new GUREA11PreferObservableFromEvent();
+        private static readonly DiagnosticAnalyzer Analyzer = new GUREA11PreferObservableFromEvent();
 
         private const string FooCode = @"
 namespace RoslynSandbox

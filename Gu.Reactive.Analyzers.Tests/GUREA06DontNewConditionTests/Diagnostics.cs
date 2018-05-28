@@ -1,11 +1,12 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA06DontNewConditionTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA06DontNewConditionTests
 {
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class Diagnostics
     {
-        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA06");
 
         [Test]

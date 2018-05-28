@@ -1,13 +1,15 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
 {
     using Gu.Reactive.Analyzers.CodeFixes;
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.CodeFixes;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class CodeFix
     {
-        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly InlineSingleLineCodeFix Codefix = new InlineSingleLineCodeFix();
+        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly CodeFixProvider Fix = new InlineSingleLineCodeFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA08");
 
         private const string FooCode = @"
@@ -91,7 +93,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { FooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, testCode }, fixedCode);
         }
 
         [Test]
@@ -133,7 +135,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { FooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, testCode }, fixedCode);
         }
     }
 }

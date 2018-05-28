@@ -1,11 +1,12 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
 {
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class HappyPath
     {
-        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private const string Condition1 = @"
 namespace RoslynSandbox
 {

@@ -1,6 +1,5 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
 {
-    using Gu.Reactive.Analyzers.CodeFixes;
     using Gu.Roslyn.Asserts;
     using NUnit.Framework;
 
@@ -55,7 +54,7 @@ namespace RoslynSandbox
     }
 }";
 
-                AnalyzerAssert.CodeFix<GUREA11PreferObservableFromEvent, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
+                AnalyzerAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
             }
 
             [Test]
@@ -93,7 +92,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                AnalyzerAssert.CodeFix<GUREA11PreferObservableFromEvent, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
+                AnalyzerAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
             }
 
             [Test]
@@ -141,7 +140,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                AnalyzerAssert.CodeFix<GUREA11PreferObservableFromEvent, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
+                AnalyzerAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
             }
 
             [Test]
@@ -189,7 +188,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                AnalyzerAssert.CodeFix<GUREA11PreferObservableFromEvent, EventSubscriptionToObserveFix>(new[] { FooCode, testCode }, fixedCode);
+                AnalyzerAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
             }
         }
     }

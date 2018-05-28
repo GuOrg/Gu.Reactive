@@ -1,14 +1,16 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
 {
     using Gu.Reactive.Analyzers.CodeFixes;
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.CodeFixes;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class CodeFix
     {
-        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly ObservableBeforeCriteriaCodeFix Codefix = new ObservableBeforeCriteriaCodeFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create("GUREA09");
+        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly CodeFixProvider Fix = new ObservableBeforeCriteriaCodeFix();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA09");
 
         private const string FooCode = @"
 namespace RoslynSandbox
@@ -82,7 +84,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { FooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, testCode }, fixedCode);
         }
 
         [Test]
@@ -121,7 +123,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic,  new[] { FooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic,  new[] { FooCode, testCode }, fixedCode);
         }
     }
 }

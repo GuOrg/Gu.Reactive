@@ -1,10 +1,14 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA02ObservableAndCriteriaMustMatchTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA02ObservableAndCriteriaMustMatchTests
 {
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class Diagnostics
     {
+        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA02");
+
         private const string FooCode = @"
 namespace RoslynSandbox
 {
@@ -89,7 +93,7 @@ namespace RoslynSandbox
                            "Not observed:\r\n" +
                            "  RoslynSandbox.Foo.Value2";
             var expectedDiagnostic = ExpectedDiagnostic.Create("GUREA02", message);
-            AnalyzerAssert.Diagnostics<ConstructorAnalyzer>(expectedDiagnostic, FooCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, expectedDiagnostic, FooCode, testCode);
         }
 
         [Test]
@@ -119,7 +123,7 @@ namespace RoslynSandbox
                           "Not observed:\r\n" +
                           "  RoslynSandbox.Foo.Value2";
             var expectedDiagnostic = ExpectedDiagnostic.Create("GUREA02", message);
-            AnalyzerAssert.Diagnostics<ConstructorAnalyzer>(expectedDiagnostic, FooCode, testCode);
+            AnalyzerAssert.Diagnostics(Analyzer, expectedDiagnostic, FooCode, testCode);
         }
     }
 }

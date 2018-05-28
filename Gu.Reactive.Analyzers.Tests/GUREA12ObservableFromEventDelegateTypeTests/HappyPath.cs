@@ -1,11 +1,12 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA12ObservableFromEventDelegateTypeTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA12ObservableFromEventDelegateTypeTests
 {
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class HappyPath
     {
-        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
         [Test]
         public void ActionOfInt()

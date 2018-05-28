@@ -1,11 +1,12 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
 {
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     internal class HappyPath
     {
-        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
         private const string FooCode = @"
 namespace RoslynSandbox

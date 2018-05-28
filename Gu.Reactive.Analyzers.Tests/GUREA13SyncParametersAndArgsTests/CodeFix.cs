@@ -1,14 +1,16 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
 {
     using Gu.Reactive.Analyzers.CodeFixes;
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.CodeFixes;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class CodeFix
     {
-        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly SortArgsCodeFix SortArgsCodeFix = new SortArgsCodeFix();
-        private static readonly SortParametersCodeFix SortParametersCodeFix = new SortParametersCodeFix();
+        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly CodeFixProvider SortArgsCodeFix = new SortArgsCodeFix();
+        private static readonly CodeFixProvider SortParametersCodeFix = new SortParametersCodeFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA13");
 
         private const string Condition1 = @"

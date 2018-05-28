@@ -1,11 +1,12 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
 {
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class Diagnostics
     {
-        private static readonly ConstructorAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA10");
 
         private const string FooCode = @"

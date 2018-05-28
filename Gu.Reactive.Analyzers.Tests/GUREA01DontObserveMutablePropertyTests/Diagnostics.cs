@@ -1,11 +1,12 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA01DontObserveMutablePropertyTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA01DontObserveMutablePropertyTests
 {
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class Diagnostics
     {
-        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA01");
 
         [Test]

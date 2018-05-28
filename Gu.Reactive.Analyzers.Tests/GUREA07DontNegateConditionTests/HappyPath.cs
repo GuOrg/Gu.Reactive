@@ -1,11 +1,12 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
 {
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     internal class HappyPath
     {
-        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
         [Test]
         public void WhenInjectingCondition()

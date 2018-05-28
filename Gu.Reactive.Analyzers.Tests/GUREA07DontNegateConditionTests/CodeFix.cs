@@ -1,13 +1,15 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
 {
     using Gu.Reactive.Analyzers.CodeFixes;
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.CodeFixes;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class CodeFix
     {
-        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
-        private static readonly InjectNegatedCodeFix Codefix = new InjectNegatedCodeFix();
+        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly CodeFixProvider Fix = new InjectNegatedCodeFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA07");
 
         private const string FooCode = @"
@@ -96,7 +98,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { FooCode, conditionCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, conditionCode, testCode }, fixedCode);
         }
 
         [Test]
@@ -161,7 +163,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
         }
 
         [Test]
@@ -234,7 +236,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
         }
 
         [Test]
@@ -299,7 +301,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
         }
     }
 }

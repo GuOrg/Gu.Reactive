@@ -1,13 +1,15 @@
-﻿namespace Gu.Reactive.Analyzers.Tests.GUREA12ObservableFromEventDelegateTypeTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA12ObservableFromEventDelegateTypeTests
 {
     using Gu.Reactive.Analyzers.CodeFixes;
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis.CodeFixes;
+    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class CodeFix
     {
-        private static readonly InvocationAnalyzer Analyzer = new InvocationAnalyzer();
-        private static readonly ObservableFromEventArgsFix Codefix = new ObservableFromEventArgsFix();
+        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly CodeFixProvider Fix = new ObservableFromEventArgsFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create("GUREA12");
 
         [Test]
@@ -59,7 +61,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { fooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { fooCode, testCode }, fixedCode);
         }
 
         [Test]
@@ -111,7 +113,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, Codefix, ExpectedDiagnostic, new[] { fooCode, testCode }, fixedCode);
+            AnalyzerAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { fooCode, testCode }, fixedCode);
         }
     }
 }
