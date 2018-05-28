@@ -46,8 +46,7 @@ namespace Gu.Reactive.Analyzers
                         context.ReportDiagnostic(Diagnostic.Create(GUREA02ObservableAndCriteriaMustMatch.Descriptor, initializer.GetLocation(), observedText, criteriaText, missingText));
                     }
 
-                    if (baseCtor.Parameters[0].Type == KnownSymbol.FuncOfT &&
-                        baseCtor.Parameters[1].Type == KnownSymbol.IObservableOfT)
+                    if (IsObservableBeforeCriteria(baseCtor))
                     {
                         context.ReportDiagnostic(Diagnostic.Create(GUREA09ObservableBeforeCriteria.Descriptor, initializer.ArgumentList.GetLocation()));
                     }
@@ -85,8 +84,7 @@ namespace Gu.Reactive.Analyzers
                         context.ReportDiagnostic(Diagnostic.Create(GUREA02ObservableAndCriteriaMustMatch.Descriptor, objectCreation.GetLocation(), observedText, criteriaText, missingText));
                     }
 
-                    if (ctor.Parameters[0].Type == KnownSymbol.FuncOfT &&
-                        ctor.Parameters[1].Type == KnownSymbol.IObservableOfT)
+                    if (IsObservableBeforeCriteria(ctor))
                     {
                         context.ReportDiagnostic(Diagnostic.Create(GUREA09ObservableBeforeCriteria.Descriptor, objectCreation.ArgumentList.GetLocation()));
                     }
@@ -97,6 +95,14 @@ namespace Gu.Reactive.Analyzers
                     context.ReportDiagnostic(Diagnostic.Create(GUREA06DontNewCondition.Descriptor, objectCreation.GetLocation()));
                 }
             }
+        }
+
+        private static bool IsObservableBeforeCriteria(IMethodSymbol ctor)
+        {
+            return ctor.Parameters.TryElementAt(0, out var parameter0) &&
+                   parameter0.Type == KnownSymbol.FuncOfT &&
+                   ctor.Parameters.TryElementAt(1, out var parameter1) &&
+                   parameter1.Type == KnownSymbol.IObservableOfT;
         }
 
         private static bool CanBeInlined(ArgumentSyntax argument, SyntaxNodeAnalysisContext context, out InvocationExpressionSyntax result)
