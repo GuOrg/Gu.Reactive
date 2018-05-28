@@ -46,16 +46,6 @@ namespace Gu.Reactive.Analyzers
                         context.ReportDiagnostic(Diagnostic.Create(GUREA02ObservableAndCriteriaMustMatch.Descriptor, initializer.GetLocation(), observedText, criteriaText, missingText));
                     }
 
-                    if (IsObservableBeforeCriteria(baseCtor))
-                    {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA09ObservableBeforeCriteria.Descriptor, initializer.ArgumentList.GetLocation()));
-                    }
-
-                    if (MergesObservable(initializer.ArgumentList, baseCtor, context, out var location))
-                    {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA10DontMergeInObservable.Descriptor, location.GetLocation()));
-                    }
-
                     if (TryGetObservableArgument(initializer.ArgumentList, baseCtor, out var observableArgument) &&
                         CanBeInlined(observableArgument, context, out _))
                     {
@@ -66,6 +56,16 @@ namespace Gu.Reactive.Analyzers
                         CanBeInlined(criteriaArgument, context, out var inline))
                     {
                         context.ReportDiagnostic(Diagnostic.Create(GUREA08InlineSingleLine.Descriptor, inline.GetLocation()));
+                    }
+
+                    if (IsObservableBeforeCriteria(baseCtor))
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA09ObservableBeforeCriteria.Descriptor, initializer.ArgumentList.GetLocation()));
+                    }
+
+                    if (MergesObservable(initializer.ArgumentList, baseCtor, context, out var location))
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(GUREA10DontMergeInObservable.Descriptor, location.GetLocation()));
                     }
                 }
                 else if (baseCtor.ContainingType.IsEither(KnownSymbol.AndCondition, KnownSymbol.OrCondition) &&
@@ -161,13 +161,23 @@ namespace Gu.Reactive.Analyzers
                 {
                     using (var criteriaIdentifiers = IdentifierNameExecutionWalker.Create(criteriaArg, Scope.Recursive, context.SemanticModel, context.CancellationToken))
                     {
+                        bool observesInterval = false;
                         using (var observed = PooledSet<IPropertySymbol>.Borrow())
                         {
                             foreach (var name in observableIdentifiers.IdentifierNames)
                             {
-                                if (context.SemanticModel.GetSymbolSafe(name, context.CancellationToken) is IPropertySymbol property)
+                                if (context.SemanticModel.TryGetSymbol(name, context.CancellationToken, out ISymbol symbol))
                                 {
-                                    observed.Add(property);
+                                    if (symbol is IPropertySymbol property)
+                                    {
+                                        observed.Add(property);
+                                    }
+
+                                    if (symbol is IMethodSymbol method &&
+                                        method == KnownSymbol.Observable.Interval)
+                                    {
+                                        observesInterval = true;
+                                    }
                                 }
                             }
 
@@ -190,6 +200,11 @@ namespace Gu.Reactive.Analyzers
                                 {
                                     missing.UnionWith(usedInCriteria);
                                     missing.ExceptWith(observed);
+                                    if (observesInterval)
+                                    {
+                                        missing.ExceptWith(missing.Where(x => x.Name == "Now").ToArray());
+                                    }
+
                                     if (missing.Count != 0)
                                     {
                                         observedText = string.Join(Environment.NewLine, observed.Select(p => $"  {p}"));

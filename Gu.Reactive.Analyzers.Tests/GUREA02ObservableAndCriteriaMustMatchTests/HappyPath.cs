@@ -23,10 +23,7 @@ namespace RoslynSandbox
 
         public int Value1
         {
-            get
-            {
-                return this.value1;
-            }
+            get => this.value1;
 
             set
             {
@@ -80,6 +77,58 @@ namespace RoslynSandbox
             : base(
                 foo.ObservePropertyChangedSlim(x => x.Value1),
                 () => foo.Value1 == 2)
+        {
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
+        }
+
+        [Test]
+        public void IntervalAndSchedulerNow()
+        {
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using System.Reactive.Concurrency;
+    using System.Reactive.Linq;
+    using Gu.Reactive;
+
+    public class FooCondition : Condition
+    {
+        public FooCondition(IScheduler scheduler)
+            : base(
+                Observable.Interval(TimeSpan.FromSeconds(1)).Select(x => (object) x),
+                () => scheduler.Now > DateTimeOffset.Now)
+        {
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, testCode);
+        }
+
+        [Test]
+        public void PropertyAndSchedulerNow()
+        {
+            var testCode = @"
+#pragma warning disable GUREA10 // Split up into two conditions?
+namespace RoslynSandbox
+{
+    using System;
+    using System.Reactive.Concurrency;
+    using System.Reactive.Linq;
+    using Gu.Reactive;
+
+    public class FooCondition : Condition
+    {
+        public FooCondition(Foo foo, IScheduler scheduler)
+            : base(
+                Observable.Merge(
+                    foo.ObservePropertyChangedSlim(x => x.Value1),
+                    Observable.Interval(TimeSpan.FromSeconds(1)).Select(x => (object) x)),
+                () => foo.Value1 == 2 &&
+                      scheduler.Now > DateTimeOffset.Now)
         {
         }
     }
