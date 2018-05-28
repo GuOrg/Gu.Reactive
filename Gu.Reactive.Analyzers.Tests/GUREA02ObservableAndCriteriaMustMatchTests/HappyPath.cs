@@ -568,5 +568,129 @@ namespace RoslynSandbox
 }";
             AnalyzerAssert.Valid(Analyzer, fooCode, barCode, testCode);
         }
+
+        [Test]
+        public void IgnoreTypeofFullName()
+        {
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public class Foo : INotifyPropertyChanged
+    {
+        private string text;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Text
+        {
+            get => this.text;
+            set
+            {
+                if (value == this.text)
+                {
+                    return;
+                }
+
+                this.text = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}";
+
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : Condition
+    {
+        public FooCondition(Foo foo)
+            : base(
+                foo.ObservePropertyChanged(x => x.Text),
+                () => foo.Text == typeof(Foo).FullName)
+        {
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
+        }
+
+        [Test]
+        public void IgnoreRegex()
+        {
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public class Foo : INotifyPropertyChanged
+    {
+        private string text;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public string Text
+        {
+            get => this.text;
+            set
+            {
+                if (value == this.text)
+                {
+                    return;
+                }
+
+                this.text = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}";
+
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System.Text.RegularExpressions;
+    using Gu.Reactive;
+
+    public class FooCondition : Condition
+    {
+        public FooCondition(Foo foo)
+            : base(
+                foo.ObservePropertyChanged(x => x.Text),
+                () => Criteria(foo))
+        {
+        }
+
+        private static bool? Criteria(Foo foo)
+        {
+            if (foo.Text is string text)
+            {
+                var match = Regex.Match(text, string.Empty);
+                return match.Success &&
+                       int.TryParse(match.Groups[string.Empty].Value, out var value) &&
+                       value > 10;
+            }
+
+            return false;
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
+        }
     }
 }

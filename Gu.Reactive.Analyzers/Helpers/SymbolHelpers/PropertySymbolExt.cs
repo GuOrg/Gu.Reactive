@@ -9,29 +9,33 @@ namespace Gu.Reactive.Analyzers
     {
         internal static bool IsPrivateSetAssignedInCtorOnly(this IPropertySymbol property, SemanticModel semanticModel, CancellationToken cancellationToken)
         {
-            if (TryGetDeclaration(property, out var declaration) &&
-                declaration.TryGetGetter(out var getter) &&
-                getter.Body == null &&
-                getter.ExpressionBody == null &&
-                declaration.TryGetSetter(out var setter) &&
-                setter.Body == null &&
-                setter.ExpressionBody == null)
+            if (TryGetDeclaration(property, out var declaration))
             {
-                using (var walker = MutationWalker.For(property, semanticModel, cancellationToken))
+                if (declaration.TryGetGetter(out var getter) &&
+                    getter.Body == null &&
+                    getter.ExpressionBody == null &&
+                    declaration.TryGetSetter(out var setter) &&
+                    setter.Body == null &&
+                    setter.ExpressionBody == null)
                 {
-                    foreach (var mutation in walker.All())
+                    using (var walker = MutationWalker.For(property, semanticModel, cancellationToken))
                     {
-                        if (mutation.FirstAncestor<ConstructorDeclarationSyntax>() == null)
+                        foreach (var mutation in walker.All())
                         {
-                            return false;
+                            if (mutation.FirstAncestor<ConstructorDeclarationSyntax>() == null)
+                            {
+                                return false;
+                            }
                         }
-                    }
 
-                    return true;
+                        return true;
+                    }
                 }
+
+                return false;
             }
 
-            return false;
+            return property.SetMethod == null;
         }
 
         private static bool TryGetDeclaration(IPropertySymbol property, out BasePropertyDeclarationSyntax declaration)
