@@ -19,7 +19,7 @@ namespace Gu.Reactive.Analyzers
             {
                 using (var walker = MutationWalker.For(property, semanticModel, cancellationToken))
                 {
-                    foreach (var mutation in walker)
+                    foreach (var mutation in walker.All())
                     {
                         if (mutation.FirstAncestor<ConstructorDeclarationSyntax>() == null)
                         {
