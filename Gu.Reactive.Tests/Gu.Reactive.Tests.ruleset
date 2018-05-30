@@ -126,4 +126,7 @@
     <Rule Id="INPC013" Action="None" />
     <Rule Id="INPC009" Action="None" />
   </Rules>
+  <Rules AnalyzerId="Gu.Analyzers" RuleNamespace="Gu.Analyzers">
+    <Rule Id="GU0015" Action="None" />
+  </Rules>
 </RuleSet>

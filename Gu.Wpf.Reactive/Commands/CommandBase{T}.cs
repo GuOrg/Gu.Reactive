@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -82,7 +82,7 @@
                 var dispatcher = Application.Current?.Dispatcher;
                 if (dispatcher != null)
                 {
-                    dispatcher.BeginInvoke(handler, this, EventArgs.Empty);
+                    _ = dispatcher.BeginInvoke(handler, this, EventArgs.Empty);
                 }
                 else
                 {

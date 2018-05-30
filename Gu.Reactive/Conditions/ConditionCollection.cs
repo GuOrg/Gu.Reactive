@@ -59,6 +59,7 @@ namespace Gu.Reactive
             this.previousIsSatisfied = isSatisfied(this);
         }
 
+#pragma warning disable INPC010 // The property sets a different field than it returns.
         /// <inheritdoc/>
         public bool? IsSatisfied
         {
@@ -80,6 +81,7 @@ namespace Gu.Reactive
                 this.OnPropertyChanged();
             }
         }
+#pragma warning restore INPC010 // The property sets a different field than it returns.
 
         /// <inheritdoc/>
         public override string ToString() => $"IsSatisfied: {this.IsSatisfied} {{{string.Join(", ", this.Select(x => x.Name))}}}";

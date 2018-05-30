@@ -73,7 +73,7 @@ namespace Gu.Reactive
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is Maybe<T> maybe && 
+            return obj is Maybe<T> maybe &&
                    this.Equals(maybe);
         }
 
