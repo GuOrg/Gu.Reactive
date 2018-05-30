@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -75,8 +75,8 @@
                         throw new ArgumentException($"Could not resolve element: {this.Binding.ElementName}");
                     }
 
-                    var root = rootObjectProvider.RootObject as FrameworkElement;
-                    if (root != null && root.Name == this.Binding.ElementName)
+                    if (rootObjectProvider.RootObject is FrameworkElement root &&
+                        root.Name == this.Binding.ElementName)
                     {
                         source = root;
                     }

@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests.Helpers
+namespace Gu.Reactive.Tests.Helpers
 {
     using System;
     using System.Collections;
@@ -30,9 +30,8 @@
                 return false;
             }
 
-            var xpc = x as PropertyChangedEventArgs;
-            var ypc = y as PropertyChangedEventArgs;
-            if (xpc != null && ypc != null)
+            if (x is PropertyChangedEventArgs xpc && 
+                y is PropertyChangedEventArgs ypc)
             {
                 return xpc.PropertyName == ypc.PropertyName;
             }
@@ -47,8 +46,7 @@
                 return 0;
             }
 
-            var collectionChangedEventArgs = x as NotifyCollectionChangedEventArgs;
-            if (collectionChangedEventArgs != null)
+            if (x is NotifyCollectionChangedEventArgs collectionChangedEventArgs)
             {
                 return Compare(collectionChangedEventArgs, y);
             }

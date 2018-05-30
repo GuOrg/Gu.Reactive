@@ -1,9 +1,10 @@
-﻿namespace Gu.Reactive.Demo
+namespace Gu.Reactive.Demo
 {
     using System;
     using System.Globalization;
     using System.Windows.Data;
 
+    [ValueConversion(typeof(object), typeof(string))]
     public sealed class TypeNameConverter : IValueConverter
     {
         public static readonly TypeNameConverter Default = new TypeNameConverter();

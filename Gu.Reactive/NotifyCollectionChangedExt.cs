@@ -188,15 +188,14 @@ namespace Gu.Reactive
             this IEnumerable source,
             bool signalInitial)
         {
-            var notifyingSource = source as INotifyCollectionChanged;
-            if (notifyingSource == null)
+            if (source is INotifyCollectionChanged notifyingSource)
             {
-                return signalInitial
-                           ? Observable.Return(CachedEventArgs.NotifyCollectionReset)
-                           : Observable.Never<NotifyCollectionChangedEventArgs>();
+                return notifyingSource.ObserveCollectionChangedSlim(signalInitial);
             }
 
-            return notifyingSource.ObserveCollectionChangedSlim(signalInitial);
+            return signalInitial
+                ? Observable.Return(CachedEventArgs.NotifyCollectionReset)
+                : Observable.Never<NotifyCollectionChangedEventArgs>();
         }
 
         private static IDisposable ItemPropertyChangedCore<TCollection, TItem, TProperty, T>(

@@ -1,4 +1,4 @@
-﻿#pragma warning disable SA1600 // Elements must be documented
+#pragma warning disable SA1600 // Elements must be documented
 #pragma warning disable SA1601 // Elements must be documented
 #pragma warning disable 1591
 namespace Gu.Wpf.Reactive
@@ -32,8 +32,8 @@ namespace Gu.Wpf.Reactive
 
         private static void SetExpandedStyle(ResourceKey key)
         {
-            var style = Application.Current.TryFindResource(key) as Style;
-            if (style != null && style.TargetType == typeof(TreeViewItem))
+            if (Application.Current.TryFindResource(key) is Style style && 
+                style.TargetType == typeof(TreeViewItem))
             {
                 Application.Current.Resources[TreeviewItemStyleKey] = style;
             }

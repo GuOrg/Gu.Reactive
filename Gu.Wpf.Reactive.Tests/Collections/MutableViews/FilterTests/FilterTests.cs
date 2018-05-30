@@ -57,10 +57,12 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.FilterTests
                 this.View.Filter = x => x < 3;
                 this.Scheduler?.Start();
                 CollectionAssert.AreEqual(new[] { 1, 2 }, this.View);
-                var expected = new List<EventArgs>();
-                expected.Add(CachedEventArgs.CountPropertyChanged);
-                expected.Add(CachedEventArgs.IndexerPropertyChanged);
-                expected.Add(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, 3, 2));
+                var expected = new List<EventArgs>
+                {
+                    CachedEventArgs.CountPropertyChanged,
+                    CachedEventArgs.IndexerPropertyChanged,
+                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, 3, 2)
+                };
 
                 Assert.AreEqual(1, actual.Count(x => EventArgsComparer.Equals(x, FilterChangedEventArgs)));
                 CollectionAssert.AreEqual(expected, actual.Where(x => !EventArgsComparer.Equals(x, FilterChangedEventArgs)), EventArgsComparer.Default);

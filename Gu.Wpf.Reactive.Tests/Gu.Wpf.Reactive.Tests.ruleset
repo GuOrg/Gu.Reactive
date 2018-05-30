@@ -113,4 +113,7 @@
     <Rule Id="SA1652" Action="None" />
   </Rules>
   <Rules AnalyzerId="Gu.Analyzers.Analyzers" RuleNamespace="Gu.Analyzers.Analyzers" />
+  <Rules AnalyzerId="Gu.Analyzers" RuleNamespace="Gu.Analyzers">
+    <Rule Id="GU0015" Action="None" />
+  </Rules>
 </RuleSet>

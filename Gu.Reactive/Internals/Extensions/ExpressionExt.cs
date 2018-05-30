@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Internals
+namespace Gu.Reactive.Internals
 {
     using System;
     using System.Linq.Expressions;
@@ -15,33 +15,33 @@
                 case ExpressionType.ConvertChecked:
                     {
                         var convert = (UnaryExpression)lambda.Body;
-                        var memberExpression = convert.Operand as MemberExpression;
-                        if (memberExpression == null)
+                        if (convert.Operand is MemberExpression memberExpression)
                         {
-                            throw new ArgumentException($"Expected path to be properties only. Was {lambda}");
+                            if (memberExpression.Member is PropertyInfo)
+                            {
+                                return memberExpression;
+                            }
+
+                            throw new ArgumentException(
+                                $"Expected path to be properties only. Was {lambda}. Unexpected item: {memberExpression.Member}");
                         }
 
-                        if (memberExpression.Member is PropertyInfo)
-                        {
-                            return memberExpression;
-                        }
-
-                        throw new ArgumentException($"Expected path to be properties only. Was {lambda}. Unexpected item: {memberExpression.Member}");
+                        throw new ArgumentException($"Expected path to be properties only. Was {lambda}");
                     }
             }
 
-            var member = lambda.Body as MemberExpression;
-            if (member == null)
+            if (lambda.Body is MemberExpression member)
             {
-                throw new ArgumentException($"Expected path to be properties only. Was {lambda}");
+                if (member.Member is PropertyInfo)
+                {
+                    return member;
+                }
+
+                throw new ArgumentException(
+                    $"Expected path to be properties only. Was {lambda}. Unexpected item: {member.Member}");
             }
 
-            if (member.Member is PropertyInfo)
-            {
-                return member;
-            }
-
-            throw new ArgumentException($"Expected path to be properties only. Was {lambda}. Unexpected item: {member.Member}");
+            throw new ArgumentException($"Expected path to be properties only. Was {lambda}");
         }
 
         internal static MemberExpression GetPreviousProperty(this MemberExpression parent)
@@ -53,23 +53,23 @@
                 return null;
             }
 
-            var me = parent.Expression as MemberExpression;
-            if (me == null)
+            if (parent.Expression is MemberExpression me)
             {
-                throw new ArgumentException($"Expected path to be properties only. Was {parent}");
+                if (me.Member is PropertyInfo)
+                {
+                    return me;
+                }
+
+                if (IsCompilerGenerated(me.Member))
+                {
+                    return null;
+                }
+
+                throw new ArgumentException(
+                    $"Expected path to be properties only. Was: {parent}. Unexpected item: {me.Member}");
             }
 
-            if (me.Member is PropertyInfo)
-            {
-                return me;
-            }
-
-            if (IsCompilerGenerated(me.Member))
-            {
-                return null;
-            }
-
-            throw new ArgumentException($"Expected path to be properties only. Was: {parent}. Unexpected item: {me.Member}");
+            throw new ArgumentException($"Expected path to be properties only. Was {parent}");
         }
 
         internal static Type GetSourceType(this LambdaExpression lambda)

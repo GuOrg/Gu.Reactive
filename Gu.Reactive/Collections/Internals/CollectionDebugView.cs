@@ -29,8 +29,7 @@ namespace Gu.Reactive
         {
             get
             {
-                var array = this.collection as T[];
-                if (array != null)
+                if (this.collection is T[] array)
                 {
                     return array;
                 }

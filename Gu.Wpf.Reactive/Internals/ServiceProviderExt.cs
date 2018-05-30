@@ -1,4 +1,4 @@
-﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable SA1600 // Elements must be documented
 namespace Gu.Wpf.Reactive
 {
@@ -62,8 +62,7 @@ namespace Gu.Wpf.Reactive
         [Obsolete("To be removed.")]
         public static bool IsInTemplate(this IServiceProvider serviceProvider)
         {
-            var target = serviceProvider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
-            return target != null && !(target.TargetObject is DependencyObject);
+            return serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget target && !(target.TargetObject is DependencyObject);
         }
     }
 }

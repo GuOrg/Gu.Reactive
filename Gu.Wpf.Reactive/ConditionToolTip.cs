@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Windows;
@@ -98,31 +98,31 @@
         private static void OnPlacementTargetProxyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var commandToolTip = (ConditionToolTip)o;
-            var target = commandToolTip.PlacementTarget as ButtonBase;
-            if (target == null)
-            {
-                commandToolTip.SetCurrentValue(CommandProxyProperty, null);
-            }
-            else
+            if (commandToolTip.PlacementTarget is ButtonBase target)
             {
                 var command = target.GetValue(ButtonBase.CommandProperty) as IConditionRelayCommand;
                 commandToolTip.SetCurrentValue(CommandProxyProperty, command);
+            }
+            else
+            {
+                commandToolTip.SetCurrentValue(CommandProxyProperty, null);
             }
         }
 
         private static void OnCommandProxyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
         {
             var commandToolTip = (ConditionToolTip)o;
-            var command = e.NewValue as IConditionRelayCommand;
-            if (command == null)
+            if (e.NewValue is IConditionRelayCommand command)
+            {
+                commandToolTip.SetCurrentValue(ConditionProperty, command.Condition);
+                commandToolTip.CommandType = command.GetType();
+            }
+            else
             {
                 commandToolTip.SetCurrentValue(ConditionProperty, null);
                 commandToolTip.CommandType = null;
                 return;
             }
-
-            commandToolTip.SetCurrentValue(ConditionProperty, command.Condition);
-            commandToolTip.CommandType = command.GetType();
         }
 
         private static void OnInferConditionFromCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -135,7 +135,7 @@
         {
             if (infer)
             {
-                BindingOperations.SetBinding(
+                _ = BindingOperations.SetBinding(
                     this,
                     PlacementTargetProxyProperty,
                     this.CreateOneWayBinding(PlacementTargetProperty));

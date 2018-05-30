@@ -182,51 +182,56 @@ namespace Gu.Reactive.Analyzers
             {
                 if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
                 {
-                    var memberAccess = lambda.Body as MemberAccessExpressionSyntax;
-                    if (memberAccess == null)
+                    if (lambda.Body is MemberAccessExpressionSyntax memberAccess)
+                    {
+                        while (memberAccess != null)
+                        {
+                            var symbol = context.SemanticModel.GetSymbolSafe(memberAccess, context.CancellationToken);
+                            if (!(symbol is IPropertySymbol))
+                            {
+                                node = memberAccess.Name;
+                                return true;
+                            }
+
+                            var containingType = context.SemanticModel.GetTypeInfoSafe(
+                                                            memberAccess.Expression,
+                                                            context.CancellationToken)
+                                                        .Type;
+                            if (containingType == null)
+                            {
+                                continue;
+                            }
+
+                            if (containingType.IsValueType ||
+                                !containingType.IsAssignableTo(KnownSymbol.INotifyPropertyChanged, context.Compilation))
+                            {
+                                node = memberAccess.Name;
+                                return true;
+                            }
+
+                            if (symbol.DeclaringSyntaxReferences.Length > 0 &&
+                                !symbol.IsAbstract)
+                            {
+                                foreach (var reference in symbol.DeclaringSyntaxReferences)
+                                {
+                                    var propertyDeclaration =
+                                        (PropertyDeclarationSyntax)reference.GetSyntax(context.CancellationToken);
+                                    if (propertyDeclaration.TryGetSetter(out AccessorDeclarationSyntax setter) &&
+                                        setter.Body == null)
+                                    {
+                                        node = memberAccess.Name;
+                                        return true;
+                                    }
+                                }
+                            }
+
+                            memberAccess = memberAccess.Expression as MemberAccessExpressionSyntax;
+                        }
+                    }
+                    else
                     {
                         node = lambda;
                         return true;
-                    }
-
-                    while (memberAccess != null)
-                    {
-                        var symbol = context.SemanticModel.GetSymbolSafe(memberAccess, context.CancellationToken);
-                        if (!(symbol is IPropertySymbol))
-                        {
-                            node = memberAccess.Name;
-                            return true;
-                        }
-
-                        var containingType = context.SemanticModel.GetTypeInfoSafe(memberAccess.Expression, context.CancellationToken).Type;
-                        if (containingType == null)
-                        {
-                            continue;
-                        }
-
-                        if (containingType.IsValueType ||
-                            !containingType.IsAssignableTo(KnownSymbol.INotifyPropertyChanged, context.Compilation))
-                        {
-                            node = memberAccess.Name;
-                            return true;
-                        }
-
-                        if (symbol.DeclaringSyntaxReferences.Length > 0 &&
-                            !symbol.IsAbstract)
-                        {
-                            foreach (var reference in symbol.DeclaringSyntaxReferences)
-                            {
-                                var propertyDeclaration = (PropertyDeclarationSyntax)reference.GetSyntax(context.CancellationToken);
-                                if (propertyDeclaration.TryGetSetter(out AccessorDeclarationSyntax setter) &&
-                                    setter.Body == null)
-                                {
-                                    node = memberAccess.Name;
-                                    return true;
-                                }
-                            }
-                        }
-
-                        memberAccess = memberAccess.Expression as MemberAccessExpressionSyntax;
                     }
                 }
             }
