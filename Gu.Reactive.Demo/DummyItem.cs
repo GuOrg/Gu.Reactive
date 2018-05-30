@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Demo
+namespace Gu.Reactive.Demo
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -13,7 +13,7 @@
 
         public DummyItem(int value)
         {
-            this.Value = value;
+            this.value = value;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

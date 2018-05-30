@@ -113,8 +113,8 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
             public Vm(Model<T> model, int index)
             {
-                this.Model = model;
-                this.Index = index;
+                this.model = model;
+                this.index = index;
             }
 
             public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;

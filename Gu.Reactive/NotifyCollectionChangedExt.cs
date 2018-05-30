@@ -18,7 +18,7 @@ namespace Gu.Reactive
     public static partial class NotifyCollectionChangedExt
     {
         /// <summary>
-        /// Observes collectionchanged events for <paramref name="source"/>.
+        /// Observes collection changed events for <paramref name="source"/>.
         /// </summary>
         public static IObservable<NotifyCollectionChangedEventArgs> ObserveCollectionChangedSlim(
             this INotifyCollectionChanged source,
@@ -32,14 +32,18 @@ namespace Gu.Reactive
 
             return Observable.Create<NotifyCollectionChangedEventArgs>(o =>
             {
-                NotifyCollectionChangedEventHandler handler = (_, e) => o.OnNext(e);
-                source.CollectionChanged += handler;
-                return Disposable.Create(() => source.CollectionChanged -= handler);
+                source.CollectionChanged += Handler;
+                return Disposable.Create(() => source.CollectionChanged -= Handler);
+
+                void Handler(object _, NotifyCollectionChangedEventArgs e)
+                {
+                    o.OnNext(e);
+                }
             });
         }
 
         /// <summary>
-        /// Observes collectionchanged events for <paramref name="source"/>.
+        /// Observes collection changed events for <paramref name="source"/>.
         /// </summary>
         public static IObservable<EventPattern<NotifyCollectionChangedEventArgs>> ObserveCollectionChanged<TCollection>(
             this TCollection source,
@@ -61,7 +65,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Observes propertychanges for items of the collection.
+        /// Observes property changes for items of the collection.
         /// </summary>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TCollection, TItem, TProperty>(
                 TCollection source,
@@ -88,7 +92,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Observes propertychanges for items of the collection.
+        /// Observes property changes for items of the collection.
         /// </summary>
         public static IObservable<PropertyChangedEventArgs> ObserveItemPropertyChangedSlim<TCollection, TItem, TProperty>(
                 TCollection source,
@@ -109,7 +113,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Observes propertychanges for items of the collection.
+        /// Observes property changes for items of the collection.
         /// </summary>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
                 this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
@@ -134,7 +138,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Observes propertychanges for items of the collection.
+        /// Observes property changes for items of the collection.
         /// </summary>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
                 this IObservable<TCollection> source,
@@ -159,7 +163,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Observes propertychanges for items of the collection.
+        /// Observes property changes for items of the collection.
         /// </summary>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TCollection, TItem, TProperty>(
                 this IObservable<TCollection> source,
@@ -178,7 +182,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Observes collectionchanged events for <paramref name="source"/>.
+        /// Observes collection changed events for <paramref name="source"/>.
         /// </summary>
         internal static IObservable<NotifyCollectionChangedEventArgs> ObserveCollectionChangedSlimOrDefault(
             this IEnumerable source,
@@ -219,16 +223,19 @@ namespace Gu.Reactive
             where TItem : class, INotifyPropertyChanged
         {
             var tracker = ItemsTracker.Create((TCollection)null, NotifyingPath.GetOrCreate(property));
-            TrackedItemPropertyChangedEventHandler<TItem, TProperty> handler =
-                (item, sender, args, sourceAndValue) => observer.OnNext(create(item, sender, args, sourceAndValue));
-            tracker.TrackedItemChanged += handler;
+            tracker.TrackedItemChanged += Handler;
             var subscription = source.Subscribe(x => tracker.UpdateSource(x));
             return new CompositeDisposable(3)
             {
-                Disposable.Create(() => tracker.TrackedItemChanged -= handler),
+                Disposable.Create(() => tracker.TrackedItemChanged -= Handler),
                 tracker,
                 subscription,
             };
+
+            void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+            {
+                observer.OnNext(create(item, sender, args, sourceAndValue));
+            }
         }
 
         private static IDisposable ObserveItemPropertyChangedCore<TCollection, TItem, TProperty, T>(
@@ -246,15 +253,7 @@ namespace Gu.Reactive
                     : source,
                 NotifyingPath.GetOrCreate(property));
 
-            TrackedItemPropertyChangedEventHandler<TItem, TProperty> handler =
-                (item, sender, args, sourceAndValue) => o.OnNext(
-                    create(
-                        item,
-                        sender,
-                        args,
-                        sourceAndValue));
-
-            tracker.TrackedItemChanged += handler;
+            tracker.TrackedItemChanged += Handler;
             if (signalInitial)
             {
                 tracker.UpdateSource(source);
@@ -262,9 +261,19 @@ namespace Gu.Reactive
 
             return new CompositeDisposable(2)
             {
-                Disposable.Create(() => tracker.TrackedItemChanged -= handler),
+                Disposable.Create(() => tracker.TrackedItemChanged -= Handler),
                 tracker
             };
+
+            void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+            {
+                o.OnNext(
+                    create(
+                        item,
+                        sender,
+                        args,
+                        sourceAndValue));
+            }
         }
     }
 }

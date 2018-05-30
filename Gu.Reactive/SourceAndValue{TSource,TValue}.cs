@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
 
@@ -51,12 +51,8 @@
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            return obj is SourceAndValue<TSource, TValue> && this.Equals((SourceAndValue<TSource, TValue>)obj);
+            return obj is SourceAndValue<TSource, TValue> value && 
+                   this.Equals(value);
         }
 
         /// <inheritdoc/>

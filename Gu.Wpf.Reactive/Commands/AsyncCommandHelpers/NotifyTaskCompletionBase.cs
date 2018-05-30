@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -23,7 +23,7 @@
             this.Task = task;
             if (task.IsCompleted)
             {
-                this.Completed = task;
+                this.completed = task;
             }
             else
             {
@@ -89,10 +89,7 @@
         /// </summary>
         public T Completed
         {
-            get
-            {
-                return this.completed;
-            }
+            get => this.completed;
 
             private set
             {

@@ -185,7 +185,7 @@ namespace Gu.Reactive.Analyzers
                             {
                                 foreach (var name in criteriaIdentifiers.IdentifierNames)
                                 {
-                                    if (context.SemanticModel.TryGetSymbol(name, context.CancellationToken, out IPropertySymbol property)&&
+                                    if (context.SemanticModel.TryGetSymbol(name, context.CancellationToken, out IPropertySymbol property) &&
                                         !property.ContainingType.IsValueType &&
                                         !property.IsGetOnly() &&
                                         !property.IsPrivateSetAssignedInCtorOnly(context.SemanticModel, context.CancellationToken))

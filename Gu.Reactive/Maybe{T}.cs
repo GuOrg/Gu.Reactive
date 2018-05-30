@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -73,12 +73,8 @@
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            return obj is Maybe<T> && this.Equals((Maybe<T>)obj);
+            return obj is Maybe<T> maybe && 
+                   this.Equals(maybe);
         }
 
         /// <inheritdoc />

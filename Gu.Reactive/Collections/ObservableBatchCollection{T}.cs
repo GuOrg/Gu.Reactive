@@ -82,7 +82,7 @@ namespace Gu.Reactive
         {
             this.CheckReentrancy();
             var removed = 0;
-            for (int i = this.Items.Count - 1; i >= 0; i--)
+            for (var i = this.Items.Count - 1; i >= 0; i--)
             {
                 if (predicate(this.Items[i]))
                 {

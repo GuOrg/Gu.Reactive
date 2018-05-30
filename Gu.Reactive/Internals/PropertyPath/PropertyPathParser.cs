@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Internals
+namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections.Concurrent;
@@ -124,7 +124,7 @@
             /// <inheritdoc />
             public override bool Equals(object obj)
             {
-                if (ReferenceEquals(null, obj))
+                if (obj is null)
                 {
                     return false;
                 }
