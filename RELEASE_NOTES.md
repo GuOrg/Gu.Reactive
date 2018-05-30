@@ -1,3 +1,6 @@
+#### 3.5.2
+* FEATURE: ObservableBatchCollection<T>.RemoveAll(Func<T, bool> predicate)
+
 #### 3.5.0
 * BUGFIX: Retryn on destination was not long enough.
 
