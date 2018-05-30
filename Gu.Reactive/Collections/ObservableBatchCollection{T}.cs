@@ -1,4 +1,4 @@
-﻿// ReSharper disable StaticMemberInGenericType
+// ReSharper disable StaticMemberInGenericType
 namespace Gu.Reactive
 {
     using System;
@@ -73,6 +73,31 @@ namespace Gu.Reactive
         public void RemoveRange(IEnumerable<T> items)
         {
             this.RemoveItems(items);
+        }
+
+        /// <summary>Removes all the elements that match the conditions defined by the specified predicate.</summary>
+        /// <param name="predicate">The <see cref="T:System.Predicate`1" /> delegate that defines the conditions of the elements to remove.</param>
+        /// <returns>The number of elements removed from the <see cref="ObservableBatchCollection{T}" /> .</returns>
+        public int RemoveAll(Func<T, bool> predicate)
+        {
+            this.CheckReentrancy();
+            var removed = 0;
+            for (int i = this.Items.Count - 1; i >= 0; i--)
+            {
+                if (predicate(this.Items[i]))
+                {
+                    removed++;
+                    this.Items.RemoveAt(i);
+                }
+            }
+
+            if (removed == 0)
+            {
+                return 0;
+            }
+
+            this.RaiseReset();
+            return removed;
         }
 
         /// <summary>

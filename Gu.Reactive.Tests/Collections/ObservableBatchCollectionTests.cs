@@ -1,9 +1,10 @@
-﻿namespace Gu.Reactive.Tests.Collections
+namespace Gu.Reactive.Tests.Collections
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
+    using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
 
     using Gu.Reactive.Tests.Helpers;
@@ -133,6 +134,26 @@
                             CachedEventArgs.IndexerPropertyChanged,
                             CachedEventArgs.NotifyCollectionReset
                         });
+                CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
+            }
+        }
+
+        [Test]
+        public void RemoveAll()
+        {
+            var batchCollection = new ObservableBatchCollection<int> { 1, 2, 3, 4 };
+            var reference = batchCollection.ToList();
+            using (var actualChanges = batchCollection.SubscribeAll())
+            {
+                var expectedChanges = new List<EventArgs>
+                                      {
+                                          CachedEventArgs.CountPropertyChanged,
+                                          CachedEventArgs.IndexerPropertyChanged,
+                                          CachedEventArgs.NotifyCollectionReset
+                                      };
+
+                Assert.AreEqual(reference.RemoveAll(x => x % 2 == 0), batchCollection.RemoveAll(x => x % 2 == 0));
+                CollectionAssert.AreEqual(reference, batchCollection);
                 CollectionAssert.AreEqual(expectedChanges, actualChanges, EventArgsComparer.Default);
             }
         }
