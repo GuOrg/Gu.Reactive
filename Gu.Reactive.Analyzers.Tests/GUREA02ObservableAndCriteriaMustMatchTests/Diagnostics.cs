@@ -7,6 +7,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA02ObservableAndCriteriaMustMatchTests
     public class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
+        // ReSharper disable once UnusedMember.Local
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA02");
 
         private const string FooCode = @"
