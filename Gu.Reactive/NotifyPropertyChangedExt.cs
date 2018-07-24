@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -312,7 +312,7 @@
                         return new CompositeDisposable(2)
                         {
                             tracker,
-                            Disposable.Create(() => tracker.TrackedPropertyChanged -= Handler)
+                            Disposable.Create(() => tracker.TrackedPropertyChanged -= Handler),
                         };
                     });
             }
@@ -361,7 +361,7 @@
                             return new CompositeDisposable(2)
                                        {
                                            tracker,
-                                           Disposable.Create(() => tracker.TrackedPropertyChanged -= Handler)
+                                           Disposable.Create(() => tracker.TrackedPropertyChanged -= Handler),
                                        };
                         });
             }

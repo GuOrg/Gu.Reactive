@@ -91,7 +91,7 @@ namespace Gu.Reactive
             this.thread = new Thread(arg)
                           {
                               Name = "ForegroundScheduler",
-                              IsBackground = true // maybe we want it as foreground when saving?
+                              IsBackground = true, // maybe we want it as foreground when saving?
                           };
             return this.thread;
         }

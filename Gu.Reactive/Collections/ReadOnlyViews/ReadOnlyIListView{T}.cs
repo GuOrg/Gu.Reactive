@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections;
@@ -204,7 +204,7 @@
                            col.ObservePropertyChangedSlim()
                               .Subscribe(this.OnPropertyChanged),
                            col.ObserveCollectionChangedSlim(signalInitial: false)
-                              .Subscribe(this.OnCollectionChanged)
+                              .Subscribe(this.OnCollectionChanged),
                        };
         }
 

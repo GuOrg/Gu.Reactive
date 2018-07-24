@@ -51,7 +51,7 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            return obj is SourceAndValue<TSource, TValue> value && 
+            return obj is SourceAndValue<TSource, TValue> value &&
                    this.Equals(value);
         }
 

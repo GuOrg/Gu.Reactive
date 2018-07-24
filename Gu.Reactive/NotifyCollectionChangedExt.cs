@@ -261,7 +261,7 @@ namespace Gu.Reactive
             return new CompositeDisposable(2)
             {
                 Disposable.Create(() => tracker.TrackedItemChanged -= Handler),
-                tracker
+                tracker,
             };
 
             void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
