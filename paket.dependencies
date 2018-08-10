@@ -1,6 +1,6 @@
 source http://www.nuget.org/api/v2/
 
-nuget System.Reactive ~> 3.1.1
+nuget System.Reactive 3.1.1
 nuget Gu.Wpf.ToolTips ~> 0.2.1
 
 group Analyzers
@@ -18,7 +18,7 @@ group Test
   source http://nuget.org/api/v2
   nuget Moq
   nuget NUnit
-  nuget Microsoft.Reactive.Testing ~> 3.1.1
+  nuget Microsoft.Reactive.Testing 3.1.1
   nuget Gu.Wpf.UiAutomation
 
 group Roslyn
@@ -31,13 +31,13 @@ group Roslyn
   nuget Gu.Roslyn.CodeFixExtensions prerelease
   nuget Gu.Roslyn.Asserts ~> 2
   nuget NUnit
-  nuget System.Reactive ~> 3.1.1
+  nuget System.Reactive 3.1.1
 
 group Benchmark
   storage: none
   source http://nuget.org/api/v2
   nuget BenchmarkDotNet.Diagnostics.Windows
-  nuget System.Reactive ~> 3.1.1
+  nuget System.Reactive 3.1.1
   nuget Microsoft.CodeAnalysis.CSharp.Workspaces
   nuget NUnit
   nuget Gu.Roslyn.Asserts
