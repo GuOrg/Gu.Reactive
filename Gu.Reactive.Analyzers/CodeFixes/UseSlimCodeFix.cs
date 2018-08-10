@@ -3,6 +3,7 @@ namespace Gu.Reactive.Analyzers
     using System.Collections.Immutable;
     using System.Composition;
     using System.Threading.Tasks;
+    using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -28,15 +29,7 @@ namespace Gu.Reactive.Analyzers
 
             foreach (var diagnostic in context.Diagnostics)
             {
-                var token = syntaxRoot.FindToken(diagnostic.Location.SourceSpan.Start);
-                if (string.IsNullOrEmpty(token.ValueText) ||
-                    token.IsMissing)
-                {
-                    continue;
-                }
-
-                var name = syntaxRoot.FindNode(diagnostic.Location.SourceSpan).FirstAncestorOrSelf<IdentifierNameSyntax>();
-                if (name != null)
+                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out IdentifierNameSyntax name))
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(
@@ -44,7 +37,6 @@ namespace Gu.Reactive.Analyzers
                             _ => ApplyUseSlimFixAsync(context, syntaxRoot, name),
                             nameof(UseSlimCodeFix)),
                         diagnostic);
-                    continue;
                 }
             }
         }

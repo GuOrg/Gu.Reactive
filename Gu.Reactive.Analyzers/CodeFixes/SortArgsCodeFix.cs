@@ -6,6 +6,7 @@ namespace Gu.Reactive.Analyzers
     using System.Threading;
     using System.Threading.Tasks;
     using Gu.Roslyn.AnalyzerExtensions;
+    using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
@@ -31,15 +32,7 @@ namespace Gu.Reactive.Analyzers
 
             foreach (var diagnostic in context.Diagnostics)
             {
-                var token = syntaxRoot.FindToken(diagnostic.Location.SourceSpan.Start);
-                if (string.IsNullOrEmpty(token.ValueText) ||
-                    token.IsMissing)
-                {
-                    continue;
-                }
-
-                var initializer = syntaxRoot.FindNode(diagnostic.Location.SourceSpan).FirstAncestorOrSelf<ConstructorInitializerSyntax>();
-                if (initializer != null)
+                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out ConstructorInitializerSyntax initializer))
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(
