@@ -76,10 +76,7 @@ namespace Gu.Reactive
                 callback: state =>
                     {
                         // Recover your state information
-                        var myTcs = (TaskCompletionSource<VoidTypeStruct>)state;
-
-                        // Fault our proxy with a TimeoutException
-                        myTcs.TrySetException(new TimeoutException());
+                        _ = ((TaskCompletionSource<VoidTypeStruct>)state).TrySetException(new TimeoutException());
                     },
                 state: tcs,
                 dueTime: millisecondsTimeout,
@@ -148,11 +145,7 @@ namespace Gu.Reactive
             var timer = new Timer(
                 callback: state =>
                     {
-                // Recover your state information
-                var myTcs = (TaskCompletionSource<T>)state;
-
-                // Fault our proxy with a TimeoutException
-                myTcs.TrySetException(new TimeoutException());
+                        _ = ((TaskCompletionSource<T>)state).TrySetException(new TimeoutException());
                     },
                 state: tcs,
                 dueTime: millisecondsTimeout,
@@ -163,15 +156,15 @@ namespace Gu.Reactive
             task.ContinueWith(
                 (antecedent, state) =>
                     {
-                // Recover our state data
-                var tuple =
-                            (Tuple<Timer, TaskCompletionSource<T>>)state;
+                        // Recover our state data
+                        var tuple =
+                                    (Tuple<Timer, TaskCompletionSource<T>>)state;
 
-                // Cancel the Timer
-                tuple.Item1.Dispose();
+                        // Cancel the Timer
+                        tuple.Item1.Dispose();
 
-                // Marshal results to proxy
-                MarshalTaskResults(antecedent, tuple.Item2);
+                        // Marshal results to proxy
+                        MarshalTaskResults(antecedent, tuple.Item2);
                     },
                 Tuple.Create(timer, tcs),
                 CancellationToken.None,

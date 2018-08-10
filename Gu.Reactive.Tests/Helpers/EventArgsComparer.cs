@@ -30,7 +30,7 @@ namespace Gu.Reactive.Tests.Helpers
                 return false;
             }
 
-            if (x is PropertyChangedEventArgs xpc && 
+            if (x is PropertyChangedEventArgs xpc &&
                 y is PropertyChangedEventArgs ypc)
             {
                 return xpc.PropertyName == ypc.PropertyName;
