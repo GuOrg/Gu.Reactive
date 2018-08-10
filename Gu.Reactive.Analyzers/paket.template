@@ -1,5 +1,4 @@
 ﻿type project
-id Gu.Reactive.Analyzers
 include-referenced-projects true
 developmentDependency true
 projectUrl https://github.com/JohanLarsson/Gu.Reactive
