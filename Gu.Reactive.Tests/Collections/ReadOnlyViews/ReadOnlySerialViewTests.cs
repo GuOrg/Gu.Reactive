@@ -1,4 +1,4 @@
-﻿// ReSharper disable RedundantArgumentDefaultValue
+// ReSharper disable RedundantArgumentDefaultValue
 namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
@@ -232,7 +232,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         new EventArgs[]
                             {
                                 CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateReplaceEventArgs(5, 1, 0),
+                                Diff.CreateReplaceEventArgs(5, 1, 0),
                                 CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source"),
                             });
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
