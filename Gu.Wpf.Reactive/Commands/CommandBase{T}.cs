@@ -109,15 +109,15 @@ namespace Gu.Wpf.Reactive
         /// finally
         /// {
         ///     IsExecuting = false;
-        /// }
+        /// }.
         /// </summary>
-        /// <param name="parameter">The command parameter</param>
+        /// <param name="parameter">The command parameter.</param>
         protected abstract void InternalExecute(T parameter);
 
         /// <summary>
-        /// Raise the <see cref="PropertyChanged"/> event for <paramref name="propertyName"/>
+        /// Raise the <see cref="PropertyChanged"/> event for <paramref name="propertyName"/>.
         /// </summary>
-        /// <param name="propertyName">The name of the property to notify</param>
+        /// <param name="propertyName">The name of the property to notify.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));

@@ -190,7 +190,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         {
                             CachedEventArgs.CountPropertyChanged,
                             CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateAddEventArgs(view[0], 0)
+                            Diff.CreateAddEventArgs(view[0], 0),
                         };
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
@@ -201,7 +201,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         {
                             CachedEventArgs.CountPropertyChanged,
                             CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateAddEventArgs(view[1], 1)
+                            Diff.CreateAddEventArgs(view[1], 1),
                         });
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
@@ -212,7 +212,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         {
                             CachedEventArgs.CountPropertyChanged,
                             CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateAddEventArgs(view[2], 2)
+                            Diff.CreateAddEventArgs(view[2], 2),
                         });
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
@@ -253,7 +253,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         {
                             CachedEventArgs.CountPropertyChanged,
                             CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateRemoveEventArgs(mock, 0)
+                            Diff.CreateRemoveEventArgs(mock, 0),
                         };
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
@@ -267,7 +267,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         {
                             CachedEventArgs.CountPropertyChanged,
                             CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateRemoveEventArgs(mock, 0)
+                            Diff.CreateRemoveEventArgs(mock, 0),
                         });
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
@@ -281,7 +281,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         {
                             CachedEventArgs.CountPropertyChanged,
                             CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateRemoveEventArgs(mock, 0)
+                            Diff.CreateRemoveEventArgs(mock, 0),
                         });
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     }
@@ -321,7 +321,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         var expected = new List<EventArgs>
                         {
                             CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateReplaceEventArgs(view[0], old, 0)
+                            Diff.CreateReplaceEventArgs(view[0], old, 0),
                         };
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     }
@@ -361,7 +361,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         var expected = new List<EventArgs>
                         {
                             CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateMoveEventArgs(view[4], 4, 0)
+                            Diff.CreateMoveEventArgs(view[4], 4, 0),
                         };
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
@@ -415,7 +415,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         {
                             CachedEventArgs.CountPropertyChanged,
                             CachedEventArgs.IndexerPropertyChanged,
-                            CachedEventArgs.NotifyCollectionReset
+                            CachedEventArgs.NotifyCollectionReset,
                         };
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
@@ -465,7 +465,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         {
                             CachedEventArgs.CountPropertyChanged,
                             CachedEventArgs.IndexerPropertyChanged,
-                            CachedEventArgs.NotifyCollectionReset
+                            CachedEventArgs.NotifyCollectionReset,
                         };
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     }

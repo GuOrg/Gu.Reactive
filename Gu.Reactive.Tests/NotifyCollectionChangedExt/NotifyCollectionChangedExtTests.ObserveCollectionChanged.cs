@@ -1,4 +1,4 @@
-﻿// ReSharper disable HeuristicUnreachableCode
+// ReSharper disable HeuristicUnreachableCode
 namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 {
     using System;
@@ -112,7 +112,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void MemoryLeakDisposeTest()
             {
 #if DEBUG
-            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+                Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
                 var ints = new ObservableCollection<int>();
                 var wr = new WeakReference(ints);
@@ -133,7 +133,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void MemoryLeakNoDisposeTest()
             {
 #if DEBUG
-            Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
+                Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
 
                 var ints = new ObservableCollection<int>();

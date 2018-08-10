@@ -45,7 +45,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                         new PropertyChangedEventArgs("Filter"),
                         CachedEventArgs.CountPropertyChanged,
                         CachedEventArgs.IndexerPropertyChanged,
-                        CachedEventArgs.NotifyCollectionReset
+                        CachedEventArgs.NotifyCollectionReset,
                     };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     CollectionAssert.AreEqual(new[] { 1 }, view);

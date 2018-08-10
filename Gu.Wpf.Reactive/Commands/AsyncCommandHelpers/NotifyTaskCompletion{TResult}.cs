@@ -4,7 +4,7 @@
 
     /// <summary>
     /// Awaits a <see cref="Task{TResult}"/> and makes the result bindable.
-    /// http://msdn.microsoft.com/en-us/magazine/dn605875.aspx
+    /// http://msdn.microsoft.com/en-us/magazine/dn605875.aspx.
     /// </summary>
     /// <typeparam name="TResult">The type of the task.</typeparam>
     public sealed class NotifyTaskCompletion<TResult> : NotifyTaskCompletionBase<Task<TResult>>, INotifyTaskCompletion

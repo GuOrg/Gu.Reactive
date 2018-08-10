@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// Conditions keeps a log of the last changed states
+    /// Conditions keeps a log of the last changed states.
     /// </summary>
     public struct ConditionHistoryPoint
     {
@@ -31,7 +31,7 @@
         public DateTime TimeStamp { get; }
 
         /// <summary>
-        /// The state at <see cref="TimeStamp"/>
+        /// The state at <see cref="TimeStamp"/>.
         /// </summary>
         public bool? State { get; }
 

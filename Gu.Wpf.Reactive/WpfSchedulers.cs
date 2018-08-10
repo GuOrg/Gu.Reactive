@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Reactive.Concurrency;
@@ -7,7 +7,7 @@
     using Gu.Reactive;
 
     /// <summary>
-    /// <see cref="Gu.Reactive.Schedulers"/> with <see cref="Dispatcher"/>
+    /// <see cref="Gu.Reactive.Schedulers"/> with <see cref="Dispatcher"/>.
     /// </summary>
     //// ReSharper disable once ClassNeverInstantiated.Global
     public class WpfSchedulers : Gu.Reactive.Schedulers, IWpfSchedulers

@@ -7,7 +7,7 @@
     using System.Windows.Controls.Primitives;
 
     /// <summary>
-    /// Interaction logic for CollectionViewDemo.xaml
+    /// Interaction logic for CollectionViewDemo.xaml.
     /// </summary>
     public sealed partial class CollectionViewDemo : UserControl, IDisposable
     {

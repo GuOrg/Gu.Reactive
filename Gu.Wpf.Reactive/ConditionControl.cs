@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System.Collections.Generic;
     using System.Windows;
@@ -7,7 +7,7 @@
     using Gu.Reactive;
 
     /// <summary>
-    /// A control for displaying conditions
+    /// A control for displaying conditions.
     /// </summary>
     public partial class ConditionControl : Control
     {
@@ -73,7 +73,7 @@
         }
 
         /// <summary>
-        /// A flat list of all conditions
+        /// A flat list of all conditions.
         /// </summary>
         public IEnumerable<ICondition> FlattenedPrerequisites
         {

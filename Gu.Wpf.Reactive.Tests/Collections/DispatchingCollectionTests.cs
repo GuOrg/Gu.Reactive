@@ -45,7 +45,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
                                           {
                                               CachedEventArgs.CountPropertyChanged,
                                               CachedEventArgs.IndexerPropertyChanged,
-                                              CachedEventArgs.NotifyCollectionReset
+                                              CachedEventArgs.NotifyCollectionReset,
                                           };
                 batchCollection.AddRange(new[] { 1, 2 });
                 CollectionAssert.AreEqual(new[] { 1, 2 }, batchCollection);
@@ -58,7 +58,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
                         {
                             CachedEventArgs.CountPropertyChanged,
                             CachedEventArgs.IndexerPropertyChanged,
-                            CachedEventArgs.NotifyCollectionReset
+                            CachedEventArgs.NotifyCollectionReset,
                         });
                 CollectionAssert.AreEqual(expectedChanges, actual, EventArgsComparer.Default);
             }
@@ -118,7 +118,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
                                           {
                                               CachedEventArgs.CountPropertyChanged,
                                               CachedEventArgs.IndexerPropertyChanged,
-                                              CachedEventArgs.NotifyCollectionReset
+                                              CachedEventArgs.NotifyCollectionReset,
                                           };
 
                 batchCollection.RemoveRange(new[] { 1, 2 });
@@ -132,7 +132,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
                         {
                             CachedEventArgs.CountPropertyChanged,
                             CachedEventArgs.IndexerPropertyChanged,
-                            CachedEventArgs.NotifyCollectionReset
+                            CachedEventArgs.NotifyCollectionReset,
                         });
                 CollectionAssert.AreEqual(expectedChanges, actual, EventArgsComparer.Default);
             }

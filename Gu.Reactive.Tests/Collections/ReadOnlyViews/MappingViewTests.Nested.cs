@@ -34,7 +34,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                                         {
                                             CachedEventArgs.CountPropertyChanged,
                                             CachedEventArgs.IndexerPropertyChanged,
-                                            null
+                                            null,
                                         };
 
                                         expected[2] = Diff.CreateAddEventArgs(modelView[0], 0);
@@ -73,7 +73,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                                                    {
                                                    CachedEventArgs.CountPropertyChanged,
                                                    CachedEventArgs.IndexerPropertyChanged,
-                                                   null
+                                                   null,
                                                    };
                                 expected[2] = Diff.CreateRemoveEventArgs(oldModel, 0);
                                 CollectionAssert.AreEqual(expected, modelViewChanges, EventArgsComparer.Default);

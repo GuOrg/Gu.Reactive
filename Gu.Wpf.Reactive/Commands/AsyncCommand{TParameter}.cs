@@ -11,7 +11,7 @@
 
     /// <summary>
     /// http://msdn.microsoft.com/en-us/magazine/dn630647.aspx
-    /// An async command that uses the command parameter
+    /// An async command that uses the command parameter.
     /// </summary>
     /// <typeparam name="TParameter">The type of the command parameter.</typeparam>
     public class AsyncCommand<TParameter> : ConditionRelayCommand<TParameter>

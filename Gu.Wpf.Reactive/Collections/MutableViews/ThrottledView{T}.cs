@@ -47,8 +47,8 @@
         /// Exposing this for tests.
         /// </summary>
         /// <param name="source">The source collection.</param>
-        /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset</param>
-        /// <param name="scheduler">The scheduler used when throttling. The collection changed events are raised on this scheduler</param>
+        /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset.</param>
+        /// <param name="scheduler">The scheduler used when throttling. The collection changed events are raised on this scheduler.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         internal ThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
             : this((IList<T>)source, bufferTime, scheduler, leaveOpen)
@@ -102,7 +102,7 @@
         /// <summary>
         /// Protected implementation of Dispose pattern.
         /// </summary>
-        /// <param name="disposing">true: safe to free managed resources</param>
+        /// <param name="disposing">true: safe to free managed resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

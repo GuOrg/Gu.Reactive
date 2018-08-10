@@ -49,7 +49,7 @@
                 var expected = new EventArgs[]
                                    {
                                        Diff.CreateRemoveEventArgs(1, 0),
-                                       Diff.CreateAddEventArgs(3, 1)
+                                       Diff.CreateAddEventArgs(3, 1),
                                    };
 
                 CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);

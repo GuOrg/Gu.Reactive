@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for MappingViewView.xaml
+    /// Interaction logic for MappingViewView.xaml.
     /// </summary>
     public partial class MappingViewView : UserControl
     {

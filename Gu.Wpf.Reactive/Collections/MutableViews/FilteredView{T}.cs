@@ -12,7 +12,7 @@
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Typed filtered CollectionView for intellisense in xaml
+    /// Typed filtered CollectionView for intellisense in xaml.
     /// </summary>
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
@@ -26,9 +26,9 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="filter">The predicate used when filtering.</param>
-        /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset</param>
+        /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
-        /// <param name="triggers">Triggers when to re evaluate the filter</param>
+        /// <param name="triggers">Triggers when to re evaluate the filter.</param>
         public FilteredView(ObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, bool leaveOpen, params IObservable<object>[] triggers)
             : this(source, filter, bufferTime, WpfSchedulers.Dispatcher, leaveOpen, triggers)
         {
@@ -39,9 +39,9 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="filter">The predicate used when filtering.</param>
-        /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset</param>
+        /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
-        /// <param name="triggers">Triggers when to re evaluate the filter</param>
+        /// <param name="triggers">Triggers when to re evaluate the filter.</param>
         public FilteredView(IObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, bool leaveOpen, params IObservable<object>[] triggers)
             : this(source, filter, bufferTime, WpfSchedulers.Dispatcher, leaveOpen, triggers)
         {
@@ -52,10 +52,10 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="filter">The predicate used when filtering.</param>
-        /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset</param>
-        /// <param name="scheduler">The scheduler used when throttling. The collection changed events are raised on this scheduler</param>
+        /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset.</param>
+        /// <param name="scheduler">The scheduler used when throttling. The collection changed events are raised on this scheduler.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
-        /// <param name="triggers">Triggers when to re evaluate the filter</param>
+        /// <param name="triggers">Triggers when to re evaluate the filter.</param>
         internal FilteredView(IList<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
             : base(source, Filtered(source, filter), leaveOpen, startEmpty: true)
         {
@@ -164,7 +164,7 @@
         }
 
         /// <summary>
-        /// Get the filtered items from Source
+        /// Get the filtered items from Source.
         /// </summary>
         protected IEnumerable<T> Filtered()
         {
@@ -174,7 +174,7 @@
         /// <summary>
         /// Protected implementation of Dispose pattern.
         /// </summary>
-        /// <param name="disposing">true: safe to free managed resources</param>
+        /// <param name="disposing">true: safe to free managed resources.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

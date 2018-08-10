@@ -298,7 +298,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 {
                     fake.Next = new Level
                     {
-                        Next = new Level()
+                        Next = new Level(),
                     };
 
                     Assert.AreEqual(1, changes.Count);
@@ -942,7 +942,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     Assert.AreEqual(0, changes.Count);
                     fake.Next.Next = new Level
                     {
-                        Next = new Level()
+                        Next = new Level(),
                     };
                     Assert.AreEqual(1, changes.Count);
                     fake.Next.Next = null;
@@ -954,7 +954,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                         Next = new Level
                         {
                             IsTrue = true
-                        }
+                        },
                     };
                     Assert.AreEqual(3, changes.Count);
                     fake.Next.Next.IsTrue = false;

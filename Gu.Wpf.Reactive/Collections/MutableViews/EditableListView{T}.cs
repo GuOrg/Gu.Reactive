@@ -11,7 +11,7 @@ namespace Gu.Wpf.Reactive
     using Gu.Reactive;
 
     /// <summary>
-    /// Decorate an <see cref="IObservableCollection{T}"/> with <see cref="IList"/>
+    /// Decorate an <see cref="IObservableCollection{T}"/> with <see cref="IList"/>.
     /// </summary>
     public class EditableListView<T> : Collection<T>, IObservableCollection<T>, IDisposable
     {

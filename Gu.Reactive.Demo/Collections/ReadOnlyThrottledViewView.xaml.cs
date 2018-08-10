@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for ReadOnlyThrottledViewView.xaml
+    /// Interaction logic for ReadOnlyThrottledViewView.xaml.
     /// </summary>
     public partial class ReadOnlyThrottledViewView : UserControl
     {

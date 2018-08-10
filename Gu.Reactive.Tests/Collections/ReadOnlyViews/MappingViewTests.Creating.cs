@@ -110,7 +110,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                                            {
                                                CachedEventArgs.CountPropertyChanged,
                                                CachedEventArgs.IndexerPropertyChanged,
-                                               Diff.CreateAddEventArgs(view[3], 3)
+                                               Diff.CreateAddEventArgs(view[3], 3),
                                            };
 
                         CollectionAssert.AreEqual(source, view.Select(x => x.Value));
@@ -122,7 +122,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                                 {
                                     CachedEventArgs.CountPropertyChanged,
                                     CachedEventArgs.IndexerPropertyChanged,
-                                    Diff.CreateAddEventArgs(view[4], 4)
+                                    Diff.CreateAddEventArgs(view[4], 4),
                                 });
 
                         CollectionAssert.AreEqual(source, view.Select(x => x.Value));
@@ -151,7 +151,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                                                    {
                                                    CachedEventArgs.CountPropertyChanged,
                                                    CachedEventArgs.IndexerPropertyChanged,
-                                                   null
+                                                   null,
                                                    };
                                 expected[2] = Diff.CreateRemoveEventArgs(oldModel, 0);
                                 CollectionAssert.AreEqual(expected, modelViewChanges, EventArgsComparer.Default);
@@ -189,7 +189,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         var expected = new List<EventArgs>
                         {
                             CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateReplaceEventArgs(view[0], 1, 0)
+                            Diff.CreateReplaceEventArgs(view[0], 1, 0),
                         };
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     }
@@ -221,7 +221,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         var expected = new List<EventArgs>
                         {
                             CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateMoveEventArgs(view[to], to, from)
+                            Diff.CreateMoveEventArgs(view[to], to, from),
                         };
                         CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     }

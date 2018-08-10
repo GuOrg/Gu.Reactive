@@ -6,7 +6,7 @@ namespace Gu.Reactive
     using System.Linq;
 
     /// <summary>
-    /// A generic decorator for <see cref="NotifyCollectionChangedEventArgs"/>
+    /// A generic decorator for <see cref="NotifyCollectionChangedEventArgs"/>.
     /// </summary>
     public struct NotifyCollectionChangedEventArgs<T>
     {

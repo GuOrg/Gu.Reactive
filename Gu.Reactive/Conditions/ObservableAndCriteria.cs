@@ -3,7 +3,7 @@ namespace Gu.Reactive
     using System;
 
     /// <summary>
-    /// An observable and a criteria for creating a <see cref="Condition"/>
+    /// An observable and a criteria for creating a <see cref="Condition"/>.
     /// </summary>
     public struct ObservableAndCriteria
     {

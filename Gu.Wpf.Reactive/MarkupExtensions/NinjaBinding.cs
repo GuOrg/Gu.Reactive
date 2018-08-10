@@ -11,7 +11,7 @@ namespace Gu.Wpf.Reactive
 
     /// <summary>
     /// Binds to the datacontext of the current root object or elementname
-    /// Us this for things that are not in the visual tree such as DataGridColumn
+    /// Us this for things that are not in the visual tree such as DataGridColumn.
     /// </summary>
     [MarkupExtensionReturnType(typeof(BindingExpression))]
     public class NinjaBinding : MarkupExtension

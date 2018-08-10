@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for ThrottledViewView.xaml
+    /// Interaction logic for ThrottledViewView.xaml.
     /// </summary>
     public partial class ThrottledViewView : UserControl
     {

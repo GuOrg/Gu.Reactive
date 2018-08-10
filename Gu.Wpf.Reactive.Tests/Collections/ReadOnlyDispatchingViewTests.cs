@@ -95,7 +95,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
                                        {
                                            CachedEventArgs.CountPropertyChanged,
                                            CachedEventArgs.IndexerPropertyChanged,
-                                           CachedEventArgs.NotifyCollectionReset
+                                           CachedEventArgs.NotifyCollectionReset,
                                        };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }

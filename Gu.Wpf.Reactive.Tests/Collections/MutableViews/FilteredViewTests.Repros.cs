@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
+namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
 {
     using System;
     using System.Collections.Generic;
@@ -40,7 +40,7 @@
                                                {
                                                    CachedEventArgs.CountPropertyChanged,
                                                    CachedEventArgs.IndexerPropertyChanged,
-                                                   CachedEventArgs.NotifyCollectionReset
+                                                   CachedEventArgs.NotifyCollectionReset,
                                                };
                             CollectionAssert.AreEqual(new[] { 1 }, view);
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
@@ -56,7 +56,7 @@
                                                {
                                                    CachedEventArgs.CountPropertyChanged,
                                                    CachedEventArgs.IndexerPropertyChanged,
-                                                   CachedEventArgs.NotifyCollectionReset
+                                                   CachedEventArgs.NotifyCollectionReset,
                                                });
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
@@ -67,7 +67,7 @@
                                                {
                                                    CachedEventArgs.CountPropertyChanged,
                                                    CachedEventArgs.IndexerPropertyChanged,
-                                                   CachedEventArgs.NotifyCollectionReset
+                                                   CachedEventArgs.NotifyCollectionReset,
                                                });
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                         }
@@ -99,7 +99,7 @@
                                                {
                                                    CachedEventArgs.CountPropertyChanged,
                                                    CachedEventArgs.IndexerPropertyChanged,
-                                                   CachedEventArgs.NotifyCollectionReset
+                                                   CachedEventArgs.NotifyCollectionReset,
                                                };
                             CollectionAssert.AreEqual(new[] { 1 }, view);
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
@@ -120,7 +120,7 @@
                                                {
                                                    CachedEventArgs.CountPropertyChanged,
                                                    CachedEventArgs.IndexerPropertyChanged,
-                                                   Diff.CreateRemoveEventArgs(1, 0)
+                                                   Diff.CreateRemoveEventArgs(1, 0),
                                                });
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                         }
@@ -151,7 +151,7 @@
                                                {
                                                    CachedEventArgs.CountPropertyChanged,
                                                    CachedEventArgs.IndexerPropertyChanged,
-                                                   CachedEventArgs.NotifyCollectionReset
+                                                   CachedEventArgs.NotifyCollectionReset,
                                                };
                             CollectionAssert.AreEqual(new[] { 1 }, view);
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
@@ -164,7 +164,7 @@
                                                {
                                                    CachedEventArgs.CountPropertyChanged,
                                                    CachedEventArgs.IndexerPropertyChanged,
-                                                   Diff.CreateRemoveEventArgs(1, 0)
+                                                   Diff.CreateRemoveEventArgs(1, 0),
                                                });
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                         }

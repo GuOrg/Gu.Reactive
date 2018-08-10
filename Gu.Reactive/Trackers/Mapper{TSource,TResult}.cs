@@ -6,7 +6,7 @@
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// A reactive mapper from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>
+    /// A reactive mapper from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
     /// </summary>
     public sealed class Mapper<TSource, TResult> : ITracker<TResult>
     {

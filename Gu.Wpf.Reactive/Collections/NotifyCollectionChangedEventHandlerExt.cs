@@ -7,7 +7,7 @@
     using System.Windows.Threading;
 
     /// <summary>
-    /// Extension methods for <see cref="NotifyCollectionChangedEventHandler"/>
+    /// Extension methods for <see cref="NotifyCollectionChangedEventHandler"/>.
     /// </summary>
     public static class NotifyCollectionChangedEventHandlerExt
     {
@@ -16,9 +16,9 @@
         /// <summary>
         /// Invokes the change event on the dispatcher if needed.
         /// </summary>
-        /// <param name="handler">The NotifyCollectionChangedEventHandler</param>
-        /// <param name="sender">The sender</param>
-        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/></param>
+        /// <param name="handler">The NotifyCollectionChangedEventHandler.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         public static Task InvokeOnDispatcherAsync(this NotifyCollectionChangedEventHandler handler, object sender, NotifyCollectionChangedEventArgs e)
         {
             if (handler == null)

@@ -10,7 +10,7 @@
         /// Initializes a new instance of the <see cref="RelayCommand{T}"/> class.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
-        /// <param name="criteria">The criteria for CanExecute</param>
+        /// <param name="criteria">The criteria for CanExecute.</param>
         public RelayCommand(Action<T> action, Func<T, bool> criteria)
             : base(action, criteria)
         {

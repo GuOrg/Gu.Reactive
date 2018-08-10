@@ -5,7 +5,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for FilteredViewView.xaml
+    /// Interaction logic for FilteredViewView.xaml.
     /// </summary>
     public partial class FilteredViewView : UserControl, IDisposable
     {

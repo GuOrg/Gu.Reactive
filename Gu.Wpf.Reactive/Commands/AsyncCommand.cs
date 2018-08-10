@@ -12,7 +12,7 @@ namespace Gu.Wpf.Reactive
     /// <summary>
     /// http://msdn.microsoft.com/en-us/magazine/dn630647.aspx
     /// An async command that does not use command parameter
-    /// Returns a Task
+    /// Returns a Task.
     /// </summary>
     public class AsyncCommand : ConditionRelayCommand
     {

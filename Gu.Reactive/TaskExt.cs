@@ -1,18 +1,18 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Helpers for <see cref="Task"/>
+    /// Helpers for <see cref="Task"/>.
     /// </summary>
     public static class TaskExt
     {
         /// <summary>
         /// Make a task ~cancelable~
         /// The inner task will still complete after canceling so side-effects may be an issue.
-        /// http://blogs.msdn.com/b/pfxteam/archive/2012/10/05/how-do-i-cancel-non-cancelable-async-operations.aspx
+        /// http://blogs.msdn.com/b/pfxteam/archive/2012/10/05/how-do-i-cancel-non-cancelable-async-operations.aspx.
         /// </summary>
         /// <typeparam name="T">The type of the task.</typeparam>
         /// <param name="task">The task.</param>
@@ -37,7 +37,7 @@
         /// <summary>
         /// Decorate a task with timeout.
         /// The inner task will still complete after canceling so side-effects may be an issue.
-        /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
+        /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx.
         /// </summary>
         public static Task TimeoutAfter(this Task task, TimeSpan timeout)
         {
@@ -47,7 +47,7 @@
         /// <summary>
         /// Decorate a task with timeout.
         /// The inner task will still complete after canceling so side-effects may be an issue.
-        /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
+        /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx.
         /// </summary>
         public static Task TimeoutAfter(this Task task, int millisecondsTimeout)
         {
@@ -110,7 +110,7 @@
         /// <summary>
         /// Decorate a task with timeout.
         /// The inner task will still complete after canceling so side-effects may be an issue.
-        /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
+        /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx.
         /// </summary>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, TimeSpan timeout)
         {
@@ -120,7 +120,7 @@
         /// <summary>
         /// Decorate a task with timeout.
         /// The inner task will still complete after canceling so side-effects may be an issue.
-        /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx
+        /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx.
         /// </summary>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, int millisecondsTimeout)
         {

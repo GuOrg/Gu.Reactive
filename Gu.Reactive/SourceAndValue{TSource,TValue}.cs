@@ -27,7 +27,7 @@ namespace Gu.Reactive
         public Maybe<TValue> Value { get; }
 
         /// <summary>
-        /// Determines if <paramref name="left"/> is equal to <paramref name="right"/>
+        /// Determines if <paramref name="left"/> is equal to <paramref name="right"/>.
         /// </summary>
         public static bool operator ==(SourceAndValue<TSource, TValue> left, SourceAndValue<TSource, TValue> right)
         {
@@ -35,7 +35,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Determines if <paramref name="left"/> is not equal to <paramref name="right"/>
+        /// Determines if <paramref name="left"/> is not equal to <paramref name="right"/>.
         /// </summary>
         public static bool operator !=(SourceAndValue<TSource, TValue> left, SourceAndValue<TSource, TValue> right)
         {

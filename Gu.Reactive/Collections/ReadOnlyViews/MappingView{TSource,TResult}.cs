@@ -14,7 +14,7 @@
     /// <summary>
     /// A view of a collection that maps the values.
     /// </summary>
-    /// <typeparam name="TSource">The type of the items in the source collection</typeparam>
+    /// <typeparam name="TSource">The type of the items in the source collection.</typeparam>
     /// <typeparam name="TResult">The type of the items in the resulting collection. Can be the same type.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]

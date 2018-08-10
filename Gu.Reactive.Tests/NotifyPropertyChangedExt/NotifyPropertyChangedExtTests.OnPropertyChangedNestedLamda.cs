@@ -153,7 +153,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 {
                     fake.Level1 = new Level1
                     {
-                        Level2 = new Level2()
+                        Level2 = new Level2(),
                     };
 
                     Assert.AreEqual(1, changes.Count);

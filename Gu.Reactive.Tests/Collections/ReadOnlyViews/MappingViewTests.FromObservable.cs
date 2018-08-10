@@ -25,7 +25,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                                            {
                                                CachedEventArgs.CountPropertyChanged,
                                                CachedEventArgs.IndexerPropertyChanged,
-                                               CachedEventArgs.NotifyCollectionReset
+                                               CachedEventArgs.NotifyCollectionReset,
                                            };
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                         }

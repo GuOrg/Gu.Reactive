@@ -103,7 +103,7 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Add  an item to the inner collection.
-        /// Returns self
+        /// Returns self.
         /// </summary>
         public Chunk<T> Add(T item)
         {

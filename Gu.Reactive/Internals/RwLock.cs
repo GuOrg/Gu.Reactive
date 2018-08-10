@@ -4,7 +4,7 @@ namespace Gu.Reactive.Internals
     using System.Threading;
 
     /// <summary>
-    /// A wrapper of <see cref="ReaderWriterLockSlim"/>
+    /// A wrapper of <see cref="ReaderWriterLockSlim"/>.
     /// </summary>
     public sealed class RwLock : IDisposable
     {
@@ -13,7 +13,7 @@ namespace Gu.Reactive.Internals
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RwLock"/> class.
-        /// Creates a RwLock with LockRecursionPolicy.NoRecursion
+        /// Creates a RwLock with LockRecursionPolicy.NoRecursion.
         /// </summary>
         public RwLock()
             : this(LockRecursionPolicy.NoRecursion)

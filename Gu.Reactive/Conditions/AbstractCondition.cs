@@ -11,7 +11,7 @@ namespace Gu.Reactive
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// This is a baseclass when you want to have a nonstatic Criteria method
+    /// This is a baseclass when you want to have a nonstatic Criteria method.
     /// </summary>
     public abstract class AbstractCondition : ICondition
     {
@@ -120,7 +120,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Protected implementation of Dispose pattern.
         /// </summary>
-        /// <param name="disposing">true: safe to free managed resources</param>
+        /// <param name="disposing">true: safe to free managed resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (this.IsDisposed)
@@ -151,7 +151,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// The criteria for <see cref="IsSatisfied"/>
+        /// The criteria for <see cref="IsSatisfied"/>.
         /// </summary>
         protected abstract bool? Criteria();
 

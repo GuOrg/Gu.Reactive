@@ -16,10 +16,10 @@
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DispatchingView{T}"/> class.
-        /// This uses buffer time <see cref="TimeSpan.Zero"/> and <see cref="WpfSchedulers.Dispatcher"/>
+        /// This uses buffer time <see cref="TimeSpan.Zero"/> and <see cref="WpfSchedulers.Dispatcher"/>.
         /// </summary>
         /// <param name="source">The source collection.</param>
-        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         public DispatchingView(ObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen)
             : base(source, bufferTime, leaveOpen)
@@ -28,10 +28,10 @@
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DispatchingView{T}"/> class.
-        /// This uses buffer time <see cref="TimeSpan.Zero"/> and <see cref="WpfSchedulers.Dispatcher"/>
+        /// This uses buffer time <see cref="TimeSpan.Zero"/> and <see cref="WpfSchedulers.Dispatcher"/>.
         /// </summary>
         /// <param name="source">The source collection.</param>
-        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
         public DispatchingView(IObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen)
             : base(source, bufferTime, leaveOpen)

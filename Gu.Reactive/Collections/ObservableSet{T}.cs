@@ -22,7 +22,7 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableSet{T}"/> class.
-        /// Uses <see cref="EqualityComparer{T}.Default"/>
+        /// Uses <see cref="EqualityComparer{T}.Default"/>.
         /// </summary>
         public ObservableSet()
             : this(EqualityComparer<T>.Default)
@@ -39,7 +39,7 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableSet{T}"/> class.
-        /// Uses <see cref="EqualityComparer{T}.Default"/>
+        /// Uses <see cref="EqualityComparer{T}.Default"/>.
         /// </summary>
         public ObservableSet(IEnumerable<T> collection)
             : this(collection, EqualityComparer<T>.Default)

@@ -8,19 +8,19 @@ namespace Gu.Reactive
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Factory methods for creating <see cref="MappingView{TSource,TResult}"/>
+    /// Factory methods for creating <see cref="MappingView{TSource,TResult}"/>.
     /// </summary>
     public static partial class MappingView
     {
         /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
         /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/>.</returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
             this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
@@ -32,15 +32,15 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
         /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/>.</returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
             this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
@@ -53,16 +53,16 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
         /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/>.</returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
             this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
@@ -76,17 +76,17 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
         /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
         /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/>.</returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
             this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
@@ -101,17 +101,17 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
         /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
-        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose().</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/>.</returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
             this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
@@ -128,18 +128,18 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
         /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="selector">The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.</param>
-        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose().</param>
         /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/>.</returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
             this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
@@ -157,11 +157,11 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
         /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="selector">
         /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
         /// The second parameter is the index of the element.
@@ -173,7 +173,7 @@ namespace Gu.Reactive
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/>.</returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
             this IEnumerable<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -189,11 +189,11 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
         /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="selector">
         /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
         /// The second parameter is the index of the element.
@@ -206,7 +206,7 @@ namespace Gu.Reactive
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/>.</returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
             this IEnumerable<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -223,11 +223,11 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
         /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="selector">
         /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
         /// The second parameter is the index of the element.
@@ -236,11 +236,11 @@ namespace Gu.Reactive
         /// The function updating an element for which the index changed.
         /// The second parameter is the index of the element.
         /// </param>
-        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose().</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/>.</returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
             this IEnumerable<TSource> source,
             Func<TSource, int, TResult> selector,
@@ -258,11 +258,11 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>
+        /// Create a <see cref="MappingView{TSource, TResult}"/> for <paramref name="source"/>.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements in the collection.</typeparam>
         /// <typeparam name="TResult">The type of the elements in the resulting collection.</typeparam>
-        /// <param name="source">The source collection</param>
+        /// <param name="source">The source collection.</param>
         /// <param name="selector">
         /// The function mapping an element of type <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
         /// The second parameter is the index of the element.
@@ -271,12 +271,12 @@ namespace Gu.Reactive
         /// The function updating an element for which the index changed.
         /// The second parameter is the index of the element.
         /// </param>
-        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose()</param>
+        /// <param name="onRemove">An action to perform when an item is removed from the collection. Typically it will be x => x.Dispose().</param>
         /// <param name="bufferTime">The time to buffer changes before updating and notifying.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
-        /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
+        /// <returns>A <see cref="MappingView{TSource, TResult}"/>.</returns>
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
             this IEnumerable<TSource> source,
             Func<TSource, int, TResult> selector,

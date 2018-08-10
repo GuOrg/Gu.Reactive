@@ -85,7 +85,7 @@
             var expected = new[]
             {
                 typeof(Fake<ReadOnlyObservableCollection<int>>).GetProperty("Value"),
-                typeof(ReadOnlyObservableCollection<int>).GetProperty("Count")
+                typeof(ReadOnlyObservableCollection<int>).GetProperty("Count"),
             };
             CollectionAssert.AreEqual(expected, actuals1);
             var actuals2 = PropertyPathParser.GetPath<Fake<ReadOnlyObservableCollection<int>>, int>(f => f.Value.Count);

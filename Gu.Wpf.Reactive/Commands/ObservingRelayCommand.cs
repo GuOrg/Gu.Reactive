@@ -8,7 +8,7 @@ namespace Gu.Wpf.Reactive
 
     /// <summary>
     /// A command that does not use the CommandParameter
-    /// Signals CanExecuteChanged when observable signals
+    /// Signals CanExecuteChanged when observable signals.
     /// </summary>
     public class ObservingRelayCommand : ManualRelayCommand, IDisposable
     {
@@ -19,8 +19,8 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="ObservingRelayCommand"/> class.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
-        /// <param name="criteria">The criteria for CanExecute</param>
-        /// <param name="observable">The observable notifying about update of CanExecute</param>
+        /// <param name="criteria">The criteria for CanExecute.</param>
+        /// <param name="observable">The observable notifying about update of CanExecute.</param>
         public ObservingRelayCommand(
             Action action,
             Func<bool> criteria,

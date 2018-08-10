@@ -5,7 +5,7 @@ namespace Gu.Wpf.Reactive
     using Gu.Reactive;
 
     /// <summary>
-    /// A command that does not use the CommandParameter
+    /// A command that does not use the CommandParameter.
     /// </summary>
     public class ConditionRelayCommand : ManualRelayCommand, IConditionRelayCommand
     {
@@ -16,7 +16,7 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="ConditionRelayCommand"/> class.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
-        /// <param name="condition">The criteria by CanExecute</param>
+        /// <param name="condition">The criteria by CanExecute.</param>
         public ConditionRelayCommand(Action action, ICondition condition)
             : base(action, () => condition.IsSatisfied == true)
         {
@@ -73,7 +73,7 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <summary>
-        /// Throws if the instance has been disposed
+        /// Throws if the instance has been disposed.
         /// </summary>
         protected void ThrowIfDisposed()
         {

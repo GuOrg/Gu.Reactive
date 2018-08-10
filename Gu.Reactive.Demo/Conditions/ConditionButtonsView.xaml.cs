@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for ConditionButtons.xaml
+    /// Interaction logic for ConditionButtons.xaml.
     /// </summary>
     public partial class ConditionButtonsView : UserControl
     {

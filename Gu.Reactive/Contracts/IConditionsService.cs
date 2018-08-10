@@ -9,7 +9,7 @@
         /// Useful for returning mocks.
         /// </summary>
         /// <typeparam name="T">The type of condition to get.</typeparam>
-        /// <returns>A condition of type <typeparamref name="T"/></returns>
+        /// <returns>A condition of type <typeparamref name="T"/>.</returns>
         ICondition Get<T>()
             where T : ICondition;
     }

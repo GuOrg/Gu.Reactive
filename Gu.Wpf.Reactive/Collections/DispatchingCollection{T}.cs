@@ -7,7 +7,7 @@
     using Gu.Reactive;
 
     /// <summary>
-    /// An <see cref="ObservableBatchCollection{T}"/> that notifies on the dispatcher if needed
+    /// An <see cref="ObservableBatchCollection{T}"/> that notifies on the dispatcher if needed.
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
     [Serializable]
@@ -23,14 +23,14 @@
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DispatchingCollection{T}"/> class.
-        /// It contains elements copied from the specified list
+        /// It contains elements copied from the specified list.
         /// </summary>
         /// <param name="collection">The list whose elements are copied to the new list.</param>
         /// <remarks>
         /// The elements are copied onto the ObservableCollection in the
         /// same order they are read by the enumerator of the list.
         /// </remarks>
-        /// <exception cref="ArgumentNullException"> list is a null reference </exception>
+        /// <exception cref="ArgumentNullException"> list is a null reference. </exception>
         public DispatchingCollection(IList<T> collection)
             : base(collection)
         {
@@ -46,7 +46,7 @@
         /// The elements are copied onto the ObservableCollection in the
         /// same order they are read by the enumerator of the collection.
         /// </remarks>
-        /// <exception cref="ArgumentNullException"> collection is a null reference </exception>
+        /// <exception cref="ArgumentNullException"> collection is a null reference. </exception>
         public DispatchingCollection(IEnumerable<T> collection)
             : base(collection)
         {

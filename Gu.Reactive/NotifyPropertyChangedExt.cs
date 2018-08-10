@@ -24,10 +24,10 @@ namespace Gu.Reactive
         /// <param name="source">The source instance to track changes for. </param>
         /// <param name="property">
         /// An expression specifying the property path to track.
-        /// Example x => x.Foo.Bar.Meh
+        /// Example x => x.Foo.Bar.Meh.
         ///  </param>
         /// <param name="signalInitial">
-        /// If true OnNext is called immediately on subscribe
+        /// If true OnNext is called immediately on subscribe.
         /// </param>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
             this TNotifier source,
@@ -52,7 +52,7 @@ namespace Gu.Reactive
         /// </summary>
         /// <param name="source"> The source instance to track changes for. </param>
         /// <param name="propertyName"> The name of the property to track. Note that nested properties are not allowed. </param>
-        /// <param name="signalInitial"> If true OnNext is called immediately on subscribe </param>
+        /// <param name="signalInitial"> If true OnNext is called immediately on subscribe. </param>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(
             this INotifyPropertyChanged source,
             string propertyName,
@@ -93,10 +93,10 @@ namespace Gu.Reactive
         /// <param name="source">The source instance to track changes for. </param>
         /// <param name="property">
         /// An expression specifying the property path to track.
-        /// Example x => x.Foo.Bar.Meh
+        /// Example x => x.Foo.Bar.Meh.
         ///  </param>
         /// <param name="signalInitial">
-        /// If true OnNext is called immediately on subscribe
+        /// If true OnNext is called immediately on subscribe.
         /// </param>
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim<TNotifier, TProperty>(
             this TNotifier source,
@@ -112,11 +112,11 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// This is a faster version of ObservePropertyChanged. It returns only the <see cref="PropertyChangedEventArgs"/> from source and not the EventPattern
+        /// This is a faster version of ObservePropertyChanged. It returns only the <see cref="PropertyChangedEventArgs"/> from source and not the EventPattern.
         /// </summary>
         /// <param name="source"> The source instance to track changes for. </param>
         /// <param name="propertyName"> The name of the property to track. Note that nested properties are not allowed. </param>
-        /// <param name="signalInitial"> If true OnNext is called immediately on subscribe </param>
+        /// <param name="signalInitial"> If true OnNext is called immediately on subscribe. </param>
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source, string propertyName, bool signalInitial = true)
         {
             Ensure.NotNull(source, nameof(source));
@@ -157,7 +157,7 @@ namespace Gu.Reactive
         /// </summary>
         /// <param name="source">The source instance.</param>
         /// <param name="property">An expression specifying the property path.</param>
-        /// <param name="signalInitial"> If true OnNext is called immediately on subscribe </param>
+        /// <param name="signalInitial"> If true OnNext is called immediately on subscribe. </param>
         public static IObservable<PropertyChangedEventArgs> ObserveFullPropertyPathSlim<TNotifier, TProperty>(this TNotifier source, Expression<Func<TNotifier, TProperty>> property, bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
@@ -185,10 +185,10 @@ namespace Gu.Reactive
         /// <param name="source">The source instance to track changes for. </param>
         /// <param name="property">
         /// An expression specifying the property path to track.
-        /// Example x => x.Foo.Bar.Meh
+        /// Example x => x.Foo.Bar.Meh.
         ///  </param>
         /// <param name="signalInitial">
-        /// If true OnNext is called immediately on subscribe
+        /// If true OnNext is called immediately on subscribe.
         /// </param>
         public static IObservable<Maybe<TProperty>> ObserveValue<TNotifier, TProperty>(
             this TNotifier source,
@@ -213,7 +213,7 @@ namespace Gu.Reactive
         /// <param name="source">The source.</param>
         /// <param name="property">An expression specifying the property path.</param>
         /// <param name="signalInitial">If true OnNext is called immediately on subscribe.</param>
-        /// <typeparam name="TNotifier">The type of <paramref name="source"/></typeparam>
+        /// <typeparam name="TNotifier">The type of <paramref name="source"/>.</typeparam>
         /// <typeparam name="TProperty">The type of the last property in the path.</typeparam>
         /// <returns>The <see cref="IObservable{T}"/> of type of type <see cref="EventPattern{TArgs}"/> of type <see cref="PropertyChangedAndValueEventArgs{TProperty}"/>.</returns>
         public static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(
@@ -250,7 +250,7 @@ namespace Gu.Reactive
         /// A cached property path. Creating the property path from Expression&lt;Func&lt;TNotifier, TProperty&gt;&gt; is a bit expensive so caching can make sense.
         ///  </param>
         /// <param name="signalInitial">
-        /// If true OnNext is called immediately on subscribe
+        /// If true OnNext is called immediately on subscribe.
         /// </param>
         internal static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
             this TNotifier source,
@@ -393,6 +393,7 @@ namespace Gu.Reactive
                         {
                             propertyTracker.TrackedPropertyChanged += Handler;
                         }
+
                         return Disposable.Create(
                             () =>
                                 {

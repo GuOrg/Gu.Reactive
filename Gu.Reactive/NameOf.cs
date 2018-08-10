@@ -21,7 +21,7 @@
         /// Property expression on the the form () =&gt; Instance.Property.
         /// </param>
         /// <param name="allowNestedProperty">
-        /// Throw an exception if the provided path is a multi level path (e.g. a.b)
+        /// Throw an exception if the provided path is a multi level path (e.g. a.b).
         /// </param>
         /// <returns>
         /// Returns the simple name of the property.
@@ -43,7 +43,7 @@
         /// Returns the name of a property provided as a property expression.
         /// </summary>
         /// <typeparam name="TSource">
-        /// Type of the item
+        /// Type of the item.
         /// </typeparam>
         /// <param name="property">
         /// Property expression on the the form () =&gt; Instance.Property.
@@ -61,7 +61,7 @@
         /// Returns the name of a property provided as a property expression.
         /// </summary>
         /// <typeparam name="TItem">
-        /// Type of the item
+        /// Type of the item.
         /// </typeparam>
         /// <typeparam name="TValue">
         /// Type of the property.

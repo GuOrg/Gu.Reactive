@@ -45,7 +45,7 @@ namespace Gu.Reactive
         /// Determines whether two objects of type <see cref="Maybe{T}" /> are equal.
         /// </summary>
         /// <returns>true if the specified objects are equal; otherwise, false.
-        /// null if <paramref name="x"/> doe snot have value</returns>
+        /// null if <paramref name="x"/> doe snot have value.</returns>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
         /// <param name="compare">How to compare x and y.</param>
@@ -57,7 +57,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Cast to Maybe{T}
+        /// Cast to Maybe{T}.
         /// </summary>
         public static Maybe<T> Cast<T>(this Maybe<object> maybe)
         {
@@ -67,7 +67,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Cast to Maybe{T}
+        /// Cast to Maybe{T}.
         /// </summary>
         public static Maybe<T> Cast<T>(this IMaybe<object> maybe)
         {

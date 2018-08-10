@@ -32,7 +32,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                                             {
                                                 indexed,
                                                 indexedUpdating,
-                                                indexedNewing
+                                                indexedNewing,
                                             };
                             foreach (var view in views)
                             {

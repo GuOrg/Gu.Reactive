@@ -5,7 +5,7 @@
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Used internally in <see cref="AndCondition"/>
+    /// Used internally in <see cref="AndCondition"/>.
     /// </summary>
     internal class AndConditionCollection : ConditionCollection
     {

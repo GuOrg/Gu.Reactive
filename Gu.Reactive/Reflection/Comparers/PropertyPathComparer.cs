@@ -7,7 +7,7 @@ namespace Gu.Reactive
 
     /// <summary>
     /// A comparer for lambda expressions with only properties.
-    /// Example x => x.Foo.Bar or () => Foo.Bar
+    /// Example x => x.Foo.Bar or () => Foo.Bar.
     /// </summary>
     public sealed class PropertyPathComparer : IEqualityComparer<LambdaExpression>
     {

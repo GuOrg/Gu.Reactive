@@ -108,7 +108,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                     {
                         CachedEventArgs.CountPropertyChanged,
                         CachedEventArgs.IndexerPropertyChanged,
-                        CachedEventArgs.NotifyCollectionReset
+                        CachedEventArgs.NotifyCollectionReset,
                     };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
@@ -139,7 +139,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                     {
                         CachedEventArgs.CountPropertyChanged,
                         CachedEventArgs.IndexerPropertyChanged,
-                        CachedEventArgs.NotifyCollectionReset
+                        CachedEventArgs.NotifyCollectionReset,
                     };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
@@ -172,7 +172,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                 var expected = new[]
                                    {
                                        new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset),
-                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)
+                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset),
                                    };
                 CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
             }
@@ -229,7 +229,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                                        {
                                            CachedEventArgs.CountPropertyChanged,
                                            CachedEventArgs.IndexerPropertyChanged,
-                                           CachedEventArgs.NotifyCollectionReset
+                                           CachedEventArgs.NotifyCollectionReset,
                                        };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }

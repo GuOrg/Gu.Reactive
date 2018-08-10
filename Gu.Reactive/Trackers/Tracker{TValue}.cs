@@ -55,7 +55,7 @@
         }
 
         /// <summary>
-        /// Reset calculation of <see cref="Value"/>
+        /// Reset calculation of <see cref="Value"/>.
         /// </summary>
         public virtual void Reset()
         {
@@ -73,7 +73,7 @@
         /// <summary>
         /// Protected implementation of Dispose pattern.
         /// </summary>
-        /// <param name="disposing">true: safe to free managed resources</param>
+        /// <param name="disposing">true: safe to free managed resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)

@@ -6,7 +6,7 @@ namespace Gu.Reactive
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// A wrapper around a delegate created from a <see cref="PropertyInfo.GetMethod"/>
+    /// A wrapper around a delegate created from a <see cref="PropertyInfo.GetMethod"/>.
     /// </summary>
     /// <typeparam name="TSource">The source type.</typeparam>
     /// <typeparam name="TValue">The property type.</typeparam>

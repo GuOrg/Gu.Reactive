@@ -6,7 +6,7 @@
     using Gu.Reactive;
 
     /// <summary>
-    /// A command with a <see cref="ICondition"/> controlling <see cref="ICommand.CanExecute(object)"/>
+    /// A command with a <see cref="ICondition"/> controlling <see cref="ICommand.CanExecute(object)"/>.
     /// </summary>
     public interface IConditionRelayCommand : ICommand, IDisposable
     {

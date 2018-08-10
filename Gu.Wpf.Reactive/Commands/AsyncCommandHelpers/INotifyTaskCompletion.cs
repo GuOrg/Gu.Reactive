@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// A notifying view of a task execution
+    /// A notifying view of a task execution.
     /// </summary>
     public interface INotifyTaskCompletion : INotifyPropertyChanged
     {
@@ -20,32 +20,32 @@
         Task Completed { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         TaskStatus Status { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         bool IsCompleted { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         bool IsNotCompleted { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         bool IsSuccessfullyCompleted { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         bool IsCanceled { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         bool IsFaulted { get; }
 

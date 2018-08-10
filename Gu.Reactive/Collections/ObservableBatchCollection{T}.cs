@@ -8,7 +8,7 @@ namespace Gu.Reactive
     using System.ComponentModel;
 
     /// <summary>
-    /// An <see cref="ObservableCollection{T}"/> with support for AddRange and RemoveRange
+    /// An <see cref="ObservableCollection{T}"/> with support for AddRange and RemoveRange.
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
     [Serializable]
@@ -28,14 +28,14 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableBatchCollection{T}"/> class.
-        /// It contains elements copied from the specified list
+        /// It contains elements copied from the specified list.
         /// </summary>
         /// <param name="collection">The list whose elements are copied to the new list.</param>
         /// <remarks>
         /// The elements are copied onto the ObservableCollection in the
         /// same order they are read by the enumerator of the list.
         /// </remarks>
-        /// <exception cref="ArgumentNullException"> list is a null reference </exception>
+        /// <exception cref="ArgumentNullException"> list is a null reference. </exception>
         public ObservableBatchCollection(IList<T> collection)
             : base(collection)
         {
@@ -51,7 +51,7 @@ namespace Gu.Reactive
         /// The elements are copied onto the ObservableCollection in the
         /// same order they are read by the enumerator of the collection.
         /// </remarks>
-        /// <exception cref="ArgumentNullException"> collection is a null reference </exception>
+        /// <exception cref="ArgumentNullException"> collection is a null reference. </exception>
         public ObservableBatchCollection(IEnumerable<T> collection)
             : base(collection)
         {
@@ -103,7 +103,7 @@ namespace Gu.Reactive
         /// <summary>
         /// 1. Clear the collection.
         /// 2. AddRange <paramref name="items"/>
-        /// 3. Notify reset once
+        /// 3. Notify reset once.
         /// </summary>
         /// <param name="items">The new contents of the collection.</param>
         public void ResetTo(IEnumerable<T> items)
@@ -203,7 +203,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Raise reset events, Count, Item[] then CollectionReset
+        /// Raise reset events, Count, Item[] then CollectionReset.
         /// </summary>
         protected virtual void RaiseReset()
         {

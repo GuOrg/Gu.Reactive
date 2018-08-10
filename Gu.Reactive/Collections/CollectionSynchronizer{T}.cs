@@ -90,7 +90,7 @@
         /// <summary>
         /// Lock the collection and get a copy.
         /// </summary>
-        /// <returns>A copy of this instance</returns>
+        /// <returns>A copy of this instance.</returns>
         public IReadOnlyList<T> Snapshot()
         {
             lock (this.Items)

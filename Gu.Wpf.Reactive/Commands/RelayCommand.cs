@@ -13,7 +13,7 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="RelayCommand"/> class.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
-        /// <param name="criteria">The criteria for CanExecute</param>
+        /// <param name="criteria">The criteria for CanExecute.</param>
         public RelayCommand(Action action, Func<bool> criteria)
             : base(action, criteria)
         {

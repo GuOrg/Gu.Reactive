@@ -9,7 +9,7 @@
     public interface ICondition : ISatisfied, IDisposable
     {
         /// <summary>
-        /// Gets the name. The default name is this.GetType().PrettyName()
+        /// Gets the name. The default name is this.GetType().PrettyName().
         /// </summary>
         string Name { get; }
 

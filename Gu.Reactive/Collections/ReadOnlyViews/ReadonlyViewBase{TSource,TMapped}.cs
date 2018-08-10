@@ -125,7 +125,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Lock the collection and get a copy.
         /// </summary>
-        /// <returns>A copy of this instance</returns>
+        /// <returns>A copy of this instance.</returns>
         public IReadOnlyList<TMapped> Snapshot()
         {
             return this.tracker.Snapshot();
@@ -201,7 +201,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Protected implementation of Dispose pattern.
         /// </summary>
-        /// <param name="disposing">true: safe to free managed resources</param>
+        /// <param name="disposing">true: safe to free managed resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (this.IsDisposed)

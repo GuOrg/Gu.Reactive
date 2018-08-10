@@ -54,7 +54,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var collection = new ObservableCollection<Fake>
                                      {
                                          new Fake { Next = new Level { Name = "Johan" } },
-                                         new Fake { Next = new Level { Name = "Reed" } }
+                                         new Fake { Next = new Level { Name = "Reed" } },
                                      };
                 var fake = new FakeWithCollection { Collection = collection };
                 using (fake.ObservePropertyChangedWithValue(x => x.Collection, signalInitial: true)
@@ -91,7 +91,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var collection = new ObservableCollection<Fake>
                                      {
                                          new Fake { Next = new Level { Name = "Johan" } },
-                                         new Fake { Next = new Level { Name = "Reed" } }
+                                         new Fake { Next = new Level { Name = "Reed" } },
                                      };
                 var fake = new FakeWithCollection { Collection = collection };
                 using (fake.ObservePropertyChangedWithValue(x => x.Collection, signalInitial: true)
@@ -119,7 +119,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var collection = new ObservableCollection<Fake>
                                      {
                                          new Fake { Next = new Level { Name = "1" } },
-                                         new Fake { Next = new Level { Name = "2" } }
+                                         new Fake { Next = new Level { Name = "2" } },
                                      };
                 var fake = new FakeWithCollection { Collection = collection };
                 using (fake.ObservePropertyChangedWithValue(x => x.Collection, signalInitial: true)
@@ -133,7 +133,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     fake.Collection = new ObservableCollection<Fake>
                                      {
                                          new Fake { Next = new Level { Name = "3" } },
-                                         new Fake { Next = new Level { Name = "4" } }
+                                         new Fake { Next = new Level { Name = "4" } },
                                      };
 
                     Assert.AreEqual(4, changes.Count);

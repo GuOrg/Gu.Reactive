@@ -5,7 +5,7 @@
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Used internally in <see cref="OrCondition"/>
+    /// Used internally in <see cref="OrCondition"/>.
     /// </summary>
     internal class OrConditionCollection : ConditionCollection
     {

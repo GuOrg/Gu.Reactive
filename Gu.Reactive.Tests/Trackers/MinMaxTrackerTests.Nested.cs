@@ -113,7 +113,7 @@ namespace Gu.Reactive.Tests.Trackers
                 {
                     new Fake { Level1 = new Level1 { Value = 1 } },
                     new Fake { Level1 = new Level1 { Value = 2 } },
-                    new Fake { Level1 = new Level1 { Value = 3 } }
+                    new Fake { Level1 = new Level1 { Value = 3 } },
                 };
                 using (var tracker = source.TrackMinMax(x => x.Level1.Value))
                 {

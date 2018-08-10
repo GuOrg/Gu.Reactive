@@ -6,7 +6,7 @@ namespace Gu.Wpf.Reactive
     using System.Threading.Tasks;
 
     /// <summary>
-    /// A notifying view of a task execution
+    /// A notifying view of a task execution.
     /// </summary>
     /// <typeparam name="T">The type of the task.</typeparam>
     public abstract class NotifyTaskCompletionBase<T> : INotifyPropertyChanged
@@ -40,32 +40,32 @@ namespace Gu.Wpf.Reactive
         public T Task { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         public TaskStatus Status => this.Task.Status;
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         public bool IsCompleted => this.Task.IsCompleted;
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         public bool IsNotCompleted => !this.Task.IsCompleted;
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         public bool IsSuccessfullyCompleted => this.Task.Status == TaskStatus.RanToCompletion;
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         public bool IsCanceled => this.Task.IsCanceled;
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>
+        /// The current status of the <see cref="Task"/>.
         /// </summary>
         public bool IsFaulted => this.Task.IsFaulted;
 

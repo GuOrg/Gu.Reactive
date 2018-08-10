@@ -6,7 +6,7 @@ namespace Gu.Reactive.Internals
     internal static class SetExt
     {
         /// <summary>
-        /// This is not nice but can't think of another way as we don't own <paramref name="other"/>
+        /// This is not nice but can't think of another way as we don't own <paramref name="other"/>.
         /// </summary>
         internal static void UnionWithWithRetries<T>(this HashSet<T> set, IEnumerable<T> other)
         {

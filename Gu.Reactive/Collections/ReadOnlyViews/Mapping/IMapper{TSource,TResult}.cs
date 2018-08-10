@@ -3,7 +3,7 @@
     using System;
 
     /// <summary>
-    /// A factory for mapping values from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>
+    /// A factory for mapping values from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
     /// </summary>
     internal interface IMapper<in TSource, TResult> : IDisposable
     {
@@ -13,12 +13,12 @@
         bool CanUpdateIndex { get; }
 
         /// <summary>
-        /// Get or create a mapped value for <paramref name="key"/> at position <paramref name="index"/>
+        /// Get or create a mapped value for <paramref name="key"/> at position <paramref name="index"/>.
         /// </summary>
         TResult GetOrCreate(TSource key, int index);
 
         /// <summary>
-        /// Update index for <paramref name="key"/>
+        /// Update index for <paramref name="key"/>.
         /// </summary>
         TResult Update(TSource key, TResult oldResult, int index);
 
@@ -28,7 +28,7 @@
         void Remove(TSource source, TResult mapped);
 
         /// <summary>
-        /// Start a refresh transaction. This happens when the wrapped collection signals Reset
+        /// Start a refresh transaction. This happens when the wrapped collection signals Reset.
         /// </summary>
         IDisposable RefreshTransaction();
     }

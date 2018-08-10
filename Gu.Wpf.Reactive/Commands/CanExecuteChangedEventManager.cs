@@ -68,7 +68,7 @@
         }
 
         /// <summary>
-        /// Adds the specified event handler
+        /// Adds the specified event handler.
         /// </summary>
         /// <param name="source">The source object that the raises the event.</param>
         /// <param name="handler">The delegate that handles the event.</param>

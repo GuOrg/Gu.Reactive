@@ -13,7 +13,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using NUnit.Framework;
 
     /// <summary>
-    /// This class is just to make sure all overloads compile
+    /// This class is just to make sure all overloads compile.
     /// </summary>
     public class ExtensionsTests
     {

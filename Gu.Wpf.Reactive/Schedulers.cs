@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Reactive.Concurrency;
@@ -12,9 +12,9 @@
     {
         /// <summary>
         /// Observes on DispatcherScheduler.Current id not null
-        /// Falls back to DispatcherScheduler.Current (for tests)
+        /// Falls back to DispatcherScheduler.Current (for tests).
         /// </summary>
-        /// <returns>The scheduler</returns>
+        /// <returns>The scheduler.</returns>
         public static IScheduler DispatcherOrCurrentThread
         {
             get
@@ -30,8 +30,8 @@
         }
 
         /// <summary>
-        /// Observs on DispatcherScheduler.Current id not null
-        /// Falls back to DispatcherScheduler.Current (for tests)
+        /// Observes on DispatcherScheduler.Current id not null
+        /// Falls back to DispatcherScheduler.Current (for tests).
         /// </summary>
         public static IObservable<T> ObserveOnDispatcherOrCurrentThread<T>(this IObservable<T> observable)
         {

@@ -10,7 +10,7 @@ namespace Gu.Reactive
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Factory methods for creating <see cref="IGetter"/> from <see cref="PropertyInfo"/>
+    /// Factory methods for creating <see cref="IGetter"/> from <see cref="PropertyInfo"/>.
     /// </summary>
     public static class Getter
     {
@@ -23,7 +23,7 @@ namespace Gu.Reactive
                  .ToArray();
 
         /// <summary>
-        /// Get or create an <see cref="IGetter"/> for <paramref name="property"/>
+        /// Get or create an <see cref="IGetter"/> for <paramref name="property"/>.
         /// </summary>
         public static IGetter GetOrCreate(PropertyInfo property)
         {
@@ -41,7 +41,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Check that a Getter can be created for the property
+        /// Check that a Getter can be created for the property.
         /// </summary>
         /// <exception cref="ArgumentException">If the property does not have a getter.</exception>
         public static void VerifyProperty(PropertyInfo property)

@@ -4,7 +4,7 @@ namespace Gu.Reactive
     using System.Reactive.Linq;
 
     /// <summary>
-    /// Helper methods for <see cref="Chunk{T}"/>
+    /// Helper methods for <see cref="Chunk{T}"/>.
     /// </summary>
     public static class Chunk
     {

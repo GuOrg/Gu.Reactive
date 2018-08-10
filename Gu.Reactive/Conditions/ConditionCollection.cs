@@ -10,7 +10,7 @@ namespace Gu.Reactive
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Base class for collections of conditions
+    /// Base class for collections of conditions.
     /// </summary>
     public abstract class ConditionCollection : ReadOnlySerialViewBase<ICondition>, ISatisfied
     {

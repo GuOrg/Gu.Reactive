@@ -162,7 +162,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     CollectionAssert.IsEmpty(actual);
                     fake.Level1 = new Level1
                     {
-                        Level2 = new Level2()
+                        Level2 = new Level2(),
                     };
 
                     var expected = new List<string> { "Level1" };

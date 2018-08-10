@@ -10,7 +10,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     using NUnit.Framework;
 
     /// <summary>
-    /// This class is just to make sure all overloads compile
+    /// This class is just to make sure all overloads compile.
     /// </summary>
     public class ExtensionsTests
     {

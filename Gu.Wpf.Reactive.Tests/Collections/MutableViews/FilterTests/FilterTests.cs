@@ -61,7 +61,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.FilterTests
                 {
                     CachedEventArgs.CountPropertyChanged,
                     CachedEventArgs.IndexerPropertyChanged,
-                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, 3, 2)
+                    new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, 3, 2),
                 };
 
                 Assert.AreEqual(1, actual.Count(x => EventArgsComparer.Equals(x, FilterChangedEventArgs)));
@@ -92,7 +92,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.FilterTests
                     {
                         CachedEventArgs.CountPropertyChanged,
                         CachedEventArgs.IndexerPropertyChanged,
-                        CachedEventArgs.NotifyCollectionReset
+                        CachedEventArgs.NotifyCollectionReset,
                     });
                 Assert.AreEqual(1, actual.Count(x => EventArgsComparer.Equals(x, FilterChangedEventArgs)));
                 CollectionAssert.AreEqual(expected, actual.Where(x => !EventArgsComparer.Equals(x, FilterChangedEventArgs)), EventArgsComparer.Default);

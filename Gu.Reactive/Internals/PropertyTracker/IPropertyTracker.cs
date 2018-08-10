@@ -4,7 +4,7 @@ namespace Gu.Reactive.Internals
     using System.ComponentModel;
 
     /// <summary>
-    /// A tracker for a property in a <see cref="IPropertyPathTracker"/>
+    /// A tracker for a property in a <see cref="IPropertyPathTracker"/>.
     /// </summary>
     internal interface IPropertyTracker : IDisposable
     {

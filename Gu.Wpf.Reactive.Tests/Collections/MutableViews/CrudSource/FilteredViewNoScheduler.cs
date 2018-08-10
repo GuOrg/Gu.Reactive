@@ -95,7 +95,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
                                        {
                                            CachedEventArgs.CountPropertyChanged,
                                            CachedEventArgs.IndexerPropertyChanged,
-                                           Diff.CreateRemoveEventArgs(2, 0)
+                                           Diff.CreateRemoveEventArgs(2, 0),
                                        };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
@@ -133,7 +133,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
                                        {
                                            CachedEventArgs.CountPropertyChanged,
                                            CachedEventArgs.IndexerPropertyChanged,
-                                           Diff.CreateAddEventArgs(2, 0)
+                                           Diff.CreateAddEventArgs(2, 0),
                                        };
                     CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
                 }

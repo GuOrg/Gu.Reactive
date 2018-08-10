@@ -10,7 +10,7 @@ namespace Gu.Wpf.Reactive
     using Gu.Reactive;
 
     /// <summary>
-    /// Exposes AdornedElement and sets DataContext to the CommandProxy of the adorned element
+    /// Exposes AdornedElement and sets DataContext to the CommandProxy of the adorned element.
     /// </summary>
     public class ConditionToolTip : ToolTip
     {
@@ -69,7 +69,7 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <summary>
-        /// The command type of the PlacementTarget
+        /// The command type of the PlacementTarget.
         /// </summary>
         public Type CommandType
         {
@@ -87,7 +87,7 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <summary>
-        /// The condition if the command is a ConditionRelayCommand null otherwise
+        /// The condition if the command is a ConditionRelayCommand null otherwise.
         /// </summary>
         public ICondition Condition
         {

@@ -28,13 +28,13 @@ namespace Gu.Reactive
         /// Initializes a new instance of the <see cref="Condition"/> class.
         /// </summary>
         /// <param name="observable">
-        /// The observable that triggers updates of <see cref="IsSatisfied"/>
+        /// The observable that triggers updates of <see cref="IsSatisfied"/>.
         /// </param>
         /// <param name="criteria">
         /// The criteria that is evaluated to give IsSatisfied.
         /// </param>
         /// <param name="observables">
-        /// More observables that triggers updates of <see cref="IsSatisfied"/>
+        /// More observables that triggers updates of <see cref="IsSatisfied"/>.
         /// </param>
         public Condition(Func<bool?> criteria, IObservable<object> observable, params IObservable<object>[] observables)
             : this(Observable.Merge(observables.Concat(new[] { observable })), criteria)
@@ -45,7 +45,7 @@ namespace Gu.Reactive
         /// Initializes a new instance of the <see cref="Condition"/> class.
         /// </summary>
         /// <param name="observable">
-        /// The observable that triggers updates of <see cref="IsSatisfied"/>
+        /// The observable that triggers updates of <see cref="IsSatisfied"/>.
         /// </param>
         /// <param name="criteria">
         /// The criteria that is evaluated to give IsSatisfied.
@@ -78,7 +78,7 @@ namespace Gu.Reactive
         public IEnumerable<ConditionHistoryPoint> History => this.history;
 
         /// <summary>
-        /// The sub conditions for this condition
+        /// The sub conditions for this condition.
         /// </summary>
         public virtual IReadOnlyList<ICondition> Prerequisites
         {
@@ -124,7 +124,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Gets or sets the name. The default name is .GetType().PrettyName()
+        /// Gets or sets the name. The default name is .GetType().PrettyName().
         /// </summary>
         public string Name
         {
@@ -298,7 +298,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Update <see cref="IsSatisfied"/> with <see cref="criteria"/>
+        /// Update <see cref="IsSatisfied"/> with <see cref="criteria"/>.
         /// </summary>
         protected void UpdateIsSatisfied()
         {

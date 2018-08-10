@@ -8,7 +8,7 @@ namespace Gu.Wpf.Reactive
 
     /// <summary>
     /// A command with CommandParameter of type <typeparamref name="T"/>
-    /// Signals CanExecuteChanged when observable signals
+    /// Signals CanExecuteChanged when observable signals.
     /// </summary>
     /// <typeparam name="T">The type of the command parameter.</typeparam>
     public class ObservingRelayCommand<T> : ManualRelayCommand<T>, IDisposable
@@ -21,8 +21,8 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="ObservingRelayCommand{T}"/> class.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
-        /// <param name="criteria">The criteria for CanExecute</param>
-        /// <param name="observable">The observable notifying about update of CanExecute</param>
+        /// <param name="criteria">The criteria for CanExecute.</param>
+        /// <param name="observable">The observable notifying about update of CanExecute.</param>
         public ObservingRelayCommand(
             Action<T> action,
             Func<T, bool> criteria,

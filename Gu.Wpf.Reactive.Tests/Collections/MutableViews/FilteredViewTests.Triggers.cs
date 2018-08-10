@@ -42,7 +42,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                                                {
                                                    CachedEventArgs.CountPropertyChanged,
                                                    CachedEventArgs.IndexerPropertyChanged,
-                                                   CachedEventArgs.NotifyCollectionReset
+                                                   CachedEventArgs.NotifyCollectionReset,
                                                };
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                             CollectionAssert.IsEmpty(view);
@@ -77,7 +77,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                             {
                             CachedEventArgs.CountPropertyChanged,
                             CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateAddEventArgs(4, 3)
+                            Diff.CreateAddEventArgs(4, 3),
                             };
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                             CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);
@@ -112,7 +112,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                                                {
                                                    CachedEventArgs.CountPropertyChanged,
                                                    CachedEventArgs.IndexerPropertyChanged,
-                                                   Diff.CreateAddEventArgs(4, 3)
+                                                   Diff.CreateAddEventArgs(4, 3),
                                                };
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                             CollectionAssert.AreEqual(new[] { 1, 2, 3, 4 }, view);

@@ -4,7 +4,7 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// A view of the changes in an observable collection
+    /// A view of the changes in an observable collection.
     /// </summary>
     public interface IChanges<TValue> : IDisposable
     {

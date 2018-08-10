@@ -6,7 +6,7 @@ namespace Gu.Reactive
     using System.Runtime.CompilerServices;
 
     /// <summary>
-    /// A generic version of <see cref="System.Reactive.Disposables.SerialDisposable"/>
+    /// A generic version of <see cref="System.Reactive.Disposables.SerialDisposable"/>.
     /// </summary>
     public sealed class SerialDisposable<T> : ICancelable, IDisposable, INotifyPropertyChanged
         where T : class, IDisposable

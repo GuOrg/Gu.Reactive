@@ -6,7 +6,7 @@ namespace Gu.Reactive
     /// Creates an <see cref="ICondition"/> from a collection of conditions.
     /// It is Satisfied when all prerequisites are satisfied.
     /// If any prerequisite IsSatisfied returns false.
-    /// If no prerequisite is IsSatisfied == false and any prerequisite is null the result is null
+    /// If no prerequisite is IsSatisfied == false and any prerequisite is null the result is null.
     /// </summary>
     public class AndCondition : CollectionCondition
     {

@@ -5,7 +5,7 @@ namespace Gu.Reactive
     using System.Linq;
 
     /// <summary>
-    /// http://www.codeproject.com/Articles/28405/Make-the-debugger-show-the-contents-of-your-custom
+    /// http://www.codeproject.com/Articles/28405/Make-the-debugger-show-the-contents-of-your-custom.
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public class CollectionDebugView<T>

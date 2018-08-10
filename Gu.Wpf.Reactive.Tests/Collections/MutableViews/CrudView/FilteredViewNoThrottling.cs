@@ -40,7 +40,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
                     {
                         CachedEventArgs.CountPropertyChanged,
                         CachedEventArgs.IndexerPropertyChanged,
-                        Diff.CreateAddEventArgs(1, 0)
+                        Diff.CreateAddEventArgs(1, 0),
                     };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
@@ -63,7 +63,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
                     {
                         CachedEventArgs.CountPropertyChanged,
                         CachedEventArgs.IndexerPropertyChanged,
-                        Diff.CreateAddEventArgs(1, 0)
+                        Diff.CreateAddEventArgs(1, 0),
                     };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
@@ -86,7 +86,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
                     {
                         CachedEventArgs.CountPropertyChanged,
                         CachedEventArgs.IndexerPropertyChanged,
-                        Diff.CreateAddEventArgs(4, 1)
+                        Diff.CreateAddEventArgs(4, 1),
                     };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
@@ -109,7 +109,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
                     {
                         CachedEventArgs.CountPropertyChanged,
                         CachedEventArgs.IndexerPropertyChanged,
-                        Diff.CreateAddEventArgs(4, 0)
+                        Diff.CreateAddEventArgs(4, 0),
                     };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
@@ -132,7 +132,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
                     {
                         CachedEventArgs.CountPropertyChanged,
                         CachedEventArgs.IndexerPropertyChanged,
-                        Diff.CreateRemoveEventArgs(2, 0)
+                        Diff.CreateRemoveEventArgs(2, 0),
                     };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
@@ -154,7 +154,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
                     var expected = new EventArgs[]
                     {
                         CachedEventArgs.IndexerPropertyChanged,
-                        Diff.CreateReplaceEventArgs(4, 2, 0)
+                        Diff.CreateReplaceEventArgs(4, 2, 0),
                     };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
@@ -176,7 +176,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
                     var expected = new EventArgs[]
                     {
                         CachedEventArgs.IndexerPropertyChanged,
-                        Diff.CreateReplaceEventArgs(4, 2, 1)
+                        Diff.CreateReplaceEventArgs(4, 2, 1),
                     };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }

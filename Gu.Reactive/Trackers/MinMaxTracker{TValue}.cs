@@ -75,7 +75,7 @@
         }
 
         /// <summary>
-        /// Reset calculation of <see cref="Min"/> and <see cref="Max"/>
+        /// Reset calculation of <see cref="Min"/> and <see cref="Max"/>.
         /// </summary>
         public void Reset()
         {

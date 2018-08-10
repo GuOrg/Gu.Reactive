@@ -12,17 +12,17 @@
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Extension methods for <see cref="IObservable{T}"/>
+    /// Extension methods for <see cref="IObservable{T}"/>.
     /// </summary>
     public static class ObservableExt
     {
         /// <summary>
         /// Author: Brandon Wallace, https://github.com/bman654
-        /// http://stackoverflow.com/a/30761373/1069200
+        /// http://stackoverflow.com/a/30761373/1069200.
         /// </summary>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
-        /// <param name="dueTime">Throttling duration for each element</param>
-        /// <param name="maxTime">Max throttling time</param>
+        /// <param name="dueTime">Throttling duration for each element.</param>
+        /// <param name="maxTime">Max throttling time.</param>
         public static IObservable<T> Throttle<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime)
         {
             return source.Throttle(dueTime, maxTime, DefaultScheduler.Instance);
@@ -30,11 +30,11 @@
 
         /// <summary>
         /// Author: Brandon Wallace, https://github.com/bman654
-        /// http://stackoverflow.com/a/30761373/1069200
+        /// http://stackoverflow.com/a/30761373/1069200.
         /// </summary>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
-        /// <param name="dueTime">Throttling duration for each element</param>
-        /// <param name="maxTime">Max throttling time</param>
+        /// <param name="dueTime">Throttling duration for each element.</param>
+        /// <param name="maxTime">Max throttling time.</param>
         /// <param name="scheduler">Scheduler to run the timers on.</param>
         public static IObservable<T> Throttle<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime, IScheduler scheduler)
         {
@@ -58,7 +58,7 @@
         /// Like throttle but returning all elements captured during the throttle time.
         /// </summary>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
-        /// <param name="dueTime">Throttling duration for each element</param>
+        /// <param name="dueTime">Throttling duration for each element.</param>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime)
         {
             return source.Chunks(dueTime, DefaultScheduler.Instance);
@@ -68,7 +68,7 @@
         /// Like throttle but returning all elements captured during the throttle time.
         /// </summary>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
-        /// <param name="dueTime">Throttling duration for each element</param>
+        /// <param name="dueTime">Throttling duration for each element.</param>
         /// <param name="scheduler">Scheduler to run the timers on.</param>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, IScheduler scheduler)
         {
@@ -87,8 +87,8 @@
         /// Like throttle but returning all elements captured during the throttle time.
         /// </summary>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
-        /// <param name="dueTime">Throttling duration for each element</param>
-        /// <param name="maxTime">Max throttling time</param>
+        /// <param name="dueTime">Throttling duration for each element.</param>
+        /// <param name="maxTime">Max throttling time.</param>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime)
         {
             Ensure.NotNull(source, nameof(source));
@@ -104,8 +104,8 @@
         /// Like throttle but returning all elements captured during the throttle time.
         /// </summary>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
-        /// <param name="dueTime">Throttling duration for each element</param>
-        /// <param name="maxTime">Max throttling time</param>
+        /// <param name="dueTime">Throttling duration for each element.</param>
+        /// <param name="maxTime">Max throttling time.</param>
         /// <param name="scheduler">Scheduler to run the timers on.</param>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime, IScheduler scheduler)
         {
@@ -121,7 +121,7 @@
         }
 
         /// <summary>
-        /// Author: Brandon Wallace, https://github.com/bman654
+        /// Author: Brandon Wallace, https://github.com/bman654.
         /// </summary>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="delayTime">The time to delay the repeat.</param>
@@ -131,7 +131,7 @@
         }
 
         /// <summary>
-        /// Author: Brandon Wallace, https://github.com/bman654
+        /// Author: Brandon Wallace, https://github.com/bman654.
         /// </summary>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="delayTime">The time to delay the repeat.</param>
@@ -144,7 +144,7 @@
 
         /// <summary>
         /// Turn a <see cref="CancellationToken"/> into an observable
-        /// Author: Brandon Wallace, https://github.com/bman654
+        /// Author: Brandon Wallace, https://github.com/bman654.
         /// </summary>
         public static IObservable<Unit> AsObservable(this CancellationToken token)
         {
@@ -184,7 +184,7 @@
         }
 
         /// <summary>
-        /// Return Observable.Merge if <paramref name="source"/> is not null or empty
+        /// Return Observable.Merge if <paramref name="source"/> is not null or empty.
         /// </summary>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         internal static IObservable<T> MergeOrNever<T>(this IEnumerable<IObservable<T>> source)

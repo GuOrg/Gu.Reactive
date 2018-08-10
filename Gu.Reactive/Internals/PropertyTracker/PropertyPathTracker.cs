@@ -71,7 +71,7 @@ namespace Gu.Reactive.Internals
 
         /// <summary>
         /// Make the class sealed when using this.
-        /// Call ThrowIfDisposed at the start of all public methods
+        /// Call ThrowIfDisposed at the start of all public methods.
         /// </summary>
         public void Dispose()
         {

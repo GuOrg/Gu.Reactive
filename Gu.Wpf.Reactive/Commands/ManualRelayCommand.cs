@@ -16,7 +16,7 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="ManualRelayCommand"/> class.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
-        /// <param name="criteria">The criteria for <see cref="CanExecute"/></param>
+        /// <param name="criteria">The criteria for <see cref="CanExecute"/>.</param>
         public ManualRelayCommand(Action action, Func<bool> criteria)
         {
             Ensure.NotNull(action, nameof(action));
@@ -39,7 +39,7 @@ namespace Gu.Wpf.Reactive
         protected Action Action { get; }
 
         /// <summary>
-        /// The criteria for <see cref="CanExecute"/>
+        /// The criteria for <see cref="CanExecute"/>.
         /// </summary>
         protected Func<bool> Criteria { get; }
 

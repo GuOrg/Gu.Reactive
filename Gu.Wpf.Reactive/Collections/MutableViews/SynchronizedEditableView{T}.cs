@@ -70,7 +70,7 @@
         protected IList<T> Source { get; }
 
         /// <summary>
-        /// The <see cref="CollectionSynchronizer{T}"/> that keeps this in sync with <see cref="Source"/>
+        /// The <see cref="CollectionSynchronizer{T}"/> that keeps this in sync with <see cref="Source"/>.
         /// </summary>
         protected CollectionSynchronizer<T> Tracker { get; }
 
@@ -273,7 +273,7 @@
         }
 
         /// <summary>
-        /// Get the corresponding index in <see cref="Source"/>
+        /// Get the corresponding index in <see cref="Source"/>.
         /// </summary>
         protected virtual int SourceIndex(int index)
         {
@@ -306,7 +306,7 @@
         /// <summary>
         /// Protected implementation of Dispose pattern.
         /// </summary>
-        /// <param name="disposing">true: safe to free managed resources</param>
+        /// <param name="disposing">true: safe to free managed resources.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)
@@ -338,7 +338,7 @@
         }
 
         /// <summary>
-        /// Calls <see cref="OnPropertyChanged(PropertyChangedEventArgs)"/>
+        /// Calls <see cref="OnPropertyChanged(PropertyChangedEventArgs)"/>.
         /// </summary>
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

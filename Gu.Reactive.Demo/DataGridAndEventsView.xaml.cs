@@ -10,7 +10,7 @@ namespace Gu.Reactive.Demo
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for DataGridAndEventsView.xaml
+    /// Interaction logic for DataGridAndEventsView.xaml.
     /// </summary>
     public partial class DataGridAndEventsView : UserControl, IDisposable
     {

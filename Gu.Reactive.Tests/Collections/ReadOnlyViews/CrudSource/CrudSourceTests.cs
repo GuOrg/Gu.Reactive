@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.ObjectModel;
@@ -105,7 +105,7 @@
                                    {
                                        CachedEventArgs.CountPropertyChanged,
                                        CachedEventArgs.IndexerPropertyChanged,
-                                       CachedEventArgs.NotifyCollectionReset
+                                       CachedEventArgs.NotifyCollectionReset,
                                    };
                 CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
             }

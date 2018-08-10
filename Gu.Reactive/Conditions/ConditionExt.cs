@@ -7,7 +7,7 @@
     using System.Reactive.Linq;
 
     /// <summary>
-    /// Extension methods for <see cref="ICondition"/>
+    /// Extension methods for <see cref="ICondition"/>.
     /// </summary>
     public static class ConditionExt
     {
@@ -36,11 +36,11 @@
         }
 
         /// <summary>
-        /// Return a condition that returns IsSatisfied false if <paramref name="condition"/>.IsSatisfied returns null
+        /// Return a condition that returns IsSatisfied false if <paramref name="condition"/>.IsSatisfied returns null.
         /// </summary>
         /// <typeparam name="T">The condition type.</typeparam>
-        /// <param name="condition">The source condition</param>
-        /// <returns>A new instance of <see cref="NullIsFalse{T}"/></returns>
+        /// <param name="condition">The source condition.</param>
+        /// <returns>A new instance of <see cref="NullIsFalse{T}"/>.</returns>
         public static NullIsFalse<T> NullIsFalse<T>(this T condition)
             where T : class, ICondition
         {

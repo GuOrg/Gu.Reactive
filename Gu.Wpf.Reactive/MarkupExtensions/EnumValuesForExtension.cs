@@ -6,7 +6,7 @@ namespace Gu.Wpf.Reactive
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// Markup extension for getting Enum.GetValues(this.Type)
+    /// Markup extension for getting Enum.GetValues(this.Type).
     /// </summary>
     [MarkupExtensionReturnType(typeof(Array))]
     public class EnumValuesForExtension : MarkupExtension

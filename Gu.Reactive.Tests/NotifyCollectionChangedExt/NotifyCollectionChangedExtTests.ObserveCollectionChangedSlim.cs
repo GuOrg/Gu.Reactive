@@ -27,7 +27,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var expected = new[]
                 {
                     CachedEventArgs.NotifyCollectionReset,
-                    CachedEventArgs.NotifyCollectionReset
+                    CachedEventArgs.NotifyCollectionReset,
                 };
 
                 using (observable.Subscribe(changes.Add))

@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for AsyncCommands.xaml
+    /// Interaction logic for AsyncCommands.xaml.
     /// </summary>
     public partial class AsyncCommandsView : UserControl
     {

@@ -8,7 +8,7 @@
 
     /// <summary>
     /// A fixed size queue. Overflow is trimmed when adding more items than max.
-    /// Wraps a <see cref="ConcurrentQueue{T}"/>
+    /// Wraps a <see cref="ConcurrentQueue{T}"/>.
     /// </summary>
     [Serializable]
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]

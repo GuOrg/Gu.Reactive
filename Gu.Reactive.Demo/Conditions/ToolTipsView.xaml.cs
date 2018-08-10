@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for ToolTipsView.xaml
+    /// Interaction logic for ToolTipsView.xaml.
     /// </summary>
     public partial class ToolTipsView : UserControl
     {

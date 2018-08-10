@@ -7,7 +7,7 @@ namespace Gu.Wpf.Reactive
     /// <summary>
     /// A command with CommandParameter of type <typeparamref name="T"/>.
     /// Signals CanExecuteChanged when conditions changes
-    /// CanExecute() returns condition.IsSatisfied == true
+    /// CanExecute() returns condition.IsSatisfied == true.
     /// </summary>
     /// <typeparam name="T">The type of the command parameter.</typeparam>
     public class ConditionRelayCommand<T> : ManualRelayCommand<T>, IConditionRelayCommand
@@ -19,7 +19,7 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="ConditionRelayCommand{T}"/> class.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
-        /// <param name="condition">The criteria by CanExecute</param>
+        /// <param name="condition">The criteria by CanExecute.</param>
         public ConditionRelayCommand(Action<T> action, ICondition condition)
             : base(action, _ => condition.IsSatisfied == true)
         {

@@ -3,7 +3,7 @@
     using System.Windows.Controls;
 
     /// <summary>
-    /// Interaction logic for DispatchingViewView.xaml
+    /// Interaction logic for DispatchingViewView.xaml.
     /// </summary>
     public partial class DispatchingViewView : UserControl
     {
