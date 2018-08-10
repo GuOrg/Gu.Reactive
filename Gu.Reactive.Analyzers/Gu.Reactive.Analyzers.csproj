@@ -2,6 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <PackageTargetFallback>portable-net45+win8</PackageTargetFallback>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NeutralLanguage>en-US</NeutralLanguage>
     <Version>0.1.3.7</Version>
     <Authors>Johan Larsson</Authors>
@@ -14,6 +16,17 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Gu.Reactive.Analyzers</PackageId>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Description>Roslyn analyzers for Gu.Reactive.</Description>
+    <PackageTags>Reactive Roslyn Diagnostic Analyzer DotnetAnalyzers</PackageTags>
+    <PackageReleaseNotes>BUGFIX: GUREA02 exclude private set in binary references.</PackageReleaseNotes>
+    <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/JohanLarsson/Gu.Reactive</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/JohanLarsson/Gu.Reactive</RepositoryUrl>
   </PropertyGroup>
 
   <Import Project="..\.paket\Paket.Restore.targets" />

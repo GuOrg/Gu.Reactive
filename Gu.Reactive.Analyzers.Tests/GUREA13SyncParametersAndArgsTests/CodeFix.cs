@@ -1,6 +1,5 @@
 namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
 {
-    using Gu.Reactive.Analyzers.CodeFixes;
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.Diagnostics;

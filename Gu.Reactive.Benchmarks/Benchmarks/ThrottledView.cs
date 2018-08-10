@@ -1,4 +1,4 @@
-﻿#pragma warning disable 618
+#pragma warning disable 618
 namespace Gu.Reactive.Benchmarks
 {
     using System;
@@ -24,7 +24,7 @@ namespace Gu.Reactive.Benchmarks
         public int N { get; set; }
 #pragma warning restore WPF1011 // Implement INotifyPropertyChanged.
 
-        [Setup]
+        [GlobalSetup]
         public void SetupData()
         {
             this.reference.Clear();

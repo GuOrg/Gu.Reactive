@@ -39,8 +39,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers", "Analyzers", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.Analyzers", "Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj", "{4A18B544-BB42-4917-955B-CF0853802117}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.CodeFixes", "Gu.Reactive.CodeFixes\Gu.Reactive.CodeFixes.csproj", "{2B3410AA-3226-4B5E-9E1D-F1180312A329}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.Analyzers.Tests", "Gu.Reactive.Analyzers.Tests\Gu.Reactive.Analyzers.Tests.csproj", "{F154810D-9D97-4EFE-8A86-1312A780802C}"
 EndProject
 Global
@@ -81,10 +79,6 @@ Global
 		{4A18B544-BB42-4917-955B-CF0853802117}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A18B544-BB42-4917-955B-CF0853802117}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A18B544-BB42-4917-955B-CF0853802117}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B3410AA-3226-4B5E-9E1D-F1180312A329}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B3410AA-3226-4B5E-9E1D-F1180312A329}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B3410AA-3226-4B5E-9E1D-F1180312A329}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B3410AA-3226-4B5E-9E1D-F1180312A329}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F154810D-9D97-4EFE-8A86-1312A780802C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F154810D-9D97-4EFE-8A86-1312A780802C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F154810D-9D97-4EFE-8A86-1312A780802C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -95,7 +89,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4A18B544-BB42-4917-955B-CF0853802117} = {F7100AE6-1457-49B7-BCDF-0B7160B0DB88}
-		{2B3410AA-3226-4B5E-9E1D-F1180312A329} = {F7100AE6-1457-49B7-BCDF-0B7160B0DB88}
 		{F154810D-9D97-4EFE-8A86-1312A780802C} = {F7100AE6-1457-49B7-BCDF-0B7160B0DB88}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers.CodeFixes
+namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Generic;
     using System.Collections.Immutable;
