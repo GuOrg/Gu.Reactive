@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -48,9 +48,9 @@
         }
 
         /// <summary>
-            /// Returns true if history matches current state.
-            /// </summary>
-            public static bool IsInSync(this ICondition condition)
+        /// Returns true if history matches current state.
+        /// </summary>
+        public static bool IsInSync(this ICondition condition)
         {
             return condition.IsSatisfied == condition.History
                                                      .Last()

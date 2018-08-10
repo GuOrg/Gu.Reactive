@@ -51,7 +51,9 @@ namespace Gu.Reactive.Tests
                     this.Add(new[] { 1, 10, 40, 60 }, new[,] { { 60, 1 + MaxTime } });
                     this.Add(
                         new[] { 1, 45, 1000, 1040, 1080, 1110 },
+#pragma warning disable SA1500 // Braces for multi-line statements should not share line
                         new[,] { { 45, 45 + DueTime }, { 1080, 1000 + MaxTime }, { 1110, 1110 + DueTime } });
+#pragma warning restore SA1500 // Braces for multi-line statements should not share line
                 }
 
                 public void Add(int[] pattern, int[,] expected)

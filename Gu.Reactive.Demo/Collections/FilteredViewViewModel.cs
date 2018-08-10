@@ -1,4 +1,4 @@
-﻿#pragma warning disable 618
+#pragma warning disable 618
 namespace Gu.Reactive.Demo
 {
     using System;
@@ -39,7 +39,7 @@ namespace Gu.Reactive.Demo
             this.ReadOnlyFiltered = this.peopleRaw.AsReadOnlyFilteredView(
                 this.Filter,
                 TimeSpan.FromMilliseconds(10),
-                 WpfSchedulers.Dispatcher,
+                WpfSchedulers.Dispatcher,
                 this.ObservePropertyChanged(x => x.SearchText),
                 this.ObservePropertyChanged(x => x.SelectedTags));
             this.PeopleRaw = this.peopleRaw.AsDispatchingView();
@@ -230,7 +230,7 @@ namespace Gu.Reactive.Demo
                 {
                     FirstName = FirstNames[this.peopleRaw.Count % FirstNames.Count],
                     LastName = LastNames[this.peopleRaw.Count % LastNames.Count],
-                    TagsValues = this.CreateTags()
+                    TagsValues = this.CreateTags(),
                 });
         }
     }

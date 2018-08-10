@@ -1,4 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable MemberCanBePrivate.Global
 namespace Gu.Wpf.Reactive
 {
     using System;
@@ -34,7 +34,7 @@ namespace Gu.Wpf.Reactive
                                          list.ObservePropertyChangedSlim()
                                                .Subscribe(this.OnPropertyChanged),
                                          list.ObserveCollectionChangedSlim(signalInitial: false)
-                                               .Subscribe(this.OnCollectionChanged)
+                                               .Subscribe(this.OnCollectionChanged),
                                      };
         }
 

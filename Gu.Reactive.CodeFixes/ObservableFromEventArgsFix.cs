@@ -64,7 +64,7 @@ namespace Gu.Reactive.Analyzers.CodeFixes
                                 arg0.WithExpression(
                                         SyntaxFactory.ParseExpression("h => (_, e) => h(e)"))
                                     .WithLeadingTrivia(arg0.GetLeadingTrivia())
-                                    .WithAdditionalAnnotations(Formatter.Annotation)
+                                    .WithAdditionalAnnotations(Formatter.Annotation),
                             }))));
         }
     }

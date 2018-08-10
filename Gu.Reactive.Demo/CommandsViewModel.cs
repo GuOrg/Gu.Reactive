@@ -5,7 +5,7 @@
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    using Wpf.Reactive;
+    using Gu.Wpf.Reactive;
 
     public sealed class CommandsViewModel : INotifyPropertyChanged, IDisposable
     {

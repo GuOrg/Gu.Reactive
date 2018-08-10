@@ -32,7 +32,7 @@ namespace Gu.Wpf.Reactive
 
         private static void SetExpandedStyle(ResourceKey key)
         {
-            if (Application.Current.TryFindResource(key) is Style style && 
+            if (Application.Current.TryFindResource(key) is Style style &&
                 style.TargetType == typeof(TreeViewItem))
             {
                 Application.Current.Resources[TreeviewItemStyleKey] = style;

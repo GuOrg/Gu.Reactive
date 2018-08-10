@@ -1,4 +1,4 @@
-﻿#pragma warning disable 618
+#pragma warning disable 618
 namespace Gu.Reactive.Demo
 {
     using System;
@@ -9,7 +9,7 @@ namespace Gu.Reactive.Demo
     using System.Windows;
     using System.Windows.Data;
 
-    using Wpf.Reactive;
+    using Gu.Wpf.Reactive;
 
     public sealed class CollectionViewDemoViewModel : INotifyPropertyChanged, IDisposable
     {
@@ -31,7 +31,7 @@ namespace Gu.Reactive.Demo
                                   .Subscribe(
                                       x =>
                                       {
-                                          Application.Current.Dispatcher.Invoke(() => this.ObservableDefaultView.Filter = o => this.Filter((int)o));
+                                          _ = Application.Current.Dispatcher.Invoke(() => this.ObservableDefaultView.Filter = o => this.Filter((int)o));
                                           this.ObservableFilteredView.Filter = this.Filter;
                                           this.ThrottledFilteredView.Filter = this.Filter;
                                       });

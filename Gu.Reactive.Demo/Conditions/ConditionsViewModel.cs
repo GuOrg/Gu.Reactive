@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Demo
+namespace Gu.Reactive.Demo
 {
     using System;
     using System.Collections.Generic;
@@ -25,7 +25,7 @@
                 new IsAnyDoorOpen().Negate(),
                 this.CanStartCondition,
                 this.CanStartCondition.Negate(),
-                new SyncErrorCondition()
+                new SyncErrorCondition(),
             };
 
             this.StartCommand = new ConditionRelayCommand(() => ConditionState.Instance.IsMotorRunning = true, this.CanStartCondition);
