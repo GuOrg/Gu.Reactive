@@ -953,7 +953,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     {
                         Next = new Level
                         {
-                            IsTrue = true
+                            IsTrue = true,
                         },
                     };
                     Assert.AreEqual(3, changes.Count);

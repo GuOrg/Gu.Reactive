@@ -43,7 +43,7 @@ namespace Gu.Reactive.Benchmarks
                                              x =>
                                              string.IsNullOrEmpty(x.EventArgs.PropertyName) ||
                                              x.EventArgs.PropertyName == nameof(this.fake.Value))
-                                         .Subscribe(x => this.count++)
+                                         .Subscribe(x => this.count++),
                                  };
         }
 
