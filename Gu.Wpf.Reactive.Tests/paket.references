@@ -1,5 +1,4 @@
 Gu.Wpf.ToolTips
-System.Reactive
 
 group Analyzers
   StyleCop.Analyzers
