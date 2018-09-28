@@ -1,10 +1,10 @@
-﻿namespace Gu.Reactive.Benchmarks
+namespace Gu.Reactive.Benchmarks
 {
     using System.ComponentModel;
 
-#pragma warning disable WPF1001 // Struct must not implement INotifyPropertyChanged
+#pragma warning disable INPC008 // Struct must not implement INotifyPropertyChanged
     public struct StructLevel : INotifyPropertyChanged
-#pragma warning restore WPF1001 // Struct must not implement INotifyPropertyChanged
+#pragma warning restore INPC008 // Struct must not implement INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged
         {

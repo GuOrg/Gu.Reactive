@@ -2,8 +2,10 @@ System.Reactive.Linq
 System.Reactive.PlatformServices
 
 group Analyzers
-  StyleCop.Analyzers
-  PropertyChangedAnalyzers
-  IDisposableAnalyzers
+  AsyncUsageAnalyzers
   Gu.Analyzers
+  IDisposableAnalyzers
+  PropertyChangedAnalyzers
+  ReflectionAnalyzers
+  StyleCop.Analyzers
   JetBrains.Annotations

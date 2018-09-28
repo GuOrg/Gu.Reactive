@@ -2,9 +2,11 @@ System.Reactive
 Gu.Wpf.ToolTips
 
 group Analyzers
+  AsyncUsageAnalyzers
+  Gu.Analyzers
+  IDisposableAnalyzers
+  PropertyChangedAnalyzers
+  ReflectionAnalyzers
   StyleCop.Analyzers
   WpfAnalyzers
-  PropertyChangedAnalyzers
-  IDisposableAnalyzers
-  Gu.Analyzers
   JetBrains.Annotations

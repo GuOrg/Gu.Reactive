@@ -1,8 +1,11 @@
 group Analyzers
-  StyleCop.Analyzers
+  AsyncUsageAnalyzers
   Gu.Analyzers
-  PropertyChangedAnalyzers
   IDisposableAnalyzers
+  PropertyChangedAnalyzers
+  ReflectionAnalyzers
+  StyleCop.Analyzers
+  JetBrains.Annotations
 
 group Test
   Moq

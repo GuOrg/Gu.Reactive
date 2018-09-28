@@ -6,11 +6,12 @@ nuget Gu.Wpf.ToolTips ~> 0.2.1
 group Analyzers
   source http://nuget.org/api/v2
   nuget AsyncUsageAnalyzers
+  nuget Gu.Analyzers
   nuget IDisposableAnalyzers
   nuget PropertyChangedAnalyzers
-  nuget StyleCop.Analyzers prerelease
+  nuget ReflectionAnalyzers
+  nuget StyleCop.Analyzers
   nuget WpfAnalyzers
-  nuget Gu.Analyzers
   nuget JetBrains.Annotations
 
 group Test

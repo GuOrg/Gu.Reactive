@@ -1,7 +1,11 @@
 group Analyzers
-  StyleCop.Analyzers
-  IDisposableAnalyzers
+  AsyncUsageAnalyzers
   Gu.Analyzers
+  IDisposableAnalyzers
+  PropertyChangedAnalyzers
+  ReflectionAnalyzers
+  StyleCop.Analyzers
+  JetBrains.Annotations
 
 group Benchmark
   BenchmarkDotNet.Diagnostics.Windows
