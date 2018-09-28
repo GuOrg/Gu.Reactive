@@ -1,8 +1,9 @@
-﻿namespace Gu.Reactive.Tests.Reflection
+namespace Gu.Reactive.Tests.Reflection
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Reflection;
     using Gu.Reactive.Internals;
     using Gu.Reactive.Tests.Helpers;
     using Moq;
@@ -249,7 +250,7 @@
         public void GetPathOneItem3()
         {
             var properties1 = PropertyPathParser.GetPath(() => this.IsTrue);
-            CollectionAssert.AreEqual(new[] { this.GetType().GetProperty("IsTrue") }, properties1);
+            CollectionAssert.AreEqual(new[] { this.GetType().GetProperty(nameof(this.IsTrue), BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly) }, properties1);
             var properties2 = PropertyPathParser.GetPath<PropertyPathParserTests, bool>(x => x.IsTrue);
             Assert.AreSame(properties1, properties2);
         }

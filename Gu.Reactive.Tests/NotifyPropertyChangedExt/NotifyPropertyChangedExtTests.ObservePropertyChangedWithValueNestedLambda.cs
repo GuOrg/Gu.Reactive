@@ -259,6 +259,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void MemoryLeakLevelNoDisposeTest()
             {
+#if DEBUG
+                return; // debugger keeps things alive.
+#endif
                 var fake = new Fake { Level1 = new Level1() };
                 WeakReference wr = new WeakReference(fake.Level1);
                 Assert.IsTrue(wr.IsAlive);
@@ -277,6 +280,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void MemoryLeakLevelDisposeTest()
             {
+#if DEBUG
+                return; // debugger keeps things alive.
+#endif
                 var fake = new Fake { Level1 = new Level1() };
                 WeakReference wr = new WeakReference(fake.Level1);
                 Assert.IsTrue(wr.IsAlive);

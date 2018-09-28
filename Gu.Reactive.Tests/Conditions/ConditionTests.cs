@@ -1,8 +1,9 @@
-﻿namespace Gu.Reactive.Tests.Conditions
+namespace Gu.Reactive.Tests.Conditions
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics;
     using System.Linq;
 
     using Gu.Reactive.Tests.Helpers;
@@ -150,6 +151,9 @@
         [Test]
         public void MemoryLeakTest()
         {
+#if DEBUG
+            return; // debugger keeps things alive.
+#endif
             var dummy = new Fake();
             var wr = new WeakReference(dummy);
             Assert.IsTrue(wr.IsAlive);

@@ -19,6 +19,9 @@ namespace Gu.Wpf.Reactive.Tests
         [Test(Description = "This is the most relevant test, it checks that the weak event implementation is correct")]
         public void MemoryLeak()
         {
+#if DEBUG
+            return; // debugger keeps things alive.
+#endif
             var command = new ManualRelayCommand<int>(x => { }, x => true);
             var listener = new CommandListener();
             var wr = new WeakReference(listener);
