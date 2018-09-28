@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Benchmarks
+namespace Gu.Reactive.Benchmarks
 {
     using System;
     using System.Collections.Concurrent;
@@ -15,7 +15,7 @@
         private static readonly Expression<Func<Fake, int>> SingleItemPath = x => x.Value;
         private static readonly Expression<Func<Fake, int>> TwoItemPath = x => x.Next.Value;
         private static readonly ConcurrentBag<IdentitySet<string>> Bag = new ConcurrentBag<IdentitySet<string>>(new[] { new IdentitySet<string>(), });
-        private static readonly PropertyInfo Property = typeof(Fake).GetProperty("Next");
+        private static readonly PropertyInfo Property = typeof(Fake).GetProperty(nameof(Fake.Next), BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
         [Benchmark(Baseline = true)]
         public int StringGetHashCode()

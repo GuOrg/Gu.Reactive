@@ -1,7 +1,7 @@
-﻿namespace Gu.Reactive.Benchmarks
+namespace Gu.Reactive.Benchmarks
 {
     // ReSharper disable once ClassNeverInstantiated.Global
-#pragma warning disable WPF1011 // Implement INotifyPropertyChanged.
+#pragma warning disable INPC001 // Implement INotifyPropertyChanged.
     public class NotInpc
     {
         public bool IsTrue { get; set; }
@@ -12,5 +12,5 @@
 
         public int Value { get; set; }
     }
-#pragma warning restore WPF1011 // Implement INotifyPropertyChanged.
+#pragma warning restore INPC001 // Implement INotifyPropertyChanged.
 }
