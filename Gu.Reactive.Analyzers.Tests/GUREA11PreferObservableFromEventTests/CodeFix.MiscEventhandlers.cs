@@ -31,17 +31,18 @@ namespace RoslynSandbox
 {
     using System;
     using System.IO;
+    using System.Reactive.Linq;
 
     internal class Foo
     {
         public Foo()
         {
             var watcher = new FileSystemWatcher();
-            System.Reactive.Linq.Observable.FromEvent<System.IO.FileSystemEventHandler, System.IO.FileSystemEventArgs>(
+            Observable.FromEvent<FileSystemEventHandler, FileSystemEventArgs>(
                 h => (_, e) => h(e),
                 h => watcher.Created += h,
                 h => watcher.Created -= h)
-                                           .Subscribe(_ => { });
+                      .Subscribe(_ => { });
         }
     }
 }";

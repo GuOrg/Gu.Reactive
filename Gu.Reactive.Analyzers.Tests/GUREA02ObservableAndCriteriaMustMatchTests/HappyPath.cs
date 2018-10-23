@@ -497,12 +497,14 @@ namespace RoslynSandbox
             var barCode = @"
 namespace RoslynSandbox
 {
+    using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
     public class Bar : INotifyPropertyChanged, IDisposable
     {
         private int value;
+        private bool disposed;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -529,12 +531,6 @@ namespace RoslynSandbox
 
         public void Dispose()
         {
-            if (this.disposed)
-            {
-                return;
-            }
-
-            this.disposed = true;
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -560,8 +556,8 @@ namespace RoslynSandbox
     {
         public FooCondition(Foo foo)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                foo.ObservePropertyChangedSlim(x => x.Bar.Value),
+                () => foo.Bar?.Value == 2)
         {
         }
     }

@@ -40,17 +40,18 @@ namespace RoslynSandbox
 namespace RoslynSandbox
 {
     using System;
+    using System.Reactive.Linq;
 
     public class Bar
     {
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<System.EventHandler<int>, int>(
+            Observable.FromEvent<EventHandler<int>, int>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
-                                           .Subscribe(_ => Console.WriteLine(string.Empty));
+                      .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
 }";
@@ -79,17 +80,18 @@ namespace RoslynSandbox
 namespace RoslynSandbox
 {
     using System;
+    using System.Reactive.Linq;
 
     public class Bar
     {
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<System.EventHandler<int>, int>(
+            Observable.FromEvent<EventHandler<int>, int>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
-                                           .Subscribe(i => Console.WriteLine(i));
+                      .Subscribe(i => Console.WriteLine(i));
         }
     }
 }";
@@ -123,17 +125,18 @@ namespace RoslynSandbox
 namespace RoslynSandbox
 {
     using System;
+    using System.Reactive.Linq;
 
     public class Bar
     {
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<System.EventHandler<int>, int>(
+            Observable.FromEvent<EventHandler<int>, int>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
-                                           .Subscribe(_ => OnSomeEvent());
+                      .Subscribe(_ => OnSomeEvent());
         }
 
         private void OnSomeEvent()
@@ -172,17 +175,18 @@ namespace RoslynSandbox
 namespace RoslynSandbox
 {
     using System;
+    using System.Reactive.Linq;
 
     public class Bar
     {
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<System.EventHandler<int>, int>(
+            Observable.FromEvent<EventHandler<int>, int>(
                 h => (_, e) => h(e),
                 h => foo.SomeEvent += h,
                 h => foo.SomeEvent -= h)
-                                           .Subscribe(OnSomeEvent);
+                      .Subscribe(OnSomeEvent);
         }
 
         private void OnSomeEvent(int i)

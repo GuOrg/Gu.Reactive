@@ -86,17 +86,20 @@ namespace RoslynSandbox
 namespace RoslynSandbox
 {
     using System;
+    using System.Reactive.Linq;
 
     public class Bar
     {
         public Bar()
         {
             var foo = new Foo();
-            System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
-                h => (_, e) => h(e),
-                h => foo.SomeEvent += h,
-                h => foo.SomeEvent -= h)
-                                           .Subscribe(_ => Console.WriteLine(string.Empty));
+            using (Observable.FromEvent<EventHandler<int>, int>(
+                                 h => (_, e) => h(e),
+                                 h => foo.SomeEvent += h,
+                                 h => foo.SomeEvent -= h)
+                             .Subscribe(_ => Console.WriteLine(string.Empty)))
+            {
+            }
         }
     }
 }";

@@ -87,4 +87,7 @@
     <Rule Id="SA1623" Action="None" />
     <Rule Id="SA1633" Action="None" />
   </Rules>
+  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
+    <Rule Id="CA1710" Action="None" />
+  </Rules>
 </RuleSet>

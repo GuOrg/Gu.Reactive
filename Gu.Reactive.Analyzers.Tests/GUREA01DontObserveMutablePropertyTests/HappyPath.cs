@@ -57,9 +57,9 @@ namespace RoslynSandbox
     {
         public Meh()
         {
-            foo = new Foo();
-            foo.ObserveFullPropertyPathSlim(x => x.Value)
-                    .Subscribe(_ => Console.WriteLine(""meh""));
+            var foo = new Foo();
+            foo.ObservePropertyChangedSlim(x => x.Value)
+               .Subscribe(_ => Console.WriteLine(""meh""));
         }
     }
 }";

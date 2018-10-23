@@ -118,7 +118,7 @@ namespace RoslynSandbox
 
     public interface IFoo : INotifyPropertyChanged
     {
-        public int Value { get; set; }
+        int Value { get; set; }
     }
 }";
             var testCode = @"
@@ -171,7 +171,7 @@ namespace RoslynSandbox
 
     public interface IFoo : INotifyPropertyChanged
     {
-        public int Value { get; }
+        int Value { get; }
     }
 }";
             var testCode = @"
@@ -203,7 +203,7 @@ namespace RoslynSandbox
 
     public interface IFoo : INotifyPropertyChanged
     {
-        public int Value { get; }
+        int Value { get; }
     }
 }";
             var testCode = @"
@@ -329,6 +329,8 @@ namespace RoslynSandbox
     {
         private Bar bar;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public Bar Bar
         {
             get
@@ -347,8 +349,13 @@ namespace RoslynSandbox
                 this.OnPropertyChanged();
             }
         }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
-";
+}";
             var barCode = @"
 namespace RoslynSandbox
 {

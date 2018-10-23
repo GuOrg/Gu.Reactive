@@ -102,4 +102,7 @@
     <Rule Id="GU0037" Action="Warning" />
     <Rule Id="GU0050" Action="Warning" />
   </Rules>
+  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
+    <Rule Id="CA1710" Action="None" />
+  </Rules>
 </RuleSet>

@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Benchmarks
+namespace Gu.Reactive.Benchmarks
 {
     using System;
     using System.Collections.Generic;
@@ -31,7 +31,7 @@
                                           .AppendLine($"        private static readonly Gu.Roslyn.Asserts.Benchmark Benchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new {analyzer.GetType().FullName}());")
                                           .AppendLine()
                                           .AppendLine("        [BenchmarkDotNet.Attributes.Benchmark]")
-                                          .AppendLine("        public void RunOnIDisposableAnalyzers()")
+                                          .AppendLine("        public void RunOnAnalyzerProject()")
                                           .AppendLine("        {")
                                           .AppendLine("            Benchmark.Run();")
                                           .AppendLine("        }")
