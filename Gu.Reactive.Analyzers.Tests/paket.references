@@ -8,4 +8,6 @@ group Analyzers
   AsyncUsageAnalyzers
   Gu.Analyzers
   IDisposableAnalyzers
+  Microsoft.CodeAnalysis.FxCopAnalyzers
+  ReflectionAnalyzers
   StyleCop.Analyzers
