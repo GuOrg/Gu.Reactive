@@ -1,1 +1,671 @@
-﻿
+﻿Gu.Reactive.AbstractCondition
+Gu.Reactive.AbstractCondition.AbstractCondition(System.IObservable<object> observable) -> void
+Gu.Reactive.AbstractCondition.Dispose() -> void
+Gu.Reactive.AbstractCondition.History.get -> System.Collections.Generic.IEnumerable<Gu.Reactive.ConditionHistoryPoint>
+Gu.Reactive.AbstractCondition.Initialize() -> void
+Gu.Reactive.AbstractCondition.IsDisposed.get -> bool
+Gu.Reactive.AbstractCondition.IsSatisfied.get -> bool?
+Gu.Reactive.AbstractCondition.Name.get -> string
+Gu.Reactive.AbstractCondition.Name.set -> void
+Gu.Reactive.AbstractCondition.Negate() -> Gu.Reactive.ICondition
+Gu.Reactive.AbstractCondition.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.AbstractCondition.ThrowIfDisposed() -> void
+Gu.Reactive.AndCondition
+Gu.Reactive.AndCondition.AndCondition(Gu.Reactive.ICondition prerequisite1, Gu.Reactive.ICondition prerequisite2, params Gu.Reactive.ICondition[] prerequisites) -> void
+Gu.Reactive.AndCondition.AndCondition(System.Collections.Generic.IReadOnlyList<Gu.Reactive.ICondition> prerequisites, bool leaveOpen) -> void
+Gu.Reactive.Chunk
+Gu.Reactive.Chunk<T>
+Gu.Reactive.Chunk<T>.Add(T item) -> Gu.Reactive.Chunk<T>
+Gu.Reactive.Chunk<T>.BufferTime.get -> System.TimeSpan
+Gu.Reactive.Chunk<T>.BufferTime.set -> void
+Gu.Reactive.Chunk<T>.Chunk(System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler) -> void
+Gu.Reactive.Chunk<T>.ClearItems() -> void
+Gu.Reactive.Chunk<T>.ClearTransaction() -> System.IDisposable
+Gu.Reactive.Chunk<T>.Count.get -> int
+Gu.Reactive.Chunk<T>.GetEnumerator() -> System.Collections.Generic.IEnumerator<T>
+Gu.Reactive.Chunk<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.Chunk<T>.Scheduler.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.Chunk<T>.this[int index].get -> T
+Gu.Reactive.CollectionCondition
+Gu.Reactive.CollectionCondition.CollectionCondition(Gu.Reactive.ConditionCollection prerequisites) -> void
+Gu.Reactive.CollectionDebugView<T>
+Gu.Reactive.CollectionDebugView<T>.CollectionDebugView(System.Collections.Generic.IEnumerable<T> collection) -> void
+Gu.Reactive.CollectionDebugView<T>.Items.get -> T[]
+Gu.Reactive.CollectionSynchronizer<T>
+Gu.Reactive.CollectionSynchronizer<T>.CollectionSynchronizer(System.Collections.Generic.IEnumerable<T> source) -> void
+Gu.Reactive.CollectionSynchronizer<T>.Refresh(System.Collections.Generic.IEnumerable<T> updated, System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> collectionChanges = null, System.Action<System.ComponentModel.PropertyChangedEventArgs> propertyChanged = null, System.Action<System.Collections.Specialized.NotifyCollectionChangedEventArgs> collectionChanged = null) -> void
+Gu.Reactive.CollectionSynchronizer<T>.Reset(System.Collections.Generic.IEnumerable<T> updated) -> void
+Gu.Reactive.CollectionSynchronizer<T>.Reset(System.Collections.Generic.IEnumerable<T> updated, System.Action<System.ComponentModel.PropertyChangedEventArgs> propertyChanged, System.Action<System.Collections.Specialized.NotifyCollectionChangedEventArgs> collectionChanged) -> void
+Gu.Reactive.CollectionSynchronizer<T>.Snapshot() -> System.Collections.Generic.IReadOnlyList<T>
+Gu.Reactive.Condition
+Gu.Reactive.Condition.Condition(Gu.Reactive.ObservableAndCriteria observableAndCriteria) -> void
+Gu.Reactive.Condition.Condition(System.Func<bool?> criteria, System.IObservable<object> observable, params System.IObservable<object>[] observables) -> void
+Gu.Reactive.Condition.Condition(System.IObservable<object> observable, System.Func<bool?> criteria) -> void
+Gu.Reactive.Condition.Dispose() -> void
+Gu.Reactive.Condition.History.get -> System.Collections.Generic.IEnumerable<Gu.Reactive.ConditionHistoryPoint>
+Gu.Reactive.Condition.IsDisposed.get -> bool
+Gu.Reactive.Condition.IsSatisfied.get -> bool?
+Gu.Reactive.Condition.Name.get -> string
+Gu.Reactive.Condition.Name.set -> void
+Gu.Reactive.Condition.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) -> void
+Gu.Reactive.Condition.OnPropertyChanged(string propertyName = null) -> void
+Gu.Reactive.Condition.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.Condition.ThrowIfDisposed() -> void
+Gu.Reactive.Condition.UpdateIsSatisfied() -> void
+Gu.Reactive.ConditionCollection
+Gu.Reactive.ConditionCollection.ConditionCollection(System.Func<System.Collections.Generic.IReadOnlyList<Gu.Reactive.ICondition>, bool?> isSatisfied, System.Collections.Generic.IReadOnlyList<Gu.Reactive.ICondition> prerequisites, bool leaveOpen) -> void
+Gu.Reactive.ConditionCollection.IsSatisfied.get -> bool?
+Gu.Reactive.ConditionExt
+Gu.Reactive.ConditionHistoryPoint
+Gu.Reactive.ConditionHistoryPoint.ConditionHistoryPoint(System.DateTime timeStamp, bool? state) -> void
+Gu.Reactive.ConditionHistoryPoint.ConditionHistoryPoint(bool? state) -> void
+Gu.Reactive.ConditionHistoryPoint.State.get -> bool?
+Gu.Reactive.ConditionHistoryPoint.TimeStamp.get -> System.DateTime
+Gu.Reactive.DoubleAverageTracker
+Gu.Reactive.DoubleAverageTracker.DoubleAverageTracker(System.Collections.ObjectModel.ObservableCollection<double> source) -> void
+Gu.Reactive.FixedSizedQueue<T>
+Gu.Reactive.FixedSizedQueue<T>.CopyTo(System.Array array, int index) -> void
+Gu.Reactive.FixedSizedQueue<T>.CopyTo(T[] array, int index) -> void
+Gu.Reactive.FixedSizedQueue<T>.Count.get -> int
+Gu.Reactive.FixedSizedQueue<T>.FixedSizedQueue(int size) -> void
+Gu.Reactive.FixedSizedQueue<T>.GetEnumerator() -> System.Collections.Generic.IEnumerator<T>
+Gu.Reactive.FixedSizedQueue<T>.Size.get -> int
+Gu.Reactive.FixedSizedQueue<T>.ToArray() -> T[]
+Gu.Reactive.FixedSizedQueue<T>.TryAdd(T item) -> bool
+Gu.Reactive.FixedSizedQueue<T>.TryDequeue(out T result) -> bool
+Gu.Reactive.FixedSizedQueue<T>.TryPeek(out T result) -> bool
+Gu.Reactive.FixedSizedQueue<T>.TryTake(out T item) -> bool
+Gu.Reactive.ForegroundScheduler
+Gu.Reactive.ForegroundScheduler.Dispose() -> void
+Gu.Reactive.ForegroundScheduler.Now.get -> System.DateTimeOffset
+Gu.Reactive.ForegroundScheduler.Schedule<TState>(TState state, System.DateTimeOffset dueTime, System.Func<System.Reactive.Concurrency.IScheduler, TState, System.IDisposable> action) -> System.IDisposable
+Gu.Reactive.ForegroundScheduler.Schedule<TState>(TState state, System.Func<System.Reactive.Concurrency.IScheduler, TState, System.IDisposable> action) -> System.IDisposable
+Gu.Reactive.ForegroundScheduler.Schedule<TState>(TState state, System.TimeSpan dueTime, System.Func<System.Reactive.Concurrency.IScheduler, TState, System.IDisposable> action) -> System.IDisposable
+Gu.Reactive.Getter
+Gu.Reactive.Getter<TSource, TValue>
+Gu.Reactive.Getter<TSource, TValue>.GetMaybe(TSource source) -> Gu.Reactive.Maybe<TValue>
+Gu.Reactive.Getter<TSource, TValue>.Getter(System.Reflection.PropertyInfo property) -> void
+Gu.Reactive.Getter<TSource, TValue>.Property.get -> System.Reflection.PropertyInfo
+Gu.Reactive.IChanges<TValue>
+Gu.Reactive.IChanges<TValue>.Add -> System.Action<TValue>
+Gu.Reactive.IChanges<TValue>.Remove -> System.Action<TValue>
+Gu.Reactive.IChanges<TValue>.Reset -> System.Action<System.Collections.Generic.IEnumerable<TValue>>
+Gu.Reactive.IChanges<TValue>.Values.get -> System.Collections.Generic.IEnumerable<TValue>
+Gu.Reactive.ICondition
+Gu.Reactive.ICondition.History.get -> System.Collections.Generic.IEnumerable<Gu.Reactive.ConditionHistoryPoint>
+Gu.Reactive.ICondition.Name.get -> string
+Gu.Reactive.ICondition.Negate() -> Gu.Reactive.ICondition
+Gu.Reactive.ICondition.Prerequisites.get -> System.Collections.Generic.IReadOnlyList<Gu.Reactive.ICondition>
+Gu.Reactive.IConditionsService
+Gu.Reactive.IConditionsService.Get<T>() -> Gu.Reactive.ICondition
+Gu.Reactive.IFilteredView<T>
+Gu.Reactive.IFilteredView<T>.Filter.get -> System.Func<T, bool>
+Gu.Reactive.IFilteredView<T>.Filter.set -> void
+Gu.Reactive.IGetter
+Gu.Reactive.IGetter.GetMaybe(object source) -> Gu.Reactive.Maybe<object>
+Gu.Reactive.IGetter.GetValue(object source) -> object
+Gu.Reactive.IGetter.Property.get -> System.Reflection.PropertyInfo
+Gu.Reactive.IGetter<TSource, TValue>
+Gu.Reactive.IGetter<TSource, TValue>.GetMaybe(TSource source) -> Gu.Reactive.Maybe<TValue>
+Gu.Reactive.IGetter<TSource, TValue>.GetValue(TSource source) -> TValue
+Gu.Reactive.IGetter<TValue>
+Gu.Reactive.IGetter<TValue>.GetMaybe(object source) -> Gu.Reactive.Maybe<TValue>
+Gu.Reactive.IGetter<TValue>.Property.get -> System.Reflection.PropertyInfo
+Gu.Reactive.IMaybe<T>
+Gu.Reactive.IMaybe<T>.HasValue.get -> bool
+Gu.Reactive.IMaybe<T>.Value.get -> T
+Gu.Reactive.IObservableCollection<T>
+Gu.Reactive.IObservableCollection<T>.Move(int oldIndex, int newIndex) -> void
+Gu.Reactive.IObservableSet<T>
+Gu.Reactive.IReadOnlyFilteredView<T>
+Gu.Reactive.IReadOnlyFilteredView<T>.Filter.get -> System.Func<T, bool>
+Gu.Reactive.IReadOnlyObservableCollection<T>
+Gu.Reactive.IReadOnlyThrottledView<T>
+Gu.Reactive.IReadOnlyThrottledView<T>.BufferTime.get -> System.TimeSpan
+Gu.Reactive.IReadOnlyView<T>
+Gu.Reactive.IReadonlySet<T>
+Gu.Reactive.IReadonlySet<T>.IsProperSubsetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.IReadonlySet<T>.IsProperSupersetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.IReadonlySet<T>.IsSubsetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.IReadonlySet<T>.IsSupersetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.IReadonlySet<T>.Overlaps(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.IReadonlySet<T>.SetEquals(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.IRefreshAble
+Gu.Reactive.IRefreshAble.Refresh() -> void
+Gu.Reactive.ISatisfied
+Gu.Reactive.ISatisfied.IsSatisfied.get -> bool?
+Gu.Reactive.ISchedulers
+Gu.Reactive.ISchedulers.CurrentThread.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.ISchedulers.FileSaveScheduler.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.ISchedulers.Immediate.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.ISchedulers.NewThread.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.ISchedulers.TaskPool.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.IThrottledView<T>
+Gu.Reactive.IThrottledView<T>.BufferTime.get -> System.TimeSpan
+Gu.Reactive.IThrottledView<T>.BufferTime.set -> void
+Gu.Reactive.IThrottledView<T>.Refresh() -> void
+Gu.Reactive.ITracker<TValue>
+Gu.Reactive.ITracker<TValue>.Value.get -> TValue
+Gu.Reactive.IWpfSchedulers
+Gu.Reactive.IWpfSchedulers.Dispatcher.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.Internals.RwLock
+Gu.Reactive.Internals.RwLock.Dispose() -> void
+Gu.Reactive.Internals.RwLock.Read() -> System.IDisposable
+Gu.Reactive.Internals.RwLock.RwLock() -> void
+Gu.Reactive.Internals.RwLock.RwLock(System.Threading.LockRecursionPolicy recursionPolicy) -> void
+Gu.Reactive.Internals.RwLock.UpgradeableRead() -> System.IDisposable
+Gu.Reactive.Internals.RwLock.Write() -> System.IDisposable
+Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TValue>
+Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TValue>.Item.get -> TItem
+Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TValue>.SourceAndValue.get -> Gu.Reactive.SourceAndValue<System.ComponentModel.INotifyPropertyChanged, TValue>
+Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TValue>.Value.get -> TValue
+Gu.Reactive.Mapper<TSource, TResult>
+Gu.Reactive.Mapper<TSource, TResult>.Dispose() -> void
+Gu.Reactive.Mapper<TSource, TResult>.Mapper(Gu.Reactive.ITracker<TSource> source, System.Func<TSource, TResult> selector) -> void
+Gu.Reactive.Mapper<TSource, TResult>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.Mapper<TSource, TResult>.Value.get -> TResult
+Gu.Reactive.MappingView
+Gu.Reactive.MappingView<TSource, TResult>
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(Gu.Reactive.IObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(Gu.Reactive.IObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(Gu.Reactive.IObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(Gu.Reactive.IObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MappingView<TSource, TResult>.MappingView(System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.MaxTracker
+Gu.Reactive.MaxTracker<TValue>
+Gu.Reactive.MaxTracker<TValue>.MaxTracker(Gu.Reactive.IChanges<TValue> source) -> void
+Gu.Reactive.Maybe
+Gu.Reactive.Maybe<T>
+Gu.Reactive.Maybe<T>.Equals(Gu.Reactive.Maybe<T> other) -> bool
+Gu.Reactive.Maybe<T>.GetValueOrDefault() -> T
+Gu.Reactive.Maybe<T>.GetValueOrDefault(T defaultValue) -> T
+Gu.Reactive.Maybe<T>.HasValue.get -> bool
+Gu.Reactive.Maybe<T>.Value.get -> T
+Gu.Reactive.MinMaxTracker
+Gu.Reactive.MinMaxTracker<TValue>
+Gu.Reactive.MinMaxTracker<TValue>.Dispose() -> void
+Gu.Reactive.MinMaxTracker<TValue>.Max.get -> TValue?
+Gu.Reactive.MinMaxTracker<TValue>.Min.get -> TValue?
+Gu.Reactive.MinMaxTracker<TValue>.MinMaxTracker(Gu.Reactive.IChanges<TValue> source) -> void
+Gu.Reactive.MinMaxTracker<TValue>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.MinMaxTracker<TValue>.Reset() -> void
+Gu.Reactive.MinTracker
+Gu.Reactive.MinTracker<TValue>
+Gu.Reactive.MinTracker<TValue>.MinTracker(Gu.Reactive.IChanges<TValue> source) -> void
+Gu.Reactive.NameOf
+Gu.Reactive.Negated<TCondition>
+Gu.Reactive.Negated<TCondition>.Negated(TCondition condition) -> void
+Gu.Reactive.NegatedCondition
+Gu.Reactive.NegatedCondition.Dispose() -> void
+Gu.Reactive.NegatedCondition.History.get -> System.Collections.Generic.IEnumerable<Gu.Reactive.ConditionHistoryPoint>
+Gu.Reactive.NegatedCondition.IsDisposed.get -> bool
+Gu.Reactive.NegatedCondition.IsSatisfied.get -> bool?
+Gu.Reactive.NegatedCondition.Name.get -> string
+Gu.Reactive.NegatedCondition.Name.set -> void
+Gu.Reactive.NegatedCondition.Negate() -> Gu.Reactive.ICondition
+Gu.Reactive.NegatedCondition.NegatedCondition(Gu.Reactive.ICondition condition) -> void
+Gu.Reactive.NegatedCondition.Prerequisites.get -> System.Collections.Generic.IReadOnlyList<Gu.Reactive.ICondition>
+Gu.Reactive.NegatedCondition.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.NegatedCondition.ThrowIfDisposed() -> void
+Gu.Reactive.NotifyCollectionChangedEventArgs<T>
+Gu.Reactive.NotifyCollectionChangedEventArgs<T>.Action.get -> System.Collections.Specialized.NotifyCollectionChangedAction
+Gu.Reactive.NotifyCollectionChangedEventArgs<T>.NewItems.get -> System.Collections.Generic.IReadOnlyList<T>
+Gu.Reactive.NotifyCollectionChangedEventArgs<T>.NewStartingIndex.get -> int
+Gu.Reactive.NotifyCollectionChangedEventArgs<T>.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedEventArgs args) -> void
+Gu.Reactive.NotifyCollectionChangedEventArgs<T>.OldItems.get -> System.Collections.Generic.IReadOnlyList<T>
+Gu.Reactive.NotifyCollectionChangedEventArgs<T>.OldStartingIndex.get -> int
+Gu.Reactive.NotifyCollectionChangedEventArgsExt
+Gu.Reactive.NotifyCollectionChangedExt
+Gu.Reactive.NotifyPropertyChangedExt
+Gu.Reactive.NullIsFalse<TCondition>
+Gu.Reactive.NullIsFalse<TCondition>.NullIsFalse(TCondition condition) -> void
+Gu.Reactive.ObservableAndCriteria
+Gu.Reactive.ObservableAndCriteria.Criteria.get -> System.Func<bool?>
+Gu.Reactive.ObservableAndCriteria.Observable.get -> System.IObservable<object>
+Gu.Reactive.ObservableAndCriteria.ObservableAndCriteria(System.IObservable<object> observable, System.Func<bool?> criteria) -> void
+Gu.Reactive.ObservableBatchCollection<T>
+Gu.Reactive.ObservableBatchCollection<T>.AddRange(System.Collections.Generic.IEnumerable<T> items) -> void
+Gu.Reactive.ObservableBatchCollection<T>.ObservableBatchCollection() -> void
+Gu.Reactive.ObservableBatchCollection<T>.ObservableBatchCollection(System.Collections.Generic.IEnumerable<T> collection) -> void
+Gu.Reactive.ObservableBatchCollection<T>.ObservableBatchCollection(System.Collections.Generic.IList<T> collection) -> void
+Gu.Reactive.ObservableBatchCollection<T>.RemoveAll(System.Func<T, bool> predicate) -> int
+Gu.Reactive.ObservableBatchCollection<T>.RemoveRange(System.Collections.Generic.IEnumerable<T> items) -> void
+Gu.Reactive.ObservableBatchCollection<T>.ResetTo(System.Collections.Generic.IEnumerable<T> items) -> void
+Gu.Reactive.ObservableExt
+Gu.Reactive.ObservableFixedSizeQueue<T>
+Gu.Reactive.ObservableFixedSizeQueue<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler
+Gu.Reactive.ObservableFixedSizeQueue<T>.ObservableFixedSizeQueue(int size) -> void
+Gu.Reactive.ObservableFixedSizeQueue<T>.ObservableFixedSizeQueue(int size, System.Reactive.Concurrency.IScheduler scheduler) -> void
+Gu.Reactive.ObservableFixedSizeQueue<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.ObservableSet<T>
+Gu.Reactive.ObservableSet<T>.Add(T item) -> bool
+Gu.Reactive.ObservableSet<T>.Clear() -> void
+Gu.Reactive.ObservableSet<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler
+Gu.Reactive.ObservableSet<T>.Contains(T item) -> bool
+Gu.Reactive.ObservableSet<T>.CopyTo(T[] array, int arrayIndex) -> void
+Gu.Reactive.ObservableSet<T>.Count.get -> int
+Gu.Reactive.ObservableSet<T>.ExceptWith(System.Collections.Generic.IEnumerable<T> other) -> void
+Gu.Reactive.ObservableSet<T>.GetEnumerator() -> System.Collections.Generic.IEnumerator<T>
+Gu.Reactive.ObservableSet<T>.IntersectWith(System.Collections.Generic.IEnumerable<T> other) -> void
+Gu.Reactive.ObservableSet<T>.IsProperSubsetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.ObservableSet<T>.IsProperSupersetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.ObservableSet<T>.IsSubsetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.ObservableSet<T>.IsSupersetOf(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.ObservableSet<T>.ObservableSet() -> void
+Gu.Reactive.ObservableSet<T>.ObservableSet(System.Collections.Generic.IEnumerable<T> collection) -> void
+Gu.Reactive.ObservableSet<T>.ObservableSet(System.Collections.Generic.IEnumerable<T> collection, System.Collections.Generic.IEqualityComparer<T> comparer) -> void
+Gu.Reactive.ObservableSet<T>.ObservableSet(System.Collections.Generic.IEqualityComparer<T> comparer) -> void
+Gu.Reactive.ObservableSet<T>.Overlaps(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.ObservableSet<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.ObservableSet<T>.Remove(T item) -> bool
+Gu.Reactive.ObservableSet<T>.SetEquals(System.Collections.Generic.IEnumerable<T> other) -> bool
+Gu.Reactive.ObservableSet<T>.SymmetricExceptWith(System.Collections.Generic.IEnumerable<T> other) -> void
+Gu.Reactive.ObservableSet<T>.UnionWith(System.Collections.Generic.IEnumerable<T> other) -> void
+Gu.Reactive.OrCondition
+Gu.Reactive.OrCondition.OrCondition(Gu.Reactive.ICondition prerequisite1, Gu.Reactive.ICondition prerequisite2, params Gu.Reactive.ICondition[] prerequisites) -> void
+Gu.Reactive.OrCondition.OrCondition(System.Collections.Generic.IReadOnlyList<Gu.Reactive.ICondition> prerequisites, bool leaveOpen) -> void
+Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>
+Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.HasValue.get -> bool
+Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.PropertyChangedAndValueEventArgs(string propertyName, TProperty value, bool hasValue) -> void
+Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.Value.get -> TProperty
+Gu.Reactive.PropertyPathComparer
+Gu.Reactive.ReadOnlyFilteredView
+Gu.Reactive.ReadOnlyFilteredView<T>
+Gu.Reactive.ReadOnlyFilteredView<T>.BufferTime.get -> System.TimeSpan
+Gu.Reactive.ReadOnlyFilteredView<T>.Filter.get -> System.Func<T, bool>
+Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(Gu.Reactive.IObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(Gu.Reactive.IObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, System.Collections.Generic.IEnumerable<System.IObservable<object>> triggers) -> void
+Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.ReadOnlyIListView<T>
+Gu.Reactive.ReadOnlyIListView<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler
+Gu.Reactive.ReadOnlyIListView<T>.Count.get -> int
+Gu.Reactive.ReadOnlyIListView<T>.Dispose() -> void
+Gu.Reactive.ReadOnlyIListView<T>.GetEnumerator() -> System.Collections.Generic.IEnumerator<T>
+Gu.Reactive.ReadOnlyIListView<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.ReadOnlyIListView<T>.ReadOnlyIListView(Gu.Reactive.IObservableCollection<T> source, bool leaveOpen) -> void
+Gu.Reactive.ReadOnlyIListView<T>.ReadOnlyIListView(Gu.Reactive.IReadOnlyObservableCollection<T> source, bool leaveOpen) -> void
+Gu.Reactive.ReadOnlyIListView<T>.ThrowIfDisposed() -> void
+Gu.Reactive.ReadOnlyIListView<T>.ThrowIfDisposed(System.Action action) -> void
+Gu.Reactive.ReadOnlyIListView<T>.ThrowIfDisposed<TResult>(TResult result) -> TResult
+Gu.Reactive.ReadOnlyIListView<T>.this[int index].get -> T
+Gu.Reactive.ReadOnlySerialView<T>
+Gu.Reactive.ReadOnlySerialView<T>.ClearSource() -> void
+Gu.Reactive.ReadOnlySerialView<T>.ReadOnlySerialView(System.Collections.Generic.IEnumerable<T> source) -> void
+Gu.Reactive.ReadOnlySerialView<T>.ReadOnlySerialView(System.Collections.Generic.IEnumerable<T> source, System.Reactive.Concurrency.IScheduler scheduler = null) -> void
+Gu.Reactive.ReadOnlySerialView<T>.ReadOnlySerialView(System.Collections.Generic.IEnumerable<T> source, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler) -> void
+Gu.Reactive.ReadOnlySerialView<T>.ReadOnlySerialView(System.Reactive.Concurrency.IScheduler scheduler = null) -> void
+Gu.Reactive.ReadOnlySerialView<T>.SetSource(System.Collections.Generic.IEnumerable<T> source) -> void
+Gu.Reactive.ReadOnlySerialViewBase<T>
+Gu.Reactive.ReadOnlySerialViewBase<T>.Chunk.get -> Gu.Reactive.Chunk<System.Collections.Specialized.NotifyCollectionChangedEventArgs>
+Gu.Reactive.ReadOnlySerialViewBase<T>.ReadOnlySerialViewBase(System.Collections.Generic.IEnumerable<T> source, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen) -> void
+Gu.Reactive.ReadOnlyThrottledView
+Gu.Reactive.ReadOnlyThrottledView<T>
+Gu.Reactive.ReadOnlyThrottledView<T>.BufferTime.get -> System.TimeSpan
+Gu.Reactive.ReadOnlyThrottledView<T>.ReadOnlyThrottledView(Gu.Reactive.IObservableCollection<T> source, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen) -> void
+Gu.Reactive.ReadOnlyThrottledView<T>.ReadOnlyThrottledView(Gu.Reactive.IReadOnlyObservableCollection<T> source, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen) -> void
+Gu.Reactive.ReadOnlyThrottledView<T>.ReadOnlyThrottledView(System.Collections.ObjectModel.ObservableCollection<T> source, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen) -> void
+Gu.Reactive.ReadOnlyThrottledView<T>.ReadOnlyThrottledView(System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen) -> void
+Gu.Reactive.ReadonlyIListView
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Count.get -> int
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Dispose() -> void
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.GetEnumerator() -> System.Collections.Generic.IEnumerator<TMapped>
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.HasListeners.get -> bool
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.IsDisposed.get -> bool
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.IsFixedSize.get -> bool
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.IsReadOnly.get -> bool
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.ReadonlyViewBase(System.Collections.Generic.IEnumerable<TSource> source, System.Func<System.Collections.Generic.IEnumerable<TSource>, System.Collections.Generic.IEnumerable<TMapped>> mapper, bool leaveOpen, bool startEmpty = false) -> void
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.SetSourceCore(System.Collections.Generic.IEnumerable<TSource> newSource) -> void
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Snapshot() -> System.Collections.Generic.IReadOnlyList<TMapped>
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Source.get -> System.Collections.Generic.IEnumerable<TSource>
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.ThrowIfDisposed() -> void
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.ThrowIfDisposed<TResult>(System.Func<TResult> result) -> TResult
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Tracker.get -> Gu.Reactive.CollectionSynchronizer<TMapped>
+Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.this[int index].get -> TMapped
+Gu.Reactive.Schedulers
+Gu.Reactive.Schedulers.CurrentThread.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.Schedulers.FileSaveScheduler.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.Schedulers.Immediate.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.Schedulers.NewThread.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.Schedulers.Schedulers() -> void
+Gu.Reactive.Schedulers.TaskPool.get -> System.Reactive.Concurrency.IScheduler
+Gu.Reactive.SerialDisposable<T>
+Gu.Reactive.SerialDisposable<T>.Disposable.get -> T
+Gu.Reactive.SerialDisposable<T>.Disposable.set -> void
+Gu.Reactive.SerialDisposable<T>.Dispose() -> void
+Gu.Reactive.SerialDisposable<T>.IsDisposed.get -> bool
+Gu.Reactive.SerialDisposable<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.SerialDisposable<T>.SerialDisposable() -> void
+Gu.Reactive.SourceAndValue
+Gu.Reactive.SourceAndValue<TSource, TValue>
+Gu.Reactive.SourceAndValue<TSource, TValue>.Equals(Gu.Reactive.SourceAndValue<TSource, TValue> other) -> bool
+Gu.Reactive.SourceAndValue<TSource, TValue>.Source.get -> TSource
+Gu.Reactive.SourceAndValue<TSource, TValue>.SourceAndValue(TSource source, Gu.Reactive.Maybe<TValue> value) -> void
+Gu.Reactive.SourceAndValue<TSource, TValue>.Value.get -> Gu.Reactive.Maybe<TValue>
+Gu.Reactive.TaskExt
+Gu.Reactive.Tracker<TValue>
+Gu.Reactive.Tracker<TValue>.Dispose() -> void
+Gu.Reactive.Tracker<TValue>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Reactive.Tracker<TValue>.ThrowIfDisposed() -> void
+Gu.Reactive.Tracker<TValue>.Tracker(Gu.Reactive.IChanges<TValue> source) -> void
+Gu.Reactive.Tracker<TValue>.Value.get -> TValue?
+Gu.Reactive.Tracker<TValue>.Value.set -> void
+Gu.Reactive.TypeExt
+abstract Gu.Reactive.AbstractCondition.Criteria() -> bool?
+abstract Gu.Reactive.Getter<TSource, TValue>.GetValue(TSource source) -> TValue
+abstract Gu.Reactive.Tracker<TValue>.GetValueOrDefault(System.Collections.Generic.IEnumerable<TValue> source) -> TValue?
+abstract Gu.Reactive.Tracker<TValue>.OnAdd(TValue value) -> void
+abstract Gu.Reactive.Tracker<TValue>.OnRemove(TValue value) -> void
+override Gu.Reactive.AndCondition.Dispose(bool disposing) -> void
+override Gu.Reactive.CollectionCondition.Dispose(bool disposing) -> void
+override Gu.Reactive.CollectionCondition.Prerequisites.get -> System.Collections.Generic.IReadOnlyList<Gu.Reactive.ICondition>
+override Gu.Reactive.Condition.ToString() -> string
+override Gu.Reactive.ConditionCollection.Dispose(bool disposing) -> void
+override Gu.Reactive.ConditionCollection.ToString() -> string
+override Gu.Reactive.ConditionHistoryPoint.ToString() -> string
+override Gu.Reactive.Getter<TSource, TValue>.ToString() -> string
+override Gu.Reactive.Internals.RwLock.ToString() -> string
+override Gu.Reactive.MappingView<TSource, TResult>.Dispose(bool disposing) -> void
+override Gu.Reactive.MappingView<TSource, TResult>.Refresh() -> void
+override Gu.Reactive.Maybe<T>.Equals(object obj) -> bool
+override Gu.Reactive.Maybe<T>.GetHashCode() -> int
+override Gu.Reactive.Maybe<T>.ToString() -> string
+override Gu.Reactive.NegatedCondition.ToString() -> string
+override Gu.Reactive.NullIsFalse<TCondition>.Prerequisites.get -> System.Collections.Generic.IReadOnlyList<Gu.Reactive.ICondition>
+override Gu.Reactive.ObservableFixedSizeQueue<T>.Enqueue(T item) -> void
+override Gu.Reactive.OrCondition.Dispose(bool disposing) -> void
+override Gu.Reactive.ReadOnlyFilteredView<T>.Dispose(bool disposing) -> void
+override Gu.Reactive.ReadOnlyFilteredView<T>.Refresh() -> void
+override Gu.Reactive.ReadOnlySerialView<T>.Refresh() -> void
+override Gu.Reactive.ReadOnlySerialViewBase<T>.Dispose(bool disposing) -> void
+override Gu.Reactive.ReadOnlyThrottledView<T>.Dispose(bool disposing) -> void
+override Gu.Reactive.ReadOnlyThrottledView<T>.Refresh() -> void
+override Gu.Reactive.SourceAndValue<TSource, TValue>.Equals(object obj) -> bool
+override Gu.Reactive.SourceAndValue<TSource, TValue>.GetHashCode() -> int
+override sealed Gu.Reactive.MappingView<TSource, TResult>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> changes) -> void
+override sealed Gu.Reactive.ReadOnlyFilteredView<T>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> changes) -> void
+override sealed Gu.Reactive.ReadOnlyThrottledView<T>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> changes) -> void
+static Gu.Reactive.Condition.For<TSource, TValue>(TSource source, System.Linq.Expressions.Expression<System.Func<TSource, TValue>> path, TValue value) -> Gu.Reactive.ObservableAndCriteria
+static Gu.Reactive.Condition.For<TSource, TValue>(TSource source, System.Linq.Expressions.Expression<System.Func<TSource, TValue>> path, TValue value, System.Collections.Generic.EqualityComparer<TValue> comparer) -> Gu.Reactive.ObservableAndCriteria
+static Gu.Reactive.Condition.For<TSource, TValue>(TSource source, System.Linq.Expressions.Expression<System.Func<TSource, TValue>> path, TValue value, System.Func<Gu.Reactive.Maybe<TValue>, TValue, bool?> compare) -> Gu.Reactive.ObservableAndCriteria
+static Gu.Reactive.Condition.For<TSource, TValue>(TSource source, System.Linq.Expressions.Expression<System.Func<TSource, TValue>> path, TValue value, System.Func<TValue, TValue, bool> equals) -> Gu.Reactive.ObservableAndCriteria
+static Gu.Reactive.ConditionExt.IsInSync(this Gu.Reactive.ICondition condition) -> bool
+static Gu.Reactive.ConditionExt.NullIsFalse<T>(this T condition) -> Gu.Reactive.NullIsFalse<T>
+static Gu.Reactive.ConditionExt.ObserveIsSatisfiedChanged<T>(this T condition) -> System.IObservable<T>
+static Gu.Reactive.Getter.GetOrCreate(System.Reflection.PropertyInfo property) -> Gu.Reactive.IGetter
+static Gu.Reactive.Getter.GetValueViaDelegate(this System.Reflection.PropertyInfo property, object source) -> object
+static Gu.Reactive.Getter.VerifyProperty(System.Reflection.PropertyInfo property) -> void
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this Gu.Reactive.IReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, TResult> selector, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, TResult> selector, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, TResult> selector, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, TResult> selector, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, TResult> selector, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<TSource>>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<System.Collections.Generic.IEnumerable<TSource>> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<System.Collections.Generic.IEnumerable<TSource>> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<System.Collections.Generic.IEnumerable<TSource>> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<System.Collections.Generic.IEnumerable<TSource>> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<System.Collections.Generic.IEnumerable<TSource>> source, System.Func<TSource, TResult> selector, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<System.Collections.Generic.IEnumerable<TSource>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<System.Collections.Generic.IEnumerable<TSource>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<System.Collections.Generic.IEnumerable<TSource>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.AsMappingView<TSource, TResult>(this System.IObservable<System.Collections.Generic.IEnumerable<TSource>> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.Create<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = true, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.Create<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, TResult> selector, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = true, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.Create<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = true, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.Create<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = true, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.Create<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, TResult> selector, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.Create<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, TResult> selector, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.Create<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = true, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.Create<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Action<TResult> onRemove, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = true, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.Create<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = true, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MappingView.Create<TSource, TResult>(this System.Collections.Generic.IEnumerable<TSource> source, System.Func<TSource, int, TResult> selector, System.Func<TResult, int, TResult> updater, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = true, params System.IObservable<object>[] triggers) -> Gu.Reactive.MappingView<TSource, TResult>
+static Gu.Reactive.MaxTracker.TrackMax<TItem, TValue>(this Gu.Reactive.IReadOnlyObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TValue>> selector) -> Gu.Reactive.MaxTracker<TValue>
+static Gu.Reactive.MaxTracker.TrackMax<TItem, TValue>(this System.Collections.ObjectModel.ObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TValue>> selector) -> Gu.Reactive.MaxTracker<TValue>
+static Gu.Reactive.MaxTracker.TrackMax<TItem, TValue>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TValue>> selector) -> Gu.Reactive.MaxTracker<TValue>
+static Gu.Reactive.MaxTracker.TrackMax<TValue>(this Gu.Reactive.IReadOnlyObservableCollection<TValue> source) -> Gu.Reactive.MaxTracker<TValue>
+static Gu.Reactive.MaxTracker.TrackMax<TValue>(this System.Collections.ObjectModel.ObservableCollection<TValue> source) -> Gu.Reactive.MaxTracker<TValue>
+static Gu.Reactive.MaxTracker.TrackMax<TValue>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TValue> source) -> Gu.Reactive.MaxTracker<TValue>
+static Gu.Reactive.Maybe.Cast<T>(this Gu.Reactive.IMaybe<object> maybe) -> Gu.Reactive.Maybe<T>
+static Gu.Reactive.Maybe.Cast<T>(this Gu.Reactive.Maybe<object> maybe) -> Gu.Reactive.Maybe<T>
+static Gu.Reactive.Maybe.Equals<T>(Gu.Reactive.Maybe<T> x, Gu.Reactive.Maybe<T> y) -> bool
+static Gu.Reactive.Maybe.Equals<T>(Gu.Reactive.Maybe<T> x, T y, System.Func<T, T, bool> compare) -> bool?
+static Gu.Reactive.Maybe.GetValueOrDefault<T>(this Gu.Reactive.IMaybe<T> maybe) -> T
+static Gu.Reactive.Maybe.None<T>() -> Gu.Reactive.Maybe<T>
+static Gu.Reactive.Maybe.Some<T>(T value) -> Gu.Reactive.Maybe<T>
+static Gu.Reactive.Maybe<T>.None.get -> Gu.Reactive.Maybe<T>
+static Gu.Reactive.Maybe<T>.Some(T value) -> Gu.Reactive.Maybe<T>
+static Gu.Reactive.Maybe<T>.operator !=(Gu.Reactive.Maybe<T> left, Gu.Reactive.Maybe<T> right) -> bool
+static Gu.Reactive.Maybe<T>.operator ==(Gu.Reactive.Maybe<T> left, Gu.Reactive.Maybe<T> right) -> bool
+static Gu.Reactive.MinMaxTracker.TrackMinMax<TItem, TValue>(this Gu.Reactive.IReadOnlyObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TValue>> selector) -> Gu.Reactive.MinMaxTracker<TValue>
+static Gu.Reactive.MinMaxTracker.TrackMinMax<TItem, TValue>(this System.Collections.ObjectModel.ObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TValue>> selector) -> Gu.Reactive.MinMaxTracker<TValue>
+static Gu.Reactive.MinMaxTracker.TrackMinMax<TItem, TValue>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TValue>> selector) -> Gu.Reactive.MinMaxTracker<TValue>
+static Gu.Reactive.MinMaxTracker.TrackMinMax<TValue>(this Gu.Reactive.IReadOnlyObservableCollection<TValue> source) -> Gu.Reactive.MinMaxTracker<TValue>
+static Gu.Reactive.MinMaxTracker.TrackMinMax<TValue>(this System.Collections.ObjectModel.ObservableCollection<TValue> source) -> Gu.Reactive.MinMaxTracker<TValue>
+static Gu.Reactive.MinMaxTracker.TrackMinMax<TValue>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TValue> source) -> Gu.Reactive.MinMaxTracker<TValue>
+static Gu.Reactive.MinTracker.TrackMin<TItem, TValue>(this Gu.Reactive.IReadOnlyObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TValue>> selector) -> Gu.Reactive.MinTracker<TValue>
+static Gu.Reactive.MinTracker.TrackMin<TItem, TValue>(this System.Collections.ObjectModel.ObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TValue>> selector) -> Gu.Reactive.MinTracker<TValue>
+static Gu.Reactive.MinTracker.TrackMin<TItem, TValue>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TValue>> selector) -> Gu.Reactive.MinTracker<TValue>
+static Gu.Reactive.MinTracker.TrackMin<TValue>(this Gu.Reactive.IReadOnlyObservableCollection<TValue> source) -> Gu.Reactive.MinTracker<TValue>
+static Gu.Reactive.MinTracker.TrackMin<TValue>(this System.Collections.ObjectModel.ObservableCollection<TValue> source) -> Gu.Reactive.MinTracker<TValue>
+static Gu.Reactive.MinTracker.TrackMin<TValue>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TValue> source) -> Gu.Reactive.MinTracker<TValue>
+static Gu.Reactive.NameOf.Method(System.Linq.Expressions.Expression<System.Action> method) -> string
+static Gu.Reactive.NameOf.Method<TClass, TReturnValue>(System.Linq.Expressions.Expression<System.Func<TClass, TReturnValue>> method) -> string
+static Gu.Reactive.NameOf.Method<TResult>(System.Linq.Expressions.Expression<System.Func<TResult>> method) -> string
+static Gu.Reactive.NameOf.Method<TSource>(System.Linq.Expressions.Expression<System.Action<TSource>> method) -> string
+static Gu.Reactive.NameOf.Property<T>(System.Linq.Expressions.Expression<System.Func<T>> property, bool allowNestedProperty = false) -> string
+static Gu.Reactive.NameOf.Property<TItem, TValue>(System.Linq.Expressions.Expression<System.Func<TItem, TValue>> property) -> string
+static Gu.Reactive.NameOf.Property<TSource>(System.Linq.Expressions.Expression<System.Func<TSource, object>> property) -> string
+static Gu.Reactive.NotifyCollectionChangedEventArgsExt.As<T>(this System.Collections.Specialized.NotifyCollectionChangedEventArgs args) -> Gu.Reactive.NotifyCollectionChangedEventArgs<T>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChanged<TCollection, TItem, TProperty>(this System.IObservable<System.Reactive.EventPattern<Gu.Reactive.PropertyChangedAndValueEventArgs<TCollection>>> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChanged<TCollection, TItem, TProperty>(this System.IObservable<TCollection> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChanged<TItem, TProperty>(this System.IObservable<Gu.Reactive.IReadOnlyObservableCollection<TItem>> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChanged<TItem, TProperty>(this System.IObservable<System.Collections.ObjectModel.ObservableCollection<TItem>> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChanged<TItem, TProperty>(this System.IObservable<System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem>> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChanged<TItem, TProperty>(this System.IObservable<System.Reactive.EventPattern<Gu.Reactive.PropertyChangedAndValueEventArgs<Gu.Reactive.IReadOnlyObservableCollection<TItem>>>> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChanged<TItem, TProperty>(this System.IObservable<System.Reactive.EventPattern<Gu.Reactive.PropertyChangedAndValueEventArgs<System.Collections.ObjectModel.ObservableCollection<TItem>>>> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChanged<TItem, TProperty>(this System.IObservable<System.Reactive.EventPattern<Gu.Reactive.PropertyChangedAndValueEventArgs<System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem>>>> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChangedSlim<TCollection, TItem, TProperty>(this System.IObservable<TCollection> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChangedSlim<TItem, TProperty>(this System.IObservable<Gu.Reactive.IReadOnlyObservableCollection<TItem>> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChangedSlim<TItem, TProperty>(this System.IObservable<System.Collections.ObjectModel.ObservableCollection<TItem>> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChangedSlim<TItem, TProperty>(this System.IObservable<System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem>> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyCollectionChangedExt.ObserveCollectionChanged<TCollection>(this TCollection source, bool signalInitial = true) -> System.IObservable<System.Reactive.EventPattern<System.Collections.Specialized.NotifyCollectionChangedEventArgs>>
+static Gu.Reactive.NotifyCollectionChangedExt.ObserveCollectionChangedSlim(this System.Collections.Specialized.INotifyCollectionChanged source, bool signalInitial) -> System.IObservable<System.Collections.Specialized.NotifyCollectionChangedEventArgs>
+static Gu.Reactive.NotifyCollectionChangedExt.ObserveItemPropertyChanged<TCollection, TItem, TProperty>(TCollection source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ObserveItemPropertyChanged<TItem, TProperty>(this Gu.Reactive.IReadOnlyObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ObserveItemPropertyChanged<TItem, TProperty>(this System.Collections.ObjectModel.ObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ObserveItemPropertyChanged<TItem, TProperty>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
+static Gu.Reactive.NotifyCollectionChangedExt.ObserveItemPropertyChangedSlim<TCollection, TItem, TProperty>(TCollection source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyCollectionChangedExt.ObserveItemPropertyChangedSlim<TItem, TProperty>(this Gu.Reactive.IReadOnlyObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyCollectionChangedExt.ObserveItemPropertyChangedSlim<TItem, TProperty>(this System.Collections.ObjectModel.ObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyCollectionChangedExt.ObserveItemPropertyChangedSlim<TItem, TProperty>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim<TNotifier, TProperty>(this TNotifier source, System.Linq.Expressions.Expression<System.Func<TNotifier, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyPropertyChangedExt.ObservePropertyChanged(this System.ComponentModel.INotifyPropertyChanged source) -> System.IObservable<System.Reactive.EventPattern<System.ComponentModel.PropertyChangedEventArgs>>
+static Gu.Reactive.NotifyPropertyChangedExt.ObservePropertyChanged(this System.ComponentModel.INotifyPropertyChanged source, string propertyName, bool signalInitial = true) -> System.IObservable<System.Reactive.EventPattern<System.ComponentModel.PropertyChangedEventArgs>>
+static Gu.Reactive.NotifyPropertyChangedExt.ObservePropertyChanged<TNotifier, TProperty>(this TNotifier source, System.Linq.Expressions.Expression<System.Func<TNotifier, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.Reactive.EventPattern<System.ComponentModel.PropertyChangedEventArgs>>
+static Gu.Reactive.NotifyPropertyChangedExt.ObservePropertyChangedSlim(this System.ComponentModel.INotifyPropertyChanged source) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyPropertyChangedExt.ObservePropertyChangedSlim(this System.ComponentModel.INotifyPropertyChanged source, string propertyName, bool signalInitial = true) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyPropertyChangedExt.ObservePropertyChangedSlim<TNotifier, TProperty>(this TNotifier source, System.Linq.Expressions.Expression<System.Func<TNotifier, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
+static Gu.Reactive.NotifyPropertyChangedExt.ObservePropertyChangedWithValue<TNotifier, TProperty>(this TNotifier source, System.Linq.Expressions.Expression<System.Func<TNotifier, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>>>
+static Gu.Reactive.NotifyPropertyChangedExt.ObserveValue<TNotifier, TProperty>(this TNotifier source, System.Linq.Expressions.Expression<System.Func<TNotifier, TProperty>> property, bool signalInitial = true) -> System.IObservable<Gu.Reactive.Maybe<TProperty>>
+static Gu.Reactive.ObservableExt.AsObservable(this System.Threading.CancellationToken token) -> System.IObservable<System.Reactive.Unit>
+static Gu.Reactive.ObservableExt.AsReadOnlyView<T>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<T>>> source) -> Gu.Reactive.IReadOnlyView<T>
+static Gu.Reactive.ObservableExt.AsReadOnlyView<T>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<T>>> source) -> Gu.Reactive.IReadOnlyView<T>
+static Gu.Reactive.ObservableExt.AsReadOnlyView<T>(this System.IObservable<System.Collections.Generic.IEnumerable<T>> source) -> Gu.Reactive.IReadOnlyView<T>
+static Gu.Reactive.ObservableExt.Chunks<T>(this System.IObservable<T> source, System.TimeSpan dueTime) -> System.IObservable<System.Collections.Generic.IReadOnlyList<T>>
+static Gu.Reactive.ObservableExt.Chunks<T>(this System.IObservable<T> source, System.TimeSpan dueTime, System.Reactive.Concurrency.IScheduler scheduler) -> System.IObservable<System.Collections.Generic.IReadOnlyList<T>>
+static Gu.Reactive.ObservableExt.Chunks<T>(this System.IObservable<T> source, System.TimeSpan dueTime, System.TimeSpan maxTime) -> System.IObservable<System.Collections.Generic.IReadOnlyList<T>>
+static Gu.Reactive.ObservableExt.Chunks<T>(this System.IObservable<T> source, System.TimeSpan dueTime, System.TimeSpan maxTime, System.Reactive.Concurrency.IScheduler scheduler) -> System.IObservable<System.Collections.Generic.IReadOnlyList<T>>
+static Gu.Reactive.ObservableExt.RepeatAfterDelay<T>(this System.IObservable<T> source, System.TimeSpan delayTime) -> System.IObservable<T>
+static Gu.Reactive.ObservableExt.RepeatAfterDelay<T>(this System.IObservable<T> source, System.TimeSpan delayTime, System.Reactive.Concurrency.IScheduler scheduler) -> System.IObservable<T>
+static Gu.Reactive.ObservableExt.Throttle<T>(this System.IObservable<T> source, System.TimeSpan dueTime, System.TimeSpan maxTime) -> System.IObservable<T>
+static Gu.Reactive.ObservableExt.Throttle<T>(this System.IObservable<T> source, System.TimeSpan dueTime, System.TimeSpan maxTime, System.Reactive.Concurrency.IScheduler scheduler) -> System.IObservable<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.Collections.Generic.IEnumerable<System.IObservable<object>> triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.IObservable<object> trigger) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, System.Collections.Generic.IEnumerable<System.IObservable<object>> triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, System.IObservable<object> trigger) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, System.Collections.Generic.IEnumerable<System.IObservable<object>> triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, System.IObservable<object> trigger) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Collections.Generic.IEnumerable<System.IObservable<object>> triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.IObservable<object> trigger) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, System.Collections.Generic.IEnumerable<System.IObservable<object>> triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, System.IObservable<object> trigger) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, System.Collections.Generic.IEnumerable<System.IObservable<object>> triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, System.IObservable<object> trigger) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, bool leaveOpen, System.Collections.Generic.IEnumerable<System.IObservable<object>> triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, bool leaveOpen, System.IObservable<object> trigger) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, bool leaveOpen, System.Collections.Generic.IEnumerable<System.IObservable<object>> triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, bool leaveOpen, System.IObservable<object> trigger) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<T>>> source, System.Func<T, bool> filter) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<T>>> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<T>>> source, System.Func<T, bool> filter) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<T>>> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.IObservable<System.Collections.Generic.IEnumerable<T>> source, System.Func<T, bool> filter) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.IObservable<System.Collections.Generic.IEnumerable<T>> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.Create<T>(System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.Create<T>(System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.Create<T>(System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.Create<T>(System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyThrottledView.AsReadOnlyThrottledView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen = false) -> Gu.Reactive.ReadOnlyThrottledView<T>
+static Gu.Reactive.ReadOnlyThrottledView.AsReadOnlyThrottledView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Reactive.ReadOnlyThrottledView<T>
+static Gu.Reactive.ReadOnlyThrottledView.AsReadOnlyThrottledView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen = false) -> Gu.Reactive.ReadOnlyThrottledView<T>
+static Gu.Reactive.ReadOnlyThrottledView.AsReadOnlyThrottledView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Reactive.ReadOnlyThrottledView<T>
+static Gu.Reactive.ReadOnlyThrottledView.AsReadOnlyThrottledView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen = false) -> Gu.Reactive.ReadOnlyThrottledView<T>
+static Gu.Reactive.ReadOnlyThrottledView.AsReadOnlyThrottledView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Reactive.ReadOnlyThrottledView<T>
+static Gu.Reactive.ReadonlyIListView.AsReadonlyIListView<T>(this Gu.Reactive.IObservableCollection<T> source, bool leaveOpen = false) -> Gu.Reactive.ReadOnlyIListView<T>
+static Gu.Reactive.ReadonlyIListView.AsReadonlyIListView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, bool leaveOpen = false) -> Gu.Reactive.ReadOnlyIListView<T>
+static Gu.Reactive.SourceAndValue.Create<TSource, TValue>(TSource source, Gu.Reactive.Maybe<TValue> value) -> Gu.Reactive.SourceAndValue<TSource, TValue>
+static Gu.Reactive.SourceAndValue<TSource, TValue>.operator !=(Gu.Reactive.SourceAndValue<TSource, TValue> left, Gu.Reactive.SourceAndValue<TSource, TValue> right) -> bool
+static Gu.Reactive.SourceAndValue<TSource, TValue>.operator ==(Gu.Reactive.SourceAndValue<TSource, TValue> left, Gu.Reactive.SourceAndValue<TSource, TValue> right) -> bool
+static Gu.Reactive.TaskExt.TimeoutAfter(this System.Threading.Tasks.Task task, System.TimeSpan timeout) -> System.Threading.Tasks.Task
+static Gu.Reactive.TaskExt.TimeoutAfter(this System.Threading.Tasks.Task task, int millisecondsTimeout) -> System.Threading.Tasks.Task
+static Gu.Reactive.TaskExt.TimeoutAfter<T>(this System.Threading.Tasks.Task<T> task, System.TimeSpan timeout) -> System.Threading.Tasks.Task<T>
+static Gu.Reactive.TaskExt.TimeoutAfter<T>(this System.Threading.Tasks.Task<T> task, int millisecondsTimeout) -> System.Threading.Tasks.Task<T>
+static Gu.Reactive.TaskExt.WithCancellation<T>(this System.Threading.Tasks.Task<T> task, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<T>
+static Gu.Reactive.TypeExt.IsNullable(this System.Type type) -> bool
+static Gu.Reactive.TypeExt.PrettyName(this System.Type type) -> string
+static readonly Gu.Reactive.ForegroundScheduler.Default -> Gu.Reactive.ForegroundScheduler
+static readonly Gu.Reactive.PropertyPathComparer.Default -> Gu.Reactive.PropertyPathComparer
+virtual Gu.Reactive.AbstractCondition.Dispose(bool disposing) -> void
+virtual Gu.Reactive.AbstractCondition.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) -> void
+virtual Gu.Reactive.AbstractCondition.OnPropertyChanged(string propertyName = null) -> void
+virtual Gu.Reactive.Chunk<T>.OnPropertyChanged(string propertyName = null) -> void
+virtual Gu.Reactive.CollectionCondition.OnPreRequisitesChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) -> void
+virtual Gu.Reactive.Condition.Dispose(bool disposing) -> void
+virtual Gu.Reactive.Condition.Negate() -> Gu.Reactive.ICondition
+virtual Gu.Reactive.Condition.Prerequisites.get -> System.Collections.Generic.IReadOnlyList<Gu.Reactive.ICondition>
+virtual Gu.Reactive.FixedSizedQueue<T>.Enqueue(T item) -> void
+virtual Gu.Reactive.MappingView<TSource, TResult>.GetOrCreate(TSource key, int index) -> TResult
+virtual Gu.Reactive.MappingView<TSource, TResult>.UpdateAt(int index, bool createEventArgOnUpdate) -> System.Collections.Specialized.NotifyCollectionChangedEventArgs
+virtual Gu.Reactive.MappingView<TSource, TResult>.UpdateRange(int from, int to) -> System.Collections.Generic.List<System.Collections.Specialized.NotifyCollectionChangedEventArgs>
+virtual Gu.Reactive.NegatedCondition.Dispose(bool disposing) -> void
+virtual Gu.Reactive.NegatedCondition.OnPropertyChanged(string propertyName = null) -> void
+virtual Gu.Reactive.ObservableBatchCollection<T>.AddItems(System.Collections.Generic.IEnumerable<T> items) -> void
+virtual Gu.Reactive.ObservableBatchCollection<T>.RaiseReset() -> void
+virtual Gu.Reactive.ObservableBatchCollection<T>.RemoveItems(System.Collections.Generic.IEnumerable<T> items) -> void
+virtual Gu.Reactive.ObservableFixedSizeQueue<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) -> void
+virtual Gu.Reactive.ObservableFixedSizeQueue<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) -> void
+virtual Gu.Reactive.ObservableSet<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) -> void
+virtual Gu.Reactive.ObservableSet<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) -> void
+virtual Gu.Reactive.ReadOnlyIListView<T>.Dispose(bool disposing) -> void
+virtual Gu.Reactive.ReadOnlyIListView<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) -> void
+virtual Gu.Reactive.ReadOnlyIListView<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) -> void
+virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.ClearSource() -> void
+virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Dispose(bool disposing) -> void
+virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Notify(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> changes) -> void
+virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Notify(System.Collections.Specialized.NotifyCollectionChangedEventArgs change) -> void
+virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) -> void
+virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) -> void
+virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.OnPropertyChanged(string propertyName = null) -> void
+virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Refresh() -> void
+virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> changes) -> void
+virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.SetSource(System.Collections.Generic.IEnumerable<TSource> newSource) -> void
+virtual Gu.Reactive.Tracker<TValue>.Dispose(bool disposing) -> void
+virtual Gu.Reactive.Tracker<TValue>.OnPropertyChanged(string propertyName = null) -> void
+virtual Gu.Reactive.Tracker<TValue>.OnReset(System.Collections.Generic.IEnumerable<TValue> values) -> void
+virtual Gu.Reactive.Tracker<TValue>.Reset() -> void
