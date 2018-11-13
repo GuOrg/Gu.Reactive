@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -205,7 +205,7 @@
         {
             if (this.disposed)
             {
-                throw new ObjectDisposedException(this.GetType().FullName);
+                throw new ObjectDisposedException(typeof(MinMaxTracker<TValue>).FullName);
             }
         }
     }

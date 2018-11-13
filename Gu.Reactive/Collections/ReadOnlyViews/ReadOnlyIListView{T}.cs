@@ -90,6 +90,7 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
+#pragma warning disable CA1033 // Interface methods should be callable by child types
         /// <inheritdoc/>
         void ICollection.CopyTo(Array array, int index) => this.source.CopyTo(array, index);
 
@@ -113,6 +114,8 @@ namespace Gu.Reactive
 
         /// <inheritdoc/>
         void IList.RemoveAt(int index) => ThrowHelper.ThrowCollectionIsReadonly();
+
+#pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <inheritdoc/>
         public void Dispose()

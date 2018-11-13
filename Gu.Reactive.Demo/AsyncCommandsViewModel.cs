@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Demo
+namespace Gu.Reactive.Demo
 {
     using System;
     using System.ComponentModel;
@@ -19,11 +19,11 @@
         public AsyncCommandsViewModel()
         {
             this.canExecuteCondition = new Condition(this.ObservePropertyChanged(x => x.CanExecute), () => this.CanExecute);
-            this.AsyncCommand = new AsyncCommand(this.SimpleTask);
-            this.AsyncCancelableCommand = new AsyncCommand(this.CancelableTask);
-            this.AsyncParameterCommand = new AsyncCommand<string>(this.ParameterTask);
-            this.AsyncCancelableParameterCommand = new AsyncCommand<string>(this.CancelableParameterTask);
-            this.AsyncThrowCommand = new AsyncCommand(this.VoidTaskThrowMethod);
+            this.AsyncCommand = new AsyncCommand(this.SimpleTaskAsync);
+            this.AsyncCancelableCommand = new AsyncCommand(this.CancelableTaskAsync);
+            this.AsyncParameterCommand = new AsyncCommand<string>(this.ParameterTaskAsync);
+            this.AsyncCancelableParameterCommand = new AsyncCommand<string>(this.CancelableParameterTaskAsync);
+            this.AsyncThrowCommand = new AsyncCommand(this.VoidTaskThrowMethodAsync);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -102,12 +102,12 @@
             this.canExecuteCondition?.Dispose();
         }
 
-        private async Task SimpleTask()
+        private async Task SimpleTaskAsync()
         {
             await Task.Delay(this.Delay).ConfigureAwait(false);
         }
 
-        private async Task CancelableTask(CancellationToken token)
+        private async Task CancelableTaskAsync(CancellationToken token)
         {
             this.Count = 0;
             for (int i = 0; i < 5; i++)
@@ -118,17 +118,17 @@
             }
         }
 
-        private Task ParameterTask(string arg)
+        private Task ParameterTaskAsync(string arg)
         {
-            return this.SimpleTask();
+            return this.SimpleTaskAsync();
         }
 
-        private Task CancelableParameterTask(string arg, CancellationToken token)
+        private Task CancelableParameterTaskAsync(string arg, CancellationToken token)
         {
-            return this.CancelableTask(token);
+            return this.CancelableTaskAsync(token);
         }
 
-        private async Task VoidTaskThrowMethod()
+        private async Task VoidTaskThrowMethodAsync()
         {
             await Task.Delay(this.Delay).ConfigureAwait(false);
             throw new Exception("Something went wrong");

@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Specialized;
@@ -35,13 +35,13 @@
 
             if (invocationList.Length == 1)
             {
-                return Notify(sender, e, invocationList[0]);
+                return NotifyAsync(sender, e, invocationList[0]);
             }
 
-            return Task.WhenAll(invocationList.Select(x => Notify(sender, e, x)));
+            return Task.WhenAll(invocationList.Select(x => NotifyAsync(sender, e, x)));
         }
 
-        private static Task Notify(object sender, NotifyCollectionChangedEventArgs e, Delegate invocation)
+        private static Task NotifyAsync(object sender, NotifyCollectionChangedEventArgs e, Delegate invocation)
         {
             var dispatcherObject = invocation.Target as DispatcherObject;
             if (dispatcherObject?.CheckAccess() == false)

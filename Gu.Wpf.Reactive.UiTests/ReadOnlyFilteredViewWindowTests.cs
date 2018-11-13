@@ -7,7 +7,7 @@ namespace Gu.Wpf.Reactive.UiTests
 
     public class ReadOnlyFilteredViewWindowTests
     {
-        private static readonly string WindowName = "ReadOnlyFilteredViewWindow";
+        private const string WindowName = "ReadOnlyFilteredViewWindow";
 
         [OneTimeTearDown]
         public void OneTimeTearDown()

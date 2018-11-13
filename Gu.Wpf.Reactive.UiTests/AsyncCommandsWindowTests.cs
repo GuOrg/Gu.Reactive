@@ -7,7 +7,17 @@ namespace Gu.Wpf.Reactive.UiTests
 
     public class AsyncCommandsWindowTests
     {
-        private static readonly string WindowName = "AsyncCommandsWindow";
+        private const string WindowName = "AsyncCommandsWindow";
+
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            using (var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName))
+            {
+                // Try to fix intermittent failures on AppVeyor.
+                _ = app.GetMainWindow(TimeSpan.FromSeconds(20));
+            }
+        }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()

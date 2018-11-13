@@ -6,7 +6,7 @@ namespace Gu.Wpf.Reactive.UiTests
 
     public class MappingViewWindowTests
     {
-        private static readonly string WindowName = "MappingViewWindow";
+        private const string WindowName = "MappingViewWindow";
 
         [OneTimeTearDown]
         public void OneTimeTearDown()

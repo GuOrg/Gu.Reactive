@@ -1,3 +1,4 @@
+#pragma warning disable UseAsyncSuffix // Use Async suffix
 namespace Gu.Reactive
 {
     using System;

@@ -100,7 +100,7 @@ namespace Gu.Reactive
         {
             if (this.disposed)
             {
-                throw new ObjectDisposedException(this.GetType().FullName);
+                throw new ObjectDisposedException(typeof(ForegroundScheduler).FullName);
             }
         }
     }

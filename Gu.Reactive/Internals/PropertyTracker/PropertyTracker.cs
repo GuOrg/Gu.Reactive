@@ -28,24 +28,15 @@ namespace Gu.Reactive.Internals
 
             if (type.IsValueType)
             {
-                var message = string.Format(
-                    "Property path cannot have structs in it. Copy by value will make subscribing error prone." +
-                    Environment.NewLine +
-                    "The type {0}.{1} is a value type not so {1}.{2} subscribing to changes is weird.",
-                    type.Namespace,
-                    type.PrettyName(),
-                    getter.Property.Name);
+                var message = $"Property path cannot have structs in it. Copy by value will make subscribing error prone.{Environment.NewLine}" +
+                              $"The type {type.Namespace}.{type.PrettyName()} is a value type not so {type.PrettyName()}.{getter.Property.Name} subscribing to changes is weird.";
                 throw new ArgumentException(message, nameof(getter));
             }
 
             if (!typeof(INotifyPropertyChanged).IsAssignableFrom(type))
             {
-                var message = string.Format(
-                    "All levels in the path must implement INotifyPropertyChanged." + Environment.NewLine +
-                    "The type {0}.{1} does not so the property {1}.{2} will not notify when value changes.",
-                    type.Namespace,
-                    type.PrettyName(),
-                    getter.Property.Name);
+                var message = $"All levels in the path must implement INotifyPropertyChanged.{Environment.NewLine}" +
+                              $"The type {type.Namespace}.{type.PrettyName()} does not so the property {type.PrettyName()}.{getter.Property.Name} will not notify when value changes.";
                 throw new ArgumentException(message, nameof(getter));
             }
 
@@ -53,7 +44,7 @@ namespace Gu.Reactive.Internals
             this.Getter = getter;
             this.onTrackedPropertyChanged = (o, e) =>
                 {
-                    if (NotifyPropertyChangedExt.IsMatch(e, getter.Property))
+                    if (e.IsMatch(getter.Property))
                     {
                         this.OnTrackedPropertyChanged(o, e);
                     }

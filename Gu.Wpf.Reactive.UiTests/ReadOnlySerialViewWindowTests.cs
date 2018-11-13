@@ -6,7 +6,7 @@ namespace Gu.Wpf.Reactive.UiTests
 
     public class ReadOnlySerialViewWindowTests
     {
-        private static readonly string WindowName = "ReadOnlySerialViewWindow";
+        private const string WindowName = "ReadOnlySerialViewWindow";
 
         [OneTimeTearDown]
         public void OneTimeTearDown()

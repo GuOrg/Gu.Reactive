@@ -5,7 +5,7 @@ namespace Gu.Wpf.Reactive.UiTests
 
     public class CommandsWindowTests
     {
-        private static readonly string WindowName = "CommandsWindow";
+        private const string WindowName = "CommandsWindow";
 
         [SetUp]
         public void SetUp()

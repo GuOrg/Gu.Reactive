@@ -6,7 +6,7 @@ namespace Gu.Wpf.Reactive.UiTests
 
     public class FilteredDispatchingWindowTests
     {
-        private static readonly string WindowName = "FilteredDispatchingWindow";
+        private const string WindowName = "FilteredDispatchingWindow";
 
         [OneTimeTearDown]
         public void OneTimeTearDown()

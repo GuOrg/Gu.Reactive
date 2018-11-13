@@ -77,7 +77,7 @@ namespace Gu.Reactive.Internals
         {
             if (this.disposed)
             {
-                throw new ObjectDisposedException(this.GetType().FullName);
+                throw new ObjectDisposedException(typeof(RwLock).FullName);
             }
         }
 

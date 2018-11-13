@@ -6,7 +6,7 @@ namespace Gu.Wpf.Reactive.UiTests
 
     public class ReadOnlyThrottledViewWindowTests
     {
-        private static readonly string WindowName = "ReadOnlyThrottledViewWindow";
+        private const string WindowName = "ReadOnlyThrottledViewWindow";
 
         [OneTimeTearDown]
         public void OneTimeTearDown()

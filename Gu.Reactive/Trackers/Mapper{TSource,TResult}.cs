@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -68,7 +68,7 @@
         {
             if (this.disposed)
             {
-                throw new ObjectDisposedException(this.GetType().FullName);
+                throw new ObjectDisposedException(typeof(Mapper<TSource, TResult>).FullName);
             }
         }
 
