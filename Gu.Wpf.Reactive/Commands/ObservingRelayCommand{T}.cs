@@ -1,4 +1,4 @@
-﻿// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 namespace Gu.Wpf.Reactive
 {
     using System;
@@ -38,6 +38,7 @@ namespace Gu.Wpf.Reactive
         public void Dispose()
         {
             this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc/>

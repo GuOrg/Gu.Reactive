@@ -36,6 +36,7 @@ namespace Gu.Wpf.Reactive
         public void Dispose()
         {
             this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <inheritdoc/>
