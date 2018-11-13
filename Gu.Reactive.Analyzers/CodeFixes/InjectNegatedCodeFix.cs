@@ -1,5 +1,6 @@
 namespace Gu.Reactive.Analyzers
 {
+    using System;
     using System.Collections.Immutable;
     using System.Composition;
     using System.Threading;
@@ -90,7 +91,7 @@ namespace Gu.Reactive.Analyzers
             if (parameter.Type is GenericNameSyntax genericName &&
                 genericName.Identifier.ValueText == "Negated" &&
                 genericName.TypeArgumentList?.Arguments.Count == 1 &&
-                parameter.Identifier.ValueText.StartsWith("not"))
+                parameter.Identifier.ValueText.StartsWith("not", StringComparison.OrdinalIgnoreCase))
             {
                 var name = parameter.Identifier.ValueText.Replace("not", string.Empty).ToFirstCharLower();
                 editor.ReplaceNode(

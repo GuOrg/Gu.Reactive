@@ -4,6 +4,7 @@ namespace Gu.Reactive
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Globalization;
 
     /// <summary>
     /// A negated condition wraps a <see cref="ICondition"/> and negates <see cref="IsSatisfied"/>.
@@ -92,7 +93,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString() ?? "null"}";
+        public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString(CultureInfo.InvariantCulture) ?? "null"}";
 
         /// <inheritdoc />
         public void Dispose()

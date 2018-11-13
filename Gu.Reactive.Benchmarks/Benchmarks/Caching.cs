@@ -3,6 +3,7 @@ namespace Gu.Reactive.Benchmarks
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -11,7 +12,7 @@ namespace Gu.Reactive.Benchmarks
 
     public class Caching
     {
-        private static readonly IReadOnlyList<string> Strings = Enumerable.Range(0, 1000).Select(x => x.ToString()).ToArray();
+        private static readonly IReadOnlyList<string> Strings = Enumerable.Range(0, 1000).Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray();
         private static readonly Expression<Func<Fake, int>> SingleItemPath = x => x.Value;
         private static readonly Expression<Func<Fake, int>> TwoItemPath = x => x.Next.Value;
         private static readonly ConcurrentBag<IdentitySet<string>> Bag = new ConcurrentBag<IdentitySet<string>>(new[] { new IdentitySet<string>(), });

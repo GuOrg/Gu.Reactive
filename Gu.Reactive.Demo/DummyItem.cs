@@ -1,6 +1,7 @@
 namespace Gu.Reactive.Demo
 {
     using System.ComponentModel;
+    using System.Globalization;
     using System.Runtime.CompilerServices;
 
     public class DummyItem : INotifyPropertyChanged
@@ -36,7 +37,7 @@ namespace Gu.Reactive.Demo
 
         public override string ToString()
         {
-            return this.Value.ToString();
+            return this.Value.ToString(CultureInfo.InvariantCulture);
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

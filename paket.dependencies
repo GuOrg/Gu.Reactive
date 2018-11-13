@@ -43,5 +43,6 @@ group Benchmark
   nuget BenchmarkDotNet.Diagnostics.Windows
   nuget System.Reactive 3.1.1
   nuget Microsoft.CodeAnalysis.CSharp.Workspaces
+  nuget System.Runtime.CompilerServices.Unsafe 4.5.1
   nuget NUnit
   nuget Gu.Roslyn.Asserts

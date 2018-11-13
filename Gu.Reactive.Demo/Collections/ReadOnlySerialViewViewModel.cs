@@ -4,6 +4,7 @@ namespace Gu.Reactive.Demo
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Globalization;
     using System.Linq;
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
@@ -19,7 +20,7 @@ namespace Gu.Reactive.Demo
 
         public ReadOnlySerialViewViewModel()
         {
-            this.UpdateCommand = new RelayCommand(() => this.View.SetSource(this.items.Split(',').Select(x => new DummyItem(int.Parse(x)))));
+            this.UpdateCommand = new RelayCommand(() => this.View.SetSource(this.items.Split(',').Select(x => new DummyItem(int.Parse(x, CultureInfo.InvariantCulture)))));
             this.ClearSourceCommand = new RelayCommand(() => this.View.ClearSource());
             this.ResetCommand = new RelayCommand(this.Reset);
             this.disposable = this.View

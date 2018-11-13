@@ -1,8 +1,9 @@
-﻿#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
 namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.Globalization;
     using System.Linq;
 
     using Gu.Reactive;
@@ -45,7 +46,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             {
             }
 
-            using (source.AsMappingView(x => x.ToString())
+            using (source.AsMappingView(x => x.ToString(CultureInfo.InvariantCulture))
                        .AsReadOnlyFilteredView(x => true))
             {
             }
@@ -60,7 +61,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             {
             }
 
-            using (readonlyInts.AsMappingView(x => x.ToString())
+            using (readonlyInts.AsMappingView(x => x.ToString(CultureInfo.InvariantCulture))
                                .AsReadOnlyFilteredView(x => true))
             {
             }
@@ -103,7 +104,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             {
             }
 
-            using (source.AsMappingView(x => x.ToString())
+            using (source.AsMappingView(x => x.ToString(CultureInfo.InvariantCulture))
                        .AsReadOnlyThrottledView(TimeSpan.Zero))
             {
             }
@@ -118,7 +119,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             {
             }
 
-            using (readonlyInts.AsMappingView(x => x.ToString())
+            using (readonlyInts.AsMappingView(x => x.ToString(CultureInfo.InvariantCulture))
                                .AsReadOnlyThrottledView(TimeSpan.Zero))
             {
             }
@@ -130,32 +131,32 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             // just checking that the overloads are right.
             // Will be compiler error if we dumb things.
             var source = new ObservableCollection<int>();
-            using (source.AsMappingView(x => x.ToString()))
+            using (source.AsMappingView(x => x.ToString(CultureInfo.InvariantCulture)))
             {
             }
 
             using (source.AsFilteredView(x => true)
-                         .AsMappingView(x => x.ToString()))
+                         .AsMappingView(x => x.ToString(CultureInfo.InvariantCulture)))
             {
             }
 
             using (source.AsThrottledView(TimeSpan.Zero)
-                         .AsMappingView(x => x.ToString()))
+                         .AsMappingView(x => x.ToString(CultureInfo.InvariantCulture)))
             {
             }
 
             var readonlyInts = new ReadOnlyObservableCollection<int>(source);
-            using (readonlyInts.AsMappingView(x => x.ToString()))
+            using (readonlyInts.AsMappingView(x => x.ToString(CultureInfo.InvariantCulture)))
             {
             }
 
             using (readonlyInts.AsReadOnlyFilteredView(x => true)
-                               .AsMappingView(x => x.ToString()))
+                               .AsMappingView(x => x.ToString(CultureInfo.InvariantCulture)))
             {
             }
 
             using (readonlyInts.AsReadOnlyThrottledView(TimeSpan.Zero)
-                               .AsMappingView(x => x.ToString()))
+                               .AsMappingView(x => x.ToString(CultureInfo.InvariantCulture)))
             {
             }
         }
