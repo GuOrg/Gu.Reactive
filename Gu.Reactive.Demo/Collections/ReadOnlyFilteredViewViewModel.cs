@@ -12,7 +12,7 @@ namespace Gu.Reactive.Demo
     using System.Windows.Threading;
     using Gu.Wpf.Reactive;
 
-    public class ReadOnlyFilteredViewViewModel : IDisposable, INotifyPropertyChanged
+    public sealed class ReadOnlyFilteredViewViewModel : IDisposable, INotifyPropertyChanged
     {
         private readonly Subject<object> trigger = new Subject<object>();
         private readonly System.Reactive.Disposables.CompositeDisposable disposable;

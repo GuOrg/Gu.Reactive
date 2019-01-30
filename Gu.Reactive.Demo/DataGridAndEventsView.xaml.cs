@@ -12,7 +12,7 @@ namespace Gu.Reactive.Demo
     /// <summary>
     /// Interaction logic for DataGridAndEventsView.xaml.
     /// </summary>
-    public partial class DataGridAndEventsView : UserControl, IDisposable
+    public sealed partial class DataGridAndEventsView : UserControl, IDisposable
     {
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source),

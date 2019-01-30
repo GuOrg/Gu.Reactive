@@ -8,6 +8,7 @@ namespace Gu.Reactive.Demo
     using System.Linq;
     using System.Reactive.Linq;
     using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
     using System.Windows.Input;
     using System.Windows.Threading;
     using Gu.Wpf.Reactive;
@@ -22,7 +23,7 @@ namespace Gu.Reactive.Demo
         {
             this.UpdateCommand = new RelayCommand(() => this.View.SetSource(this.items.Split(',').Select(x => new DummyItem(int.Parse(x, CultureInfo.InvariantCulture)))));
             this.ClearSourceCommand = new RelayCommand(() => this.View.ClearSource());
-            this.ResetCommand = new RelayCommand(this.Reset);
+            this.ResetCommand = new AsyncCommand(this.ResetAsync);
             this.disposable = this.View
                 .ObserveCollectionChangedSlim(signalInitial: false)
                 .ObserveOnDispatcher()
@@ -74,7 +75,7 @@ namespace Gu.Reactive.Demo
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private async void Reset()
+        private async Task ResetAsync()
         {
             this.View.ClearSource();
             await Dispatcher.Yield(DispatcherPriority.Background);

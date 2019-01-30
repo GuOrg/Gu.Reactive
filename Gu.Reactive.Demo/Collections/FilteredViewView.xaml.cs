@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Demo
+namespace Gu.Reactive.Demo
 {
     using System;
     using System.Linq;
@@ -7,7 +7,7 @@
     /// <summary>
     /// Interaction logic for FilteredViewView.xaml.
     /// </summary>
-    public partial class FilteredViewView : UserControl, IDisposable
+    public sealed partial class FilteredViewView : UserControl, IDisposable
     {
         private readonly FilteredViewViewModel vm;
         private bool disposed;
