@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -72,10 +72,7 @@
         /// </summary>
         public TimeSpan BufferTime
         {
-            get
-            {
-                return this.chunk.BufferTime;
-            }
+            get => this.chunk.BufferTime;
 
             set
             {

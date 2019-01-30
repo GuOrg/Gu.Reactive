@@ -73,8 +73,8 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public Type CommandType
         {
-            get { return (Type)this.GetValue(CommandTypeProperty); }
-            protected set { this.SetValue(CommandTypePropertyKey, value); }
+            get => (Type)this.GetValue(CommandTypeProperty);
+            protected set => this.SetValue(CommandTypePropertyKey, value);
         }
 
         /// <summary>
@@ -82,8 +82,8 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public bool InferConditionFromCommand
         {
-            get { return (bool)this.GetValue(InferConditionFromCommandProperty); }
-            set { this.SetValue(InferConditionFromCommandProperty, value); }
+            get => (bool)this.GetValue(InferConditionFromCommandProperty);
+            set => this.SetValue(InferConditionFromCommandProperty, value);
         }
 
         /// <summary>
@@ -91,8 +91,8 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public ICondition Condition
         {
-            get { return (ICondition)this.GetValue(ConditionProperty); }
-            set { this.SetValue(ConditionProperty, value); }
+            get => (ICondition)this.GetValue(ConditionProperty);
+            set => this.SetValue(ConditionProperty, value);
         }
 
         private static void OnPlacementTargetProxyChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)

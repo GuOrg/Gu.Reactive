@@ -28,7 +28,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
 
         protected override IScheduledItem<long> GetNext()
         {
-            Application.Current.Dispatcher.SimulateYield().Wait();
+            _ = Application.Current.Dispatcher.SimulateYield().Wait();
             return null;
         }
     }

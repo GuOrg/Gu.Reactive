@@ -21,15 +21,9 @@ namespace Gu.Wpf.Reactive
         /// <inheritdoc/>
         public virtual event EventHandler CanExecuteChanged
         {
-            add
-            {
-                InternalCanExecuteChangedEventManager.AddHandler(this, value);
-            }
+            add => InternalCanExecuteChangedEventManager.AddHandler(this, value);
 
-            remove
-            {
-                InternalCanExecuteChangedEventManager.RemoveHandler(this, value);
-            }
+            remove => InternalCanExecuteChangedEventManager.RemoveHandler(this, value);
         }
 
         /// <inheritdoc/>
@@ -42,10 +36,7 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public bool IsExecuting
         {
-            get
-            {
-                return this.isExecuting;
-            }
+            get => this.isExecuting;
 
             protected set
             {

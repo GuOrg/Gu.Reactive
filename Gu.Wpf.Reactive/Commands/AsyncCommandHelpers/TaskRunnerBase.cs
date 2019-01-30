@@ -48,10 +48,7 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public NotifyTaskCompletion TaskCompletion
         {
-            get
-            {
-                return this.taskCompletion;
-            }
+            get => this.taskCompletion;
 
             protected set
             {
@@ -91,7 +88,7 @@ namespace Gu.Wpf.Reactive
                 case TaskStatus.Faulted:
                     return true;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new InvalidOperationException($"Should never get here. Unhandled status: {completion.Task.Status}");
             }
         }
 

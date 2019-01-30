@@ -16,6 +16,7 @@ namespace Gu.Wpf.Reactive
 #pragma warning disable 1591
         private static readonly IEnumerable<ICondition> Empty = new ICondition[0];
 
+        /// <summary>Identifies the <see cref="Condition"/> dependency property.</summary>
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
             nameof(Condition),
             typeof(ICondition),
@@ -28,6 +29,7 @@ namespace Gu.Wpf.Reactive
             typeof(ConditionControl),
             new PropertyMetadata(Empty));
 
+        /// <summary>Identifies the <see cref="Root"/> dependency property.</summary>
         public static readonly DependencyProperty RootProperty = RootPropertyKey.DependencyProperty;
 
         private static readonly DependencyPropertyKey FlattenedPrerequisitesPropertyKey = DependencyProperty.RegisterReadOnly(
@@ -42,8 +44,10 @@ namespace Gu.Wpf.Reactive
             typeof(ConditionControl),
             new PropertyMetadata(defaultValue: true));
 
+        /// <summary>Identifies the <see cref="IsInSync"/> dependency property.</summary>
         public static readonly DependencyProperty IsInSyncProperty = IsInSyncPropertyKey.DependencyProperty;
 
+        /// <summary>Identifies the <see cref="FlattenedPrerequisites"/> dependency property.</summary>
         public static readonly DependencyProperty FlattenedPrerequisitesProperty = FlattenedPrerequisitesPropertyKey.DependencyProperty;
 
 #pragma warning restore SA1202 // Elements must be ordered by access
@@ -68,8 +72,8 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public IEnumerable<ICondition> Root
         {
-            get { return (IEnumerable<ICondition>)this.GetValue(RootProperty); }
-            protected set { this.SetValue(RootPropertyKey, value); }
+            get => (IEnumerable<ICondition>)this.GetValue(RootProperty);
+            protected set => this.SetValue(RootPropertyKey, value);
         }
 
         /// <summary>
@@ -77,8 +81,8 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public IEnumerable<ICondition> FlattenedPrerequisites
         {
-            get { return (IEnumerable<ICondition>)this.GetValue(FlattenedPrerequisitesProperty); }
-            protected set { this.SetValue(FlattenedPrerequisitesPropertyKey, value); }
+            get => (IEnumerable<ICondition>)this.GetValue(FlattenedPrerequisitesProperty);
+            protected set => this.SetValue(FlattenedPrerequisitesPropertyKey, value);
         }
 
         /// <summary>
@@ -86,8 +90,8 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public bool IsInSync
         {
-            get { return (bool)this.GetValue(IsInSyncProperty); }
-            protected set { this.SetValue(IsInSyncPropertyKey, value); }
+            get => (bool)this.GetValue(IsInSyncProperty);
+            protected set => this.SetValue(IsInSyncPropertyKey, value);
         }
 
         /// <summary>
@@ -95,8 +99,8 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public ICondition Condition
         {
-            get { return (ICondition)this.GetValue(ConditionProperty); }
-            set { this.SetValue(ConditionProperty, value); }
+            get => (ICondition)this.GetValue(ConditionProperty);
+            set => this.SetValue(ConditionProperty, value);
         }
 
         /// <summary>
