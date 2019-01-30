@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections;
@@ -77,13 +77,13 @@
         /// <inheritdoc/>
         public T[] ToArray() => this.innerQueue.ToArray();
 
-        /// <summary>Tries to return an object from the beginning of the <see cref="T:System.Collections.Concurrent.ConcurrentQueue`1" /> without removing it.</summary>
+        /// <summary>Tries to return an object from the beginning of the <see cref="FixedSizedQueue{T}" /> without removing it.</summary>
         /// <returns>true if an object was returned successfully; otherwise, false.</returns>
-        /// <param name="result">When this method returns, <paramref name="result" /> contains an object from the beginning of the <see cref="T:System.Collections.Concurrent.ConcurrentQueue`1" /> or an unspecified value if the operation failed.</param>
+        /// <param name="result">When this method returns, <paramref name="result" /> contains an object from the beginning of the <see cref="FixedSizedQueue{T}" /> or an unspecified value if the operation failed.</param>
         public bool TryPeek(out T result) => this.innerQueue.TryPeek(out result);
 
         /// <summary>Tries to remove and return the object at the beginning of the concurrent queue.</summary>
-        /// <returns>true if an element was removed and returned from the beginning of the <see cref="T:System.Collections.Concurrent.ConcurrentQueue`1" /> successfully; otherwise, false.</returns>
+        /// <returns>true if an element was removed and returned from the beginning of the <see cref="FixedSizedQueue{T}" /> successfully; otherwise, false.</returns>
         /// <param name="result">When this method returns, if the operation was successful, <paramref name="result" /> contains the object removed. If no object was available to be removed, the value is unspecified.</param>
         protected bool TryDequeue(out T result) => this.innerQueue.TryDequeue(out result);
     }
