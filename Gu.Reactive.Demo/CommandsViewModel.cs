@@ -1,10 +1,10 @@
-﻿namespace Gu.Reactive.Demo
+namespace Gu.Reactive.Demo
 {
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
-
+    using System.Windows.Input;
     using Gu.Wpf.Reactive;
 
     public sealed class CommandsViewModel : INotifyPropertyChanged, IDisposable
@@ -33,7 +33,7 @@
             this.ConditionRelayCommandWithParameter = new ConditionRelayCommand<string>(x => this.Executed = "ConditionRelayCommandWithParameter: " + x, this.canExecuteCondition);
             this.RaiseCanExecuteCommand = new RelayCommand(this.RaiseCanExecute);
             this.RaiseCanExecuteOnOtherThread = new RelayCommand(() => Task.Run(() => this.RaiseCanExecute()));
-            this.DelayedToggleCanExecute = new RelayCommand(async () =>
+            this.DelayedToggleCanExecute = new AsyncCommand(async () =>
                     {
                         await Task.Delay(500).ConfigureAwait(false);
                         this.CanExecute = !this.CanExecute;
@@ -46,7 +46,7 @@
 
         public RelayCommand RaiseCanExecuteOnOtherThread { get; }
 
-        public RelayCommand DelayedToggleCanExecute { get; }
+        public ICommand DelayedToggleCanExecute { get; }
 
         public ManualRelayCommand ManualRelayCommandNoCondition { get; }
 
@@ -113,6 +113,7 @@
             this.ConditionRelayCommand.Dispose();
             this.ConditionRelayCommandWithParameter.Dispose();
             this.canExecuteCondition.Dispose();
+            (this.DelayedToggleCanExecute as IDisposable)?.Dispose();
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

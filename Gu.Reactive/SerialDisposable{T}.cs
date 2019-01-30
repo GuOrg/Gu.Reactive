@@ -36,10 +36,7 @@ namespace Gu.Reactive
         /// <remarks>If the SerialDisposable has already been disposed, assignment to this property causes immediate disposal of the given disposable object. Assigning this property disposes the previous disposable object.</remarks>
         public T Disposable
         {
-            get
-            {
-                return this.disposable;
-            }
+            get => this.disposable;
 
             set
             {

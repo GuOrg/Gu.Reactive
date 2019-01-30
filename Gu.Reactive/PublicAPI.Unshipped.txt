@@ -1,1 +1,10 @@
-﻿
+﻿Gu.Reactive.NotifyCollectionChangedEventArgs<T>.Equals(Gu.Reactive.NotifyCollectionChangedEventArgs<T> other) -> bool
+Gu.Reactive.ObservableAndCriteria.Equals(Gu.Reactive.ObservableAndCriteria other) -> bool
+override Gu.Reactive.NotifyCollectionChangedEventArgs<T>.Equals(object obj) -> bool
+override Gu.Reactive.NotifyCollectionChangedEventArgs<T>.GetHashCode() -> int
+override Gu.Reactive.ObservableAndCriteria.Equals(object obj) -> bool
+override Gu.Reactive.ObservableAndCriteria.GetHashCode() -> int
+static Gu.Reactive.NotifyCollectionChangedEventArgs<T>.operator !=(Gu.Reactive.NotifyCollectionChangedEventArgs<T> left, Gu.Reactive.NotifyCollectionChangedEventArgs<T> right) -> bool
+static Gu.Reactive.NotifyCollectionChangedEventArgs<T>.operator ==(Gu.Reactive.NotifyCollectionChangedEventArgs<T> left, Gu.Reactive.NotifyCollectionChangedEventArgs<T> right) -> bool
+static Gu.Reactive.ObservableAndCriteria.operator !=(Gu.Reactive.ObservableAndCriteria left, Gu.Reactive.ObservableAndCriteria right) -> bool
+static Gu.Reactive.ObservableAndCriteria.operator ==(Gu.Reactive.ObservableAndCriteria left, Gu.Reactive.ObservableAndCriteria right) -> bool

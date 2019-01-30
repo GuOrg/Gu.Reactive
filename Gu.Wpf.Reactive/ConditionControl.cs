@@ -103,9 +103,9 @@ namespace Gu.Wpf.Reactive
             set => this.SetValue(ConditionProperty, value);
         }
 
-        /// <summary>
-        /// Called when the <see cref="Condition"/> changes.
-        /// </summary>
+        /// <summary>This method is invoked when the <see cref="ConditionProperty"/> changes.</summary>
+        /// <param name="oldCondition">The old value of <see cref="ConditionProperty"/>.</param>
+        /// <param name="newCondition">The new value of <see cref="ConditionProperty"/>.</param>
         // ReSharper disable once UnusedParameter.Global
         protected virtual void OnConditionChanged(ICondition oldCondition, ICondition newCondition)
         {

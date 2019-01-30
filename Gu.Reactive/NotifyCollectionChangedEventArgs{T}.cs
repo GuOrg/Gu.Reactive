@@ -1,5 +1,6 @@
 namespace Gu.Reactive
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -8,7 +9,7 @@ namespace Gu.Reactive
     /// <summary>
     /// A generic decorator for <see cref="NotifyCollectionChangedEventArgs"/>.
     /// </summary>
-    public struct NotifyCollectionChangedEventArgs<T>
+    public struct NotifyCollectionChangedEventArgs<T> : IEquatable<NotifyCollectionChangedEventArgs<T>>
     {
         private static readonly IReadOnlyList<T> Empty = new T[0];
 
@@ -38,6 +39,34 @@ namespace Gu.Reactive
 
         /// <summary>Gets the index at which a <see cref="System.Collections.Specialized.NotifyCollectionChangedAction.Move" />, Remove, or Replace action occurred.</summary>
         public int OldStartingIndex => this.args.OldStartingIndex;
+
+        public static bool operator ==(NotifyCollectionChangedEventArgs<T> left, NotifyCollectionChangedEventArgs<T> right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(NotifyCollectionChangedEventArgs<T> left, NotifyCollectionChangedEventArgs<T> right)
+        {
+            return !left.Equals(right);
+        }
+
+        /// <inheritdoc />
+        public bool Equals(NotifyCollectionChangedEventArgs<T> other)
+        {
+            return Equals(this.args, other.args);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is NotifyCollectionChangedEventArgs<T> other && this.Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return this.args?.GetHashCode() ?? 0;
+        }
 
         private static IReadOnlyList<T> GetItems(IList items)
         {
