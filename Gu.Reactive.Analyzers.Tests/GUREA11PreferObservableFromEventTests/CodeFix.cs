@@ -8,6 +8,6 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new GUREA11PreferObservableFromEvent();
         private static readonly CodeFixProvider Fix = new EventSubscriptionToObserveFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA11");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA11PreferObservableFromEvent.Descriptor);
     }
 }

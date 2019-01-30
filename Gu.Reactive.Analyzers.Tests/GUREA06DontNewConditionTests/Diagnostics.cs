@@ -7,7 +7,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA06DontNewConditionTests
     public class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA06");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA06DontNewCondition.Descriptor);
 
         [Test]
         public void WhenCreatingCondition()

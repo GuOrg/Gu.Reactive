@@ -7,7 +7,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
     public class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA10");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA10DontMergeInObservable.Descriptor);
 
         private const string FooCode = @"
 namespace RoslynSandbox

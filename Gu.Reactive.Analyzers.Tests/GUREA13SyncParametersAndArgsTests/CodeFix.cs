@@ -10,7 +10,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly CodeFixProvider SortArgsCodeFix = new SortArgsCodeFix();
         private static readonly CodeFixProvider SortParametersCodeFix = new SortParametersCodeFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA13");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA13SyncParametersAndArgs.Descriptor);
 
         private const string Condition1 = @"
 namespace RoslynSandbox

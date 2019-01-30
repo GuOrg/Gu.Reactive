@@ -9,7 +9,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly CodeFixProvider Fix = new InlineSingleLineCodeFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA08");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA08InlineSingleLine.Descriptor);
 
         private const string FooCode = @"
 namespace RoslynSandbox

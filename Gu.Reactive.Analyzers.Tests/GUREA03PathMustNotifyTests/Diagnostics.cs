@@ -7,7 +7,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA03PathMustNotifyTests
     public class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA03");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA03PathMustNotify.Descriptor);
 
         [Test]
         public void OneLevel()

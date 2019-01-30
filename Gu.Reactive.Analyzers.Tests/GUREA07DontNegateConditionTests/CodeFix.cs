@@ -9,7 +9,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly CodeFixProvider Fix = new InjectNegatedCodeFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA07");
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA07DontNegateCondition.Descriptor);
 
         private const string FooCode = @"
 namespace RoslynSandbox

@@ -12,7 +12,7 @@ namespace Gu.Reactive.Analyzers
     {
         public const string DiagnosticId = "GUREA11";
 
-        private static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
+        internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
             id: DiagnosticId,
             title: "Prefer observing",
             messageFormat: "Prefer observing",
