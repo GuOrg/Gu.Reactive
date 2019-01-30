@@ -1,15 +1,15 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class HappyPath
+    public class ValidCode
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
         [Test]
-        public void WhenSingleLine()
+        public void WhenInjectingCondition()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -48,7 +48,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var conditionCode = @"
 namespace RoslynSandbox
 {
     using System.Reactive.Linq;
@@ -64,7 +64,23 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
+            var testCode = @"
+namespace RoslynSandbox
+{
+    using System;
+    using Gu.Reactive;
+
+    public class Bar
+    {
+        private readonly ICondition condition;
+        public Bar(FooCondition condition)
+        {
+            var foo = new Foo();
+            this.condition = condition;
+        }
+    }
+}";
+            AnalyzerAssert.Valid(Analyzer, fooCode, conditionCode, testCode);
         }
     }
 }

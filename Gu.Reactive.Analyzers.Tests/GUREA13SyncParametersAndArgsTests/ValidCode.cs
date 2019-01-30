@@ -4,9 +4,10 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class HappyPath
+    public class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
+
         private const string Condition1 = @"
 namespace RoslynSandbox
 {

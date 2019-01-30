@@ -76,7 +76,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>Removes all the elements that match the conditions defined by the specified predicate.</summary>
-        /// <param name="predicate">The <see cref="T:System.Predicate`1" /> delegate that defines the conditions of the elements to remove.</param>
+        /// <param name="predicate">The <see cref="System.Predicate{T}" /> delegate that defines the conditions of the elements to remove.</param>
         /// <returns>The number of elements removed from the <see cref="ObservableBatchCollection{T}" /> .</returns>
         public int RemoveAll(Func<T, bool> predicate)
         {

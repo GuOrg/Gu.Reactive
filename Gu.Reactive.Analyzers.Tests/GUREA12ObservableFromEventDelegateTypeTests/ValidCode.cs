@@ -4,7 +4,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA12ObservableFromEventDelegateTypeTest
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class HappyPath
+    public class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 

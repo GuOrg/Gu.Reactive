@@ -1,13 +1,12 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class HappyPath
+    public class ValidCode
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA09");
+        private static readonly DiagnosticAnalyzer Analyzer = new GUREA11PreferObservableFromEvent();
 
         private const string FooCode = @"
 namespace RoslynSandbox
@@ -48,7 +47,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void BaseCall()
+        public void Misc()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -66,29 +65,45 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ExpectedDiagnostic, FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
         }
 
         [Test]
-        public void CorrectNew()
+        public void InsideObservableFromEventArg()
         {
+            var fooCode = @"
+namespace RoslynSandbox
+{
+    using System;
+
+    public class Foo
+    {
+        public event EventHandler<int> SomeEvent;
+    }
+}";
+
             var testCode = @"
 namespace RoslynSandbox
 {
-    using Gu.Reactive;
+    using System;
+    using System.Reactive.Linq;
 
-    class Bar
+    public class Bar
     {
-        public static ICondition Create()
+        public Bar()
         {
             var foo = new Foo();
-            return new Condition(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2);
+            using (Observable.FromEvent<EventHandler<int>, int>(
+                                 h => (_, e) => h(e),
+                                 h => foo.SomeEvent += h,
+                                 h => foo.SomeEvent -= h)
+                             .Subscribe(_ => Console.WriteLine(string.Empty)))
+            {
+            }
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ExpectedDiagnostic, FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
     }
 }

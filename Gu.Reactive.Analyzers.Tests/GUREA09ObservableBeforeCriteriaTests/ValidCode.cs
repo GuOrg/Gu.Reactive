@@ -1,17 +1,15 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class HappyPath
+    public class ValidCode
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA09");
 
-        [Test]
-        public void WhenInjectingCondition()
-        {
-            var fooCode = @"
+        private const string FooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -48,7 +46,11 @@ namespace RoslynSandbox
         }
     }
 }";
-            var conditionCode = @"
+
+        [Test]
+        public void BaseCall()
+        {
+            var testCode = @"
 namespace RoslynSandbox
 {
     using System.Reactive.Linq;
@@ -64,23 +66,29 @@ namespace RoslynSandbox
         }
     }
 }";
+            AnalyzerAssert.Valid(Analyzer, ExpectedDiagnostic, FooCode, testCode);
+        }
+
+        [Test]
+        public void CorrectNew()
+        {
             var testCode = @"
 namespace RoslynSandbox
 {
-    using System;
     using Gu.Reactive;
 
-    public class Bar
+    class Bar
     {
-        private readonly ICondition condition;
-        public Bar(FooCondition condition)
+        public static ICondition Create()
         {
             var foo = new Foo();
-            this.condition = condition;
+            return new Condition(
+                foo.ObservePropertyChangedSlim(x => x.Value),
+                () => foo.Value == 2);
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, conditionCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, ExpectedDiagnostic, FooCode, testCode);
         }
     }
 }

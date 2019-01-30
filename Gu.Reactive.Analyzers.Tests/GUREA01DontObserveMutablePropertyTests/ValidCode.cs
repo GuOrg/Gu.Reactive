@@ -4,7 +4,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA01DontObserveMutablePropertyTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class HappyPath
+    public class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 

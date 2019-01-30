@@ -1,14 +1,17 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class HappyPath
+    public class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 
-        private const string FooCode = @"
+        [Test]
+        public void WhenSingleLine()
+        {
+            var fooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -45,10 +48,6 @@ namespace RoslynSandbox
         }
     }
 }";
-
-        [Test]
-        public void WhenNoMerge()
-        {
             var testCode = @"
 namespace RoslynSandbox
 {
@@ -65,7 +64,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
         }
     }
 }

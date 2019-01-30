@@ -1,17 +1,14 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA06DontNewConditionTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class HappyPath
+    public class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 
-        [Test]
-        public void WhenInjectingCondition()
-        {
-            var fooCode = @"
+        private const string FooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -48,7 +45,11 @@ namespace RoslynSandbox
         }
     }
 }";
-            var conditionCode = @"
+
+        [Test]
+        public void WhenNoMerge()
+        {
+            var testCode = @"
 namespace RoslynSandbox
 {
     using System.Reactive.Linq;
@@ -64,23 +65,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
-namespace RoslynSandbox
-{
-    using System;
-    using Gu.Reactive;
-
-    public class Bar
-    {
-        private readonly ICondition condition;
-        public Bar(FooCondition condition)
-        {
-            var foo = new Foo();
-            this.condition = condition;
-        }
-    }
-}";
-            AnalyzerAssert.Valid(Analyzer, fooCode, conditionCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
         }
     }
 }

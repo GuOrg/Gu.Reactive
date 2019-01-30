@@ -1,14 +1,17 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA06DontNewConditionTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class HappyPath
+    public class ValidCode
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new GUREA11PreferObservableFromEvent();
+        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 
-        private const string FooCode = @"
+        [Test]
+        public void WhenInjectingCondition()
+        {
+            var fooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -45,11 +48,7 @@ namespace RoslynSandbox
         }
     }
 }";
-
-        [Test]
-        public void Misc()
-        {
-            var testCode = @"
+            var conditionCode = @"
 namespace RoslynSandbox
 {
     using System.Reactive.Linq;
@@ -65,45 +64,23 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
-        }
-
-        [Test]
-        public void InsideObservableFromEventArg()
-        {
-            var fooCode = @"
-namespace RoslynSandbox
-{
-    using System;
-
-    public class Foo
-    {
-        public event EventHandler<int> SomeEvent;
-    }
-}";
-
             var testCode = @"
 namespace RoslynSandbox
 {
     using System;
-    using System.Reactive.Linq;
+    using Gu.Reactive;
 
     public class Bar
     {
-        public Bar()
+        private readonly ICondition condition;
+        public Bar(FooCondition condition)
         {
             var foo = new Foo();
-            using (Observable.FromEvent<EventHandler<int>, int>(
-                                 h => (_, e) => h(e),
-                                 h => foo.SomeEvent += h,
-                                 h => foo.SomeEvent -= h)
-                             .Subscribe(_ => Console.WriteLine(string.Empty)))
-            {
-            }
+            this.condition = condition;
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, fooCode, conditionCode, testCode);
         }
     }
 }

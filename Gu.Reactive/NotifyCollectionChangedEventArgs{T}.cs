@@ -27,7 +27,7 @@ namespace Gu.Reactive
         /// <summary>Gets the list of new items involved in the change.</summary>
         public IReadOnlyList<T> NewItems { get; }
 
-        /// <summary>Gets the list of items affected by a <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Replace" />, Remove, or Move action.</summary>
+        /// <summary>Gets the list of items affected by a <see cref="System.Collections.Specialized.NotifyCollectionChangedAction.Replace" />, Remove, or Move action.</summary>
         public IReadOnlyList<T> OldItems { get; }
 
         /// <summary>Gets the action that caused the event. </summary>
@@ -36,7 +36,7 @@ namespace Gu.Reactive
         /// <summary>Gets the index at which the change occurred.</summary>
         public int NewStartingIndex => this.args.NewStartingIndex;
 
-        /// <summary>Gets the index at which a <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Move" />, Remove, or Replace action occurred.</summary>
+        /// <summary>Gets the index at which a <see cref="System.Collections.Specialized.NotifyCollectionChangedAction.Move" />, Remove, or Replace action occurred.</summary>
         public int OldStartingIndex => this.args.OldStartingIndex;
 
         private static IReadOnlyList<T> GetItems(IList items)
