@@ -63,7 +63,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                     CollectionAssert.AreEqual(filtered2, source);
                 }
 
-                Assert.Throws<ObjectDisposedException>(() => filtered1.Count.IgnoreReturnValue());
+                _ = Assert.Throws<ObjectDisposedException>(() => filtered1.Count.IgnoreReturnValue());
             }
         }
 
@@ -79,7 +79,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                     CollectionAssert.AreEqual(filtered2, source);
                 }
 
-                Assert.Throws<ObjectDisposedException>(() => filtered1.Count.IgnoreReturnValue());
+                _ = Assert.Throws<ObjectDisposedException>(() => filtered1.Count.IgnoreReturnValue());
             }
         }
 

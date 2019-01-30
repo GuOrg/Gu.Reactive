@@ -13,7 +13,7 @@ namespace Gu.Reactive
     {
         private readonly object gate = new object();
         private T disposable;
-        private bool disposed;
+        private bool isDisposed;
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
@@ -27,7 +27,7 @@ namespace Gu.Reactive
             {
                 lock (this.gate)
                 {
-                    return this.disposed;
+                    return this.isDisposed;
                 }
             }
         }
@@ -48,7 +48,7 @@ namespace Gu.Reactive
                     return;
                 }
 
-                if (this.disposed)
+                if (this.isDisposed)
                 {
 #pragma warning disable IDISP007 // Don't dispose injected.
                     value?.Dispose();
@@ -64,7 +64,7 @@ namespace Gu.Reactive
                         return;
                     }
 
-                    if (this.disposed)
+                    if (this.isDisposed)
                     {
                         toDispose = value;
                     }
@@ -87,7 +87,7 @@ namespace Gu.Reactive
         /// </summary>
         public void Dispose()
         {
-            if (this.disposed)
+            if (this.isDisposed)
             {
                 return;
             }
@@ -95,12 +95,12 @@ namespace Gu.Reactive
             IDisposable toDispose;
             lock (this.gate)
             {
-                if (this.disposed)
+                if (this.isDisposed)
                 {
                     return;
                 }
 
-                this.disposed = true;
+                this.isDisposed = true;
                 toDispose = this.disposable;
                 this.disposable = null;
             }

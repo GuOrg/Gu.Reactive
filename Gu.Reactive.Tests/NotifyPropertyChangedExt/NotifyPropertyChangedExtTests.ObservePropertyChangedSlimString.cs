@@ -1,4 +1,4 @@
-﻿// ReSharper disable All
+// ReSharper disable All
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
@@ -142,7 +142,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void MissingProperty()
             {
                 var fake = new Fake();
-                Assert.Throws<ArgumentException>(() => fake.ObservePropertyChangedSlim("Missing"));
+                _ = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChangedSlim("Missing"));
             }
 
             [Test]

@@ -29,7 +29,7 @@ namespace Gu.Wpf.Reactive.Tests
             listener = null;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
-            command.CanExecute(); // Touching it after to prevent GC
+            _ = command.CanExecute(); // Touching it after to prevent GC
         }
 
         [Test]

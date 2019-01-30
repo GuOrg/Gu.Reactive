@@ -147,7 +147,7 @@ namespace Gu.Wpf.Reactive.Tests
             using (var command = new AsyncCommand<int>(x => Task.Run(() => { throw exception; })))
             {
                 command.Execute(0);
-                Assert.ThrowsAsync<Exception>(() => command.Execution.Task);
+                _ = Assert.ThrowsAsync<Exception>(() => command.Execution.Task);
 
                 Assert.AreEqual(exception, command.Execution.InnerException);
                 Assert.AreEqual(TaskStatus.Faulted, command.Execution.Status);

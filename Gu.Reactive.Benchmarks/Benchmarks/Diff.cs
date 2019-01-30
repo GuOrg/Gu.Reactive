@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Benchmarks
+namespace Gu.Reactive.Benchmarks
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -11,7 +11,9 @@
         private static List<Fake> y;
 
         [Params(10, 100, 1000)]
+#pragma warning disable CA1044 // Properties should not be write only
         public int N
+#pragma warning restore CA1044 // Properties should not be write only
         {
             set
             {

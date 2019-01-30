@@ -501,8 +501,8 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         mock.Verify(x => x.Dispose(), Times.Once);
                     }
 
-                    Assert.Throws<ObjectDisposedException>(() => CollectionAssert.IsEmpty(view));
-                    Assert.Throws<ObjectDisposedException>(() => Assert.AreEqual(0, view.Count));
+                    _ = Assert.Throws<ObjectDisposedException>(() => CollectionAssert.IsEmpty(view));
+                    _ = Assert.Throws<ObjectDisposedException>(() => Assert.AreEqual(0, view.Count));
                 }
             }
 

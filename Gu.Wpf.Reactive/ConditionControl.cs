@@ -142,7 +142,7 @@ namespace Gu.Wpf.Reactive
             list.Add(condition);
             foreach (var pre in condition.Prerequisites)
             {
-                FlattenPrerequisites(pre, list);
+                _ = FlattenPrerequisites(pre, list);
             }
 
             return list;
