@@ -362,7 +362,7 @@ namespace Gu.Reactive
                     this.OnCollectionChanged(change);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(change));
             }
         }
     }

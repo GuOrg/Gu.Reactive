@@ -14,6 +14,7 @@ namespace Gu.Reactive
     /// Helper for synchronizing two collections and notifying about diffs.
     /// </summary>
     [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+    [Serializable]
     public class CollectionSynchronizer<T> : Collection<T>
     {
         private readonly List<T> temp = new List<T>();

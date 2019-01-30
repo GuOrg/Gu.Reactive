@@ -14,6 +14,7 @@ namespace Gu.Reactive.Demo
     /// </summary>
     public sealed partial class DataGridAndEventsView : UserControl, IDisposable
     {
+        /// <summary>Identifies the <see cref="Source"/> dependency property.</summary>
         public static readonly DependencyProperty SourceProperty = DependencyProperty.Register(
             nameof(Source),
             typeof(IEnumerable),
@@ -23,12 +24,14 @@ namespace Gu.Reactive.Demo
                 OnSourceChanged,
                 CoerceSource));
 
+        /// <summary>Identifies the <see cref="Changes"/> dependency property.</summary>
         public static readonly DependencyProperty ChangesProperty = DependencyProperty.Register(
             nameof(Changes),
             typeof(ObservableCollection<NotifyCollectionChangedEventArgs>),
             typeof(DataGridAndEventsView),
             new PropertyMetadata(default(ObservableCollection<NotifyCollectionChangedEventArgs>)));
 
+        /// <summary>Identifies the <see cref="Header"/> dependency property.</summary>
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
             nameof(Header),
             typeof(string),

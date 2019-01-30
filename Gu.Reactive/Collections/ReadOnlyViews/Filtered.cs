@@ -29,7 +29,7 @@ namespace Gu.Reactive
                 case NotifyCollectionChangedAction.Reset:
                     return false;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(e));
             }
         }
     }

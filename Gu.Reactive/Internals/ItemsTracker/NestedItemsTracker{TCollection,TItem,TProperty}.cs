@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Internals
+namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections;
@@ -152,7 +152,7 @@
                         this.AddItems(this.source);
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(e));
                 }
             }
         }
@@ -169,7 +169,7 @@
 
                 var tracker = this.path.CreateTracker(item);
                 //// Signaling initial before subscribing here to get the events in correct order
-                //// This can't be made entirely thread safe as an event can be raised on source bewteen signal initial & subscribe.
+                //// This can't be made entirely thread safe as an event can be raised on source between signal initial & subscribe.
                 this.SignalInitial(tracker);
                 tracker.TrackedPropertyChanged += this.OnTrackedItemChanged;
                 this.map.Add(item, tracker);

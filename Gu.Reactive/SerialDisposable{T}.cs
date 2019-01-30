@@ -12,7 +12,7 @@ namespace Gu.Reactive
         where T : class, IDisposable
     {
         private readonly object gate = new object();
-        private T current;
+        private T disposable;
         private bool disposed;
 
         /// <inheritdoc/>
@@ -38,12 +38,12 @@ namespace Gu.Reactive
         {
             get
             {
-                return this.current;
+                return this.disposable;
             }
 
             set
             {
-                if (ReferenceEquals(value, this.current))
+                if (ReferenceEquals(value, this.disposable))
                 {
                     return;
                 }
@@ -59,7 +59,7 @@ namespace Gu.Reactive
                 IDisposable toDispose;
                 lock (this.gate)
                 {
-                    if (ReferenceEquals(value, this.current))
+                    if (ReferenceEquals(value, this.disposable))
                     {
                         return;
                     }
@@ -70,8 +70,8 @@ namespace Gu.Reactive
                     }
                     else
                     {
-                        toDispose = this.current;
-                        this.current = value;
+                        toDispose = this.disposable;
+                        this.disposable = value;
                     }
                 }
 
@@ -101,8 +101,8 @@ namespace Gu.Reactive
                 }
 
                 this.disposed = true;
-                toDispose = this.current;
-                this.current = null;
+                toDispose = this.disposable;
+                this.disposable = null;
             }
 
             toDispose?.Dispose();

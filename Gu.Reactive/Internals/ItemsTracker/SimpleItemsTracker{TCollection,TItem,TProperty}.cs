@@ -141,7 +141,7 @@ namespace Gu.Reactive.Internals
                         this.AddItems(this.source);
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(e));
                 }
             }
         }

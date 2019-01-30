@@ -68,6 +68,7 @@ namespace Gu.Reactive.Demo
             this.disposed = true;
             this.View.Dispose();
             this.disposable?.Dispose();
+            (this.ResetCommand as IDisposable)?.Dispose();
         }
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

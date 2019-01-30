@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -237,7 +237,7 @@
 
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(changes));
                 }
             }
         }

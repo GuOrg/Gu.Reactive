@@ -125,7 +125,7 @@ namespace Gu.Reactive
                     }
 
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(e));
             }
         }
 

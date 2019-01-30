@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +21,7 @@
                     case NotifyCollectionChangedAction.Reset:
                         return CollectionChange(before, after);
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(nameof(collectionChanges));
                 }
             }
 
