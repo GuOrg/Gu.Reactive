@@ -194,7 +194,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                         CollectionAssert.IsEmpty(view);
                         CollectionAssert.IsEmpty(actual);
 
-                        await Task.Delay(bufferTime);
+                        await Task.Delay(bufferTime).ConfigureAwait(false);
                         await Application.Current.Dispatcher.SimulateYield();
                         await Application.Current.Dispatcher.SimulateYield();
 
@@ -220,8 +220,8 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                     CollectionAssert.IsEmpty(view);
                     CollectionAssert.IsEmpty(actual);
 
-                    await Task.Delay(bufferTime);
-                    await Task.Delay(bufferTime);
+                    await Task.Delay(bufferTime).ConfigureAwait(false);
+                    await Task.Delay(bufferTime).ConfigureAwait(false);
                     await Application.Current.Dispatcher.SimulateYield();
 
                     CollectionAssert.AreEqual(source, view);

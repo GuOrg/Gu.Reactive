@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Benchmarks
+namespace Gu.Reactive.Benchmarks
 {
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
@@ -18,15 +18,12 @@
 
         public int WriteOnly
         {
-            set { this.writeOnly = value; }
+            set => this.writeOnly = value;
         }
 
         public bool IsTrue
         {
-            get
-            {
-                return this.isTrue;
-            }
+            get => this.isTrue;
 
             set
             {
@@ -42,10 +39,7 @@
 
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
+            get => this.name;
 
             set
             {
@@ -61,10 +55,7 @@
 
         public Level Next
         {
-            get
-            {
-                return this.next;
-            }
+            get => this.next;
 
             set
             {
@@ -80,10 +71,7 @@
 
         public StructLevel StructLevel
         {
-            get
-            {
-                return this.structLevel;
-            }
+            get => this.structLevel;
 
             set
             {
@@ -104,10 +92,7 @@
 
         public int Value
         {
-            get
-            {
-                return this.value;
-            }
+            get => this.value;
 
             set
             {

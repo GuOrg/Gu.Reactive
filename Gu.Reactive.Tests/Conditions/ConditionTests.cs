@@ -3,7 +3,6 @@ namespace Gu.Reactive.Tests.Conditions
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Diagnostics;
     using System.Linq;
 
     using Gu.Reactive.Tests.Helpers;
