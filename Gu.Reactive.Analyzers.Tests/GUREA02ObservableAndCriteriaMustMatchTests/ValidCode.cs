@@ -155,7 +155,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ExpectedDiagnostic.Create("GUREA02"), FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, GUREA02ObservableAndCriteriaMustMatch.Descriptor, FooCode, testCode);
         }
 
         [Test]

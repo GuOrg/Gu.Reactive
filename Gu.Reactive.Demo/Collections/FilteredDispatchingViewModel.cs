@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Demo
+namespace Gu.Reactive.Demo
 {
     using System;
     using System.Collections.ObjectModel;
@@ -31,7 +31,7 @@
             this.AddOneCommand = new RelayCommand(this.AddOne, () => true);
             this.AddTenCommand = new RelayCommand(this.AddTen, () => true);
             this.ClearCommand = new RelayCommand(this.Source.Clear, () => true);
-            this.ResetCommand = new RelayCommand(this.Reset, () => true);
+            this.ResetCommand = new AsyncCommand(this.ResetAsync);
             this.TriggerCommand = new RelayCommand(() => this.trigger.OnNext(null), () => true);
             this.TriggerOnOtherThreadCommand = new RelayCommand(
                 () => Task.Run(() => this.trigger.OnNext(null)),
@@ -59,13 +59,13 @@
 
         public ICommand AddTenCommand { get; }
 
-        public RelayCommand ClearCommand { get; }
+        public ICommand ClearCommand { get; }
 
-        public RelayCommand ResetCommand { get; }
+        public ICommand ResetCommand { get; }
 
-        public RelayCommand TriggerCommand { get; }
+        public ICommand TriggerCommand { get; }
 
-        public RelayCommand TriggerOnOtherThreadCommand { get; }
+        public ICommand TriggerOnOtherThreadCommand { get; }
 
         public ObservableCollection<NotifyCollectionChangedEventArgs> SourceChanges { get; } = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
@@ -98,6 +98,7 @@
             (this.View as IDisposable)?.Dispose();
             this.trigger.Dispose();
             this.disposable.Dispose();
+            (this.ResetCommand as IDisposable)?.Dispose();
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -133,7 +134,7 @@
             }
         }
 
-        private async void Reset()
+        private async Task ResetAsync()
         {
             this.Source.Clear();
             this.Max = 5;

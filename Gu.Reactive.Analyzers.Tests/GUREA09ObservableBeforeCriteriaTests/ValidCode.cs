@@ -1,13 +1,14 @@
 namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
 {
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create("GUREA09");
+        private static readonly DiagnosticDescriptor Descriptor = GUREA09ObservableBeforeCriteria.Descriptor;
 
         private const string FooCode = @"
 namespace RoslynSandbox
@@ -66,7 +67,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ExpectedDiagnostic, FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, Descriptor, FooCode, testCode);
         }
 
         [Test]
@@ -88,7 +89,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, ExpectedDiagnostic, FooCode, testCode);
+            AnalyzerAssert.Valid(Analyzer, Descriptor, FooCode, testCode);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿#pragma warning disable 618
+#pragma warning disable 618
 namespace Gu.Reactive.Demo
 {
     using System;
@@ -24,7 +24,7 @@ namespace Gu.Reactive.Demo
             this.AddFourCommand = new RelayCommand(() => this.Add(4), () => true);
             this.AddOneOnOtherThreadCommand = new RelayCommand(() => Task.Run(() => this.AddOne()), () => true);
             this.ClearCommand = new RelayCommand(this.Source.Clear);
-            this.ResetCommand = new RelayCommand(this.Reset);
+            this.ResetCommand = new AsyncCommand(this.ResetAsync);
             this.disposable = new System.Reactive.Disposables.CompositeDisposable
                               {
                                   this.Source
@@ -50,7 +50,7 @@ namespace Gu.Reactive.Demo
 
         public RelayCommand ClearCommand { get; }
 
-        public RelayCommand ResetCommand { get; }
+        public ICommand ResetCommand { get; }
 
         public ObservableCollection<NotifyCollectionChangedEventArgs> SourceChanges { get; } = new ObservableCollection<NotifyCollectionChangedEventArgs>();
 
@@ -68,6 +68,7 @@ namespace Gu.Reactive.Demo
             this.disposed = true;
             (this.View as IDisposable)?.Dispose();
             this.disposable.Dispose();
+            (this.ResetCommand as IDisposable)?.Dispose();
         }
 
         private void AddOne()
@@ -88,7 +89,7 @@ namespace Gu.Reactive.Demo
             }
         }
 
-        private async void Reset()
+        private async Task ResetAsync()
         {
             this.Source.Clear();
             await Dispatcher.Yield(DispatcherPriority.Background);
