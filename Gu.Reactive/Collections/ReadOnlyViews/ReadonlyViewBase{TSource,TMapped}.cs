@@ -20,8 +20,6 @@ namespace Gu.Reactive
 
         private readonly Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper;
         private readonly bool leaveOpen;
-        private readonly CollectionSynchronizer<TMapped> tracker;
-
         private IEnumerable<TSource> source;
 
         /// <summary>
@@ -37,7 +35,7 @@ namespace Gu.Reactive
             this.mapper = mapper;
             this.leaveOpen = leaveOpen;
             this.source = source ?? EmptySource;
-            this.tracker = new CollectionSynchronizer<TMapped>(startEmpty ? mapper(EmptySource) : mapper(source));
+            this.Tracker = new CollectionSynchronizer<TMapped>(startEmpty ? mapper(EmptySource) : mapper(source));
         }
 
         /// <inheritdoc/>
@@ -55,23 +53,23 @@ namespace Gu.Reactive
         public bool IsFixedSize => true;
 
         /// <inheritdoc/>
-        public int Count => this.ThrowIfDisposed(() => this.tracker.Count);
+        public int Count => this.ThrowIfDisposed(() => this.Tracker.Count);
 
         /// <inheritdoc/>
-        object ICollection.SyncRoot => ((ICollection)this.tracker).SyncRoot;
+        object ICollection.SyncRoot => ((ICollection)this.Tracker).SyncRoot;
 
         /// <inheritdoc/>
         bool ICollection.IsSynchronized => false;
 
         /// <summary>
+        /// The collection synchronizer.
+        /// </summary>
+        protected CollectionSynchronizer<TMapped> Tracker { get; }
+
+        /// <summary>
         /// Returns true if there are any subscribers to the <see cref="PropertyChanged"/> or <see cref="CollectionChanged"/> events.
         /// </summary>
         protected bool HasListeners => this.PropertyChanged != null || this.CollectionChanged != null;
-
-        /// <summary>
-        /// The collection synchronizer.
-        /// </summary>
-        protected CollectionSynchronizer<TMapped> Tracker => this.tracker;
 
         /// <summary>
         /// True if this instance is disposed.
@@ -106,7 +104,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public TMapped this[int index] => this.ThrowIfDisposed(() => this.tracker[index]);
+        public TMapped this[int index] => this.ThrowIfDisposed(() => this.Tracker[index]);
 
         /// <inheritdoc/>
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
@@ -117,7 +115,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public IEnumerator<TMapped> GetEnumerator() => this.ThrowIfDisposed(() => this.tracker.GetEnumerator());
+        public IEnumerator<TMapped> GetEnumerator() => this.ThrowIfDisposed(() => this.Tracker.GetEnumerator());
 
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
@@ -128,20 +126,20 @@ namespace Gu.Reactive
         /// <returns>A copy of this instance.</returns>
         public IReadOnlyList<TMapped> Snapshot()
         {
-            return this.tracker.Snapshot();
+            return this.Tracker.Snapshot();
         }
 
         /// <inheritdoc/>
         int IList.Add(object value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
 
         /// <inheritdoc/>
-        bool IList.Contains(object value) => this.tracker.Contains(value);
+        bool IList.Contains(object value) => this.Tracker.Contains(value);
 
         /// <inheritdoc/>
         void IList.Clear() => ThrowHelper.ThrowCollectionIsReadonly();
 
         /// <inheritdoc/>
-        int IList.IndexOf(object value) => this.tracker.IndexOf(value);
+        int IList.IndexOf(object value) => this.Tracker.IndexOf(value);
 
         /// <inheritdoc/>
         void IList.Insert(int index, object value) => ThrowHelper.ThrowCollectionIsReadonly();
@@ -153,7 +151,7 @@ namespace Gu.Reactive
         void IList.RemoveAt(int index) => ThrowHelper.ThrowCollectionIsReadonly();
 
         /// <inheritdoc/>
-        void ICollection.CopyTo(Array array, int index) => ((ICollection)this.tracker).CopyTo(array, index);
+        void ICollection.CopyTo(Array array, int index) => ((ICollection)this.Tracker).CopyTo(array, index);
 
         /// <inheritdoc/>
         public void Dispose()
@@ -173,11 +171,11 @@ namespace Gu.Reactive
                 (this.Source as IRefreshAble)?.Refresh();
                 if (this.HasListeners)
                 {
-                    this.tracker.Reset(this.mapper(this.source ?? EmptySource), this.OnPropertyChanged, this.OnCollectionChanged);
+                    this.Tracker.Reset(this.mapper(this.source ?? EmptySource), this.OnPropertyChanged, this.OnCollectionChanged);
                 }
                 else
                 {
-                    this.tracker.Reset(this.mapper(this.Source ?? EmptySource));
+                    this.Tracker.Reset(this.mapper(this.Source ?? EmptySource));
                 }
             }
         }
@@ -225,7 +223,7 @@ namespace Gu.Reactive
                     this.source = EmptySource;
                 }
 
-                this.tracker.Clear();
+                this.Tracker.Clear();
             }
         }
 
@@ -269,11 +267,11 @@ namespace Gu.Reactive
             {
                 if (this.HasListeners)
                 {
-                    this.tracker.Refresh(this.mapper(this.source ?? EmptySource), changes, this.OnPropertyChanged, this.OnCollectionChanged);
+                    this.Tracker.Refresh(this.mapper(this.source ?? EmptySource), changes, this.OnPropertyChanged, this.OnCollectionChanged);
                 }
                 else
                 {
-                    this.tracker.Refresh(this.mapper(this.source ?? EmptySource), changes);
+                    this.Tracker.Refresh(this.mapper(this.source ?? EmptySource), changes);
                 }
             }
         }

@@ -85,10 +85,10 @@ namespace Gu.Reactive.Benchmarks
             }
         }
 
-#pragma warning disable WPF1010 // Mutable public property should notify.
+#pragma warning disable INPC002 // Mutable public property should notify.
         [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
         public NotInpc NotInpc { get; private set; }
-#pragma warning restore WPF1010 // Mutable public property should notify.
+#pragma warning restore INPC002 // Mutable public property should notify.
 
         public int Value
         {

@@ -19,10 +19,10 @@ namespace Gu.Reactive.Benchmarks
             this.view = this.ints.AsThrottledView(TimeSpan.FromMilliseconds(10));
         }
 
-#pragma warning disable WPF1011 // Implement INotifyPropertyChanged.
+#pragma warning disable INPC002 // Implement INotifyPropertyChanged.
         [Params(1000)]
         public int N { get; set; }
-#pragma warning restore WPF1011 // Implement INotifyPropertyChanged.
+#pragma warning restore INPC002 // Implement INotifyPropertyChanged.
 
         [GlobalSetup]
         public void SetupData()
