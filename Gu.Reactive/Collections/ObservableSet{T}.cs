@@ -1,4 +1,4 @@
-﻿// ReSharper disable StaticMemberInGenericType
+// ReSharper disable StaticMemberInGenericType
 namespace Gu.Reactive
 {
     using System;
@@ -55,7 +55,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        [field:NonSerialized]
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <inheritdoc/>
@@ -65,8 +65,10 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public int Count => this.inner.Count;
 
+#pragma warning disable CA1033 // Interface methods should be callable by child types
         /// <inheritdoc/>
         bool ICollection<T>.IsReadOnly => ((ICollection<T>)this.inner).IsReadOnly;
+#pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator() => this.inner.GetEnumerator();

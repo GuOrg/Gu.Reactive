@@ -1,4 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable VirtualMemberNeverOverridden.Global
 namespace Gu.Reactive
 {
@@ -54,8 +54,10 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public bool? IsSatisfied => this.condition.Value.IsSatisfied;
 
+#pragma warning disable CA1033 // Interface methods should be callable by child types
         /// <inheritdoc/>
         IReadOnlyList<ICondition> ICondition.Prerequisites => this.condition.Value.Prerequisites;
+#pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <inheritdoc/>
         public IEnumerable<ConditionHistoryPoint> History

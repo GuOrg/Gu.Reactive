@@ -34,11 +34,13 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public int Count => this.innerQueue.Count;
 
+#pragma warning disable CA1033 // Interface methods should be callable by child types
         /// <inheritdoc/>
         object ICollection.SyncRoot => ((ICollection)this.innerQueue).SyncRoot;
 
         /// <inheritdoc/>
         bool ICollection.IsSynchronized => ((ICollection)this.innerQueue).IsSynchronized;
+#pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator() => this.innerQueue.GetEnumerator();

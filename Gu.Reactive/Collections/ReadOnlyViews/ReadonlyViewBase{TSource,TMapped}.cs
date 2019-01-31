@@ -55,11 +55,13 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public int Count => this.ThrowIfDisposed(() => this.Tracker.Count);
 
-        /// <inheritdoc/>
+#pragma warning disable CA1033 // Interface methods should be callable by child types
+                              /// <inheritdoc/>
         object ICollection.SyncRoot => ((ICollection)this.Tracker).SyncRoot;
 
         /// <inheritdoc/>
         bool ICollection.IsSynchronized => false;
+#pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <summary>
         /// The collection synchronizer.
@@ -129,6 +131,7 @@ namespace Gu.Reactive
             return this.Tracker.Snapshot();
         }
 
+#pragma warning disable CA1033 // Interface methods should be callable by child types
         /// <inheritdoc/>
         int IList.Add(object value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
 
@@ -152,6 +155,7 @@ namespace Gu.Reactive
 
         /// <inheritdoc/>
         void ICollection.CopyTo(Array array, int index) => ((ICollection)this.Tracker).CopyTo(array, index);
+#pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <inheritdoc/>
         public void Dispose()

@@ -57,6 +57,7 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public int Count => this.ThrowIfDisposed(this.source.Count);
 
+#pragma warning disable CA1033 // Interface methods should be callable by child types
         /// <inheritdoc/>
         bool IList.IsReadOnly => this.ThrowIfDisposed(true);
 
@@ -68,6 +69,7 @@ namespace Gu.Reactive
 
         /// <inheritdoc/>
         bool ICollection.IsSynchronized => this.ThrowIfDisposed(((ICollection)this.source).IsSynchronized);
+#pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <inheritdoc/>
         public T this[int index] => this.ThrowIfDisposed(this.source[index]);
@@ -77,7 +79,9 @@ namespace Gu.Reactive
         {
             get => this[index];
             //// ReSharper disable once ValueParameterNotUsed
+#pragma warning disable CA1033 // Interface methods should be callable by child types
             set => ThrowHelper.ThrowCollectionIsReadonly();
+#pragma warning restore CA1033 // Interface methods should be callable by child types
         }
 
         /// <inheritdoc/>
