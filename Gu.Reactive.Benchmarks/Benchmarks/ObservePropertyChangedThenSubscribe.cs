@@ -36,7 +36,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public IDisposable SubjectSubscribe()
+        public static IDisposable SubjectSubscribe()
         {
             using (var disposable = Subject.Subscribe(_ => { }))
             {
@@ -45,14 +45,14 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public object SimpleLambda()
+        public static object SimpleLambda()
         {
             Expression<Func<Fake, int>> expression = x => x.Value;
             return expression;
         }
 
         [Benchmark]
-        public object NestedLambda()
+        public static object NestedLambda()
         {
             Expression<Func<Fake, int>> expression = x => x.Next.Value;
             return expression;

@@ -10,14 +10,9 @@ namespace Gu.Reactive.Benchmarks
     using BenchmarkDotNet.Running;
     using Gu.Reactive.Analyzers;
     using Gu.Reactive.Internals;
-    using Gu.Roslyn.Asserts;
 
     public class Program
     {
-        public static string ProjectDirectory => ProjectFile.Find("Gu.Reactive.Benchmarks.csproj").DirectoryName;
-
-        public static string BenchmarksDirectory { get; } = Path.Combine(ProjectDirectory, "Benchmarks");
-
         public static void Main()
         {
             if (false)
@@ -30,41 +25,35 @@ namespace Gu.Reactive.Benchmarks
                 Console.ReadKey().IgnoreReturnValue();
                 benchmark.Run();
             }
-            else if (true)
-            {
-                foreach (var summary in RunSingle<InvocationAnalyzerBenchmarks>())
-                {
-                    CopyResult(summary);
-                }
-            }
             else
             {
-                foreach (var summary in RunAll())
+                foreach (var summary in RunSingle<Diff>())
                 {
                     CopyResult(summary);
                 }
             }
         }
 
-        private static IEnumerable<Summary> RunAll()
-        {
-            var switcher = new BenchmarkSwitcher(typeof(Program).Assembly);
-            var summaries = switcher.RunAll();
-            return summaries;
-        }
+        private static IEnumerable<Summary> RunAll() => new BenchmarkSwitcher(typeof(Program).Assembly).RunAll();
 
-        private static IEnumerable<Summary> RunSingle<T>()
-        {
-            yield return BenchmarkRunner.Run<T>();
-        }
+        private static IEnumerable<Summary> RunSingle<T>() => new[] { BenchmarkRunner.Run<T>() };
 
         private static void CopyResult(Summary summary)
         {
             var sourceFileName = Directory.EnumerateFiles(summary.ResultsDirectoryPath, $"*{summary.Title}-report-github.md")
                                           .Single();
-            var destinationFileName = Path.Combine(summary.ResultsDirectoryPath, "..\\..\\Benchmarks", summary.Title + ".md");
+            var destinationFileName = Path.ChangeExtension(FindCsFile(), ".md");
             Console.WriteLine($"Copy: {sourceFileName} -> {destinationFileName}");
             File.Copy(sourceFileName, destinationFileName, overwrite: true);
+
+            string FindCsFile()
+            {
+                return Directory.EnumerateFiles(
+                                    AppDomain.CurrentDomain.BaseDirectory.Split(new[] { "\\bin\\" }, StringSplitOptions.RemoveEmptyEntries).First(),
+                                    $"{summary.Title.Split('.').Last()}.cs",
+                                    SearchOption.AllDirectories)
+                                .Single();
+            }
         }
     }
 }

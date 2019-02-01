@@ -6,19 +6,19 @@ namespace Gu.Reactive.Benchmarks
     public class NameOf
     {
         [Benchmark(Baseline = true)]
-        public string UsingCsharp6Nameof()
+        public static string UsingCsharp6Nameof()
         {
             return nameof(Fake.Name);
         }
 
         [Benchmark]
-        public string Property()
+        public static string Property()
         {
             return Reactive.NameOf.Property<Fake, string>(x => x.Name);
         }
 
         [Benchmark]
-        public string PropertyNested()
+        public static string PropertyNested()
         {
             return Reactive.NameOf.Property<Fake, string>(x => x.Next.Next.Name);
         }

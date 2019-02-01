@@ -19,19 +19,19 @@ namespace Gu.Reactive.Benchmarks
         private static readonly PropertyInfo Property = typeof(Fake).GetProperty(nameof(Fake.Next), BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
         [Benchmark(Baseline = true)]
-        public int StringGetHashCode()
+        public static int StringGetHashCode()
         {
             return "x => x.Value".GetHashCode();
         }
 
         [Benchmark]
-        public object NewSetPoolIdentitySet()
+        public static object NewSetPoolIdentitySet()
         {
             return new IdentitySet<string>();
         }
 
         [Benchmark]
-        public object NewSetPoolIdentitySetUnionWithStrings()
+        public static object NewSetPoolIdentitySetUnionWithStrings()
         {
             var set = new IdentitySet<string>();
             set.UnionWith(Strings);
@@ -40,7 +40,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public object SetPoolBorrowReturn()
+        public static object SetPoolBorrowReturn()
         {
             var set = SetPool.Borrow<string>();
             SetPool.Return(set);
@@ -48,7 +48,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public object TryTakeAdd()
+        public static object TryTakeAdd()
         {
             if (Bag.TryTake(out IdentitySet<string> set))
             {
@@ -59,7 +59,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public object NewSetPoolBorrowReturnUnionWithStrings()
+        public static object NewSetPoolBorrowReturnUnionWithStrings()
         {
             var set = SetPool.Borrow<string>();
             set.UnionWith(Strings);
@@ -68,43 +68,43 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public Expression<Func<Fake, int>> OneLevelExpression()
+        public static Expression<Func<Fake, int>> OneLevelExpression()
         {
             return x => x.Value;
         }
 
         [Benchmark]
-        public Expression<Func<Fake, int>> TwoLevelExpression()
+        public static Expression<Func<Fake, int>> TwoLevelExpression()
         {
             return x => x.Next.Value;
         }
 
         [Benchmark]
-        public int PropertyPathComparerGetHashCodeSingleItemPath()
+        public static int PropertyPathComparerGetHashCodeSingleItemPath()
         {
             return ((IEqualityComparer<LambdaExpression>)PropertyPathComparer.Default).GetHashCode(SingleItemPath);
         }
 
         [Benchmark]
-        public int PropertyPathComparerGetHashCodeTwoItemPath()
+        public static int PropertyPathComparerGetHashCodeTwoItemPath()
         {
             return ((IEqualityComparer<LambdaExpression>)PropertyPathComparer.Default).GetHashCode(TwoItemPath);
         }
 
         [Benchmark]
-        public object NotifyingPathGetOrCreateSingleItemPath()
+        public static object NotifyingPathGetOrCreateSingleItemPath()
         {
             return NotifyingPath.GetOrCreate(SingleItemPath);
         }
 
         [Benchmark]
-        public object NotifyingPathGetOrCreateTwoItemPath()
+        public static object NotifyingPathGetOrCreateTwoItemPath()
         {
             return NotifyingPath.GetOrCreate(TwoItemPath);
         }
 
         [Benchmark]
-        public object GetterGetOrCreateProperty()
+        public static object GetterGetOrCreateProperty()
         {
             return Getter.GetOrCreate(Property);
         }

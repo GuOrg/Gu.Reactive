@@ -12,7 +12,7 @@ namespace Gu.Reactive.Benchmarks
 
         [Params(10, 100, 1000)]
 #pragma warning disable CA1044 // Properties should not be write only
-        public int N
+        public static int N
 #pragma warning restore CA1044 // Properties should not be write only
         {
             set
@@ -23,7 +23,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public NotifyCollectionChangedEventArgs CollectionChange()
+        public static NotifyCollectionChangedEventArgs CollectionChange()
         {
             return Reactive.Diff.CollectionChange(x, y);
         }

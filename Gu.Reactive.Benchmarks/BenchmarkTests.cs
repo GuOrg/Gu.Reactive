@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Benchmarks
+namespace Gu.Reactive.Benchmarks
 {
     using System;
     using System.Collections.Generic;
@@ -38,7 +38,7 @@
         [Test]
         public void BenchmarksDirectoryExists()
         {
-            Assert.AreEqual(true, Directory.Exists(Program.BenchmarksDirectory), Program.BenchmarksDirectory);
+            Assert.AreEqual(true, Directory.Exists(CodeGen.BenchmarksDirectory), CodeGen.BenchmarksDirectory);
         }
     }
 }

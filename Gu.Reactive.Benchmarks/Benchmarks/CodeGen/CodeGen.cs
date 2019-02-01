@@ -12,6 +12,10 @@ namespace Gu.Reactive.Benchmarks
 
     public class CodeGen
     {
+        public static string ProjectDirectory { get; } = ProjectFile.Find("Gu.Reactive.Benchmarks.csproj").DirectoryName;
+
+        public static string BenchmarksDirectory { get; } = Path.Combine(ProjectDirectory, "Benchmarks");
+
         private static IReadOnlyList<DiagnosticAnalyzer> AllAnalyzers { get; } = typeof(GUREA01DontObserveMutableProperty).Assembly
                                                                                                                           .GetTypes()
                                                                                                                           .Where(typeof(DiagnosticAnalyzer).IsAssignableFrom)
@@ -22,7 +26,7 @@ namespace Gu.Reactive.Benchmarks
         public void AnalyzersBenchmark(DiagnosticAnalyzer analyzer)
         {
             var expectedName = analyzer.GetType().Name + "Benchmarks";
-            var fileName = Path.Combine(Program.BenchmarksDirectory, expectedName + ".cs");
+            var fileName = Path.Combine(BenchmarksDirectory, expectedName + ".cs");
             var code = new StringBuilder().AppendLine("// ReSharper disable RedundantNameQualifier")
                                           .AppendLine($"namespace {this.GetType().Namespace}")
                                           .AppendLine("{")
@@ -49,7 +53,7 @@ namespace Gu.Reactive.Benchmarks
         [Test]
         public void AllAnalyzersBenchmarks()
         {
-            var fileName = Path.Combine(Program.BenchmarksDirectory, "AllAnalyzersBenchmarks.cs");
+            var fileName = Path.Combine(BenchmarksDirectory, "AllAnalyzersBenchmarks.cs");
             var builder = new StringBuilder();
             builder.AppendLine("// ReSharper disable RedundantNameQualifier")
                    .AppendLine($"namespace {this.GetType().Namespace}")
@@ -70,7 +74,7 @@ namespace Gu.Reactive.Benchmarks
                        .AppendLine("        {")
                        .AppendLine($"            {analyzer.GetType().Name}Benchmark.Run();")
                        .AppendLine("        }");
-                if (!ReferenceEquals(analyzer, AllAnalyzers.Last()))
+                if (!ReferenceEquals(analyzer, AllAnalyzers[AllAnalyzers.Count - 1]))
                 {
                     builder.AppendLine();
                 }
