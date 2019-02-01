@@ -35,7 +35,7 @@ namespace Gu.Reactive.Benchmarks
                                           .AppendLine($"        private static readonly Gu.Roslyn.Asserts.Benchmark Benchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new {analyzer.GetType().FullName}());")
                                           .AppendLine()
                                           .AppendLine("        [BenchmarkDotNet.Attributes.Benchmark]")
-                                          .AppendLine("        public void RunOnAnalyzerProject()")
+                                          .AppendLine("        public static void RunOnAnalyzerProject()")
                                           .AppendLine("        {")
                                           .AppendLine("            Benchmark.Run();")
                                           .AppendLine("        }")
@@ -70,7 +70,7 @@ namespace Gu.Reactive.Benchmarks
             foreach (var analyzer in AllAnalyzers)
             {
                 builder.AppendLine($"        [BenchmarkDotNet.Attributes.Benchmark]")
-                       .AppendLine($"        public void {analyzer.GetType().Name}()")
+                       .AppendLine($"        public static void {analyzer.GetType().Name}()")
                        .AppendLine("        {")
                        .AppendLine($"            {analyzer.GetType().Name}Benchmark.Run();")
                        .AppendLine("        }");
