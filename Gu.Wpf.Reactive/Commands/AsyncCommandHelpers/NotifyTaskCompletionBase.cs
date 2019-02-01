@@ -120,7 +120,9 @@ namespace Gu.Wpf.Reactive
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+#pragma warning disable AvoidAsyncVoid // Avoid async void
         private async void AwaitTask(T task)
+#pragma warning restore AvoidAsyncVoid // Avoid async void
         {
             try
             {

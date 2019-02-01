@@ -106,8 +106,10 @@ namespace Gu.Wpf.Reactive
             }
         }
 
+#pragma warning disable CA1063 // Implement IDisposable Correctly, bug in CA1063
         /// <inheritdoc/>
         public void Dispose()
+#pragma warning restore CA1063 // Implement IDisposable Correctly
         {
             if (this.disposed)
             {

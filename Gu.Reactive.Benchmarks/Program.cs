@@ -11,7 +11,7 @@ namespace Gu.Reactive.Benchmarks
     using Gu.Reactive.Analyzers;
     using Gu.Reactive.Internals;
 
-    public class Program
+    public static class Program
     {
         public static void Main()
         {

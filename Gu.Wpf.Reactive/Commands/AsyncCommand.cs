@@ -94,6 +94,7 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public NotifyTaskCompletion Execution => this.runner.TaskCompletion;
 
+#pragma warning disable AvoidAsyncVoid // Avoid async void
         /// <summary>
         /// Sets IsExecuting to true.
         /// Invokes <see cref="Action"/>
@@ -101,6 +102,7 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         /// <param name="parameter">The command parameter is ignored by this implementation.</param>
         protected override async void InternalExecute(object parameter)
+#pragma warning restore AvoidAsyncVoid // Avoid async void
         {
             this.IsExecuting = true;
             try

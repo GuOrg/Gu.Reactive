@@ -3,7 +3,7 @@ namespace Gu.Reactive.Benchmarks
 {
     using BenchmarkDotNet.Attributes;
 
-    public class NameOf
+    public static class NameOf
     {
         [Benchmark(Baseline = true)]
         public static string UsingCsharp6Nameof()

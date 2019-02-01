@@ -10,7 +10,7 @@ namespace Gu.Reactive.Benchmarks
     using BenchmarkDotNet.Attributes;
     using Gu.Reactive.Internals;
 
-    public class Caching
+    public static class Caching
     {
         private static readonly IReadOnlyList<string> Strings = Enumerable.Range(0, 1000).Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray();
         private static readonly Expression<Func<Fake, int>> SingleItemPath = x => x.Value;

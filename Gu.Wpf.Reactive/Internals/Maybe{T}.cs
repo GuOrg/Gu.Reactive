@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
 
@@ -15,6 +15,7 @@
 
         private Maybe()
         {
+            this.value = default(T);
             this.HasValue = false;
         }
 

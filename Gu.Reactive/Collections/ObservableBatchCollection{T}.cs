@@ -202,10 +202,12 @@ namespace Gu.Reactive
             }
         }
 
+#pragma warning disable CA1030 // Use events where appropriate
         /// <summary>
         /// Raise reset events, Count, Item[] then CollectionReset.
         /// </summary>
         protected virtual void RaiseReset()
+#pragma warning restore CA1030 // Use events where appropriate
         {
             this.OnPropertyChanged(CountPropertyChangedEventArgs);
             this.OnPropertyChanged(IndexerPropertyChangedEventArgs);

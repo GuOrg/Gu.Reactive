@@ -62,7 +62,7 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
-            return obj is ConditionHistoryPoint other && 
+            return obj is ConditionHistoryPoint other &&
                 this.Equals(other);
         }
 

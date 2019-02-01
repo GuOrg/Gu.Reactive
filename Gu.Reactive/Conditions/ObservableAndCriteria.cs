@@ -26,11 +26,19 @@ namespace Gu.Reactive
         /// </summary>
         public Func<bool?> Criteria { get;  }
 
+        /// <summary>Returns a value indicating whether two specified instances of <see cref="ObservableAndCriteria" /> represent the same value.</summary>
+        /// <param name="left">The first value to compare.</param>
+        /// <param name="right">The second value to compare.</param>
+        /// <returns><see langword="true" /> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <see langword="false" />.</returns>
         public static bool operator ==(ObservableAndCriteria left, ObservableAndCriteria right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>Returns a value that indicates whether two <see cref="ObservableAndCriteria" /> objects have different values.</summary>
+        /// <param name="left">The first value to compare.</param>
+        /// <param name="right">The second value to compare.</param>
+        /// <returns><see langword="true" /> if <paramref name="left" /> and <paramref name="right" /> are not equal; otherwise, <see langword="false" />.</returns>
         public static bool operator !=(ObservableAndCriteria left, ObservableAndCriteria right)
         {
             return !left.Equals(right);

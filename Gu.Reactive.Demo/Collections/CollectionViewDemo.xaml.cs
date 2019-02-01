@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Demo
+namespace Gu.Reactive.Demo
 {
     using System;
     using System.Threading.Tasks;
@@ -37,7 +37,9 @@
             this.ToggleFilter(isChecked);
         }
 
+#pragma warning disable AvoidAsyncVoid // Avoid async void
         private async void FilterOnOtherThreadOnClick(object sender, RoutedEventArgs e)
+#pragma warning restore AvoidAsyncVoid // Avoid async void
         {
             var isChecked = ((ToggleButton)sender).IsChecked == true;
             await Task.Run(() => this.ToggleFilter(isChecked)).ConfigureAwait(false);

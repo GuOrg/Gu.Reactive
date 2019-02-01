@@ -25,7 +25,9 @@ namespace Gu.Reactive
 
         public event Action<IEnumerable<TValue>> Reset;
 
+#pragma warning disable INPC017 // Backing field name must match.
         public IEnumerable<TValue> Values => this.source;
+#pragma warning restore INPC017 // Backing field name must match.
 
         public void Dispose()
         {

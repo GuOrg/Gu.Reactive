@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Demo
+namespace Gu.Reactive.Demo
 {
     using System;
     using System.ComponentModel;
@@ -26,8 +26,8 @@
                 () => this.AddTwoCommand?.IsExecuting);
 
             this.isNotAddingAny = new OrCondition(this.isAddingOne, this.isAddingTwo).Negate();
-            this.AddOneCommand = new AsyncCommand(this.AddOne, this.isNotAddingAny);
-            this.AddTwoCommand = new AsyncCommand(this.AddTwo, this.isNotAddingAny);
+            this.AddOneCommand = new AsyncCommand(this.AddOneAsync, this.isNotAddingAny);
+            this.AddTwoCommand = new AsyncCommand(this.AddTwoAsync, this.isNotAddingAny);
             this.OnPropertyChanged(nameof(this.AddOneCommand));
             this.OnPropertyChanged(nameof(this.AddTwoCommand));
         }
@@ -74,14 +74,14 @@
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private async Task AddOne()
+        private async Task AddOneAsync()
         {
             await Task.Delay(1000)
                       .ConfigureAwait(false);
             this.Value++;
         }
 
-        private async Task AddTwo()
+        private async Task AddTwoAsync()
         {
             await Task.Delay(1000)
                       .ConfigureAwait(false);

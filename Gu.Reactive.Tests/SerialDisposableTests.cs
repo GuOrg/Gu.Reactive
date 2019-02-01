@@ -27,7 +27,9 @@ namespace Gu.Reactive.Tests
         {
             using (var serialDisposable = new SerialDisposable<IDisposable>())
             {
+#pragma warning disable IDISP016 // Don't use disposed instance.
                 serialDisposable.Dispose();
+#pragma warning restore IDISP016 // Don't use disposed instance.
                 var mock = new Mock<IDisposable>(MockBehavior.Strict);
                 mock.Setup(x => x.Dispose());
                 serialDisposable.Disposable = mock.Object;

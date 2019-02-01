@@ -1,4 +1,6 @@
 #pragma warning disable 618
+#pragma warning disable INPC001 // Implement INotifyPropertyChanged.
+#pragma warning disable INPC002 // Implement INotifyPropertyChanged.
 namespace Gu.Reactive.Benchmarks
 {
     using System;
@@ -19,10 +21,8 @@ namespace Gu.Reactive.Benchmarks
             this.view = this.ints.AsThrottledView(TimeSpan.FromMilliseconds(10));
         }
 
-#pragma warning disable INPC002 // Implement INotifyPropertyChanged.
         [Params(1000)]
         public int N { get; set; }
-#pragma warning restore INPC002 // Implement INotifyPropertyChanged.
 
         [GlobalSetup]
         public void SetupData()

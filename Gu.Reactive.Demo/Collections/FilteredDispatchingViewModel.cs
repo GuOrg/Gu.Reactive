@@ -12,7 +12,7 @@ namespace Gu.Reactive.Demo
     using System.Windows.Threading;
     using Gu.Wpf.Reactive;
 
-    public class FilteredDispatchingViewModel : IDisposable, INotifyPropertyChanged
+    public sealed class FilteredDispatchingViewModel : IDisposable, INotifyPropertyChanged
     {
         private readonly Subject<object> trigger = new Subject<object>();
         private readonly System.Reactive.Disposables.CompositeDisposable disposable;
@@ -101,7 +101,7 @@ namespace Gu.Reactive.Demo
             (this.ResetCommand as IDisposable)?.Dispose();
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
