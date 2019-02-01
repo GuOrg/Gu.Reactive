@@ -418,7 +418,9 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         mock.Setup(x => x.Dispose());
                     }
 
+#pragma warning disable IDISP016 // Don't use disposed instance.
                     view.Dispose();
+#pragma warning restore IDISP016 // Don't use disposed instance.
                     foreach (var mock in mocks)
                     {
                         mock.Verify(x => x.Dispose(), Times.Once);

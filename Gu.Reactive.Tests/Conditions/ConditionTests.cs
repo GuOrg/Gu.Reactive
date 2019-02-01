@@ -138,7 +138,9 @@ namespace Gu.Reactive.Tests.Conditions
             using (var condition = new Condition(observableMock.Object, () => true))
             {
                 disposableMock.Setup(x => x.Dispose());
+#pragma warning disable IDISP016 // Don't use disposed instance.
                 condition.Dispose();
+#pragma warning restore IDISP016 // Don't use disposed instance.
                 disposableMock.Verify(x => x.Dispose(), Times.Once);
                 condition.Dispose();
                 disposableMock.Verify(x => x.Dispose(), Times.Once);

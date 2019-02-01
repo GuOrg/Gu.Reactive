@@ -211,7 +211,9 @@ namespace Gu.Reactive.Tests.Conditions
                 .Returns(false);
             using (var condition = new OrCondition(mock1.Object, mock2.Object))
             {
+#pragma warning disable IDISP016 // Don't use disposed instance.
                 condition.Dispose();
+#pragma warning restore IDISP016 // Don't use disposed instance.
                 condition.Dispose();
             }
 

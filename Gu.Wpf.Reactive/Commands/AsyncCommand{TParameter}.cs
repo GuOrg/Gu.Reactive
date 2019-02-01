@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -95,6 +95,7 @@
         /// </summary>
         public NotifyTaskCompletion Execution => this.runner.TaskCompletion;
 
+#pragma warning disable AvoidAsyncVoid // Avoid async void
         /// <summary>
         /// Sets IsExecuting to true.
         /// Invokes <see cref="Action"/>
@@ -102,6 +103,7 @@
         /// </summary>
         /// <param name="parameter">The command parameter is passed as argument to the Action invocation.</param>
         protected override async void InternalExecute(TParameter parameter)
+#pragma warning restore AvoidAsyncVoid // Avoid async void
         {
             this.IsExecuting = true;
             try

@@ -35,7 +35,9 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 {
                     CollectionAssert.AreEqual(mapped1, source);
                     CollectionAssert.AreEqual(mapped2, source);
+#pragma warning disable IDISP016 // Don't use disposed instance.
                     mapped2.Dispose();
+#pragma warning restore IDISP016 // Don't use disposed instance.
                     mapped2.Dispose();
                 }
 
