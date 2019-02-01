@@ -58,10 +58,12 @@ namespace Gu.Wpf.Reactive
         void ICommand.Execute(object parameter) => this.InternalExecute((T)parameter);
 #pragma warning restore CA1033 // Interface methods should be callable by child types
 
+#pragma warning disable CA1030 // Use events where appropriate
         /// <summary>
         /// Raises the event on the Dispatcher if present. Safe to call from any thread.
         /// </summary>
         public virtual void RaiseCanExecuteChanged()
+#pragma warning restore CA1030 // Use events where appropriate
         {
             var handler = this.InternalCanExecuteChanged;
             if (handler != null)

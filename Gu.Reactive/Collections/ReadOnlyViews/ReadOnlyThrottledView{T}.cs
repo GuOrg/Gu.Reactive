@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -8,10 +8,12 @@
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
 
+#pragma warning disable CA1010 // Collections should implement generic interface
     /// <summary>
     /// A readonly view of a collection that buffers changes before notifying.
     /// </summary>
     public class ReadOnlyThrottledView<T> : ReadonlyViewBase<T, T>, IReadOnlyThrottledView<T>
+#pragma warning restore CA1010 // Collections should implement generic interface
     {
         private readonly IDisposable refreshSubscription;
         private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;

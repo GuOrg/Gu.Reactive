@@ -28,8 +28,8 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="SynchronizedEditableView{T}"/> class.
         /// </summary>
         /// <param name="source">The source collection.</param>
-        /// <param name="leaveOpen">True means that <paramref name="source"/> is not disposed when this instance is diposed.</param>
-        /// <param name="startEmpty">If source should be added to the <see cref="Tracker"/> by the ctor.</param>
+        /// <param name="leaveOpen">True means that <paramref name="source"/> is not disposed when this instance is disposed.</param>
+        /// <param name="startEmpty">If source should be added to the <see cref="Tracker"/> by the constructor.</param>
         protected SynchronizedEditableView(IList<T> source, bool leaveOpen, bool startEmpty)
             : this(source, source, leaveOpen, startEmpty)
         {
@@ -39,9 +39,9 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="SynchronizedEditableView{T}"/> class.
         /// </summary>
         /// <param name="source">The source collection.</param>
-        /// <param name="sourceItems">The ource items, this can be a filtered view of <paramref name="source"/>.</param>
-        /// <param name="leaveOpen">True means that <paramref name="source"/> is not disposed when this instance is diposed.</param>
-        /// <param name="startEmpty">If source should be added to the <see cref="Tracker"/> by the ctor.</param>
+        /// <param name="sourceItems">The source items, this can be a filtered view of <paramref name="source"/>.</param>
+        /// <param name="leaveOpen">True means that <paramref name="source"/> is not disposed when this instance is disposed.</param>
+        /// <param name="startEmpty">If source should be added to the <see cref="Tracker"/> by the constructor.</param>
         protected SynchronizedEditableView(IList<T> source, IEnumerable<T> sourceItems, bool leaveOpen, bool startEmpty)
             : this(source, new CollectionSynchronizer<T>(startEmpty ? Enumerable.Empty<T>() : sourceItems), leaveOpen)
         {
@@ -122,7 +122,7 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <summary>
-        /// Pass null as scheduler here, change came from the ui thread.
+        /// Pass null as scheduler here, change came from the UI-thread.
         /// </summary>
         protected virtual void Notify(NotifyCollectionChangedEventArgs change)
         {

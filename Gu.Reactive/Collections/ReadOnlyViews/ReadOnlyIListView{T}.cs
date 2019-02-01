@@ -10,11 +10,13 @@ namespace Gu.Reactive
 
     using Gu.Reactive.Internals;
 
+#pragma warning disable CA1010 // Collections should implement generic interface
     /// <summary>
     /// For exposing a source collection as a readonly list.
     /// For example DataGrid needs <see cref="IList"/> for elements to be editable.
     /// </summary>
     public class ReadOnlyIListView<T> : IReadOnlyObservableCollection<T>, IList, IDisposable
+#pragma warning restore CA1010 // Collections should implement generic interface
     {
 #pragma warning disable IDISP008  // Don't assign member with injected and created disposables.
         private readonly IReadOnlyList<T> source;

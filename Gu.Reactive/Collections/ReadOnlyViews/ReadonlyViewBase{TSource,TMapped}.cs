@@ -14,7 +14,9 @@ namespace Gu.Reactive
     /// A base class for swapping out an <see cref="IEnumerable{T}"/> source and get notifications.
     /// </summary>
     [Serializable]
+#pragma warning disable CA1010 // Collections should implement generic interface
     public abstract class ReadonlyViewBase<TSource, TMapped> : IRefreshAble, IList, IReadOnlyView<TMapped>
+#pragma warning restore CA1010 // Collections should implement generic interface
     {
         private static readonly IReadOnlyList<TSource> EmptySource = new TSource[0];
 

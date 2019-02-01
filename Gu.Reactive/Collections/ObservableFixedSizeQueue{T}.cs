@@ -11,7 +11,9 @@ namespace Gu.Reactive
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [Serializable]
+#pragma warning disable CA1010 // Collections should implement generic interface
     public class ObservableFixedSizeQueue<T> : FixedSizedQueue<T>, INotifyCollectionChanged, INotifyPropertyChanged
+#pragma warning restore CA1010 // Collections should implement generic interface
     {
         private readonly IScheduler scheduler;
 

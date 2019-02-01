@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -6,10 +6,12 @@
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
 
+#pragma warning disable CA1010 // Collections should implement generic interface
     /// <summary>
     /// A view where the source can be updated that notifies about changes.
     /// </summary>
     public abstract class ReadOnlySerialViewBase<T> : ReadonlyViewBase<T, T>, IReadOnlyObservableCollection<T>
+#pragma warning restore CA1010 // Collections should implement generic interface
     {
         private readonly IDisposable refreshSubscription;
 

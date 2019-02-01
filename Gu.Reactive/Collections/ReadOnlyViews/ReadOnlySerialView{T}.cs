@@ -1,14 +1,16 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Reactive.Concurrency;
 
+#pragma warning disable CA1010 // Collections should implement generic interface
     /// <summary>
     /// A view where the source can be updated that notifies about changes.
     /// </summary>
     public class ReadOnlySerialView<T> : ReadOnlySerialViewBase<T>
+#pragma warning restore CA1010 // Collections should implement generic interface
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.

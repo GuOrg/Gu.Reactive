@@ -53,7 +53,9 @@ namespace Gu.Reactive.Demo
             set => this.SetValue(SourceProperty, value);
         }
 
+#pragma warning disable CA2227 // Collection properties should be read only
         public ObservableCollection<NotifyCollectionChangedEventArgs> Changes
+#pragma warning restore CA2227 // Collection properties should be read only
         {
             get => (ObservableCollection<NotifyCollectionChangedEventArgs>)this.GetValue(ChangesProperty);
             set => this.SetValue(ChangesProperty, value);

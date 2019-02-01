@@ -1,7 +1,7 @@
 // ReSharper disable RedundantNameQualifier
 namespace Gu.Reactive.Benchmarks
 {
-    public class GUREA11PreferObservableFromEventBenchmarks
+    public static class GUREA11PreferObservableFromEventBenchmarks
     {
         private static readonly Gu.Roslyn.Asserts.Benchmark Benchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.GUREA11PreferObservableFromEvent());
 

@@ -9,10 +9,12 @@ namespace Gu.Reactive
 
     using Gu.Reactive.Internals;
 
+#pragma warning disable CA1010 // Collections should implement generic interface
     /// <summary>
     /// Base class for collections of conditions.
     /// </summary>
     public abstract class ConditionCollection : ReadOnlySerialViewBase<ICondition>, ISatisfied
+#pragma warning restore CA1010 // Collections should implement generic interface
     {
         private readonly Func<IReadOnlyList<ICondition>, bool?> isSatisfied;
         private readonly IDisposable subscription;
