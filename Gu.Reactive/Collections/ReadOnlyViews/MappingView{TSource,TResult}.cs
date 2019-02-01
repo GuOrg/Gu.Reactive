@@ -92,6 +92,7 @@ namespace Gu.Reactive
                 : null;
         }
 
+#pragma warning disable CA1716 // Identifiers should not match keywords
         /// <summary>
         /// Delegates updating of items at and above index to mapping factory.
         /// This happens after an item is inserted, removed or moved.
@@ -100,6 +101,7 @@ namespace Gu.Reactive
         /// <param name="to">The index to end update of the item for.</param>
         /// <returns>The collection changed args the update causes.</returns>
         protected virtual List<NotifyCollectionChangedEventArgs> UpdateRange(int from, int to)
+#pragma warning restore CA1716 // Identifiers should not match keywords
         {
             if (!this.factory.CanUpdateIndex)
             {

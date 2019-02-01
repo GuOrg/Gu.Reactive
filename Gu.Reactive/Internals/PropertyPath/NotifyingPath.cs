@@ -4,6 +4,7 @@ namespace Gu.Reactive.Internals
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -63,6 +64,7 @@ namespace Gu.Reactive.Internals
             if (reflectedType?.IsValueType == true)
             {
                 errorMessage = string.Format(
+                    CultureInfo.InvariantCulture,
                     "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?" + Environment.NewLine +
                     "The type {0} is a value type not so {1}.{2} will not notify when it changes." + Environment.NewLine +
                     "The path is: {3}",
@@ -77,6 +79,7 @@ namespace Gu.Reactive.Internals
                 !typeof(INotifyPropertyChanged).IsAssignableFrom(reflectedType))
             {
                 errorMessage = string.Format(
+                    CultureInfo.InvariantCulture,
                     "All levels in the path must implement INotifyPropertyChanged." + Environment.NewLine +
                     "The type {0} does not so {1}.{2} will not notify when it changes." + Environment.NewLine +
                     "The path is: {3}",

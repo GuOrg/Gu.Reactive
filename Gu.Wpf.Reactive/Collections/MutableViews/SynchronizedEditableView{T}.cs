@@ -17,7 +17,6 @@ namespace Gu.Wpf.Reactive
     /// </summary>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
-    [Serializable]
     public abstract class SynchronizedEditableView<T> : Collection<T>, IRefreshAble, IDisposable, INotifyPropertyChanged, INotifyCollectionChanged
     {
         private readonly bool leaveOpen;

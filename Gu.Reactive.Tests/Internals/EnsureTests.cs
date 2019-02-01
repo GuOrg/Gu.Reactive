@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests.Internals.EnsureTests
+namespace Gu.Reactive.Tests.Internals.EnsureTests
 {
     using System;
 
@@ -21,6 +21,22 @@
             else
             {
                 Ensure.NotNull(value, nameof(value));
+            }
+        }
+
+        [TestCase(null, true)]
+        [TestCase("", true)]
+        [TestCase("Yeah", false)]
+        public void NotNullOrEmpty(string value, bool expectException)
+        {
+            if (expectException)
+            {
+                var ex = Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(value, nameof(value)));
+                Assert.AreEqual("Value cannot be null.\r\nParameter name: value", ex.Message);
+            }
+            else
+            {
+                Ensure.NotNullOrEmpty(value, nameof(value));
             }
         }
 

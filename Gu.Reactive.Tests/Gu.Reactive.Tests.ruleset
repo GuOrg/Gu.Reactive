@@ -10,6 +10,7 @@
     <Rule Id="CA1016" Action="Warning" />
     <Rule Id="CA1033" Action="Warning" />
     <Rule Id="CA1034" Action="None" />
+    <Rule Id="CA1044" Action="None" />
     <Rule Id="CA1049" Action="Warning" />
     <Rule Id="CA1051" Action="None" />
     <Rule Id="CA1052" Action="None" />

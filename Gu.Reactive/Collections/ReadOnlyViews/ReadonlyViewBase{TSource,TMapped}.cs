@@ -115,7 +115,9 @@ namespace Gu.Reactive
         object IList.this[int index]
         {
             get => this[index];
+#pragma warning disable CA1033 // Interface methods should be callable by child types
             set => ThrowHelper.ThrowCollectionIsReadonly();
+#pragma warning restore CA1033 // Interface methods should be callable by child types
         }
 
         /// <inheritdoc/>

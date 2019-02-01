@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Tests.Collections
+#pragma warning disable CA1010 // Collections should implement generic interface
+namespace Gu.Reactive.Tests.Collections
 {
     using System;
     using System.Collections;

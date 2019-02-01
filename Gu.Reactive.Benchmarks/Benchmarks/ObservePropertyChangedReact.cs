@@ -7,7 +7,7 @@ namespace Gu.Reactive.Benchmarks
 
     using BenchmarkDotNet.Attributes;
 
-    public class ObservePropertyChangedReact : IDisposable
+    public sealed class ObservePropertyChangedReact : IDisposable
     {
         private readonly Fake fake = new Fake { Next = new Level { Name = string.Empty } };
         private readonly Fake lambdaFake = new Fake { Next = new Level { Name = string.Empty } };

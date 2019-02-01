@@ -30,7 +30,7 @@ namespace Gu.Reactive.Benchmarks
             var code = new StringBuilder().AppendLine("// ReSharper disable RedundantNameQualifier")
                                           .AppendLine($"namespace {this.GetType().Namespace}")
                                           .AppendLine("{")
-                                          .AppendLine($"    public static class {expectedName}")
+                                          .AppendLine($"    public class {expectedName}")
                                           .AppendLine("    {")
                                           .AppendLine($"        private static readonly Gu.Roslyn.Asserts.Benchmark Benchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new {analyzer.GetType().FullName}());")
                                           .AppendLine()
@@ -58,7 +58,7 @@ namespace Gu.Reactive.Benchmarks
             builder.AppendLine("// ReSharper disable RedundantNameQualifier")
                    .AppendLine($"namespace {this.GetType().Namespace}")
                    .AppendLine("{")
-                   .AppendLine("    public static class AllAnalyzersBenchmarks")
+                   .AppendLine("    public class AllAnalyzersBenchmarks")
                    .AppendLine("    {");
             foreach (var analyzer in AllAnalyzers)
             {

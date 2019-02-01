@@ -71,7 +71,7 @@ namespace Gu.Reactive.Analyzers
                             context.RegisterCodeFix(
                                 CodeAction.Create(
                                     "Inject negated.",
-                                    cancellationToken => ApplyInjectNegatedFixAsync(cancellationToken, context, parameterSyntax, invocation),
+                                    cancellationToken => ApplyInjectNegatedFixAsync(context, parameterSyntax, invocation, cancellationToken),
                                     nameof(InjectNegatedCodeFix)),
                                 diagnostic);
                         }
@@ -80,11 +80,7 @@ namespace Gu.Reactive.Analyzers
             }
         }
 
-        private static async Task<Document> ApplyInjectNegatedFixAsync(
-            CancellationToken cancellationToken,
-            CodeFixContext context,
-            ParameterSyntax parameter,
-            InvocationExpressionSyntax invocation)
+        private static async Task<Document> ApplyInjectNegatedFixAsync(CodeFixContext context, ParameterSyntax parameter, InvocationExpressionSyntax invocation, CancellationToken cancellationToken)
         {
             var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
                                                      .ConfigureAwait(false);

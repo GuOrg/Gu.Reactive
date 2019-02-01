@@ -85,7 +85,7 @@ namespace Gu.Reactive
 #pragma warning restore IDISP001  // Dispose created.
 
             // Wire up the logic for what happens when source task completes
-            task.ContinueWith(
+            _ = task.ContinueWith(
                 (antecedent, state) =>
                     {
                         // Recover our state data

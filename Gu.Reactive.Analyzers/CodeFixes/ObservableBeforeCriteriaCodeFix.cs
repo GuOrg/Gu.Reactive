@@ -34,18 +34,14 @@ namespace Gu.Reactive.Analyzers
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             "Move observable before criteria.",
-                            cancellationToken => ApplyObservableBeforeCriteriaFixAsync(
-                                cancellationToken, context, argumentList),
+                            cancellationToken => ApplyObservableBeforeCriteriaFixAsync(context, argumentList, cancellationToken),
                             nameof(ObservableBeforeCriteriaCodeFix)),
                         diagnostic);
                 }
             }
         }
 
-        private static async Task<Document> ApplyObservableBeforeCriteriaFixAsync(
-                CancellationToken cancellationToken,
-                CodeFixContext context,
-                ArgumentListSyntax argumentList)
+        private static async Task<Document> ApplyObservableBeforeCriteriaFixAsync(CodeFixContext context, ArgumentListSyntax argumentList, CancellationToken cancellationToken)
         {
             var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
                                              .ConfigureAwait(false);

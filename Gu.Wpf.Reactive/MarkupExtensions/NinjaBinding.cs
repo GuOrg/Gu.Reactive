@@ -42,7 +42,7 @@ namespace Gu.Wpf.Reactive
         [ConstructorArgument("binding")]
         public Binding Binding { get; set; }
 
-        private bool IsInDesignMode => DesignerProperties.GetIsInDesignMode(DependencyObject);
+        private static bool IsInDesignMode => DesignerProperties.GetIsInDesignMode(DependencyObject);
 
         /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
@@ -52,7 +52,7 @@ namespace Gu.Wpf.Reactive
                 throw new ArgumentException("Binding == null");
             }
 
-            if (this.IsInDesignMode)
+            if (IsInDesignMode)
             {
                 if (this.Binding.RelativeSource != null)
                 {

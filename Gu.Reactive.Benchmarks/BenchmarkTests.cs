@@ -8,7 +8,7 @@ namespace Gu.Reactive.Benchmarks
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    internal class BenchmarkTests
+    public class BenchmarkTests
     {
         private static IReadOnlyList<DiagnosticAnalyzer> AllAnalyzers { get; } = typeof(GUREA01DontObserveMutableProperty).Assembly
                                                                                                                           .GetTypes()

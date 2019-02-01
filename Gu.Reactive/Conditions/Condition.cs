@@ -5,6 +5,7 @@ namespace Gu.Reactive
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reactive.Disposables;
@@ -173,7 +174,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString() ?? "null"}";
+        public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString(CultureInfo.InvariantCulture) ?? "null"}";
 
         /// <summary>
         /// Create an <see cref="ObservableAndCriteria"/> to be passed in as constructor argument.

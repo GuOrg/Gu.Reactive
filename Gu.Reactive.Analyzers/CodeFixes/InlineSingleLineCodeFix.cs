@@ -36,7 +36,7 @@ namespace Gu.Reactive.Analyzers
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             "Inline.",
-                            cancellationToken => ApplyInlineSingleLineAsync(cancellationToken, context, invocation),
+                            cancellationToken => ApplyInlineSingleLineAsync(context, invocation, cancellationToken),
                             nameof(InlineSingleLineCodeFix)),
                         diagnostic);
                     continue;
@@ -44,7 +44,7 @@ namespace Gu.Reactive.Analyzers
             }
         }
 
-        private static async Task<Document> ApplyInlineSingleLineAsync(CancellationToken cancellationToken, CodeFixContext context, InvocationExpressionSyntax invocation)
+        private static async Task<Document> ApplyInlineSingleLineAsync(CodeFixContext context, InvocationExpressionSyntax invocation, CancellationToken cancellationToken)
         {
             var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
                                              .ConfigureAwait(false);
@@ -57,7 +57,7 @@ namespace Gu.Reactive.Analyzers
             if (invocation.ArgumentList?.Arguments.Count == 1 &&
                 semanticModel.GetSymbolSafe(invocation.ArgumentList.Arguments[0].Expression, cancellationToken) is IParameterSymbol parameter)
             {
-                expression = Rename.Parameter(method.Parameters[0], parameter, semanticModel, cancellationToken, expression);
+                expression = Rename.Parameter(method.Parameters[0], parameter, expression, semanticModel, cancellationToken);
                 editor.ReplaceNode(
                     invocation,
                     expression.WithLeadingTrivia(invocation.Expression.GetLeadingTrivia()));
@@ -86,9 +86,9 @@ namespace Gu.Reactive.Analyzers
             public static T Parameter<T>(
                 IParameterSymbol from,
                 IParameterSymbol to,
+                T node,
                 SemanticModel semanticModel,
-                CancellationToken cancellationToken,
-                T node)
+                CancellationToken cancellationToken)
                 where T : SyntaxNode
             {
                 if (from.Name == to.Name)

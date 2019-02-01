@@ -37,14 +37,14 @@ namespace Gu.Reactive.Analyzers
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             "Sort parameters.",
-                            cancellationToken => ApplySortParametersAsync(cancellationToken, context, initializer),
+                            cancellationToken => ApplySortParametersAsync(context, initializer, cancellationToken),
                             nameof(SortParametersCodeFix)),
                         diagnostic);
                 }
             }
         }
 
-        private static async Task<Document> ApplySortParametersAsync(CancellationToken cancellationToken, CodeFixContext context, ConstructorInitializerSyntax initializer)
+        private static async Task<Document> ApplySortParametersAsync(CodeFixContext context, ConstructorInitializerSyntax initializer, CancellationToken cancellationToken)
         {
             var parameterList = initializer.FirstAncestor<ConstructorDeclarationSyntax>().ParameterList;
             var parameters = new List<ParameterSyntax>(parameterList.Parameters);

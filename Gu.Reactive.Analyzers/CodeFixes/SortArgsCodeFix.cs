@@ -37,7 +37,7 @@ namespace Gu.Reactive.Analyzers
                     context.RegisterCodeFix(
                         CodeAction.Create(
                             "Sort arguments.",
-                            cancellationToken => ApplySortArgsAsync(cancellationToken, context, initializer),
+                            cancellationToken => ApplySortArgsAsync(context, initializer, cancellationToken),
                             nameof(SortArgsCodeFix)),
                         diagnostic);
                     continue;
@@ -45,7 +45,7 @@ namespace Gu.Reactive.Analyzers
             }
         }
 
-        private static async Task<Document> ApplySortArgsAsync(CancellationToken cancellationToken, CodeFixContext context, ConstructorInitializerSyntax initializer)
+        private static async Task<Document> ApplySortArgsAsync(CodeFixContext context, ConstructorInitializerSyntax initializer, CancellationToken cancellationToken)
         {
             var argumentList = initializer.ArgumentList;
             var arguments = new List<ArgumentSyntax>(argumentList.Arguments);
