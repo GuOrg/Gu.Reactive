@@ -25,7 +25,9 @@ namespace Gu.Reactive
         /// The items in the collection.
         /// </summary>
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+#pragma warning disable CA1819 // Properties should not return arrays
         public T[] Items
+#pragma warning restore CA1819 // Properties should not return arrays
         {
             get
             {

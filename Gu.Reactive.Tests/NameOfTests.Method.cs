@@ -47,5 +47,4 @@ namespace Gu.Reactive.Tests
             }
         }
     }
-
 }

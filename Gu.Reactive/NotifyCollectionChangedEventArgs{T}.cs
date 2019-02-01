@@ -40,11 +40,19 @@ namespace Gu.Reactive
         /// <summary>Gets the index at which a <see cref="System.Collections.Specialized.NotifyCollectionChangedAction.Move" />, Remove, or Replace action occurred.</summary>
         public int OldStartingIndex => this.args.OldStartingIndex;
 
+        /// <summary>Returns a value indicating whether two specified instances of <see cref="NotifyCollectionChangedEventArgs{T}" /> represent the same value.</summary>
+        /// <param name="left">The first value to compare.</param>
+        /// <param name="right">The second value to compare.</param>
+        /// <returns><see langword="true" /> if <paramref name="left" /> and <paramref name="right" /> are equal; otherwise, <see langword="false" />.</returns>
         public static bool operator ==(NotifyCollectionChangedEventArgs<T> left, NotifyCollectionChangedEventArgs<T> right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>Returns a value that indicates whether two <see cref="NotifyCollectionChangedEventArgs{T}" /> objects have different values.</summary>
+        /// <param name="left">The first value to compare.</param>
+        /// <param name="right">The second value to compare.</param>
+        /// <returns><see langword="true" /> if <paramref name="left" /> and <paramref name="right" /> are not equal; otherwise, <see langword="false" />.</returns>
         public static bool operator !=(NotifyCollectionChangedEventArgs<T> left, NotifyCollectionChangedEventArgs<T> right)
         {
             return !left.Equals(right);
