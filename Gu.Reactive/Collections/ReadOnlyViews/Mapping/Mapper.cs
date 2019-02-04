@@ -10,7 +10,9 @@ namespace Gu.Reactive
             if (!typeof(TSource).IsValueType &&
                 !typeof(TResult).IsValueType)
             {
-                return CreatingCaching(selector);
+                return (IMapper<TSource, TResult>)Activator.CreateInstance(
+                typeof(CreatingCaching<,>).MakeGenericType(typeof(TSource), typeof(TResult)),
+                new object[] { selector });
             }
 
             return new Creating<TSource, TResult>(selector);
@@ -48,13 +50,6 @@ namespace Gu.Reactive
             where TResult : class
         {
             return new UpdatingRemoving<TSource, TResult>(indexSelector, indexUpdater, onRemove);
-        }
-
-        private static IMapper<TSource, TResult> CreatingCaching<TSource, TResult>(Func<TSource, TResult> selector)
-        {
-            return (IMapper<TSource, TResult>)Activator.CreateInstance(
-                typeof(CreatingCaching<,>).MakeGenericType(typeof(TSource), typeof(TResult)),
-                new object[] { selector });
         }
     }
 }
