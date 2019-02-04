@@ -42,7 +42,7 @@ namespace Gu.Reactive.Tests
                 return arg;
             }
 
-#pragma warning disable CA1810
+#pragma warning disable CA1801
             public void DummyMethodVoid(int arg)
             {
             }
