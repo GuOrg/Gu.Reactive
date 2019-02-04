@@ -155,7 +155,9 @@ namespace Gu.Reactive.Tests.Conditions
 #if DEBUG
             return; // debugger keeps things alive.
 #endif
+#pragma warning disable CS0162 // Unreachable code detected
             var dummy = new Fake();
+#pragma warning restore CS0162 // Unreachable code detected
             var wr = new WeakReference(dummy);
             Assert.IsTrue(wr.IsAlive);
             //// ReSharper disable once AccessToModifiedClosure

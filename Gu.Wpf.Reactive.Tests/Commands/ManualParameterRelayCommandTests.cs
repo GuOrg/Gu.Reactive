@@ -22,7 +22,9 @@ namespace Gu.Wpf.Reactive.Tests
 #if DEBUG
             return; // debugger keeps things alive.
 #endif
+#pragma warning disable CS0162 // Unreachable code detected
             var command = new ManualRelayCommand<int>(x => { }, x => true);
+#pragma warning restore CS0162 // Unreachable code detected
             var listener = new CommandListener();
             var wr = new WeakReference(listener);
             command.CanExecuteChanged += listener.React;

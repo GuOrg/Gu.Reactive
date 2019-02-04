@@ -262,7 +262,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #if DEBUG
                 return; // debugger keeps things alive.
 #endif
+#pragma warning disable CS0162 // Unreachable code detected
                 var fake = new Fake { Level1 = new Level1() };
+#pragma warning restore CS0162 // Unreachable code detected
                 WeakReference wr = new WeakReference(fake.Level1);
                 Assert.IsTrue(wr.IsAlive);
                 var observable = fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: false);
@@ -283,7 +285,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #if DEBUG
                 return; // debugger keeps things alive.
 #endif
+#pragma warning disable CS0162 // Unreachable code detected
                 var fake = new Fake { Level1 = new Level1() };
+#pragma warning restore CS0162 // Unreachable code detected
                 WeakReference wr = new WeakReference(fake.Level1);
                 Assert.IsTrue(wr.IsAlive);
                 var observable = fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: false);
