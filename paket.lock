@@ -232,7 +232,7 @@ NUGET
     Microsoft.NetFramework.Analyzers (2.6.3)
     PropertyChangedAnalyzers (2.7)
     PublicApiAnalyzer (1.0.0-beta001)
-    ReflectionAnalyzers (0.1.19-dev)
+    ReflectionAnalyzers (0.1.20-dev)
     StyleCop.Analyzers (1.1.1-beta.61)
       StyleCop.Analyzers.Unstable (>= 1.1.1.61)
     StyleCop.Analyzers.Unstable (1.1.1.61)
