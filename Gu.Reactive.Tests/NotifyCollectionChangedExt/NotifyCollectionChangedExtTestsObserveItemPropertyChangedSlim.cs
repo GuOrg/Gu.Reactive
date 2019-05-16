@@ -131,8 +131,16 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     collection.Add(item3);
                     Assert.AreEqual(string.Empty, changes.Single().PropertyName);
 
-                    item3.Level1.Name = "new";
+                    item3.Level1.Name += "new";
                     Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual("Name", changes.Last().PropertyName);
+
+                    item2.Level1.Name += "new";
+                    Assert.AreEqual(3, changes.Count);
+                    Assert.AreEqual("Name", changes.Last().PropertyName);
+
+                    item1.Level1.Name += "new";
+                    Assert.AreEqual(4, changes.Count);
                     Assert.AreEqual("Name", changes.Last().PropertyName);
                 }
             }
@@ -337,6 +345,24 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
+            public void RemoveNullSimple()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Name = "1" };
+                var collection = new ObservableCollection<Fake> { item1, null };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection.RemoveAt(1);
+                    CollectionAssert.IsEmpty(changes);
+                }
+
+                CollectionAssert.IsEmpty(changes);
+            }
+
+            [Test]
             public void RemoveNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
@@ -352,6 +378,24 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     CollectionAssert.IsEmpty(changes);
 
                     item2.Level1.Name = "new";
+                    CollectionAssert.IsEmpty(changes);
+                }
+
+                CollectionAssert.IsEmpty(changes);
+            }
+
+            [Test]
+            public void RemoveNullNested()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var collection = new ObservableCollection<Fake> { item1, null };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection.RemoveAt(1);
                     CollectionAssert.IsEmpty(changes);
                 }
 
