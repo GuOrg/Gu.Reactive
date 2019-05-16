@@ -112,7 +112,9 @@ namespace Gu.Reactive.Internals
         INotifyPropertyChanged IPropertyTracker.Source
         {
             get => this.source;
+#pragma warning disable GU0022 // Use get-only.
             set => this.Source = (TSource)value;
+#pragma warning restore GU0022 // Use get-only.
         }
 
         Maybe<TValue> IPropertyTracker<TValue>.GetMaybe() => this.Getter.GetMaybe(this.source);
