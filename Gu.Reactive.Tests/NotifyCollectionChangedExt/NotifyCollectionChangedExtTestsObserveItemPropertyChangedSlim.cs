@@ -66,7 +66,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void SignalsOnAdd()
+            public void AddSimple()
             {
                 var source = new ObservableCollection<Fake>();
                 var changes = new List<PropertyChangedEventArgs>();
@@ -75,8 +75,260 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 {
                     CollectionAssert.IsEmpty(changes);
                     source.Add(new Fake());
-                    Assert.AreEqual(string.Empty, changes[0].PropertyName);
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
                 }
+            }
+
+            [Test]
+            public void AddNullSimple()
+            {
+                var source = new ObservableCollection<Fake>();
+                var changes = new List<PropertyChangedEventArgs>();
+                using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
+                             .Subscribe(x => changes.Add(x)))
+                {
+                    CollectionAssert.IsEmpty(changes);
+                    source.Add(null);
+                    CollectionAssert.IsEmpty(changes);
+                }
+            }
+
+            [Test]
+            public void AddThenUpdateSimple()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    var item3 = new Fake { Name = "3" };
+                    collection.Add(item3);
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
+
+                    item3.Name = "new";
+                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual("Name", changes.Last().PropertyName);
+                }
+            }
+
+            [Test]
+            public void AddNested()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    var item3 = new Fake { Level1 = new Level1 { Name = "3" } };
+                    collection.Add(item3);
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
+
+                    item3.Level1.Name = "new";
+                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual("Name", changes.Last().PropertyName);
+                }
+            }
+
+            [Test]
+            public void ReplaceSimple()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    var item3 = new Fake { Name = "3" };
+                    collection[0] = item3;
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
+
+                    item3.Name = "new";
+                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual("Name", changes.Last().PropertyName);
+
+                    item1.Name = "new1";
+                    Assert.AreEqual(2, changes.Count);
+                }
+
+                Assert.AreEqual(2, changes.Count);
+            }
+
+            [Test]
+            public void ReplaceNested()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    var item3 = new Fake { Level1 = new Level1 { Name = "3" } };
+                    collection[0] = item3;
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
+
+                    item3.Level1.Name = "new";
+                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual("Name", changes.Last().PropertyName);
+
+                    item1.Level1.Name = "new1";
+                    Assert.AreEqual(2, changes.Count); // Stopped subscribing
+                }
+
+                Assert.AreEqual(2, changes.Count);
+            }
+
+            [Test]
+            public void ReplaceWithSameSimple()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Value, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection[0] = item1;
+                    CollectionAssert.IsEmpty(changes);
+
+                    item1.Value++;
+                    Assert.AreEqual("Value", changes.Single().PropertyName);
+                }
+
+                Assert.AreEqual(1, changes.Count);
+            }
+
+            [Test]
+            public void ReplaceWithSameNested()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Level1.Value, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection[0] = item1;
+                    CollectionAssert.IsEmpty(changes);
+
+                    item1.Level1.Value++;
+                    Assert.AreEqual("Value", changes.Single().PropertyName);
+                }
+
+                Assert.AreEqual(1, changes.Count);
+            }
+
+            [Test]
+            public void RemoveSimple()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection.Remove(item2);
+                    CollectionAssert.IsEmpty(changes);
+
+                    item2.Name = "new";
+                    CollectionAssert.IsEmpty(changes);
+                }
+
+                CollectionAssert.IsEmpty(changes);
+            }
+
+            [Test]
+            public void RemoveNested()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection.Remove(item2);
+                    CollectionAssert.IsEmpty(changes);
+
+                    item2.Level1.Name = "new";
+                    CollectionAssert.IsEmpty(changes);
+                }
+
+                CollectionAssert.IsEmpty(changes);
+            }
+
+            [Test]
+            public void MoveSimple()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection.Move(0, 1);
+                    CollectionAssert.IsEmpty(changes);
+
+                    item1.Name = "new 1";
+                    Assert.AreEqual("Name", changes.Single().PropertyName);
+
+                    item2.Name = "new 2";
+                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual("Name", changes.Last().PropertyName);
+                }
+
+                Assert.AreEqual(2, changes.Count);
+            }
+
+            [Test]
+            public void MoveNested()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection.Move(0, 1);
+                    CollectionAssert.IsEmpty(changes);
+
+                    item1.Level1.Name = "new 1";
+                    Assert.AreEqual("Name", changes.Single().PropertyName);
+
+                    item2.Level1.Name = "new 2";
+                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual("Name", changes.Last().PropertyName);
+                }
+
+                Assert.AreEqual(2, changes.Count);
             }
 
             [Test]
@@ -338,7 +590,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void HandlesNullItem()
+            public void NullItem()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item = new Fake { Name = "1" };
@@ -361,244 +613,6 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 }
 
                 Assert.AreEqual(2, changes.Count);
-            }
-
-            [Test]
-            public void HandlesMoveSimple()
-            {
-                var changes = new List<PropertyChangedEventArgs>();
-                var item1 = new Fake { Name = "1" };
-                var item2 = new Fake { Name = "2" };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection.Move(0, 1);
-                    CollectionAssert.IsEmpty(changes);
-
-                    item1.Name = "new 1";
-                    Assert.AreEqual("Name", changes.Single().PropertyName);
-
-                    item2.Name = "new 2";
-                    Assert.AreEqual(2, changes.Count);
-                    Assert.AreEqual("Name", changes.Last().PropertyName);
-                }
-
-                Assert.AreEqual(2, changes.Count);
-            }
-
-            [Test]
-            public void HandlesMoveNested()
-            {
-                var changes = new List<PropertyChangedEventArgs>();
-                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
-                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection.Move(0, 1);
-                    CollectionAssert.IsEmpty(changes);
-
-                    item1.Level1.Name = "new 1";
-                    Assert.AreEqual("Name", changes.Single().PropertyName);
-
-                    item2.Level1.Name = "new 2";
-                    Assert.AreEqual(2, changes.Count);
-                    Assert.AreEqual("Name", changes.Last().PropertyName);
-                }
-
-                Assert.AreEqual(2, changes.Count);
-            }
-
-            [Test]
-            public void HandlesAddSimple()
-            {
-                var changes = new List<PropertyChangedEventArgs>();
-                var item1 = new Fake { Name = "1" };
-                var item2 = new Fake { Name = "2" };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    var item3 = new Fake { Name = "3" };
-                    collection.Add(item3);
-                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
-
-                    item3.Name = "new";
-                    Assert.AreEqual(2, changes.Count);
-                    Assert.AreEqual("Name", changes.Last().PropertyName);
-                }
-            }
-
-            [Test]
-            public void HandlesAddNested()
-            {
-                var changes = new List<PropertyChangedEventArgs>();
-                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
-                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    var item3 = new Fake { Level1 = new Level1 { Name = "3" } };
-                    collection.Add(item3);
-                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
-
-                    item3.Level1.Name = "new";
-                    Assert.AreEqual(2, changes.Count);
-                    Assert.AreEqual("Name", changes.Last().PropertyName);
-                }
-            }
-
-            [Test]
-            public void HandlesReplaceSimple()
-            {
-                var changes = new List<PropertyChangedEventArgs>();
-                var item1 = new Fake { Name = "1" };
-                var item2 = new Fake { Name = "2" };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    var item3 = new Fake { Name = "3" };
-                    collection[0] = item3;
-                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
-
-                    item3.Name = "new";
-                    Assert.AreEqual(2, changes.Count);
-                    Assert.AreEqual("Name", changes.Last().PropertyName);
-
-                    item1.Name = "new1";
-                    Assert.AreEqual(2, changes.Count); // Stopped subscribing
-                }
-
-                Assert.AreEqual(2, changes.Count);
-            }
-
-            [Test]
-            public void HandlesReplaceNested()
-            {
-                var changes = new List<PropertyChangedEventArgs>();
-                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
-                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    var item3 = new Fake { Level1 = new Level1 { Name = "3" } };
-                    collection[0] = item3;
-                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
-
-                    item3.Level1.Name = "new";
-                    Assert.AreEqual(2, changes.Count);
-                    Assert.AreEqual("Name", changes.Last().PropertyName);
-
-                    item1.Level1.Name = "new1";
-                    Assert.AreEqual(2, changes.Count); // Stopped subscribing
-                }
-
-                Assert.AreEqual(2, changes.Count);
-            }
-
-            [Test]
-            public void HandlesReplaceWithSameSimple()
-            {
-                var changes = new List<PropertyChangedEventArgs>();
-                var item1 = new Fake { Name = "1" };
-                var item2 = new Fake { Name = "2" };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChangedSlim(x => x.Value, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection[0] = item1;
-                    CollectionAssert.IsEmpty(changes);
-
-                    item1.Value++;
-                    Assert.AreEqual("Value", changes.Single().PropertyName);
-                }
-
-                Assert.AreEqual(1, changes.Count);
-            }
-
-            [Test]
-            public void HandlesReplaceWithSameNested()
-            {
-                var changes = new List<PropertyChangedEventArgs>();
-                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
-                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChangedSlim(x => x.Level1.Value, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection[0] = item1;
-                    CollectionAssert.IsEmpty(changes);
-
-                    item1.Level1.Value++;
-                    Assert.AreEqual("Value", changes.Single().PropertyName);
-                }
-
-                Assert.AreEqual(1, changes.Count);
-            }
-
-            [Test]
-            public void HandlesRemoveSimple()
-            {
-                var changes = new List<PropertyChangedEventArgs>();
-                var item1 = new Fake { Name = "1" };
-                var item2 = new Fake { Name = "2" };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection.Remove(item2);
-                    CollectionAssert.IsEmpty(changes);
-
-                    item2.Name = "new";
-                    CollectionAssert.IsEmpty(changes);
-                }
-
-                CollectionAssert.IsEmpty(changes);
-            }
-
-            [Test]
-            public void HandlesRemoveNested()
-            {
-                var changes = new List<PropertyChangedEventArgs>();
-                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
-                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection.Remove(item2);
-                    CollectionAssert.IsEmpty(changes);
-
-                    item2.Level1.Name = "new";
-                    CollectionAssert.IsEmpty(changes);
-                }
-
-                CollectionAssert.IsEmpty(changes);
             }
 
             [Test]

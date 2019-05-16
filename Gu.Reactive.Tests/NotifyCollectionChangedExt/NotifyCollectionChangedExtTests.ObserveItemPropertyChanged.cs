@@ -70,7 +70,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void Add()
+            public void AddSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -90,6 +90,244 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 }
 
                 Assert.AreEqual(3, changes.Count);
+            }
+
+            [Test]
+            public void AddThenUpdateSimple()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    var item3 = new Fake { Name = "3" };
+                    collection.Add(item3);
+                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("3"), string.Empty, changes.Single());
+
+                    item3.Name = "new";
+                    Assert.AreEqual(2, changes.Count);
+                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("new"), "Name", changes.Last());
+                }
+            }
+
+            [Test]
+            public void AddNested()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    var item3 = new Fake { Level1 = new Level1 { Name = "3" } };
+                    collection.Add(item3);
+                    EventPatternAssert.AreEqual(item3, item3.Level1, item3.Level1, Maybe.Some("3"), string.Empty, changes.Single());
+
+                    item3.Level1.Name = "new";
+                    Assert.AreEqual(2, changes.Count);
+                    EventPatternAssert.AreEqual(item3, item3.Level1, item3.Level1, Maybe.Some("new"), "Name", changes.Last());
+                }
+            }
+
+            [Test]
+            public void MoveSimple()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection.Move(0, 1);
+                    CollectionAssert.IsEmpty(changes);
+
+                    item1.Name = "new 1";
+                    EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some("new 1"), "Name", changes.Single());
+
+                    item2.Name = "new 2";
+                    Assert.AreEqual(2, changes.Count);
+                    EventPatternAssert.AreEqual(item2, item2, item2, Maybe.Some("new 2"), "Name", changes.Last());
+                }
+
+                Assert.AreEqual(2, changes.Count);
+            }
+
+            [Test]
+            public void MoveNested()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection.Move(0, 1);
+                    CollectionAssert.IsEmpty(changes);
+
+                    item1.Level1.Name = "new 1";
+                    EventPatternAssert.AreEqual(item1, item1.Level1, item1.Level1, Maybe.Some("new 1"), "Name", changes.Single());
+
+                    item2.Level1.Name = "new 2";
+                    Assert.AreEqual(2, changes.Count);
+                    EventPatternAssert.AreEqual(item2, item2.Level1, item2.Level1, Maybe.Some("new 2"), "Name", changes.Last());
+                }
+
+                Assert.AreEqual(2, changes.Count);
+            }
+
+            [Test]
+            public void ReplaceSimple()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    var item3 = new Fake { Name = "3" };
+                    collection[0] = item3;
+                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("3"), string.Empty, changes.Single());
+
+                    item3.Name = "new";
+                    Assert.AreEqual(2, changes.Count);
+                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("new"), "Name", changes.Last());
+
+                    item1.Name = "new1";
+                    Assert.AreEqual(2, changes.Count); // Stopped subscribing
+                }
+
+                Assert.AreEqual(2, changes.Count);
+            }
+
+            [Test]
+            public void ReplaceNested()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    var item3 = new Fake { Level1 = new Level1 { Name = "3" } };
+                    collection[0] = item3;
+                    EventPatternAssert.AreEqual(item3, item3.Level1, item3.Level1, Maybe.Some("3"), string.Empty, changes.Single());
+
+                    item3.Level1.Name = "new";
+                    Assert.AreEqual(2, changes.Count);
+                    EventPatternAssert.AreEqual(item3, item3.Level1, item3.Level1, Maybe.Some("new"), "Name", changes.Last());
+
+                    item1.Level1.Name = "new1";
+                    Assert.AreEqual(2, changes.Count); // Stopped subscribing
+                }
+
+                Assert.AreEqual(2, changes.Count);
+            }
+
+            [Test]
+            public void ReplaceWithSameSimple()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, int>>>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Value, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection[0] = item1;
+                    CollectionAssert.IsEmpty(changes);
+
+                    item1.Value++;
+                    EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some(item1.Value), "Value", changes.Single());
+                }
+
+                Assert.AreEqual(1, changes.Count);
+            }
+
+            [Test]
+            public void ReplaceWithSameNested()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, int>>>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Value, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection[0] = item1;
+                    CollectionAssert.IsEmpty(changes);
+
+                    item1.Level1.Value++;
+                    EventPatternAssert.AreEqual(item1, item1.Level1, item1.Level1, Maybe.Some(item1.Level1.Value), "Value", changes.Single());
+                }
+
+                Assert.AreEqual(1, changes.Count);
+            }
+
+            [Test]
+            public void RemoveSimple()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+                var item1 = new Fake { Name = "1" };
+                var item2 = new Fake { Name = "2" };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection.Remove(item2);
+                    CollectionAssert.IsEmpty(changes);
+
+                    item2.Name = "new";
+                    CollectionAssert.IsEmpty(changes);
+                }
+
+                CollectionAssert.IsEmpty(changes);
+            }
+
+            [Test]
+            public void RemoveNested()
+            {
+                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
+                var collection = new ObservableCollection<Fake> { item1, item2 };
+                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
+                                 .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    collection.Remove(item2);
+                    CollectionAssert.IsEmpty(changes);
+
+                    item2.Level1.Name = "new";
+                    CollectionAssert.IsEmpty(changes);
+                }
+
+                CollectionAssert.IsEmpty(changes);
             }
 
             [Test]
@@ -353,7 +591,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void HandlesNullItem()
+            public void NullItem()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item = new Fake { Name = "1" };
@@ -377,244 +615,6 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 }
 
                 Assert.AreEqual(2, changes.Count);
-            }
-
-            [Test]
-            public void HandlesMoveSimple()
-            {
-                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var item1 = new Fake { Name = "1" };
-                var item2 = new Fake { Name = "2" };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection.Move(0, 1);
-                    CollectionAssert.IsEmpty(changes);
-
-                    item1.Name = "new 1";
-                    EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some("new 1"), "Name", changes.Single());
-
-                    item2.Name = "new 2";
-                    Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item2, item2, item2, Maybe.Some("new 2"), "Name", changes.Last());
-                }
-
-                Assert.AreEqual(2, changes.Count);
-            }
-
-            [Test]
-            public void HandlesMoveNested()
-            {
-                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
-                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection.Move(0, 1);
-                    CollectionAssert.IsEmpty(changes);
-
-                    item1.Level1.Name = "new 1";
-                    EventPatternAssert.AreEqual(item1, item1.Level1, item1.Level1, Maybe.Some("new 1"), "Name", changes.Single());
-
-                    item2.Level1.Name = "new 2";
-                    Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item2, item2.Level1, item2.Level1, Maybe.Some("new 2"), "Name", changes.Last());
-                }
-
-                Assert.AreEqual(2, changes.Count);
-            }
-
-            [Test]
-            public void HandlesAddSimple()
-            {
-                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var item1 = new Fake { Name = "1" };
-                var item2 = new Fake { Name = "2" };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    var item3 = new Fake { Name = "3" };
-                    collection.Add(item3);
-                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("3"), string.Empty, changes.Single());
-
-                    item3.Name = "new";
-                    Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("new"), "Name", changes.Last());
-                }
-            }
-
-            [Test]
-            public void HandlesAddNested()
-            {
-                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
-                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    var item3 = new Fake { Level1 = new Level1 { Name = "3" } };
-                    collection.Add(item3);
-                    EventPatternAssert.AreEqual(item3, item3.Level1, item3.Level1, Maybe.Some("3"), string.Empty, changes.Single());
-
-                    item3.Level1.Name = "new";
-                    Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item3, item3.Level1, item3.Level1, Maybe.Some("new"), "Name", changes.Last());
-                }
-            }
-
-            [Test]
-            public void HandlesReplaceSimple()
-            {
-                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var item1 = new Fake { Name = "1" };
-                var item2 = new Fake { Name = "2" };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    var item3 = new Fake { Name = "3" };
-                    collection[0] = item3;
-                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("3"), string.Empty, changes.Single());
-
-                    item3.Name = "new";
-                    Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item3, item3, item3, Maybe.Some("new"), "Name", changes.Last());
-
-                    item1.Name = "new1";
-                    Assert.AreEqual(2, changes.Count); // Stopped subscribing
-                }
-
-                Assert.AreEqual(2, changes.Count);
-            }
-
-            [Test]
-            public void HandlesReplaceNested()
-            {
-                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
-                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    var item3 = new Fake { Level1 = new Level1 { Name = "3" } };
-                    collection[0] = item3;
-                    EventPatternAssert.AreEqual(item3, item3.Level1, item3.Level1, Maybe.Some("3"), string.Empty, changes.Single());
-
-                    item3.Level1.Name = "new";
-                    Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(item3, item3.Level1, item3.Level1, Maybe.Some("new"), "Name", changes.Last());
-
-                    item1.Level1.Name = "new1";
-                    Assert.AreEqual(2, changes.Count); // Stopped subscribing
-                }
-
-                Assert.AreEqual(2, changes.Count);
-            }
-
-            [Test]
-            public void HandlesReplaceWithSameSimple()
-            {
-                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, int>>>();
-                var item1 = new Fake { Name = "1" };
-                var item2 = new Fake { Name = "2" };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Value, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection[0] = item1;
-                    CollectionAssert.IsEmpty(changes);
-
-                    item1.Value++;
-                    EventPatternAssert.AreEqual(item1, item1, item1, Maybe.Some(item1.Value), "Value", changes.Single());
-                }
-
-                Assert.AreEqual(1, changes.Count);
-            }
-
-            [Test]
-            public void HandlesReplaceWithSameNested()
-            {
-                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, int>>>();
-                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
-                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Value, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection[0] = item1;
-                    CollectionAssert.IsEmpty(changes);
-
-                    item1.Level1.Value++;
-                    EventPatternAssert.AreEqual(item1, item1.Level1, item1.Level1, Maybe.Some(item1.Level1.Value), "Value", changes.Single());
-                }
-
-                Assert.AreEqual(1, changes.Count);
-            }
-
-            [Test]
-            public void HandlesRemoveSimple()
-            {
-                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var item1 = new Fake { Name = "1" };
-                var item2 = new Fake { Name = "2" };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection.Remove(item2);
-                    CollectionAssert.IsEmpty(changes);
-
-                    item2.Name = "new";
-                    CollectionAssert.IsEmpty(changes);
-                }
-
-                CollectionAssert.IsEmpty(changes);
-            }
-
-            [Test]
-            public void HandlesRemoveNested()
-            {
-                var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
-                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
-                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
-                var collection = new ObservableCollection<Fake> { item1, item2 };
-                using (collection.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    collection.Remove(item2);
-                    CollectionAssert.IsEmpty(changes);
-
-                    item2.Level1.Name = "new";
-                    CollectionAssert.IsEmpty(changes);
-                }
-
-                CollectionAssert.IsEmpty(changes);
             }
 
             [Test]
