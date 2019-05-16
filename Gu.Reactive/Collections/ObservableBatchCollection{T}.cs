@@ -14,8 +14,8 @@ namespace Gu.Reactive
     [Serializable]
     public class ObservableBatchCollection<T> : ObservableCollection<T>
     {
-        private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = CachedEventArgs.GetOrCreatePropertyChangedEventArgs(nameof(Count));
-        private static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs = CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Item[]");
+        private static readonly PropertyChangedEventArgs CountPropertyChangedEventArgs = CachedEventArgs.CountPropertyChanged;
+        private static readonly PropertyChangedEventArgs IndexerPropertyChangedEventArgs =CachedEventArgs.IndexerPropertyChanged;
         private static readonly NotifyCollectionChangedEventArgs NotifyCollectionResetEventArgs = CachedEventArgs.NotifyCollectionReset;
 
         /// <summary>

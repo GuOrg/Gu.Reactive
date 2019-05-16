@@ -7,7 +7,7 @@ namespace Gu.Reactive.Internals
     internal static class ItemsTracker
     {
         internal static ItemsTracker<TCollection, TItem, TProperty> Create<TCollection, TItem, TProperty>(
-            TCollection collection,
+            TCollection source,
             NotifyingPath<TItem, TProperty> path)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
@@ -15,11 +15,11 @@ namespace Gu.Reactive.Internals
             if (path.Count == 1)
             {
                 return new SimpleItemsTracker<TCollection, TItem, TProperty>(
-                    collection,
+                    source,
                     (Getter<TItem, TProperty>)path[0]);
             }
 
-            return new NestedItemsTracker<TCollection, TItem, TProperty>(collection, path);
+            return new NestedItemsTracker<TCollection, TItem, TProperty>(source, path);
         }
     }
 }

@@ -9,6 +9,8 @@ namespace Gu.Reactive
     {
         internal static readonly ConcurrentDictionary<string, PropertyChangedEventArgs> Cache = new ConcurrentDictionary<string, PropertyChangedEventArgs>();
 
+        internal static readonly PropertyChangedEventArgs StringEmpty = GetOrCreatePropertyChangedEventArgs(string.Empty);
+
         internal static readonly PropertyChangedEventArgs CountPropertyChanged = GetOrCreatePropertyChangedEventArgs("Count");
 
         internal static readonly PropertyChangedEventArgs IndexerPropertyChanged = GetOrCreatePropertyChangedEventArgs("Item[]");

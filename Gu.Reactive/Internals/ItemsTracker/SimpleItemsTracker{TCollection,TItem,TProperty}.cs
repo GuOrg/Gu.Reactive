@@ -203,7 +203,7 @@ namespace Gu.Reactive.Internals
             this.OnTrackedItemChanged(
                 item,
                 item,
-                CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty),
+                CachedEventArgs.StringEmpty,
                 SourceAndValue.Create(
                     (INotifyPropertyChanged)item,
                     this.getter.GetMaybe(item)));
