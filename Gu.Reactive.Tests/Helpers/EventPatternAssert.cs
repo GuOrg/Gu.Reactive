@@ -31,8 +31,8 @@ namespace Gu.Reactive.Tests.Helpers
 
         public static void AreEqual<TItem, TProperty>(TItem item, object sender, object source, Maybe<TProperty> value, string propertyName, EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>> actual)
         {
-            Assert.AreSame(sender, actual.Sender);
             Assert.AreSame(item, actual.EventArgs.Item);
+            Assert.AreSame(sender, actual.Sender);
             Assert.AreSame(source, actual.EventArgs.SourceAndValue.Source);
             Assert.AreEqual(propertyName, actual.EventArgs.PropertyName);
 
