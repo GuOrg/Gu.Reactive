@@ -144,6 +144,18 @@ namespace Gu.Reactive.Internals
                     case NotifyCollectionChangedAction.Replace:
                         this.AddItems(e.NewItems);
                         this.RemoveItems(e.OldItems);
+                        if (e.NewItems.All(x => x is null) &&
+                            e.OldItems.Any(x => !(x is null)))
+                        {
+                            foreach (TItem item in e.OldItems)
+                            {
+                                this.OnTrackedItemChanged(
+                                    (TItem)null,
+                                    source,
+                                    CachedEventArgs.StringEmpty,
+                                    this.path.SourceAndValue(item));
+                            }
+                        }
                         break;
                     case NotifyCollectionChangedAction.Move:
                         break;

@@ -100,6 +100,7 @@
     <Compile Include="Collections\ObservableSet{T}.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadonlyIListView.cs" />
     <Compile Include="Internals\Exceptions.cs" />
+    <Compile Include="Internals\Extensions\IListExt.cs" />
     <Compile Include="Internals\Extensions\SetExt.cs" />
     <Compile Include="Internals\IdentitySet.cs" />
     <Compile Include="Internals\Extensions\ListExt.cs" />
