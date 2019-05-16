@@ -180,7 +180,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     Assert.AreEqual(string.Empty, changes.Single().PropertyName);
 
                     item1.Name = "1.1";
-                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
+                    Assert.AreEqual(1, changes.Count);
                 }
 
                 item1.Name = "1.2";

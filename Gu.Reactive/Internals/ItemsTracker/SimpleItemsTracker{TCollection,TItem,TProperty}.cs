@@ -140,13 +140,14 @@ namespace Gu.Reactive.Internals
                             {
                                 this.OnTrackedItemChanged(
                                     null,
-                                    source,
+                                    sender,
                                     CachedEventArgs.StringEmpty,
                                     SourceAndValue.Create(
                                         (INotifyPropertyChanged)item,
                                         this.getter.GetMaybe(item)));
                             }
                         }
+
                         break;
                     case NotifyCollectionChangedAction.Move:
                         break;

@@ -151,11 +151,12 @@ namespace Gu.Reactive.Internals
                             {
                                 this.OnTrackedItemChanged(
                                     (TItem)null,
-                                    source,
+                                    sender,
                                     CachedEventArgs.StringEmpty,
                                     this.path.SourceAndValue(item));
                             }
                         }
+
                         break;
                     case NotifyCollectionChangedAction.Move:
                         break;
