@@ -695,7 +695,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsOnceWhenSameItemIsTwoElementsInCollection()
+            public void SameItemTwiceNotifiesOnceSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item = new Fake { Name = "1" };
@@ -706,6 +706,24 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     CollectionAssert.IsEmpty(changes);
 
                     item.Name = "new";
+                    Assert.AreEqual("Name", changes.Single().PropertyName);
+                }
+
+                Assert.AreEqual(1, changes.Count);
+            }
+
+            [Test]
+            public void SameItemTwiceNotifiesOnceNested()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item = new Fake { Next = new Level { Name = "1" } };
+                var source = new ObservableCollection<Fake> { item, item };
+                using (source.ObserveItemPropertyChangedSlim(x => x.Next.Name, signalInitial: false)
+                             .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    item.Next.Name = "new";
                     Assert.AreEqual("Name", changes.Single().PropertyName);
                 }
 
