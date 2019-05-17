@@ -33,7 +33,35 @@
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));
 
-            return ObserveItemPropertyChanged<ObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(o =>
+            {
+                var tracker = ItemsTracker.Create(
+                    signalInitial
+                        ? null
+                        : source,
+                    NotifyingPath.GetOrCreate(property));
+                tracker.TrackedItemChanged += Handler;
+                if (signalInitial)
+                {
+                    tracker.UpdateSource(source);
+                }
+
+                return new CompositeDisposable(2)
+                {
+                    Disposable.Create(() => tracker.TrackedItemChanged -= Handler),
+                    tracker,
+                };
+
+                void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+                {
+                    o.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
+                          sender,
+                          new ItemPropertyChangedEventArgs<TItem, TProperty>(
+                              item,
+                              sourceAndValue,
+                              args.PropertyName)));
+                }
+            });
         }
 
         /// <summary>
@@ -151,7 +179,35 @@
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));
 
-            return ObserveItemPropertyChanged<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(o =>
+            {
+                var tracker = ItemsTracker.Create(
+                    signalInitial
+                        ? null
+                        : source,
+                    NotifyingPath.GetOrCreate(property));
+                tracker.TrackedItemChanged += Handler;
+                if (signalInitial)
+                {
+                    tracker.UpdateSource(source);
+                }
+
+                return new CompositeDisposable(2)
+                {
+                    Disposable.Create(() => tracker.TrackedItemChanged -= Handler),
+                    tracker,
+                };
+
+                void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+                {
+                    o.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
+                          sender,
+                          new ItemPropertyChangedEventArgs<TItem, TProperty>(
+                              item,
+                              sourceAndValue,
+                              args.PropertyName)));
+                }
+            });
         }
 
         /// <summary>
@@ -269,7 +325,35 @@
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));
 
-            return ObserveItemPropertyChanged<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(o =>
+            {
+                var tracker = ItemsTracker.Create(
+                    signalInitial
+                        ? null
+                        : source,
+                    NotifyingPath.GetOrCreate(property));
+                tracker.TrackedItemChanged += Handler;
+                if (signalInitial)
+                {
+                    tracker.UpdateSource(source);
+                }
+
+                return new CompositeDisposable(2)
+                {
+                    Disposable.Create(() => tracker.TrackedItemChanged -= Handler),
+                    tracker,
+                };
+
+                void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+                {
+                    o.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
+                          sender,
+                          new ItemPropertyChangedEventArgs<TItem, TProperty>(
+                              item,
+                              sourceAndValue,
+                              args.PropertyName)));
+                }
+            });
         }
 
         /// <summary>
