@@ -19,8 +19,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void SignalsInitial()
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
-                var ints = new ObservableCollection<int> { 1, 2 };
-                var observable = ints.ObserveCollectionChanged();
+                var source = new ObservableCollection<int> { 1, 2 };
+                var observable = source.ObserveCollectionChanged();
                 using (observable.Subscribe(x => changes.Add(x.EventArgs)))
                 {
                     CollectionAssert.AreEqual(new[] { CachedEventArgs.NotifyCollectionReset }, changes);
@@ -33,7 +33,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     var expected = new[] { CachedEventArgs.NotifyCollectionReset, CachedEventArgs.NotifyCollectionReset };
                     CollectionAssert.AreEqual(expected, changes);
 
-                    ints.Add(1);
+                    source.Add(1);
                     Assert.AreEqual(3, changes.Count);
                     Assert.AreEqual(NotifyCollectionChangedAction.Add, changes.Last().Action);
                 }
@@ -43,11 +43,11 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void Add()
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
-                var ints = new ObservableCollection<int>();
-                using (ints.ObserveCollectionChanged(signalInitial: false)
+                var source = new ObservableCollection<int>();
+                using (source.ObserveCollectionChanged(signalInitial: false)
                            .Subscribe(x => changes.Add(x.EventArgs)))
                 {
-                    ints.Add(1);
+                    source.Add(1);
                     Assert.AreEqual(1, changes.Count);
                 }
             }
@@ -57,17 +57,17 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             {
                 var changes1 = new List<NotifyCollectionChangedEventArgs>();
                 var changes2 = new List<NotifyCollectionChangedEventArgs>();
-                var ints = new ObservableCollection<int>();
-                var observable = ints.ObserveCollectionChanged(signalInitial: false);
+                var source = new ObservableCollection<int>();
+                var observable = source.ObserveCollectionChanged(signalInitial: false);
                 using (observable.Subscribe(x => changes1.Add(x.EventArgs)))
                 {
                     using (observable.Subscribe(x => changes2.Add(x.EventArgs)))
                     {
-                        ints.Add(1);
+                        source.Add(1);
                         Assert.AreEqual(1, changes1.Count);
                         Assert.AreEqual(1, changes2.Count);
 
-                        ints.Add(2);
+                        source.Add(2);
                         Assert.AreEqual(2, changes1.Count);
                         Assert.AreEqual(2, changes2.Count);
                     }
@@ -78,15 +78,15 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void ReactsOnView()
             {
                 var changes = new List<EventPattern<NotifyCollectionChangedEventArgs>>();
-                var ints = new ObservableCollection<int>();
-                using (var view = ints.AsReadOnlyFilteredView(x => true))
+                var source = new ObservableCollection<int>();
+                using (var view = source.AsReadOnlyFilteredView(x => true))
                 {
                     using (view.ObserveCollectionChanged(signalInitial: false)
                                .Subscribe(x => changes.Add(x)))
                     {
-                        ints.Add(1);
+                        source.Add(1);
                         Assert.AreEqual(1, changes.Count);
-                        Assert.AreEqual(ints, changes[0].Sender);
+                        Assert.AreEqual(source, changes[0].Sender);
                         Assert.AreEqual(NotifyCollectionChangedAction.Add, changes[0].EventArgs.Action);
                     }
                 }
@@ -96,15 +96,15 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             public void Disposes()
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
-                var ints = new ObservableCollection<int>();
-                using (ints.ObserveCollectionChanged(signalInitial: false)
+                var source = new ObservableCollection<int>();
+                using (source.ObserveCollectionChanged(signalInitial: false)
                            .Subscribe(x => changes.Add(x.EventArgs)))
                 {
-                    ints.Add(1);
+                    source.Add(1);
                     Assert.AreEqual(1, changes.Count);
                 }
 
-                ints.Add(2);
+                source.Add(2);
                 Assert.AreEqual(1, changes.Count);
             }
 
@@ -114,9 +114,9 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
-                var ints = new ObservableCollection<int>();
-                var wr = new WeakReference(ints);
-                var observable = ints.ObserveCollectionChanged();
+                var source = new ObservableCollection<int>();
+                var wr = new WeakReference(source);
+                var observable = source.ObserveCollectionChanged();
                 using (var subscription = observable.Subscribe())
                 {
                     GC.KeepAlive(observable);
@@ -124,7 +124,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 }
 
                 // ReSharper disable once RedundantAssignment
-                ints = null;
+                source = null;
                 GC.Collect();
                 Assert.IsFalse(wr.IsAlive);
             }
@@ -136,9 +136,9 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
 
-                var ints = new ObservableCollection<int>();
-                var wr = new WeakReference(ints);
-                var observable = ints.ObserveCollectionChanged();
+                var source = new ObservableCollection<int>();
+                var wr = new WeakReference(source);
+                var observable = source.ObserveCollectionChanged();
 #pragma warning disable IDISP001  // Dispose created.
                 var subscription = observable.Subscribe();
 #pragma warning restore IDISP001  // Dispose created.
@@ -146,7 +146,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 GC.KeepAlive(subscription);
 
                 // ReSharper disable once RedundantAssignment
-                ints = null;
+                source = null;
                 GC.Collect();
 
                 Assert.IsFalse(wr.IsAlive);
