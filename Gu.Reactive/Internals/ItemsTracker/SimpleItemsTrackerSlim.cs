@@ -33,7 +33,7 @@ namespace Gu.Reactive.Internals
                 {
                     foreach (var item in this.set)
                     {
-                        item.PropertyChanged -= this.OnTrackedItemChanged;
+                        item.PropertyChanged -= this.OnItemPropertyChanged;
                     }
 
                     IdentitySet.Return(this.set);
@@ -94,7 +94,7 @@ namespace Gu.Reactive.Internals
                         if (!(item is null) &&
                             this.set.Add(item))
                         {
-                            item.PropertyChanged += this.OnTrackedItemChanged;
+                            item.PropertyChanged += this.OnItemPropertyChanged;
                         }
                     }
                 }
@@ -107,14 +107,14 @@ namespace Gu.Reactive.Internals
                         if (!(item is null) &&
                             !this.set.Contains(item))
                         {
-                            item.PropertyChanged -= this.OnTrackedItemChanged;
+                            item.PropertyChanged -= this.OnItemPropertyChanged;
                         }
                     }
                 }
             }
         }
 
-        private void OnTrackedItemChanged(object sender, PropertyChangedEventArgs e)
+        private void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.IsMatch(this.getter.Property))
             {
