@@ -21,6 +21,7 @@ group Test
   source http://nuget.org/api/v2
   nuget Moq
   nuget NUnit
+  nuget NUnit3TestAdapter
   nuget System.Reactive 3.1.1
   nuget Microsoft.Reactive.Testing 3.1.1
   nuget Gu.Wpf.UiAutomation
@@ -36,6 +37,7 @@ group Roslyn
   nuget Gu.Roslyn.Extensions prerelease
   nuget Gu.Roslyn.Asserts
   nuget NUnit
+  nuget NUnit3TestAdapter
   nuget System.Reactive 3.1.1
 
 group Benchmark
