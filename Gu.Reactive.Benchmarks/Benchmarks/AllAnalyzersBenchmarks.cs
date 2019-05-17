@@ -1,6 +1,7 @@
 // ReSharper disable RedundantNameQualifier
 namespace Gu.Reactive.Benchmarks
 {
+    [BenchmarkDotNet.Attributes.MemoryDiagnoser]
     public class AllAnalyzersBenchmarks
     {
         private static readonly Gu.Roslyn.Asserts.Benchmark ConstructorAnalyzerBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.ConstructorAnalyzer());

@@ -8,6 +8,7 @@ namespace Gu.Reactive.Benchmarks
     using BenchmarkDotNet.Attributes;
     using Gu.Wpf.Reactive;
 
+    [BenchmarkDotNet.Attributes.MemoryDiagnoser]
     public sealed class ThrottledView : IDisposable
     {
         // ReSharper disable once CollectionNeverQueried.Local

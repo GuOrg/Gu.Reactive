@@ -7,6 +7,7 @@ namespace Gu.Reactive.Benchmarks
 
     using BenchmarkDotNet.Attributes;
 
+    [BenchmarkDotNet.Attributes.MemoryDiagnoser]
     public sealed class ObservePropertyChangedReact : IDisposable
     {
         private readonly Fake fake = new Fake { Next = new Level { Name = string.Empty } };

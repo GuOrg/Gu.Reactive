@@ -8,6 +8,7 @@ namespace Gu.Reactive.Benchmarks
 
     using Gu.Reactive.Internals;
 
+    [BenchmarkDotNet.Attributes.MemoryDiagnoser]
     public class ObservePropertyChangedThenSubscribeThenReact
     {
         private readonly Fake fake = new Fake { IsTrue = false, Next = new Level { Name = string.Empty } };

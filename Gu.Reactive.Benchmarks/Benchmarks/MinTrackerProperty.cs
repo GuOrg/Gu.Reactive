@@ -6,6 +6,7 @@ namespace Gu.Reactive.Benchmarks
 
     using BenchmarkDotNet.Attributes;
 
+    [BenchmarkDotNet.Attributes.MemoryDiagnoser]
     public class MinTrackerProperty
     {
         private readonly ObservableCollection<Fake> fakes1 = new ObservableCollection<Fake>();

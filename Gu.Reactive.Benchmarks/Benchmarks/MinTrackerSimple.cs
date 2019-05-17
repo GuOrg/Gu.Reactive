@@ -6,6 +6,7 @@ namespace Gu.Reactive.Benchmarks
 
     using BenchmarkDotNet.Attributes;
 
+    [BenchmarkDotNet.Attributes.MemoryDiagnoser]
     public class MinTrackerSimple
     {
         private ObservableCollection<int> ints1 = new ObservableBatchCollection<int>();

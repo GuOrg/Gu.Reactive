@@ -3,6 +3,7 @@ namespace Gu.Reactive.Benchmarks
 {
     using BenchmarkDotNet.Attributes;
 
+    [BenchmarkDotNet.Attributes.MemoryDiagnoser]
     public static class NameOf
     {
         [Benchmark(Baseline = true)]

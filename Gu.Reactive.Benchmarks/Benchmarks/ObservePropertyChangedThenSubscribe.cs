@@ -10,6 +10,7 @@ namespace Gu.Reactive.Benchmarks
 
     using Gu.Reactive.Internals;
 
+    [BenchmarkDotNet.Attributes.MemoryDiagnoser]
     public class ObservePropertyChangedThenSubscribe
     {
         private static readonly Subject<int> Subject = new Subject<int>();

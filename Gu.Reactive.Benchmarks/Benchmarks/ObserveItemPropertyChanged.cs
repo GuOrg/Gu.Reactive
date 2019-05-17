@@ -1,9 +1,10 @@
-﻿namespace Gu.Reactive.Benchmarks
+namespace Gu.Reactive.Benchmarks
 {
     using System;
     using System.Collections.ObjectModel;
     using BenchmarkDotNet.Attributes;
 
+    [BenchmarkDotNet.Attributes.MemoryDiagnoser]
     public class ObserveItemPropertyChanged
     {
         private readonly ObservableCollection<Fake> source = new ObservableCollection<Fake>();

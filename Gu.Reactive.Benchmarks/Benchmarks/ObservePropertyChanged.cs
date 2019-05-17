@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Benchmarks
+namespace Gu.Reactive.Benchmarks
 {
     using System;
     using System.ComponentModel;
@@ -8,6 +8,7 @@
 
     using Gu.Reactive.Internals;
 
+    [BenchmarkDotNet.Attributes.MemoryDiagnoser]
     public class ObservePropertyChanged
     {
         private readonly Fake fake = new Fake { IsTrue = false, Next = new Level { Name = string.Empty } };
