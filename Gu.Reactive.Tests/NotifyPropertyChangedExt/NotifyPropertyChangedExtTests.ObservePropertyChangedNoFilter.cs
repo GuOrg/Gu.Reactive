@@ -1,4 +1,4 @@
-﻿// ReSharper disable NotResolvedInText
+// ReSharper disable NotResolvedInText
 // ReSharper disable UnusedVariable
 // ReSharper disable HeuristicUnreachableCode
 #pragma warning disable WPF1014 // Don't raise PropertyChanged for missing property.
@@ -22,9 +22,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void DoesNotSignalSubscribe()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                var fake = new Fake { Value = 1 };
-                var observable = fake.ObservePropertyChanged();
-                using (observable.Subscribe(changes.Add))
+                var source = new Fake { Value = 1 };
+                using (source.ObservePropertyChanged()
+                             .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
                 }
@@ -36,12 +36,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ReactsOnStringEmptyOrNullWhenHasValue(string prop)
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                var fake = new Fake { Value = 1 };
-                using (fake.ObservePropertyChanged()
-                           .Subscribe(changes.Add))
+                var source = new Fake { Value = 1 };
+                using (source.ObservePropertyChanged()
+                             .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
-                    fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
+                    source.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
                     Assert.AreEqual(1, changes.Count);
                 }
             }
@@ -52,12 +52,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ReactsOnStringEmptyOrNullWhenNull(string prop)
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                var fake = new Fake { Name = null };
-                using (fake.ObservePropertyChanged()
-                           .Subscribe(changes.Add))
+                var source = new Fake { Name = null };
+                using (source.ObservePropertyChanged()
+                             .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
-                    fake.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
+                    source.OnPropertyChanged(prop); // This means all properties changed according to wpf convention
                     Assert.AreEqual(1, changes.Count);
                 }
             }
@@ -66,14 +66,14 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ReactsOnEvent()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                var fake = new Fake { Value = 1 };
-                using (fake.ObservePropertyChanged()
-                           .Subscribe(changes.Add))
+                var source = new Fake { Value = 1 };
+                using (source.ObservePropertyChanged()
+                             .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
-                    fake.OnPropertyChanged("SomeProp");
+                    source.OnPropertyChanged("SomeProp");
                     Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(fake, "SomeProp", changes.Last());
+                    EventPatternAssert.AreEqual(source, "SomeProp", changes.Last());
                 }
             }
 
@@ -81,14 +81,14 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ReactsOnEventDerived()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                var fake = new DerivedFake { Value = 1 };
-                using (fake.ObservePropertyChanged()
-                           .Subscribe(changes.Add))
+                var source = new DerivedFake { Value = 1 };
+                using (source.ObservePropertyChanged()
+                             .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
-                    fake.OnPropertyChanged("SomeProp");
+                    source.OnPropertyChanged("SomeProp");
                     Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(fake, "SomeProp", changes.Last());
+                    EventPatternAssert.AreEqual(source, "SomeProp", changes.Last());
                 }
             }
 
@@ -96,14 +96,14 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ReactsValue()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                var fake = new Fake { Value = 1 };
-                using (fake.ObservePropertyChanged()
-                           .Subscribe(changes.Add))
+                var source = new Fake { Value = 1 };
+                using (source.ObservePropertyChanged()
+                             .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
-                    fake.Value++;
+                    source.Value++;
                     Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(fake, "Value", changes.Last());
+                    EventPatternAssert.AreEqual(source, "Value", changes.Last());
                 }
             }
 
@@ -111,23 +111,23 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ReactsTwoInstancesValue()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                var fake1 = new Fake { Value = 1 };
-                using (fake1.ObservePropertyChanged()
-                            .Subscribe(changes.Add))
+                var source1 = new Fake { Value = 1 };
+                using (source1.ObservePropertyChanged()
+                              .Subscribe(changes.Add))
                 {
-                    var fake2 = new Fake { Value = 1 };
-                    using (fake2.ObservePropertyChanged()
-                                .Subscribe(changes.Add))
+                    var source2 = new Fake { Value = 1 };
+                    using (source2.ObservePropertyChanged()
+                                  .Subscribe(changes.Add))
                     {
                         Assert.AreEqual(0, changes.Count);
 
-                        fake1.Value++;
+                        source1.Value++;
                         Assert.AreEqual(1, changes.Count);
-                        EventPatternAssert.AreEqual(fake1, "Value", changes.Last());
+                        EventPatternAssert.AreEqual(source1, "Value", changes.Last());
 
-                        fake2.Value++;
+                        source2.Value++;
                         Assert.AreEqual(2, changes.Count);
-                        EventPatternAssert.AreEqual(fake2, "Value", changes.Last());
+                        EventPatternAssert.AreEqual(source2, "Value", changes.Last());
                     }
                 }
             }
@@ -136,38 +136,38 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ReactsNullable()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                var fake = new Fake { IsTrueOrNull = null };
-                var observable = fake.ObservePropertyChanged();
-                using (observable.Subscribe(changes.Add))
+                var source = new Fake { IsTrueOrNull = null };
+                using (source.ObservePropertyChanged()
+                             .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
 
-                    fake.IsTrueOrNull = true;
+                    source.IsTrueOrNull = true;
                     Assert.AreEqual(1, changes.Count);
-                    EventPatternAssert.AreEqual(fake, "IsTrueOrNull", changes.Last());
+                    EventPatternAssert.AreEqual(source, "IsTrueOrNull", changes.Last());
 
-                    fake.IsTrueOrNull = null;
+                    source.IsTrueOrNull = null;
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(fake, "IsTrueOrNull", changes.Last());
+                    EventPatternAssert.AreEqual(source, "IsTrueOrNull", changes.Last());
                 }
 
                 Assert.AreEqual(2, changes.Count);
-                EventPatternAssert.AreEqual(fake, "IsTrueOrNull", changes.Last());
+                EventPatternAssert.AreEqual(source, "IsTrueOrNull", changes.Last());
             }
 
             [Test]
             public void StopsListeningOnDispose()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
-                var fake = new Fake { IsTrue = true };
-                var observable = fake.ObservePropertyChanged();
-                using (observable.Subscribe(changes.Add))
+                var source = new Fake { IsTrue = true };
+                using (source.ObservePropertyChanged()
+                             .Subscribe(changes.Add))
                 {
-                    fake.IsTrue = !fake.IsTrue;
+                    source.IsTrue = !source.IsTrue;
                     Assert.AreEqual(1, changes.Count);
                 }
 
-                fake.IsTrue = !fake.IsTrue;
+                source.IsTrue = !source.IsTrue;
                 Assert.AreEqual(1, changes.Count);
             }
 
@@ -177,9 +177,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
-                var fake = new Fake();
-                var wr = new WeakReference(fake);
-                var observable = fake.ObservePropertyChanged();
+                var source = new Fake();
+                var wr = new WeakReference(source);
+                var observable = source.ObservePropertyChanged();
                 using (var subscription = observable.Subscribe())
                 {
                     GC.KeepAlive(observable);
@@ -196,15 +196,15 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
-                var fake = new Fake();
-                var wr = new WeakReference(fake);
-                var observable = fake.ObservePropertyChanged();
+                var source = new Fake();
+                var wr = new WeakReference(source);
+                var observable = source.ObservePropertyChanged();
 #pragma warning disable IDISP001  // Dispose created.
                 var subscription = observable.Subscribe();
 #pragma warning restore IDISP001  // Dispose created.
 
                 // ReSharper disable once RedundantAssignment
-                fake = null;
+                source = null;
                 GC.Collect();
 
                 Assert.IsFalse(wr.IsAlive);

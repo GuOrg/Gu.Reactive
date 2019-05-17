@@ -64,16 +64,16 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void Simple()
             {
-                var fake = new Fake();
+                var source = new Fake();
                 var changes = new List<PropertyChangedEventArgs>();
-                using (fake.ObservePropertyChangedSlim()
-                           .Subscribe(changes.Add))
+                using (source.ObservePropertyChangedSlim()
+                             .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
-                    fake.IsTrue = !fake.IsTrue;
+                    source.IsTrue = !source.IsTrue;
                     CollectionAssert.AreEqual(new[] { "IsTrue" }, changes.Select(x => x.PropertyName));
 
-                    fake.Value++;
+                    source.Value++;
                     CollectionAssert.AreEqual(new[] { "IsTrue", "Value" }, changes.Select(x => x.PropertyName));
                 }
             }
@@ -82,11 +82,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ShadowingProperty()
             {
                 var changes = new List<PropertyChangedEventArgs>();
-                var with = new WithShadowing<int>();
-                using (with.ObservePropertyChangedSlim("Value", signalInitial: false)
-                               .Subscribe(changes.Add))
+                var source = new WithShadowing<int>();
+                using (source.ObservePropertyChangedSlim("Value", signalInitial: false)
+                             .Subscribe(changes.Add))
                 {
-                    with.Value = 1;
+                    source.Value = 1;
                     CollectionAssert.AreEqual(new[] { "Value" }, changes.Select(x => x.PropertyName));
                 }
             }
@@ -141,23 +141,23 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void MissingProperty()
             {
-                var fake = new Fake();
-                _ = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChangedSlim("Missing"));
+                var source = new Fake();
+                _ = Assert.Throws<ArgumentException>(() => source.ObservePropertyChangedSlim("Missing"));
             }
 
             [Test]
             public void NamedNoSignalInitial()
             {
-                var fake = new Fake();
+                var source = new Fake();
                 var count = 0;
-                using (fake.ObservePropertyChangedSlim(nameof(fake.IsTrue), signalInitial: false)
-                           .Subscribe(_ => count++))
+                using (source.ObservePropertyChangedSlim(nameof(source.IsTrue), signalInitial: false)
+                             .Subscribe(_ => count++))
                 {
                     Assert.AreEqual(0, count);
-                    fake.IsTrue = !fake.IsTrue;
+                    source.IsTrue = !source.IsTrue;
                     Assert.AreEqual(1, count);
 
-                    fake.Value++;
+                    source.Value++;
                     Assert.AreEqual(1, count);
                 }
             }
@@ -165,16 +165,16 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void NamedSignalInitial()
             {
-                var fake = new Fake();
+                var source = new Fake();
                 var count = 0;
-                using (fake.ObservePropertyChangedSlim(nameof(fake.IsTrue), signalInitial: true)
+                using (source.ObservePropertyChangedSlim(nameof(source.IsTrue), signalInitial: true)
                            .Subscribe(_ => count++))
                 {
                     Assert.AreEqual(1, count);
-                    fake.IsTrue = !fake.IsTrue;
+                    source.IsTrue = !source.IsTrue;
                     Assert.AreEqual(2, count);
 
-                    fake.Value++;
+                    source.Value++;
                     Assert.AreEqual(2, count);
                 }
             }
@@ -202,13 +202,13 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ReactsOnMock()
             {
                 var changes = new List<PropertyChangedEventArgs>();
-                var mock = new Mock<IReadOnlyObservableCollection<int>>();
-                using (mock.Object.ObservePropertyChangedSlim("Count", signalInitial: false)
-                           .Subscribe(changes.Add))
+                var source = new Mock<IReadOnlyObservableCollection<int>>();
+                using (source.Object.ObservePropertyChangedSlim("Count", signalInitial: false)
+                             .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
 
-                    mock.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("Count"));
+                    source.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("Count"));
                     CollectionAssert.AreEqual(new[] { "Count" }, changes.Select(x => x.PropertyName));
                 }
             }
@@ -219,12 +219,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ReactsOnStringEmptyOrNullWhenHasValue(string propertyName)
             {
                 var changes = new List<PropertyChangedEventArgs>();
-                var fake = new Fake { Name = "Johan" };
-                using (fake.ObservePropertyChangedSlim("Name", signalInitial: false)
-                           .Subscribe(changes.Add))
+                var source = new Fake { Name = "Johan" };
+                using (source.ObservePropertyChangedSlim("Name", signalInitial: false)
+                             .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
-                    fake.OnPropertyChanged(propertyName);
+                    source.OnPropertyChanged(propertyName);
                     //// This means all properties changed according to wpf convention
                     CollectionAssert.AreEqual(new[] { propertyName }, changes.Select(x => x.PropertyName));
                 }
@@ -236,12 +236,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ReactsOnStringEmptyOrNullWhenNull(string propertyName)
             {
                 var changes = new List<PropertyChangedEventArgs>();
-                var fake = new Fake { Name = null };
-                using (fake.ObservePropertyChangedSlim("Name", signalInitial: false)
-                           .Subscribe(changes.Add))
+                var source = new Fake { Name = null };
+                using (source.ObservePropertyChangedSlim("Name", signalInitial: false)
+                             .Subscribe(changes.Add))
                 {
                     Assert.AreEqual(0, changes.Count);
-                    fake.OnPropertyChanged(propertyName);
+                    source.OnPropertyChanged(propertyName);
                     //// This means all properties changed according to wpf convention
                     CollectionAssert.AreEqual(new[] { propertyName }, changes.Select(x => x.PropertyName));
                 }

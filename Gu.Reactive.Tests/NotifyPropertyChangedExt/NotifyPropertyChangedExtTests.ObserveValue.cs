@@ -22,32 +22,32 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void Simple()
             {
-                var fake = new Fake();
+                var source = new Fake();
                 var actuals = new List<Maybe<int>>();
-                using (fake.ObserveValue(x => x.Value, signalInitial: false)
-                           .Subscribe(actuals.Add))
+                using (source.ObserveValue(x => x.Value, signalInitial: false)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<int>>();
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Value++;
+                    source.Value++;
                     expecteds.Add(Maybe<int>.Some(1));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Value++;
+                    source.Value++;
                     expecteds.Add(Maybe<int>.Some(2));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.OnPropertyChanged("Value");
+                    source.OnPropertyChanged("Value");
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.OnPropertyChanged(string.Empty);
+                    source.OnPropertyChanged(string.Empty);
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.OnPropertyChanged(null);
+                    source.OnPropertyChanged(null);
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.OnPropertyChanged("Next");
+                    source.OnPropertyChanged("Next");
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
             }
@@ -55,23 +55,23 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void FakeOfIntValueDefault()
             {
-                var fake = new Fake<int>();
+                var source = new Fake<int>();
                 var actuals = new List<Maybe<int>>();
-                using (fake.ObserveValue(x => x.Value)
-                           .Subscribe(actuals.Add))
+                using (source.ObserveValue(x => x.Value)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<int>> { Maybe.Some(0) };
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Value++;
+                    source.Value++;
                     expecteds.Add(Maybe.Some(1));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Value++;
+                    source.Value++;
                     expecteds.Add(Maybe.Some(2));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.OnPropertyChanged("Value");
+                    source.OnPropertyChanged("Value");
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
             }
@@ -79,23 +79,23 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void FakeOfIntValueSignalInitial()
             {
-                var fake = new Fake<int>();
+                var source = new Fake<int>();
                 var actuals = new List<Maybe<int>>();
-                using (fake.ObserveValue(x => x.Value, signalInitial: true)
-                           .Subscribe(actuals.Add))
+                using (source.ObserveValue(x => x.Value, signalInitial: true)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<int>> { Maybe.Some(0) };
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Value++;
+                    source.Value++;
                     expecteds.Add(Maybe.Some(1));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Value++;
+                    source.Value++;
                     expecteds.Add(Maybe.Some(2));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.OnPropertyChanged("Value");
+                    source.OnPropertyChanged("Value");
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
             }
@@ -103,23 +103,23 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void FakeOfIntValueNoInitial()
             {
-                var fake = new Fake<int>();
+                var source = new Fake<int>();
                 var actuals = new List<Maybe<int>>();
-                using (fake.ObserveValue(x => x.Value, signalInitial: false)
-                           .Subscribe(actuals.Add))
+                using (source.ObserveValue(x => x.Value, signalInitial: false)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<int>>();
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Value++;
+                    source.Value++;
                     expecteds.Add(Maybe.Some(1));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Value++;
+                    source.Value++;
                     expecteds.Add(Maybe.Some(2));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.OnPropertyChanged("Value");
+                    source.OnPropertyChanged("Value");
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
             }
@@ -127,26 +127,26 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void FakeNextValueDefault()
             {
-                var fake = new Fake();
+                var source = new Fake();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Next.Name)
-                           .Subscribe(actuals.Add))
+                using (source.ObserveValue(x => x.Next.Name)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>> { Maybe<string>.None };
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = new Level();
+                    source.Next = new Level();
                     expecteds.Add(Maybe<string>.Some(null));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.Name = "Johan";
+                    source.Next.Name = "Johan";
                     expecteds.Add(Maybe<string>.Some("Johan"));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.OnPropertyChanged("Name");
+                    source.Next.OnPropertyChanged("Name");
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = null;
+                    source.Next = null;
                     expecteds.Add(Maybe<string>.None);
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
@@ -155,26 +155,26 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void FakeNextValueSignalInitial()
             {
-                var fake = new Fake();
+                var source = new Fake();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Next.Name, signalInitial: true)
-                           .Subscribe(actuals.Add))
+                using (source.ObserveValue(x => x.Next.Name, signalInitial: true)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>> { Maybe<string>.None };
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = new Level();
+                    source.Next = new Level();
                     expecteds.Add(Maybe<string>.Some(null));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.Name = "Johan";
+                    source.Next.Name = "Johan";
                     expecteds.Add(Maybe<string>.Some("Johan"));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.OnPropertyChanged("Name");
+                    source.Next.OnPropertyChanged("Name");
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = null;
+                    source.Next = null;
                     expecteds.Add(Maybe<string>.None);
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
@@ -183,26 +183,26 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void FakenextValueValueNoInitial()
             {
-                var fake = new Fake();
+                var source = new Fake();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Next.Name, signalInitial: false)
-                           .Subscribe(actuals.Add))
+                using (source.ObserveValue(x => x.Next.Name, signalInitial: false)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>>();
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = new Level();
+                    source.Next = new Level();
                     expecteds.Add(Maybe<string>.Some(null));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.Name = "Johan";
+                    source.Next.Name = "Johan";
                     expecteds.Add(Maybe<string>.Some("Johan"));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.OnPropertyChanged("Name");
+                    source.Next.OnPropertyChanged("Name");
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = null;
+                    source.Next = null;
                     expecteds.Add(Maybe<string>.None);
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
@@ -211,26 +211,26 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void FakeOfIFakeValueDefault()
             {
-                var fake = new Fake<IFake>();
+                var source = new Fake<IFake>();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Next.Name)
-                           .Subscribe(actuals.Add))
+                using (source.ObserveValue(x => x.Next.Name)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>> { Maybe<string>.None };
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = new Level<IFake>();
+                    source.Next = new Level<IFake>();
                     expecteds.Add(Maybe<string>.Some(null));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.Name = "Johan";
+                    source.Next.Name = "Johan";
                     expecteds.Add(Maybe<string>.Some("Johan"));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.OnPropertyChanged("Name");
+                    source.Next.OnPropertyChanged("Name");
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = null;
+                    source.Next = null;
                     expecteds.Add(Maybe<string>.None);
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
@@ -239,26 +239,26 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void FakeOfIFakeValueSignalInitial()
             {
-                var fake = new Fake<IFake>();
+                var source = new Fake<IFake>();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Next.Name, signalInitial: true)
-                           .Subscribe(actuals.Add))
+                using (source.ObserveValue(x => x.Next.Name, signalInitial: true)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>> { Maybe<string>.None };
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = new Level<IFake>();
+                    source.Next = new Level<IFake>();
                     expecteds.Add(Maybe<string>.Some(null));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.Name = "Johan";
+                    source.Next.Name = "Johan";
                     expecteds.Add(Maybe<string>.Some("Johan"));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.OnPropertyChanged("Name");
+                    source.Next.OnPropertyChanged("Name");
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = null;
+                    source.Next = null;
                     expecteds.Add(Maybe<string>.None);
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
@@ -267,26 +267,26 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void FakeOfIFakeValueNoInitial()
             {
-                var fake = new Fake<IFake>();
+                var source = new Fake<IFake>();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Next.Name, signalInitial: false)
-                           .Subscribe(actuals.Add))
+                using (source.ObserveValue(x => x.Next.Name, signalInitial: false)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>>();
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = new Level<IFake>();
+                    source.Next = new Level<IFake>();
                     expecteds.Add(Maybe<string>.Some(null));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.Name = "Johan";
+                    source.Next.Name = "Johan";
                     expecteds.Add(Maybe<string>.Some("Johan"));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next.OnPropertyChanged("Name");
+                    source.Next.OnPropertyChanged("Name");
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Next = null;
+                    source.Next = null;
                     expecteds.Add(Maybe<string>.None);
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
@@ -295,19 +295,19 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void VirtualProperty()
             {
-                var fake = new Fake<A>();
+                var source = new Fake<A>();
                 var actuals = new List<Maybe<string>>();
-                using (fake.ObserveValue(x => x.Value.Value, signalInitial: false)
-                           .Subscribe(actuals.Add))
+                using (source.ObserveValue(x => x.Value.Value, signalInitial: false)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<string>>();
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Value = new A();
+                    source.Value = new A();
                     expecteds.Add(Maybe<string>.Some("A"));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Value = new B();
+                    source.Value = new B();
                     expecteds.Add(Maybe<string>.Some("B"));
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
@@ -316,25 +316,25 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [Test]
             public void Mock()
             {
-                var fake = new Mock<IFake>(MockBehavior.Strict);
-                fake.SetupGet(x => x.Value)
+                var source = new Mock<IFake>(MockBehavior.Strict);
+                source.SetupGet(x => x.Value)
                     .Returns(1);
                 var actuals = new List<Maybe<int>>();
-                using (fake.Object.ObserveValue(x => x.Value, signalInitial: false)
-                           .Subscribe(actuals.Add))
+                using (source.Object.ObserveValue(x => x.Value, signalInitial: false)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<int>>();
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.SetupGet(x => x.Value)
+                    source.SetupGet(x => x.Value)
                         .Returns(2);
-                    fake.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("Value"));
+                    source.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("Value"));
                     expecteds.Add(Maybe.Some(2));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.SetupGet(x => x.Value)
+                    source.SetupGet(x => x.Value)
                         .Returns(3);
-                    fake.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("Value"));
+                    source.Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("Value"));
                     expecteds.Add(Maybe.Some(3));
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
@@ -347,18 +347,18 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 var expected = start.Select(Maybe.Some)
                                     .ToList();
                 var values = new List<Maybe<int>>();
-                var fake = new Fake { Value = 1 };
-                using (fake.ObserveValue(x => x.Value, signalInitial)
-                           .Subscribe(values.Add))
+                var source = new Fake { Value = 1 };
+                using (source.ObserveValue(x => x.Value, signalInitial)
+                             .Subscribe(values.Add))
                 {
                     CollectionAssert.AreEqual(expected, values);
 
-                    fake.Value++;
-                    expected.Add(Maybe.Some(fake.Value));
+                    source.Value++;
+                    expected.Add(Maybe.Some(source.Value));
                     CollectionAssert.AreEqual(expected, values);
 
-                    fake.Value++;
-                    expected.Add(Maybe.Some(fake.Value));
+                    source.Value++;
+                    expected.Add(Maybe.Some(source.Value));
                     CollectionAssert.AreEqual(expected, values);
                 }
             }
@@ -371,14 +371,14 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                                     .ToList();
                 var actuals1 = new List<Maybe<int>>();
                 var actuals2 = new List<Maybe<int>>();
-                var fake = new Fake { Value = 1 };
-                var observable = fake.ObserveValue(x => x.Value, signalInitial);
+                var source = new Fake { Value = 1 };
+                var observable = source.ObserveValue(x => x.Value, signalInitial);
                 using (observable.Subscribe(actuals1.Add))
                 {
                     CollectionAssert.AreEqual(expected, actuals1);
 
-                    fake.Value++;
-                    expected.Add(Maybe.Some(fake.Value));
+                    source.Value++;
+                    expected.Add(Maybe.Some(source.Value));
                     CollectionAssert.AreEqual(expected, actuals1);
 
                     using (observable.Subscribe(actuals2.Add))
@@ -386,8 +386,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected.Skip(1), actuals2);
 
-                        fake.Value++;
-                        expected.Add(Maybe.Some(fake.Value));
+                        source.Value++;
+                        expected.Add(Maybe.Some(source.Value));
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected.Skip(1), actuals2);
                     }
@@ -399,25 +399,25 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void TwoLevelsSignalInitial(bool signalInitial, int[] start)
             {
                 var actuals = new List<Maybe<int>>();
-                var fake = new Fake { Level1 = new Level1 { Value = 1 } };
-                using (fake.ObserveValue(x => x.Level1.Value, signalInitial)
-                           .Subscribe(actuals.Add))
+                var source = new Fake { Level1 = new Level1 { Value = 1 } };
+                using (source.ObserveValue(x => x.Level1.Value, signalInitial)
+                             .Subscribe(actuals.Add))
                 {
                     var expected = start.Select(Maybe.Some)
                                         .ToList();
                     CollectionAssert.AreEqual(expected, actuals);
 
-                    fake.Level1.Value++;
-                    expected.Add(Maybe.Some(fake.Level1.Value));
+                    source.Level1.Value++;
+                    expected.Add(Maybe.Some(source.Level1.Value));
                     CollectionAssert.AreEqual(expected, actuals);
 
-                    fake.Level1.OnPropertyChanged("Value");
+                    source.Level1.OnPropertyChanged("Value");
                     CollectionAssert.AreEqual(expected, actuals);
 
-                    fake.Level1.OnPropertyChanged("IsTrue");
+                    source.Level1.OnPropertyChanged("IsTrue");
                     CollectionAssert.AreEqual(expected, actuals);
 
-                    fake.Level1 = null;
+                    source.Level1 = null;
                     expected.Add(Maybe<int>.None);
                     CollectionAssert.AreEqual(expected, actuals);
                 }
@@ -428,30 +428,30 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var actuals1 = new List<Maybe<int>>();
                 var actuals2 = new List<Maybe<int>>();
-                var fake = new Fake { Level1 = new Level1 { Value = 1 } };
-                var observable = fake.ObserveValue(x => x.Level1.Value, signalInitial: true);
+                var source = new Fake { Level1 = new Level1 { Value = 1 } };
+                var observable = source.ObserveValue(x => x.Level1.Value, signalInitial: true);
                 using (observable.Subscribe(actuals1.Add))
                 {
                     var expected = new List<Maybe<int>> { Maybe<int>.Some(1) };
                     CollectionAssert.AreEqual(expected, actuals1);
 
-                    fake.Level1.Value++;
-                    expected.Add(Maybe.Some(fake.Level1.Value));
+                    source.Level1.Value++;
+                    expected.Add(Maybe.Some(source.Level1.Value));
                     CollectionAssert.AreEqual(expected, actuals1);
                     using (observable.Subscribe(actuals2.Add))
                     {
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected.Skip(1), actuals2);
 
-                        fake.Level1.OnPropertyChanged("Value");
+                        source.Level1.OnPropertyChanged("Value");
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected.Skip(1), actuals2);
 
-                        fake.Level1.OnPropertyChanged("IsTrue");
+                        source.Level1.OnPropertyChanged("IsTrue");
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected.Skip(1), actuals2);
 
-                        fake.Level1 = null;
+                        source.Level1 = null;
                         expected.Add(Maybe<int>.None);
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected.Skip(1), actuals2);
@@ -464,30 +464,30 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             {
                 var actuals1 = new List<Maybe<int>>();
                 var actuals2 = new List<Maybe<int>>();
-                var fake = new Fake { Next = new Level { Value = 1 } };
-                var observable = fake.ObserveValue(x => x.Next.Value, signalInitial: false);
+                var source = new Fake { Next = new Level { Value = 1 } };
+                var observable = source.ObserveValue(x => x.Next.Value, signalInitial: false);
                 using (observable.Subscribe(actuals1.Add))
                 {
                     var expected = new List<Maybe<int>>();
                     CollectionAssert.AreEqual(expected, actuals1);
 
-                    fake.Next.Value++;
-                    expected.Add(Maybe.Some(fake.Next.Value));
+                    source.Next.Value++;
+                    expected.Add(Maybe.Some(source.Next.Value));
                     CollectionAssert.AreEqual(expected, actuals1);
                     using (observable.Subscribe(actuals2.Add))
                     {
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected.Skip(1), actuals2);
 
-                        fake.Next.OnPropertyChanged("Value");
+                        source.Next.OnPropertyChanged("Value");
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected, actuals2);
 
-                        fake.Next.OnPropertyChanged("Next");
+                        source.Next.OnPropertyChanged("Next");
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected, actuals2);
 
-                        fake.Next = null;
+                        source.Next = null;
                         expected.Add(Maybe<int>.None);
                         CollectionAssert.AreEqual(expected, actuals1);
                         CollectionAssert.AreEqual(expected, actuals2);
@@ -499,25 +499,25 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             public void ThreeLevelsStartingWithFirstNullThenAddingLevelsOneByOne()
             {
                 var actuals = new List<Maybe<bool>>();
-                var fake = new Fake();
-                using (fake.ObserveValue(x => x.Level1.Level2.IsTrue)
-                           .Subscribe(actuals.Add))
+                var source = new Fake();
+                using (source.ObserveValue(x => x.Level1.Level2.IsTrue)
+                             .Subscribe(actuals.Add))
                 {
                     var expecteds = new List<Maybe<bool>> { Maybe<bool>.None };
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Level1 = new Level1();
+                    source.Level1 = new Level1();
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Level1.Level2 = new Level2();
-                    expecteds.Add(Maybe<bool>.Some(fake.Level1.Level2.IsTrue));
+                    source.Level1.Level2 = new Level2();
+                    expecteds.Add(Maybe<bool>.Some(source.Level1.Level2.IsTrue));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Level1.Level2.IsTrue = !fake.Level1.Level2.IsTrue;
-                    expecteds.Add(Maybe<bool>.Some(fake.Level1.Level2.IsTrue));
+                    source.Level1.Level2.IsTrue = !source.Level1.Level2.IsTrue;
+                    expecteds.Add(Maybe<bool>.Some(source.Level1.Level2.IsTrue));
                     CollectionAssert.AreEqual(expecteds, actuals);
 
-                    fake.Level1 = null;
+                    source.Level1 = null;
                     expecteds.Add(Maybe<bool>.None);
                     CollectionAssert.AreEqual(expecteds, actuals);
                 }
@@ -548,9 +548,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
-                var fake = new Fake();
-                var wr = new WeakReference(fake);
-                using (fake.ObserveValue(x => x.IsTrueOrNull)
+                var source = new Fake();
+                var wr = new WeakReference(source);
+                using (source.ObserveValue(x => x.IsTrueOrNull)
                            .Subscribe())
                 {
                 }
@@ -565,9 +565,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
-                var fake = new Fake();
-                var wr = new WeakReference(fake);
-                using (fake.ObserveValue(x => x.Next.Next.Value)
+                var source = new Fake();
+                var wr = new WeakReference(source);
+                using (source.ObserveValue(x => x.Next.Next.Value)
                            .Subscribe())
                 {
                 }
@@ -582,9 +582,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
-                var fake = new Fake();
-                var wr = new WeakReference(fake);
-                var observable = fake.ObserveValue(x => x.IsTrueOrNull);
+                var source = new Fake();
+                var wr = new WeakReference(source);
+                var observable = source.ObserveValue(x => x.IsTrueOrNull);
 #pragma warning disable IDISP001  // Dispose created.
                 //// ReSharper disable once UnusedVariable
                 var subscribe = observable.Subscribe();
@@ -599,9 +599,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
 #endif
-                var fake = new Fake();
-                var wr = new WeakReference(fake);
-                var observable = fake.ObserveValue(x => x.Next.Next.Value);
+                var source = new Fake();
+                var wr = new WeakReference(source);
+                var observable = source.ObserveValue(x => x.Next.Next.Value);
 #pragma warning disable IDISP001  // Dispose created.
                 //// ReSharper disable once UnusedVariable
                 var subscribe = observable.Subscribe();
