@@ -102,6 +102,8 @@
     <Compile Include="Internals\Exceptions.cs" />
     <Compile Include="Internals\Extensions\IListExt.cs" />
     <Compile Include="Internals\Extensions\SetExt.cs" />
+    <Compile Include="Internals\IdentityMap.cs" />
+    <Compile Include="Internals\IdentityMap{TKey, TValue}.cs" />
     <Compile Include="Internals\IdentitySet.cs" />
     <Compile Include="Internals\Extensions\ListExt.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadonlyViewBase{TSource,TMapped}.cs" />
@@ -140,8 +142,11 @@
     <Compile Include="Internals\IdentitySet{T}.cs" />
     <Compile Include="Internals\Ignore.cs" />
     <Compile Include="Internals\ItemsTracker\ItemsTracker.cs" />
+    <Compile Include="Internals\ItemsTracker\ItemsTrackerSlim.cs" />
     <Compile Include="Internals\ItemsTracker\ItemsTracker{TCollection,TItem,TProperty}.cs" />
+    <Compile Include="Internals\ItemsTracker\NestedItemsTrackerSlim.cs" />
     <Compile Include="Internals\ItemsTracker\NestedItemsTracker{TCollection,TItem,TProperty}.cs" />
+    <Compile Include="Internals\ItemsTracker\SimpleItemsTrackerSlim.cs" />
     <Compile Include="Internals\ItemsTracker\SimpleItemsTracker{TCollection,TItem,TProperty}.cs" />
     <Compile Include="Internals\ItemsTracker\TrackedItemPropertyChangedEventHandler.cs" />
     <Compile Include="Internals\Extensions\LazyExt.cs" />
