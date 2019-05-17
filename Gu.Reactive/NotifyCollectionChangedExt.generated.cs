@@ -6,6 +6,8 @@
     using System.Linq.Expressions;
 
     using System.Reactive;
+	using System.Reactive.Disposables;
+    using System.Reactive.Linq;
 
     using Gu.Reactive.Internals;
 
@@ -50,8 +52,23 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));
+            var observable = Observable.Create<PropertyChangedEventArgs>(o =>
+            {
+                var tracker = ItemsTrackerSlim.Create(source, NotifyingPath.GetOrCreate(property));
+                tracker.ItemPropertyChanged += o.OnNext;
+                return new CompositeDisposable(2)
+                {
+                    tracker,
+                    Disposable.Create(() => tracker.ItemPropertyChanged -= o.OnNext)
+                };
+            });
 
-            return ObserveItemPropertyChangedSlim<ObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+            if (signalInitial)
+            {
+                return observable.StartWith(CachedEventArgs.StringEmpty);
+            }
+
+            return observable;
         }
 
         /// <summary>
@@ -153,8 +170,23 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));
+            var observable = Observable.Create<PropertyChangedEventArgs>(o =>
+            {
+                var tracker = ItemsTrackerSlim.Create(source, NotifyingPath.GetOrCreate(property));
+                tracker.ItemPropertyChanged += o.OnNext;
+                return new CompositeDisposable(2)
+                {
+                    tracker,
+                    Disposable.Create(() => tracker.ItemPropertyChanged -= o.OnNext)
+                };
+            });
 
-            return ObserveItemPropertyChangedSlim<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+            if (signalInitial)
+            {
+                return observable.StartWith(CachedEventArgs.StringEmpty);
+            }
+
+            return observable;
         }
 
         /// <summary>
@@ -256,8 +288,23 @@
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(property, nameof(property));
+            var observable = Observable.Create<PropertyChangedEventArgs>(o =>
+            {
+                var tracker = ItemsTrackerSlim.Create(source, NotifyingPath.GetOrCreate(property));
+                tracker.ItemPropertyChanged += o.OnNext;
+                return new CompositeDisposable(2)
+                {
+                    tracker,
+                    Disposable.Create(() => tracker.ItemPropertyChanged -= o.OnNext)
+                };
+            });
 
-            return ObserveItemPropertyChangedSlim<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property, signalInitial);
+            if (signalInitial)
+            {
+                return observable.StartWith(CachedEventArgs.StringEmpty);
+            }
+
+            return observable;
         }
 
         /// <summary>

@@ -23,12 +23,62 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: true)
                              .Subscribe(changes.Add))
                 {
-                    Assert.AreEqual(2, changes.Count);
-                    Assert.AreEqual(string.Empty, changes[0].PropertyName);
-                    Assert.AreEqual(string.Empty, changes[1].PropertyName);
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
                 }
 
-                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual(1, changes.Count);
+            }
+
+            [Test]
+            public void InitialWithNullSimple()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item = new Fake { Name = "1" };
+                var source = new ObservableCollection<Fake> { item, null };
+                using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
+                             .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    source.Add(null);
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
+
+                    item.Name = "new1";
+                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual("Name", changes.Last().PropertyName);
+
+                    source[1] = new Fake { Name = "2" };
+                    Assert.AreEqual(3, changes.Count);
+                    Assert.AreEqual(string.Empty, changes.Last().PropertyName);
+                }
+
+                Assert.AreEqual(3, changes.Count);
+            }
+
+            [Test]
+            public void InitialWithNullNested()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item = new Fake { Next = new Level { Name = "1" } };
+                var source = new ObservableCollection<Fake> { item, null };
+                using (source.ObserveItemPropertyChangedSlim(x => x.Next.Name, signalInitial: false)
+                             .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+
+                    source.Add(null);
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
+
+                    item.Next.Name = "new1";
+                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual("Name", changes.Last().PropertyName);
+
+                    source[1] = new Fake { Next = new Level { Name = "2" } };
+                    Assert.AreEqual(3, changes.Count);
+                    Assert.AreEqual(string.Empty, changes.Last().PropertyName);
+                }
+
+                Assert.AreEqual(3, changes.Count);
             }
 
             [Test]
@@ -41,20 +91,34 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 using (source.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: true)
                              .Subscribe(changes.Add))
                 {
-                    Assert.AreEqual(2, changes.Count);
-                    Assert.AreEqual(string.Empty, changes[0].PropertyName);
-                    Assert.AreEqual(string.Empty, changes[1].PropertyName);
+                    Assert.AreEqual(string.Empty, changes.Last().PropertyName);
                 }
 
-                Assert.AreEqual(2, changes.Count);
+                Assert.AreEqual(1, changes.Count);
             }
 
             [Test]
-            public void DoesNotSignalInitial()
+            public void DoesNotSignalInitialSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
                 var item2 = new Fake { Name = "2" };
+                var source = new ObservableCollection<Fake> { item1, item2 };
+                using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
+                             .Subscribe(changes.Add))
+                {
+                    CollectionAssert.IsEmpty(changes);
+                }
+
+                CollectionAssert.IsEmpty(changes);
+            }
+
+            [Test]
+            public void DoesNotSignalInitialNested()
+            {
+                var changes = new List<PropertyChangedEventArgs>();
+                var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
+                var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
                 var source = new ObservableCollection<Fake> { item1, item2 };
                 using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
                              .Subscribe(changes.Add))
@@ -89,7 +153,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 {
                     CollectionAssert.IsEmpty(changes);
                     source.Add(null);
-                    CollectionAssert.IsEmpty(changes);
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
                 }
             }
 
@@ -335,13 +399,13 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     CollectionAssert.IsEmpty(changes);
 
                     source.Remove(item2);
-                    CollectionAssert.IsEmpty(changes);
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
 
                     item2.Name = "new";
-                    CollectionAssert.IsEmpty(changes);
+                    Assert.AreEqual(1, changes.Count);
                 }
 
-                CollectionAssert.IsEmpty(changes);
+                Assert.AreEqual(1, changes.Count);
             }
 
             [Test]
@@ -354,12 +418,11 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                              .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
-
                     source.RemoveAt(1);
-                    CollectionAssert.IsEmpty(changes);
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
                 }
 
-                CollectionAssert.IsEmpty(changes);
+                Assert.AreEqual(1, changes.Count);
             }
 
             [Test]
@@ -375,13 +438,13 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     CollectionAssert.IsEmpty(changes);
 
                     source.Remove(item2);
-                    CollectionAssert.IsEmpty(changes);
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
 
                     item2.Level1.Name = "new";
-                    CollectionAssert.IsEmpty(changes);
+                    Assert.AreEqual(1, changes.Count);
                 }
 
-                CollectionAssert.IsEmpty(changes);
+                Assert.AreEqual(1, changes.Count);
             }
 
             [Test]
@@ -394,12 +457,11 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                              .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
-
                     source.RemoveAt(1);
-                    CollectionAssert.IsEmpty(changes);
+                    Assert.AreEqual(string.Empty, changes.Single().PropertyName);
                 }
 
-                CollectionAssert.IsEmpty(changes);
+                Assert.AreEqual(1, changes.Count);
             }
 
             [Test]
@@ -527,13 +589,13 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsWhenPropertyChangesSameInstanceTwice()
+            public void SameInstanceTwiceSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item = new Fake { Name = "1" };
                 var source = new ObservableCollection<Fake> { item };
                 using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
+                             .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
 
@@ -541,52 +603,52 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     Assert.AreEqual("Name", changes.Single().PropertyName);
 
                     source.Add(item);
-                    Assert.AreEqual(1, changes.Count);
+                    Assert.AreEqual(2, changes.Count);
 
                     item.Name = "new2";
-                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual(3, changes.Count);
                     Assert.AreEqual("Name", changes.Last().PropertyName);
 
                     source.RemoveAt(1);
-                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual(4, changes.Count);
 
                     item.Name = "new3";
-                    Assert.AreEqual(3, changes.Count);
+                    Assert.AreEqual(5, changes.Count);
                     Assert.AreEqual("Name", changes.Last().PropertyName);
                 }
 
-                Assert.AreEqual(3, changes.Count);
+                Assert.AreEqual(5, changes.Count);
             }
 
             [Test]
-            public void ReactsWhenPropertyChangesSameInstanceTwiceTwoLevels()
+            public void SameInstanceTwiceNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item = new Fake { Level1 = new Level1 { Name = "1" } };
                 var source = new ObservableCollection<Fake> { item };
                 using (source.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
+                             .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
                     item.Level1.Name = "new1";
                     Assert.AreEqual("Name", changes.Single().PropertyName);
 
                     source.Add(item);
-                    Assert.AreEqual(1, changes.Count);
+                    Assert.AreEqual(2, changes.Count);
 
                     item.Level1.Name = "new2";
-                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual(3, changes.Count);
                     Assert.AreEqual("Name", changes.Last().PropertyName);
 
                     source.RemoveAt(1);
-                    Assert.AreEqual(2, changes.Count);
+                    Assert.AreEqual(4, changes.Count);
 
                     item.Level1.Name = "new3";
-                    Assert.AreEqual(3, changes.Count);
+                    Assert.AreEqual(5, changes.Count);
                     Assert.AreEqual("Name", changes.Last().PropertyName);
                 }
 
-                Assert.AreEqual(3, changes.Count);
+                Assert.AreEqual(5, changes.Count);
             }
 
             [Test]
@@ -655,7 +717,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item2 = new Fake();
                 var source = new ObservableCollection<Fake> { item1, item2 };
                 using (source.ObserveItemPropertyChangedSlim(x => x.Next.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
+                             .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
                     item1.Next.Name = "new1";
@@ -677,7 +739,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item2 = new Fake();
                 var source = new ObservableCollection<Fake> { item1, item2 };
                 using (source.ObserveItemPropertyChangedSlim(x => x.Next.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
+                             .Subscribe(changes.Add))
                 {
                     CollectionAssert.IsEmpty(changes);
                     item1.Next.Name = "new1";
@@ -731,32 +793,6 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void NullItem()
-            {
-                var changes = new List<PropertyChangedEventArgs>();
-                var item = new Fake { Name = "1" };
-                var source = new ObservableCollection<Fake> { item, null };
-                using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
-                {
-                    CollectionAssert.IsEmpty(changes);
-
-                    source.Add(null);
-                    Assert.AreEqual(3, source.Count);
-                    Assert.AreEqual(0, changes.Count);
-
-                    item.Name = "new1";
-                    Assert.AreEqual("Name", changes.Single().PropertyName);
-
-                    source[1] = new Fake { Name = "2" };
-                    Assert.AreEqual(2, changes.Count);
-                    Assert.AreEqual(string.Empty, changes.Last().PropertyName);
-                }
-
-                Assert.AreEqual(2, changes.Count);
-            }
-
-            [Test]
             public void DisposeStopsSubscribing()
             {
                 var changes = new List<PropertyChangedEventArgs>();
@@ -764,7 +800,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 var item2 = new Fake { Name = "2" };
                 var source = new ObservableCollection<Fake> { item1, item2 };
                 using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
-                                 .Subscribe(changes.Add))
+                             .Subscribe(changes.Add))
                 {
                 }
 

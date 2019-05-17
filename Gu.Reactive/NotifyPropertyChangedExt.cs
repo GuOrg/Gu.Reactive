@@ -346,7 +346,7 @@ namespace Gu.Reactive
                 return Observable.Return(
                                      create(
                                          notifyingPath.SourceAndValue(source).Source,
-                                         CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty)))
+                                         CachedEventArgs.StringEmpty))
                                  .Concat(source.ObservePropertyChangedCore(notifyingPath, create, signalInitial: false));
             }
 
@@ -385,9 +385,7 @@ namespace Gu.Reactive
             return Observable.Create<T>(
                 o =>
                     {
-#pragma warning disable IDISP001  // Dispose created.
                         var tracker = notifyingPath.CreateTracker(source);
-#pragma warning restore IDISP001  // Dispose created.
                         void Handler(object sender, PropertyChangedEventArgs e) => o.OnNext(create(sender, e));
                         foreach (var propertyTracker in tracker)
                         {
