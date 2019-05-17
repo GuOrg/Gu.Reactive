@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Internals
+namespace Gu.Reactive.Internals
 {
     using System.Collections.Concurrent;
 
