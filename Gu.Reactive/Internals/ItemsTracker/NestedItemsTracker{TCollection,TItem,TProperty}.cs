@@ -12,7 +12,8 @@ namespace Gu.Reactive.Internals
         where TItem : class, INotifyPropertyChanged
     {
         private readonly NotifyingPath<TItem, TProperty> path;
-        private readonly Dictionary<TItem, PropertyPathTracker<TItem, TProperty>> map = new Dictionary<TItem, PropertyPathTracker<TItem, TProperty>>(ObjectIdentityComparer<TItem>.Default);
+
+        private readonly IdentityMap<TItem, PropertyPathTracker<TItem, TProperty>> map = IdentityMap.Borrow<TItem, PropertyPathTracker<TItem, TProperty>>();
 
         private TCollection source;
         private bool disposed;
@@ -103,7 +104,7 @@ namespace Gu.Reactive.Internals
                         kvp.Value.Dispose();
                     }
 
-                    this.map.Clear();
+                    IdentityMap.Return(this.map);
                 }
             }
 

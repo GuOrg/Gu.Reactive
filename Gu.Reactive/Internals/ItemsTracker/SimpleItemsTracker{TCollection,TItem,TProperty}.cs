@@ -12,7 +12,7 @@ namespace Gu.Reactive.Internals
         where TItem : class, INotifyPropertyChanged
     {
         private readonly Getter<TItem, TProperty> getter;
-        private readonly HashSet<TItem> set = new HashSet<TItem>(ObjectIdentityComparer<TItem>.Default);
+        private readonly IdentitySet<TItem> set = IdentitySet.Borrow<TItem>();
 
         private TCollection source;
         private bool disposed;
@@ -101,7 +101,7 @@ namespace Gu.Reactive.Internals
                         item.PropertyChanged -= this.OnTrackedItemChanged;
                     }
 
-                    this.set.Clear();
+                    IdentitySet.Return(this.set);
                 }
             }
 
