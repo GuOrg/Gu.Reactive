@@ -25,18 +25,28 @@ namespace Gu.Reactive.Internals
 
         protected override void Dispose(bool disposing)
         {
-            base.Dispose(disposing);
             if (disposing)
             {
+                if (this.Disposed)
+                {
+                    return;
+                }
+
                 this.source.CollectionChanged -= this.OnSourceChanged;
                 lock (this.gate)
                 {
+                    if (this.Disposed)
+                    {
+                        return;
+                    }
+
                     foreach (var item in this.set)
                     {
                         item.PropertyChanged -= this.OnItemPropertyChanged;
                     }
 
                     IdentitySet.Return(this.set);
+                    base.Dispose(true);
                 }
             }
         }

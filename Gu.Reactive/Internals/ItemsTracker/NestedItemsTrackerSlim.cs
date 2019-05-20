@@ -25,12 +25,21 @@ namespace Gu.Reactive.Internals
 
         protected override void Dispose(bool disposing)
         {
-            base.Dispose(disposing);
             if (disposing)
             {
+                if (this.Disposed)
+                {
+                    return;
+                }
+
                 this.source.CollectionChanged -= this.OnSourceChanged;
                 lock (this.gate)
                 {
+                    if (this.Disposed)
+                    {
+                        return;
+                    }
+
                     foreach (var kvp in this.map)
                     {
                         kvp.Value.TrackedPropertyChanged -= this.OnTrackedItemChanged;
@@ -38,6 +47,7 @@ namespace Gu.Reactive.Internals
                     }
 
                     IdentityMap.Return(this.map);
+                    base.Dispose(true);
                 }
             }
         }
