@@ -1,5 +1,5 @@
 #pragma warning disable CS0618 // Type or member is obsolete
-namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
+namespace Gu.Wpf.Reactive.Tests.Collections.Views.CrudView
 {
     using System;
     using System.Collections.ObjectModel;
@@ -8,7 +8,6 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
-
     using NUnit.Framework;
 
     public class FilteredViewNoThrottling : CrudViewTests

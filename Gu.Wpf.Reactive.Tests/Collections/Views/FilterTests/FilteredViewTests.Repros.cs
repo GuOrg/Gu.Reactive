@@ -1,15 +1,12 @@
-namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
+namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Reactive.Subjects;
-
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
-
     using Microsoft.Reactive.Testing;
-
     using NUnit.Framework;
 
     public partial class FilteredViewTests

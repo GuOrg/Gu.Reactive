@@ -1,16 +1,13 @@
 #pragma warning disable CS0618 // Type or member is obsolete
-namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
+namespace Gu.Wpf.Reactive.Tests.Collections.Views
 {
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
-
     using Gu.Reactive;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
-
     using Moq;
-
     using NUnit.Framework;
 
     /// <summary>

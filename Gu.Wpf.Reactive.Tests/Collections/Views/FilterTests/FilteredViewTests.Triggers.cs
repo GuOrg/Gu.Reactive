@@ -1,7 +1,8 @@
 #pragma warning disable CS0618 // Type or member is obsolete
-namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
+namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Reactive.Subjects;
     using System.Threading.Tasks;
@@ -10,7 +11,6 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using Gu.Reactive.Tests.Helpers;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using Microsoft.Reactive.Testing;
-
     using NUnit.Framework;
 
     public partial class FilteredViewTests
@@ -186,6 +186,30 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
                             CollectionAssert.AreEqual(source, view);
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                         }
+                    }
+                }
+            }
+
+            [Test]
+            public void Move()
+            {
+                var source = new ObservableCollection<int> { 1, 2, 3 };
+                var scheduler = new TestScheduler();
+                using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true))
+                {
+                    using (var actual = view.SubscribeAll())
+                    {
+                        source.Move(0, 2);
+                        CollectionAssert.IsEmpty(actual);
+                        scheduler.Start();
+                        CollectionAssert.AreEqual(source, view);
+                        var expected = new List<EventArgs>
+                        {
+                            CachedEventArgs.CountPropertyChanged,
+                            CachedEventArgs.IndexerPropertyChanged,
+                            CachedEventArgs.NotifyCollectionReset,
+                        };
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                     }
                 }
             }

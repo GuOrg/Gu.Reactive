@@ -1,5 +1,5 @@
 // ReSharper disable All
-namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.FilterTests
+namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
 {
     using System;
     using System.Collections.Generic;

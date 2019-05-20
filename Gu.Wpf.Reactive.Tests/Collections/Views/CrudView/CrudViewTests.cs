@@ -1,15 +1,13 @@
-namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
+namespace Gu.Wpf.Reactive.Tests.Collections.Views.CrudView
 {
     using System;
     using System.Collections;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reactive.Concurrency;
-
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
-
     using NUnit.Framework;
 
     public abstract class CrudViewTests

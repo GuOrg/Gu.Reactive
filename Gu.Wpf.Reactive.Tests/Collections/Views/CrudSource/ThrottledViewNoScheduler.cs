@@ -1,8 +1,7 @@
 #pragma warning disable CS0618 // Type or member is obsolete
-namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudSource
+namespace Gu.Wpf.Reactive.Tests.Collections.Views.CrudSource
 {
     using System;
-
     using Gu.Reactive.Tests.Collections.ReadOnlyViews;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;

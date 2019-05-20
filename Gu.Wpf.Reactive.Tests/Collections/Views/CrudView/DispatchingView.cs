@@ -1,12 +1,9 @@
-﻿namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews.CrudView
+﻿namespace Gu.Wpf.Reactive.Tests.Collections.Views.CrudView
 {
     using System;
-
     using Gu.Reactive.Tests.Helpers;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
-
     using Microsoft.Reactive.Testing;
-
     using NUnit.Framework;
 
     public class DispatchingView : CrudViewTests

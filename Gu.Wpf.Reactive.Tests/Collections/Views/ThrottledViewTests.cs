@@ -1,5 +1,5 @@
 #pragma warning disable 618
-namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
+namespace Gu.Wpf.Reactive.Tests.Collections.Views
 {
     using System;
     using System.Collections.Generic;
@@ -8,14 +8,11 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
-
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
     using Gu.Wpf.Reactive;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
-
     using Microsoft.Reactive.Testing;
-
     using NUnit.Framework;
 
     [Apartment(ApartmentState.STA)]
