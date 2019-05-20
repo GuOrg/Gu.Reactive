@@ -22,7 +22,6 @@ namespace Gu.Reactive.Internals
             this.getter = getter;
             if (source != null)
             {
-                this.AddItems(source);
                 this.UpdateSource(source);
             }
         }

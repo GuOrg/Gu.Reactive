@@ -23,7 +23,6 @@ namespace Gu.Reactive.Internals
             this.path = path;
             if (source != null)
             {
-                this.AddItems(source);
                 this.UpdateSource(source);
             }
         }
