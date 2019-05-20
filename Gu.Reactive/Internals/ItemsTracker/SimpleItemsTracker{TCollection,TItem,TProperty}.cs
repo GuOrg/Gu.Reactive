@@ -129,6 +129,10 @@ namespace Gu.Reactive.Internals
                     case NotifyCollectionChangedAction.Remove:
                         this.RemoveItems(e.OldItems.OfType<TItem>());
                         break;
+                    case NotifyCollectionChangedAction.Replace when e.OldItems.TrySingle(out var oldItem) &&
+                                                                    e.NewItems.TrySingle(out var newItem) &&
+                                                                    ReferenceEquals(oldItem, newItem):
+                        break;
                     case NotifyCollectionChangedAction.Replace:
                         this.AddItems(e.NewItems);
                         this.RemoveItems(e.OldItems.OfType<TItem>());
