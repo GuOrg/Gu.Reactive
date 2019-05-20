@@ -17,6 +17,12 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
     {
         public class Triggers
         {
+            [OneTimeSetUp]
+            public void OneTimeSetUp()
+            {
+                App.Start();
+            }
+
             [Test]
             public void ManyOnNextsOneReset()
             {
@@ -122,19 +128,83 @@ namespace Gu.Wpf.Reactive.Tests.Collections.MutableViews
             }
 
             [Test]
-            public void UpdatesAndNotifiesOnCollectionChanged()
+            public void Add()
             {
-                var ints = new ObservableCollection<int> { 1, 2, 3 };
-                using (var expected = ints.SubscribeAll())
+                var source = new ObservableCollection<int> { 1, 2, 3 };
+                using (var expected = source.SubscribeAll())
                 {
                     var scheduler = new TestScheduler();
-                    using (var view = new FilteredView<int>(ints, x => true, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true))
+                    using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true))
                     {
                         using (var actual = view.SubscribeAll())
                         {
-                            ints.Add(4);
+                            source.Add(4);
                             CollectionAssert.IsEmpty(actual);
                             scheduler.Start();
+                            CollectionAssert.AreEqual(source, view);
+                            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                        }
+                    }
+                }
+            }
+
+            [Test]
+            public void Remove()
+            {
+                var source = new ObservableCollection<int> { 1, 2, 3 };
+                using (var expected = source.SubscribeAll())
+                {
+                    var scheduler = new TestScheduler();
+                    using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true))
+                    {
+                        using (var actual = view.SubscribeAll())
+                        {
+                            source.RemoveAt(0);
+                            CollectionAssert.IsEmpty(actual);
+                            scheduler.Start();
+                            CollectionAssert.AreEqual(source, view);
+                            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                        }
+                    }
+                }
+            }
+
+            [Test]
+            public void Replace()
+            {
+                var source = new ObservableCollection<int> { 1, 2, 3 };
+                using (var expected = source.SubscribeAll())
+                {
+                    var scheduler = new TestScheduler();
+                    using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true))
+                    {
+                        using (var actual = view.SubscribeAll())
+                        {
+                            source[0] = 4;
+                            CollectionAssert.IsEmpty(actual);
+                            scheduler.Start();
+                            CollectionAssert.AreEqual(source, view);
+                            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                        }
+                    }
+                }
+            }
+
+            [Test]
+            public void Clear()
+            {
+                var source = new ObservableCollection<int> { 1, 2, 3 };
+                using (var expected = source.SubscribeAll())
+                {
+                    var scheduler = new TestScheduler();
+                    using (var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true))
+                    {
+                        using (var actual = view.SubscribeAll())
+                        {
+                            source.Clear();
+                            CollectionAssert.IsEmpty(actual);
+                            scheduler.Start();
+                            CollectionAssert.AreEqual(source, view);
                             CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                         }
                     }
