@@ -45,7 +45,7 @@ namespace Gu.Reactive.Internals
 
                 if (this.source != null)
                 {
-                    this.source.CollectionChanged -= this.OnTrackedCollectionChanged;
+                    this.source.CollectionChanged -= this.OnSourceChanged;
                 }
 
                 this.source = newSource;
@@ -53,15 +53,15 @@ namespace Gu.Reactive.Internals
                 {
                     foreach (var item in this.set)
                     {
-                        item.PropertyChanged -= this.OnTrackedItemChanged;
+                        item.PropertyChanged -= this.OnItemPropertyChanged;
                     }
 
                     this.set.Clear();
                 }
                 else
                 {
-                    this.source.CollectionChanged += this.OnTrackedCollectionChanged;
-                    this.OnTrackedCollectionChanged(this.source, CachedEventArgs.NotifyCollectionReset);
+                    this.source.CollectionChanged += this.OnSourceChanged;
+                    this.OnSourceChanged(this.source, CachedEventArgs.NotifyCollectionReset);
                 }
             }
         }
@@ -92,13 +92,13 @@ namespace Gu.Reactive.Internals
                     var collection = this.source;
                     if (collection != null)
                     {
-                        collection.CollectionChanged -= this.OnTrackedCollectionChanged;
+                        collection.CollectionChanged -= this.OnSourceChanged;
                         this.source = null;
                     }
 
                     foreach (var item in this.set)
                     {
-                        item.PropertyChanged -= this.OnTrackedItemChanged;
+                        item.PropertyChanged -= this.OnItemPropertyChanged;
                     }
 
                     IdentitySet.Return(this.set);
@@ -108,7 +108,7 @@ namespace Gu.Reactive.Internals
             base.Dispose(disposing);
         }
 
-        private void OnTrackedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnSourceChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (this.disposed)
             {
@@ -174,7 +174,7 @@ namespace Gu.Reactive.Internals
                 //// Signaling initial before subscribing here to get the events in correct order
                 //// This can't be made entirely thread safe as an event can be raised on source between signal initial & subscribe.
                 this.SignalInitial(item);
-                item.PropertyChanged += this.OnTrackedItemChanged;
+                item.PropertyChanged += this.OnItemPropertyChanged;
             }
         }
 
@@ -189,11 +189,11 @@ namespace Gu.Reactive.Internals
                     continue;
                 }
 
-                item.PropertyChanged -= this.OnTrackedItemChanged;
+                item.PropertyChanged -= this.OnItemPropertyChanged;
             }
         }
 
-        private void OnTrackedItemChanged(object sender, PropertyChangedEventArgs e)
+        private void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.IsMatch(this.getter.Property))
             {

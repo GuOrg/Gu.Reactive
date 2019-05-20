@@ -42,7 +42,7 @@ namespace Gu.Reactive.Internals
 
                     foreach (var kvp in this.map)
                     {
-                        kvp.Value.TrackedPropertyChanged -= this.OnTrackedItemChanged;
+                        kvp.Value.TrackedPropertyChanged -= this.OnItemPropertyChanged;
                         kvp.Value.Dispose();
                     }
 
@@ -107,7 +107,7 @@ namespace Gu.Reactive.Internals
                             set.Add(item))
                         {
                             var tracker = this.path.CreateTracker(item);
-                            tracker.TrackedPropertyChanged += this.OnTrackedItemChanged;
+                            tracker.TrackedPropertyChanged += this.OnItemPropertyChanged;
                             this.map.Add(item, tracker);
                         }
                     }
@@ -122,7 +122,7 @@ namespace Gu.Reactive.Internals
                             !set.Contains(item))
                         {
                             var tracker = this.map[item];
-                            tracker.TrackedPropertyChanged -= this.OnTrackedItemChanged;
+                            tracker.TrackedPropertyChanged -= this.OnItemPropertyChanged;
                             tracker.Dispose();
                             this.map.Remove(item);
                         }
@@ -133,7 +133,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        private void OnTrackedItemChanged(IPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+        private void OnItemPropertyChanged(IPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
         {
             this.OnItemPropertyChanged(e);
         }

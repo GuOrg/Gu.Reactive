@@ -46,7 +46,7 @@ namespace Gu.Reactive.Internals
 
                 if (this.source != null)
                 {
-                    this.source.CollectionChanged -= this.OnTrackedCollectionChanged;
+                    this.source.CollectionChanged -= this.OnSourceChanged;
                 }
 
                 this.source = newSource;
@@ -54,7 +54,7 @@ namespace Gu.Reactive.Internals
                 {
                     foreach (var kvp in this.map)
                     {
-                        kvp.Value.TrackedPropertyChanged -= this.OnTrackedItemChanged;
+                        kvp.Value.TrackedPropertyChanged -= this.OnItemPropertyChanged;
                         kvp.Value.Dispose();
                     }
 
@@ -62,8 +62,8 @@ namespace Gu.Reactive.Internals
                 }
                 else
                 {
-                    this.source.CollectionChanged += this.OnTrackedCollectionChanged;
-                    this.OnTrackedCollectionChanged(this.source, CachedEventArgs.NotifyCollectionReset);
+                    this.source.CollectionChanged += this.OnSourceChanged;
+                    this.OnSourceChanged(this.source, CachedEventArgs.NotifyCollectionReset);
                 }
             }
         }
@@ -94,13 +94,13 @@ namespace Gu.Reactive.Internals
                     var collection = this.source;
                     if (collection != null)
                     {
-                        collection.CollectionChanged -= this.OnTrackedCollectionChanged;
+                        collection.CollectionChanged -= this.OnSourceChanged;
                         this.source = null;
                     }
 
                     foreach (var kvp in this.map)
                     {
-                        kvp.Value.TrackedPropertyChanged -= this.OnTrackedItemChanged;
+                        kvp.Value.TrackedPropertyChanged -= this.OnItemPropertyChanged;
                         kvp.Value.Dispose();
                     }
 
@@ -111,7 +111,7 @@ namespace Gu.Reactive.Internals
             base.Dispose(disposing);
         }
 
-        private void OnTrackedItemChanged(IPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+        private void OnItemPropertyChanged(IPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
         {
             this.OnTrackedItemChanged(
                 ((PropertyPathTracker<TItem, TProperty>)tracker.PathTracker).Source,
@@ -120,7 +120,7 @@ namespace Gu.Reactive.Internals
                 sourceAndValue);
         }
 
-        private void OnTrackedCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnSourceChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (this.disposed)
             {
@@ -185,7 +185,7 @@ namespace Gu.Reactive.Internals
                 //// Signaling initial before subscribing here to get the events in correct order
                 //// This can't be made entirely thread safe as an event can be raised on source between signal initial & subscribe.
                 this.SignalInitial(tracker);
-                tracker.TrackedPropertyChanged += this.OnTrackedItemChanged;
+                tracker.TrackedPropertyChanged += this.OnItemPropertyChanged;
                 this.map.Add(item, tracker);
             }
         }
@@ -207,7 +207,7 @@ namespace Gu.Reactive.Internals
                 }
 
                 var tracker = this.map[item];
-                tracker.TrackedPropertyChanged -= this.OnTrackedItemChanged;
+                tracker.TrackedPropertyChanged -= this.OnItemPropertyChanged;
                 tracker.Dispose();
                 this.map.Remove(item);
             }
