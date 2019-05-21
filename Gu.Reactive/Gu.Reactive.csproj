@@ -80,6 +80,7 @@
     <Compile Include="Collections\ReadOnlyViews\Mapping\Creating{TSource,TResult}.cs" />
     <Compile Include="Collections\ReadOnlyViews\Mapping\Updating{TSource,TResult}.cs" />
     <Compile Include="Conditions\CollectionCondition.cs" />
+    <Compile Include="Conditions\Internals\CollectionConditionDebugView.cs" />
     <Compile Include="Conditions\Negated.cs" />
     <Compile Include="Conditions\NullIsFalse.cs" />
     <Compile Include="Conditions\ObservableAndCriteria.cs" />
@@ -103,7 +104,7 @@
     <Compile Include="Internals\Extensions\IListExt.cs" />
     <Compile Include="Internals\Extensions\SetExt.cs" />
     <Compile Include="Internals\IdentityMap.cs" />
-    <Compile Include="Internals\IdentityMap{TKey, TValue}.cs" />
+    <Compile Include="Internals\IdentityMap{TKey,TValue}.cs" />
     <Compile Include="Internals\IdentitySet.cs" />
     <Compile Include="Internals\Extensions\ListExt.cs" />
     <Compile Include="Collections\ReadOnlyViews\ReadonlyViewBase{TSource,TMapped}.cs" />

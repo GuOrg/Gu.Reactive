@@ -16,6 +16,7 @@ namespace Gu.Reactive
     /// <summary>
     /// To be used standalone or derived from. Conditions really starts to sing when you subclass them and use an IoC container to build trees.
     /// </summary>
+    [System.Diagnostics.DebuggerDisplay("{this.Name} IsSatisfied: {this.IsSatisfied?.ToString() ?? \"null\"}")]
     public class Condition : ICondition
     {
         private readonly Func<bool?> criteria;

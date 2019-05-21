@@ -6,6 +6,7 @@ namespace Gu.Reactive
     /// <summary>
     /// A base class for conditions that depend on collections of other conditions.
     /// </summary>
+    [System.Diagnostics.DebuggerTypeProxy(typeof(CollectionConditionDebugView))]
     public abstract class CollectionCondition : Condition
     {
         private readonly ConditionCollection prerequisites;
