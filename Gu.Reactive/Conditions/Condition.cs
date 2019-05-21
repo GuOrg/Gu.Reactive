@@ -18,7 +18,6 @@ namespace Gu.Reactive
     /// </summary>
     public class Condition : ICondition
     {
-        private static readonly IReadOnlyList<ICondition> EmptyPrerequisites = new ICondition[0];
         private readonly Func<bool?> criteria;
         private readonly IDisposable subscription;
         private readonly FixedSizedQueue<ConditionHistoryPoint> history = new FixedSizedQueue<ConditionHistoryPoint>(100);
@@ -86,7 +85,7 @@ namespace Gu.Reactive
             get
             {
                 this.ThrowIfDisposed();
-                return EmptyPrerequisites;
+                return Array.Empty<ICondition>();
             }
         }
 

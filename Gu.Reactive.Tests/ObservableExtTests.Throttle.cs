@@ -4,6 +4,7 @@ namespace Gu.Reactive.Tests
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Reactive;
     using System.Text;
@@ -106,7 +107,7 @@ namespace Gu.Reactive.Tests
                     expected.Append("{");
                     for (int i = 0; i < this.ExpectedTimes.Count; i++)
                     {
-                        expected.AppendFormat(@"({0}, {1})", this.ExpectedPattern[i], this.ExpectedTimes[i]);
+                        expected.AppendFormat(CultureInfo.InvariantCulture, @"({0}, {1})", this.ExpectedPattern[i], this.ExpectedTimes[i]);
                         if (i < this.ExpectedTimes.Count - 1)
                         {
                             expected.Append(", ");

@@ -11,8 +11,6 @@ namespace Gu.Reactive
     /// </summary>
     public struct NotifyCollectionChangedEventArgs<T> : IEquatable<NotifyCollectionChangedEventArgs<T>>
     {
-        private static readonly IReadOnlyList<T> Empty = new T[0];
-
         private readonly NotifyCollectionChangedEventArgs args;
 
         /// <summary>
@@ -80,7 +78,7 @@ namespace Gu.Reactive
         {
             if (items == null || items.Count == 0)
             {
-                return Empty;
+                return Array.Empty<T>();
             }
 
             if (items.Count == 1)

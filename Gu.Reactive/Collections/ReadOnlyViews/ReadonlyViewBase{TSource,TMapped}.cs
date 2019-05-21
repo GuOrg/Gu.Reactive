@@ -18,8 +18,6 @@ namespace Gu.Reactive
     public abstract class ReadonlyViewBase<TSource, TMapped> : IRefreshAble, IList, IReadOnlyView<TMapped>
 #pragma warning restore CA1010 // Collections should implement generic interface
     {
-        private static readonly IReadOnlyList<TSource> EmptySource = new TSource[0];
-
         private readonly Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper;
         private readonly bool leaveOpen;
         private IEnumerable<TSource> source;
@@ -36,8 +34,8 @@ namespace Gu.Reactive
             Ensure.NotNull(mapper, nameof(mapper));
             this.mapper = mapper;
             this.leaveOpen = leaveOpen;
-            this.source = source ?? EmptySource;
-            this.Tracker = new CollectionSynchronizer<TMapped>(startEmpty ? mapper(EmptySource) : mapper(source));
+            this.source = source ?? Array.Empty<TSource>();
+            this.Tracker = new CollectionSynchronizer<TMapped>(startEmpty ? mapper(Array.Empty<TSource>()) : mapper(source));
         }
 
         /// <inheritdoc/>
@@ -179,11 +177,11 @@ namespace Gu.Reactive
                 (this.Source as IRefreshAble)?.Refresh();
                 if (this.HasListeners)
                 {
-                    this.Tracker.Reset(this.mapper(this.source ?? EmptySource), this.OnPropertyChanged, this.OnCollectionChanged);
+                    this.Tracker.Reset(this.mapper(this.source ?? Array.Empty<TSource>()), this.OnPropertyChanged, this.OnCollectionChanged);
                 }
                 else
                 {
-                    this.Tracker.Reset(this.mapper(this.Source ?? EmptySource));
+                    this.Tracker.Reset(this.mapper(this.Source ?? Array.Empty<TSource>()));
                 }
             }
         }
@@ -202,7 +200,7 @@ namespace Gu.Reactive
         protected void SetSourceCore(IEnumerable<TSource> newSource)
         {
             this.ThrowIfDisposed();
-            this.Source = newSource ?? EmptySource;
+            this.Source = newSource ?? Array.Empty<TSource>();
         }
 
         /// <summary>
@@ -228,7 +226,7 @@ namespace Gu.Reactive
 #pragma warning restore IDISP007 // Don't dispose injected.
                     }
 
-                    this.source = EmptySource;
+                    this.source = Array.Empty<TSource>();
                 }
 
                 this.Tracker.Clear();
@@ -241,7 +239,7 @@ namespace Gu.Reactive
         protected virtual void ClearSource()
         {
             this.ThrowIfDisposed();
-            this.Source = EmptySource;
+            this.Source = Array.Empty<TSource>();
         }
 
         /// <summary>
@@ -275,11 +273,11 @@ namespace Gu.Reactive
             {
                 if (this.HasListeners)
                 {
-                    this.Tracker.Refresh(this.mapper(this.source ?? EmptySource), changes, this.OnPropertyChanged, this.OnCollectionChanged);
+                    this.Tracker.Refresh(this.mapper(this.source ?? Array.Empty<TSource>()), changes, this.OnPropertyChanged, this.OnCollectionChanged);
                 }
                 else
                 {
-                    this.Tracker.Refresh(this.mapper(this.source ?? EmptySource), changes);
+                    this.Tracker.Refresh(this.mapper(this.source ?? Array.Empty<TSource>()), changes);
                 }
             }
         }

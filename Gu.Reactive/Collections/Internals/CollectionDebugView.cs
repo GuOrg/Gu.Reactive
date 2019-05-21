@@ -1,5 +1,6 @@
 namespace Gu.Reactive
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
@@ -10,7 +11,6 @@ namespace Gu.Reactive
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public class CollectionDebugView<T>
     {
-        private static readonly T[] Empty = new T[0];
         private readonly IEnumerable<T> collection;
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Gu.Reactive
                     return array;
                 }
 
-                return this.collection?.ToArray() ?? Empty;
+                return this.collection?.ToArray() ?? Array.Empty<T>();
             }
         }
     }

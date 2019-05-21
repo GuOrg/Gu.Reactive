@@ -21,8 +21,6 @@ namespace Gu.Reactive
 
         internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> SingleNotifyCollectionReset = new[] { NotifyCollectionReset };
 
-        internal static readonly IReadOnlyList<NotifyCollectionChangedEventArgs> EmptyArgs = new NotifyCollectionChangedEventArgs[0];
-
         internal static PropertyChangedEventArgs GetOrCreatePropertyChangedEventArgs(string propertyName)
         {
             return Cache.GetOrAdd(propertyName, name => new PropertyChangedEventArgs(name));

@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests.Trackers
+namespace Gu.Reactive.Tests.Trackers
 {
     using System;
     using System.Collections.ObjectModel;
@@ -25,7 +25,7 @@
             [Test]
             public void InitializesWhenEmpty()
             {
-                var source = new ObservableCollection<Dummy>(new Dummy[0]);
+                var source = new ObservableCollection<Dummy>(Array.Empty<Dummy>());
                 using (var tracker = source.TrackMin(x => x.Value))
                 {
                     Assert.AreEqual(null, tracker.Value);

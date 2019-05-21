@@ -29,7 +29,7 @@ namespace Gu.Reactive.Tests.Collections
         public void RefreshNulls()
         {
             var source = new[] { 1, 2, 3 };
-            var synchronizer = new CollectionSynchronizer<int>(new int[0]);
+            var synchronizer = new CollectionSynchronizer<int>(Array.Empty<int>());
             synchronizer.Refresh(source);
             CollectionAssert.AreEqual(source, synchronizer);
         }

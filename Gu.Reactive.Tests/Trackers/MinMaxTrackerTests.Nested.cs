@@ -28,7 +28,7 @@ namespace Gu.Reactive.Tests.Trackers
             [Test]
             public void InitializesWhenEmpty()
             {
-                var source = new ObservableCollection<Dummy>(new Dummy[0]);
+                var source = new ObservableCollection<Dummy>(Array.Empty<Dummy>());
                 using (var tracker = source.TrackMinMax(x => x.Value))
                 {
                     Assert.AreEqual(null, tracker.Min);

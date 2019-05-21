@@ -33,7 +33,7 @@ namespace Gu.Reactive
         /// <param name="updated">The updated collection.</param>
         public void Reset(IEnumerable<T> updated)
         {
-            this.Refresh(updated, CachedEventArgs.EmptyArgs, null, null);
+            this.Refresh(updated, Array.Empty<NotifyCollectionChangedEventArgs>(), null, null);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Gu.Reactive
         /// <param name="collectionChanged">The <see cref="Action{NotifyCollectionChangedEventArgs}"/> to notify on.</param>
         public void Reset(IEnumerable<T> updated, Action<PropertyChangedEventArgs> propertyChanged, Action<NotifyCollectionChangedEventArgs> collectionChanged)
         {
-            this.Refresh(updated, CachedEventArgs.EmptyArgs, propertyChanged, collectionChanged);
+            this.Refresh(updated, Array.Empty<NotifyCollectionChangedEventArgs>(), propertyChanged, collectionChanged);
         }
 
         /// <summary>

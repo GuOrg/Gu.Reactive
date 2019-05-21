@@ -1,5 +1,6 @@
-﻿namespace Gu.Reactive.Tests.Collections
+namespace Gu.Reactive.Tests.Collections
 {
+    using System;
     using System.Collections.ObjectModel;
 
     using Gu.Reactive.Tests.Helpers;
@@ -22,7 +23,7 @@
             var expected = ints.CollectionChange();
             ints.Add(1);
 
-            var actual = Diff.CollectionChange(new int[0], ints);
+            var actual = Diff.CollectionChange(Array.Empty<int>(), ints);
 
             AssertEx.AreEqual(expected.Value, actual);
         }

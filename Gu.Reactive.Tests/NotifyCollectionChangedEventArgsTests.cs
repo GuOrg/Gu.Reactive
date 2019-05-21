@@ -1,5 +1,6 @@
-﻿namespace Gu.Reactive.Tests
+namespace Gu.Reactive.Tests
 {
+    using System;
     using System.Collections.Specialized;
 
     using NUnit.Framework;
@@ -16,7 +17,7 @@
             Assert.AreEqual(expected.NewStartingIndex, actual.NewStartingIndex);
             CollectionAssert.AreEqual(expected.NewItems, actual.NewItems);
             Assert.AreEqual(expected.OldStartingIndex, actual.OldStartingIndex);
-            CollectionAssert.AreEqual(new int[0], actual.OldItems);
+            CollectionAssert.AreEqual(Array.Empty<int>(), actual.OldItems);
         }
 
         [Test]
@@ -27,7 +28,7 @@
 
             Assert.AreEqual(expected.Action, actual.Action);
             Assert.AreEqual(expected.NewStartingIndex, actual.NewStartingIndex);
-            CollectionAssert.AreEqual(new int[0], actual.NewItems);
+            CollectionAssert.AreEqual(Array.Empty<int>(), actual.NewItems);
             Assert.AreEqual(expected.OldStartingIndex, actual.OldStartingIndex);
             CollectionAssert.AreEqual(expected.OldItems, actual.OldItems);
         }

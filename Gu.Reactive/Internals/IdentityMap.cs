@@ -7,7 +7,7 @@ namespace Gu.Reactive.Internals
         public static IdentityMap<TKey, TValue> Borrow<TKey, TValue>()
             where TKey : class
         {
-            return Pool<TKey, TValue>.Cache.GetOrCreate(() => new IdentityMap<TKey,TValue>());
+            return Pool<TKey, TValue>.Cache.GetOrCreate(() => new IdentityMap<TKey, TValue>());
         }
 
         public static void Return<TKey, TValue>(IdentityMap<TKey, TValue> map)

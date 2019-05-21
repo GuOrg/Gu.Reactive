@@ -1,5 +1,6 @@
 namespace Gu.Wpf.Reactive
 {
+    using System;
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls;
@@ -12,9 +13,6 @@ namespace Gu.Wpf.Reactive
     public partial class ConditionControl : Control
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
-#pragma warning disable SA1600 // Elements must be documented
-#pragma warning disable 1591
-        private static readonly IEnumerable<ICondition> Empty = new ICondition[0];
 
         /// <summary>Identifies the <see cref="Condition"/> dependency property.</summary>
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
@@ -27,7 +25,7 @@ namespace Gu.Wpf.Reactive
             nameof(Root),
             typeof(IEnumerable<ICondition>),
             typeof(ConditionControl),
-            new PropertyMetadata(Empty));
+            new PropertyMetadata(Array.Empty<ICondition>()));
 
         /// <summary>Identifies the <see cref="Root"/> dependency property.</summary>
         public static readonly DependencyProperty RootProperty = RootPropertyKey.DependencyProperty;
@@ -36,7 +34,7 @@ namespace Gu.Wpf.Reactive
             nameof(FlattenedPrerequisites),
             typeof(IEnumerable<ICondition>),
             typeof(ConditionControl),
-            new PropertyMetadata(Empty));
+            new PropertyMetadata(Array.Empty<ICondition>()));
 
         private static readonly DependencyPropertyKey IsInSyncPropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(IsInSync),
@@ -51,8 +49,6 @@ namespace Gu.Wpf.Reactive
         public static readonly DependencyProperty FlattenedPrerequisitesProperty = FlattenedPrerequisitesPropertyKey.DependencyProperty;
 
 #pragma warning restore SA1202 // Elements must be ordered by access
-#pragma warning restore 1591
-#pragma warning restore SA1600 // Elements must be documented
 
         static ConditionControl()
         {
@@ -111,8 +107,8 @@ namespace Gu.Wpf.Reactive
         {
             if (newCondition == null)
             {
-                this.Root = Empty;
-                this.FlattenedPrerequisites = Empty;
+                this.Root = Array.Empty<ICondition>();
+                this.FlattenedPrerequisites = Array.Empty<ICondition>();
                 return;
             }
 

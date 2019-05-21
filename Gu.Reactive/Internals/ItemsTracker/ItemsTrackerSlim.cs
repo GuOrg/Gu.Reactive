@@ -11,6 +11,12 @@ namespace Gu.Reactive.Internals
 
         protected bool Disposed { get; private set; }
 
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         internal static ItemsTrackerSlim Create<TCollection, TItem, TProperty>(
             TCollection source,
             NotifyingPath<TItem, TProperty> path)
@@ -25,12 +31,6 @@ namespace Gu.Reactive.Internals
             }
 
             return new NestedItemsTrackerSlim<TCollection, TItem, TProperty>(source, path);
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
