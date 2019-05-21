@@ -1,3 +1,9 @@
+#### 4.0.0
+* BUGFIX: ObserveItemPropertyChanged and ObserveItemPropertyChangedSlim notify on remove.
+* BREAKING: ObserveItemPropertyChanged pass source collection as sender when collection changes.
+* BREAKING: ObserveItemPropertyChanged and ObserveItemPropertyChangedSlim now notifies when items are removed from the collection.
+* BREAKING: net46 and system.reactive 4
+
 #### 3.5.2
 * FEATURE: ObservableBatchCollection<T>.RemoveAll(Func<T, bool> predicate)
 

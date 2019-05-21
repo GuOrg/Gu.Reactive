@@ -1,5 +1,4 @@
-System.Reactive.Linq
-System.Reactive.PlatformServices
+System.Reactive
 
 group Analyzers
   AsyncUsageAnalyzers

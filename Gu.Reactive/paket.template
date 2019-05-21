@@ -4,7 +4,10 @@ projectUrl https://github.com/JohanLarsson/Gu.Reactive
 licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
-  FEATURE: ObservableBatchCollection<T>.RemoveAll(Func<T, bool> predicate)
+  BUGFIX: ObserveItemPropertyChanged and ObserveItemPropertyChangedSlim notify on remove.
+  BREAKING: ObserveItemPropertyChanged pass source collection as sender when collection changes.
+  BREAKING: ObserveItemPropertyChanged and ObserveItemPropertyChangedSlim now notifies when items are removed from the collection.
+  BREAKING: net46 and system.reactive 4
 
 excludedgroups
   Analyzers

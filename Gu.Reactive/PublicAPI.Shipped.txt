@@ -59,6 +59,7 @@ Gu.Reactive.ConditionExt
 Gu.Reactive.ConditionHistoryPoint
 Gu.Reactive.ConditionHistoryPoint.ConditionHistoryPoint(System.DateTime timeStamp, bool? state) -> void
 Gu.Reactive.ConditionHistoryPoint.ConditionHistoryPoint(bool? state) -> void
+Gu.Reactive.ConditionHistoryPoint.Equals(Gu.Reactive.ConditionHistoryPoint other) -> bool
 Gu.Reactive.ConditionHistoryPoint.State.get -> bool?
 Gu.Reactive.ConditionHistoryPoint.TimeStamp.get -> System.DateTime
 Gu.Reactive.DoubleAverageTracker
@@ -220,6 +221,7 @@ Gu.Reactive.NegatedCondition.PropertyChanged -> System.ComponentModel.PropertyCh
 Gu.Reactive.NegatedCondition.ThrowIfDisposed() -> void
 Gu.Reactive.NotifyCollectionChangedEventArgs<T>
 Gu.Reactive.NotifyCollectionChangedEventArgs<T>.Action.get -> System.Collections.Specialized.NotifyCollectionChangedAction
+Gu.Reactive.NotifyCollectionChangedEventArgs<T>.Equals(Gu.Reactive.NotifyCollectionChangedEventArgs<T> other) -> bool
 Gu.Reactive.NotifyCollectionChangedEventArgs<T>.NewItems.get -> System.Collections.Generic.IReadOnlyList<T>
 Gu.Reactive.NotifyCollectionChangedEventArgs<T>.NewStartingIndex.get -> int
 Gu.Reactive.NotifyCollectionChangedEventArgs<T>.NotifyCollectionChangedEventArgs(System.Collections.Specialized.NotifyCollectionChangedEventArgs args) -> void
@@ -232,6 +234,7 @@ Gu.Reactive.NullIsFalse<TCondition>
 Gu.Reactive.NullIsFalse<TCondition>.NullIsFalse(TCondition condition) -> void
 Gu.Reactive.ObservableAndCriteria
 Gu.Reactive.ObservableAndCriteria.Criteria.get -> System.Func<bool?>
+Gu.Reactive.ObservableAndCriteria.Equals(Gu.Reactive.ObservableAndCriteria other) -> bool
 Gu.Reactive.ObservableAndCriteria.Observable.get -> System.IObservable<object>
 Gu.Reactive.ObservableAndCriteria.ObservableAndCriteria(System.IObservable<object> observable, System.Func<bool?> criteria) -> void
 Gu.Reactive.ObservableBatchCollection<T>
@@ -381,6 +384,8 @@ override Gu.Reactive.CollectionCondition.Prerequisites.get -> System.Collections
 override Gu.Reactive.Condition.ToString() -> string
 override Gu.Reactive.ConditionCollection.Dispose(bool disposing) -> void
 override Gu.Reactive.ConditionCollection.ToString() -> string
+override Gu.Reactive.ConditionHistoryPoint.Equals(object obj) -> bool
+override Gu.Reactive.ConditionHistoryPoint.GetHashCode() -> int
 override Gu.Reactive.ConditionHistoryPoint.ToString() -> string
 override Gu.Reactive.Getter<TSource, TValue>.ToString() -> string
 override Gu.Reactive.Internals.RwLock.ToString() -> string
@@ -390,7 +395,11 @@ override Gu.Reactive.Maybe<T>.Equals(object obj) -> bool
 override Gu.Reactive.Maybe<T>.GetHashCode() -> int
 override Gu.Reactive.Maybe<T>.ToString() -> string
 override Gu.Reactive.NegatedCondition.ToString() -> string
+override Gu.Reactive.NotifyCollectionChangedEventArgs<T>.Equals(object obj) -> bool
+override Gu.Reactive.NotifyCollectionChangedEventArgs<T>.GetHashCode() -> int
 override Gu.Reactive.NullIsFalse<TCondition>.Prerequisites.get -> System.Collections.Generic.IReadOnlyList<Gu.Reactive.ICondition>
+override Gu.Reactive.ObservableAndCriteria.Equals(object obj) -> bool
+override Gu.Reactive.ObservableAndCriteria.GetHashCode() -> int
 override Gu.Reactive.ObservableFixedSizeQueue<T>.Enqueue(T item) -> void
 override Gu.Reactive.OrCondition.Dispose(bool disposing) -> void
 override Gu.Reactive.ReadOnlyFilteredView<T>.Dispose(bool disposing) -> void
@@ -411,6 +420,8 @@ static Gu.Reactive.Condition.For<TSource, TValue>(TSource source, System.Linq.Ex
 static Gu.Reactive.ConditionExt.IsInSync(this Gu.Reactive.ICondition condition) -> bool
 static Gu.Reactive.ConditionExt.NullIsFalse<T>(this T condition) -> Gu.Reactive.NullIsFalse<T>
 static Gu.Reactive.ConditionExt.ObserveIsSatisfiedChanged<T>(this T condition) -> System.IObservable<T>
+static Gu.Reactive.ConditionHistoryPoint.operator !=(Gu.Reactive.ConditionHistoryPoint left, Gu.Reactive.ConditionHistoryPoint right) -> bool
+static Gu.Reactive.ConditionHistoryPoint.operator ==(Gu.Reactive.ConditionHistoryPoint left, Gu.Reactive.ConditionHistoryPoint right) -> bool
 static Gu.Reactive.Getter.GetOrCreate(System.Reflection.PropertyInfo property) -> Gu.Reactive.IGetter
 static Gu.Reactive.Getter.GetValueViaDelegate(this System.Reflection.PropertyInfo property, object source) -> object
 static Gu.Reactive.Getter.VerifyProperty(System.Reflection.PropertyInfo property) -> void
@@ -517,6 +528,8 @@ static Gu.Reactive.NameOf.Method<TSource>(System.Linq.Expressions.Expression<Sys
 static Gu.Reactive.NameOf.Property<T>(System.Linq.Expressions.Expression<System.Func<T>> property, bool allowNestedProperty = false) -> string
 static Gu.Reactive.NameOf.Property<TItem, TValue>(System.Linq.Expressions.Expression<System.Func<TItem, TValue>> property) -> string
 static Gu.Reactive.NameOf.Property<TSource>(System.Linq.Expressions.Expression<System.Func<TSource, object>> property) -> string
+static Gu.Reactive.NotifyCollectionChangedEventArgs<T>.operator !=(Gu.Reactive.NotifyCollectionChangedEventArgs<T> left, Gu.Reactive.NotifyCollectionChangedEventArgs<T> right) -> bool
+static Gu.Reactive.NotifyCollectionChangedEventArgs<T>.operator ==(Gu.Reactive.NotifyCollectionChangedEventArgs<T> left, Gu.Reactive.NotifyCollectionChangedEventArgs<T> right) -> bool
 static Gu.Reactive.NotifyCollectionChangedEventArgsExt.As<T>(this System.Collections.Specialized.NotifyCollectionChangedEventArgs args) -> Gu.Reactive.NotifyCollectionChangedEventArgs<T>
 static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChanged<TCollection, TItem, TProperty>(this System.IObservable<System.Reactive.EventPattern<Gu.Reactive.PropertyChangedAndValueEventArgs<TCollection>>> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
 static Gu.Reactive.NotifyCollectionChangedExt.ItemPropertyChanged<TCollection, TItem, TProperty>(this System.IObservable<TCollection> source, System.Linq.Expressions.Expression<System.Func<TItem, TProperty>> property) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TProperty>>>
@@ -549,6 +562,8 @@ static Gu.Reactive.NotifyPropertyChangedExt.ObservePropertyChangedSlim(this Syst
 static Gu.Reactive.NotifyPropertyChangedExt.ObservePropertyChangedSlim<TNotifier, TProperty>(this TNotifier source, System.Linq.Expressions.Expression<System.Func<TNotifier, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.ComponentModel.PropertyChangedEventArgs>
 static Gu.Reactive.NotifyPropertyChangedExt.ObservePropertyChangedWithValue<TNotifier, TProperty>(this TNotifier source, System.Linq.Expressions.Expression<System.Func<TNotifier, TProperty>> property, bool signalInitial = true) -> System.IObservable<System.Reactive.EventPattern<Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>>>
 static Gu.Reactive.NotifyPropertyChangedExt.ObserveValue<TNotifier, TProperty>(this TNotifier source, System.Linq.Expressions.Expression<System.Func<TNotifier, TProperty>> property, bool signalInitial = true) -> System.IObservable<Gu.Reactive.Maybe<TProperty>>
+static Gu.Reactive.ObservableAndCriteria.operator !=(Gu.Reactive.ObservableAndCriteria left, Gu.Reactive.ObservableAndCriteria right) -> bool
+static Gu.Reactive.ObservableAndCriteria.operator ==(Gu.Reactive.ObservableAndCriteria left, Gu.Reactive.ObservableAndCriteria right) -> bool
 static Gu.Reactive.ObservableExt.AsObservable(this System.Threading.CancellationToken token) -> System.IObservable<System.Reactive.Unit>
 static Gu.Reactive.ObservableExt.AsReadOnlyView<T>(this System.IObservable<Gu.Reactive.IMaybe<System.Collections.Generic.IEnumerable<T>>> source) -> Gu.Reactive.IReadOnlyView<T>
 static Gu.Reactive.ObservableExt.AsReadOnlyView<T>(this System.IObservable<Gu.Reactive.Maybe<System.Collections.Generic.IEnumerable<T>>> source) -> Gu.Reactive.IReadOnlyView<T>
