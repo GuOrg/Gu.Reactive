@@ -45,6 +45,7 @@ namespace Gu.Reactive.Internals
                 if (this.source != null)
                 {
                     this.source.CollectionChanged -= this.OnSourceChanged;
+                    this.RemoveItems(this.source);
                 }
 
                 this.source = newSource;
@@ -59,8 +60,8 @@ namespace Gu.Reactive.Internals
                 }
                 else
                 {
+                    this.AddItems(this.source);
                     this.source.CollectionChanged += this.OnSourceChanged;
-                    this.OnSourceChanged(this.source, CachedEventArgs.NotifyCollectionReset);
                 }
             }
         }
@@ -127,30 +128,15 @@ namespace Gu.Reactive.Internals
                         this.AddItems(e.NewItems);
                         break;
                     case NotifyCollectionChangedAction.Remove:
-                        this.RemoveItems(e.OldItems.OfType<TItem>());
+                        this.RemoveItems(e.OldItems);
                         break;
                     case NotifyCollectionChangedAction.Replace when e.OldItems.TrySingle(out var oldItem) &&
                                                                     e.NewItems.TrySingle(out var newItem) &&
                                                                     ReferenceEquals(oldItem, newItem):
                         break;
                     case NotifyCollectionChangedAction.Replace:
+                        this.RemoveItems(e.OldItems);
                         this.AddItems(e.NewItems);
-                        this.RemoveItems(e.OldItems.OfType<TItem>());
-                        if (e.NewItems.All(x => x is null) &&
-                            e.OldItems.Any(x => !(x is null)))
-                        {
-                            foreach (TItem item in e.OldItems)
-                            {
-                                this.OnTrackedItemChanged(
-                                    null,
-                                    sender,
-                                    CachedEventArgs.StringEmpty,
-                                    SourceAndValue.Create(
-                                        (INotifyPropertyChanged)item,
-                                        this.getter.GetMaybe(item)));
-                            }
-                        }
-
                         break;
                     case NotifyCollectionChangedAction.Move:
                         break;
@@ -168,31 +154,39 @@ namespace Gu.Reactive.Internals
         {
             foreach (TItem item in items)
             {
-                if (item == null ||
-                    !this.set.Add(item))
-                {
-                    continue;
-                }
-
                 //// Signaling initial before subscribing here to get the events in correct order
                 //// This can't be made entirely thread safe as an event can be raised on source between signal initial & subscribe.
-                this.SignalInitial(item);
-                item.PropertyChanged += this.OnItemPropertyChanged;
+                this.OnTrackedItemChanged(
+                    item,
+                    this.source,
+                    CachedEventArgs.StringEmpty,
+                    new SourceAndValue<INotifyPropertyChanged, TProperty>(item, this.getter.GetMaybe(item)));
+
+                if (item != null &&
+                    !this.set.Contains(item))
+                {
+                    item.PropertyChanged += this.OnItemPropertyChanged;
+                    this.set.Add(item);
+                }
             }
         }
 
-        private void RemoveItems(IEnumerable<TItem> items)
+        private void RemoveItems(IEnumerable items)
         {
             this.set.IntersectWith(this.source);
-            foreach (var item in items)
+            foreach (TItem item in items)
             {
-                if (item == null ||
-                    this.set.Contains(item))
-                {
-                    continue;
-                }
+                this.OnTrackedItemChanged(
+                    null,
+                    this.source,
+                    CachedEventArgs.StringEmpty,
+                    new SourceAndValue<INotifyPropertyChanged, TProperty>(item, this.getter.GetMaybe(item)));
 
-                item.PropertyChanged -= this.OnItemPropertyChanged;
+                if (item != null &&
+                    !this.set.Contains(item))
+                {
+                    item.PropertyChanged -= this.OnItemPropertyChanged;
+                }
             }
         }
 
@@ -209,22 +203,6 @@ namespace Gu.Reactive.Internals
                         (INotifyPropertyChanged)sender,
                         this.getter.GetMaybe(item)));
             }
-        }
-
-        private void SignalInitial(TItem item)
-        {
-            if (!this.HasSubscribers)
-            {
-                return;
-            }
-
-            this.OnTrackedItemChanged(
-                item,
-                item,
-                CachedEventArgs.StringEmpty,
-                SourceAndValue.Create(
-                    (INotifyPropertyChanged)item,
-                    this.getter.GetMaybe(item)));
         }
     }
 }

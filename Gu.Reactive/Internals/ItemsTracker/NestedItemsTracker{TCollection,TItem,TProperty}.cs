@@ -195,7 +195,7 @@ namespace Gu.Reactive.Internals
                     CachedEventArgs.StringEmpty,
                     this.path.SourceAndValue(item));
 
-                set.Add((TItem)item);
+                set.Add(item);
             }
 
             set.ExceptWith(this.source ?? Enumerable.Empty<TItem>());
@@ -212,7 +212,6 @@ namespace Gu.Reactive.Internals
                 this.map.Remove(item);
             }
 
-            set.Clear();
             IdentitySet.Return(set);
         }
     }
