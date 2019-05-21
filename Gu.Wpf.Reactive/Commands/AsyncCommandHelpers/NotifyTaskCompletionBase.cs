@@ -130,9 +130,11 @@ namespace Gu.Wpf.Reactive
             }
 
             // ReSharper disable once EmptyGeneralCatchClause We don't want to propagate errors here. Just make them bindable.
+#pragma warning disable CA1031 // Do not catch general exception types
             catch
             {
             }
+#pragma warning restore CA1031 // Do not catch general exception types
 
             if (task.Status == TaskStatus.RanToCompletion)
             {
