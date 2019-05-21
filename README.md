@@ -22,6 +22,7 @@ Helpers for using System.Reactive with `INotifyPropertyChanged`.
   - [ObservePropertyChangedSlim:](#observepropertychangedslim)
     - [SignalInitial](#signalinitial)
   - [ObserveItemPropertyChanged](#observeitempropertychanged)
+  - [ObserveItemPropertyChangedSlim](#observeitempropertychanged)
 - [Conditions:](#conditions)
   - [Condition](#condition)
     - [IsSatisfied](#issatisfied)
@@ -148,9 +149,22 @@ Default true meaning that the observable will call OnNExt on Subscribe
 var subscription = collection.ObserveItemPropertyChanged(x => x.Name)
                              .Subscribe(...);
 ```
-1) Listens to changes using ObservePropertyChanged
-2) Removes subscriptions for elements that are removed from the collection and adds subscription to new elements.
+An observable that signals when the collection is modified or the property that the lambda points to signals for any item in the collection.
+If the collection changes the collection is sender.
+When an element is removed null is passed as item.
+When an element is replaced the observable notifies twice, once for the remove of the old element and once for the add of the new element.
 
+### SignalInitial
+Default true meaning that the observable will call OnNExt on Subscribe
+
+## ObserveItemPropertyChanged
+```c#
+var subscription = collection.ObserveItemPropertyChangedSlim(x => x.Name)
+                             .Subscribe(...);
+```
+An observable that signals when the collection is modified or the property that the lambda points to signals for any item in the collection.
+### SignalInitial
+Default true meaning that the observable will call OnNExt on Subscribe
 
 # Conditions:
 ## Condition
