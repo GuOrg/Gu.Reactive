@@ -163,6 +163,7 @@
     <Compile Include="Internals\SetPool.cs" />
     <Compile Include="Maybe{T}.cs" />
     <Compile Include="Internals\ObjectIdentityComparer{T}.cs" />
+    <Compile Include="Paired.cs" />
     <Compile Include="Reflection\Getter\IdentityGetter.cs" />
     <Compile Include="Reflection\Getter\IGetter.cs" />
     <Compile Include="Reflection\Getter\IGetter{TValue}.cs" />
