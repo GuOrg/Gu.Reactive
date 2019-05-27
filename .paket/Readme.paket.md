@@ -12,7 +12,7 @@
 ## Create packages
 
 1. Build in release
-2. PM> `.paket/paket.exe pack publish symbols` // including symbols optional
+2. PM> `.paket/paket.exe pack publish --symbols` // including symbols optional
 3. Packages are in the publish folder.
 
 Docs: https://fsprojects.github.io/Paket/getting-started.html
