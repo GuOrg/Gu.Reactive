@@ -7,6 +7,7 @@ namespace Gu.Reactive
     /// An item with its previous value.
     /// </summary>
     /// <typeparam name="T">The type of the item.</typeparam>
+    [System.Diagnostics.DebuggerDisplay("{Current} ({Previous})")]
     public struct Paired<T> : IEquatable<Paired<T>>
     {
         /// <summary>
