@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -140,6 +140,40 @@
         {
             var delay = Observable.Empty<T>().Delay(delayTime, scheduler);
             return Observable.Concat(source, delay).Repeat();
+        }
+
+        /// <summary>
+        /// Creates an observable with the last two values from <paramref name="source"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the messages.</typeparam>
+        /// <param name="source">The observable.</param>
+        /// <returns>An observable with the last two values from <paramref name="source"/>.</returns>
+        public static IObservable<WithPrevious<T>> WithPrevious<T>(this IObservable<T> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            return Observable.Create<WithPrevious<T>>(
+                o =>
+                {
+                    var hasPrevious = false;
+                    var previous = default(T);
+                    return source.Subscribe(
+                        x =>
+                        {
+                            if (hasPrevious)
+                            {
+                                o.OnNext(new WithPrevious<T>(x, previous));
+                            }
+
+                            previous = x;
+                            hasPrevious = true;
+                        },
+                        x => o.OnError(x),
+                        () => o.OnCompleted());
+                });
         }
 
         /// <summary>
