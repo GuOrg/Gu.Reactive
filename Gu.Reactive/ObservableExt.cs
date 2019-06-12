@@ -148,14 +148,14 @@ namespace Gu.Reactive
         /// <typeparam name="T">The type of the messages.</typeparam>
         /// <param name="source">The observable.</param>
         /// <returns>An observable with the last two values from <paramref name="source"/>.</returns>
-        public static IObservable<Paired<T>> Pair<T>(this IObservable<T> source)
+        public static IObservable<WithPrevious<T>> WithPrevious<T>(this IObservable<T> source)
         {
             if (source == null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            return Observable.Create<Paired<T>>(
+            return Observable.Create<WithPrevious<T>>(
                 o =>
                 {
                     var hasPrevious = false;
@@ -165,7 +165,7 @@ namespace Gu.Reactive
                         {
                             if (hasPrevious)
                             {
-                                o.OnNext(new Paired<T>(x, previous));
+                                o.OnNext(new WithPrevious<T>(x, previous));
                             }
 
                             previous = x;

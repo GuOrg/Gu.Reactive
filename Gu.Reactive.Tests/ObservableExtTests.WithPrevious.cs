@@ -8,15 +8,15 @@ namespace Gu.Reactive.Tests
 
     public partial class ObservableExtTests
     {
-        public class Pair
+        public class WithPrevious
         {
             [Test]
             public void Sequence()
             {
                 using (var subject = new Subject<int>())
                 {
-                    var actuals = new List<Paired<int>>();
-                    using (subject.Pair().Subscribe(x => actuals.Add(x)))
+                    var actuals = new List<WithPrevious<int>>();
+                    using (subject.WithPrevious().Subscribe(x => actuals.Add(x)))
                     {
                         CollectionAssert.IsEmpty(actuals);
 

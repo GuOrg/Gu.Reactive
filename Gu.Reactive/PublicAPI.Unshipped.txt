@@ -1,10 +1,10 @@
-﻿Gu.Reactive.Paired<T>
-Gu.Reactive.Paired<T>.Equals(Gu.Reactive.Paired<T> other) -> bool
-Gu.Reactive.Paired<T>.Paired(T current, T previous) -> void
-override Gu.Reactive.Paired<T>.Equals(object obj) -> bool
-override Gu.Reactive.Paired<T>.GetHashCode() -> int
-readonly Gu.Reactive.Paired<T>.Current -> T
-readonly Gu.Reactive.Paired<T>.Previous -> T
-static Gu.Reactive.ObservableExt.Pair<T>(this System.IObservable<T> source) -> System.IObservable<Gu.Reactive.Paired<T>>
-static Gu.Reactive.Paired<T>.operator !=(Gu.Reactive.Paired<T> left, Gu.Reactive.Paired<T> right) -> bool
-static Gu.Reactive.Paired<T>.operator ==(Gu.Reactive.Paired<T> left, Gu.Reactive.Paired<T> right) -> bool
+﻿Gu.Reactive.WithPrevious<T>
+Gu.Reactive.WithPrevious<T>.Equals(Gu.Reactive.WithPrevious<T> other) -> bool
+Gu.Reactive.WithPrevious<T>.WithPrevious(T current, T previous) -> void
+override Gu.Reactive.WithPrevious<T>.Equals(object obj) -> bool
+override Gu.Reactive.WithPrevious<T>.GetHashCode() -> int
+readonly Gu.Reactive.WithPrevious<T>.Current -> T
+readonly Gu.Reactive.WithPrevious<T>.Previous -> T
+static Gu.Reactive.ObservableExt.WithPrevious<T>(this System.IObservable<T> source) -> System.IObservable<Gu.Reactive.WithPrevious<T>>
+static Gu.Reactive.WithPrevious<T>.operator !=(Gu.Reactive.WithPrevious<T> left, Gu.Reactive.WithPrevious<T> right) -> bool
+static Gu.Reactive.WithPrevious<T>.operator ==(Gu.Reactive.WithPrevious<T> left, Gu.Reactive.WithPrevious<T> right) -> bool
