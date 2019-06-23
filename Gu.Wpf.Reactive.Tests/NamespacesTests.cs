@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.Tests
+namespace Gu.Wpf.Reactive.Tests
 {
     using System.Linq;
     using System.Windows.Markup;
@@ -18,6 +18,8 @@
                 "XamlGeneratedNamespace",
                 "Internals",
                 "TypeConverters",
+                "Microsoft.CodeAnalysis",
+                "System.Runtime.CompilerServices",
             };
 
         [Test]
@@ -35,7 +37,8 @@
             var attributes = typeof(ConditionControl).Assembly.CustomAttributes.Where(x => x.AttributeType == typeof(XmlnsDefinitionAttribute))
                                      .ToArray();
             var actuals = attributes.Select(a => a.ConstructorArguments[1].Value)
-                                                             .OrderBy(x => x);
+                                    .OrderBy(x => x)
+                                    .ToArray();
             foreach (var s in strings)
             {
                 DumpIfDebug.WriteLine(@"[assembly: XmlnsDefinition(""{0}"", ""{1}"")]", Uri, s);
