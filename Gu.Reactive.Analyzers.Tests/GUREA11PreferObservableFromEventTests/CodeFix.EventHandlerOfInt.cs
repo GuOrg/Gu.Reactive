@@ -55,7 +55,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                AnalyzerAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
             }
 
             [Test]
@@ -95,7 +95,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                AnalyzerAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
             }
 
             [Test]
@@ -145,7 +145,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                AnalyzerAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
             }
 
             [Test]
@@ -195,7 +195,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                AnalyzerAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
             }
         }
     }

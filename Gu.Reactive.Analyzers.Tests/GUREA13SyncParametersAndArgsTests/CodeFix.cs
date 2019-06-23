@@ -87,7 +87,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, SortArgsCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortArgsCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, SortArgsCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortArgsCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
         }
 
         [Test]
@@ -165,7 +165,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, SortParametersCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortParametersCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
         }
 
         [Test]
@@ -210,7 +210,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.CodeFix(Analyzer, SortParametersCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortParametersCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
         }
     }
 }

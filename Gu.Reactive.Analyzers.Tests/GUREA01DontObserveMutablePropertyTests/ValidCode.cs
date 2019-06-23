@@ -63,7 +63,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -123,7 +123,7 @@ namespace RoslynSandbox
         public Foo Foo { get; }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, testCode);
         }
     }
 }

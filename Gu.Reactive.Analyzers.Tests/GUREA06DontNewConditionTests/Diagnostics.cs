@@ -80,7 +80,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, conditionCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, conditionCode, testCode);
         }
     }
 }

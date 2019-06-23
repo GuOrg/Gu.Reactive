@@ -92,7 +92,7 @@ namespace RoslynSandbox
                            "  RoslynSandbox.Foo.Value2\r\n" +
                            "Not observed:\r\n" +
                            "  RoslynSandbox.Foo.Value2";
-            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), FooCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), FooCode, testCode);
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace RoslynSandbox
                           "Not observed:\r\n" +
                           "  RoslynSandbox.Foo.Value2";
 
-            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), FooCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), FooCode, testCode);
         }
     }
 }

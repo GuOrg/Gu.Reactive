@@ -101,7 +101,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, barCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, barCode, testCode);
         }
     }
 }

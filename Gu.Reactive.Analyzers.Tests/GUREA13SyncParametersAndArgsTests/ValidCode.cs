@@ -54,7 +54,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, Condition1, Condition2, testCode);
+            RoslynAssert.Valid(Analyzer, Condition1, Condition2, testCode);
         }
     }
 }

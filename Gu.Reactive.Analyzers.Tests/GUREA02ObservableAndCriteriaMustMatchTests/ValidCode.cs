@@ -81,7 +81,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, FooCode, testCode);
         }
 
         [Test]
@@ -105,7 +105,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, testCode);
+            RoslynAssert.Valid(Analyzer, testCode);
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, FooCode, testCode);
         }
 
         [Test]
@@ -155,7 +155,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, GUREA02ObservableAndCriteriaMustMatch.Descriptor, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, GUREA02ObservableAndCriteriaMustMatch.Descriptor, FooCode, testCode);
         }
 
         [Test]
@@ -224,7 +224,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, barCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, barCode, testCode);
         }
 
         [Test]
@@ -293,7 +293,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, barCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, barCode, testCode);
         }
 
         [Test]
@@ -349,7 +349,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -429,7 +429,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -562,7 +562,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, barCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, barCode, testCode);
         }
 
         [Test]
@@ -617,7 +617,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, testCode);
         }
 
         [Test]
@@ -686,7 +686,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, testCode);
         }
     }
 }

@@ -67,7 +67,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, Descriptor, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, Descriptor, FooCode, testCode);
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            AnalyzerAssert.Valid(Analyzer, Descriptor, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, Descriptor, FooCode, testCode);
         }
     }
 }
