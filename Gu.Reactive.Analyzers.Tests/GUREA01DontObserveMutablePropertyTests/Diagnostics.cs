@@ -66,7 +66,7 @@ namespace RoslynSandbox
         public Foo Foo { get; set; }
     }
 }";
-            AnalyzerAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, testCode);
         }
     }
 }
