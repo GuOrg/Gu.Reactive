@@ -12,4 +12,5 @@ group Analyzers
 group Test
   NUnit
   NUnit3TestAdapter
+  Microsoft.NET.Test.Sdk
   Gu.Wpf.UiAutomation

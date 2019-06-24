@@ -22,6 +22,7 @@ group Test
   nuget Moq
   nuget NUnit
   nuget NUnit3TestAdapter
+  nuget Microsoft.NET.Test.Sdk
   nuget System.Reactive
   nuget Microsoft.Reactive.Testing
   nuget Gu.Wpf.UiAutomation
@@ -38,6 +39,7 @@ group Roslyn
   nuget Gu.Roslyn.Asserts
   nuget NUnit
   nuget NUnit3TestAdapter
+  nuget Microsoft.NET.Test.Sdk
   nuget System.Reactive
 
 group Benchmark
@@ -48,4 +50,5 @@ group Benchmark
   nuget Microsoft.CodeAnalysis.CSharp.Workspaces
   nuget NUnit
   nuget NUnit3TestAdapter
+  nuget Microsoft.NET.Test.Sdk
   nuget Gu.Roslyn.Asserts
