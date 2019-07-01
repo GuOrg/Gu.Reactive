@@ -1,6 +1,6 @@
 source http://www.nuget.org/api/v2/
 
-nuget System.Reactive ~> 4
+nuget System.Reactive >= 4
 nuget Gu.Wpf.ToolTips ~> 0.2.1
 
 group Analyzers
