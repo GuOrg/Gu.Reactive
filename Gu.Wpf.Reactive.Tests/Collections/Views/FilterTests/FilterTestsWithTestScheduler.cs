@@ -2,21 +2,20 @@
 namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
 {
     using System;
-    using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
+    using Microsoft.Reactive.Testing;
     using NUnit.Framework;
 
-    public class FilteredViewNoScheduler : FilterTests
+    public class FilterTestsWithTestScheduler : FilterTests
     {
         [SetUp]
         public override void SetUp()
         {
-            App.Start();
-            this.Scheduler = new TestDispatcherScheduler();
             base.SetUp();
+            this.Scheduler = new TestScheduler();
 #pragma warning disable IDISP007 // Don't dispose injected.
             this.View?.Dispose();
 #pragma warning restore IDISP007 // Don't dispose injected.
-            this.View = this.Source.AsFilteredView(x => true, TimeSpan.Zero);
+            this.View = new FilteredView<int>(this.Source, x => true, TimeSpan.Zero, this.Scheduler, leaveOpen: true);
         }
     }
 }
