@@ -31,7 +31,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
 
             private bool throws;
 
-            public ThrowingEnumerator(List<T> source, bool throws)
+            internal ThrowingEnumerator(List<T> source, bool throws)
             {
                 this.source = source;
                 this.throws = throws;

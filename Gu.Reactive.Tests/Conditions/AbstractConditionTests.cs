@@ -119,7 +119,7 @@ namespace Gu.Reactive.Tests.Conditions
         {
             private readonly Fake fake;
 
-            public FakeCondition(Fake fake)
+            internal FakeCondition(Fake fake)
                 : base(fake.ObservePropertyChanged(x => x.IsTrueOrNull))
             {
                 this.fake = fake;
@@ -133,7 +133,7 @@ namespace Gu.Reactive.Tests.Conditions
 
         private class AbstractConditionImpl : AbstractCondition
         {
-            public AbstractConditionImpl(IObservable<object> observable)
+            internal AbstractConditionImpl(IObservable<object> observable)
                 : base(observable)
             {
             }

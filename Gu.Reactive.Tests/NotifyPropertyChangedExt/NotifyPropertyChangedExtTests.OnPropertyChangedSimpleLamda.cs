@@ -17,10 +17,10 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
     public partial class NotifyPropertyChangedExtTests
     {
-        internal class OnPropertyChangedSimpleLamda
+        public static class OnPropertyChangedSimpleLambda
         {
             [Test]
-            public void ReactsOnMock()
+            public static void ReactsOnMock()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var mock = new Mock<IReadOnlyObservableCollection<int>>();
@@ -37,7 +37,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [TestCase("")]
             [TestCase(null)]
             [TestCase("Name")]
-            public void ReactsOnStringEmptyOrNullWhenNull(string propertyName)
+            public static void ReactsOnStringEmptyOrNullWhenNull(string propertyName)
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Name = null };
@@ -52,7 +52,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void ReadOnlyObservableCollectionCount()
+            public static void ReadOnlyObservableCollectionCount()
             {
                 var ints = new ObservableCollection<int>();
                 var source = new ReadOnlyObservableCollection<int>(ints);
@@ -75,7 +75,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void IFakeValue()
+            public static void IFakeValue()
             {
                 var fake = (IFake)new Fake();
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
@@ -97,7 +97,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void HandlesNull()
+            public static void HandlesNull()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Name = "1" };
@@ -117,7 +117,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void ReactsTwoPropertiesSameInstance()
+            public static void ReactsTwoPropertiesSameInstance()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Value = 1 };
@@ -141,7 +141,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void ReactsTwoInstances()
+            public static void ReactsTwoInstances()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake1 = new Fake { Value = 1 };
@@ -166,7 +166,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void TwoSubscriptionsOneObservable()
+            public static void TwoSubscriptionsOneObservable()
             {
                 var changes1 = new List<EventPattern<PropertyChangedEventArgs>>();
                 var changes2 = new List<EventPattern<PropertyChangedEventArgs>>();
@@ -195,7 +195,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void ReactsWhenValueChanges()
+            public static void ReactsWhenValueChanges()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Value = 1 };
@@ -212,7 +212,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void ReactsWhenValueChangesGeneric()
+            public static void ReactsWhenValueChangesGeneric()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake<int> { Value = 1 };
@@ -229,7 +229,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void DoesNotReactWhenOtherPropertyChanges()
+            public static void DoesNotReactWhenOtherPropertyChanges()
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Value = 1 };
@@ -250,7 +250,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             [TestCase("")]
             [TestCase(null)]
             [TestCase("Value")]
-            public void ReactsOnStringEmptyOrNull(string propertyName)
+            public static void ReactsOnStringEmptyOrNull(string propertyName)
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Value = 1 };
@@ -268,7 +268,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
             [TestCase(true)]
             [TestCase(false)]
-            public void SignalsInitial(bool signalInitial)
+            public static void SignalsInitial(bool signalInitial)
             {
                 var changes = new List<EventPattern<PropertyChangedEventArgs>>();
                 var fake = new Fake { Value = 1 };
@@ -288,7 +288,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void MemoryLeakDisposeTest()
+            public static void MemoryLeakDisposeTest()
             {
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
@@ -304,7 +304,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
 
             [Test]
-            public void MemoryLeakNoDisposeTest()
+            public static void MemoryLeakNoDisposeTest()
             {
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
@@ -322,10 +322,10 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
             [TestCase(true)]
             [TestCase(false)]
-            public void ThrowsOnStructInPath(bool signalIntital)
+            public static void ThrowsOnStructInPath(bool signalInitial)
             {
                 var fake = new Fake();
-                var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.StructLevel.Name, signalIntital));
+                var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.StructLevel.Name, signalInitial));
                 var expected = "Error found in x => x.StructLevel.Name\r\n" +
                                "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?\r\n" +
                                "The type StructLevel is a value type not so StructLevel.Name will not notify when it changes.\r\n" +
@@ -336,10 +336,10 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
             [TestCase(true)]
             [TestCase(false)]
-            public void ThrowsOnNotNotifyingnPathOneLevel(bool signalIntital)
+            public static void ThrowsOnNotNotifyingPathOneLevel(bool signalInitial)
             {
                 var fake = new Fake();
-                var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.Name.Length, signalIntital));
+                var exception = Assert.Throws<ArgumentException>(() => fake.ObservePropertyChanged(x => x.Name.Length, signalInitial));
                 var expected = "Error found in x => x.Name.Length\r\n" +
                                "All levels in the path must implement INotifyPropertyChanged.\r\n" +
                                "The type string does not so Name.Length will not notify when it changes.\r\n" +

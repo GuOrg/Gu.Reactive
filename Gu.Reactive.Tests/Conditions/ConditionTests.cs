@@ -172,7 +172,7 @@ namespace Gu.Reactive.Tests.Conditions
 
         private class ConditionImplSimple : Condition
         {
-            public ConditionImplSimple(Fake fake)
+            internal ConditionImplSimple(Fake fake)
                 : base(For(fake, x => x.IsTrueOrNull, true))
             {
             }
@@ -180,7 +180,7 @@ namespace Gu.Reactive.Tests.Conditions
 
         private class ConditionImplEqualityComparer : Condition
         {
-            public ConditionImplEqualityComparer(Fake fake)
+            internal ConditionImplEqualityComparer(Fake fake)
                 : base(For(fake, x => x.IsTrueOrNull, true, EqualityComparer<bool?>.Default))
             {
             }
@@ -188,7 +188,7 @@ namespace Gu.Reactive.Tests.Conditions
 
         private class ConditionImplFunc : Condition
         {
-            public ConditionImplFunc(Fake fake)
+            internal ConditionImplFunc(Fake fake)
                 : base(For(fake, x => x.IsTrueOrNull, true, Nullable.Equals))
             {
             }
@@ -196,7 +196,7 @@ namespace Gu.Reactive.Tests.Conditions
 
         private class ConditionImplMaybeFunc : Condition
         {
-            public ConditionImplMaybeFunc(Fake fake)
+            internal ConditionImplMaybeFunc(Fake fake)
                 : base(For(fake, x => x.IsTrueOrNull, true, (x, y) => Maybe.Equals(x, y, Nullable.Equals)))
             {
             }
