@@ -108,7 +108,7 @@ namespace RoslynSandbox
 
         public Bar Bar { get; set; }
     }
-";
+}";
             var barCode = @"
 namespace RoslynSandbox
 {
@@ -178,6 +178,8 @@ namespace RoslynSandbox
     {
         private Bar bar;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public Bar Bar
         {
             get
@@ -196,8 +198,13 @@ namespace RoslynSandbox
                 this.OnPropertyChanged();
             }
         }
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
-";
+}";
             var barCode = @"
 namespace RoslynSandbox
 {

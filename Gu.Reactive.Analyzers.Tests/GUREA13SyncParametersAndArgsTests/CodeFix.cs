@@ -8,8 +8,8 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
     public class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly CodeFixProvider SortArgsCodeFix = new SortArgsCodeFix();
-        private static readonly CodeFixProvider SortParametersCodeFix = new SortParametersCodeFix();
+        private static readonly CodeFixProvider SortArgsFix = new SortArgsFix();
+        private static readonly CodeFixProvider SortParametersFix = new SortParametersFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA13SyncParametersAndArgs.Descriptor);
 
         private const string Condition1 = @"
@@ -87,7 +87,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, SortArgsCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortArgsFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, SortArgsCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortArgsFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
         }
 
         [Test]
@@ -165,7 +165,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, SortParametersCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortParametersFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
         }
 
         [Test]
@@ -210,7 +210,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, SortParametersCodeFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortParametersFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
         }
     }
 }
