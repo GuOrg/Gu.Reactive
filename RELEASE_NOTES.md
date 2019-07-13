@@ -8,7 +8,7 @@
 * FEATURE: ObservableBatchCollection<T>.RemoveAll(Func<T, bool> predicate)
 
 #### 3.5.0
-* BUGFIX: Retryn on destination was not long enough.
+* BUGFIX: Retry on destination was not long enough.
 
 #### 3.5.0
 * BUGFIX: Sign Gu.Wpfg.ToolTips and update dependency.
@@ -21,10 +21,10 @@
 * BUGFIX: Retry on collection was modified.
 
 #### 3.4.1
-* BUGFIX: Expose prerquisites for NullIsFale<TCondition>.
+* BUGFIX: Expose prerequisites for NullIsFale<TCondition>.
 
 #### 3.4.0
-* BUGFIXES: Many bugfixes in tha analyzers.
+* BUGFIXES: Many bugfixes in the analyzers.
 * FEATURE: observable.AsMappingView(...)
 * FEATURE: observable.AsReadonlyFilteredView(...)
 * FEATURE: observable.AsReadonlyView(...)
@@ -67,7 +67,7 @@
 
 #### 2.1.0
 * FEATURE: ObserveValue.
-* FEATURE: ObservePropertyChangedSlim with lamda.
+* FEATURE: ObservePropertyChangedSlim with lambda.
 * BUGFIX: PropertyTracker thread safe.
 
 #### 2.0.1
