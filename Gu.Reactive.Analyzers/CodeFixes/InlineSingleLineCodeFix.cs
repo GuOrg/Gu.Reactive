@@ -83,6 +83,19 @@ namespace Gu.Reactive.Analyzers
                 this.cancellationToken = cancellationToken;
             }
 
+            public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
+            {
+                if (node.Identifier.ValueText == this.from.Name)
+                {
+                    if (SymbolComparer.Equals(this.semanticModel.GetSymbolSafe(node, this.cancellationToken), this.from))
+                    {
+                        return SyntaxFactory.IdentifierName(this.to.Name);
+                    }
+                }
+
+                return base.VisitIdentifierName(node);
+            }
+
             internal static T Parameter<T>(
                 IParameterSymbol from,
                 IParameterSymbol to,
@@ -98,19 +111,6 @@ namespace Gu.Reactive.Analyzers
 
                 var rename = new Rename(@from, to, semanticModel, cancellationToken);
                 return (T)rename.Visit(node);
-            }
-
-            public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
-            {
-                if (node.Identifier.ValueText == this.from.Name)
-                {
-                    if (SymbolComparer.Equals(this.semanticModel.GetSymbolSafe(node, this.cancellationToken), this.from))
-                    {
-                        return SyntaxFactory.IdentifierName(this.to.Name);
-                    }
-                }
-
-                return base.VisitIdentifierName(node);
             }
         }
     }

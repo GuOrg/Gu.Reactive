@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Rules for Gu.Reactive" Description="Code analysis rules for Gu.Reactive.csproj." ToolsVersion="14.0">
+<RuleSet Name="Rules for Gu.Reactive" Description="Code analysis rules for Gu.Reactive.csproj." ToolsVersion="16.0">
   <Rules AnalyzerId="Gu.Analyzers.Analyzers" RuleNamespace="Gu.Analyzers.Analyzers">
     <Rule Id="GU0001" Action="Warning" />
     <Rule Id="GU0002" Action="Warning" />
@@ -76,6 +76,12 @@
     <Rule Id="CA2241" Action="Warning" />
     <Rule Id="CA2242" Action="Warning" />
   </Rules>
+  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
+    <Rule Id="CA1710" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.NetCore.Analyzers" RuleNamespace="Microsoft.NetCore.Analyzers">
+    <Rule Id="CA1303" Action="None" />
+  </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1118" Action="None" />
     <Rule Id="SA1313" Action="None" />
@@ -86,8 +92,5 @@
     <Rule Id="SA1618" Action="None" />
     <Rule Id="SA1623" Action="None" />
     <Rule Id="SA1633" Action="None" />
-  </Rules>
-  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
-    <Rule Id="CA1710" Action="None" />
   </Rules>
 </RuleSet>

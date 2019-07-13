@@ -15,16 +15,11 @@ namespace Gu.Reactive.Analyzers
         {
         }
 
-        internal IReadOnlyList<IdentifierNameSyntax> IdentifierNames => this.identifierNames;
-
         public int Count => this.identifierNames.Count;
 
-        public IdentifierNameSyntax this[int index] => this.identifierNames[index];
+        internal IReadOnlyList<IdentifierNameSyntax> IdentifierNames => this.identifierNames;
 
-        internal static IdentifierNameExecutionWalker Create(SyntaxNode node, Scope search, SemanticModel semanticModel, CancellationToken cancellationToken)
-        {
-            return BorrowAndVisit(node, search, semanticModel, cancellationToken, () => new IdentifierNameExecutionWalker());
-        }
+        public IdentifierNameSyntax this[int index] => this.identifierNames[index];
 
         public IEnumerator<IdentifierNameSyntax> GetEnumerator() => this.identifierNames.GetEnumerator();
 
@@ -34,6 +29,11 @@ namespace Gu.Reactive.Analyzers
         {
             this.identifierNames.Add(node);
             base.VisitIdentifierName(node);
+        }
+
+        internal static IdentifierNameExecutionWalker Create(SyntaxNode node, Scope search, SemanticModel semanticModel, CancellationToken cancellationToken)
+        {
+            return BorrowAndVisit(node, search, semanticModel, cancellationToken, () => new IdentifierNameExecutionWalker());
         }
 
         protected override void Clear()

@@ -53,7 +53,9 @@ namespace Gu.Reactive.Tests.Collections
 
         public IEnumerator GetEnumerator()
         {
+#pragma warning disable GU0090 // Don't throw NotImplementedException.
             throw new NotImplementedException();
+#pragma warning restore GU0090 // Don't throw NotImplementedException.
         }
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)

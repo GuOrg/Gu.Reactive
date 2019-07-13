@@ -10,6 +10,7 @@ namespace Gu.Reactive
     [System.Diagnostics.DebuggerDisplay("{Current} ({Previous})")]
     public struct WithPrevious<T> : IEquatable<WithPrevious<T>>
     {
+#pragma warning disable CA1051 // Do not declare visible instance fields
         /// <summary>
         /// The current value.
         /// </summary>
@@ -19,6 +20,7 @@ namespace Gu.Reactive
         /// The previous value.
         /// </summary>
         public readonly T Previous;
+#pragma warning restore CA1051 // Do not declare visible instance fields
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WithPrevious{T}"/> struct.

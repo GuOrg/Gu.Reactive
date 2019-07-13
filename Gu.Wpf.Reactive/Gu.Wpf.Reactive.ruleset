@@ -1,9 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Microsoft Managed Recommended Rules" Description="These rules focus on the most critical problems in your code, including potential security holes, application crashes, and other important logic and design errors. It is recommended to include this rule set in any custom rule set you create for your projects." ToolsVersion="14.0">
+<RuleSet Name="Microsoft Managed Recommended Rules" Description="These rules focus on the most critical problems in your code, including potential security holes, application crashes, and other important logic and design errors. It is recommended to include this rule set in any custom rule set you create for your projects." ToolsVersion="16.0">
   <Localization ResourceAssembly="Microsoft.VisualStudio.CodeAnalysis.RuleSets.Strings.dll" ResourceBaseName="Microsoft.VisualStudio.CodeAnalysis.RuleSets.Strings.Localized">
     <Name Resource="MinimumRecommendedRules_Name" />
     <Description Resource="MinimumRecommendedRules_Description" />
   </Localization>
+  <Rules AnalyzerId="Gu.Analyzers.Analyzers" RuleNamespace="Gu.Analyzers.Analyzers">
+    <Rule Id="GU0001" Action="Warning" />
+    <Rule Id="GU0002" Action="Warning" />
+    <Rule Id="GU0003" Action="Warning" />
+    <Rule Id="GU0004" Action="Warning" />
+    <Rule Id="GU0005" Action="Warning" />
+    <Rule Id="GU0006" Action="Warning" />
+    <Rule Id="GU0007" Action="None" />
+    <Rule Id="GU0008" Action="None" />
+    <Rule Id="GU0010" Action="Warning" />
+    <Rule Id="GU0020" Action="Warning" />
+    <Rule Id="GU0021" Action="Warning" />
+    <Rule Id="GU0022" Action="Warning" />
+    <Rule Id="GU0030" Action="Warning" />
+    <Rule Id="GU0031" Action="Warning" />
+    <Rule Id="GU0032" Action="Warning" />
+    <Rule Id="GU0033" Action="Warning" />
+    <Rule Id="GU0034" Action="Warning" />
+    <Rule Id="GU0035" Action="Warning" />
+    <Rule Id="GU0036" Action="Warning" />
+    <Rule Id="GU0037" Action="Warning" />
+    <Rule Id="GU0050" Action="Warning" />
+  </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1001" Action="Warning" />
     <Rule Id="CA1009" Action="Warning" />
@@ -68,6 +91,12 @@
     <Rule Id="CA2241" Action="Warning" />
     <Rule Id="CA2242" Action="Warning" />
   </Rules>
+  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
+    <Rule Id="CA1710" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.NetCore.Analyzers" RuleNamespace="Microsoft.NetCore.Analyzers">
+    <Rule Id="CA1303" Action="None" />
+  </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1118" Action="None" />
     <Rule Id="SA1313" Action="None" />
@@ -78,31 +107,5 @@
     <Rule Id="SA1618" Action="None" />
     <Rule Id="SA1623" Action="None" />
     <Rule Id="SA1633" Action="None" />
-  </Rules>
-  <Rules AnalyzerId="Gu.Analyzers.Analyzers" RuleNamespace="Gu.Analyzers.Analyzers">
-    <Rule Id="GU0001" Action="Warning" />
-    <Rule Id="GU0002" Action="Warning" />
-    <Rule Id="GU0003" Action="Warning" />
-    <Rule Id="GU0004" Action="Warning" />
-    <Rule Id="GU0005" Action="Warning" />
-    <Rule Id="GU0006" Action="Warning" />
-    <Rule Id="GU0007" Action="None" />
-    <Rule Id="GU0008" Action="None" />
-    <Rule Id="GU0010" Action="Warning" />
-    <Rule Id="GU0020" Action="Warning" />
-    <Rule Id="GU0021" Action="Warning" />
-    <Rule Id="GU0022" Action="Warning" />
-    <Rule Id="GU0030" Action="Warning" />
-    <Rule Id="GU0031" Action="Warning" />
-    <Rule Id="GU0032" Action="Warning" />
-    <Rule Id="GU0033" Action="Warning" />
-    <Rule Id="GU0034" Action="Warning" />
-    <Rule Id="GU0035" Action="Warning" />
-    <Rule Id="GU0036" Action="Warning" />
-    <Rule Id="GU0037" Action="Warning" />
-    <Rule Id="GU0050" Action="Warning" />
-  </Rules>
-  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
-    <Rule Id="CA1710" Action="None" />
   </Rules>
 </RuleSet>
