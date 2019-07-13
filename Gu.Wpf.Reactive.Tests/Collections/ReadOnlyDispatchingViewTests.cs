@@ -13,16 +13,16 @@ namespace Gu.Wpf.Reactive.Tests.Collections
     using NUnit.Framework;
 
     [Apartment(ApartmentState.STA)]
-    public class ReadOnlyDispatchingViewTests
+    public static class ReadOnlyDispatchingViewTests
     {
         [OneTimeSetUp]
-        public void SetUp()
+        public static void SetUp()
         {
             App.Start();
         }
 
         [Test]
-        public async Task WhenAddToSource()
+        public static async Task WhenAddToSource()
         {
             var source = new ObservableCollection<int>();
             using (var expected = source.SubscribeAll())
@@ -43,7 +43,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
         }
 
         [Test]
-        public async Task WhenAddToSourceWithBufferTime()
+        public static async Task WhenAddToSourceWithBufferTime()
         {
             var source = new ObservableCollection<int>();
             using (var expected = source.SubscribeAll())
@@ -71,7 +71,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
         }
 
         [Test]
-        public async Task WhenManyAddsToSourceWithBufferTime()
+        public static async Task WhenManyAddsToSourceWithBufferTime()
         {
             var source = new ObservableCollection<int>();
             var bufferTime = TimeSpan.FromMilliseconds(20);

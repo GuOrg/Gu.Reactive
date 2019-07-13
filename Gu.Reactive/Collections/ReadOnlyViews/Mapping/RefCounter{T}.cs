@@ -11,11 +11,11 @@ namespace Gu.Reactive
 
         private bool isRefreshing;
 
-        public event Action<T> OnRemove;
+        internal event Action<T> OnRemove;
 
         private object Gate => this.cache.Gate;
 
-        public void Clear()
+        internal void Clear()
         {
             lock (this.Gate)
             {
@@ -32,7 +32,7 @@ namespace Gu.Reactive
             }
         }
 
-        public void Decrement(T mapped)
+        internal void Decrement(T mapped)
         {
             lock (this.Gate)
             {
@@ -45,7 +45,7 @@ namespace Gu.Reactive
             }
         }
 
-        public T Increment(T item)
+        internal T Increment(T item)
         {
             lock (this.Gate)
             {
@@ -103,7 +103,7 @@ namespace Gu.Reactive
 
             private bool disposed;
 
-            public Transaction(RefCounter<T> counter)
+            internal Transaction(RefCounter<T> counter)
             {
                 this.counter = counter;
             }

@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.Tests.Collections
+namespace Gu.Wpf.Reactive.Tests.Collections
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -6,10 +6,10 @@
 
     using NUnit.Framework;
 
-    public class ObservableCollectionExtensionsTests
+    public static class ObservableCollectionExtensionsTests
     {
         [Test]
-        public void InvokeInsertSorted()
+        public static void InvokeInsertSorted()
         {
             var ints = new ObservableCollection<int> { 1 };
             ints.InvokeInsertSorted(2, Comparer<int>.Default.Compare);
@@ -21,7 +21,7 @@
         }
 
         [Test]
-        public void InvokeAdd()
+        public static void InvokeAdd()
         {
             var ints = new ObservableCollection<int> { 1 };
             ints.InvokeAdd(2);
@@ -29,7 +29,7 @@
         }
 
         [Test]
-        public void InvokeAddRange()
+        public static void InvokeAddRange()
         {
             var ints = new ObservableCollection<int> { 1 };
             ints.InvokeAddRange(new[] { 2, 3 });
@@ -37,7 +37,7 @@
         }
 
         [Test]
-        public void InvokeRemove()
+        public static void InvokeRemove()
         {
             var ints = new ObservableCollection<int> { 1, 2 };
             ints.InvokeRemove(2);
@@ -45,7 +45,7 @@
         }
 
         [Test]
-        public void InvokeRemoveRange()
+        public static void InvokeRemoveRange()
         {
             var ints = new ObservableCollection<int> { 1, 2, 3 };
             ints.InvokeRemoveRange(new[] { 2, 3 });
@@ -53,7 +53,7 @@
         }
 
         [Test]
-        public void InvokeClear()
+        public static void InvokeClear()
         {
             var ints = new ObservableCollection<int> { 1 };
             ints.InvokeClear();
@@ -61,7 +61,7 @@
         }
 
         [Test]
-        public async Task AddAsync()
+        public static async Task AddAsync()
         {
             var ints = new ObservableCollection<int> { 1 };
             await ints.AddAsync(2).ConfigureAwait(false);
@@ -69,7 +69,7 @@
         }
 
         [Test]
-        public async Task AddRangeAsync()
+        public static async Task AddRangeAsync()
         {
             var ints = new ObservableCollection<int> { 1 };
             await ints.AddRangeAsync(new[] { 2, 3 }).ConfigureAwait(false);
@@ -77,7 +77,7 @@
         }
 
         [Test]
-        public async Task RemoveAsyncTest()
+        public static async Task RemoveAsyncTest()
         {
             var ints = new ObservableCollection<int> { 1 };
             Assert.IsFalse(await ints.RemoveAsync(2).ConfigureAwait(false));
@@ -87,7 +87,7 @@
         }
 
         [Test]
-        public async Task ClearAsync()
+        public static async Task ClearAsync()
         {
             var ints = new ObservableCollection<int> { 1 };
             await ints.ClearAsync().ConfigureAwait(false);

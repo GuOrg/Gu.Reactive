@@ -22,11 +22,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             CollectionAssert.AreEqual(new[] { CachedEventArgs.NotifyCollectionReset }, changes);
-            var expected = new[]
-            {
-                    CachedEventArgs.NotifyCollectionReset,
-                    CachedEventArgs.NotifyCollectionReset,
-                };
+            var expected = new[] { CachedEventArgs.NotifyCollectionReset, CachedEventArgs.NotifyCollectionReset, };
 
             using (observable.Subscribe(changes.Add))
             {

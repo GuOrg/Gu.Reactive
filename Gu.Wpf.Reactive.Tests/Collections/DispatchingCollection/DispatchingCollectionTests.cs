@@ -11,10 +11,10 @@ namespace Gu.Wpf.Reactive.Tests.Collections
 
     using NUnit.Framework;
 
-    public partial class DispatchingCollectionTests
+    public static class DispatchingCollectionTests
     {
         [Test]
-        public void Add()
+        public static void Add()
         {
             var reference = new ObservableCollection<int>();
             using (var expected = reference.SubscribeAll())
@@ -36,7 +36,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
         }
 
         [Test]
-        public void AddRange()
+        public static void AddRange()
         {
             var batchCollection = new DispatchingCollection<int>();
             using (var actual = batchCollection.SubscribeAll())
@@ -65,7 +65,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
         }
 
         [Test]
-        public void AddRangeSingle()
+        public static void AddRangeSingle()
         {
             var reference = new ObservableCollection<int>();
             using (var expected = reference.SubscribeAll())
@@ -87,7 +87,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
         }
 
         [Test]
-        public void Remove()
+        public static void Remove()
         {
             var reference = new ObservableCollection<int> { 1, 2, 3 };
             using (var expected = reference.SubscribeAll())
@@ -109,7 +109,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
         }
 
         [Test]
-        public void RemoveRange()
+        public static void RemoveRange()
         {
             var batchCollection = new DispatchingCollection<int> { 1, 2, 3, 4 };
             using (var actual = batchCollection.SubscribeAll())
@@ -139,7 +139,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
         }
 
         [Test]
-        public void RemoveRangeSingle()
+        public static void RemoveRangeSingle()
         {
             var reference = new ObservableCollection<int> { 1, 2, 3 };
             using (var expected = reference.SubscribeAll())
@@ -161,7 +161,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
         }
 
         [Test]
-        public void SerializeRountrip()
+        public static void SerializeRountrip()
         {
             var binaryFormatter = new BinaryFormatter();
             using (var stream = new MemoryStream())

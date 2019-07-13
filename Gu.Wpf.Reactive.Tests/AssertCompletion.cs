@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.Tests
+namespace Gu.Wpf.Reactive.Tests
 {
     using System.Threading.Tasks;
 
@@ -9,6 +9,16 @@
         public static void AreEqual<T>(Task expected, NotifyTaskCompletionBase<T> actual)
             where T : Task
         {
+            if (expected == null)
+            {
+                throw new System.ArgumentNullException(nameof(expected));
+            }
+
+            if (actual == null)
+            {
+                throw new System.ArgumentNullException(nameof(actual));
+            }
+
             Assert.AreSame(expected, actual.Task);
             Assert.AreEqual(expected.Status, actual.Status);
             Assert.AreEqual(expected.IsCompleted, actual.IsCompleted);

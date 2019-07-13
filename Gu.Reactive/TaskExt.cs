@@ -47,6 +47,11 @@ namespace Gu.Reactive
         /// </summary>
         public static Task TimeoutAfter(this Task task, TimeSpan timeout)
         {
+            if (task == null)
+            {
+                throw new ArgumentNullException(nameof(task));
+            }
+
             return TimeoutAfter(task, (int)timeout.TotalMilliseconds);
         }
 
@@ -57,6 +62,10 @@ namespace Gu.Reactive
         /// </summary>
         public static Task TimeoutAfter(this Task task, int millisecondsTimeout)
         {
+            if (task == null)
+            {
+                throw new ArgumentNullException(nameof(task));
+            }
             // Short-circuit #1: infinite timeout or task already completed
             if (task.IsCompleted || (millisecondsTimeout == Timeout.Infinite))
             {
@@ -117,6 +126,11 @@ namespace Gu.Reactive
         /// </summary>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, TimeSpan timeout)
         {
+            if (task == null)
+            {
+                throw new ArgumentNullException(nameof(task));
+            }
+
             return TimeoutAfter(task, (int)timeout.TotalMilliseconds);
         }
 
@@ -127,6 +141,11 @@ namespace Gu.Reactive
         /// </summary>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, int millisecondsTimeout)
         {
+            if (task == null)
+            {
+                throw new ArgumentNullException(nameof(task));
+            }
+
             // Short-circuit #1: infinite timeout or task already completed
             if (task.IsCompleted || (millisecondsTimeout == Timeout.Infinite))
             {
@@ -182,6 +201,16 @@ namespace Gu.Reactive
 
         internal static void MarshalTaskResults<TResult>(Task source, TaskCompletionSource<TResult> proxy)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (proxy == null)
+            {
+                throw new ArgumentNullException(nameof(proxy));
+            }
+
             switch (source.Status)
             {
                 case TaskStatus.Faulted:
