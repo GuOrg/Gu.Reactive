@@ -8,9 +8,9 @@ namespace Gu.Reactive.Internals
         private static InvalidOperationException collectionWasModified;
         private static ArgumentException destinationNotLongEnough;
 
-        public static InvalidOperationException CollectionWasModified => collectionWasModified ?? (collectionWasModified = CreateCollectionWasModified());
+        internal static InvalidOperationException CollectionWasModified => collectionWasModified ?? (collectionWasModified = CreateCollectionWasModified());
 
-        public static ArgumentException DestinationNotLongEnough => destinationNotLongEnough ?? (destinationNotLongEnough = CreateDestinationNotLongEnough());
+        internal static ArgumentException DestinationNotLongEnough => destinationNotLongEnough ?? (destinationNotLongEnough = CreateDestinationNotLongEnough());
 
         private static InvalidOperationException CreateCollectionWasModified()
         {

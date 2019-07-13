@@ -4,13 +4,13 @@ namespace Gu.Reactive.Internals
 
     internal static class IdentityMap
     {
-        public static IdentityMap<TKey, TValue> Borrow<TKey, TValue>()
+        internal static IdentityMap<TKey, TValue> Borrow<TKey, TValue>()
             where TKey : class
         {
             return Pool<TKey, TValue>.Cache.GetOrCreate(() => new IdentityMap<TKey, TValue>());
         }
 
-        public static void Return<TKey, TValue>(IdentityMap<TKey, TValue> map)
+        internal static void Return<TKey, TValue>(IdentityMap<TKey, TValue> map)
             where TKey : class
         {
             map.Clear();

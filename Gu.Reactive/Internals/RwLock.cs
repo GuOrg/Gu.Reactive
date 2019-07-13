@@ -85,7 +85,7 @@ namespace Gu.Reactive.Internals
         {
             private readonly ReaderWriterLockSlim rwLock;
 
-            public Reader(ReaderWriterLockSlim rwLock)
+            internal Reader(ReaderWriterLockSlim rwLock)
             {
                 this.rwLock = rwLock;
                 rwLock.EnterReadLock();
@@ -111,7 +111,7 @@ namespace Gu.Reactive.Internals
         {
             private readonly ReaderWriterLockSlim rwLock;
 
-            public UpgradeableReader(ReaderWriterLockSlim rwLock)
+            internal UpgradeableReader(ReaderWriterLockSlim rwLock)
             {
                 this.rwLock = rwLock;
                 rwLock.EnterUpgradeableReadLock();
@@ -137,7 +137,7 @@ namespace Gu.Reactive.Internals
         {
             private readonly ReaderWriterLockSlim rwLock;
 
-            public Writer(ReaderWriterLockSlim rwLock)
+            internal Writer(ReaderWriterLockSlim rwLock)
             {
                 this.rwLock = rwLock;
                 rwLock.EnterWriteLock();

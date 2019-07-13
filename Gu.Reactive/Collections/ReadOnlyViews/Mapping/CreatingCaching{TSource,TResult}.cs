@@ -141,7 +141,7 @@ namespace Gu.Reactive
 
                 private bool disposed;
 
-                public Transaction(InstanceCache cache)
+                internal Transaction(InstanceCache cache)
                 {
                     this.cache = cache;
                     this.resultTransaction = cache.resultCounter.RefreshTransaction();

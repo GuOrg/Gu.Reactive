@@ -1,3 +1,4 @@
+#pragma warning disable GU0073 // Member of non-public type should be internal.
 namespace Gu.Reactive
 {
     using System;

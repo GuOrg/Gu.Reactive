@@ -129,7 +129,7 @@ namespace Gu.Reactive
 
             private bool disposed;
 
-            public ClearTransactionImpl(Chunk<T> chunk)
+            internal ClearTransactionImpl(Chunk<T> chunk)
             {
                 this.chunk = chunk;
                 Monitor.Enter(chunk.gate);
