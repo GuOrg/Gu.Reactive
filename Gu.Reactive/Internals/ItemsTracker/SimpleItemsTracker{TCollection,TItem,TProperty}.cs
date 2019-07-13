@@ -17,7 +17,7 @@ namespace Gu.Reactive.Internals
         private TCollection source;
         private bool disposed;
 
-        public SimpleItemsTracker(TCollection source, Getter<TItem, TProperty> getter)
+        internal SimpleItemsTracker(TCollection source, Getter<TItem, TProperty> getter)
         {
             this.getter = getter;
             if (source != null)

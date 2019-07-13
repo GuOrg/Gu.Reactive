@@ -15,7 +15,7 @@ namespace Gu.Reactive.Internals
         private readonly Getter<TItem, TProperty> getter;
         private readonly IdentitySet<TItem> set = IdentitySet.Borrow<TItem>();
 
-        public SimpleItemsTrackerSlim(TCollection source, Getter<TItem, TProperty> getter)
+        internal SimpleItemsTrackerSlim(TCollection source, Getter<TItem, TProperty> getter)
         {
             this.source = source;
             this.getter = getter;

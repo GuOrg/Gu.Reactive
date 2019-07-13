@@ -7,7 +7,7 @@ namespace Gu.Reactive.Internals
 
     internal abstract class ItemsTrackerSlim : IDisposable
     {
-        public event Action<PropertyChangedEventArgs> ItemPropertyChanged;
+        internal event Action<PropertyChangedEventArgs> ItemPropertyChanged;
 
         protected bool Disposed { get; private set; }
 
