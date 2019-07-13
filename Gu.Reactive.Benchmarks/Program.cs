@@ -9,11 +9,10 @@ namespace Gu.Reactive.Benchmarks
     using BenchmarkDotNet.Reports;
     using BenchmarkDotNet.Running;
     using Gu.Reactive.Analyzers;
-    using Gu.Reactive.Internals;
 
     public static class Program
     {
-        public void Main()
+        public static void Main()
         {
             if (false)
             {
@@ -22,7 +21,7 @@ namespace Gu.Reactive.Benchmarks
                 // Warmup
                 benchmark.Run();
                 Console.WriteLine("Attach profiler and press any key to continue...");
-                Console.ReadKey().IgnoreReturnValue();
+                _ = Console.ReadKey();
                 benchmark.Run();
             }
             else

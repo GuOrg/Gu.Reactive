@@ -125,7 +125,7 @@ namespace Gu.Reactive.Internals
         private void Refresh()
         {
             // Called for side effect of refreshing the path
-            this.SourceAndValue().IgnoreReturnValue();
+            _ = this.SourceAndValue();
         }
 
         private void ThrowIfDisposed()

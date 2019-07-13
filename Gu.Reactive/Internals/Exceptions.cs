@@ -24,7 +24,7 @@ namespace Gu.Reactive.Internals
                     ints.Clear();
 
                     // this throws collection was modified.
-                    enumerator.MoveNext().IgnoreReturnValue();
+                    _ = enumerator.MoveNext();
                 }
             }
             catch (InvalidOperationException e)

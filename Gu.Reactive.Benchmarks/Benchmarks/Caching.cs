@@ -11,7 +11,7 @@ namespace Gu.Reactive.Benchmarks
     using Gu.Reactive.Internals;
 
     [BenchmarkDotNet.Attributes.MemoryDiagnoser]
-    public static class Caching
+    public class Caching
     {
         private static readonly IReadOnlyList<string> Strings = Enumerable.Range(0, 1000).Select(x => x.ToString(CultureInfo.InvariantCulture)).ToArray();
         private static readonly Expression<Func<Fake, int>> SingleItemPath = x => x.Value;
@@ -20,19 +20,19 @@ namespace Gu.Reactive.Benchmarks
         private static readonly PropertyInfo Property = typeof(Fake).GetProperty(nameof(Fake.Next), BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
         [Benchmark(Baseline = true)]
-        public static int StringGetHashCode()
+        public int StringGetHashCode()
         {
             return "x => x.Value".GetHashCode();
         }
 
         [Benchmark]
-        public static object NewSetPoolIdentitySet()
+        public object NewSetPoolIdentitySet()
         {
             return new IdentitySet<string>();
         }
 
         [Benchmark]
-        public static object NewSetPoolIdentitySetUnionWithStrings()
+        public object NewSetPoolIdentitySetUnionWithStrings()
         {
             var set = new IdentitySet<string>();
             set.UnionWith(Strings);
@@ -41,7 +41,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public static object SetPoolBorrowReturn()
+        public object SetPoolBorrowReturn()
         {
             var set = SetPool.Borrow<string>();
             SetPool.Return(set);
@@ -49,7 +49,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public static object TryTakeAdd()
+        public object TryTakeAdd()
         {
             if (Bag.TryTake(out IdentitySet<string> set))
             {
@@ -60,7 +60,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public static object NewSetPoolBorrowReturnUnionWithStrings()
+        public object NewSetPoolBorrowReturnUnionWithStrings()
         {
             var set = SetPool.Borrow<string>();
             set.UnionWith(Strings);
@@ -69,43 +69,43 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public static Expression<Func<Fake, int>> OneLevelExpression()
+        public Expression<Func<Fake, int>> OneLevelExpression()
         {
             return x => x.Value;
         }
 
         [Benchmark]
-        public static Expression<Func<Fake, int>> TwoLevelExpression()
+        public Expression<Func<Fake, int>> TwoLevelExpression()
         {
             return x => x.Next.Value;
         }
 
         [Benchmark]
-        public static int PropertyPathComparerGetHashCodeSingleItemPath()
+        public int PropertyPathComparerGetHashCodeSingleItemPath()
         {
             return ((IEqualityComparer<LambdaExpression>)PropertyPathComparer.Default).GetHashCode(SingleItemPath);
         }
 
         [Benchmark]
-        public static int PropertyPathComparerGetHashCodeTwoItemPath()
+        public int PropertyPathComparerGetHashCodeTwoItemPath()
         {
             return ((IEqualityComparer<LambdaExpression>)PropertyPathComparer.Default).GetHashCode(TwoItemPath);
         }
 
         [Benchmark]
-        public static object NotifyingPathGetOrCreateSingleItemPath()
+        public object NotifyingPathGetOrCreateSingleItemPath()
         {
             return NotifyingPath.GetOrCreate(SingleItemPath);
         }
 
         [Benchmark]
-        public static object NotifyingPathGetOrCreateTwoItemPath()
+        public object NotifyingPathGetOrCreateTwoItemPath()
         {
             return NotifyingPath.GetOrCreate(TwoItemPath);
         }
 
         [Benchmark]
-        public static object GetterGetOrCreateProperty()
+        public object GetterGetOrCreateProperty()
         {
             return Getter.GetOrCreate(Property);
         }

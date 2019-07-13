@@ -143,7 +143,6 @@
     <Compile Include="Contracts\IWpfSchedulers.cs" />
     <Compile Include="Internals\Ensure\Ensure.String.cs" />
     <Compile Include="Internals\IdentitySet{T}.cs" />
-    <Compile Include="Internals\Ignore.cs" />
     <Compile Include="Internals\ItemsTracker\ItemsTracker.cs" />
     <Compile Include="Internals\ItemsTracker\ItemsTrackerSlim.cs" />
     <Compile Include="Internals\ItemsTracker\ItemsTracker{TCollection,TItem,TProperty}.cs" />
