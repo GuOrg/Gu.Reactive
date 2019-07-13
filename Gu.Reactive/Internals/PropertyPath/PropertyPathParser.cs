@@ -61,7 +61,7 @@ namespace Gu.Reactive.Internals
             private readonly PropertyInfo property;
             private readonly Type reflectedType;
 
-            public InterfaceProperty(PropertyInfo property, Type reflectedType)
+            internal InterfaceProperty(PropertyInfo property, Type reflectedType)
             {
                 this.property = property;
                 this.reflectedType = reflectedType;

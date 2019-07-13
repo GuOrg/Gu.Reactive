@@ -4,13 +4,13 @@ namespace Gu.Reactive.Internals
 
     internal static class IdentitySet
     {
-        public static IdentitySet<T> Borrow<T>()
+        internal static IdentitySet<T> Borrow<T>()
             where T : class
         {
             return Pool<T>.Cache.GetOrCreate(() => new IdentitySet<T>());
         }
 
-        public static void Return<T>(IdentitySet<T> set)
+        internal static void Return<T>(IdentitySet<T> set)
             where T : class
         {
             set.Clear();

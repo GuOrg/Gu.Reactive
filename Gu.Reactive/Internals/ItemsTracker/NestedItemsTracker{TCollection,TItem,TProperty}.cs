@@ -18,7 +18,7 @@ namespace Gu.Reactive.Internals
         private TCollection source;
         private bool disposed;
 
-        public NestedItemsTracker(TCollection source, NotifyingPath<TItem, TProperty> path)
+        internal NestedItemsTracker(TCollection source, NotifyingPath<TItem, TProperty> path)
         {
             this.path = path;
             if (source != null)

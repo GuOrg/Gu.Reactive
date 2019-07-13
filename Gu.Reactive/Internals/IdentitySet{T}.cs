@@ -5,7 +5,7 @@ namespace Gu.Reactive.Internals
     internal class IdentitySet<T> : HashSet<T>
         where T : class
     {
-        public IdentitySet()
+        internal IdentitySet()
             : base(ObjectIdentityComparer<T>.Default)
         {
         }

@@ -14,7 +14,7 @@ namespace Gu.Reactive.Internals
         private TSource source;
         private bool disposed;
 
-        public PropertyTracker(IPropertyPathTracker pathTracker, NotifyingGetter<TSource, TValue> getter)
+        internal PropertyTracker(IPropertyPathTracker pathTracker, NotifyingGetter<TSource, TValue> getter)
         {
             Ensure.NotNull(pathTracker, nameof(pathTracker));
             Ensure.NotNull(getter, nameof(getter));
@@ -69,8 +69,6 @@ namespace Gu.Reactive.Internals
 
         IGetter IPropertyTracker.Getter => this.Getter;
 
-        public IPropertyTracker Next => this.PathTracker.GetNext(this);
-
         /// <summary>
         /// Gets or sets the source.
         /// </summary>
@@ -116,6 +114,8 @@ namespace Gu.Reactive.Internals
             set => this.Source = (TSource)value;
 #pragma warning restore GU0022 // Use get-only.
         }
+
+        internal IPropertyTracker Next => this.PathTracker.GetNext(this);
 
         Maybe<TValue> IPropertyTracker<TValue>.GetMaybe() => this.Getter.GetMaybe(this.source);
 
