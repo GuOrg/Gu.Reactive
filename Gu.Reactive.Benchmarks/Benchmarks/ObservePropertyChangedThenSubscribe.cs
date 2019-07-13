@@ -60,7 +60,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public static IDisposable ObservePropertyChangedSimpleLamda()
+        public static IDisposable ObservePropertyChangedSimpleLambda()
         {
             using (var disposable = Fake.ObservePropertyChanged(x => x.Value, signalInitial: false)
                                         .Subscribe(_ => { }))

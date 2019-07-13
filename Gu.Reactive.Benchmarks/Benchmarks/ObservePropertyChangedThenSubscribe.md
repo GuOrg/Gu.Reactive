@@ -14,7 +14,7 @@ Frequency=3410126 Hz, Resolution=293.2443 ns, Timer=TSC
  |                       SubjectSubscribe |     56.73 ns |   1.207 ns |   1.482 ns |     56.46 ns |   0.67 |     0.05 | 0.0074 |      - |      40 B |
  |                           SimpleLambda |  2,208.82 ns |  44.229 ns | 124.748 ns |  2,177.20 ns |  26.08 |     2.30 | 0.0813 |      - |     472 B |
  |                           NestedLambda |  3,119.21 ns | 249.136 ns | 734.583 ns |  2,732.43 ns |  36.83 |     9.00 | 0.1149 |      - |     644 B |
- |      ObservePropertyChangedSimpleLamda |  3,339.72 ns |  66.601 ns | 133.010 ns |  3,335.26 ns |  39.43 |     3.10 | 0.1782 |      - |     984 B |
+ |      ObservePropertyChangedSimpleLambda |  3,339.72 ns |  66.601 ns | 133.010 ns |  3,335.26 ns |  39.43 |     3.10 | 0.1782 |      - |     984 B |
  | ObservePropertyChangedNestedCachedPath |  1,718.20 ns |  34.392 ns |  84.364 ns |  1,727.39 ns |  20.29 |     1.70 | 0.1640 |      - |     888 B |
  |     ObservePropertyChangedNestedLambda |  5,798.48 ns | 114.840 ns | 292.303 ns |  5,774.10 ns |  68.46 |     5.78 | 0.2768 |      - |    1532 B |
  |           ObservePropertyChangedString |    621.01 ns |  12.364 ns |  27.654 ns |    620.53 ns |   7.33 |     0.59 | 0.0905 |      - |     492 B |
