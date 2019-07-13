@@ -52,6 +52,11 @@ namespace Gu.Reactive
         /// </summary>
         public static bool IsInSync(this ICondition condition)
         {
+            if (condition == null)
+            {
+                throw new ArgumentNullException(nameof(condition));
+            }
+
             return condition.IsSatisfied == condition.History
                                                      .Last()
                                                      .State;

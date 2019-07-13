@@ -19,7 +19,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="type">The enum type.</param>
         public EnumValuesForExtension(Type type)
         {
-            Ensure.IsTrue(type.IsEnum, nameof(type), "Expected type to be an enum");
+            Ensure.IsTrue(type?.IsEnum == true, nameof(type), "Expected type to be an enum");
             this.type = type;
         }
 

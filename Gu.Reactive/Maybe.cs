@@ -51,6 +51,11 @@ namespace Gu.Reactive
         /// <param name="compare">How to compare x and y.</param>
         public static bool? Equals<T>(Maybe<T> x, T y, Func<T, T, bool> compare)
         {
+            if (compare == null)
+            {
+                throw new ArgumentNullException(nameof(compare));
+            }
+
             return x.HasValue
                 ? compare(x.Value, y)
                 : (bool?)null;

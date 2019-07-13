@@ -22,7 +22,7 @@ namespace Gu.Reactive
         /// </summary>
         public NegatedCondition(ICondition condition)
         {
-            this.condition = condition;
+            this.condition = condition ?? throw new ArgumentNullException(nameof(condition));
             this.name = $"Not_{condition.Name}";
 
             this.subscription = condition.ObserveIsSatisfiedChanged()

@@ -105,6 +105,11 @@ namespace Gu.Wpf.Reactive
         /// <param name="source">The object on which to start listening to.</param>
         protected override void StartListening(object source)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             ((ICommand)source).CanExecuteChanged += this.DeliverEvent;
         }
 
@@ -114,6 +119,11 @@ namespace Gu.Wpf.Reactive
         /// <param name="source">The source object on which to stop listening to.</param>
         protected override void StopListening(object source)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+            
             ((ICommand)source).CanExecuteChanged -= this.DeliverEvent;
         }
     }

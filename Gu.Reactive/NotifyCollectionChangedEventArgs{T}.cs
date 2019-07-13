@@ -18,7 +18,7 @@ namespace Gu.Reactive
         /// </summary>
         public NotifyCollectionChangedEventArgs(NotifyCollectionChangedEventArgs args)
         {
-            this.args = args;
+            this.args = args ?? throw new ArgumentNullException(nameof(args));
             this.NewItems = GetItems(args.NewItems);
             this.OldItems = GetItems(args.OldItems);
         }

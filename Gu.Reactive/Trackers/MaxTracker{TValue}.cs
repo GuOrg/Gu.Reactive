@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -54,6 +54,11 @@
         /// <inheritdoc/>
         protected override TValue? GetValueOrDefault(IEnumerable<TValue> source)
         {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             var comparer = Comparer<TValue>.Default;
             TValue? value = null;
             foreach (var x in source)

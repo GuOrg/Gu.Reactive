@@ -14,54 +14,99 @@ namespace Gu.Wpf.Reactive
         [Obsolete("To be removed.")]
         public static IXamlTypeResolver XamlTypeResolver(this IServiceProvider provider)
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
             return provider.GetService(typeof(IXamlTypeResolver)) as IXamlTypeResolver;
         }
 
         [Obsolete("To be removed.")]
         public static IProvideValueTarget ProvideValueTarget(this IServiceProvider provider)
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
             return provider.GetService(typeof(IProvideValueTarget)) as IProvideValueTarget;
         }
 
         [Obsolete("To be removed.")]
         public static IRootObjectProvider RootObjectProvider(this IServiceProvider provider)
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
             return provider.GetService(typeof(IRootObjectProvider)) as IRootObjectProvider;
         }
 
         [Obsolete("To be removed.")]
         public static ITypeDescriptorContext TypeDescriptorContext(this IServiceProvider provider)
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
             return provider.GetService(typeof(ITypeDescriptorContext)) as ITypeDescriptorContext;
         }
 
         [Obsolete("To be removed.")]
         public static IUriContext UriContext(this IServiceProvider provider)
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
             return provider.GetService(typeof(IUriContext)) as IUriContext;
         }
 
         [Obsolete("To be removed.")]
         public static IXamlNameResolver XamlNameResolver(this IServiceProvider provider)
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
             return provider.GetService(typeof(IXamlNameResolver)) as IXamlNameResolver;
         }
 
         [Obsolete("To be removed.")]
         public static IXamlNamespaceResolver XamlNamespaceResolver(this IServiceProvider provider)
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
             return provider.GetService(typeof(IXamlNamespaceResolver)) as IXamlNamespaceResolver;
         }
 
         [Obsolete("To be removed.")]
         public static IXamlSchemaContextProvider XamlSchemaContextProvider(this IServiceProvider provider)
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
             return provider.GetService(typeof(IXamlSchemaContextProvider)) as IXamlSchemaContextProvider;
         }
 
         [Obsolete("To be removed.")]
         public static bool IsInTemplate(this IServiceProvider serviceProvider)
         {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider));
+            }
+
             return serviceProvider.GetService(typeof(IProvideValueTarget)) is IProvideValueTarget target && !(target.TargetObject is DependencyObject);
         }
     }

@@ -20,7 +20,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="task">The task to run and notify status for.</param>
         protected NotifyTaskCompletionBase(T task)
         {
-            this.Task = task;
+            this.Task = task ?? throw new ArgumentNullException(nameof(task));
             if (task.IsCompleted)
             {
                 this.completed = task;

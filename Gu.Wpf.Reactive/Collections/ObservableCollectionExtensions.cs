@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -170,7 +170,12 @@
         /// </summary>
         public static Task ClearAsync<T>(this ObservableCollection<T> collection)
         {
-            return InvokeAsync((Action)collection.Clear);
+            if (collection == null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
+            return InvokeAsync(collection.Clear);
         }
 
         private static void Invoke(Action action)

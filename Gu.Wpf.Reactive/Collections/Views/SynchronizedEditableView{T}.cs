@@ -178,6 +178,11 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         protected virtual bool IsSourceChange(NotifyCollectionChangedEventArgs e)
         {
+            if (e == null)
+            {
+                throw new ArgumentNullException(nameof(e));
+            }
+
             return this.UpdatedSourceWith?.Action != e.Action;
         }
 
