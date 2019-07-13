@@ -1,17 +1,16 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA06DontNewConditionTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
 {
     using Gu.Roslyn.Asserts;
+    using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly DiagnosticDescriptor Descriptor = GUREA09ObservableBeforeCriteria.Descriptor;
 
-        [Test]
-        public void WhenInjectingCondition()
-        {
-            var fooCode = @"
+        private const string FooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -48,7 +47,11 @@ namespace RoslynSandbox
         }
     }
 }";
-            var conditionCode = @"
+
+        [Test]
+        public static void BaseCall()
+        {
+            var testCode = @"
 namespace RoslynSandbox
 {
     using System.Reactive.Linq;
@@ -64,23 +67,29 @@ namespace RoslynSandbox
         }
     }
 }";
+            RoslynAssert.Valid(Analyzer, Descriptor, FooCode, testCode);
+        }
+
+        [Test]
+        public static void CorrectNew()
+        {
             var testCode = @"
 namespace RoslynSandbox
 {
-    using System;
     using Gu.Reactive;
 
-    public class Bar
+    class Bar
     {
-        private readonly ICondition condition;
-        public Bar(FooCondition condition)
+        public static ICondition Create()
         {
             var foo = new Foo();
-            this.condition = condition;
+            return new Condition(
+                foo.ObservePropertyChangedSlim(x => x.Value),
+                () => foo.Value == 2);
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, conditionCode, testCode);
+            RoslynAssert.Valid(Analyzer, Descriptor, FooCode, testCode);
         }
     }
 }

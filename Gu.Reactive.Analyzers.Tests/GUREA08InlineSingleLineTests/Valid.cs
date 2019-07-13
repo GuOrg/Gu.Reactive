@@ -1,16 +1,17 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
 {
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly DiagnosticDescriptor Descriptor = GUREA09ObservableBeforeCriteria.Descriptor;
 
-        private const string FooCode = @"
+        [Test]
+        public static void WhenSingleLine()
+        {
+            var fooCode = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
@@ -47,10 +48,6 @@ namespace RoslynSandbox
         }
     }
 }";
-
-        [Test]
-        public void BaseCall()
-        {
             var testCode = @"
 namespace RoslynSandbox
 {
@@ -67,29 +64,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, Descriptor, FooCode, testCode);
-        }
-
-        [Test]
-        public void CorrectNew()
-        {
-            var testCode = @"
-namespace RoslynSandbox
-{
-    using Gu.Reactive;
-
-    class Bar
-    {
-        public static ICondition Create()
-        {
-            var foo = new Foo();
-            return new Condition(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2);
-        }
-    }
-}";
-            RoslynAssert.Valid(Analyzer, Descriptor, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, testCode);
         }
     }
 }

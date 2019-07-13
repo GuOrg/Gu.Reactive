@@ -4,13 +4,13 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA03PathMustNotifyTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class Diagnostics
+    public static class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA03PathMustNotify.Descriptor);
 
         [Test]
-        public void OneLevel()
+        public static void OneLevel()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -52,7 +52,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void OneLevelMethod()
+        public static void OneLevelMethod()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -94,7 +94,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TwoLevelsFirstNotNotifying()
+        public static void TwoLevelsFirstNotNotifying()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -166,7 +166,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TwoLevelsLastNotNotifying()
+        public static void TwoLevelsLastNotNotifying()
         {
             var fooCode = @"
 namespace RoslynSandbox

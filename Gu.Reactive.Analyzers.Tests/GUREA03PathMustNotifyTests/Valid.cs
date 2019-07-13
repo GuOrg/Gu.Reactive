@@ -4,12 +4,12 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA03PathMustNotifyTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
         [Test]
-        public void OneLevel()
+        public static void OneLevel()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -68,7 +68,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void OneLevelGetOnly()
+        public static void OneLevelGetOnly()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -108,7 +108,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void InterfaceGetSet()
+        public static void InterfaceGetSet()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -140,7 +140,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void ObservableCollectionCount()
+        public static void ObservableCollectionCount()
         {
             var code = @"
 namespace RoslynSandbox
@@ -161,7 +161,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void InterfaceGetOnly()
+        public static void InterfaceGetOnly()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -193,7 +193,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void GenericConstraint()
+        public static void GenericConstraint()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -226,7 +226,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void GenericProperty()
+        public static void GenericProperty()
         {
             var iBarCode = @"
 namespace RoslynSandbox
@@ -271,7 +271,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void GenericConstrainedProperty()
+        public static void GenericConstrainedProperty()
         {
             var iBarCode = @"
 namespace RoslynSandbox
@@ -317,7 +317,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void TwoLevels()
+        public static void TwoLevels()
         {
             var fooCode = @"
 namespace RoslynSandbox

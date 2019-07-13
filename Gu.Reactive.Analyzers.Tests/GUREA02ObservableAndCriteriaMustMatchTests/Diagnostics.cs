@@ -4,7 +4,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA02ObservableAndCriteriaMustMatchTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class Diagnostics
+    public static class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA02ObservableAndCriteriaMustMatch.Descriptor);
@@ -68,7 +68,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void BaseCall()
+        public static void BaseCall()
         {
             var code = @"
 namespace RoslynSandbox
@@ -96,7 +96,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void New()
+        public static void New()
         {
             var code = @"
 namespace RoslynSandbox

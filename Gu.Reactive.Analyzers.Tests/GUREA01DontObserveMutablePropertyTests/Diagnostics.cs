@@ -4,13 +4,13 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA01DontObserveMutablePropertyTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class Diagnostics
+    public static class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA01DontObserveMutableProperty.Descriptor);
 
         [Test]
-        public void ObservingMutablePropertyInSelf()
+        public static void ObservingMutablePropertyInSelf()
         {
             var fooCode = @"
 namespace RoslynSandbox

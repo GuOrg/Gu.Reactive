@@ -4,7 +4,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA02ObservableAndCriteriaMustMatchTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 
@@ -64,7 +64,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void CorrectBaseCall()
+        public static void CorrectBaseCall()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -85,7 +85,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void IntervalAndSchedulerNow()
+        public static void IntervalAndSchedulerNow()
         {
             var code = @"
 namespace RoslynSandbox
@@ -109,7 +109,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void PropertyAndSchedulerNow()
+        public static void PropertyAndSchedulerNow()
         {
             var testCode = @"
 #pragma warning disable GUREA10 // Split up into two conditions?
@@ -137,7 +137,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void CorrectNew()
+        public static void CorrectNew()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -159,7 +159,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenUsingImmutableProperty()
+        public static void WhenUsingImmutableProperty()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -228,7 +228,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenUsingPrivateSetPropertyOnlyAssignedInCtor()
+        public static void WhenUsingPrivateSetPropertyOnlyAssignedInCtor()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -297,7 +297,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenUsingNullableValue()
+        public static void WhenUsingNullableValue()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -353,7 +353,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void IgnoreUsageInThrowOneLevel()
+        public static void IgnoreUsageInThrowOneLevel()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -433,7 +433,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void IgnoreUsageInThrowTwoLevels()
+        public static void IgnoreUsageInThrowTwoLevels()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -566,7 +566,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void IgnoreTypeofFullName()
+        public static void IgnoreTypeofFullName()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -621,7 +621,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void IgnoreRegex()
+        public static void IgnoreRegex()
         {
             var fooCode = @"
 namespace RoslynSandbox

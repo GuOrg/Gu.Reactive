@@ -4,12 +4,12 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
         [Test]
-        public void WhenInjectingCondition()
+        public static void WhenInjectingCondition()
         {
             var fooCode = @"
 namespace RoslynSandbox

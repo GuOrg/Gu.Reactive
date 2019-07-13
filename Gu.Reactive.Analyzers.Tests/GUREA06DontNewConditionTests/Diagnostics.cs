@@ -4,13 +4,13 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA06DontNewConditionTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class Diagnostics
+    public static class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA06DontNewCondition.Descriptor);
 
         [Test]
-        public void WhenCreatingCondition()
+        public static void WhenCreatingCondition()
         {
             var fooCode = @"
 namespace RoslynSandbox

@@ -4,7 +4,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
@@ -47,7 +47,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void WhenPassingSlimToConditionCtor()
+        public static void WhenPassingSlimToConditionCtor()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -68,7 +68,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenSubscribingToSlimNotUsingArg()
+        public static void WhenSubscribingToSlimNotUsingArg()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -90,7 +90,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenSubscribingToSlimUsingArg()
+        public static void WhenSubscribingToSlimUsingArg()
         {
             var testCode = @"
 namespace RoslynSandbox

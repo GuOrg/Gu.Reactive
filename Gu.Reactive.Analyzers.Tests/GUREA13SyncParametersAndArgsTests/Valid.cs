@@ -4,7 +4,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public static class ValidCode
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 

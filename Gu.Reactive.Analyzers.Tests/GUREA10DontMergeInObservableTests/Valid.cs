@@ -1,12 +1,12 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public static class ValidCode
+    public static class Valid
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new GUREA11PreferObservableFromEvent();
+        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 
         private const string FooCode = @"
 namespace RoslynSandbox
@@ -47,7 +47,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public static void Misc()
+        public static void WhenNoMerge()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -66,44 +66,6 @@ namespace RoslynSandbox
     }
 }";
             RoslynAssert.Valid(Analyzer, FooCode, testCode);
-        }
-
-        [Test]
-        public static void InsideObservableFromEventArg()
-        {
-            var fooCode = @"
-namespace RoslynSandbox
-{
-    using System;
-
-    public class Foo
-    {
-        public event EventHandler<int> SomeEvent;
-    }
-}";
-
-            var testCode = @"
-namespace RoslynSandbox
-{
-    using System;
-    using System.Reactive.Linq;
-
-    public class Bar
-    {
-        public Bar()
-        {
-            var foo = new Foo();
-            using (Observable.FromEvent<EventHandler<int>, int>(
-                                 h => (_, e) => h(e),
-                                 h => foo.SomeEvent += h,
-                                 h => foo.SomeEvent -= h)
-                             .Subscribe(_ => Console.WriteLine(string.Empty)))
-            {
-            }
-        }
-    }
-}";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
         }
     }
 }

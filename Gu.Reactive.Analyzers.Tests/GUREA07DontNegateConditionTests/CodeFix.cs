@@ -5,7 +5,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class CodeFix
+    public static class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly CodeFixProvider Fix = new InjectNegatedCodeFix();
@@ -50,7 +50,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void WhenNegatingCondition()
+        public static void WhenNegatingCondition()
         {
             var conditionCode = @"
 namespace RoslynSandbox
@@ -101,7 +101,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenPassingNegatedConditionToBaseCtor()
+        public static void WhenPassingNegatedConditionToBaseCtor()
         {
             var fooConditionCode = @"
 namespace RoslynSandbox
@@ -166,7 +166,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenPassingNegatedConditionToBaseCtorArgPerLine()
+        public static void WhenPassingNegatedConditionToBaseCtorArgPerLine()
         {
             var fooConditionCode = @"
 namespace RoslynSandbox
@@ -239,7 +239,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenNegatingNegatedCondition()
+        public static void WhenNegatingNegatedCondition()
         {
             var fooConditionCode = @"
 namespace RoslynSandbox

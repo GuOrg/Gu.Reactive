@@ -4,13 +4,13 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA05FullPathMustHaveMoreThanOneItemTest
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class Diagnostics
+    public static class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA05FullPathMustHaveMoreThanOneItem.Descriptor);
 
         [Test]
-        public void OneLevel()
+        public static void OneLevel()
         {
             var fooCode = @"
 namespace RoslynSandbox

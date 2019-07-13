@@ -5,7 +5,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class CodeFix
+    public static class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly CodeFixProvider Fix = new InlineSingleLineCodeFix();
@@ -50,7 +50,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void WhenCreateObservableIsSingleLine()
+        public static void WhenCreateObservableIsSingleLine()
         {
             var before = @"
 namespace RoslynSandbox
@@ -96,7 +96,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenCriteriaIsSingleLine()
+        public static void WhenCriteriaIsSingleLine()
         {
             var before = @"
 namespace RoslynSandbox

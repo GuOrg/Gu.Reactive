@@ -5,7 +5,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class CodeFix
+    public static class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly CodeFixProvider Fix = new UseSlimCodeFix();
@@ -50,7 +50,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void PassingObservePropertyChangedToConditionCtor()
+        public static void PassingObservePropertyChangedToConditionCtor()
         {
             var before = @"
 namespace RoslynSandbox
@@ -87,7 +87,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenSubscribingNotUsingArg()
+        public static void WhenSubscribingNotUsingArg()
         {
             var before = @"
 namespace RoslynSandbox

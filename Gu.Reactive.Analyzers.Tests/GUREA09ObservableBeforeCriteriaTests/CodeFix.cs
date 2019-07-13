@@ -5,7 +5,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class CodeFix
+    public static class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly CodeFixProvider Fix = new ObservableBeforeCriteriaCodeFix();
@@ -50,7 +50,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void BaseCall()
+        public static void BaseCall()
         {
             var before = @"
 namespace RoslynSandbox
@@ -87,7 +87,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void New()
+        public static void New()
         {
             var before = @"
 namespace RoslynSandbox
