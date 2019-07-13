@@ -13,12 +13,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
     using NUnit.Framework;
 
-    public partial class NotifyCollectionChangedExtTests
+    public static partial class NotifyCollectionChangedExtTests
     {
-        public class ItemPropertyChanged
+        public static class ItemPropertyChanged
         {
             [Test]
-            public void SignalsOnNewCollection()
+            public static void SignalsOnNewCollection()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var fake = new FakeWithCollection();
@@ -34,7 +34,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void SignalsInitial()
+            public static void SignalsInitial()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var collection = new ObservableCollection<Fake> { new Fake { Name = "1" } };
@@ -48,7 +48,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsNested()
+            public static void ReactsNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var collection = new ObservableCollection<Fake>
@@ -86,7 +86,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplacingCollectionWithNewWithSameItems()
+            public static void ReplacingCollectionWithNewWithSameItems()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var collection = new ObservableCollection<Fake>
@@ -122,7 +122,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplacingCollectionWithNewWithNewItems()
+            public static void ReplacingCollectionWithNewWithNewItems()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var collection = new ObservableCollection<Fake>
@@ -167,7 +167,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void OneObservableTwoSubscriptions()
+            public static void OneObservableTwoSubscriptions()
             {
                 var changes1 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var changes2 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
@@ -203,7 +203,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void OneObservableTwoSubscriptionsNested()
+            public static void OneObservableTwoSubscriptionsNested()
             {
                 var changes1 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var changes2 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
@@ -236,7 +236,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void StopsSubscribing()
+            public static void StopsSubscribing()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var collection1 = new ObservableCollection<Fake> { new Fake { Name = "1" } };

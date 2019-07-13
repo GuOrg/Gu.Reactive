@@ -11,12 +11,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
     using NUnit.Framework;
 
     // ReSharper disable once InconsistentNaming
-    public partial class NotifyCollectionChangedExtTests
+    public static partial class NotifyCollectionChangedExtTests
     {
-        public class ObserveCollectionChanged
+        public static class ObserveCollectionChanged
         {
             [Test]
-            public void SignalsInitial()
+            public static void SignalsInitial()
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var source = new ObservableCollection<int> { 1, 2 };
@@ -40,7 +40,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void Add()
+            public static void Add()
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var source = new ObservableCollection<int>();
@@ -53,7 +53,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void OneObservableTwoSubscriptions()
+            public static void OneObservableTwoSubscriptions()
             {
                 var changes1 = new List<NotifyCollectionChangedEventArgs>();
                 var changes2 = new List<NotifyCollectionChangedEventArgs>();
@@ -75,7 +75,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsOnView()
+            public static void ReactsOnView()
             {
                 var changes = new List<EventPattern<NotifyCollectionChangedEventArgs>>();
                 var source = new ObservableCollection<int>();
@@ -93,7 +93,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void Disposes()
+            public static void Disposes()
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var source = new ObservableCollection<int>();
@@ -109,7 +109,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void MemoryLeakDisposeTest()
+            public static void MemoryLeakDisposeTest()
             {
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
@@ -130,7 +130,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void MemoryLeakNoDisposeTest()
+            public static void MemoryLeakNoDisposeTest()
             {
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");

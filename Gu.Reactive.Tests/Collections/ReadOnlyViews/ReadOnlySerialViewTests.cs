@@ -8,10 +8,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
-    public class ReadOnlySerialViewTests
+    public static class ReadOnlySerialViewTests
     {
         [Test]
-        public void Intialize()
+        public static void Initalize()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var view = new ReadOnlySerialView<int>(source))
@@ -21,7 +21,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void IntializeWithNull()
+        public static void InitializeWithNull()
         {
             // ReSharper disable once CollectionNeverUpdated.Local
             using (var view = new ReadOnlySerialView<int>())
@@ -31,7 +31,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void DoesNotDisposeInner()
+        public static void DoesNotDisposeInner()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var filteredView = source.AsReadOnlyFilteredView(x => true))
@@ -47,7 +47,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void SetSourceNoChange()
+        public static void SetSourceNoChange()
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
@@ -71,7 +71,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void SetSourceReset()
+        public static void SetSourceReset()
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
@@ -105,7 +105,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void SetSourceAdd()
+        public static void SetSourceAdd()
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
@@ -140,7 +140,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void SetSourceRemove()
+        public static void SetSourceRemove()
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
@@ -175,7 +175,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void SetSourceMove()
+        public static void SetSourceMove()
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
@@ -208,7 +208,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void SetSourceReplace()
+        public static void SetSourceReplace()
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
@@ -241,7 +241,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void SetSourceNull()
+        public static void SetSourceNull()
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
@@ -262,7 +262,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void SetSourceToEqual()
+        public static void SetSourceToEqual()
         {
             using (var view = new ReadOnlySerialView<int>(new[] { 1, 2, 3 }))
             {
@@ -277,7 +277,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void ClearSource()
+        public static void ClearSource()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var view = new ReadOnlySerialView<int>(source))
@@ -299,7 +299,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void Updates()
+        public static void Updates()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var expected = source.SubscribeAll())
@@ -325,7 +325,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void FromObservableOfIEnumerable()
+        public static void FromObservableOfIEnumerable()
         {
             using (var subject = new Subject<IEnumerable<int>>())
             {
@@ -351,7 +351,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void FromObservableOfMaybeIEnumerable()
+        public static void FromObservableOfMaybeIEnumerable()
         {
             using (var subject = new Subject<IMaybe<IEnumerable<int>>>())
             {
@@ -386,7 +386,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void ObserveValueAsReadOnlyView()
+        public static void ObserveValueAsReadOnlyView()
         {
             var fake = new Fake<IEnumerable<int>>();
             using (var view = fake.ObserveValue(x => x.Value, signalInitial: true)

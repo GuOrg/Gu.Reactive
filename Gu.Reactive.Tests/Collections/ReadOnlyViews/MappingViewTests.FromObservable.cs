@@ -6,12 +6,12 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
-    public partial class MappingViewTests
+    public static partial class MappingViewTests
     {
-        public class FromObservable
+        public static class FromObservable
         {
             [Test]
-            public void FromObservableOfIEnumerable()
+            public static void FromObservableOfIEnumerable()
             {
                 using (var subject = new Subject<IEnumerable<int>>())
                 {
@@ -36,7 +36,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void FromObservableOfMaybeIEnumerable()
+            public static void FromObservableOfMaybeIEnumerable()
             {
                 using (var subject = new Subject<IMaybe<IEnumerable<int>>>())
                 {
@@ -69,7 +69,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void ObserveValueAsMappingView()
+            public static void ObserveValueAsMappingView()
             {
                 var fake = new Fake<IEnumerable<int>>();
                 using (var view = fake.ObserveValue(x => x.Value, signalInitial: true)

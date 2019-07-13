@@ -11,10 +11,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
     using NUnit.Framework;
 
-    public class ReadOnlyFilteredViewTests
+    public static class ReadOnlyFilteredViewTests
     {
         [Test]
-        public void InitializeFiltered()
+        public static void InitializeFiltered()
         {
             var source = new ObservableCollection<int> { 1, 2 };
             var scheduler = new TestScheduler();
@@ -25,7 +25,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void InitializeFilteredBuffered()
+        public static void InitializeFilteredBuffered()
         {
             var source = new ObservableCollection<int> { 1, 2 };
             var scheduler = new TestScheduler();
@@ -36,7 +36,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void DoesNotDisposeInner()
+        public static void DoesNotDisposeInner()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var filtered1 = source.AsReadOnlyFilteredView(x => true, leaveOpen: true))
@@ -52,7 +52,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void DisposesInnerByDefault()
+        public static void DisposesInnerByDefault()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var filtered1 = source.AsReadOnlyFilteredView(x => true, leaveOpen: true))
@@ -68,7 +68,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void DisposesInnerExplicit()
+        public static void DisposesInnerExplicit()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var filtered1 = source.AsReadOnlyFilteredView(x => true, leaveOpen: true))
@@ -84,7 +84,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void NotifiesAdd()
+        public static void NotifiesAdd()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
@@ -103,7 +103,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void NotifiesAddBuffered()
+        public static void NotifiesAddBuffered()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
@@ -122,7 +122,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void AddFiltered()
+        public static void AddFiltered()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
@@ -139,7 +139,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void AddFilteredBuffered()
+        public static void AddFilteredBuffered()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
@@ -156,7 +156,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void AddManyFiltered()
+        public static void AddManyFiltered()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
@@ -175,7 +175,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void AddManyFilteredBuffered()
+        public static void AddManyFilteredBuffered()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
@@ -194,7 +194,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void AddVisibleWhenFiltered()
+        public static void AddVisibleWhenFiltered()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
@@ -221,7 +221,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void AddVisibleWhenFilteredBuffered()
+        public static void AddVisibleWhenFilteredBuffered()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
@@ -248,7 +248,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void AddManyVisibleWhenFiltered()
+        public static void AddManyVisibleWhenFiltered()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
@@ -314,7 +314,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void AddManyVisibleWhenFilteredBuffered()
+        public static void AddManyVisibleWhenFilteredBuffered()
         {
             var source = new ObservableCollection<int>();
             var scheduler = new TestScheduler();
@@ -342,7 +342,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void RemoveFiltered()
+        public static void RemoveFiltered()
         {
             var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
@@ -359,7 +359,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void RemoveFilteredBuffered()
+        public static void RemoveFilteredBuffered()
         {
             var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
@@ -376,7 +376,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void RemoveVisible()
+        public static void RemoveVisible()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
@@ -400,7 +400,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void RemoveVisibleBuffered()
+        public static void RemoveVisibleBuffered()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
@@ -427,7 +427,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void ReplaceFiltered()
+        public static void ReplaceFiltered()
         {
             var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
@@ -444,7 +444,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void ReplaceFilteredBuffered()
+        public static void ReplaceFilteredBuffered()
         {
             var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
@@ -461,7 +461,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void ReplaceVisible()
+        public static void ReplaceVisible()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
@@ -487,7 +487,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void ReplaceVisibleBuffered()
+        public static void ReplaceVisibleBuffered()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
@@ -514,7 +514,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void ReplaceFilteredWithVisible()
+        public static void ReplaceFilteredWithVisible()
         {
             var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
@@ -538,7 +538,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void ReplaceFilteredWithVisibleBuffered()
+        public static void ReplaceFilteredWithVisibleBuffered()
         {
             var source = new ObservableCollection<int> { 1 };
             var scheduler = new TestScheduler();
@@ -561,7 +561,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void FromObservableOfIEnumerable()
+        public static void FromObservableOfIEnumerable()
         {
             using (var subject = new Subject<IEnumerable<int>>())
             {
@@ -586,7 +586,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void FromObservableOfMaybeIEnumerable()
+        public static void FromObservableOfMaybeIEnumerable()
         {
             using (var subject = new Subject<IMaybe<IEnumerable<int>>>())
             {
@@ -619,7 +619,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void ObserveValueAsReadOnlyFilteredView()
+        public static void ObserveValueAsReadOnlyFilteredView()
         {
             var fake = new Fake<IEnumerable<int>>();
             using (var view = fake.ObserveValue(x => x.Value, signalInitial: true)

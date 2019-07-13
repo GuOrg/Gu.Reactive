@@ -7,10 +7,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     using Gu.Reactive.Internals;
     using NUnit.Framework;
 
-    public partial class MappingViewTests
+    public static partial class MappingViewTests
     {
         [Test]
-        public void DoesNotDisposeInner()
+        public static void DoesNotDisposeInner()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var mapped1 = source.AsMappingView(x => x, leaveOpen: true))
@@ -26,7 +26,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void DoesNotDisposeInnerDisposeTwice()
+        public static void DoesNotDisposeInnerDisposeTwice()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var mapped1 = source.AsMappingView(x => x, leaveOpen: true))
@@ -46,7 +46,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void DisposesInnerByDefault()
+        public static void DisposesInnerByDefault()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var mapped1 = source.AsMappingView(x => x, leaveOpen: true))
@@ -62,7 +62,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void DisposesInnerExplicit()
+        public static void DisposesInnerExplicit()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             using (var mapped1 = source.AsMappingView(x => x, leaveOpen: true))

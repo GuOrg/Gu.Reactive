@@ -9,12 +9,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
-    public partial class NotifyCollectionChangedExtTests
+    public static partial class NotifyCollectionChangedExtTests
     {
-        public class ObserveItemPropertyChangedSlim
+        public static class ObserveItemPropertyChangedSlim
         {
             [Test]
-            public void SignalsInitial()
+            public static void SignalsInitial()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -30,7 +30,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void InitialWithNullSimple()
+            public static void InitialWithNullSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item = new Fake { Name = "1" };
@@ -56,7 +56,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void InitialWithNullNested()
+            public static void InitialWithNullNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item = new Fake { Next = new Level { Name = "1" } };
@@ -82,7 +82,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void SignalsInitialNested()
+            public static void SignalsInitialNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -98,7 +98,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void DoesNotSignalInitialSimple()
+            public static void DoesNotSignalInitialSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -114,7 +114,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void DoesNotSignalInitialNested()
+            public static void DoesNotSignalInitialNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -130,7 +130,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void AddSimple()
+            public static void AddSimple()
             {
                 var source = new ObservableCollection<Fake>();
                 var changes = new List<PropertyChangedEventArgs>();
@@ -144,7 +144,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void AddNullSimple()
+            public static void AddNullSimple()
             {
                 var source = new ObservableCollection<Fake>();
                 var changes = new List<PropertyChangedEventArgs>();
@@ -158,7 +158,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void AddThenUpdateSimple()
+            public static void AddThenUpdateSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -180,7 +180,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void AddNested()
+            public static void AddNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -210,7 +210,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceSimple()
+            public static void ReplaceSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -237,7 +237,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceWithNullSimple()
+            public static void ReplaceWithNullSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -260,7 +260,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceNullWithNullSimple()
+            public static void ReplaceNullWithNullSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var source = new ObservableCollection<Fake> { null };
@@ -276,7 +276,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceNullWithItemSimple()
+            public static void ReplaceNullWithItemSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var source = new ObservableCollection<Fake> { null };
@@ -297,7 +297,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceWithSameSimple()
+            public static void ReplaceWithSameSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -319,7 +319,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceNested()
+            public static void ReplaceNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -346,7 +346,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceWithNullNested()
+            public static void ReplaceWithNullNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -365,7 +365,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceWithSameNested()
+            public static void ReplaceWithSameNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -387,7 +387,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void RemoveSimple()
+            public static void RemoveSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -409,7 +409,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void RemoveNullSimple()
+            public static void RemoveNullSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -426,7 +426,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void RemoveNested()
+            public static void RemoveNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -448,7 +448,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void RemoveNullNested()
+            public static void RemoveNullNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -465,7 +465,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void MoveSimple()
+            public static void MoveSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -491,7 +491,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void MoveNested()
+            public static void MoveNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -517,7 +517,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReadOnlyObservableCollectionCount()
+            public static void ReadOnlyObservableCollectionCount()
             {
                 var ints = new ObservableCollection<int> { 1 };
                 var item1 = new ReadOnlyObservableCollection<int>(ints);
@@ -535,7 +535,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsWhenPropertyChangesSimple()
+            public static void ReactsWhenPropertyChangesSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -559,7 +559,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void DoesNotReactWhenOtherPropertyChangesSimple()
+            public static void DoesNotReactWhenOtherPropertyChangesSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -589,7 +589,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void SameInstanceTwiceSimple()
+            public static void SameInstanceTwiceSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item = new Fake { Name = "1" };
@@ -621,7 +621,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void SameInstanceTwiceNested()
+            public static void SameInstanceTwiceNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -652,7 +652,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void OneObservableTwoSubscriptions()
+            public static void OneObservableTwoSubscriptions()
             {
                 var changes1 = new List<PropertyChangedEventArgs>();
                 var changes2 = new List<PropertyChangedEventArgs>();
@@ -684,7 +684,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsWhenPropertyChangesView()
+            public static void ReactsWhenPropertyChangesView()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -710,7 +710,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsNested()
+            public static void ReactsNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Next = new Level { Name = "1" } };
@@ -732,7 +732,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void DoesNotReactToOtherPropertyNested()
+            public static void DoesNotReactToOtherPropertyNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Next = new Level { Name = "1" } };
@@ -757,7 +757,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void SameItemTwiceNotifiesOnceSimple()
+            public static void SameItemTwiceNotifiesOnceSimple()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item = new Fake { Name = "1" };
@@ -775,7 +775,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void SameItemTwiceNotifiesOnceNested()
+            public static void SameItemTwiceNotifiesOnceNested()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item = new Fake { Next = new Level { Name = "1" } };
@@ -793,7 +793,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void DisposeStopsSubscribing()
+            public static void DisposeStopsSubscribing()
             {
                 var changes = new List<PropertyChangedEventArgs>();
                 var item1 = new Fake { Name = "1" };
@@ -810,7 +810,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
             [Test]
             [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
-            public void MemoryLeakDisposeTest()
+            public static void MemoryLeakDisposeTest()
             {
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
@@ -835,7 +835,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
             [Test]
             [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
-            public void MemoryLeakNoDisposeTest()
+            public static void MemoryLeakNoDisposeTest()
             {
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");

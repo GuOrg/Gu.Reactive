@@ -7,12 +7,12 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
     using NUnit.Framework;
 
-    public partial class MappingViewTests
+    public static partial class MappingViewTests
     {
-        public class Nested
+        public static class Nested
         {
             [Test]
-            public void Add()
+            public static void Add()
             {
                 var source = new ObservableCollection<int>();
                 using (var modelView = source.AsMappingView(Model.Create))
@@ -54,7 +54,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Remove()
+            public static void Remove()
             {
                 var source = new ObservableCollection<int> { 1 };
                 using (var modelView = source.AsMappingView(Model.Create))

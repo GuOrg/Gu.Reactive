@@ -9,12 +9,12 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
     using NUnit.Framework;
 
-    public partial class MappingViewTests
+    public static partial class MappingViewTests
     {
-        public class Creating
+        public static class Creating
         {
             [Test]
-            public void InitializesValueType()
+            public static void InitializesValueType()
             {
                 var source = new ObservableCollection<int> { 1, 1, 1, 2, 2, 2, 3, 3, 3 };
                 using (var view = source.AsMappingView(Model.Create))
@@ -37,7 +37,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void InitializesReferenceTypeWithNulls()
+            public static void InitializesReferenceTypeWithNulls()
             {
                 var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2), null, null, Model.Create(3) };
                 using (var view = source.AsMappingView(Vm.Create))
@@ -49,7 +49,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void UpdatesValueType()
+            public static void UpdatesValueType()
             {
                 var source = new ObservableCollection<int>();
                 using (var view = source.AsMappingView(x => x * x))
@@ -72,7 +72,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void DoesNotCacheValueTypes()
+            public static void DoesNotCacheValueTypes()
             {
                 var source = new ObservableCollection<int>();
                 using (var view = source.AsMappingView(Model.Create))
@@ -96,7 +96,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Add()
+            public static void Add()
             {
                 var source = new ObservableCollection<int> { 1, 2, 3 };
                 using (var view = source.AsMappingView(Model.Create))
@@ -132,7 +132,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Remove()
+            public static void Remove()
             {
                 var source = new ObservableCollection<int> { 1 };
                 using (var modelView = source.AsMappingView(Model.Create))
@@ -164,7 +164,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Replace()
+            public static void Replace()
             {
                 var source = new ObservableCollection<int>
                 {
@@ -202,7 +202,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [TestCase(2, 0)]
             [TestCase(1, 2)]
             [TestCase(2, 1)]
-            public void Move(int from, int to)
+            public static void Move(int from, int to)
             {
                 var source = new ObservableCollection<int>
                 {

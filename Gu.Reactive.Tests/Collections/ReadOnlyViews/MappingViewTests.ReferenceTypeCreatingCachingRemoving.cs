@@ -11,9 +11,9 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
     using NUnit.Framework;
 
-    public partial class MappingViewTests
+    public static partial class MappingViewTests
     {
-        public class ReferenceTypeCreatingCachingRemoving
+        public static class ReferenceTypeCreatingCachingRemoving
         {
             public interface IDisposableVm<T> : IDisposable
             {
@@ -21,7 +21,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Initializes()
+            public static void Initializes()
             {
                 var model1 = Model.Create(1);
                 var model2 = Model.Create(2);
@@ -52,7 +52,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Updates()
+            public static void Updates()
             {
                 var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
@@ -79,7 +79,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void UpdatesWithNulls()
+            public static void UpdatesWithNulls()
             {
                 var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
@@ -120,7 +120,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Refresh()
+            public static void Refresh()
             {
                 var model1 = Model.Create(1);
                 var model2 = Model.Create(2);
@@ -170,7 +170,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Caches()
+            public static void Caches()
             {
                 var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
@@ -205,7 +205,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void CachesWhenNotEmpty()
+            public static void CachesWhenNotEmpty()
             {
                 var model1 = Model.Create(1);
                 var model2 = Model.Create(2);
@@ -254,7 +254,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Add()
+            public static void Add()
             {
                 var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose()))
@@ -301,7 +301,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Remove()
+            public static void Remove()
             {
                 var model1 = Model.Create(1);
                 var model2 = Model.Create(2);
@@ -367,7 +367,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Replace()
+            public static void Replace()
             {
                 var model1 = Model.Create(1);
                 var model2 = Model.Create(2);
@@ -409,7 +409,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Move()
+            public static void Move()
             {
                 var model1 = Model.Create(1);
                 var model2 = Model.Create(2);
@@ -449,7 +449,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Clear()
+            public static void Clear()
             {
                 var model1 = Model.Create(1);
                 var model2 = Model.Create(2);
@@ -497,7 +497,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Dispose()
+            public static void Dispose()
             {
                 var model1 = Model.Create(1);
                 var model2 = Model.Create(2);

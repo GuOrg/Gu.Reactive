@@ -8,12 +8,12 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     using NUnit.Framework;
 
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-    public partial class MappingViewTests
+    public static partial class MappingViewTests
     {
-        public class CreatingUpdating
+        public static class CreatingUpdating
         {
             [Test]
-            public void Initializes()
+            public static void Initializes()
             {
                 var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2), };
                 using (var indexed = source.AsMappingView(
@@ -45,7 +45,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void UpdatesValueType()
+            public static void UpdatesValueType()
             {
                 var source = new ObservableCollection<double>();
                 using (var view = source.AsMappingView(
@@ -70,7 +70,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void UpdatesReferenceType()
+            public static void UpdatesReferenceType()
             {
                 var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(
@@ -94,7 +94,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void UpdatesReferenceTypeNulls()
+            public static void UpdatesReferenceTypeNulls()
             {
                 var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(
@@ -127,7 +127,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void UpdatesDifferentReferenceType()
+            public static void UpdatesDifferentReferenceType()
             {
                 var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(
@@ -157,7 +157,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void UpdatesSameReferenceType()
+            public static void UpdatesSameReferenceType()
             {
                 var source = new ObservableCollection<Model<int>>();
                 using (var view = source.AsMappingView(
@@ -190,7 +190,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
             [TestCase(0)]
             [TestCase(1)]
-            public void UpdatesOnRemoveTwoItems(int removeAt)
+            public static void UpdatesOnRemoveTwoItems(int removeAt)
             {
                 var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2) };
                 using (var view = source.AsMappingView(
@@ -212,7 +212,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
             [TestCase(0)]
             [TestCase(1)]
-            public void UpdatesOnRemoveThreeItems(int removeAt)
+            public static void UpdatesOnRemoveThreeItems(int removeAt)
             {
                 var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2), Model.Create(3) };
                 using (var view = source.AsMappingView(
@@ -233,7 +233,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
             [TestCase(0)]
             [TestCase(1)]
-            public void NewsOnRemoveTwoItems(int removeAt)
+            public static void NewsOnRemoveTwoItems(int removeAt)
             {
                 var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2) };
                 using (var view = source.AsMappingView(

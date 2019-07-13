@@ -13,10 +13,10 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     /// <summary>
     /// This class is just to make sure all overloads compile.
     /// </summary>
-    public class ExtensionsTests
+    public static class ExtensionsTests
     {
         [Test]
-        public void AsReadOnlyFilteredView()
+        public static void AsReadOnlyFilteredView()
         {
             var source = new ObservableCollection<int>();
             using (source.AsReadOnlyFilteredView(x => true))
@@ -55,7 +55,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void AsReadOnlyThrottledView()
+        public static void AsReadOnlyThrottledView()
         {
             var source = new ObservableCollection<int>();
             using (source.AsReadOnlyThrottledView(TimeSpan.Zero))
@@ -89,7 +89,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         }
 
         [Test]
-        public void AsMappingView()
+        public static void AsMappingView()
         {
             // just checking that the overloads are right.
             // Will be compiler error if we dumb things.

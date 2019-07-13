@@ -1,4 +1,4 @@
-﻿// ReSharper disable ClassNeverInstantiated.Global
+// ReSharper disable ClassNeverInstantiated.Global
 namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 {
     using System;
@@ -8,12 +8,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
-    public partial class NotifyCollectionChangedExtTests
+    public static partial class NotifyCollectionChangedExtTests
     {
-        public class ObserveCollectionChangedSlim
+        public static class ObserveCollectionChangedSlim
         {
             [Test]
-            public void SignalsInitial()
+            public static void SignalsInitial()
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var source = new ObservableCollection<int>();
@@ -39,7 +39,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void DoesNotSignalInitial()
+            public static void DoesNotSignalInitial()
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var source = new ObservableCollection<int>();
@@ -51,7 +51,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void Reacts()
+            public static void Reacts()
             {
                 var changes = new List<NotifyCollectionChangedEventArgs>();
                 var source = new ObservableCollection<int>();

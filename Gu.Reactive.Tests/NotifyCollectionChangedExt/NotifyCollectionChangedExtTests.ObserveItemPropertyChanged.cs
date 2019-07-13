@@ -13,12 +13,12 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
     using NUnit.Framework;
 
-    public partial class NotifyCollectionChangedExtTests
+    public static partial class NotifyCollectionChangedExtTests
     {
-        public class ObserveItemPropertyChanged
+        public static class ObserveItemPropertyChanged
         {
             [Test]
-            public void SignalsInitialSimple()
+            public static void SignalsInitialSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -36,7 +36,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void SignalsInitialNested()
+            public static void SignalsInitialNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -54,7 +54,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void DoesNotSignalInitialSimple()
+            public static void DoesNotSignalInitialSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -70,7 +70,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void DoesNotSignalInitialNested()
+            public static void DoesNotSignalInitialNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -86,7 +86,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void AddSimple()
+            public static void AddSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -109,7 +109,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void AddNullSimple()
+            public static void AddNullSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -131,7 +131,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void AddThenUpdateSimple()
+            public static void AddThenUpdateSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -153,7 +153,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void AddNested()
+            public static void AddNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -175,7 +175,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void MoveSimple()
+            public static void MoveSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -201,7 +201,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void MoveNested()
+            public static void MoveNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -227,7 +227,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceSimple()
+            public static void ReplaceSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -256,7 +256,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceWithNullSimple()
+            public static void ReplaceWithNullSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -280,7 +280,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceNested()
+            public static void ReplaceNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Next = new Level { Name = "1" } };
@@ -309,7 +309,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceWithNullNested()
+            public static void ReplaceWithNullNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -333,7 +333,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceWithSameSimple()
+            public static void ReplaceWithSameSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, int>>>();
                 var item1 = new Fake { Name = "1" };
@@ -355,7 +355,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReplaceWithSameNested()
+            public static void ReplaceWithSameNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -377,7 +377,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void RemoveSimple()
+            public static void RemoveSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -399,7 +399,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void RemoveNested()
+            public static void RemoveNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -421,7 +421,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReadOnlyObservableCollectionCount()
+            public static void ReadOnlyObservableCollectionCount()
             {
                 var source = new ObservableCollection<ReadOnlyObservableCollection<int>>();
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<ReadOnlyObservableCollection<int>, int>>>();
@@ -437,7 +437,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsWhenPropertyChangesSimple()
+            public static void ReactsWhenPropertyChangesSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -461,7 +461,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void DoesNotReactWhenOtherPropertyChangesSimple()
+            public static void DoesNotReactWhenOtherPropertyChangesSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -493,7 +493,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void SameInstanceTwiceSimple()
+            public static void SameInstanceTwiceSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item = new Fake { Name = "1" };
@@ -527,7 +527,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void SameInstanceTwiceNested()
+            public static void SameInstanceTwiceNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item = new Fake { Level1 = new Level1 { Name = "1" } };
@@ -560,7 +560,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void OneObservableTwoSubscriptions()
+            public static void OneObservableTwoSubscriptions()
             {
                 var changes1 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var changes2 = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
@@ -592,7 +592,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsWhenPropertyChangesView()
+            public static void ReactsWhenPropertyChangesView()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -618,7 +618,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsNested()
+            public static void ReactsNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Next = new Level { Name = "1" } };
@@ -640,7 +640,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void DoesNotReactToOtherPropertyNested()
+            public static void DoesNotReactToOtherPropertyNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Next = new Level { Name = "1" } };
@@ -665,7 +665,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void ReactsOnceWhenSameItemIsTwoElementsInCollection()
+            public static void ReactsOnceWhenSameItemIsTwoElementsInCollection()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item = new Fake { Name = "1" };
@@ -683,7 +683,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void NullItemSimple()
+            public static void NullItemSimple()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item = new Fake { Name = "1" };
@@ -711,7 +711,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void NullItemNested()
+            public static void NullItemNested()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item = new Fake { Next = new Level { Name = "1" } };
@@ -739,7 +739,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             [Test]
-            public void DisposeStopsSubscribing()
+            public static void DisposeStopsSubscribing()
             {
                 var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
                 var item1 = new Fake { Name = "1" };
@@ -756,7 +756,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
             [Test]
             [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
-            public void MemoryLeakDisposeTest()
+            public static void MemoryLeakDisposeTest()
             {
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");
@@ -781,7 +781,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
             [Test]
             [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
-            public void MemoryLeakNoDisposeTest()
+            public static void MemoryLeakNoDisposeTest()
             {
 #if DEBUG
                 Assert.Inconclusive("Debugger keeps things alive for the scope of the method.");

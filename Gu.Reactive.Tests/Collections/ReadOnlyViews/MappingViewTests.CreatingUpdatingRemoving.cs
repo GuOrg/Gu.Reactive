@@ -11,9 +11,9 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
     using NUnit.Framework;
 
-    public partial class MappingViewTests
+    public static partial class MappingViewTests
     {
-        public class CreatingUpdatingRemoving
+        public static class CreatingUpdatingRemoving
         {
             public interface IDisposableVm : IDisposable
             {
@@ -25,7 +25,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Initializes()
+            public static void Initializes()
             {
                 var source = new ObservableCollection<int>
                 {
@@ -53,7 +53,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Updates()
+            public static void Updates()
             {
                 var source = new ObservableCollection<int>();
                 using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
@@ -81,7 +81,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Refresh()
+            public static void Refresh()
             {
                 var source = new ObservableBatchCollection<int>
                 {
@@ -139,7 +139,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void DoesNotCache()
+            public static void DoesNotCache()
             {
                 var source = new ObservableCollection<int>();
                 using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
@@ -176,7 +176,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Add()
+            public static void Add()
             {
                 var source = new ObservableCollection<int>();
                 using (var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose()))
@@ -225,7 +225,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Remove()
+            public static void Remove()
             {
                 var source = new ObservableCollection<int>
                 {
@@ -294,7 +294,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Replace()
+            public static void Replace()
             {
                 var source = new ObservableCollection<int>
                 {
@@ -334,7 +334,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Move()
+            public static void Move()
             {
                 var source = new ObservableCollection<int>
                 {
@@ -374,7 +374,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void MoveWhenUpdateCreatesNew()
+            public static void MoveWhenUpdateCreatesNew()
             {
                 var source = new ObservableCollection<int>
                 {
@@ -428,7 +428,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Clear()
+            public static void Clear()
             {
                 var source = new ObservableCollection<int>
                 {
@@ -473,7 +473,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             }
 
             [Test]
-            public void Dispose()
+            public static void Dispose()
             {
                 var source = new ObservableCollection<int>
                 {
