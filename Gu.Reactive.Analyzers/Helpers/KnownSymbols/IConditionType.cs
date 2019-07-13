@@ -6,7 +6,7 @@ namespace Gu.Reactive.Analyzers
     {
         internal readonly QualifiedMethod Negate;
 
-        public IConditionType()
+        internal IConditionType()
             : base("Gu.Reactive.ICondition")
         {
             this.Negate = new QualifiedMethod(this, nameof(this.Negate));

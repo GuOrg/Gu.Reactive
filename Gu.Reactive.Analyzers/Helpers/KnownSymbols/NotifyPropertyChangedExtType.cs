@@ -8,7 +8,7 @@ namespace Gu.Reactive.Analyzers
         internal readonly QualifiedMethod ObservePropertyChangedSlim;
         internal readonly QualifiedMethod ObserveFullPropertyPathSlim;
 
-        public NotifyPropertyChangedExtType()
+        internal NotifyPropertyChangedExtType()
             : base("Gu.Reactive.NotifyPropertyChangedExt")
         {
             this.ObservePropertyChanged = new QualifiedMethod(this, nameof(this.ObservePropertyChanged));

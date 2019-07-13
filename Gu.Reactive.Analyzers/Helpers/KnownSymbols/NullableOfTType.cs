@@ -7,7 +7,7 @@ namespace Gu.Reactive.Analyzers
         internal readonly QualifiedProperty Value;
         internal readonly QualifiedProperty HasValue;
 
-        public NullableOfTType()
+        internal NullableOfTType()
             : base("System.Nullable`1")
         {
             this.Value = new QualifiedProperty(this, nameof(this.HasValue));

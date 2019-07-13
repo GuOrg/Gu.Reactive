@@ -83,7 +83,7 @@ namespace Gu.Reactive.Analyzers
                 this.cancellationToken = cancellationToken;
             }
 
-            public static T Parameter<T>(
+            internal static T Parameter<T>(
                 IParameterSymbol from,
                 IParameterSymbol to,
                 T node,

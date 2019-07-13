@@ -11,7 +11,7 @@ namespace Gu.Reactive.Analyzers
     {
         private readonly List<InvocationExpressionSyntax> invocations = new List<InvocationExpressionSyntax>();
 
-        public IReadOnlyList<InvocationExpressionSyntax> Invocations => this.invocations;
+        internal IReadOnlyList<InvocationExpressionSyntax> Invocations => this.invocations;
 
         public int Count => this.invocations.Count;
 

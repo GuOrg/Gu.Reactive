@@ -15,13 +15,13 @@ namespace Gu.Reactive.Analyzers
         {
         }
 
-        public IReadOnlyList<IdentifierNameSyntax> IdentifierNames => this.identifierNames;
+        internal IReadOnlyList<IdentifierNameSyntax> IdentifierNames => this.identifierNames;
 
         public int Count => this.identifierNames.Count;
 
         public IdentifierNameSyntax this[int index] => this.identifierNames[index];
 
-        public static IdentifierNameExecutionWalker Create(SyntaxNode node, Scope search, SemanticModel semanticModel, CancellationToken cancellationToken)
+        internal static IdentifierNameExecutionWalker Create(SyntaxNode node, Scope search, SemanticModel semanticModel, CancellationToken cancellationToken)
         {
             return BorrowAndVisit(node, search, semanticModel, cancellationToken, () => new IdentifierNameExecutionWalker());
         }
