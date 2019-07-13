@@ -5,12 +5,12 @@ namespace Gu.Reactive.Tests.Conditions
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
-    public class NullIsFalseTests
+    public static class NullIsFalseTests
     {
         [TestCase(false, false)]
         [TestCase(true, true)]
         [TestCase(null, false)]
-        public void Ctor(bool? value, bool? expected)
+        public static void Ctor(bool? value, bool? expected)
         {
             var fake = new Fake { IsTrueOrNull = value };
             using (var condition = new Condition(
@@ -30,7 +30,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void Notifies()
+        public static void Notifies()
         {
             var fake = new Fake { IsTrueOrNull = null };
             using (var condition = new Condition(

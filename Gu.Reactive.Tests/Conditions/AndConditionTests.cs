@@ -10,7 +10,7 @@ namespace Gu.Reactive.Tests.Conditions
     using Moq;
     using NUnit.Framework;
 
-    public class AndConditionTests
+    public static class AndConditionTests
     {
         [TestCase(true, true, true, true)]
         [TestCase(true, true, null, null)]
@@ -23,7 +23,7 @@ namespace Gu.Reactive.Tests.Conditions
         [TestCase(null, false, null, false)]
         [TestCase(null, null, false, false)]
         [TestCase(null, null, null, null)]
-        public void IsSatisfied(bool? first, bool? second, bool? third, bool? expected)
+        public static void IsSatisfied(bool? first, bool? second, bool? third, bool? expected)
         {
             using (var condition = new AndCondition(
 #pragma warning disable GU0033 // Don't ignore returnvalue of type IDisposable.
@@ -37,7 +37,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void Notifies()
+        public static void Notifies()
         {
             var count = 0;
             var fake1 = new Fake { IsTrue = false };
@@ -81,7 +81,7 @@ namespace Gu.Reactive.Tests.Conditions
 
         [Test]
         [SuppressMessage("ReSharper", "ObjectCreationAsStatement")]
-        public void ThrowsIfPrerequisiteIsNull()
+        public static void ThrowsIfPrerequisiteIsNull()
         {
 #pragma warning disable IDISP001  // Dispose created.
             var mock = Mock.Of<ICondition>();
@@ -94,7 +94,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void Prerequisites2()
+        public static void Prerequisites2()
         {
 #pragma warning disable IDISP001  // Dispose created.
             var mock1 = Mock.Of<ICondition>();
@@ -107,7 +107,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void Prerequisites3()
+        public static void Prerequisites3()
         {
 #pragma warning disable IDISP001  // Dispose created.
             var mock1 = Mock.Of<ICondition>();
@@ -121,7 +121,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void Prerequisites4()
+        public static void Prerequisites4()
         {
 #pragma warning disable IDISP001  // Dispose created.
             var mock1 = Mock.Of<ICondition>();
@@ -136,7 +136,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void DisposeDoesNotDisposeInjected()
+        public static void DisposeDoesNotDisposeInjected()
         {
             var mock1 = new Mock<ICondition>(MockBehavior.Strict);
             mock1.SetupGet(x => x.IsSatisfied)
@@ -152,7 +152,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void DynamicList()
+        public static void DynamicList()
         {
             var conditions = new ObservableCollection<ICondition>();
             using (var condition = new AndCondition(conditions, leaveOpen: true))
@@ -190,7 +190,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void DisposeTwice()
+        public static void DisposeTwice()
         {
             var mock1 = new Mock<ICondition>(MockBehavior.Strict);
             mock1.SetupGet(x => x.IsSatisfied)

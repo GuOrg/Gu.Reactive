@@ -11,10 +11,10 @@ namespace Gu.Reactive.Tests.Conditions
 
     using NUnit.Framework;
 
-    public class ConditionTests
+    public static class ConditionTests
     {
         [Test]
-        public void IsSatisfied()
+        public static void IsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new Condition(
@@ -32,7 +32,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void ConditionImplSimpleIsSatisfied()
+        public static void ConditionImplSimpleIsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new ConditionImplSimple(fake))
@@ -48,7 +48,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void ConditionImplEqualityComparerIsSatisfied()
+        public static void ConditionImplEqualityComparerIsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new ConditionImplEqualityComparer(fake))
@@ -64,7 +64,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void ConditionImplFuncIsSatisfied()
+        public static void ConditionImplFuncIsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new ConditionImplFunc(fake))
@@ -80,7 +80,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void ConditionImplMaybeFuncIsSatisfied()
+        public static void ConditionImplMaybeFuncIsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new ConditionImplMaybeFunc(fake))
@@ -96,7 +96,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void Notifies()
+        public static void Notifies()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new Condition(
@@ -111,7 +111,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void History()
+        public static void History()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new Condition(
@@ -129,7 +129,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void DisposeTwice()
+        public static void DisposeTwice()
         {
             var observableMock = new Mock<IObservable<object>>(MockBehavior.Strict);
             var disposableMock = new Mock<IDisposable>(MockBehavior.Strict);
@@ -150,7 +150,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void MemoryLeakTest()
+        public static void MemoryLeakTest()
         {
 #if DEBUG
             return; // debugger keeps things alive.

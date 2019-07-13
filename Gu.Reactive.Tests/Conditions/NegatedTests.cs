@@ -6,12 +6,12 @@ namespace Gu.Reactive.Tests.Conditions
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
-    public class NegatedTests
+    public static class NegatedTests
     {
         [TestCase(false, true)]
         [TestCase(true, false)]
         [TestCase(null, null)]
-        public void NegateCondition(bool? value, bool? expected)
+        public static void NegateCondition(bool? value, bool? expected)
         {
             var fake = new Fake { IsTrueOrNull = value };
             using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull))
@@ -30,7 +30,7 @@ namespace Gu.Reactive.Tests.Conditions
         [TestCase(false, null, null, true)]
         [TestCase(false, false, false, true)]
         [TestCase(null, null, null, null)]
-        public void NegateAndCondition(bool? first, bool? other, bool? third, bool? expected)
+        public static void NegateAndCondition(bool? first, bool? other, bool? third, bool? expected)
         {
             var fake1 = new Fake { IsTrueOrNull = first };
             using (var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake1.IsTrueOrNull))
@@ -60,7 +60,7 @@ namespace Gu.Reactive.Tests.Conditions
         [TestCase(false, null, null, null)]
         [TestCase(false, false, false, true)]
         [TestCase(null, null, null, null)]
-        public void NegateOrCondition(bool? first, bool? other, bool? third, bool? expected)
+        public static void NegateOrCondition(bool? first, bool? other, bool? third, bool? expected)
         {
             var fake1 = new Fake { IsTrueOrNull = first };
             using (var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake1.IsTrueOrNull))
@@ -84,7 +84,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void Notifies()
+        public static void Notifies()
         {
             var argses = new List<PropertyChangedEventArgs>();
             var negArgses = new List<PropertyChangedEventArgs>();
@@ -111,7 +111,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void Name()
+        public static void Name()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull) { Name = "IsTrueOrNull" })
@@ -124,7 +124,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void History()
+        public static void History()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull) { Name = "IsTrueOrNull" })
@@ -146,7 +146,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void NegateTwiceReturnsOriginal()
+        public static void NegateTwiceReturnsOriginal()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull))

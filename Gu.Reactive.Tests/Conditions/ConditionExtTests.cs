@@ -7,11 +7,11 @@ namespace Gu.Reactive.Tests.Conditions
 
     using NUnit.Framework;
 
-    public class ConditionExtTests
+    public static class ConditionExtTests
     {
         [Test]
         [Explicit("Not sure if we want caching")]
-        public void Caches()
+        public static void Caches()
         {
             using (var observable = new Subject<object>())
             {
@@ -25,7 +25,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void Signals()
+        public static void Signals()
         {
             using (var source = new Subject<object>())
             {
@@ -46,7 +46,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void IsInSyncWhenSetupCorrectly()
+        public static void IsInSyncWhenSetupCorrectly()
         {
             var source = new Fake();
             using (var condition = new Condition(source.ObservePropertyChangedSlim(nameof(source.IsTrueOrNull)), () => source.IsTrueOrNull))
@@ -58,7 +58,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void IsInSyncWhenSetupCorrectlyNagated()
+        public static void IsInSyncWhenSetupCorrectlyNagated()
         {
             var source = new Fake();
             using (var condition = new Condition(source.ObservePropertyChangedSlim(nameof(source.IsTrueOrNull)), () => source.IsTrueOrNull))
@@ -73,7 +73,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void IsInSyncWhenError()
+        public static void IsInSyncWhenError()
         {
             var source = new Fake();
             using (var condition = new Condition(source.ObservePropertyChangedSlim(nameof(source.Name)), () => source.IsTrueOrNull))

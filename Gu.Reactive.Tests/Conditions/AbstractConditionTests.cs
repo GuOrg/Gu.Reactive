@@ -10,10 +10,10 @@ namespace Gu.Reactive.Tests.Conditions
 
     using NUnit.Framework;
 
-    public class AbstractConditionTests
+    public static class AbstractConditionTests
     {
         [Test]
-        public void IsSatisfied()
+        public static void IsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new FakeCondition(fake))
@@ -32,7 +32,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void Notifies()
+        public static void Notifies()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new FakeCondition(fake))
@@ -52,7 +52,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void History()
+        public static void History()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new FakeCondition(fake))
@@ -68,7 +68,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void HistoryNegated()
+        public static void HistoryNegated()
         {
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new FakeCondition(fake))
@@ -90,7 +90,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void DefaultName()
+        public static void DefaultName()
         {
             using (var condition = new AbstractConditionImpl(Observable.Empty<object>()))
             {
@@ -103,7 +103,7 @@ namespace Gu.Reactive.Tests.Conditions
         }
 
         [Test]
-        public void ExplicitName()
+        public static void ExplicitName()
         {
             using (var condition = new AbstractConditionImpl(Observable.Empty<object>()) { Name = "Explicit name" })
             {
