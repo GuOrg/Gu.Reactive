@@ -4,12 +4,12 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA12ObservableFromEventDelegateTypeTest
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
         [Test]
-        public void ActionOfInt()
+        public static void ActionOfInt()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -43,7 +43,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void EventHandlerOfInt()
+        public static void EventHandlerOfInt()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -78,7 +78,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void EventHandler()
+        public static void EventHandler()
         {
             var fooCode = @"
 namespace RoslynSandbox

@@ -4,7 +4,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new GUREA11PreferObservableFromEvent();
 
@@ -47,7 +47,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void Misc()
+        public static void Misc()
         {
             var testCode = @"
 namespace RoslynSandbox
@@ -69,7 +69,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void InsideObservableFromEventArg()
+        public static void InsideObservableFromEventArg()
         {
             var fooCode = @"
 namespace RoslynSandbox

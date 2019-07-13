@@ -4,7 +4,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class Diagnostics
+    public static class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA10DontMergeInObservable.Descriptor);
@@ -88,7 +88,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void WhenMergingInline()
+        public static void WhenMergingInline()
         {
             var code = @"
 namespace RoslynSandbox
@@ -113,7 +113,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void WhenMergingInFactoryMethod()
+        public static void WhenMergingInFactoryMethod()
         {
             var code = @"
 namespace RoslynSandbox

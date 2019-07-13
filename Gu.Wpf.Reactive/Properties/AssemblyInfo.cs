@@ -41,7 +41,7 @@ namespace Gu.Wpf.Reactive.Properties
         // http://stackoverflow.com/a/24828522/1069200
 #pragma warning disable 649
 #pragma warning disable 169
-        public static readonly Gu.Wpf.ToolTips.PopupButton ToolTipsReference;
+        internal static readonly Gu.Wpf.ToolTips.PopupButton ToolTipsReference;
 #pragma warning restore 169
 #pragma warning restore 649
     }

@@ -4,7 +4,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 
@@ -39,7 +39,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void AndConditionSortArgs()
+        public static void AndConditionSortArgs()
         {
             var testCode = @"
 namespace RoslynSandbox

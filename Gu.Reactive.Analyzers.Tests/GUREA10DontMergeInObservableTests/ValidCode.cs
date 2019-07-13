@@ -4,7 +4,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class ValidCode
+    public static class ValidCode
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 
@@ -47,7 +47,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void WhenNoMerge()
+        public static void WhenNoMerge()
         {
             var testCode = @"
 namespace RoslynSandbox

@@ -5,7 +5,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class CodeFix
+    public static class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly CodeFixProvider SortArgsFix = new SortArgsFix();
@@ -58,7 +58,7 @@ namespace RoslynSandbox
 }";
 
         [Test]
-        public void AndConditionSortArgs()
+        public static void AndConditionSortArgs()
         {
             var before = @"
 namespace RoslynSandbox
@@ -91,7 +91,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void OrConditionSortArgs()
+        public static void OrConditionSortArgs()
         {
             var before = @"
 namespace RoslynSandbox
@@ -136,7 +136,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void AndConditionSortParameters()
+        public static void AndConditionSortParameters()
         {
             var before = @"
 namespace RoslynSandbox
@@ -169,7 +169,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void OrConditionSortParameters()
+        public static void OrConditionSortParameters()
         {
             var before = @"
 namespace RoslynSandbox

@@ -3,7 +3,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
     using Gu.Roslyn.Asserts;
     using NUnit.Framework;
 
-    public partial class CodeFix
+    public static partial class CodeFix
     {
         public class EventHandlerOfInt
         {

@@ -3,9 +3,9 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
     using Gu.Roslyn.Asserts;
     using NUnit.Framework;
 
-    public partial class CodeFix
+    public static partial class CodeFix
     {
-        public class EventHandler
+        public static class EventHandler
         {
             private const string FooCode = @"
 namespace RoslynSandbox
@@ -19,7 +19,7 @@ namespace RoslynSandbox
 }";
 
             [Test]
-            public void WhenNotUsingSenderNorArgLambda()
+            public static void WhenNotUsingSenderNorArgLambda()
             {
                 var before = @"
 namespace RoslynSandbox
@@ -59,7 +59,7 @@ namespace RoslynSandbox
             }
 
             [Test]
-            public void WhenUsingArgLambda()
+            public static void WhenUsingArgLambda()
             {
                 var before = @"
 namespace RoslynSandbox
@@ -100,7 +100,7 @@ namespace RoslynSandbox
             }
 
             [Test]
-            public void WhenNotUsingSenderNorArgMethodGroup()
+            public static void WhenNotUsingSenderNorArgMethodGroup()
             {
                 var before = @"
 namespace RoslynSandbox
@@ -150,7 +150,7 @@ namespace RoslynSandbox
             }
 
             [Test]
-            public void WhenUsingArgMethodGroup()
+            public static void WhenUsingArgMethodGroup()
             {
                 var before = @"
 namespace RoslynSandbox

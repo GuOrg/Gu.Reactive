@@ -5,14 +5,14 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA12ObservableFromEventDelegateTypeTest
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public class CodeFix
+    public static class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly CodeFixProvider Fix = new ObservableFromEventArgsFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create(GUREA12ObservableFromEventDelegateType.Descriptor);
 
         [Test]
-        public void EventHandlerOfInt()
+        public static void EventHandlerOfInt()
         {
             var fooCode = @"
 namespace RoslynSandbox
@@ -64,7 +64,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public void EventHandler()
+        public static void EventHandler()
         {
             var fooCode = @"
 namespace RoslynSandbox

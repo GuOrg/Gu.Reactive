@@ -33,11 +33,19 @@ namespace Gu.Reactive
             this.Previous = previous;
         }
 
+        /// <summary>Check if <paramref name="left"/> is equal to <paramref name="right"/>.</summary>
+        /// <param name="left">The left <see cref="WithPrevious{T}"/>.</param>
+        /// <param name="right">The right <see cref="WithPrevious{T}"/>.</param>
+        /// <returns>True if <paramref name="left"/> is equal to <paramref name="right"/>.</returns>
         public static bool operator ==(WithPrevious<T> left, WithPrevious<T> right)
         {
             return left.Equals(right);
         }
 
+        /// <summary>Check if <paramref name="left"/> is not equal to <paramref name="right"/>.</summary>
+        /// <param name="left">The left <see cref="WithPrevious{T}"/>.</param>
+        /// <param name="right">The right <see cref="WithPrevious{T}"/>.</param>
+        /// <returns>True if <paramref name="left"/> is not equal to <paramref name="right"/>.</returns>
         public static bool operator !=(WithPrevious<T> left, WithPrevious<T> right)
         {
             return !left.Equals(right);
