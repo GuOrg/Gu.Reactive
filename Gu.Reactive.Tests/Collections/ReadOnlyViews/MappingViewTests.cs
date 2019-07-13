@@ -57,7 +57,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                     CollectionAssert.AreEqual(mapped2, source);
                 }
 
-                _ = Assert.Throws<ObjectDisposedException>(() => mapped1.Count.IgnoreReturnValue());
+                _ = Assert.Throws<ObjectDisposedException>(() => _ = mapped1.Count);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                     CollectionAssert.AreEqual(mapped2, source);
                 }
 
-                _ = Assert.Throws<ObjectDisposedException>(() => mapped1.Count.IgnoreReturnValue());
+                _ = Assert.Throws<ObjectDisposedException>(() => _ = mapped1.Count);
             }
         }
 
