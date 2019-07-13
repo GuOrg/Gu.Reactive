@@ -79,7 +79,7 @@ namespace Gu.Reactive
                 this.sourceCounter.OnRemove += x => this.cache.Remove(x);
             }
 
-            public event Action<TResult> OnRemove
+            internal event Action<TResult> OnRemove
             {
                 add => this.resultCounter.OnRemove += value;
                 remove => this.resultCounter.OnRemove -= value;

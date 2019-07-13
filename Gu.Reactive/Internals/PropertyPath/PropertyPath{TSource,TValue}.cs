@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Internals
+namespace Gu.Reactive.Internals
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -19,7 +19,7 @@
 
         public int Count => this.parts.Count;
 
-        public IGetter<TValue> Last => (IGetter<TValue>)this.parts[this.parts.Count - 1];
+        internal IGetter<TValue> Last => (IGetter<TValue>)this.parts[this.parts.Count - 1];
 
         public IGetter this[int index] => this.parts[index];
 

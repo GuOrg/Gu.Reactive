@@ -30,7 +30,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
         }
 
         [Test]
-        public static async Task AddOnOtherThread()
+        public static async Task WhenAddOnOtherThread()
         {
             var collection = new DispatchingCollection<int>();
             var itemsControl = new ItemsControl { ItemsSource = collection };
