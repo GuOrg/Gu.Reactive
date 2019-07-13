@@ -20,7 +20,7 @@ namespace Gu.Reactive
                 prerequisites.ObserveIsSatisfiedChanged(),
                 () => prerequisites.IsSatisfied)
         {
-            this.prerequisites = prerequisites;
+            this.prerequisites = prerequisites ?? throw new System.ArgumentNullException(nameof(prerequisites));
             prerequisites.CollectionChanged += this.OnPreRequisitesChanged;
         }
 

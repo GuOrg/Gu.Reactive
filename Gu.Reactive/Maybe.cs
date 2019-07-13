@@ -21,9 +21,17 @@ namespace Gu.Reactive
         /// <summary>
         /// Get the value if HasValue is true and default(T) if not.
         /// </summary>
-        public static T GetValueOrDefault<T>(this IMaybe<T> maybe) => maybe.HasValue
-                                                                          ? maybe.Value
-                                                                          : default(T);
+        public static T GetValueOrDefault<T>(this IMaybe<T> maybe)
+        {
+            if (maybe == null)
+            {
+                throw new ArgumentNullException(nameof(maybe));
+            }
+
+            return maybe.HasValue
+                ? maybe.Value
+                : default(T);
+        }
 
         /// <summary>
         /// Determines whether two objects of type <see cref="Maybe{T}" /> are equal.
@@ -76,6 +84,11 @@ namespace Gu.Reactive
         /// </summary>
         public static Maybe<T> Cast<T>(this IMaybe<object> maybe)
         {
+            if (maybe == null)
+            {
+                throw new ArgumentNullException(nameof(maybe));
+            }
+
             return maybe.HasValue
                        ? Some((T)maybe.Value)
                        : Maybe<T>.None;

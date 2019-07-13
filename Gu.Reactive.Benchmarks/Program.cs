@@ -13,7 +13,7 @@ namespace Gu.Reactive.Benchmarks
 
     public static class Program
     {
-        public static void Main()
+        public void Main()
         {
             if (false)
             {

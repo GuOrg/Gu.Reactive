@@ -33,8 +33,7 @@ namespace Gu.Wpf.Reactive
 
             set
             {
-                Ensure.NotNull(value, nameof(value));
-                Ensure.IsTrue(value.IsEnum, nameof(value), $"Expected {this.Type} to be an enum.");
+                Ensure.IsTrue(value?.IsEnum == true, nameof(value), $"Expected {this.Type} to be an enum.");
                 this.type = value;
             }
         }

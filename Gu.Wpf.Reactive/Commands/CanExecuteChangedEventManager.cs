@@ -123,7 +123,7 @@ namespace Gu.Wpf.Reactive
             {
                 throw new ArgumentNullException(nameof(source));
             }
-            
+
             ((ICommand)source).CanExecuteChanged -= this.DeliverEvent;
         }
     }

@@ -192,6 +192,11 @@ namespace Gu.Reactive
         /// </summary>
         protected void ThrowIfDisposed(Action action)
         {
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
             this.ThrowIfDisposed();
             action();
         }

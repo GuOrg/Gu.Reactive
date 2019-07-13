@@ -260,6 +260,11 @@ namespace Gu.Reactive
         /// <param name="result">The action to invoke.</param>
         protected TResult ThrowIfDisposed<TResult>(Func<TResult> result)
         {
+            if (result == null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+
             this.ThrowIfDisposed();
             return result();
         }

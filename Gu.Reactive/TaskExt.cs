@@ -66,6 +66,7 @@ namespace Gu.Reactive
             {
                 throw new ArgumentNullException(nameof(task));
             }
+
             // Short-circuit #1: infinite timeout or task already completed
             if (task.IsCompleted || (millisecondsTimeout == Timeout.Infinite))
             {

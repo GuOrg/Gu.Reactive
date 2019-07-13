@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Linq;
@@ -13,6 +13,11 @@
         /// </summary>
         public static string PrettyName(this Type type)
         {
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
             if (type == typeof(long))
             {
                 return "long";

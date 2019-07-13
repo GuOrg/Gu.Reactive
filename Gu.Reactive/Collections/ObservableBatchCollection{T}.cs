@@ -108,6 +108,11 @@ namespace Gu.Reactive
         /// <param name="items">The new contents of the collection.</param>
         public void ResetTo(IEnumerable<T> items)
         {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
             this.CheckReentrancy();
             this.Items.Clear();
             foreach (var item in items)
@@ -124,6 +129,11 @@ namespace Gu.Reactive
         /// <param name="items">The items to add.</param>
         protected virtual void AddItems(IEnumerable<T> items)
         {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
             this.CheckReentrancy();
             var count = 0;
             var added = default(T);
@@ -165,6 +175,11 @@ namespace Gu.Reactive
         /// <param name="items">The items to add.</param>
         protected virtual void RemoveItems(IEnumerable<T> items)
         {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
             this.CheckReentrancy();
             var count = 0;
             var index = -1;

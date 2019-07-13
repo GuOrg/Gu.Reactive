@@ -8,16 +8,16 @@ namespace Gu.Wpf.Reactive.Tests
 
     using NUnit.Framework;
 
-    public class ManualParameterRelayCommandTests
+    public static class ManualParameterRelayCommandTests
     {
         [OneTimeSetUp]
-        public void OneTimeSetUp()
+        public static void OneTimeSetUp()
         {
             App.Start();
         }
 
         [Test(Description = "This is the most relevant test, it checks that the weak event implementation is correct")]
-        public void MemoryLeak()
+        public static void MemoryLeak()
         {
 #if DEBUG
             return; // debugger keeps things alive.
@@ -36,7 +36,7 @@ namespace Gu.Wpf.Reactive.Tests
         }
 
         [Test]
-        public async Task RaiseCanExecuteChanged()
+        public static async Task WhenRaiseCanExecuteChanged()
         {
             var count = 0;
             var command = new ManualRelayCommand<int>(x => { }, x => true);
@@ -48,7 +48,7 @@ namespace Gu.Wpf.Reactive.Tests
         }
 
         [Test]
-        public void ExecuteWithParameter()
+        public static void ExecuteWithParameter()
         {
             var invokeCount = 0;
             var command = new ManualRelayCommand<int>(o => invokeCount = o, _ => true);
@@ -57,7 +57,7 @@ namespace Gu.Wpf.Reactive.Tests
         }
 
         [Test]
-        public void ExecuteNotifies()
+        public static void ExecuteNotifies()
         {
             var invokeCount = 0;
             var isExecutingCount = 0;
@@ -77,7 +77,7 @@ namespace Gu.Wpf.Reactive.Tests
 
         [TestCase(1, 2, false)]
         [TestCase(1, 1, true)]
-        public void CanExecuteWithParameter(int i, int parameter, bool expected)
+        public static void CanExecuteWithParameter(int i, int parameter, bool expected)
         {
             var command = new ManualRelayCommand<int>(x => { }, x => i == x);
             Assert.AreEqual(expected, command.CanExecute(parameter));

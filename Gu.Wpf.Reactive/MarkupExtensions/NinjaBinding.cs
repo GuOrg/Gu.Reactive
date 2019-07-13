@@ -47,6 +47,11 @@ namespace Gu.Wpf.Reactive
         /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
+            if (serviceProvider == null)
+            {
+                throw new ArgumentNullException(nameof(serviceProvider));
+            }
+
             if (this.Binding == null)
             {
                 throw new ArgumentException("Binding == null");

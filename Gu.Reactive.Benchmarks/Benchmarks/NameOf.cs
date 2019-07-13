@@ -4,24 +4,15 @@ namespace Gu.Reactive.Benchmarks
     using BenchmarkDotNet.Attributes;
 
     [BenchmarkDotNet.Attributes.MemoryDiagnoser]
-    public static class NameOf
+    public class NameOf
     {
         [Benchmark(Baseline = true)]
-        public static string UsingCsharp6Nameof()
-        {
-            return nameof(Fake.Name);
-        }
+        public string UsingCsharp6Nameof() => nameof(Fake.Name);
 
         [Benchmark]
-        public static string Property()
-        {
-            return Reactive.NameOf.Property<Fake, string>(x => x.Name);
-        }
+        public string Property() => Reactive.NameOf.Property<Fake, string>(x => x.Name);
 
         [Benchmark]
-        public static string PropertyNested()
-        {
-            return Reactive.NameOf.Property<Fake, string>(x => x.Next.Next.Name);
-        }
+        public string PropertyNested() => Reactive.NameOf.Property<Fake, string>(x => x.Next.Next.Name);
     }
 }

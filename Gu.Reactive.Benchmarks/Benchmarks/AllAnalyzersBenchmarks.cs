@@ -11,19 +11,19 @@ namespace Gu.Reactive.Benchmarks
         private static readonly Gu.Roslyn.Asserts.Benchmark InvocationAnalyzerBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.InvocationAnalyzer());
 
         [BenchmarkDotNet.Attributes.Benchmark]
-        public static void ConstructorAnalyzer()
+        public void ConstructorAnalyzer()
         {
             ConstructorAnalyzerBenchmark.Run();
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]
-        public static void GUREA11PreferObservableFromEvent()
+        public void GUREA11PreferObservableFromEvent()
         {
             GUREA11PreferObservableFromEventBenchmark.Run();
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]
-        public static void InvocationAnalyzer()
+        public void InvocationAnalyzer()
         {
             InvocationAnalyzerBenchmark.Run();
         }

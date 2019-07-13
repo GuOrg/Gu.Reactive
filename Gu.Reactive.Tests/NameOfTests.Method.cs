@@ -37,15 +37,14 @@ namespace Gu.Reactive.Tests
                 Assert.AreEqual(nameof(this.DummyMethod), actual);
             }
 
-            public int DummyMethod(int arg)
-            {
-                return arg;
-            }
+#pragma warning disable CA1822 // Mark members as static
+            public int DummyMethod(int arg) => arg;
 
 #pragma warning disable CA1801
             public void DummyMethodVoid(int arg)
             {
             }
+#pragma warning restore CA1822 // Mark members as static
         }
     }
 }

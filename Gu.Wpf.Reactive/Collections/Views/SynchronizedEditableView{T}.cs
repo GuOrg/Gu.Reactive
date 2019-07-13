@@ -158,6 +158,11 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
+            if (changes == null)
+            {
+                throw new ArgumentNullException(nameof(changes));
+            }
+
             if (changes.Count == 0)
             {
                 return;
