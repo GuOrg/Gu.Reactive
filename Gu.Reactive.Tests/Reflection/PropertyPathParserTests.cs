@@ -13,7 +13,7 @@ namespace Gu.Reactive.Tests.Reflection
     {
         public bool IsTrue { get; } = true;
 
-        public bool Method() => true;
+        public bool Method() => this.IsTrue;
 
         [Test]
         public void ThrowsOnMethod()
