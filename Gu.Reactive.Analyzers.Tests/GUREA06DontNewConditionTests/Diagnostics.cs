@@ -65,7 +65,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using System;
@@ -80,7 +80,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, conditionCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, conditionCode, code);
         }
     }
 }

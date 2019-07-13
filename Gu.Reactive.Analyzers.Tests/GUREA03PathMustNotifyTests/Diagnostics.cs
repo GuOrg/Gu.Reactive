@@ -32,7 +32,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using System;
@@ -48,7 +48,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, code);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using System;
@@ -90,7 +90,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, code);
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using System;
@@ -162,7 +162,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, barCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, barCode, code);
         }
 
         [Test]
@@ -223,7 +223,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using System;
@@ -239,7 +239,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, barCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, barCode, code);
         }
     }
 }

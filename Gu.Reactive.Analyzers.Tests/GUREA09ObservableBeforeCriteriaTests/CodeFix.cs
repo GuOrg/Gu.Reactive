@@ -52,7 +52,7 @@ namespace RoslynSandbox
         [Test]
         public void BaseCall()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -68,7 +68,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -83,13 +83,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, before }, after);
         }
 
         [Test]
         public void New()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -106,7 +106,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -122,7 +122,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic,  new[] { FooCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic,  new[] { FooCode, before }, after);
         }
     }
 }

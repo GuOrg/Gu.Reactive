@@ -49,7 +49,8 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"namespace RoslynSandbox
+            var code = @"
+namespace RoslynSandbox
 {
     using System;
     using Gu.Reactive;
@@ -66,7 +67,7 @@ namespace RoslynSandbox
         public Foo Foo { get; set; }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, code);
         }
     }
 }

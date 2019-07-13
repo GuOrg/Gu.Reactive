@@ -68,7 +68,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using System;
@@ -83,7 +83,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using System;
@@ -97,7 +97,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, conditionCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, conditionCode, before }, after);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -149,7 +149,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -162,7 +162,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, before }, after);
         }
 
         [Test]
@@ -200,7 +200,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -218,7 +218,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -235,7 +235,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, before }, after);
         }
 
         [Test]
@@ -273,7 +273,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -287,7 +287,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -300,7 +300,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, before }, after);
         }
     }
 }

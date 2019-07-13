@@ -60,7 +60,7 @@ namespace RoslynSandbox
         [Test]
         public void AndConditionSortArgs()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -74,7 +74,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -87,13 +87,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, SortArgsFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortArgsFix, ExpectedDiagnostic, new[] { Condition1, Condition2, before }, after);
         }
 
         [Test]
         public void OrConditionSortArgs()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -113,7 +113,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -132,13 +132,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, SortArgsFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortArgsFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, before }, after);
         }
 
         [Test]
         public void AndConditionSortParameters()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -152,7 +152,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -165,13 +165,13 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, SortParametersFix, ExpectedDiagnostic, new[] { Condition1, Condition2, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortParametersFix, ExpectedDiagnostic, new[] { Condition1, Condition2, before }, after);
         }
 
         [Test]
         public void OrConditionSortParameters()
         {
-            var testCode = @"
+            var before = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -191,7 +191,7 @@ namespace RoslynSandbox
     }
 }";
 
-            var fixedCode = @"
+            var after = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -210,7 +210,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, SortParametersFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, testCode }, fixedCode);
+            RoslynAssert.CodeFix(Analyzer, SortParametersFix, ExpectedDiagnostic, new[] { Condition1, Condition2, Condition3, before }, after);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace RoslynSandbox
             [Test]
             public void WhenNotUsingSenderNorArgLambda()
             {
-                var testCode = @"
+                var before = @"
 namespace RoslynSandbox
 {
     using System;
@@ -36,7 +36,7 @@ namespace RoslynSandbox
     }
 }";
 
-                var fixedCode = @"
+                var after = @"
 namespace RoslynSandbox
 {
     using System;
@@ -55,13 +55,13 @@ namespace RoslynSandbox
         }
     }
 }";
-                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, before }, after);
             }
 
             [Test]
             public void WhenUsingArgLambda()
             {
-                var testCode = @"
+                var before = @"
 namespace RoslynSandbox
 {
     using System;
@@ -77,7 +77,7 @@ namespace RoslynSandbox
     }
 }";
 
-                var fixedCode = @"
+                var after = @"
 namespace RoslynSandbox
 {
     using System;
@@ -96,13 +96,13 @@ namespace RoslynSandbox
         }
     }
 }";
-                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, before }, after);
             }
 
             [Test]
             public void WhenNotUsingSenderNorArgMethodGroup()
             {
-                var testCode = @"
+                var before = @"
 namespace RoslynSandbox
 {
     using System;
@@ -122,7 +122,7 @@ namespace RoslynSandbox
     }
 }";
 
-                var fixedCode = @"
+                var after = @"
 namespace RoslynSandbox
 {
     using System;
@@ -146,13 +146,13 @@ namespace RoslynSandbox
         }
     }
 }";
-                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, before }, after);
             }
 
             [Test]
             public void WhenUsingArgMethodGroup()
             {
-                var testCode = @"
+                var before = @"
 namespace RoslynSandbox
 {
     using System;
@@ -172,7 +172,7 @@ namespace RoslynSandbox
     }
 }";
 
-                var fixedCode = @"
+                var after = @"
 namespace RoslynSandbox
 {
     using System;
@@ -196,7 +196,7 @@ namespace RoslynSandbox
         }
     }
 }";
-                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, testCode }, fixedCode);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, before }, after);
             }
         }
     }

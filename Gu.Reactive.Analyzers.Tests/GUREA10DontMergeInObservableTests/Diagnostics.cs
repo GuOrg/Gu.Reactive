@@ -90,7 +90,7 @@ namespace RoslynSandbox
         [Test]
         public void WhenMergingInline()
         {
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using System.Reactive.Linq;
@@ -109,13 +109,13 @@ namespace RoslynSandbox
     }
 }";
 
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, FooCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, FooCode, code);
         }
 
         [Test]
         public void WhenMergingInFactoryMethod()
         {
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using System;
@@ -141,7 +141,7 @@ namespace RoslynSandbox
     }
 }";
 
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, FooCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, FooCode, code);
         }
     }
 }

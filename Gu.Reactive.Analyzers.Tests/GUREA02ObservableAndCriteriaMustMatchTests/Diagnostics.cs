@@ -70,7 +70,7 @@ namespace RoslynSandbox
         [Test]
         public void BaseCall()
         {
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -92,13 +92,13 @@ namespace RoslynSandbox
                            "  RoslynSandbox.Foo.Value2\r\n" +
                            "Not observed:\r\n" +
                            "  RoslynSandbox.Foo.Value2";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), FooCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), FooCode, code);
         }
 
         [Test]
         public void New()
         {
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
@@ -122,7 +122,7 @@ namespace RoslynSandbox
                           "Not observed:\r\n" +
                           "  RoslynSandbox.Foo.Value2";
 
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), FooCode, testCode);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), FooCode, code);
         }
     }
 }
