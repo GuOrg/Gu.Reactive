@@ -12,7 +12,7 @@ namespace Gu.Reactive
         private readonly IDisposable subscription;
         private bool disposed;
 
-        public SimpleChanges(TCollection source)
+        internal SimpleChanges(TCollection source)
         {
             this.source = source;
             this.subscription = source.ObserveCollectionChangedSlim(signalInitial: false)

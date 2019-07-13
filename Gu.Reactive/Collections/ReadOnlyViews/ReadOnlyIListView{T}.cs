@@ -229,7 +229,7 @@ namespace Gu.Reactive
 
             private bool disposed;
 
-            public DisposingReadOnlyCollection(IList<T> list)
+            internal DisposingReadOnlyCollection(IList<T> list)
                 : base(list)
             {
                 this.list = list;

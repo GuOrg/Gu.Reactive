@@ -84,14 +84,14 @@ namespace Gu.Reactive
 
         internal struct CacheItem
         {
-            public CacheItem(KeyValuePair<PropertyInfo, IGetter> keyValuePair)
+            internal CacheItem(KeyValuePair<PropertyInfo, IGetter> keyValuePair)
             {
                 this.KeyValuePair = keyValuePair;
             }
 
-            public KeyValuePair<PropertyInfo, IGetter> KeyValuePair { get; }
+            internal KeyValuePair<PropertyInfo, IGetter> KeyValuePair { get; }
 
-            public string Property => $"{this.KeyValuePair.Key.DeclaringType.PrettyName()}.{this.KeyValuePair.Key.Name}";
+            internal string Property => $"{this.KeyValuePair.Key.DeclaringType.PrettyName()}.{this.KeyValuePair.Key.Name}";
         }
     }
 }
