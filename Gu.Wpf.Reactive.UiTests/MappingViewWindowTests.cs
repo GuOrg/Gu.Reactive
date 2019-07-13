@@ -82,14 +82,14 @@ namespace Gu.Wpf.Reactive.UiTests
         {
             private readonly GroupBox groupBox;
 
-            public DataGridAndEvents(GroupBox groupBox)
+            internal DataGridAndEvents(GroupBox groupBox)
             {
                 this.groupBox = groupBox;
             }
 
-            public DataGrid DataGrid => this.groupBox.FindDataGrid();
+            internal DataGrid DataGrid => this.groupBox.FindDataGrid();
 
-            public ListBox Events => this.groupBox.FindListBox();
+            internal ListBox Events => this.groupBox.FindListBox();
         }
     }
 }

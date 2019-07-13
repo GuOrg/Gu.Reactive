@@ -35,7 +35,7 @@ namespace Gu.Wpf.Reactive.Tests
         }
 
         [Test]
-        public async Task RaiseCanExecuteChanged()
+        public async Task WhenRaiseCanExecuteChanged()
         {
             var count = 0;
             var command = new ManualRelayCommand(() => { }, () => true);

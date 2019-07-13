@@ -15,16 +15,16 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
     using NUnit.Framework;
 
     [Apartment(ApartmentState.STA)]
-    public class WithDispatcher
+    public static class WithDispatcher
     {
         [OneTimeSetUp]
-        public void OneTimeSetUp()
+        public static void OneTimeSetUp()
         {
             App.Start();
         }
 
         [Test]
-        public void TwoViewsNotSame()
+        public static void TwoViewsNotSame()
         {
             var ints = new ObservableCollection<int> { 1, 2, 3 };
             using (var view1 = ints.AsFilteredView(x => true))
