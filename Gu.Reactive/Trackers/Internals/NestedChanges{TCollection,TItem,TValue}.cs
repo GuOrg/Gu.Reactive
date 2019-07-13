@@ -17,7 +17,7 @@ namespace Gu.Reactive
         private readonly IDisposable subscription;
         private bool disposed;
 
-        public NestedChanges(TCollection source, Expression<Func<TItem, TValue>> selector)
+        internal NestedChanges(TCollection source, Expression<Func<TItem, TValue>> selector)
         {
             var path = NotifyingPath.GetOrCreate(selector);
             this.source = new MappingView<TItem, ValueTracker>(
@@ -146,7 +146,7 @@ namespace Gu.Reactive
             private bool disposed;
             private Maybe<TValue> value;
 
-            public ValueTracker(NestedChanges<TCollection, TItem, TValue> nestedChanges, TItem item, NotifyingPath<TItem, TValue> path)
+            internal ValueTracker(NestedChanges<TCollection, TItem, TValue> nestedChanges, TItem item, NotifyingPath<TItem, TValue> path)
             {
                 this.nestedChanges = nestedChanges;
                 this.inner = path.CreateTracker(item);
@@ -154,7 +154,7 @@ namespace Gu.Reactive
                 this.value = this.inner.SourceAndValue().Value;
             }
 
-            public Maybe<TValue> Value
+            internal Maybe<TValue> Value
             {
                 get => this.value;
 

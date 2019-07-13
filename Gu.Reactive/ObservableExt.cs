@@ -245,7 +245,7 @@ namespace Gu.Reactive
         {
             private readonly IDisposable subscription;
 
-            public ReadOnlyView(IObservable<IEnumerable<T>> source)
+            internal ReadOnlyView(IObservable<IEnumerable<T>> source)
                 : base(null, TimeSpan.Zero, ImmediateScheduler.Instance, leaveOpen: true)
             {
                 this.subscription = source.Subscribe(this.SetSource);

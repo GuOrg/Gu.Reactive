@@ -5,13 +5,13 @@ namespace Gu.Reactive.Internals
 
     internal static class SetPool
     {
-        public static HashSet<T> Borrow<T>()
+        internal static HashSet<T> Borrow<T>()
             where T : class
         {
             return Pool<T>.Cache.GetOrCreate(() => new HashSet<T>());
         }
 
-        public static void Return<T>(HashSet<T> set)
+        internal static void Return<T>(HashSet<T> set)
             where T : class
         {
             set.Clear();

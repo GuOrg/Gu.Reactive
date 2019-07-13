@@ -86,6 +86,7 @@
     <Rule Id="CA1062" Action="None" />
     <Rule Id="CA1710" Action="None" />
     <Rule Id="CA1716" Action="None" />
+    <Rule Id="CA2227" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.NetCore.Analyzers" RuleNamespace="Microsoft.NetCore.Analyzers">
     <Rule Id="CA1303" Action="None" />

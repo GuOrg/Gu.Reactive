@@ -26,11 +26,11 @@ namespace Gu.Reactive.Internals
             this.Last.TrackedPropertyChanged += this.OnTrackedPropertyChanged;
         }
 
-        public event TrackedPropertyChangedEventHandler<TValue> TrackedPropertyChanged;
+        internal event TrackedPropertyChangedEventHandler<TValue> TrackedPropertyChanged;
 
         public int Count => this.parts.Count;
 
-        public TSource Source => (TSource)this.parts[0].Source;
+        internal TSource Source => (TSource)this.parts[0].Source;
 
         private IPropertyTracker<TValue> Last => (IPropertyTracker<TValue>)this.parts[this.parts.Count - 1];
 

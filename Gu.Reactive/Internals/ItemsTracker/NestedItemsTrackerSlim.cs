@@ -15,7 +15,7 @@ namespace Gu.Reactive.Internals
         private readonly NotifyingPath<TItem, TProperty> path;
         private readonly IdentityMap<TItem, PropertyPathTracker<TItem, TProperty>> map = IdentityMap.Borrow<TItem, PropertyPathTracker<TItem, TProperty>>();
 
-        public NestedItemsTrackerSlim(TCollection source, NotifyingPath<TItem, TProperty> path)
+        internal NestedItemsTrackerSlim(TCollection source, NotifyingPath<TItem, TProperty> path)
         {
             this.source = source;
             this.path = path;
