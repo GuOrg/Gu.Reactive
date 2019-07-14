@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Rules for Gu.Reactive" Description="Code analysis rules for Gu.Reactive.csproj." ToolsVersion="16.0">
-  <Rules AnalyzerId="Gu.Analyzers.Analyzers" RuleNamespace="Gu.Analyzers.Analyzers">
+  <Rules AnalyzerId="Gu.Analyzers" RuleNamespace="Gu.Analyzers">
     <Rule Id="GU0001" Action="Warning" />
     <Rule Id="GU0002" Action="Warning" />
     <Rule Id="GU0003" Action="Warning" />
