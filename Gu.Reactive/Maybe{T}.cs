@@ -20,7 +20,7 @@ namespace Gu.Reactive
         /// <summary>
         /// The default instance when value is missing.
         /// </summary>
-        public static Maybe<T> None { get; } = new Maybe<T>(hasValue: false, value: default(T));
+        public static Maybe<T> None { get; } = new Maybe<T>(hasValue: false, value: default);
 #pragma warning restore CA1000 // Do not declare static members on generic types
 
         /// <inheritdoc />

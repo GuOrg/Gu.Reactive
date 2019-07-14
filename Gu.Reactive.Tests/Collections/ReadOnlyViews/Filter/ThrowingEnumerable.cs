@@ -48,7 +48,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
             {
                 if (this.throws)
                 {
-                    this.source.Add(default(T));
+                    this.source.Add(default);
                     this.source.RemoveAt(this.source.Count - 1);
                     this.throws = false;
                 }

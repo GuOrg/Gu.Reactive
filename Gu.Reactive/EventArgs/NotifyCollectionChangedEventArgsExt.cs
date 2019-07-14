@@ -24,7 +24,7 @@ namespace Gu.Reactive
                 return true;
             }
 
-            result = default(T);
+            result = default;
             return false;
         }
 
@@ -37,7 +37,7 @@ namespace Gu.Reactive
                 return true;
             }
 
-            result = default(T);
+            result = default;
             return false;
         }
     }

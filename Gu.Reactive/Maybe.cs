@@ -30,7 +30,7 @@ namespace Gu.Reactive
 
             return maybe.HasValue
                 ? maybe.Value
-                : default(T);
+                : default;
         }
 
         /// <summary>

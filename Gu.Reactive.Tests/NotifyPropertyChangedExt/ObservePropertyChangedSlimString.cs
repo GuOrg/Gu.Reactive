@@ -23,10 +23,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         public int PublicProperty
         {
-            get
-            {
-                return this.publicProperty;
-            }
+            get => this.publicProperty;
 
             set
             {
@@ -42,10 +39,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         private int PrivateProperty
         {
-            get
-            {
-                return this.privateProperty;
-            }
+            get => this.privateProperty;
 
             set
             {

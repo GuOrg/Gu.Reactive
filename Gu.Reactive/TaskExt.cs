@@ -224,7 +224,7 @@ namespace Gu.Reactive
                 case TaskStatus.RanToCompletion:
                     Task<TResult> castedSource = source as Task<TResult>;
                     proxy.TrySetResult(castedSource == null
-                                            ? default(TResult) // source is a Task
+                                            ? default // source is a Task
                                             : castedSource.Result); // source is a Task<TResult>
                     break;
             }

@@ -17,12 +17,14 @@ namespace Gu.Wpf.Reactive
 #pragma warning disable SA1202 // Elements must be ordered by access
 #pragma warning disable SA1600 // Elements must be documented
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        /// <summary>Identifies the <see cref="Condition"/> dependency property.</summary>
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
             nameof(Condition),
             typeof(ICondition),
             typeof(ConditionToolTip),
             new PropertyMetadata(default(ICondition)));
 
+        /// <summary>Identifies the <see cref="InferConditionFromCommand"/> dependency property.</summary>
         public static readonly DependencyProperty InferConditionFromCommandProperty = DependencyProperty.Register(
             nameof(InferConditionFromCommand),
             typeof(bool),
@@ -35,6 +37,7 @@ namespace Gu.Wpf.Reactive
             typeof(ConditionToolTip),
             new PropertyMetadata(default(Type)));
 
+        /// <summary>Identifies the <see cref="CommandType"/> dependency property.</summary>
         public static readonly DependencyProperty CommandTypeProperty = CommandTypePropertyKey.DependencyProperty;
 
         private static readonly DependencyProperty PlacementTargetProxyProperty = DependencyProperty.Register(
