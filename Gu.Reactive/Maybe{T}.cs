@@ -92,18 +92,12 @@ namespace Gu.Reactive
         /// <summary>
         /// Get the value if HasValue is true and default(T) if not.
         /// </summary>
-        public T GetValueOrDefault()
-        {
-            return this.value;
-        }
+        public T GetValueOrDefault() => this.HasValue ? this.value : default(T);
 
         /// <summary>
         /// Get the value if HasValue is true and <paramref name="defaultValue"/> if not.
         /// </summary>
-        public T GetValueOrDefault(T defaultValue)
-        {
-            return this.HasValue ? this.value : defaultValue;
-        }
+        public T GetValueOrDefault(T defaultValue) => this.HasValue ? this.value : defaultValue;
 
         /// <inheritdoc/>
         public override string ToString()

@@ -178,6 +178,37 @@ namespace Gu.Reactive
         }
 
         /// <summary>
+        /// Creates an observable with the last two values from <paramref name="source"/>.
+        /// Starts signaling after the first value, then previous is <see cref="Maybe{T}.None"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the messages.</typeparam>
+        /// <param name="source">The observable.</param>
+        /// <returns>An observable with the last two values from <paramref name="source"/>.</returns>
+        public static IObservable<WithPrevious<T, Maybe<T>>> WithMaybePrevious<T>(this IObservable<T> source)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            return Observable.Create<WithPrevious<T, Maybe<T>>>(
+                o =>
+                {
+                    var hasPrevious = false;
+                    var previous = default(T);
+                    return source.Subscribe(
+                        x =>
+                        {
+                            o.OnNext(new WithPrevious<T, Maybe<T>>(x, hasPrevious ? Maybe.Some(previous) : Maybe.None<T>()));
+                            previous = x;
+                            hasPrevious = true;
+                        },
+                        x => o.OnError(x),
+                        () => o.OnCompleted());
+                });
+        }
+
+        /// <summary>
         /// Turn a <see cref="CancellationToken"/> into an observable
         /// Author: Brandon Wallace, https://github.com/bman654.
         /// </summary>

@@ -11,7 +11,7 @@ namespace Gu.Reactive.Tests
         public class WithPrevious
         {
             [Test]
-            public void Sequence()
+            public void WithPreviousSequence()
             {
                 using (var subject = new Subject<int>())
                 {
@@ -28,6 +28,28 @@ namespace Gu.Reactive.Tests
 
                         subject.OnNext(3);
                         CollectionAssert.AreEqual(new[] { "1,2", "2,3" }, actuals.Select(x => $"{x.Previous},{x.Current}"));
+                    }
+                }
+            }
+
+            [Test]
+            public void WithMaybePreviousSequence()
+            {
+                using (var subject = new Subject<int>())
+                {
+                    var actuals = new List<WithPrevious<int, Maybe<int>>>();
+                    using (subject.WithMaybePrevious().Subscribe(x => actuals.Add(x)))
+                    {
+                        CollectionAssert.IsEmpty(actuals);
+
+                        subject.OnNext(1);
+                        CollectionAssert.AreEqual(new[] { "0,1" }, actuals.Select(x => $"{x.Previous.GetValueOrDefault()},{x.Current}"));
+
+                        subject.OnNext(2);
+                        CollectionAssert.AreEqual(new[] { "0,1", "1,2" }, actuals.Select(x => $"{x.Previous.GetValueOrDefault()},{x.Current}"));
+
+                        subject.OnNext(3);
+                        CollectionAssert.AreEqual(new[] { "0,1", "1,2", "2,3" }, actuals.Select(x => $"{x.Previous.GetValueOrDefault()},{x.Current}"));
                     }
                 }
             }
