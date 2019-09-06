@@ -1,10 +1,1 @@
-﻿Gu.Reactive.WithPrevious<TCurrent, TPrevious>
-Gu.Reactive.WithPrevious<TCurrent, TPrevious>.Equals(Gu.Reactive.WithPrevious<TCurrent, TPrevious> other) -> bool
-Gu.Reactive.WithPrevious<TCurrent, TPrevious>.WithPrevious(TCurrent current, TPrevious previous) -> void
-override Gu.Reactive.WithPrevious<TCurrent, TPrevious>.Equals(object obj) -> bool
-override Gu.Reactive.WithPrevious<TCurrent, TPrevious>.GetHashCode() -> int
-readonly Gu.Reactive.WithPrevious<TCurrent, TPrevious>.Current -> TCurrent
-readonly Gu.Reactive.WithPrevious<TCurrent, TPrevious>.Previous -> TPrevious
-static Gu.Reactive.ObservableExt.WithPrevious<T>(this System.IObservable<T> source) -> System.IObservable<Gu.Reactive.WithPrevious<T, T>>
-static Gu.Reactive.WithPrevious<TCurrent, TPrevious>.operator !=(Gu.Reactive.WithPrevious<TCurrent, TPrevious> left, Gu.Reactive.WithPrevious<TCurrent, TPrevious> right) -> bool
-static Gu.Reactive.WithPrevious<TCurrent, TPrevious>.operator ==(Gu.Reactive.WithPrevious<TCurrent, TPrevious> left, Gu.Reactive.WithPrevious<TCurrent, TPrevious> right) -> bool
+﻿

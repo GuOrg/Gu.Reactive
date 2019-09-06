@@ -1,3 +1,6 @@
+#### 4.1.0
+* FEATURE: WithPrevious
+
 #### 4.0.0
 * BUGFIX: ObserveItemPropertyChanged and ObserveItemPropertyChangedSlim notify on remove.
 * BREAKING: ObserveItemPropertyChanged pass source collection as sender when collection changes.
