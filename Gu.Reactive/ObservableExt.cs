@@ -149,14 +149,14 @@ namespace Gu.Reactive
         /// <typeparam name="T">The type of the messages.</typeparam>
         /// <param name="source">The observable.</param>
         /// <returns>An observable with the last two values from <paramref name="source"/>.</returns>
-        public static IObservable<WithPrevious<T, T>> WithPrevious<T>(this IObservable<T> source)
+        public static IObservable<WithPrevious<T>> WithPrevious<T>(this IObservable<T> source)
         {
             if (source == null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            return Observable.Create<WithPrevious<T, T>>(
+            return Observable.Create<WithPrevious<T>>(
                 o =>
                 {
                     var hasPrevious = false;
@@ -166,7 +166,7 @@ namespace Gu.Reactive
                         {
                             if (hasPrevious)
                             {
-                                o.OnNext(new WithPrevious<T, T>(x, previous));
+                                o.OnNext(new WithPrevious<T>(x, previous));
                             }
 
                             previous = x;
@@ -184,14 +184,14 @@ namespace Gu.Reactive
         /// <typeparam name="T">The type of the messages.</typeparam>
         /// <param name="source">The observable.</param>
         /// <returns>An observable with the last two values from <paramref name="source"/>.</returns>
-        public static IObservable<WithPrevious<T, Maybe<T>>> WithMaybePrevious<T>(this IObservable<T> source)
+        public static IObservable<WithMaybePrevious<T>> WithMaybePrevious<T>(this IObservable<T> source)
         {
             if (source == null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            return Observable.Create<WithPrevious<T, Maybe<T>>>(
+            return Observable.Create<WithMaybePrevious<T>>(
                 o =>
                 {
                     var hasPrevious = false;
@@ -199,7 +199,7 @@ namespace Gu.Reactive
                     return source.Subscribe(
                         x =>
                         {
-                            o.OnNext(new WithPrevious<T, Maybe<T>>(x, hasPrevious ? Maybe.Some(previous) : Maybe.None<T>()));
+                            o.OnNext(new WithMaybePrevious<T>(x, hasPrevious ? Maybe.Some(previous) : Maybe.None<T>()));
                             previous = x;
                             hasPrevious = true;
                         },

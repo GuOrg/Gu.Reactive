@@ -9,7 +9,7 @@ namespace Gu.Reactive
     {
         private bool disposed;
 
-        public CreatingCaching(Func<TSource, TResult> selector)
+        internal CreatingCaching(Func<TSource, TResult> selector)
         {
             this.Cache = new InstanceCache(selector);
         }
@@ -73,7 +73,7 @@ namespace Gu.Reactive
             private readonly RefCounter<TResult> resultCounter = new RefCounter<TResult>();
             private readonly RefCounter<TSource> sourceCounter = new RefCounter<TSource>();
 
-            public InstanceCache(Func<TSource, TResult> selector)
+            internal InstanceCache(Func<TSource, TResult> selector)
             {
                 this.selector = selector;
                 this.sourceCounter.OnRemove += x => this.cache.Remove(x);
