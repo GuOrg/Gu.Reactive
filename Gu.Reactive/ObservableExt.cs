@@ -144,18 +144,19 @@ namespace Gu.Reactive
 
         /// <summary>
         /// Creates an observable with the last two values from <paramref name="source"/>.
+        /// Starts signaling after the second value.
         /// </summary>
         /// <typeparam name="T">The type of the messages.</typeparam>
         /// <param name="source">The observable.</param>
         /// <returns>An observable with the last two values from <paramref name="source"/>.</returns>
-        public static IObservable<WithPrevious<T>> WithPrevious<T>(this IObservable<T> source)
+        public static IObservable<WithPrevious<T, T>> WithPrevious<T>(this IObservable<T> source)
         {
             if (source == null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            return Observable.Create<WithPrevious<T>>(
+            return Observable.Create<WithPrevious<T, T>>(
                 o =>
                 {
                     var hasPrevious = false;
@@ -165,7 +166,7 @@ namespace Gu.Reactive
                         {
                             if (hasPrevious)
                             {
-                                o.OnNext(new WithPrevious<T>(x, previous));
+                                o.OnNext(new WithPrevious<T, T>(x, previous));
                             }
 
                             previous = x;
