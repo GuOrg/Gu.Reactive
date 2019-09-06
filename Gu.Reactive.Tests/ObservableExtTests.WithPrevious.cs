@@ -15,7 +15,7 @@ namespace Gu.Reactive.Tests
             {
                 using (var subject = new Subject<int>())
                 {
-                    var actuals = new List<WithPrevious<int>>();
+                    var actuals = new List<WithPrevious<int, int>>();
                     using (subject.WithPrevious().Subscribe(x => actuals.Add(x)))
                     {
                         CollectionAssert.IsEmpty(actuals);
