@@ -379,9 +379,12 @@ Gu.Reactive.Tracker<TValue>.Tracker(Gu.Reactive.IChanges<TValue> source) -> void
 Gu.Reactive.Tracker<TValue>.Value.get -> TValue?
 Gu.Reactive.Tracker<TValue>.Value.set -> void
 Gu.Reactive.TypeExt
-Gu.Reactive.WithPrevious<TCurrent, TPrevious>
-Gu.Reactive.WithPrevious<TCurrent, TPrevious>.Equals(Gu.Reactive.WithPrevious<TCurrent, TPrevious> other) -> bool
-Gu.Reactive.WithPrevious<TCurrent, TPrevious>.WithPrevious(TCurrent current, TPrevious previous) -> void
+Gu.Reactive.WithMaybePrevious<T>
+Gu.Reactive.WithMaybePrevious<T>.Equals(Gu.Reactive.WithMaybePrevious<T> other) -> bool
+Gu.Reactive.WithMaybePrevious<T>.WithMaybePrevious(T current, Gu.Reactive.Maybe<T> previous) -> void
+Gu.Reactive.WithPrevious<T>
+Gu.Reactive.WithPrevious<T>.Equals(Gu.Reactive.WithPrevious<T> other) -> bool
+Gu.Reactive.WithPrevious<T>.WithPrevious(T current, T previous) -> void
 abstract Gu.Reactive.AbstractCondition.Criteria() -> bool?
 abstract Gu.Reactive.Getter<TSource, TValue>.GetValue(TSource source) -> TValue
 abstract Gu.Reactive.Tracker<TValue>.GetValueOrDefault(System.Collections.Generic.IEnumerable<TValue> source) -> TValue?
@@ -419,13 +422,17 @@ override Gu.Reactive.ReadOnlyThrottledView<T>.Dispose(bool disposing) -> void
 override Gu.Reactive.ReadOnlyThrottledView<T>.Refresh() -> void
 override Gu.Reactive.SourceAndValue<TSource, TValue>.Equals(object obj) -> bool
 override Gu.Reactive.SourceAndValue<TSource, TValue>.GetHashCode() -> int
-override Gu.Reactive.WithPrevious<TCurrent, TPrevious>.Equals(object obj) -> bool
-override Gu.Reactive.WithPrevious<TCurrent, TPrevious>.GetHashCode() -> int
+override Gu.Reactive.WithMaybePrevious<T>.Equals(object obj) -> bool
+override Gu.Reactive.WithMaybePrevious<T>.GetHashCode() -> int
+override Gu.Reactive.WithPrevious<T>.Equals(object obj) -> bool
+override Gu.Reactive.WithPrevious<T>.GetHashCode() -> int
 override sealed Gu.Reactive.MappingView<TSource, TResult>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> changes) -> void
 override sealed Gu.Reactive.ReadOnlyFilteredView<T>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> changes) -> void
 override sealed Gu.Reactive.ReadOnlyThrottledView<T>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> changes) -> void
-readonly Gu.Reactive.WithPrevious<TCurrent, TPrevious>.Current -> TCurrent
-readonly Gu.Reactive.WithPrevious<TCurrent, TPrevious>.Previous -> TPrevious
+readonly Gu.Reactive.WithMaybePrevious<T>.Current -> T
+readonly Gu.Reactive.WithMaybePrevious<T>.Previous -> Gu.Reactive.Maybe<T>
+readonly Gu.Reactive.WithPrevious<T>.Current -> T
+readonly Gu.Reactive.WithPrevious<T>.Previous -> T
 static Gu.Reactive.Condition.For<TSource, TValue>(TSource source, System.Linq.Expressions.Expression<System.Func<TSource, TValue>> path, TValue value) -> Gu.Reactive.ObservableAndCriteria
 static Gu.Reactive.Condition.For<TSource, TValue>(TSource source, System.Linq.Expressions.Expression<System.Func<TSource, TValue>> path, TValue value, System.Collections.Generic.EqualityComparer<TValue> comparer) -> Gu.Reactive.ObservableAndCriteria
 static Gu.Reactive.Condition.For<TSource, TValue>(TSource source, System.Linq.Expressions.Expression<System.Func<TSource, TValue>> path, TValue value, System.Func<Gu.Reactive.Maybe<TValue>, TValue, bool?> compare) -> Gu.Reactive.ObservableAndCriteria
@@ -589,8 +596,8 @@ static Gu.Reactive.ObservableExt.RepeatAfterDelay<T>(this System.IObservable<T> 
 static Gu.Reactive.ObservableExt.RepeatAfterDelay<T>(this System.IObservable<T> source, System.TimeSpan delayTime, System.Reactive.Concurrency.IScheduler scheduler) -> System.IObservable<T>
 static Gu.Reactive.ObservableExt.Throttle<T>(this System.IObservable<T> source, System.TimeSpan dueTime, System.TimeSpan maxTime) -> System.IObservable<T>
 static Gu.Reactive.ObservableExt.Throttle<T>(this System.IObservable<T> source, System.TimeSpan dueTime, System.TimeSpan maxTime, System.Reactive.Concurrency.IScheduler scheduler) -> System.IObservable<T>
-static Gu.Reactive.ObservableExt.WithMaybePrevious<T>(this System.IObservable<T> source) -> System.IObservable<Gu.Reactive.WithPrevious<T, Gu.Reactive.Maybe<T>>>
-static Gu.Reactive.ObservableExt.WithPrevious<T>(this System.IObservable<T> source) -> System.IObservable<Gu.Reactive.WithPrevious<T, T>>
+static Gu.Reactive.ObservableExt.WithMaybePrevious<T>(this System.IObservable<T> source) -> System.IObservable<Gu.Reactive.WithMaybePrevious<T>>
+static Gu.Reactive.ObservableExt.WithPrevious<T>(this System.IObservable<T> source) -> System.IObservable<Gu.Reactive.WithPrevious<T>>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
@@ -659,8 +666,10 @@ static Gu.Reactive.TaskExt.TimeoutAfter<T>(this System.Threading.Tasks.Task<T> t
 static Gu.Reactive.TaskExt.WithCancellation<T>(this System.Threading.Tasks.Task<T> task, System.Threading.CancellationToken cancellationToken) -> System.Threading.Tasks.Task<T>
 static Gu.Reactive.TypeExt.IsNullable(this System.Type type) -> bool
 static Gu.Reactive.TypeExt.PrettyName(this System.Type type) -> string
-static Gu.Reactive.WithPrevious<TCurrent, TPrevious>.operator !=(Gu.Reactive.WithPrevious<TCurrent, TPrevious> left, Gu.Reactive.WithPrevious<TCurrent, TPrevious> right) -> bool
-static Gu.Reactive.WithPrevious<TCurrent, TPrevious>.operator ==(Gu.Reactive.WithPrevious<TCurrent, TPrevious> left, Gu.Reactive.WithPrevious<TCurrent, TPrevious> right) -> bool
+static Gu.Reactive.WithMaybePrevious<T>.operator !=(Gu.Reactive.WithMaybePrevious<T> left, Gu.Reactive.WithMaybePrevious<T> right) -> bool
+static Gu.Reactive.WithMaybePrevious<T>.operator ==(Gu.Reactive.WithMaybePrevious<T> left, Gu.Reactive.WithMaybePrevious<T> right) -> bool
+static Gu.Reactive.WithPrevious<T>.operator !=(Gu.Reactive.WithPrevious<T> left, Gu.Reactive.WithPrevious<T> right) -> bool
+static Gu.Reactive.WithPrevious<T>.operator ==(Gu.Reactive.WithPrevious<T> left, Gu.Reactive.WithPrevious<T> right) -> bool
 static readonly Gu.Reactive.ForegroundScheduler.Default -> Gu.Reactive.ForegroundScheduler
 static readonly Gu.Reactive.PropertyPathComparer.Default -> Gu.Reactive.PropertyPathComparer
 virtual Gu.Reactive.AbstractCondition.Dispose(bool disposing) -> void
