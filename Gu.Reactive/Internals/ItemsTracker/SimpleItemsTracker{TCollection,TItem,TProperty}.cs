@@ -5,7 +5,6 @@ namespace Gu.Reactive.Internals
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Linq;
 
     internal sealed class SimpleItemsTracker<TCollection, TItem, TProperty> : ItemsTracker<TCollection, TItem, TProperty>
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged

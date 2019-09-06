@@ -155,7 +155,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, GUREA02ObservableAndCriteriaMustMatch.Descriptor, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, Descriptors.GUREA02ObservableAndCriteriaMustMatch, FooCode, testCode);
         }
 
         [Test]

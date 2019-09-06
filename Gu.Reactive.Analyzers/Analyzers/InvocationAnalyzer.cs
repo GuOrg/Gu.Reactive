@@ -12,12 +12,12 @@ namespace Gu.Reactive.Analyzers
     {
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
-            GUREA01DontObserveMutableProperty.Descriptor,
-            GUREA03PathMustNotify.Descriptor,
-            GUREA04PreferSlim.Descriptor,
-            GUREA05FullPathMustHaveMoreThanOneItem.Descriptor,
-            GUREA07DontNegateCondition.Descriptor,
-            GUREA12ObservableFromEventDelegateType.Descriptor);
+            Descriptors.GUREA01DoNotObserveMutableProperty,
+            Descriptors.GUREA03PathMustNotify,
+            Descriptors.GUREA04PreferSlimOverload,
+            Descriptors.GUREA05FullPathMustHaveMoreThanOneItem,
+            Descriptors.GUREA07DoNotNegateCondition,
+            Descriptors.GUREA12ObservableFromEventDelegateType);
 
         /// <inheritdoc/>
         public override void Initialize(AnalysisContext context)
@@ -40,13 +40,13 @@ namespace Gu.Reactive.Analyzers
                 if (method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim &&
                     TryGetInvalidFullPropertyPath(invocation, out var location))
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(GUREA05FullPathMustHaveMoreThanOneItem.Descriptor, location.GetLocation()));
+                    context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA05FullPathMustHaveMoreThanOneItem, location.GetLocation()));
                 }
 
                 if (method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChanged &&
                     TryGetCanBeSlim(invocation, context, out location))
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(GUREA04PreferSlim.Descriptor, location.GetLocation()));
+                    context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA04PreferSlimOverload, location.GetLocation()));
                 }
 
                 if (method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChanged ||
@@ -59,31 +59,31 @@ namespace Gu.Reactive.Analyzers
                         var symbol = context.SemanticModel.GetSymbolSafe(member, context.CancellationToken);
                         if (IsMutable(symbol))
                         {
-                            context.ReportDiagnostic(Diagnostic.Create(GUREA01DontObserveMutableProperty.Descriptor, memberAccess.Name.GetLocation()));
+                            context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA01DoNotObserveMutableProperty, memberAccess.Name.GetLocation()));
                         }
                     }
 
                     if (TryGetSilentNode(invocation, context, out var node))
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA03PathMustNotify.Descriptor, node.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA03PathMustNotify, node.GetLocation()));
                     }
                 }
                 else if (method == KnownSymbol.ICondition.Negate)
                 {
                     if (invocation.Expression is MemberAccessExpressionSyntax memberAccess)
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA07DontNegateCondition.Descriptor, memberAccess.Name.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA07DoNotNegateCondition, memberAccess.Name.GetLocation()));
                     }
                     else
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA07DontNegateCondition.Descriptor, invocation.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA07DoNotNegateCondition, invocation.GetLocation()));
                     }
                 }
                 else if (method == KnownSymbol.Observable.FromEvent &&
                      method.Parameters.Length == 2 &&
                      IsForEventHandler(method.Parameters[0]))
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(GUREA12ObservableFromEventDelegateType.Descriptor, invocation.GetLocation()));
+                    context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA12ObservableFromEventDelegateType, invocation.GetLocation()));
                 }
             }
         }

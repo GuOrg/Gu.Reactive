@@ -9,7 +9,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA12ObservableFromEventDelegateTypeTest
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly CodeFixProvider Fix = new ObservableFromEventArgsFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create(GUREA12ObservableFromEventDelegateType.Descriptor);
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create(Descriptors.GUREA12ObservableFromEventDelegateType);
 
         [Test]
         public static void EventHandlerOfInt()

@@ -16,7 +16,7 @@ namespace Gu.Reactive.Analyzers
     {
         /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
-            ImmutableArray.Create(GUREA12ObservableFromEventDelegateType.DiagnosticId);
+            ImmutableArray.Create(Descriptors.GUREA12ObservableFromEventDelegateType.Id);
 
         /// <inheritdoc/>
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;

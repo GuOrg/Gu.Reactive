@@ -16,11 +16,11 @@ namespace Gu.Reactive.Benchmarks
 
         public static string BenchmarksDirectory { get; } = Path.Combine(ProjectDirectory, "Benchmarks");
 
-        private static IReadOnlyList<DiagnosticAnalyzer> AllAnalyzers { get; } = typeof(GUREA01DontObserveMutableProperty).Assembly
-                                                                                                                          .GetTypes()
-                                                                                                                          .Where(typeof(DiagnosticAnalyzer).IsAssignableFrom)
-                                                                                                                          .Select(t => (DiagnosticAnalyzer)Activator.CreateInstance(t))
-                                                                                                                          .ToArray();
+        private static IReadOnlyList<DiagnosticAnalyzer> AllAnalyzers { get; } = typeof(Descriptors).Assembly
+                                                                                                    .GetTypes()
+                                                                                                    .Where(typeof(DiagnosticAnalyzer).IsAssignableFrom)
+                                                                                                    .Select(t => (DiagnosticAnalyzer)Activator.CreateInstance(t))
+                                                                                                    .ToArray();
 
         [TestCaseSource(nameof(AllAnalyzers))]
         public void AnalyzersBenchmark(DiagnosticAnalyzer analyzer)

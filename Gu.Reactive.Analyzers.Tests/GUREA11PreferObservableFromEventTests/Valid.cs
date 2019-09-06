@@ -6,7 +6,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
 
     public static class Valid
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new GUREA11PreferObservableFromEvent();
+        private static readonly DiagnosticAnalyzer Analyzer = new AddAssignmentAnalyzer();
 
         private const string FooCode = @"
 namespace RoslynSandbox

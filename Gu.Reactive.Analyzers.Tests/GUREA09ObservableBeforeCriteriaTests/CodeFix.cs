@@ -9,7 +9,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly CodeFixProvider Fix = new ObservableBeforeCriteriaCodeFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA09ObservableBeforeCriteria.Descriptor);
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA09ObservableBeforeCriteria);
 
         private const string FooCode = @"
 namespace RoslynSandbox

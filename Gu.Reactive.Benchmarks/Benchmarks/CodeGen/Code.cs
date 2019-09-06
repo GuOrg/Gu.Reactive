@@ -24,11 +24,11 @@ namespace Gu.Reactive.Benchmarks
             MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location),
         };
 
-        private static readonly IReadOnlyList<DiagnosticAnalyzer> AllAnalyzers = typeof(GUREA01DontObserveMutableProperty).Assembly
-                                                                                                                          .GetTypes()
-                                                                                                                          .Where(typeof(DiagnosticAnalyzer).IsAssignableFrom)
-                                                                                                                          .Select(t => (DiagnosticAnalyzer)Activator.CreateInstance(t))
-                                                                                                                          .ToArray();
+        private static readonly IReadOnlyList<DiagnosticAnalyzer> AllAnalyzers = typeof(Descriptors).Assembly
+                                                                                                    .GetTypes()
+                                                                                                    .Where(typeof(DiagnosticAnalyzer).IsAssignableFrom)
+                                                                                                    .Select(t => (DiagnosticAnalyzer)Activator.CreateInstance(t))
+                                                                                                    .ToArray();
 
         public static Solution AnalyzersProject { get; } = CodeFactory.CreateSolution(
             ProjectFile.Find("Gu.Reactive.Benchmarks.csproj"),

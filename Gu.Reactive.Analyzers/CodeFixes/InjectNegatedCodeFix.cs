@@ -20,7 +20,7 @@ namespace Gu.Reactive.Analyzers
     {
         /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
-            ImmutableArray.Create(GUREA07DontNegateCondition.DiagnosticId);
+            ImmutableArray.Create(Descriptors.GUREA07DoNotNegateCondition.Id);
 
         public override FixAllProvider GetFixAllProvider() => null;
 

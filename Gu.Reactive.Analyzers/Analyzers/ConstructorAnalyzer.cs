@@ -14,12 +14,12 @@ namespace Gu.Reactive.Analyzers
     {
         /// <inheritdoc />
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
-            GUREA02ObservableAndCriteriaMustMatch.Descriptor,
-            GUREA06DontNewCondition.Descriptor,
-            GUREA08InlineSingleLine.Descriptor,
-            GUREA09ObservableBeforeCriteria.Descriptor,
-            GUREA10DontMergeInObservable.Descriptor,
-            GUREA13SyncParametersAndArgs.Descriptor);
+            Descriptors.GUREA02ObservableAndCriteriaMustMatch,
+            Descriptors.GUREA06DoNotNewCondition,
+            Descriptors.GUREA08InlineSingleLine,
+            Descriptors.GUREA09ObservableBeforeCriteria,
+            Descriptors.GUREA10DoNotMergeInObservable,
+            Descriptors.GUREA13SyncParametersAndArgs);
 
         /// <inheritdoc />
         public override void Initialize(AnalysisContext context)
@@ -43,35 +43,35 @@ namespace Gu.Reactive.Analyzers
                 {
                     if (TryGetObservableAndCriteriaMismatch(initializer.ArgumentList, baseCtor, context, out var observedText, out var criteriaText, out var missingText))
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA02ObservableAndCriteriaMustMatch.Descriptor, initializer.GetLocation(), observedText, criteriaText, missingText));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA02ObservableAndCriteriaMustMatch, initializer.GetLocation(), observedText, criteriaText, missingText));
                     }
 
                     if (TryGetObservableArgument(initializer.ArgumentList, baseCtor, out var observableArgument) &&
                         CanBeInlined(observableArgument, context, out _))
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA08InlineSingleLine.Descriptor, observableArgument.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA08InlineSingleLine, observableArgument.GetLocation()));
                     }
 
                     if (TryGetCriteriaArgument(initializer.ArgumentList, baseCtor, out var criteriaArgument) &&
                         CanBeInlined(criteriaArgument, context, out var inline))
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA08InlineSingleLine.Descriptor, inline.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA08InlineSingleLine, inline.GetLocation()));
                     }
 
                     if (IsObservableBeforeCriteria(baseCtor))
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA09ObservableBeforeCriteria.Descriptor, initializer.ArgumentList.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA09ObservableBeforeCriteria, initializer.ArgumentList.GetLocation()));
                     }
 
                     if (MergesObservable(initializer.ArgumentList, baseCtor, context, out var location))
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA10DontMergeInObservable.Descriptor, location.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA10DoNotMergeInObservable, location.GetLocation()));
                     }
                 }
                 else if (baseCtor.ContainingType.IsEither(KnownSymbol.AndCondition, KnownSymbol.OrCondition) &&
                          HasMatchingArgumentAndParameterPositions(initializer, context) == false)
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(GUREA13SyncParametersAndArgs.Descriptor, initializer.ArgumentList.GetLocation()));
+                    context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA13SyncParametersAndArgs, initializer.ArgumentList.GetLocation()));
                 }
             }
             else if (context.Node is ObjectCreationExpressionSyntax objectCreation &&
@@ -81,18 +81,18 @@ namespace Gu.Reactive.Analyzers
                 {
                     if (TryGetObservableAndCriteriaMismatch(objectCreation.ArgumentList, ctor, context, out var observedText, out var criteriaText, out var missingText))
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA02ObservableAndCriteriaMustMatch.Descriptor, objectCreation.GetLocation(), observedText, criteriaText, missingText));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA02ObservableAndCriteriaMustMatch, objectCreation.GetLocation(), observedText, criteriaText, missingText));
                     }
 
                     if (IsObservableBeforeCriteria(ctor))
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(GUREA09ObservableBeforeCriteria.Descriptor, objectCreation.ArgumentList.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA09ObservableBeforeCriteria, objectCreation.ArgumentList.GetLocation()));
                     }
                 }
 
                 if (ctor.ContainingType.IsAssignableTo(KnownSymbol.Condition, context.Compilation))
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(GUREA06DontNewCondition.Descriptor, objectCreation.GetLocation()));
+                    context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA06DoNotNewCondition, objectCreation.GetLocation()));
                 }
             }
         }

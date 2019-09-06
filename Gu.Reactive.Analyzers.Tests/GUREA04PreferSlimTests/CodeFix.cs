@@ -9,7 +9,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
         private static readonly CodeFixProvider Fix = new UseSlimCodeFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create(GUREA04PreferSlim.Descriptor);
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create(Descriptors.GUREA04PreferSlimOverload);
 
         private const string FooCode = @"
 namespace RoslynSandbox

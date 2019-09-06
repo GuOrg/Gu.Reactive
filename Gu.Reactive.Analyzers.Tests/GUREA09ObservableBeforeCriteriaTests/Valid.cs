@@ -8,7 +8,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
     public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly DiagnosticDescriptor Descriptor = GUREA09ObservableBeforeCriteria.Descriptor;
+        private static readonly DiagnosticDescriptor Descriptor = Descriptors.GUREA09ObservableBeforeCriteria;
 
         private const string FooCode = @"
 namespace RoslynSandbox

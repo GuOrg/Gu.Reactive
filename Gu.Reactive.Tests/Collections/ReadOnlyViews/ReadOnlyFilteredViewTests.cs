@@ -4,7 +4,6 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Reactive.Subjects;
-    using Gu.Reactive.Internals;
     using Gu.Reactive.Tests.Helpers;
 
     using Microsoft.Reactive.Testing;

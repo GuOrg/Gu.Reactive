@@ -8,21 +8,11 @@ namespace Gu.Reactive.Analyzers
     using Microsoft.CodeAnalysis.Diagnostics;
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class GUREA11PreferObservableFromEvent : DiagnosticAnalyzer
+    public class AddAssignmentAnalyzer : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "GUREA11";
-
-        internal static readonly DiagnosticDescriptor Descriptor = new DiagnosticDescriptor(
-            id: DiagnosticId,
-            title: "Prefer observing",
-            messageFormat: "Prefer observing",
-            category: AnalyzerCategory.Correctness,
-            defaultSeverity: DiagnosticSeverity.Hidden,
-            isEnabledByDefault: true);
-
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
-            ImmutableArray.Create(Descriptor);
+            ImmutableArray.Create(Descriptors.GUREA11PreferObservableFromEvent);
 
         /// <inheritdoc/>
         public override void Initialize(AnalysisContext context)
@@ -44,7 +34,7 @@ namespace Gu.Reactive.Analyzers
             if (left is IEventSymbol &&
                 assignment.FirstAncestor<ArgumentSyntax>() == null)
             {
-                context.ReportDiagnostic(Diagnostic.Create(Descriptor, assignment.GetLocation()));
+                context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA11PreferObservableFromEvent, assignment.GetLocation()));
             }
         }
     }

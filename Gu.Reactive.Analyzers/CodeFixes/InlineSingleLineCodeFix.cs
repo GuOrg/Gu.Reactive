@@ -19,7 +19,7 @@ namespace Gu.Reactive.Analyzers
     {
         /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
-            ImmutableArray.Create(GUREA08InlineSingleLine.DiagnosticId);
+            ImmutableArray.Create(Descriptors.GUREA08InlineSingleLine.Id);
 
         /// <inheritdoc/>
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;

@@ -33,7 +33,7 @@ namespace Gu.Reactive.Analyzers
 
         /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
-            ImmutableArray.Create(GUREA11PreferObservableFromEvent.DiagnosticId);
+            ImmutableArray.Create(Descriptors.GUREA11PreferObservableFromEvent.Id);
 
         /// <inheritdoc/>
         protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)

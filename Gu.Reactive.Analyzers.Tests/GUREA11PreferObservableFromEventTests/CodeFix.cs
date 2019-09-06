@@ -6,8 +6,8 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
 
     public static partial class CodeFix
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new GUREA11PreferObservableFromEvent();
+        private static readonly DiagnosticAnalyzer Analyzer = new AddAssignmentAnalyzer();
         private static readonly CodeFixProvider Fix = new EventSubscriptionToObserveFix();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(GUREA11PreferObservableFromEvent.Descriptor);
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA11PreferObservableFromEvent);
     }
 }
