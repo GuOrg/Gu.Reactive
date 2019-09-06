@@ -16,7 +16,7 @@ namespace Gu.Reactive
     /// <summary>
     /// To be used standalone or derived from. Conditions really starts to sing when you subclass them and use an IoC container to build trees.
     /// </summary>
-    [System.Diagnostics.DebuggerDisplay("{this.Name} IsSatisfied: {this.IsSatisfied?.ToString() ?? \"null\"}")]
+    [System.Diagnostics.DebuggerDisplay("{this.DebuggerDisplay, nq}")]
     public class Condition : ICondition
     {
         private readonly Func<bool?> criteria;
@@ -152,6 +152,31 @@ namespace Gu.Reactive
         /// True if this instance is disposed.
         /// </summary>
         protected bool IsDisposed { get; private set; }
+
+        private string DebuggerDisplay
+        {
+            get
+            {
+                if (this.IsDisposed)
+                {
+                    return $"{this.Name} <disposed>";
+                }
+
+                return $"{this.Name} IsSatisfied: {IsSatisfiedString()}";
+
+                string IsSatisfiedString()
+                {
+                    if (this.IsSatisfied is bool b)
+                    {
+                        return b
+                            ? "true"
+                            : "false";
+                    }
+
+                    return "null";
+                }
+            }
+        }
 
         /// <summary>
         /// Negates the condition. Calling Negate does not mutate the condition it is called on.
