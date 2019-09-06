@@ -157,9 +157,9 @@ namespace Gu.Reactive.Analyzers
             if (TryGetObservableArgument(argumentList, ctor, out var observableArg) &&
                 TryGetCriteriaArgument(argumentList, ctor, out var criteriaArg))
             {
-                using (var observableIdentifiers = IdentifierNameExecutionWalker.Create(observableArg, Scope.Recursive, context.SemanticModel, context.CancellationToken))
+                using (var observableIdentifiers = IdentifierNameExecutionWalker.Create(observableArg, SearchScope.Recursive, context.SemanticModel, context.CancellationToken))
                 {
-                    using (var criteriaIdentifiers = IdentifierNameExecutionWalker.Create(criteriaArg, Scope.Recursive, context.SemanticModel, context.CancellationToken))
+                    using (var criteriaIdentifiers = IdentifierNameExecutionWalker.Create(criteriaArg, SearchScope.Recursive, context.SemanticModel, context.CancellationToken))
                     {
                         bool observesInterval = false;
                         using (var observed = PooledSet<IPropertySymbol>.Borrow())
@@ -227,7 +227,7 @@ namespace Gu.Reactive.Analyzers
         {
             if (TryGetObservableArgument(argumentList, ctor, out var argument))
             {
-                using (var pooled = InvocationExecutionWalker.Borrow(argument, Scope.Recursive, context.SemanticModel, context.CancellationToken))
+                using (var pooled = InvocationExecutionWalker.Borrow(argument, SearchScope.Recursive, context.SemanticModel, context.CancellationToken))
                 {
                     foreach (var invocation in pooled.Invocations)
                     {

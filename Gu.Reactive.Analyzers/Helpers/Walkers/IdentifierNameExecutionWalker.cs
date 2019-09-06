@@ -31,7 +31,7 @@ namespace Gu.Reactive.Analyzers
             base.VisitIdentifierName(node);
         }
 
-        internal static IdentifierNameExecutionWalker Create(SyntaxNode node, Scope search, SemanticModel semanticModel, CancellationToken cancellationToken)
+        internal static IdentifierNameExecutionWalker Create(SyntaxNode node, SearchScope search, SemanticModel semanticModel, CancellationToken cancellationToken)
         {
             return BorrowAndVisit(node, search, semanticModel, cancellationToken, () => new IdentifierNameExecutionWalker());
         }

@@ -27,7 +27,7 @@ namespace Gu.Reactive.Analyzers
             base.VisitInvocationExpression(node);
         }
 
-        internal static InvocationExecutionWalker Borrow(SyntaxNode node, Scope search, SemanticModel semanticModel, CancellationToken cancellationToken)
+        internal static InvocationExecutionWalker Borrow(SyntaxNode node, SearchScope search, SemanticModel semanticModel, CancellationToken cancellationToken)
         {
             return BorrowAndVisit(node, search, semanticModel, cancellationToken, () => new InvocationExecutionWalker());
         }
