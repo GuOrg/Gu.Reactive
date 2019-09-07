@@ -3,6 +3,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Reactive.Linq;
     using System.Reactive.Subjects;
     using Gu.Reactive.Tests.Helpers;
 
@@ -643,6 +644,30 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         CachedEventArgs.CountPropertyChanged,
                         CachedEventArgs.IndexerPropertyChanged,
                         CachedEventArgs.NotifyCollectionReset);
+                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                }
+            }
+        }
+
+        [Test]
+        public static void ObservesItem()
+        {
+            var source = new ObservableCollection<With<int>> { new With<int> { Value = 1 } };
+            using (var view = source.AsReadOnlyFilteredView(x => x.Value > 1, x => x.ObserveValue(item => item.Value).Select(_ => (object)null)))
+            {
+                using (var actual = view.SubscribeAll())
+                {
+                    CollectionAssert.IsEmpty(view);
+                    CollectionAssert.IsEmpty(actual);
+
+                    source[0].Value = 2;
+                    CollectionAssert.AreEqual(source, view);
+                    var expected = new List<EventArgs>
+                    {
+                        CachedEventArgs.CountPropertyChanged,
+                        CachedEventArgs.IndexerPropertyChanged,
+                        Diff.CreateAddEventArgs(source[0], 0),
+                    };
                     CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
                 }
             }

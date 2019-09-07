@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -44,6 +44,57 @@
                                                  .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
                                                  .StartWith(this.chunk.Add(CachedEventArgs.NotifyCollectionReset))
                                                  .Subscribe(this.Update);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadOnlyFilteredView{T}"/> class.
+        /// </summary>
+        /// <param name="source">The source collection.</param>
+        /// <param name="filter">The predicate to filter by.</param>
+        /// <param name="observableFactory">Factory for creating observables for the items.</param>
+        /// <param name="bufferTime">The time to buffer source changes before updating the view.</param>
+        /// <param name="scheduler">The scheduler to perform the filtering and notification on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+        public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, Func<T, IObservable<object>> observableFactory, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
+            : base(source, x => x.Where(filter), leaveOpen, startEmpty: true)
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(filter, nameof(filter));
+            this.Filter = filter;
+            this.BufferTime = bufferTime;
+            this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
+            this.refreshSubscription = Observable.Merge(
+                                                     source.ObserveCollectionChangedSlimOrDefault(signalInitial: false),
+                                                     ItemsTracker())
+                                                 .Slide(this.chunk)
+                                                 .ObserveOn(scheduler ?? ImmediateScheduler.Instance)
+                                                 .StartWith(this.chunk.Add(CachedEventArgs.NotifyCollectionReset))
+                                                 .Subscribe(this.Update);
+
+            IObservable<NotifyCollectionChangedEventArgs> ItemsTracker()
+            {
+                if (source is INotifyCollectionChanged)
+                {
+                    return Observable.Create<NotifyCollectionChangedEventArgs>(x =>
+                    {
+                        return new MappingView<T, IDisposable>(
+                            source,
+                            Mapper.Create<T, IDisposable>(
+                                item => observableFactory(item)
+                                        .Select(_ => CachedEventArgs.NotifyCollectionReset)
+                                        .Subscribe(x),
+                                disposable => disposable.Dispose()),
+                            TimeSpan.Zero,
+                            null,
+                            true);
+                    });
+                }
+
+                return source.Select(observableFactory)
+                             .Merge()
+                             .Select(_ => CachedEventArgs.NotifyCollectionReset);
+            }
         }
 
         /// <inheritdoc/>
