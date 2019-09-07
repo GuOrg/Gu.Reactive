@@ -209,6 +209,31 @@
         /// <typeparam name="T">The type of the elements in the source collection.</typeparam>
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
+        /// <param name="observableFactory">Factory for creating observables for the items.</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
+        /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
+        public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
+            this ObservableCollection<T> source,
+            Func<T, bool> filter,
+            Func<T, IObservable<object>> observableFactory,
+            TimeSpan bufferTime,
+            IScheduler scheduler,
+            bool leaveOpen)
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
+            return new ReadOnlyFilteredView<T>(source, filter, observableFactory, bufferTime, scheduler, leaveOpen);
+        }
+
+        /// <summary>
+        /// Create a filtered view for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the source collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="filter">The predicate to filter by.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -401,6 +426,31 @@
         /// <typeparam name="T">The type of the elements in the source collection.</typeparam>
         /// <param name="source">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
+        /// <param name="observableFactory">Factory for creating observables for the items.</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
+        /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
+        public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
+            this ReadOnlyObservableCollection<T> source,
+            Func<T, bool> filter,
+            Func<T, IObservable<object>> observableFactory,
+            TimeSpan bufferTime,
+            IScheduler scheduler,
+            bool leaveOpen)
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
+            return new ReadOnlyFilteredView<T>(source, filter, observableFactory, bufferTime, scheduler, leaveOpen);
+        }
+
+        /// <summary>
+        /// Create a filtered view for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the source collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="filter">The predicate to filter by.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
@@ -585,6 +635,31 @@
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
             return new ReadOnlyFilteredView<T>(source, filter, observableFactory, TimeSpan.Zero, null, leaveOpen);
+        }
+
+        /// <summary>
+        /// Create a filtered view for <paramref name="source"/>
+        /// </summary>
+        /// <typeparam name="T">The type of the elements in the source collection.</typeparam>
+        /// <param name="source">The source collection</param>
+        /// <param name="filter">The predicate to filter by.</param>
+        /// <param name="observableFactory">Factory for creating observables for the items.</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/></param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
+        /// <returns>A <see cref="ReadOnlyFilteredView{T}"/></returns>
+        public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
+            this IReadOnlyObservableCollection<T> source,
+            Func<T, bool> filter,
+            Func<T, IObservable<object>> observableFactory,
+            TimeSpan bufferTime,
+            IScheduler scheduler,
+            bool leaveOpen)
+        {
+            Ensure.NotNull(source, nameof(source));
+            Ensure.NotNull(filter, nameof(filter));
+            Ensure.NotNull(scheduler, nameof(scheduler));
+            return new ReadOnlyFilteredView<T>(source, filter, observableFactory, bufferTime, scheduler, leaveOpen);
         }
 
         /// <summary>

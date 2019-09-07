@@ -87,7 +87,7 @@ namespace Gu.Reactive
                                 disposable => disposable.Dispose()),
                             TimeSpan.Zero,
                             null,
-                            true);
+                            leaveOpen: true);
                     });
                 }
 
