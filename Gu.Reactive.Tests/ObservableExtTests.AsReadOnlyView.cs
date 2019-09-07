@@ -84,10 +84,46 @@ namespace Gu.Reactive.Tests
             }
 
             [Test]
-            public void ObserveValueAsReadOnlyViewWhenArrayOfT()
+            public void ObserveValueAsReadOnlyViewWhenArrayOfTWhenCast()
             {
                 var with = new With<int[]>();
                 using (var view = with.ObserveValue(x => x.Value).Select(x => (IMaybe<int[]>)x).AsReadOnlyView())
+                {
+                    using (var actual = view.SubscribeAll())
+                    {
+                        with.Value = new[] { 1 };
+                        CollectionAssert.AreEqual(new[] { 1 }, view);
+                        var expected = new List<EventArgs>
+                        {
+                            CachedEventArgs.CountPropertyChanged,
+                            CachedEventArgs.IndexerPropertyChanged,
+                            Diff.CreateAddEventArgs(1, 0),
+                            CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source"),
+                        };
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                        with.Value = new[] { 1, 2 };
+                        CollectionAssert.AreEqual(new[] { 1, 2 }, view);
+                        expected.AddRange(
+                            new EventArgs[]
+                            {
+                                CachedEventArgs.CountPropertyChanged,
+                                CachedEventArgs.IndexerPropertyChanged,
+                                Diff.CreateAddEventArgs(2, 1),
+                                CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source"),
+                            });
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
+                }
+            }
+
+            [Test]
+            public void ObserveValueAsReadOnlyViewWhenArrayOfT()
+            {
+                var with = new With<int[]>();
+                using (var view = with.ObserveValue(x => x.Value)
+                                      .Select(x => x.GetValueOrDefault())
+                                      .AsReadOnlyView())
                 {
                     using (var actual = view.SubscribeAll())
                     {
