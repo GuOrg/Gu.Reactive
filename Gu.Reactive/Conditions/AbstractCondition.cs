@@ -30,7 +30,7 @@ namespace Gu.Reactive
                     {
                         var created = new Condition(observable, this.Criteria);
                         this.subscription.Disposable = created.ObserveIsSatisfiedChanged()
-                                                              .Subscribe(_ => this.OnPropertyChanged(CachedEventArgs.IsSatisfiedChanged));
+                                                              .Subscribe(_ => this.OnPropertyChanged(CachedEventArgs.IsSatisfiedPropertyChanged));
                         return created;
                     });
 

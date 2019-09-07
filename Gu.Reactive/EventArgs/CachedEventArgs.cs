@@ -15,7 +15,7 @@ namespace Gu.Reactive
 
         internal static readonly PropertyChangedEventArgs IndexerPropertyChanged = GetOrCreatePropertyChangedEventArgs("Item[]");
 
-        internal static readonly PropertyChangedEventArgs IsSatisfiedChanged = new PropertyChangedEventArgs(nameof(ICondition.IsSatisfied));
+        internal static readonly PropertyChangedEventArgs IsSatisfiedPropertyChanged = new PropertyChangedEventArgs(nameof(ICondition.IsSatisfied));
 
         internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionReset = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 

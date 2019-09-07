@@ -120,7 +120,7 @@ namespace Gu.Reactive
 
                 this.isSatisfied = value;
                 this.history.Enqueue(new ConditionHistoryPoint(DateTime.UtcNow, this.isSatisfied));
-                this.OnPropertyChanged(CachedEventArgs.IsSatisfiedChanged);
+                this.OnPropertyChanged(CachedEventArgs.IsSatisfiedPropertyChanged);
             }
         }
 
