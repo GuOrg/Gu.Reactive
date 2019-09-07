@@ -1,3 +1,6 @@
+#### 4.2.0
+* FEATURE: AsFilteredView with observable factory.
+
 #### 4.1.0
 * FEATURE: WithPrevious
 

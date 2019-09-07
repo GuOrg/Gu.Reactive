@@ -5,6 +5,7 @@ licenseUrl http://opensource.org/licenses/MIT
 
 releasenotes
   FEATURE: WithPrevious
+  FEATURE: AsFilteredView with observable factory.
 
 excludedgroups
   Analyzers
