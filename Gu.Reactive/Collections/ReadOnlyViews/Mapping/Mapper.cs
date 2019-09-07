@@ -78,9 +78,7 @@ namespace Gu.Reactive
             {
                 if (creatingCaching is null)
                 {
-                    creatingCaching = CreateDelegate<Func<Func<TSource, TResult>, IMapper<TSource, TResult>>>(
-                        typeof(Mapper).GetMethod(nameof(Mapper.CreatingCaching), BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)
-                                      .MakeGenericMethod(typeof(TSource), typeof(TResult)));
+                    creatingCaching = CreateDelegate<Func<Func<TSource, TResult>, IMapper<TSource, TResult>>>(nameof(Mapper.CreatingCaching));
                 }
 
                 return creatingCaching.Invoke(selector);
@@ -90,11 +88,7 @@ namespace Gu.Reactive
             {
                 if (creatingRemoving is null)
                 {
-                    creatingRemoving = CreateDelegate<Func<Func<TSource, TResult>, Action<TResult>, IMapper<TSource, TResult>>>(
-                        typeof(Mapper).GetMethod(nameof(Mapper.CreatingRemoving), BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)
-#pragma warning disable REFL031 // Use generic arguments that satisfies the type parameters.
-                                      .MakeGenericMethod(typeof(TSource), typeof(TResult)));
-#pragma warning restore REFL031 // Use generic arguments that satisfies the type parameters.
+                    creatingRemoving = CreateDelegate<Func<Func<TSource, TResult>, Action<TResult>, IMapper<TSource, TResult>>>(nameof(Mapper.CreatingRemoving));
                 }
 
                 return creatingRemoving.Invoke(selector, onRemove);
@@ -104,17 +98,18 @@ namespace Gu.Reactive
             {
                 if (creatingCachingRemoving is null)
                 {
-                    creatingCachingRemoving = CreateDelegate<Func<Func<TSource, TResult>, Action<TResult>, IMapper<TSource, TResult>>>(
-                        typeof(Mapper).GetMethod(nameof(Mapper.CreatingCachingRemoving), BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)
-                                      .MakeGenericMethod(typeof(TSource), typeof(TResult)));
+                    creatingCachingRemoving = CreateDelegate<Func<Func<TSource, TResult>, Action<TResult>, IMapper<TSource, TResult>>>(nameof(Mapper.CreatingCachingRemoving));
                 }
 
                 return creatingCachingRemoving.Invoke(selector, onRemove);
             }
 
-            private static T CreateDelegate<T>(MethodInfo method)
+            private static T CreateDelegate<T>(string methodName)
                 where T : Delegate
             {
+                var method = typeof(Mapper)
+                             .GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)
+                             .MakeGenericMethod(typeof(TSource), typeof(TResult));
                 return (T)Delegate.CreateDelegate(typeof(T), method);
             }
         }
