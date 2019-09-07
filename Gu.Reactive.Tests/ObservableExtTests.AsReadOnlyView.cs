@@ -47,6 +47,40 @@ namespace Gu.Reactive.Tests
                     }
                 }
             }
+
+            [Test]
+            public void ObserveValueAsReadOnlyViewWhenIEnumerableOfT()
+            {
+                var with = new With<IEnumerable<int>>();
+                using (var view = with.ObserveValue(x => x.Value).AsReadOnlyView())
+                {
+                    using (var actual = view.SubscribeAll())
+                    {
+                        with.Value = new[] { 1 };
+                        CollectionAssert.AreEqual(new[] { 1 }, view);
+                        var expected = new List<EventArgs>
+                        {
+                            CachedEventArgs.CountPropertyChanged,
+                            CachedEventArgs.IndexerPropertyChanged,
+                            Diff.CreateAddEventArgs(1, 0),
+                            CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source"),
+                        };
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+
+                        with.Value = new[] { 1, 2 };
+                        CollectionAssert.AreEqual(new[] { 1, 2 }, view);
+                        expected.AddRange(
+                            new EventArgs[]
+                            {
+                                CachedEventArgs.CountPropertyChanged,
+                                CachedEventArgs.IndexerPropertyChanged,
+                                Diff.CreateAddEventArgs(2, 1),
+                                CachedEventArgs.GetOrCreatePropertyChangedEventArgs("Source"),
+                            });
+                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    }
+                }
+            }
         }
     }
 }
