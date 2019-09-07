@@ -1,6 +1,7 @@
 namespace Gu.Reactive
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
 
     internal static class Mapper
@@ -66,6 +67,7 @@ namespace Gu.Reactive
             return new CreatingCachingRemoving<TSource, TResult>(selector, onRemove);
         }
 
+        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         private static class Factory<TSource, TResult>
         {
             private static Func<Func<TSource, TResult>, IMapper<TSource, TResult>> creatingCaching;
@@ -90,13 +92,15 @@ namespace Gu.Reactive
                 {
                     creatingRemoving = CreateDelegate<Func<Func<TSource, TResult>, Action<TResult>, IMapper<TSource, TResult>>>(
                         typeof(Mapper).GetMethod(nameof(Mapper.CreatingRemoving), BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)
+#pragma warning disable REFL031 // Use generic arguments that satisfies the type parameters.
                                       .MakeGenericMethod(typeof(TSource), typeof(TResult)));
+#pragma warning restore REFL031 // Use generic arguments that satisfies the type parameters.
                 }
 
                 return creatingRemoving.Invoke(selector, onRemove);
             }
 
-            public static IMapper<TSource, TResult> CreatingCachingRemoving(Func<TSource, TResult> selector, Action<TResult> onRemove)
+            internal static IMapper<TSource, TResult> CreatingCachingRemoving(Func<TSource, TResult> selector, Action<TResult> onRemove)
             {
                 if (creatingCachingRemoving is null)
                 {
