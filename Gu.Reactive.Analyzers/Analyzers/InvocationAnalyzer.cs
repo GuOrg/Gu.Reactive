@@ -159,19 +159,12 @@ namespace Gu.Reactive.Analyzers
 
         private static bool IsMutable(ISymbol symbol)
         {
-            if (symbol is IPropertySymbol property &&
-                !property.IsReadOnly)
+            return symbol switch
             {
-                return true;
-            }
-
-            if (symbol is IFieldSymbol field &&
-                !field.IsReadOnly)
-            {
-                return true;
-            }
-
-            return false;
+                IPropertySymbol { IsReadOnly: false } => true,
+                IFieldSymbol { IsReadOnly: false, IsConst: false } => true,
+                _ => false
+            };
         }
 
         private static bool TryGetSilentNode(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out SyntaxNode node)
@@ -241,8 +234,7 @@ namespace Gu.Reactive.Analyzers
 
         private static bool IsForEventHandler(IParameterSymbol parameter)
         {
-            if (parameter.Type is INamedTypeSymbol namedType &&
-                namedType.Name == "Action" &&
+            if (parameter.Type is INamedTypeSymbol { Name: "Action" } namedType &&
                 namedType.TypeArguments.Length == 1 &&
                 namedType.TypeArguments[0] is INamedTypeSymbol argType)
             {

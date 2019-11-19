@@ -12,11 +12,9 @@ namespace Gu.Reactive.Analyzers
             if (TryGetDeclaration(property, out var declaration))
             {
                 if (declaration.TryGetGetter(out var getter) &&
-                    getter.Body == null &&
-                    getter.ExpressionBody == null &&
+                    getter is { Body: null, ExpressionBody: null } &&
                     declaration.TryGetSetter(out var setter) &&
-                    setter.Body == null &&
-                    setter.ExpressionBody == null)
+                    setter is { Body: null, ExpressionBody: null })
                 {
                     using (var walker = MutationWalker.For(property, semanticModel, cancellationToken))
                     {

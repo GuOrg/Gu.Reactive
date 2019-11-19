@@ -10,7 +10,7 @@ namespace Gu.Reactive.Analyzers.Tests
     using NUnit.Framework;
 
     [Explicit]
-    internal class ReproBox
+    public class ReproBox
     {
         // ReSharper disable once UnusedMember.Local
         private static readonly IReadOnlyList<DiagnosticAnalyzer> AllAnalyzers =
