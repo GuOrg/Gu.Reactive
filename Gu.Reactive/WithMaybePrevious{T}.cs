@@ -34,8 +34,8 @@ namespace Gu.Reactive
         }
 
         /// <summary>Check if <paramref name="left"/> is equal to <paramref name="right"/>.</summary>
-        /// <param name="left">The left <see cref="WithPrevious{T}"/>.</param>
-        /// <param name="right">The right <see cref="WithPrevious{T}"/>.</param>
+        /// <param name="left">The left <see cref="WithMaybePrevious{T}"/>.</param>
+        /// <param name="right">The right <see cref="WithMaybePrevious{T}"/>.</param>
         /// <returns>True if <paramref name="left"/> is equal to <paramref name="right"/>.</returns>
         public static bool operator ==(WithMaybePrevious<T> left, WithMaybePrevious<T> right)
         {
@@ -43,8 +43,8 @@ namespace Gu.Reactive
         }
 
         /// <summary>Check if <paramref name="left"/> is not equal to <paramref name="right"/>.</summary>
-        /// <param name="left">The left <see cref="WithPrevious{T}"/>.</param>
-        /// <param name="right">The right <see cref="WithPrevious{T}"/>.</param>
+        /// <param name="left">The left <see cref="WithMaybePrevious{T}"/>.</param>
+        /// <param name="right">The right <see cref="WithMaybePrevious{T}"/>.</param>
         /// <returns>True if <paramref name="left"/> is not equal to <paramref name="right"/>.</returns>
         public static bool operator !=(WithMaybePrevious<T> left, WithMaybePrevious<T> right)
         {

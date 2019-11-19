@@ -5,7 +5,7 @@ namespace Gu.Reactive.Tests.Helpers
     using System.Collections.Specialized;
     using System.ComponentModel;
 
-    public class EventArgsComparer : IComparer
+    public sealed class EventArgsComparer : IComparer
     {
         public static readonly EventArgsComparer Default = new EventArgsComparer();
 
