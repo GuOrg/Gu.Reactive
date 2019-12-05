@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <NeutralLanguage>en-US</NeutralLanguage>
     <CodeAnalysisRuleSet>Gu.Reactive.Analyzers.ruleset</CodeAnalysisRuleSet>
     <NoWarn>$(NoWarn);IDE0009</NoWarn>
@@ -10,6 +11,11 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateNullableAttributes>true</GenerateNullableAttributes>
+    <AnnotatedReferenceAssemblyVersion>3.0.0</AnnotatedReferenceAssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -37,8 +43,10 @@
     <PackageReference Include="IDisposableAnalyzers" Version="3.2.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="2.3.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" PrivateAssets="all" />
+    <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[$(AnnotatedReferenceAssemblyVersion)]" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113" PrivateAssets="all" />
     <PackageReference Include="WpfAnalyzers" Version="2.4.4" PrivateAssets="all" />
+    <PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.97" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,6 +2,7 @@ namespace Gu.Reactive.Analyzers
 {
     using System;
     using System.Collections.Immutable;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
@@ -37,7 +38,7 @@ namespace Gu.Reactive.Analyzers
             }
 
             if (context.Node is ConstructorInitializerSyntax initializer &&
-                context.SemanticModel.GetSymbolSafe(initializer, context.CancellationToken) is IMethodSymbol baseCtor)
+                context.SemanticModel.GetSymbolSafe(initializer, context.CancellationToken) is { } baseCtor)
             {
                 if (baseCtor.ContainingType == KnownSymbol.Condition)
                 {
@@ -75,7 +76,7 @@ namespace Gu.Reactive.Analyzers
                 }
             }
             else if (context.Node is ObjectCreationExpressionSyntax objectCreation &&
-                     context.SemanticModel.GetSymbolSafe(objectCreation, context.CancellationToken) is IMethodSymbol ctor)
+                     context.SemanticModel.GetSymbolSafe(objectCreation, context.CancellationToken) is { } ctor)
             {
                 if (ctor.ContainingType == KnownSymbol.Condition)
                 {
@@ -105,7 +106,7 @@ namespace Gu.Reactive.Analyzers
                    parameter1.Type == KnownSymbol.IObservableOfT;
         }
 
-        private static bool CanBeInlined(ArgumentSyntax argument, SyntaxNodeAnalysisContext context, out InvocationExpressionSyntax result)
+        private static bool CanBeInlined(ArgumentSyntax argument, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out InvocationExpressionSyntax? result)
         {
             result = null;
             if (argument == null)
