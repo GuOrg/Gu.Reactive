@@ -9,6 +9,7 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
+    <StartupObject>Gu.Reactive.Benchmarks.Program</StartupObject>
   </PropertyGroup>
   
   <ItemGroup>
