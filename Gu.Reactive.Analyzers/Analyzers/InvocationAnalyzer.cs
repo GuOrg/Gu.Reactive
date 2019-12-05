@@ -107,8 +107,7 @@ namespace Gu.Reactive.Analyzers
         private static bool TryGetCanBeSlim(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out SyntaxNode? path)
         {
             path = null;
-            var argument = invocation.FirstAncestor<ArgumentSyntax>();
-            if (argument != null)
+            if (invocation.FirstAncestor<ArgumentSyntax>() is { } argument)
             {
                 if (argument.TryGetParameter(context.SemanticModel, context.CancellationToken, out var parameter) &&
                     parameter.Type == KnownSymbol.IObservableOfT)
