@@ -1,23 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{E9C570CF-F85E-4A34-B54B-86B6801E9B19}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{E9C570CF-F85E-4A34-B54B-86B6801E9B19}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
-		paket.dependencies = paket.dependencies
-		paket.lock = paket.lock
-		.paket\Paket.Restore.targets = .paket\Paket.Restore.targets
-		.paket\paket.targets = .paket\paket.targets
-		.paket\Readme.paket.md = .paket\Readme.paket.md
+		azure-pipelines.yml = azure-pipelines.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C15ED745-9164-4E28-A40F-8BCE39D116AF}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.md = LICENSE.md
 		README.md = README.md
-		.paket\Readme.paket.md = .paket\Readme.paket.md
 		RELEASE_NOTES.md = RELEASE_NOTES.md
 	EndProjectSection
 EndProject
