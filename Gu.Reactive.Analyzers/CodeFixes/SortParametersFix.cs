@@ -31,9 +31,8 @@ namespace Gu.Reactive.Analyzers
             foreach (var diagnostic in context.Diagnostics)
             {
                 if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out ConstructorInitializerSyntax initializer) &&
-                    initializer.ArgumentList is ArgumentListSyntax argumentList &&
-                    initializer.Parent is ConstructorDeclarationSyntax constructor &&
-                    constructor.ParameterList is ParameterListSyntax parameterList)
+                    initializer.ArgumentList is { } argumentList &&
+                    initializer.Parent is ConstructorDeclarationSyntax { ParameterList: ParameterListSyntax parameterList })
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(

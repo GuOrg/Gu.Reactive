@@ -15,13 +15,11 @@ namespace Gu.Reactive.Analyzers
     [Shared]
     public class ObservableBeforeCriteriaCodeFix : CodeFixProvider
     {
-        /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
             ImmutableArray.Create(Descriptors.GUREA09ObservableBeforeCriteria.Id);
 
-        public override FixAllProvider GetFixAllProvider() => null;
+        public override FixAllProvider? GetFixAllProvider() => null;
 
-        /// <inheritdoc/>
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
@@ -29,7 +27,7 @@ namespace Gu.Reactive.Analyzers
 
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out ArgumentListSyntax argumentList))
+                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out ArgumentListSyntax? argumentList))
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(

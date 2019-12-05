@@ -1,5 +1,6 @@
 namespace Gu.Reactive.Analyzers
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
@@ -16,18 +17,16 @@ namespace Gu.Reactive.Analyzers
                     declaration.TryGetSetter(out var setter) &&
                     setter is { Body: null, ExpressionBody: null })
                 {
-                    using (var walker = MutationWalker.For(property, semanticModel, cancellationToken))
+                    using var walker = MutationWalker.For(property, semanticModel, cancellationToken);
+                    foreach (var mutation in walker.All())
                     {
-                        foreach (var mutation in walker.All())
+                        if (mutation.FirstAncestor<ConstructorDeclarationSyntax>() == null)
                         {
-                            if (mutation.FirstAncestor<ConstructorDeclarationSyntax>() == null)
-                            {
-                                return false;
-                            }
+                            return false;
                         }
-
-                        return true;
                     }
+
+                    return true;
                 }
 
                 return false;
@@ -36,7 +35,7 @@ namespace Gu.Reactive.Analyzers
             return property.SetMethod == null;
         }
 
-        private static bool TryGetDeclaration(IPropertySymbol property, out BasePropertyDeclarationSyntax declaration)
+        private static bool TryGetDeclaration(IPropertySymbol property, [NotNullWhen(true)] out BasePropertyDeclarationSyntax? declaration)
         {
             if (property.DeclaringSyntaxReferences.Length != 1)
             {

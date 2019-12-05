@@ -1,6 +1,7 @@
 namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
+    using System.Diagnostics.CodeAnalysis;
     using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
@@ -10,7 +11,6 @@ namespace Gu.Reactive.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class InvocationAnalyzer : DiagnosticAnalyzer
     {
-        /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             Descriptors.GUREA01DoNotObserveMutableProperty,
             Descriptors.GUREA03PathMustNotify,
@@ -19,7 +19,6 @@ namespace Gu.Reactive.Analyzers
             Descriptors.GUREA07DoNotNegateCondition,
             Descriptors.GUREA12ObservableFromEventDelegateType);
 
-        /// <inheritdoc/>
         public override void Initialize(AnalysisContext context)
         {
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
@@ -35,7 +34,7 @@ namespace Gu.Reactive.Analyzers
             }
 
             if (context.Node is InvocationExpressionSyntax invocation &&
-                context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) is IMethodSymbol method)
+                context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) is { } method)
             {
                 if (method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim &&
                     TryGetInvalidFullPropertyPath(invocation, out var location))
@@ -53,8 +52,7 @@ namespace Gu.Reactive.Analyzers
                     method == KnownSymbol.NotifyPropertyChangedExt.ObservePropertyChangedSlim ||
                     method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim)
                 {
-                    if (invocation.Expression is MemberAccessExpressionSyntax memberAccess &&
-                        memberAccess.Expression is MemberAccessExpressionSyntax member)
+                    if (invocation.Expression is MemberAccessExpressionSyntax { Expression: MemberAccessExpressionSyntax member } memberAccess)
                     {
                         var symbol = context.SemanticModel.GetSymbolSafe(member, context.CancellationToken);
                         if (IsMutable(symbol))
@@ -88,11 +86,11 @@ namespace Gu.Reactive.Analyzers
             }
         }
 
-        private static bool TryGetInvalidFullPropertyPath(InvocationExpressionSyntax invocation, out SyntaxNode node)
+        private static bool TryGetInvalidFullPropertyPath(InvocationExpressionSyntax invocation, [NotNullWhen(true)] out SyntaxNode? node)
         {
             node = null;
             if (invocation.ArgumentList != null &&
-                invocation.ArgumentList.Arguments.TryFirst(out ArgumentSyntax argument))
+                invocation.ArgumentList.Arguments.TryFirst(out ArgumentSyntax? argument))
             {
                 if (argument.Expression is SimpleLambdaExpressionSyntax lambda &&
                     lambda.Body != null)
@@ -109,7 +107,7 @@ namespace Gu.Reactive.Analyzers
             return false;
         }
 
-        private static bool TryGetCanBeSlim(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out SyntaxNode path)
+        private static bool TryGetCanBeSlim(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out SyntaxNode? path)
         {
             path = null;
             var argument = invocation.FirstAncestor<ArgumentSyntax>();
@@ -129,29 +127,20 @@ namespace Gu.Reactive.Analyzers
                 }
             }
 
-            var parentInvocation = invocation.FirstAncestor<InvocationExpressionSyntax>();
-            if (parentInvocation != null)
+            if (invocation.FirstAncestor<InvocationExpressionSyntax>() is { ArgumentList: { Arguments: { Count: 1 } arguments } } parentInvocation &&
+                arguments[0] is { Expression: SimpleLambdaExpressionSyntax lambda } &&
+                parentInvocation.IsSymbol(KnownSymbol.ObservableExtensions.Subscribe, context.SemanticModel, context.CancellationToken))
             {
-                var parentMethod = context.SemanticModel.GetSymbolSafe(parentInvocation, context.CancellationToken);
-                if (parentMethod == KnownSymbol.ObservableExtensions.Subscribe &&
-                    parentInvocation.ArgumentList?.Arguments.TrySingle(out argument) == true)
+                using var pooled = IdentifierNameWalker.Borrow(lambda.Body);
+                if (pooled.IdentifierNames.TryFirst(x => x.Identifier.ValueText == lambda.Parameter.Identifier.ValueText, out IdentifierNameSyntax _))
                 {
-                    if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
-                    {
-                        using (var pooled = IdentifierNameWalker.Borrow(lambda.Body))
-                        {
-                            if (pooled.IdentifierNames.TryFirst(x => x.Identifier.ValueText == lambda.Parameter.Identifier.ValueText, out IdentifierNameSyntax _))
-                            {
-                                return false;
-                            }
-
-                            path = invocation.Expression is MemberAccessExpressionSyntax memberAccess
-                                ? (SyntaxNode)memberAccess.Name
-                                : invocation;
-                            return true;
-                        }
-                    }
+                    return false;
                 }
+
+                path = invocation.Expression is MemberAccessExpressionSyntax memberAccess
+                    ? (SyntaxNode)memberAccess.Name
+                    : invocation;
+                return true;
             }
 
             return false;
@@ -167,11 +156,11 @@ namespace Gu.Reactive.Analyzers
             };
         }
 
-        private static bool TryGetSilentNode(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, out SyntaxNode node)
+        private static bool TryGetSilentNode(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out SyntaxNode? node)
         {
             node = null;
             if (invocation.ArgumentList != null &&
-                invocation.ArgumentList.Arguments.TryFirst(out ArgumentSyntax argument))
+                invocation.ArgumentList.Arguments.TryFirst(out ArgumentSyntax? argument))
             {
                 if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
                 {
@@ -207,8 +196,7 @@ namespace Gu.Reactive.Analyzers
                             {
                                 foreach (var reference in symbol.DeclaringSyntaxReferences)
                                 {
-                                    var propertyDeclaration =
-                                        (PropertyDeclarationSyntax)reference.GetSyntax(context.CancellationToken);
+                                    var propertyDeclaration = (PropertyDeclarationSyntax)reference.GetSyntax(context.CancellationToken);
                                     if (propertyDeclaration.TryGetSetter(out AccessorDeclarationSyntax setter) &&
                                         setter.Body == null)
                                     {
@@ -234,14 +222,8 @@ namespace Gu.Reactive.Analyzers
 
         private static bool IsForEventHandler(IParameterSymbol parameter)
         {
-            if (parameter.Type is INamedTypeSymbol { Name: "Action" } namedType &&
-                namedType.TypeArguments.Length == 1 &&
-                namedType.TypeArguments[0] is INamedTypeSymbol argType)
-            {
-                return argType.Name == "EventHandler";
-            }
-
-            return false;
+            return parameter.Type is INamedTypeSymbol { Name: "Action", TypeArguments: { Length: 1 } } namedType &&
+                   namedType.TypeArguments[0] is INamedTypeSymbol { Name: "EventHandler" };
         }
     }
 }

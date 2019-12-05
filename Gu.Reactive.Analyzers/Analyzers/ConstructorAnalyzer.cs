@@ -13,7 +13,6 @@ namespace Gu.Reactive.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class ConstructorAnalyzer : DiagnosticAnalyzer
     {
-        /// <inheritdoc />
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             Descriptors.GUREA02ObservableAndCriteriaMustMatch,
             Descriptors.GUREA06DoNotNewCondition,
@@ -22,7 +21,6 @@ namespace Gu.Reactive.Analyzers
             Descriptors.GUREA10DoNotMergeInObservable,
             Descriptors.GUREA13SyncParametersAndArgs);
 
-        /// <inheritdoc />
         public override void Initialize(AnalysisContext context)
         {
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
@@ -133,8 +131,7 @@ namespace Gu.Reactive.Analyzers
 
             bool CanBeInlined(InvocationExpressionSyntax invocation)
             {
-                if (context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) is IMethodSymbol method &&
-                    method.IsStatic &&
+                if (context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) is { IsStatic: true } method &&
                     method.TrySingleDeclaration<MethodDeclarationSyntax>(context.CancellationToken, out var declaration))
                 {
                     if (declaration.ExpressionBody != null)
@@ -142,10 +139,10 @@ namespace Gu.Reactive.Analyzers
                         return true;
                     }
 
-                    if (declaration.Body is BlockSyntax block &&
-                        block.Statements.TrySingle(out StatementSyntax statement))
+                    if (declaration.Body is { Statements: { Count: 1 } statements } &&
+                        statements[0] is ReturnStatementSyntax)
                     {
-                        return statement is ReturnStatementSyntax;
+                        return true;
                     }
                 }
 
@@ -153,68 +150,58 @@ namespace Gu.Reactive.Analyzers
             }
         }
 
-        private static bool TryGetObservableAndCriteriaMismatch(ArgumentListSyntax argumentList, IMethodSymbol ctor, SyntaxNodeAnalysisContext context, out string observedText, out string criteriaText, out string missingText)
+        private static bool TryGetObservableAndCriteriaMismatch(ArgumentListSyntax argumentList, IMethodSymbol ctor, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out string? observedText, [NotNullWhen(true)] out string? criteriaText, [NotNullWhen(true)] out string? missingText)
         {
             if (TryGetObservableArgument(argumentList, ctor, out var observableArg) &&
                 TryGetCriteriaArgument(argumentList, ctor, out var criteriaArg))
             {
-                using (var observableIdentifiers = IdentifierNameExecutionWalker.Create(observableArg, SearchScope.Recursive, context.SemanticModel, context.CancellationToken))
+                using var observableIdentifiers = IdentifierNameExecutionWalker.Create(observableArg, SearchScope.Recursive, context.SemanticModel, context.CancellationToken);
+                using var criteriaIdentifiers = IdentifierNameExecutionWalker.Create(criteriaArg, SearchScope.Recursive, context.SemanticModel, context.CancellationToken);
+                bool observesInterval = false;
+                using var observed = PooledSet<IPropertySymbol>.Borrow();
+                foreach (var name in observableIdentifiers.IdentifierNames)
                 {
-                    using (var criteriaIdentifiers = IdentifierNameExecutionWalker.Create(criteriaArg, SearchScope.Recursive, context.SemanticModel, context.CancellationToken))
+                    if (context.SemanticModel.TryGetSymbol(name, context.CancellationToken, out ISymbol? symbol))
                     {
-                        bool observesInterval = false;
-                        using (var observed = PooledSet<IPropertySymbol>.Borrow())
+                        if (symbol is IPropertySymbol property)
                         {
-                            foreach (var name in observableIdentifiers.IdentifierNames)
-                            {
-                                if (context.SemanticModel.TryGetSymbol(name, context.CancellationToken, out ISymbol symbol))
-                                {
-                                    if (symbol is IPropertySymbol property)
-                                    {
-                                        observed.Add(property);
-                                    }
+                            observed.Add(property);
+                        }
 
-                                    if (symbol is IMethodSymbol method &&
-                                        method == KnownSymbol.Observable.Interval)
-                                    {
-                                        observesInterval = true;
-                                    }
-                                }
-                            }
-
-                            using (var usedInCriteria = PooledSet<IPropertySymbol>.Borrow())
-                            {
-                                foreach (var name in criteriaIdentifiers.IdentifierNames)
-                                {
-                                    if (context.SemanticModel.TryGetSymbol(name, context.CancellationToken, out IPropertySymbol property) &&
-                                        !property.ContainingType.IsValueType &&
-                                        !property.IsGetOnly() &&
-                                        !property.IsPrivateSetAssignedInCtorOnly(context.SemanticModel, context.CancellationToken))
-                                    {
-                                        usedInCriteria.Add(property);
-                                    }
-                                }
-
-                                using (var missing = PooledSet<IPropertySymbol>.Borrow())
-                                {
-                                    missing.UnionWith(usedInCriteria);
-                                    missing.ExceptWith(observed);
-                                    if (observesInterval)
-                                    {
-                                        missing.ExceptWith(missing.Where(x => x.Name == "Now").ToArray());
-                                    }
-
-                                    if (missing.Count != 0)
-                                    {
-                                        observedText = string.Join(Environment.NewLine, observed.Select(p => $"  {p}"));
-                                        criteriaText = string.Join(Environment.NewLine, usedInCriteria.Select(p => $"  {p}"));
-                                        missingText = string.Join(Environment.NewLine, missing.Select(p => $"  {p}"));
-                                        return true;
-                                    }
-                                }
-                            }
+                        if (symbol is IMethodSymbol method &&
+                            method == KnownSymbol.Observable.Interval)
+                        {
+                            observesInterval = true;
                         }
                     }
+                }
+
+                using var usedInCriteria = PooledSet<IPropertySymbol>.Borrow();
+                foreach (var name in criteriaIdentifiers.IdentifierNames)
+                {
+                    if (context.SemanticModel.TryGetSymbol(name, context.CancellationToken, out IPropertySymbol? property) &&
+                        !property.ContainingType.IsValueType &&
+                        !property.IsGetOnly() &&
+                        !property.IsPrivateSetAssignedInCtorOnly(context.SemanticModel, context.CancellationToken))
+                    {
+                        usedInCriteria.Add(property);
+                    }
+                }
+
+                using var missing = PooledSet<IPropertySymbol>.Borrow();
+                missing.UnionWith(usedInCriteria);
+                missing.ExceptWith(observed);
+                if (observesInterval)
+                {
+                    missing.ExceptWith(missing.Where(x => x.Name == "Now").ToArray());
+                }
+
+                if (missing.Count != 0)
+                {
+                    observedText = string.Join(Environment.NewLine, observed.Select(p => $"  {p}"));
+                    criteriaText = string.Join(Environment.NewLine, usedInCriteria.Select(p => $"  {p}"));
+                    missingText = string.Join(Environment.NewLine, missing.Select(p => $"  {p}"));
+                    return true;
                 }
             }
 
@@ -224,19 +211,17 @@ namespace Gu.Reactive.Analyzers
             return false;
         }
 
-        private static bool MergesObservable(ArgumentListSyntax argumentList, IMethodSymbol ctor, SyntaxNodeAnalysisContext context, out SyntaxNode location)
+        private static bool MergesObservable(ArgumentListSyntax argumentList, IMethodSymbol ctor, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out SyntaxNode? location)
         {
             if (TryGetObservableArgument(argumentList, ctor, out var argument))
             {
-                using (var pooled = InvocationExecutionWalker.Borrow(argument, SearchScope.Recursive, context.SemanticModel, context.CancellationToken))
+                using var pooled = InvocationExecutionWalker.Borrow(argument, SearchScope.Recursive, context.SemanticModel, context.CancellationToken);
+                foreach (var invocation in pooled.Invocations)
                 {
-                    foreach (var invocation in pooled.Invocations)
+                    if (invocation.IsSymbol(KnownSymbol.Observable.Merge, context.SemanticModel, context.CancellationToken))
                     {
-                        if (context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) == KnownSymbol.Observable.Merge)
-                        {
-                            location = argument;
-                            return true;
-                        }
+                        location = argument;
+                        return true;
                     }
                 }
             }
@@ -273,7 +258,7 @@ namespace Gu.Reactive.Analyzers
             return true;
         }
 
-        private static bool TryGetObservableArgument(ArgumentListSyntax argumentList, IMethodSymbol ctor, out ArgumentSyntax argument)
+        private static bool TryGetObservableArgument(ArgumentListSyntax argumentList, IMethodSymbol ctor, [NotNullWhen(true)] out ArgumentSyntax? argument)
         {
             if (ctor.Parameters[0].Type == KnownSymbol.IObservableOfT &&
                 ctor.Parameters[1].Type == KnownSymbol.FuncOfT)
@@ -293,7 +278,7 @@ namespace Gu.Reactive.Analyzers
             return false;
         }
 
-        private static bool TryGetCriteriaArgument(ArgumentListSyntax argumentList, IMethodSymbol ctor, out ArgumentSyntax argument)
+        private static bool TryGetCriteriaArgument(ArgumentListSyntax argumentList, IMethodSymbol ctor, [NotNullWhen(true)] out ArgumentSyntax? argument)
         {
             if (ctor.Parameters[0].Type == KnownSymbol.IObservableOfT &&
                 ctor.Parameters[1].Type == KnownSymbol.FuncOfT)

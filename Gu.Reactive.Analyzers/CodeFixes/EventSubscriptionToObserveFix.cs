@@ -43,42 +43,39 @@ namespace Gu.Reactive.Analyzers
 
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNode(diagnostic, out AssignmentExpressionSyntax assignment))
+                if (syntaxRoot.TryFindNode(diagnostic, out AssignmentExpressionSyntax? assignment))
                 {
                     if (assignment.Right is ParenthesizedLambdaExpressionSyntax lambda &&
                         lambda.Body != null)
                     {
-                        using (var pooled = IdentifierNameWalker.Borrow(lambda.Body))
+                        using var pooled = IdentifierNameWalker.Borrow(lambda.Body);
+                        var usesArg = false;
+                        foreach (var name in pooled.IdentifierNames)
                         {
-                            var usesArg = false;
-                            foreach (var name in pooled.IdentifierNames)
+                            if (name.Identifier.ValueText == lambda.ParameterList.Parameters[0]
+                                                                   .Identifier.ValueText)
                             {
-                                if (name.Identifier.ValueText == lambda.ParameterList.Parameters[0]
-                                                                       .Identifier.ValueText)
-                                {
-                                    return;
-                                }
-
-                                if (name.Identifier.ValueText == lambda.ParameterList.Parameters[1]
-                                                                       .Identifier.ValueText)
-                                {
-                                    usesArg = true;
-                                }
+                                return;
                             }
 
-                            context.RegisterCodeFix(
-                                "Observe.Event",
-                                (editor, cancellationToken) => ApplyObserveEventLambdaFix(editor, assignment, usesArg, cancellationToken),
-                                nameof(EventSubscriptionToObserveFix),
-                                diagnostic);
+                            if (name.Identifier.ValueText == lambda.ParameterList.Parameters[1]
+                                                                   .Identifier.ValueText)
+                            {
+                                usesArg = true;
+                            }
                         }
+
+                        context.RegisterCodeFix(
+                            "Observe.Event",
+                            (editor, cancellationToken) => ApplyObserveEventLambdaFix(editor, assignment, usesArg, cancellationToken),
+                            nameof(EventSubscriptionToObserveFix),
+                            diagnostic);
                     }
 
                     if (assignment.Right is MemberAccessExpressionSyntax memberAccess)
                     {
                         var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
-                        if (semanticModel.GetSymbolSafe(memberAccess, context.CancellationToken) is IMethodSymbol method &&
-                            method.DeclaredAccessibility == Accessibility.Private &&
+                        if (semanticModel.GetSymbolSafe(memberAccess, context.CancellationToken) is IMethodSymbol { DeclaredAccessibility: Accessibility.Private } method &&
                             method.DeclaringSyntaxReferences.Length == 1)
                         {
                             var methodDeclaration = (MethodDeclarationSyntax)method.DeclaringSyntaxReferences[0].GetSyntax(context.CancellationToken);
@@ -124,27 +121,25 @@ namespace Gu.Reactive.Analyzers
             var usesArg = false;
             if (methodDeclaration.ParameterList.Parameters.Any())
             {
-                using (var pooled = IdentifierNameWalker.Borrow((SyntaxNode)methodDeclaration.Body ?? methodDeclaration.ExpressionBody))
+                using var pooled = IdentifierNameWalker.Borrow((SyntaxNode)methodDeclaration.Body ?? methodDeclaration.ExpressionBody);
+                foreach (var name in pooled.IdentifierNames)
                 {
-                    foreach (var name in pooled.IdentifierNames)
+                    if (name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[0].Identifier.ValueText)
                     {
-                        if (name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[0].Identifier.ValueText)
-                        {
-                            if (methodDeclaration.ParameterList.Parameters.Count == 1)
-                            {
-                                usesArg = true;
-                                continue;
-                            }
-
-                            return;
-                        }
-
-                        if (methodDeclaration.ParameterList.Parameters.Count == 2 &&
-                            name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[1]
-                                                                          .Identifier.ValueText)
+                        if (methodDeclaration.ParameterList.Parameters.Count == 1)
                         {
                             usesArg = true;
+                            continue;
                         }
+
+                        return;
+                    }
+
+                    if (methodDeclaration.ParameterList.Parameters.Count == 2 &&
+                        name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[1]
+                                                                      .Identifier.ValueText)
+                    {
+                        usesArg = true;
                     }
                 }
             }
@@ -191,7 +186,7 @@ namespace Gu.Reactive.Analyzers
                 namedTypeSymbol.DelegateInvokeMethod?.Parameters != null &&
                 namedTypeSymbol.DelegateInvokeMethod.Parameters.Length <= 2)
             {
-                if (namedTypeSymbol.DelegateInvokeMethod.Parameters.TryLast(out IParameterSymbol parameter))
+                if (namedTypeSymbol.DelegateInvokeMethod.Parameters.TryLast(out IParameterSymbol? parameter))
                 {
                     return parameter.Type.ToDisplayString();
                 }

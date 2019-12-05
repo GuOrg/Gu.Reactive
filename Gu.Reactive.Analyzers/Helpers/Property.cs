@@ -1,5 +1,6 @@
 namespace Gu.Reactive.Analyzers
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Threading;
     using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
@@ -16,7 +17,7 @@ namespace Gu.Reactive.Analyzers
                 return false;
             }
 
-            if (TryGetSetter(property, cancellationToken, out AccessorDeclarationSyntax setter))
+            if (TryGetSetter(property, cancellationToken, out AccessorDeclarationSyntax? setter))
             {
                 if (AssignmentExecutionWalker.FirstFor(symbol, setter, SearchScope.Instance, semanticModel, cancellationToken, out _))
                 {
@@ -27,7 +28,7 @@ namespace Gu.Reactive.Analyzers
             return false;
         }
 
-        internal static bool TryGetSetter(this IPropertySymbol property, CancellationToken cancellationToken, out AccessorDeclarationSyntax setter)
+        internal static bool TryGetSetter(this IPropertySymbol property, CancellationToken cancellationToken, [NotNullWhen(true)] out AccessorDeclarationSyntax? setter)
         {
             setter = null;
             if (property == null)

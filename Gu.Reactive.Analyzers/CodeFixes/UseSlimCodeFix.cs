@@ -14,14 +14,11 @@ namespace Gu.Reactive.Analyzers
     [Shared]
     public class UseSlimCodeFix : CodeFixProvider
     {
-        /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
             ImmutableArray.Create(Descriptors.GUREA04PreferSlimOverload.Id);
 
-        /// <inheritdoc/>
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
-        /// <inheritdoc/>
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
@@ -29,7 +26,7 @@ namespace Gu.Reactive.Analyzers
 
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out IdentifierNameSyntax name))
+                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out IdentifierNameSyntax? name))
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(
