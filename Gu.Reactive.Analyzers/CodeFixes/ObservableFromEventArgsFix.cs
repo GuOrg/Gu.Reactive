@@ -3,8 +3,8 @@ namespace Gu.Reactive.Analyzers
     using System.Collections.Immutable;
     using System.Composition;
     using System.Threading.Tasks;
+    using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -12,57 +12,39 @@ namespace Gu.Reactive.Analyzers
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ObservableFromEventArgsFix))]
     [Shared]
-    public class ObservableFromEventArgsFix : CodeFixProvider
+    public class ObservableFromEventArgsFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
             ImmutableArray.Create(Descriptors.GUREA12ObservableFromEventDelegateType.Id);
 
-        public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+        protected override DocumentEditorFixAllProvider? FixAllProvider() => DocumentEditorFixAllProvider.Solution;
 
-        public override async Task RegisterCodeFixesAsync(CodeFixContext context)
+        protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
                                           .ConfigureAwait(false);
 
             foreach (var diagnostic in context.Diagnostics)
             {
-                var token = syntaxRoot.FindToken(diagnostic.Location.SourceSpan.Start);
-                if (string.IsNullOrEmpty(token.ValueText) ||
-                    token.IsMissing)
-                {
-                    continue;
-                }
-
-                var invocation = syntaxRoot.FindNode(diagnostic.Location.SourceSpan).FirstAncestorOrSelf<InvocationExpressionSyntax>();
-                if (invocation != null)
+                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out InvocationExpressionSyntax? invocation))
                 {
                     context.RegisterCodeFix(
-                        CodeAction.Create(
-                            "Fix arguments.",
-                            _ => ApplyUseSlimFixAsync(context, syntaxRoot, invocation),
-                            nameof(ObservableFromEventArgsFix)),
+                        "Fix arguments.",
+                        e => e.ReplaceNode(
+                            invocation.ArgumentList,
+                            x => x.InsertNodesBefore(
+                                x.Arguments[0],
+                                new[]
+                                {
+                                    x.Arguments[0]
+                                     .WithExpression(SyntaxFactory.ParseExpression("h => (_, e) => h(e)"))
+                                     .WithLeadingTrivia(x.Arguments[0].GetLeadingTrivia())
+                                     .WithAdditionalAnnotations(Formatter.Annotation),
+                                })),
+                        nameof(ObservableFromEventArgsFix),
                         diagnostic);
-                    continue;
                 }
             }
-        }
-
-        private static Task<Document> ApplyUseSlimFixAsync(CodeFixContext context, SyntaxNode syntaxRoot, InvocationExpressionSyntax invocation)
-        {
-            var arg0 = invocation.ArgumentList.Arguments[0];
-            return Task.FromResult(
-                context.Document.WithSyntaxRoot(
-                    syntaxRoot.ReplaceNode(
-                        invocation.ArgumentList,
-                        invocation.ArgumentList.InsertNodesBefore(
-                            arg0,
-                            new[]
-                            {
-                                arg0.WithExpression(
-                                        SyntaxFactory.ParseExpression("h => (_, e) => h(e)"))
-                                    .WithLeadingTrivia(arg0.GetLeadingTrivia())
-                                    .WithAdditionalAnnotations(Formatter.Annotation),
-                            }))));
         }
     }
 }

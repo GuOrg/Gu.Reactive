@@ -89,18 +89,15 @@ namespace Gu.Reactive.Analyzers
         private static bool TryGetInvalidFullPropertyPath(InvocationExpressionSyntax invocation, [NotNullWhen(true)] out SyntaxNode? node)
         {
             node = null;
-            if (invocation.ArgumentList != null &&
-                invocation.ArgumentList.Arguments.TryFirst(out ArgumentSyntax? argument))
+            if (invocation is { ArgumentList: { Arguments: { } arguments } } &&
+                arguments.TryFirst(out ArgumentSyntax? argument) &&
+                argument is { Expression: SimpleLambdaExpressionSyntax { Body: { } body } })
             {
-                if (argument.Expression is SimpleLambdaExpressionSyntax lambda &&
-                    lambda.Body != null)
+                var firstMember = body as MemberAccessExpressionSyntax;
+                if (!(firstMember?.Expression is MemberAccessExpressionSyntax))
                 {
-                    var firstMember = lambda.Body as MemberAccessExpressionSyntax;
-                    if (!(firstMember?.Expression is MemberAccessExpressionSyntax))
-                    {
-                        node = lambda.Body;
-                        return true;
-                    }
+                    node = body;
+                    return true;
                 }
             }
 
@@ -159,8 +156,8 @@ namespace Gu.Reactive.Analyzers
         private static bool TryGetSilentNode(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out SyntaxNode? node)
         {
             node = null;
-            if (invocation.ArgumentList != null &&
-                invocation.ArgumentList.Arguments.TryFirst(out ArgumentSyntax? argument))
+            if (invocation is { ArgumentList: { Arguments: { } arguments } } &&
+                arguments.TryFirst<ArgumentSyntax>(out ArgumentSyntax? argument))
             {
                 if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
                 {
@@ -197,7 +194,7 @@ namespace Gu.Reactive.Analyzers
                                 foreach (var reference in symbol.DeclaringSyntaxReferences)
                                 {
                                     var propertyDeclaration = (PropertyDeclarationSyntax)reference.GetSyntax(context.CancellationToken);
-                                    if (propertyDeclaration.TryGetSetter(out AccessorDeclarationSyntax setter) &&
+                                    if (propertyDeclaration.TryGetSetter(out AccessorDeclarationSyntax? setter) &&
                                         setter.Body == null)
                                     {
                                         node = memberAccess.Name;
