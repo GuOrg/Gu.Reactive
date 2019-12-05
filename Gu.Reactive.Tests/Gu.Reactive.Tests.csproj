@@ -24,5 +24,6 @@
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113" PrivateAssets="all" />
+    <PackageReference Include="WpfAnalyzers" Version="2.4.4" PrivateAssets="all" />
   </ItemGroup>
 </Project>

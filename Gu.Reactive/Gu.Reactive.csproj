@@ -28,12 +28,6 @@
 FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
     <PackageTags>reactive rx INotifyPropertyChanged ICommand</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json">
-      <Link>stylecop.json</Link>
-    </AdditionalFiles>
-  </ItemGroup>
   
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -42,6 +36,9 @@ FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
   <ItemGroup>
     <AdditionalFiles Include="PublicAPI.Shipped.txt" />
     <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+    <AdditionalFiles Include="..\stylecop.json">
+      <Link>stylecop.json</Link>
+    </AdditionalFiles>
   </ItemGroup>
 
   <ItemGroup>
@@ -54,5 +51,6 @@ FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
     <PackageReference Include="ReflectionAnalyzers" Version="0.1.21-dev" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113" PrivateAssets="all" />
     <PackageReference Include="System.Reactive" Version="4.0.0" />
+    <PackageReference Include="WpfAnalyzers" Version="2.4.4" PrivateAssets="all" />
   </ItemGroup>
 </Project>
