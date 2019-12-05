@@ -1,10 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <CodeAnalysisRuleSet>Gu.Reactive.Benchmarks.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
@@ -12,22 +10,26 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="BenchmarkDotNet.Artifacts\**" />
-    <EmbeddedResource Remove="BenchmarkDotNet.Artifacts\**" />
-    <None Remove="BenchmarkDotNet.Artifacts\**" />
-  </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj" />
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" />
     <ProjectReference Include="..\Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.12.0" />
+    <PackageReference Include="Gu.Analyzers" Version="1.6.6.6-dev" PrivateAssets="all" />
+    <PackageReference Include="Gu.Roslyn.Asserts" Version="3.2.6" />
+    <PackageReference Include="IDisposableAnalyzers" Version="3.2.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0-preview-20191115-01" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113" PrivateAssets="all" />
+  </ItemGroup>
+
   <ItemGroup>
     <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
   </ItemGroup>
-  
-  <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
