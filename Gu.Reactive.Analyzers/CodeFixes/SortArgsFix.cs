@@ -6,21 +6,20 @@ namespace Gu.Reactive.Analyzers
     using System.Threading.Tasks;
     using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SortArgsFix))]
     [Shared]
-    public class SortArgsFix : CodeFixProvider
+    public class SortArgsFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             Descriptors.GUREA13SyncParametersAndArgs.Id);
 
-        public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+        protected override DocumentEditorFixAllProvider? FixAllProvider() => DocumentEditorFixAllProvider.Solution;
 
-        public override async Task RegisterCodeFixesAsync(CodeFixContext context)
+        protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
                                           .ConfigureAwait(false);
@@ -32,10 +31,9 @@ namespace Gu.Reactive.Analyzers
                     initializer.Parent is ConstructorDeclarationSyntax { ParameterList: ParameterListSyntax parameterList })
                 {
                     context.RegisterCodeFix(
-                        CodeAction.Create(
-                            "Sort arguments.",
-                            _ => Task.FromResult(context.Document.WithSyntaxRoot(syntaxRoot.ReplaceNode(argumentList, Sort()))),
-                            nameof(SortArgsFix)),
+                        "Sort arguments.",
+                        e => e.ReplaceNode(argumentList, Sort()),
+                        nameof(SortArgsFix),
                         diagnostic);
 
                     ArgumentListSyntax Sort()

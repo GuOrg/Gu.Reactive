@@ -54,8 +54,8 @@ namespace Gu.Reactive.Analyzers
                 {
                     if (invocation.Expression is MemberAccessExpressionSyntax { Expression: MemberAccessExpressionSyntax member } memberAccess)
                     {
-                        var symbol = context.SemanticModel.GetSymbolSafe(member, context.CancellationToken);
-                        if (IsMutable(symbol))
+                        if (context.SemanticModel.GetSymbolSafe(member, context.CancellationToken) is { } symbol &&
+                            IsMutable(symbol))
                         {
                             context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA01DoNotObserveMutableProperty, memberAccess.Name.GetLocation()));
                         }
@@ -161,8 +161,9 @@ namespace Gu.Reactive.Analyzers
             {
                 if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
                 {
-                    if (lambda.Body is MemberAccessExpressionSyntax memberAccess)
+                    if (lambda.Body is MemberAccessExpressionSyntax _)
                     {
+                        var memberAccess = lambda.Body as MemberAccessExpressionSyntax;
                         while (memberAccess != null)
                         {
                             var symbol = context.SemanticModel.GetSymbolSafe(memberAccess, context.CancellationToken);
