@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>net472</TargetFrameworks>
     <OutputType>Exe</OutputType>
+    <StartupObject>Gu.Reactive.Benchmarks.Program</StartupObject>
     <CodeAnalysisRuleSet>Gu.Reactive.Benchmarks.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
-    <StartupObject>Gu.Reactive.Benchmarks.Program</StartupObject>
   </PropertyGroup>
   
   <ItemGroup>
