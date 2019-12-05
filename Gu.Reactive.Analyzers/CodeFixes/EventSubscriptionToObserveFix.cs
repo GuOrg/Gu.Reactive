@@ -31,11 +31,9 @@ namespace Gu.Reactive.Analyzers
 
         private static readonly UsingDirectiveSyntax SystemReactiveLinq = SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("System.Reactive.Linq"));
 
-        /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
             ImmutableArray.Create(Descriptors.GUREA11PreferObservableFromEvent.Id);
 
-        /// <inheritdoc/>
         protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)

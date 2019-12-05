@@ -15,14 +15,11 @@ namespace Gu.Reactive.Analyzers
     [Shared]
     public class SortArgsFix : CodeFixProvider
     {
-        /// <inheritdoc/>
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             Descriptors.GUREA13SyncParametersAndArgs.Id);
 
-        /// <inheritdoc/>
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
-        /// <inheritdoc/>
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
@@ -30,7 +27,7 @@ namespace Gu.Reactive.Analyzers
 
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out ConstructorInitializerSyntax initializer) &&
+                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out ConstructorInitializerSyntax? initializer) &&
                     initializer.ArgumentList is { } argumentList &&
                     initializer.Parent is ConstructorDeclarationSyntax { ParameterList: ParameterListSyntax parameterList })
                 {

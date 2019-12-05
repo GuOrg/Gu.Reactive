@@ -32,18 +32,8 @@ namespace Gu.Reactive.Analyzers
                                              .ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                var token = syntaxRoot.FindToken(diagnostic.Location.SourceSpan.Start);
-                if (string.IsNullOrEmpty(token.ValueText) ||
-                    token.IsMissing)
-                {
-                    continue;
-                }
-
-                var ctor = syntaxRoot.FindNode(diagnostic.Location.SourceSpan).FirstAncestorOrSelf<ConstructorDeclarationSyntax>();
-                var invocation = syntaxRoot.FindNode(diagnostic.Location.SourceSpan).FirstAncestorOrSelf<InvocationExpressionSyntax>();
-
-                if (ctor != null &&
-                    invocation != null &&
+                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out InvocationExpressionSyntax? invocation) &&
+                    invocation.TryFirstAncestor(out ConstructorDeclarationSyntax? ctor) &&
                     invocation.Expression is MemberAccessExpressionSyntax memberAccess)
                 {
                     var condition = memberAccess.Expression;
@@ -64,7 +54,7 @@ namespace Gu.Reactive.Analyzers
                             }
                         }
 
-                        if (ctor.ParameterList.Parameters.TryFirst(p => p.Identifier.ValueText == parameter.Name, out ParameterSyntax parameterSyntax))
+                        if (ctor.TryFindParameter(parameter.Name, out ParameterSyntax? parameterSyntax))
                         {
                             context.RegisterCodeFix(
                                 CodeAction.Create(
@@ -82,9 +72,8 @@ namespace Gu.Reactive.Analyzers
         {
             var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
                                                      .ConfigureAwait(false);
-            if (parameter.Type is GenericNameSyntax genericName &&
+            if (parameter.Type is GenericNameSyntax { TypeArgumentList: { Arguments: { Count: 1 } } } genericName &&
                 genericName.Identifier.ValueText == "Negated" &&
-                genericName.TypeArgumentList?.Arguments.Count == 1 &&
                 parameter.Identifier.ValueText.StartsWith("not", StringComparison.OrdinalIgnoreCase))
             {
                 var name = parameter.Identifier.ValueText.Replace("not", string.Empty).ToFirstCharLower();

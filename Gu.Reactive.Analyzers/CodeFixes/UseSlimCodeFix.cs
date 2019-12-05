@@ -5,21 +5,20 @@ namespace Gu.Reactive.Analyzers
     using System.Threading.Tasks;
     using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(UseSlimCodeFix))]
     [Shared]
-    public class UseSlimCodeFix : CodeFixProvider
+    public class UseSlimCodeFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } =
             ImmutableArray.Create(Descriptors.GUREA04PreferSlimOverload.Id);
 
-        public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+        protected override DocumentEditorFixAllProvider? FixAllProvider() => DocumentEditorFixAllProvider.Solution;
 
-        public override async Task RegisterCodeFixesAsync(CodeFixContext context)
+        protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
                                           .ConfigureAwait(false);
@@ -29,24 +28,14 @@ namespace Gu.Reactive.Analyzers
                 if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out IdentifierNameSyntax? name))
                 {
                     context.RegisterCodeFix(
-                        CodeAction.Create(
-                            "Use slim.",
-                            _ => ApplyUseSlimFixAsync(context, syntaxRoot, name),
-                            nameof(UseSlimCodeFix)),
+                        "Use slim.",
+                        e => e.ReplaceNode(
+                            name,
+                            x => x.WithIdentifier(SyntaxFactory.Identifier("ObservePropertyChangedSlim"))),
+                        nameof(UseSlimCodeFix),
                         diagnostic);
                 }
             }
-        }
-
-        private static Task<Document> ApplyUseSlimFixAsync(CodeFixContext context, SyntaxNode syntaxRoot, IdentifierNameSyntax name)
-        {
-            var memberAccess = name.Parent as MemberAccessExpressionSyntax;
-            return Task.FromResult(
-                context.Document.WithSyntaxRoot(
-                    syntaxRoot.ReplaceNode(
-                        memberAccess,
-                        memberAccess.WithName(
-                            SyntaxFactory.IdentifierName("ObservePropertyChangedSlim")))));
         }
     }
 }
