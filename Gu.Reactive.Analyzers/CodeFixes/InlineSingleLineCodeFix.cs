@@ -17,8 +17,8 @@ namespace Gu.Reactive.Analyzers
     [Shared]
     public class InlineSingleLineCodeFix : CodeFixProvider
     {
-        public override ImmutableArray<string> FixableDiagnosticIds { get; } =
-            ImmutableArray.Create(Descriptors.GUREA08InlineSingleLine.Id);
+        public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
+            Descriptors.GUREA08InlineSingleLine.Id);
 
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 

@@ -15,8 +15,8 @@ namespace Gu.Reactive.Analyzers
     [Shared]
     public class ObservableBeforeCriteriaCodeFix : CodeFixProvider
     {
-        public override ImmutableArray<string> FixableDiagnosticIds { get; } =
-            ImmutableArray.Create(Descriptors.GUREA09ObservableBeforeCriteria.Id);
+        public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
+            Descriptors.GUREA09ObservableBeforeCriteria.Id);
 
         public override FixAllProvider? GetFixAllProvider() => null;
 

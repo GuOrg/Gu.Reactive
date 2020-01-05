@@ -14,8 +14,8 @@ namespace Gu.Reactive.Analyzers
     [Shared]
     public class ObservableFromEventArgsFix : DocumentEditorCodeFixProvider
     {
-        public override ImmutableArray<string> FixableDiagnosticIds { get; } =
-            ImmutableArray.Create(Descriptors.GUREA12ObservableFromEventDelegateType.Id);
+        public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
+            Descriptors.GUREA12ObservableFromEventDelegateType.Id);
 
         protected override DocumentEditorFixAllProvider? FixAllProvider() => DocumentEditorFixAllProvider.Solution;
 

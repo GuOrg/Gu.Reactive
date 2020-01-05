@@ -13,8 +13,8 @@ namespace Gu.Reactive.Analyzers
     [Shared]
     public class UseSlimCodeFix : DocumentEditorCodeFixProvider
     {
-        public override ImmutableArray<string> FixableDiagnosticIds { get; } =
-            ImmutableArray.Create(Descriptors.GUREA04PreferSlimOverload.Id);
+        public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
+            Descriptors.GUREA04PreferSlimOverload.Id);
 
         protected override DocumentEditorFixAllProvider? FixAllProvider() => DocumentEditorFixAllProvider.Solution;
 

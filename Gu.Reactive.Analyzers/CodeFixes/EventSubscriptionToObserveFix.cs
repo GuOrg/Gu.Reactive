@@ -134,8 +134,7 @@ namespace Gu.Reactive.Analyzers
                     }
 
                     if (methodDeclaration.ParameterList.Parameters.Count == 2 &&
-                        name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[1]
-                                                                      .Identifier.ValueText)
+                        name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[1].Identifier.ValueText)
                     {
                         usesArg = true;
                     }
@@ -169,8 +168,7 @@ namespace Gu.Reactive.Analyzers
 
         private static string GetObservableFromEventString(IEventSymbol eventSymbol)
         {
-            if (eventSymbol.Type is INamedTypeSymbol namedTypeSymbol &&
-                namedTypeSymbol.DelegateInvokeMethod?.Parameters.Length == 2)
+            if (eventSymbol.Type is INamedTypeSymbol { DelegateInvokeMethod: { Parameters: { Length: 2 } } })
             {
                 return ObservableFromEventWithConvertString;
             }
@@ -180,14 +178,11 @@ namespace Gu.Reactive.Analyzers
 
         private static string ArgType(IEventSymbol eventSymbol)
         {
-            if (eventSymbol.Type is INamedTypeSymbol namedTypeSymbol &&
-                namedTypeSymbol.DelegateInvokeMethod?.Parameters != null &&
-                namedTypeSymbol.DelegateInvokeMethod.Parameters.Length <= 2)
+            if (eventSymbol.Type is INamedTypeSymbol { DelegateInvokeMethod: { Parameters: { } parameters } } &&
+                parameters.Length <= 2 &&
+                parameters.TryLast(out IParameterSymbol? parameter))
             {
-                if (namedTypeSymbol.DelegateInvokeMethod.Parameters.TryLast(out IParameterSymbol? parameter))
-                {
-                    return parameter.Type.ToDisplayString();
-                }
+                return parameter.Type.ToDisplayString();
             }
 
             return "UNKNOWN";
