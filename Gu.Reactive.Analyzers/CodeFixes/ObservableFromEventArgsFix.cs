@@ -36,36 +36,12 @@ namespace Gu.Reactive.Analyzers
                                 x.Arguments[0],
                                 new[]
                                 {
-                                    Argument()
-                                     .WithLeadingTrivia(x.Arguments[0].GetLeadingTrivia())
-                                     .WithAdditionalAnnotations(Formatter.Annotation),
+                                    SyntaxFactory.Argument(SyntaxFactory.ParseExpression("h => (_, e) => h(e)"))
+                                                 .WithLeadingTrivia(x.Arguments[0].GetLeadingTrivia())
+                                                 .WithAdditionalAnnotations(Formatter.Annotation),
                                 })),
                         nameof(ObservableFromEventArgsFix),
                         diagnostic);
-
-                    ArgumentSyntax Argument()
-                    {
-                        return SyntaxFactory.Argument(
-                            SyntaxFactory.SimpleLambdaExpression(
-                                parameter: SyntaxFactory.Parameter(SyntaxFactory.Identifier("h")),
-                                body: SyntaxFactory.ParenthesizedLambdaExpression(
-                                    parameterList: SyntaxFactory.ParameterList(
-                                        parameters: SyntaxFactory.SeparatedList(
-                                            new[]
-                                            {
-                                                SyntaxFactory.Parameter(identifier: SyntaxFactory.Identifier(text: "_")),
-                                                SyntaxFactory.Parameter(identifier: SyntaxFactory.Identifier(text: "e")),
-                                            },
-                                            new[]
-                                            {
-                                                SyntaxFactory.Token(kind: SyntaxKind.CommaToken),
-                                            })),
-                                    body: SyntaxFactory.InvocationExpression(
-                                        expression: SyntaxFactory.IdentifierName("h"),
-                                        argumentList: SyntaxFactory.ArgumentList(
-                                            arguments: SyntaxFactory.SingletonSeparatedList<ArgumentSyntax>(
-                                                SyntaxFactory.Argument(SyntaxFactory.IdentifierName("e"))))))));
-                    }
                 }
             }
         }
