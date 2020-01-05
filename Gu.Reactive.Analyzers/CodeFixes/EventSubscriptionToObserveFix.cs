@@ -75,7 +75,7 @@ namespace Gu.Reactive.Analyzers
                                 ExpressionSyntax Replacement(DocumentEditor editor)
                                 {
                                     var observeSubscribe = GetObservableFromEventString(eventSymbol)
-                                                           .Replace("HANDLERTYPE", eventSymbol.Type.ToMinimalDisplayString(editor.SemanticModel, assignment.SpanStart))
+                                                           .Replace("HANDLERTYPE", eventSymbol.Type.ToMinimalDisplayString(editor.SemanticModel, assignment!.SpanStart))
                                                            .Replace("ARGTYPE", ArgType(eventSymbol))
                                                            .Replace("LEFT", assignment.Left.ToString())
                                                            .Replace("LAMBDA", Lambda((ParenthesizedLambdaExpressionSyntax)assignment.Right, usesArg));
@@ -127,7 +127,7 @@ namespace Gu.Reactive.Analyzers
                                         }
 
                                         var observeSubscribe = GetObservableFromEventString(eventSymbol)
-                                            .Replace("HANDLERTYPE", eventSymbol.Type.ToMinimalDisplayString(editor.SemanticModel, assignment.SpanStart))
+                                            .Replace("HANDLERTYPE", eventSymbol.Type.ToMinimalDisplayString(editor.SemanticModel, assignment!.SpanStart))
                                             .Replace("ARGTYPE", ArgType(eventSymbol))
                                             .Replace("LEFT", assignment.Left.ToString())
                                             .Replace("LAMBDA", Lambda(methodDeclaration, usesArg));
@@ -174,7 +174,7 @@ namespace Gu.Reactive.Analyzers
                 parameters.Length <= 2 &&
                 parameters.TryLast(out IParameterSymbol? parameter))
             {
-                return parameter.Type.ToDisplayString();
+                return parameter!.Type.ToDisplayString();
             }
 
             return "UNKNOWN";
