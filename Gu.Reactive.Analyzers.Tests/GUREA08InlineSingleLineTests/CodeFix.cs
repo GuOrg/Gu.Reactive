@@ -96,7 +96,7 @@ namespace RoslynSandbox
         }
 
         [Test]
-        public static void WhenCriteriaIsSingleLine()
+        public static void WhenCriteriaIsSingleLineStatementBody()
         {
             var before = @"
 namespace RoslynSandbox
@@ -116,6 +116,45 @@ namespace RoslynSandbox
         {
             return arg.Value == 2;
         }
+    }
+}";
+
+            var after = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : Condition
+    {
+        public FooCondition(Foo foo)
+            : base(
+                foo.ObservePropertyChangedSlim(x => x.Value),
+                () => foo.Value == 2)
+        {
+        }
+    }
+}";
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, before }, after);
+        }
+
+        [Test]
+        public static void WhenCriteriaIsSingleLineExpressionBody()
+        {
+            var before = @"
+namespace RoslynSandbox
+{
+    using Gu.Reactive;
+
+    public class FooCondition : Condition
+    {
+        public FooCondition(Foo foo)
+            : base(
+                foo.ObservePropertyChangedSlim(x => x.Value),
+                () => ↓Criteria(foo))
+        {
+        }
+
+        private static bool Criteria(Foo arg) => arg.Value == 2;
     }
 }";
 
