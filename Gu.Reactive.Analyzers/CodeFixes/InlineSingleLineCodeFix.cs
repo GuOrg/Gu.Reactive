@@ -25,9 +25,17 @@ namespace Gu.Reactive.Analyzers
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
                                                            .ConfigureAwait(false);
+            var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken)
+                                             .ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out InvocationExpressionSyntax? invocation))
+                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out InvocationExpressionSyntax? invocation) &&
+                    invocation is { ArgumentList: { Arguments: { Count: 1 } } } &&
+                    semanticModel.TryGetSymbol(invocation, context.CancellationToken, out var method) &&
+                    method.Parameters.Length == 1 &&
+                    semanticModel.GetSymbolSafe(invocation.ArgumentList.Arguments[0].Expression, context.CancellationToken) is IParameterSymbol parameter &&
+                    method.TrySingleMethodDeclaration(context.CancellationToken, out var declaration) &&
+                    SingleExpression(declaration) is { } expression)
                 {
                     context.RegisterCodeFix(
                         "Inline.",
@@ -37,22 +45,23 @@ namespace Gu.Reactive.Analyzers
 
                     void Fix(DocumentEditor editor, CancellationToken cancellationToken)
                     {
-                        var semanticModel = editor.SemanticModel;
-                        var method = (IMethodSymbol)semanticModel.GetSymbolSafe(invocation.Expression, cancellationToken);
-                        var methodDeclaration = (MethodDeclarationSyntax)method.DeclaringSyntaxReferences[0].GetSyntax(cancellationToken);
-                        var expression = methodDeclaration.ExpressionBody?.Expression ??
-                                         ((ReturnStatementSyntax)methodDeclaration.Body.Statements[0]).Expression;
-
-                        if (invocation.ArgumentList?.Arguments.Count == 1 &&
-                            semanticModel.GetSymbolSafe(invocation.ArgumentList.Arguments[0].Expression, cancellationToken) is IParameterSymbol parameter)
-                        {
-                            expression = Rename.Parameter(method.Parameters[0], parameter, expression, semanticModel, cancellationToken);
-                            editor.ReplaceNode(
-                                invocation,
-                                expression.WithLeadingTrivia(invocation.Expression.GetLeadingTrivia()));
-                            editor.RemoveNode(methodDeclaration);
-                        }
+                        expression = Rename.Parameter(method!.Parameters[0], parameter, expression, editor.SemanticModel, cancellationToken);
+                        editor.ReplaceNode(
+                                  invocation!,
+                                  x => expression.WithTriviaFrom(x))
+                              .RemoveNode(declaration);
                     }
+                }
+
+                static ExpressionSyntax? SingleExpression(MethodDeclarationSyntax declaration)
+                {
+                    return declaration switch
+                    {
+                        { ExpressionBody: { Expression: { } single } } => single,
+                        { Body: { Statements: { Count: 1 } statements } }
+                        when statements[0] is ReturnStatementSyntax { Expression: { } single } => single,
+                        _ => null,
+                    };
                 }
             }
         }
