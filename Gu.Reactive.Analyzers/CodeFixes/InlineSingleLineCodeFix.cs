@@ -7,7 +7,6 @@ namespace Gu.Reactive.Analyzers
     using Gu.Roslyn.AnalyzerExtensions;
     using Gu.Roslyn.CodeFixExtensions;
     using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CodeActions;
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -15,54 +14,47 @@ namespace Gu.Reactive.Analyzers
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(InlineSingleLineCodeFix))]
     [Shared]
-    public class InlineSingleLineCodeFix : CodeFixProvider
+    public class InlineSingleLineCodeFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             Descriptors.GUREA08InlineSingleLine.Id);
 
-        public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+        protected override DocumentEditorFixAllProvider? FixAllProvider() => DocumentEditorFixAllProvider.Project;
 
-        public override async Task RegisterCodeFixesAsync(CodeFixContext context)
+        protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
-                                          .ConfigureAwait(false);
+                                                           .ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
                 if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out InvocationExpressionSyntax? invocation))
                 {
                     context.RegisterCodeFix(
-                        CodeAction.Create(
-                            "Inline.",
-                            cancellationToken => ApplyInlineSingleLineAsync(context, invocation, cancellationToken),
-                            nameof(InlineSingleLineCodeFix)),
+                        "Inline.",
+                        (editor, cancellationToken) => Fix(editor, cancellationToken),
+                        nameof(InlineSingleLineCodeFix),
                         diagnostic);
-                    continue;
+
+                    void Fix(DocumentEditor editor, CancellationToken cancellationToken)
+                    {
+                        var semanticModel = editor.SemanticModel;
+                        var method = (IMethodSymbol)semanticModel.GetSymbolSafe(invocation.Expression, cancellationToken);
+                        var methodDeclaration = (MethodDeclarationSyntax)method.DeclaringSyntaxReferences[0].GetSyntax(cancellationToken);
+                        var expression = methodDeclaration.ExpressionBody?.Expression ??
+                                         ((ReturnStatementSyntax)methodDeclaration.Body.Statements[0]).Expression;
+
+                        if (invocation.ArgumentList?.Arguments.Count == 1 &&
+                            semanticModel.GetSymbolSafe(invocation.ArgumentList.Arguments[0].Expression, cancellationToken) is IParameterSymbol parameter)
+                        {
+                            expression = Rename.Parameter(method.Parameters[0], parameter, expression, semanticModel, cancellationToken);
+                            editor.ReplaceNode(
+                                invocation,
+                                expression.WithLeadingTrivia(invocation.Expression.GetLeadingTrivia()));
+                            editor.RemoveNode(methodDeclaration);
+                        }
+                    }
                 }
             }
-        }
-
-        private static async Task<Document> ApplyInlineSingleLineAsync(CodeFixContext context, InvocationExpressionSyntax invocation, CancellationToken cancellationToken)
-        {
-            var editor = await DocumentEditor.CreateAsync(context.Document, cancellationToken)
-                                             .ConfigureAwait(false);
-            var semanticModel = editor.SemanticModel;
-            var method = (IMethodSymbol)semanticModel.GetSymbolSafe(invocation.Expression, cancellationToken);
-            var methodDeclaration = (MethodDeclarationSyntax)method.DeclaringSyntaxReferences[0].GetSyntax(cancellationToken);
-            var expression = methodDeclaration.ExpressionBody?.Expression ??
-                             ((ReturnStatementSyntax)methodDeclaration.Body.Statements[0]).Expression;
-
-            if (invocation.ArgumentList?.Arguments.Count == 1 &&
-                semanticModel.GetSymbolSafe(invocation.ArgumentList.Arguments[0].Expression, cancellationToken) is IParameterSymbol parameter)
-            {
-                expression = Rename.Parameter(method.Parameters[0], parameter, expression, semanticModel, cancellationToken);
-                editor.ReplaceNode(
-                    invocation,
-                    expression.WithLeadingTrivia(invocation.Expression.GetLeadingTrivia()));
-                editor.RemoveNode(methodDeclaration);
-                return editor.GetChangedDocument();
-            }
-
-            return editor.OriginalDocument;
         }
 
         private class Rename : CSharpSyntaxRewriter
@@ -82,12 +74,9 @@ namespace Gu.Reactive.Analyzers
 
             public override SyntaxNode VisitIdentifierName(IdentifierNameSyntax node)
             {
-                if (node.Identifier.ValueText == this.from.Name)
+                if (node.IsSymbol(this.@from, this.semanticModel, this.cancellationToken))
                 {
-                    if (SymbolComparer.Equals(this.semanticModel.GetSymbolSafe(node, this.cancellationToken), this.from))
-                    {
-                        return SyntaxFactory.IdentifierName(this.to.Name);
-                    }
+                    return node.WithIdentifier(SyntaxFactory.Identifier(this.to.Name));
                 }
 
                 return base.VisitIdentifierName(node);
