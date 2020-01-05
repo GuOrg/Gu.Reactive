@@ -2,7 +2,6 @@ namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
     using System.Composition;
-    using System.Threading;
     using System.Threading.Tasks;
     using Gu.Roslyn.AnalyzerExtensions;
     using Gu.Roslyn.CodeFixExtensions;
@@ -37,132 +36,125 @@ namespace Gu.Reactive.Analyzers
         protected override async Task RegisterCodeFixesAsync(DocumentEditorCodeFixContext context)
         {
             var syntaxRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
-                                          .ConfigureAwait(false);
-
+                                                            .ConfigureAwait(false);
+            var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNode(diagnostic, out AssignmentExpressionSyntax? assignment))
+                if (syntaxRoot.TryFindNode(diagnostic, out AssignmentExpressionSyntax? assignment) &&
+                    semanticModel.GetSymbolSafe(assignment.Left, context.CancellationToken) is IEventSymbol eventSymbol)
                 {
-                    if (assignment.Right is ParenthesizedLambdaExpressionSyntax lambda &&
-                        lambda.Body != null)
+                    switch (assignment.Right)
                     {
-                        using var pooled = IdentifierNameWalker.Borrow(lambda.Body);
-                        var usesArg = false;
-                        foreach (var name in pooled.IdentifierNames)
-                        {
-                            if (name.Identifier.ValueText == lambda.ParameterList.Parameters[0]
-                                                                   .Identifier.ValueText)
+                        case ParenthesizedLambdaExpressionSyntax { Body: { }, ParameterList: { Parameters: { Count: 2 } } } lambda:
                             {
-                                return;
+                                using var pooled = IdentifierNameWalker.Borrow(lambda.Body);
+                                var usesArg = false;
+                                foreach (var name in pooled.IdentifierNames)
+                                {
+                                    if (name.Identifier.ValueText == lambda.ParameterList.Parameters[0].Identifier.ValueText)
+                                    {
+                                        return;
+                                    }
+
+                                    if (name.Identifier.ValueText == lambda.ParameterList.Parameters[1].Identifier.ValueText)
+                                    {
+                                        usesArg = true;
+                                    }
+                                }
+
+                                context.RegisterCodeFix(
+                                    "Observe.Event",
+                                    editor => editor.AddUsing(SystemReactiveLinq)
+                                                    .ReplaceNode(
+                                                        assignment,
+                                                        Replacement(editor)),
+                                    nameof(EventSubscriptionToObserveFix),
+                                    diagnostic);
+                                break;
+
+                                ExpressionSyntax Replacement(DocumentEditor editor)
+                                {
+                                    var observeSubscribe = GetObservableFromEventString(eventSymbol)
+                                                           .Replace("HANDLERTYPE", eventSymbol.Type.ToMinimalDisplayString(editor.SemanticModel, assignment.SpanStart))
+                                                           .Replace("ARGTYPE", ArgType(eventSymbol))
+                                                           .Replace("LEFT", assignment.Left.ToString())
+                                                           .Replace("LAMBDA", Lambda((ParenthesizedLambdaExpressionSyntax)assignment.Right, usesArg));
+
+                                    return SyntaxFactory.ParseExpression(observeSubscribe)
+                                                        .WithTriviaFrom(assignment)
+                                                        .WithSimplifiedNames()
+                                                        .WithAdditionalAnnotations(
+                                                            Formatter.Annotation, Simplifier.Annotation);
+                                }
                             }
 
-                            if (name.Identifier.ValueText == lambda.ParameterList.Parameters[1]
-                                                                   .Identifier.ValueText)
+                        case MemberAccessExpressionSyntax memberAccess:
                             {
-                                usesArg = true;
+                                if (semanticModel.GetSymbolSafe(memberAccess, context.CancellationToken) is IMethodSymbol { DeclaredAccessibility: Accessibility.Private } method &&
+                                    method.TrySingleMethodDeclaration(context.CancellationToken, out var methodDeclaration))
+                                {
+                                    context.RegisterCodeFix(
+                                        "Observe.Event",
+                                        editor => Fix(editor),
+                                        nameof(EventSubscriptionToObserveFix),
+                                        diagnostic);
+
+                                    void Fix(DocumentEditor editor)
+                                    {
+                                        var usesArg = false;
+                                        if (methodDeclaration!.ParameterList.Parameters.Any())
+                                        {
+                                            using var pooled = IdentifierNameWalker.Borrow((SyntaxNode)methodDeclaration.Body ?? methodDeclaration.ExpressionBody);
+                                            foreach (var name in pooled.IdentifierNames)
+                                            {
+                                                if (name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[0].Identifier.ValueText)
+                                                {
+                                                    if (methodDeclaration.ParameterList.Parameters.Count == 1)
+                                                    {
+                                                        usesArg = true;
+                                                        continue;
+                                                    }
+
+                                                    return;
+                                                }
+
+                                                if (methodDeclaration.ParameterList.Parameters.Count == 2 &&
+                                                    name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[1].Identifier.ValueText)
+                                                {
+                                                    usesArg = true;
+                                                }
+                                            }
+                                        }
+
+                                        var observeSubscribe = GetObservableFromEventString(eventSymbol)
+                                            .Replace("HANDLERTYPE", eventSymbol.Type.ToMinimalDisplayString(editor.SemanticModel, assignment.SpanStart))
+                                            .Replace("ARGTYPE", ArgType(eventSymbol))
+                                            .Replace("LEFT", assignment.Left.ToString())
+                                            .Replace("LAMBDA", Lambda(methodDeclaration, usesArg));
+                                        editor.AddUsing(SystemReactiveLinq)
+                                              .ReplaceNode(
+                                                  assignment,
+                                                  SyntaxFactory.ParseExpression(observeSubscribe)
+                                                               .WithTriviaFrom(assignment)
+                                                               .WithSimplifiedNames()
+                                                               .WithAdditionalAnnotations(Formatter.Annotation, Simplifier.Annotation));
+                                        if (methodDeclaration.ParameterList.Parameters.Count == 2)
+                                        {
+                                            editor.RemoveNode(methodDeclaration.ParameterList.Parameters[0]);
+                                        }
+
+                                        if (!usesArg &&
+                                            methodDeclaration.ParameterList.Parameters.Any())
+                                        {
+                                            editor.RemoveNode(methodDeclaration.ParameterList.Parameters.Last());
+                                        }
+                                    }
+                                }
+
+                                break;
                             }
-                        }
-
-                        context.RegisterCodeFix(
-                            "Observe.Event",
-                            (editor, cancellationToken) => ApplyObserveEventLambdaFix(editor, assignment, usesArg, cancellationToken),
-                            nameof(EventSubscriptionToObserveFix),
-                            diagnostic);
-                    }
-
-                    if (assignment.Right is MemberAccessExpressionSyntax memberAccess)
-                    {
-                        var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
-                        if (semanticModel.GetSymbolSafe(memberAccess, context.CancellationToken) is IMethodSymbol { DeclaredAccessibility: Accessibility.Private } method &&
-                            method.DeclaringSyntaxReferences.Length == 1)
-                        {
-                            var methodDeclaration = (MethodDeclarationSyntax)method.DeclaringSyntaxReferences[0].GetSyntax(context.CancellationToken);
-                            context.RegisterCodeFix(
-                                "Observe.Event",
-                                (editor, cancellationToken) => ApplyObserveEventMethodFix(editor, assignment, methodDeclaration, cancellationToken),
-                                nameof(EventSubscriptionToObserveFix),
-                                diagnostic);
-                        }
                     }
                 }
-            }
-        }
-
-        private static void ApplyObserveEventLambdaFix(
-            DocumentEditor editor,
-            AssignmentExpressionSyntax assignment,
-            bool usesArg,
-            CancellationToken cancellationToken)
-        {
-            var eventSymbol = (IEventSymbol)editor.SemanticModel.GetSymbolSafe(assignment.Left, cancellationToken);
-            var observeSubscribe = GetObservableFromEventString(eventSymbol)
-                .Replace("HANDLERTYPE", eventSymbol.Type.ToMinimalDisplayString(editor.SemanticModel, assignment.SpanStart))
-                .Replace("ARGTYPE", ArgType(eventSymbol))
-                .Replace("LEFT", assignment.Left.ToString())
-                .Replace("LAMBDA", Lambda((ParenthesizedLambdaExpressionSyntax)assignment.Right, usesArg));
-
-            editor.AddUsing(SystemReactiveLinq)
-                  .ReplaceNode(
-                      assignment,
-                      SyntaxFactory.ParseExpression(observeSubscribe)
-                                   .WithTriviaFrom(assignment)
-                                   .WithSimplifiedNames()
-                                   .WithAdditionalAnnotations(Formatter.Annotation, Simplifier.Annotation));
-        }
-
-        private static void ApplyObserveEventMethodFix(
-            DocumentEditor editor,
-            AssignmentExpressionSyntax assignment,
-            MethodDeclarationSyntax methodDeclaration,
-            CancellationToken cancellationToken)
-        {
-            var usesArg = false;
-            if (methodDeclaration.ParameterList.Parameters.Any())
-            {
-                using var pooled = IdentifierNameWalker.Borrow((SyntaxNode)methodDeclaration.Body ?? methodDeclaration.ExpressionBody);
-                foreach (var name in pooled.IdentifierNames)
-                {
-                    if (name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[0].Identifier.ValueText)
-                    {
-                        if (methodDeclaration.ParameterList.Parameters.Count == 1)
-                        {
-                            usesArg = true;
-                            continue;
-                        }
-
-                        return;
-                    }
-
-                    if (methodDeclaration.ParameterList.Parameters.Count == 2 &&
-                        name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[1].Identifier.ValueText)
-                    {
-                        usesArg = true;
-                    }
-                }
-            }
-
-            var eventSymbol = (IEventSymbol)editor.SemanticModel.GetSymbolSafe(assignment.Left, cancellationToken);
-            var observeSubscribe = GetObservableFromEventString(eventSymbol)
-                .Replace("HANDLERTYPE", eventSymbol.Type.ToMinimalDisplayString(editor.SemanticModel, assignment.SpanStart))
-                .Replace("ARGTYPE", ArgType(eventSymbol))
-                .Replace("LEFT", assignment.Left.ToString())
-                .Replace("LAMBDA", Lambda(methodDeclaration, usesArg));
-            editor.AddUsing(SystemReactiveLinq)
-                  .ReplaceNode(
-                      assignment,
-                      SyntaxFactory.ParseExpression(observeSubscribe)
-                                   .WithTriviaFrom(assignment)
-                                   .WithSimplifiedNames()
-                                   .WithAdditionalAnnotations(Formatter.Annotation, Simplifier.Annotation));
-            if (methodDeclaration.ParameterList.Parameters.Count == 2)
-            {
-                editor.RemoveNode(methodDeclaration.ParameterList.Parameters[0]);
-            }
-
-            if (!usesArg &&
-                methodDeclaration.ParameterList.Parameters.Any())
-            {
-                editor.RemoveNode(methodDeclaration.ParameterList.Parameters.Last());
             }
         }
 
