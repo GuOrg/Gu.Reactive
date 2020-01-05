@@ -12,21 +12,3 @@ using System.Windows.Markup;
 #pragma warning restore WPF0052 // XmlnsDefinitions does not map all namespaces with public types.
 [assembly: XmlnsDefinition("http://Gu.com/Reactive", "Gu.Wpf.Reactive")]
 [assembly: XmlnsPrefix("http://Gu.com/Reactive", "reactive")]
-
-#pragma warning disable SA1649 // File name must match first type name
-//// ReSharper disable once UnusedMember.Global
-//// ReSharper disable once CheckNamespace
-namespace Gu.Wpf.Reactive.Properties
-{
-    internal class References
-    {
-        // Touching Gu.Wpf.ToolTips so that it gets copied to output dir
-        // http://stackoverflow.com/a/24828522/1069200
-#pragma warning disable 649
-#pragma warning disable 169
-        internal static readonly Gu.Wpf.ToolTips.PopupButton ToolTipsReference;
-#pragma warning restore 169
-#pragma warning restore 649
-    }
-}
-#pragma warning restore SA1649 // File name must match first type name

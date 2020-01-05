@@ -1,9 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:local="clr-namespace:Gu.Wpf.Reactive"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                    xmlns:toolTips="clr-namespace:Gu.Wpf.ToolTips;assembly=Gu.Wpf.ToolTips"
                     mc:Ignorable="d">
 
     <ResourceDictionary.MergedDictionaries>
@@ -61,32 +60,4 @@
             <local:ConditionControl Condition="{Binding Condition}" />
         </Border>
     </DataTemplate>
-
-    <!--  Must have x:Shared="False" or else the same instance of tooltip is used.  -->
-    <Style x:Key="ConditionInfoStyle"
-           TargetType="{x:Type Button}"
-           x:Shared="False">
-        <Setter Property="toolTips:TouchToolTipService.IsOverlayVisible" Value="False" />
-        <Setter Property="toolTips:TouchToolTipService.ToolTip">
-            <Setter.Value>
-                <local:ConditionToolTip />
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="toolTips:TouchToolTipService.IsOverlayVisible" Value="True" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="ConditionDebugInfoStyle"
-           BasedOn="{StaticResource ConditionInfoStyle}"
-           TargetType="{x:Type Button}"
-           x:Shared="False">
-        <Setter Property="ToolTipService.ToolTip">
-            <Setter.Value>
-                <local:ConditionToolTip />
-            </Setter.Value>
-        </Setter>
-    </Style>
 </ResourceDictionary>
