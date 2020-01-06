@@ -30,12 +30,8 @@ namespace Gu.Reactive.Analyzers
 
         private static void Handle(SyntaxNodeAnalysisContext context)
         {
-            if (context.IsExcludedFromAnalysis())
-            {
-                return;
-            }
-
-            if (context.Node is ConstructorInitializerSyntax initializer &&
+            if (!context.IsExcludedFromAnalysis() &&
+                context.Node is ConstructorInitializerSyntax initializer &&
                 context.SemanticModel.GetSymbolSafe(initializer, context.CancellationToken) is { } baseCtor)
             {
                 if (baseCtor.ContainingType == KnownSymbol.Condition)

@@ -28,12 +28,8 @@ namespace Gu.Reactive.Analyzers
 
         private static void HandleInvocation(SyntaxNodeAnalysisContext context)
         {
-            if (context.IsExcludedFromAnalysis())
-            {
-                return;
-            }
-
-            if (context.Node is InvocationExpressionSyntax invocation &&
+            if (!context.IsExcludedFromAnalysis() &&
+                context.Node is InvocationExpressionSyntax invocation &&
                 context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) is { } method)
             {
                 if (method == KnownSymbol.NotifyPropertyChangedExt.ObserveFullPropertyPathSlim &&
