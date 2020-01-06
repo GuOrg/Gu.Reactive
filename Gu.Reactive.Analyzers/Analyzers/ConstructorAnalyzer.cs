@@ -31,7 +31,7 @@ namespace Gu.Reactive.Analyzers
         private static void Handle(SyntaxNodeAnalysisContext context)
         {
             if (!context.IsExcludedFromAnalysis() &&
-                context.Node is ConstructorInitializerSyntax initializer &&
+                context.Node is ConstructorInitializerSyntax { ArgumentList: { } } initializer &&
                 context.SemanticModel.GetSymbolSafe(initializer, context.CancellationToken) is { } baseCtor)
             {
                 if (baseCtor.ContainingType == KnownSymbol.Condition)
@@ -42,13 +42,13 @@ namespace Gu.Reactive.Analyzers
                     }
 
                     if (TryGetObservableArgument(initializer.ArgumentList, baseCtor, out var observableArgument) &&
-                        CanBeInlined(observableArgument, context, out _))
+                        FindInlineInvocation(observableArgument, context) is { })
                     {
                         context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA08InlineSingleLine, observableArgument.GetLocation()));
                     }
 
                     if (TryGetCriteriaArgument(initializer.ArgumentList, baseCtor, out var criteriaArgument) &&
-                        CanBeInlined(criteriaArgument, context, out var inline))
+                        FindInlineInvocation(criteriaArgument, context) is { } inline)
                     {
                         context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA08InlineSingleLine, inline.GetLocation()));
                     }
@@ -100,46 +100,32 @@ namespace Gu.Reactive.Analyzers
                    parameter1.Type == KnownSymbol.IObservableOfT;
         }
 
-        private static bool CanBeInlined(ArgumentSyntax argument, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out InvocationExpressionSyntax? result)
+        private static InvocationExpressionSyntax? FindInlineInvocation(ArgumentSyntax argument, SyntaxNodeAnalysisContext context)
         {
-            result = null;
-            if (argument == null)
+            return argument.Expression switch
             {
-                return false;
-            }
-
-            if (argument.Expression is InvocationExpressionSyntax argumentInvocation &&
-                CanBeInlined(argumentInvocation))
-            {
-                result = argumentInvocation;
-                return true;
-            }
-
-            if (argument.Expression is LambdaExpressionSyntax lambda &&
-                lambda.Body is InvocationExpressionSyntax lambdaInvocation &&
-                CanBeInlined(lambdaInvocation))
-            {
-                result = lambdaInvocation;
-                return true;
-            }
-
-            return false;
+                InvocationExpressionSyntax argumentInvocation
+                when CanBeInlined(argumentInvocation)
+                => argumentInvocation,
+                LambdaExpressionSyntax { Body: InvocationExpressionSyntax lambdaInvocation }
+                when CanBeInlined(lambdaInvocation)
+                => lambdaInvocation,
+                _ => null,
+            };
 
             bool CanBeInlined(InvocationExpressionSyntax invocation)
             {
                 if (context.SemanticModel.GetSymbolSafe(invocation, context.CancellationToken) is { IsStatic: true } method &&
                     method.TrySingleDeclaration<MethodDeclarationSyntax>(context.CancellationToken, out var declaration))
                 {
-                    if (declaration.ExpressionBody != null)
+                    return declaration switch
                     {
-                        return true;
-                    }
-
-                    if (declaration.Body is { Statements: { Count: 1 } statements } &&
-                        statements[0] is ReturnStatementSyntax)
-                    {
-                        return true;
-                    }
+                        { ExpressionBody: { } } => true,
+                        { Body: { Statements: { Count: 1 } statements } }
+                        when statements[0] is ReturnStatementSyntax _
+                        => true,
+                        _ => false,
+                    };
                 }
 
                 return false;

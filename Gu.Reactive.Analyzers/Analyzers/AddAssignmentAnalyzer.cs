@@ -24,7 +24,7 @@ namespace Gu.Reactive.Analyzers
         {
             if (!context.IsExcludedFromAnalysis() &&
                 context.Node is AssignmentExpressionSyntax { Left: { } left } assignment &&
-                assignment.FirstAncestor<ArgumentSyntax>() == null &&
+                assignment.FirstAncestor<ArgumentSyntax>() is null &&
                 context.SemanticModel.GetSymbolSafe(left, context.CancellationToken) is IEventSymbol _)
             {
                 context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA11PreferObservableFromEvent, assignment.GetLocation()));
