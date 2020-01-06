@@ -1,7 +1,6 @@
 namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
-    using System.Diagnostics.CodeAnalysis;
     using Gu.Roslyn.AnalyzerExtensions;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
@@ -97,19 +96,15 @@ namespace Gu.Reactive.Analyzers
 
         private static SyntaxNode? FindCanBeSlim(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context)
         {
-            if (invocation.FirstAncestor<ArgumentSyntax>() is { } argument)
+            if (invocation.FirstAncestor<ArgumentSyntax>() is { } argument &&
+                argument.TryGetParameter(context.SemanticModel, context.CancellationToken, out var parameter) &&
+                parameter.Type is INamedTypeSymbol { TypeArguments: { Length: 1 } } namedType &&
+                parameter.Type == KnownSymbol.IObservableOfT &&
+                namedType.TypeArguments[0] == KnownSymbol.Object)
             {
-                if (argument.TryGetParameter(context.SemanticModel, context.CancellationToken, out var parameter) &&
-                    parameter.Type == KnownSymbol.IObservableOfT)
-                {
-                    if (parameter.Type is INamedTypeSymbol namedType &&
-                        namedType.TypeArguments[0] == KnownSymbol.Object)
-                    {
-                        return invocation.Expression is MemberAccessExpressionSyntax memberAccess
-                            ? (SyntaxNode)memberAccess.Name
-                            : invocation;
-                    }
-                }
+                return invocation.Expression is MemberAccessExpressionSyntax memberAccess
+                    ? (SyntaxNode)memberAccess.Name
+                    : invocation;
             }
 
             if (invocation.FirstAncestor<InvocationExpressionSyntax>() is { ArgumentList: { Arguments: { Count: 1 } arguments } } parentInvocation &&
