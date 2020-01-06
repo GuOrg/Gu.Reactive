@@ -34,35 +34,31 @@ namespace Gu.Reactive.Analyzers
             {
                 if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out InvocationExpressionSyntax? invocation) &&
                     invocation.TryFirstAncestor(out ConstructorDeclarationSyntax? ctor) &&
-                    invocation.Expression is MemberAccessExpressionSyntax memberAccess)
+                    invocation.Expression is MemberAccessExpressionSyntax { Expression: { } condition } &&
+                    semanticModel.GetSymbolSafe(condition, context.CancellationToken) is IParameterSymbol parameter)
                 {
-                    var condition = memberAccess.Expression;
-                    var symbol = semanticModel.GetSymbolSafe(condition, context.CancellationToken);
-                    if (symbol is IParameterSymbol parameter)
+                    using (var pooled = IdentifierNameWalker.Borrow(ctor))
                     {
-                        using (var pooled = IdentifierNameWalker.Borrow(ctor))
+                        foreach (var name in pooled.IdentifierNames)
                         {
-                            foreach (var name in pooled.IdentifierNames)
+                            if (name.Identifier.ValueText == parameter.Name)
                             {
-                                if (name.Identifier.ValueText == parameter.Name)
+                                if (!condition.Contains(name))
                                 {
-                                    if (!condition.Contains(name))
-                                    {
-                                        return;
-                                    }
+                                    return;
                                 }
                             }
                         }
+                    }
 
-                        if (ctor.TryFindParameter(parameter.Name, out ParameterSyntax? parameterSyntax))
-                        {
-                            context.RegisterCodeFix(
-                                CodeAction.Create(
-                                    "Inject negated.",
-                                    cancellationToken => ApplyInjectNegatedFixAsync(context, parameterSyntax, invocation, cancellationToken),
-                                    nameof(InjectNegatedCodeFix)),
-                                diagnostic);
-                        }
+                    if (ctor.TryFindParameter(parameter.Name, out ParameterSyntax? parameterSyntax))
+                    {
+                        context.RegisterCodeFix(
+                            CodeAction.Create(
+                                "Inject negated.",
+                                cancellationToken => ApplyInjectNegatedFixAsync(context, parameterSyntax, invocation, cancellationToken),
+                                nameof(InjectNegatedCodeFix)),
+                            diagnostic);
                     }
                 }
             }

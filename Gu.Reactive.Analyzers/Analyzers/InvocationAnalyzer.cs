@@ -97,9 +97,8 @@ namespace Gu.Reactive.Analyzers
         private static SyntaxNode? FindCanBeSlim(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context)
         {
             if (invocation.FirstAncestor<ArgumentSyntax>() is { } argument &&
-                argument.TryGetParameter(context.SemanticModel, context.CancellationToken, out var parameter) &&
-                parameter.Type is INamedTypeSymbol { TypeArguments: { Length: 1 } } namedType &&
-                parameter.Type == KnownSymbol.IObservableOfT &&
+                FindContainingParameter() is { Type: INamedTypeSymbol { TypeArguments: { Length: 1 } } namedType } &&
+                namedType == KnownSymbol.IObservableOfT &&
                 namedType.TypeArguments[0] == KnownSymbol.Object)
             {
                 return invocation.Expression is MemberAccessExpressionSyntax memberAccess
@@ -123,6 +122,18 @@ namespace Gu.Reactive.Analyzers
             }
 
             return null;
+
+            IParameterSymbol? FindContainingParameter()
+            {
+                if (argument is { Parent: ArgumentListSyntax { Parent: { } parent } } &&
+                    context.SemanticModel.TryGetSymbol(parent, context.CancellationToken, out IMethodSymbol? method) &&
+                    method.TryFindParameter(argument, out var result))
+                {
+                    return result;
+                }
+
+                return null;
+            }
         }
 
         private static bool IsMutable(ISymbol symbol)
