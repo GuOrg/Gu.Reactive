@@ -17,7 +17,7 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    internal class Foo : INotifyPropertyChanged
+    internal class C1 : INotifyPropertyChanged
     {
         private int _value;
 
@@ -48,22 +48,22 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"namespace RoslynSandbox
+            var code = @"namespace RoslynSandbox
 {
     using System;
     using Gu.Reactive;
 
-    internal class Meh
+    internal class C2
     {
-        public Meh()
+        public C2()
         {
-            var foo = new Foo();
-            foo.ObservePropertyChangedSlim(x => x.Value)
-               .Subscribe(_ => Console.WriteLine(""meh""));
+            var c1 = new C1();
+            c1.ObservePropertyChangedSlim(x => x.Value)
+              .Subscribe(_ => Console.WriteLine(""c""));
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, fooCode, code);
         }
 
         [Test]
@@ -75,7 +75,7 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    internal class Foo : INotifyPropertyChanged
+    internal class C1 : INotifyPropertyChanged
     {
         private int _value;
 
@@ -111,16 +111,16 @@ namespace RoslynSandbox
     using System;
     using Gu.Reactive;
 
-    internal class Meh
+    internal class C2
     {
-        public Meh()
+        public C2()
         {
-            this.Foo = new Foo();
-            this.Foo.ObservePropertyChanged(x => x.Value)
-                    .Subscribe(x => Console.WriteLine(x));
+            this.C1 = new C1();
+            this.C1.ObservePropertyChanged(x => x.Value)
+                   .Subscribe(x => Console.WriteLine(x));
         }
 
-        public Foo Foo { get; }
+        public C1 C1 { get; }
     }
 }";
             RoslynAssert.Valid(Analyzer, fooCode, testCode);

@@ -153,9 +153,8 @@ namespace Gu.Reactive.Analyzers
             {
                 if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
                 {
-                    if (lambda.Body is MemberAccessExpressionSyntax _)
+                    if (lambda.Body is MemberAccessExpressionSyntax memberAccess)
                     {
-                        var memberAccess = lambda.Body as MemberAccessExpressionSyntax;
                         while (memberAccess != null)
                         {
                             var symbol = context.SemanticModel.GetSymbolSafe(memberAccess, context.CancellationToken);
@@ -196,7 +195,9 @@ namespace Gu.Reactive.Analyzers
                                 }
                             }
 
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                             memberAccess = memberAccess.Expression as MemberAccessExpressionSyntax;
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
                         }
                     }
                     else

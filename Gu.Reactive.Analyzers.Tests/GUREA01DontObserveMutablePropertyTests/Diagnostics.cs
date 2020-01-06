@@ -18,7 +18,7 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    internal class Foo : INotifyPropertyChanged
+    internal class C1 : INotifyPropertyChanged
     {
         private int _value;
 
@@ -55,16 +55,16 @@ namespace RoslynSandbox
     using System;
     using Gu.Reactive;
 
-    internal class Meh
+    internal class C2
     {
-        public Meh()
+        public C2()
         {
-            this.Foo = new Foo();
-            this.Foo.↓ObserveFullPropertyPathSlim(x => x.Value)
-                    .Subscribe(_ => Console.WriteLine(""meh""));
+            this.C1 = new C1();
+            this.C1.↓ObserveFullPropertyPathSlim(x => x.Value)
+                   .Subscribe(_ => Console.WriteLine(""c2""));
         }
 
-        public Foo Foo { get; set; }
+        public C1 C1 { get; set; }
     }
 }";
             RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, code);
