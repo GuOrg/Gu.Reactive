@@ -7,14 +7,14 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
     {
         public static class ActionOfInt
         {
-            private const string FooCode = @"
+            private const string CCode = @"
 namespace RoslynSandbox
 {
     using System;
 
-    public class Foo
+    public class C
     {
-        public event Action<int> SomeEvent;
+        public event Action<int> E;
     }
 }";
 
@@ -26,12 +26,12 @@ namespace RoslynSandbox
 {
     using System;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
-            ↓foo.SomeEvent += (sender, i) => Console.WriteLine(string.Empty);
+            var C = new C();
+            ↓C.E += (sender, i) => Console.WriteLine(string.Empty);
         }
     }
 }";
@@ -42,20 +42,20 @@ namespace RoslynSandbox
     using System;
     using System.Reactive.Linq;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
+            var C = new C();
             Observable.FromEvent<Action<int>, int>(
-                h => foo.SomeEvent += h,
-                h => foo.SomeEvent -= h)
+                h => C.E += h,
+                h => C.E -= h)
                       .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
 }";
 
-                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, before }, after);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { CCode, before }, after);
             }
 
             [Test]
@@ -66,12 +66,12 @@ namespace RoslynSandbox
 {
     using System;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
-            ↓foo.SomeEvent += (sender, i) => Console.WriteLine(i);
+            var C = new C();
+            ↓C.E += (sender, i) => Console.WriteLine(i);
         }
     }
 }";
@@ -82,19 +82,19 @@ namespace RoslynSandbox
     using System;
     using System.Reactive.Linq;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
+            var C = new C();
             Observable.FromEvent<Action<int>, int>(
-                h => foo.SomeEvent += h,
-                h => foo.SomeEvent -= h)
+                h => C.E += h,
+                h => C.E -= h)
                       .Subscribe(i => Console.WriteLine(i));
         }
     }
 }";
-                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, before }, after);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { CCode, before }, after);
             }
 
             [Test]
@@ -105,15 +105,15 @@ namespace RoslynSandbox
 {
     using System;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
-            ↓foo.SomeEvent += this.OnSomeEvent;
+            var C = new C();
+            ↓C.E += this.OnE;
         }
 
-        private void OnSomeEvent(int i)
+        private void OnE(int i)
         {
             Console.WriteLine(string.Empty);
         }
@@ -126,24 +126,24 @@ namespace RoslynSandbox
     using System;
     using System.Reactive.Linq;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
+            var C = new C();
             Observable.FromEvent<Action<int>, int>(
-                h => foo.SomeEvent += h,
-                h => foo.SomeEvent -= h)
-                      .Subscribe(_ => OnSomeEvent());
+                h => C.E += h,
+                h => C.E -= h)
+                      .Subscribe(_ => OnE());
         }
 
-        private void OnSomeEvent()
+        private void OnE()
         {
             Console.WriteLine(string.Empty);
         }
     }
 }";
-                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, before }, after);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { CCode, before }, after);
             }
 
             [Test]
@@ -154,15 +154,15 @@ namespace RoslynSandbox
 {
     using System;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
-            ↓foo.SomeEvent += this.OnSomeEvent;
+            var C = new C();
+            ↓C.E += this.OnE;
         }
 
-        private void OnSomeEvent(int i)
+        private void OnE(int i)
         {
             Console.WriteLine(i);
         }
@@ -175,24 +175,24 @@ namespace RoslynSandbox
     using System;
     using System.Reactive.Linq;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
+            var C = new C();
             Observable.FromEvent<Action<int>, int>(
-                h => foo.SomeEvent += h,
-                h => foo.SomeEvent -= h)
-                      .Subscribe(OnSomeEvent);
+                h => C.E += h,
+                h => C.E -= h)
+                      .Subscribe(OnE);
         }
 
-        private void OnSomeEvent(int i)
+        private void OnE(int i)
         {
             Console.WriteLine(i);
         }
     }
 }";
-                RoslynAssert.CodeFix(Analyzer, Fix, new[] { FooCode, before }, after);
+                RoslynAssert.CodeFix(Analyzer, Fix, new[] { CCode, before }, after);
             }
         }
     }

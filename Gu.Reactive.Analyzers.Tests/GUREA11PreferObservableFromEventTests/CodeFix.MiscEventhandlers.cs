@@ -16,9 +16,9 @@ namespace RoslynSandbox
     using System;
     using System.IO;
 
-    internal class Foo
+    internal class C
     {
-        public Foo()
+        public C()
         {
             var watcher = new FileSystemWatcher();
             ↓watcher.Created += (sender, args) => { };
@@ -33,9 +33,9 @@ namespace RoslynSandbox
     using System.IO;
     using System.Reactive.Linq;
 
-    internal class Foo
+    internal class C
     {
-        public Foo()
+        public C()
         {
             var watcher = new FileSystemWatcher();
             Observable.FromEvent<FileSystemEventHandler, FileSystemEventArgs>(

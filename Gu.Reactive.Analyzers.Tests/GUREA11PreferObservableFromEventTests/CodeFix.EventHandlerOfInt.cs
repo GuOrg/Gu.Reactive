@@ -26,9 +26,9 @@ namespace RoslynSandbox
 {
     using System;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
             var foo = new Foo();
             ↓foo.SomeEvent += (sender, i) => Console.WriteLine(string.Empty);
@@ -42,9 +42,9 @@ namespace RoslynSandbox
     using System;
     using System.Reactive.Linq;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
             var foo = new Foo();
             Observable.FromEvent<EventHandler<int>, int>(
@@ -66,9 +66,9 @@ namespace RoslynSandbox
 {
     using System;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
             var foo = new Foo();
             ↓foo.SomeEvent += (sender, i) => Console.WriteLine(i);
@@ -82,9 +82,9 @@ namespace RoslynSandbox
     using System;
     using System.Reactive.Linq;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
             var foo = new Foo();
             Observable.FromEvent<EventHandler<int>, int>(
@@ -106,9 +106,9 @@ namespace RoslynSandbox
 {
     using System;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
             var foo = new Foo();
             ↓foo.SomeEvent += this.OnSomeEvent;
@@ -127,9 +127,9 @@ namespace RoslynSandbox
     using System;
     using System.Reactive.Linq;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
             var foo = new Foo();
             Observable.FromEvent<EventHandler<int>, int>(
@@ -156,9 +156,9 @@ namespace RoslynSandbox
 {
     using System;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
             var foo = new Foo();
             ↓foo.SomeEvent += this.OnSomeEvent;
@@ -177,9 +177,9 @@ namespace RoslynSandbox
     using System;
     using System.Reactive.Linq;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
             var foo = new Foo();
             Observable.FromEvent<EventHandler<int>, int>(

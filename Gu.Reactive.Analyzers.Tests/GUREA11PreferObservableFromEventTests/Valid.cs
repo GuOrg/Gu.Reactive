@@ -76,7 +76,7 @@ namespace RoslynSandbox
 {
     using System;
 
-    public class Foo
+    public class C1
     {
         public event EventHandler<int> SomeEvent;
     }
@@ -88,15 +88,15 @@ namespace RoslynSandbox
     using System;
     using System.Reactive.Linq;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
+            var c1 = new C1();
             using (Observable.FromEvent<EventHandler<int>, int>(
                                  h => (_, e) => h(e),
-                                 h => foo.SomeEvent += h,
-                                 h => foo.SomeEvent -= h)
+                                 h => c1.SomeEvent += h,
+                                 h => c1.SomeEvent -= h)
                              .Subscribe(_ => Console.WriteLine(string.Empty)))
             {
             }

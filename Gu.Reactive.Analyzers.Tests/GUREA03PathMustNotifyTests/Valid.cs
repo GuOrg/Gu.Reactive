@@ -17,7 +17,7 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
         private int value;
 
@@ -54,12 +54,12 @@ namespace RoslynSandbox
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
-            foo.ObservePropertyChanged(x => x.Value)
+            var c1 = new C1();
+            c1.ObservePropertyChanged(x => x.Value)
                .Subscribe(x => Console.WriteLine(x));
         }
     }
@@ -76,7 +76,7 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -94,12 +94,12 @@ namespace RoslynSandbox
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
-            foo.ObservePropertyChanged(x => x.Value)
+            var c1 = new C1();
+            c1.ObservePropertyChanged(x => x.Value)
                .Subscribe(x => Console.WriteLine(x));
         }
     }
@@ -116,9 +116,9 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public interface IFoo : INotifyPropertyChanged
+    public interface I : INotifyPropertyChanged
     {
-        int Value { get; set; }
+        int P { get; set; }
     }
 }";
             var testCode = @"
@@ -127,11 +127,11 @@ namespace RoslynSandbox
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C
     {
-        public Bar(IFoo foo)
+        public C(I i)
         {
-            foo.ObservePropertyChanged(x => x.Value)
+            i.ObservePropertyChanged(x => x.P)
                .Subscribe(x => Console.WriteLine(x));
         }
     }
@@ -148,12 +148,12 @@ namespace RoslynSandbox
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C
     {
-        public Bar(System.Collections.ObjectModel.ObservableCollection<int> foo)
+        public C(System.Collections.ObjectModel.ObservableCollection<int> xs)
         {
-            foo.ObservePropertyChanged(x => x.Count)
-               .Subscribe(x => Console.WriteLine(x));
+            xs.ObservePropertyChanged(x => x.Count)
+              .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";
@@ -169,9 +169,9 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public interface IFoo : INotifyPropertyChanged
+    public interface I : INotifyPropertyChanged
     {
-        int Value { get; }
+        int P { get; }
     }
 }";
             var testCode = @"
@@ -182,10 +182,10 @@ namespace RoslynSandbox
 
     public class Bar
     {
-        public Bar(IFoo foo)
+        public Bar(I i)
         {
-            foo.ObservePropertyChanged(x => x.Value)
-               .Subscribe(x => Console.WriteLine(x));
+            i.ObservePropertyChanged(x => x.P)
+             .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";
@@ -201,9 +201,9 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public interface IFoo : INotifyPropertyChanged
+    public interface I : INotifyPropertyChanged
     {
-        int Value { get; }
+        int P { get; }
     }
 }";
             var testCode = @"
@@ -212,13 +212,13 @@ namespace RoslynSandbox
     using System;
     using Gu.Reactive;
 
-    public class Bar<T>
-        where T : class, IFoo
+    public class C<T>
+        where T : class, I
     {
-        public Bar(T foo)
+        public C(T t)
         {
-            foo.ObservePropertyChanged(x => x.Value)
-               .Subscribe(x => Console.WriteLine(x));
+            t.ObservePropertyChanged(x => x.P)
+             .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";
