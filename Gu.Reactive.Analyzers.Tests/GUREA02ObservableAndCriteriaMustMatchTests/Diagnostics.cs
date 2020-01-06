@@ -9,53 +9,53 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA02ObservableAndCriteriaMustMatchTests
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA02ObservableAndCriteriaMustMatch);
 
-        private const string FooCode = @"
+        private const string C1 = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
-        private int value1;
-        private int value2;
+        private int p1;
+        private int p2;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Value1
+        public int P1
         {
             get
             {
-                return this.value1;
+                return this.p1;
             }
 
             set
             {
-                if (value == this.value1)
+                if (value == this.p1)
                 {
                     return;
                 }
 
-                this.value1 = value;
+                this.p1 = value;
                 this.OnPropertyChanged();
             }
         }
 
-        public int Value2
+        public int P2
         {
             get
             {
-                return this.value2;
+                return this.p2;
             }
 
             set
             {
-                if (value == this.value2)
+                if (value == this.p2)
                 {
                     return;
                 }
 
-                this.value2 = value;
+                this.p2 = value;
                 this.OnPropertyChanged();
             }
         }
@@ -75,24 +75,24 @@ namespace RoslynSandbox
 {
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class C1Condition : Condition
     {
-        public FooCondition(Foo foo)
+        public C1Condition(C1 C1)
             ↓: base(
-                foo.ObservePropertyChangedSlim(x => x.Value1),
-                () => foo.Value2 == 2)
+                C1.ObservePropertyChangedSlim(x => x.P1),
+                () => C1.P2 == 2)
         {
         }
     }
 }";
             var message = "Observable and criteria must match.\r\n" +
                            "Observed:\r\n" +
-                           "  RoslynSandbox.Foo.Value1\r\n" +
+                           "  RoslynSandbox.C1.P1\r\n" +
                            "Used in criteria:\r\n" +
-                           "  RoslynSandbox.Foo.Value2\r\n" +
+                           "  RoslynSandbox.C1.P2\r\n" +
                            "Not observed:\r\n" +
-                           "  RoslynSandbox.Foo.Value2";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), FooCode, code);
+                           "  RoslynSandbox.C1.P2";
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), C1, code);
         }
 
         [Test]
@@ -103,26 +103,26 @@ namespace RoslynSandbox
 {
     using Gu.Reactive;
 
-    class Bar
+    class C2
     {
         public static ICondition Create()
         {
-            var foo = new Foo();
+            var C1 = new C1();
             return ↓new Condition(
-                foo.ObservePropertyChangedSlim(x => x.Value1),
-                () => foo.Value2 == 2);
+                C1.ObservePropertyChangedSlim(x => x.P1),
+                () => C1.P2 == 2);
         }
     }
 }";
             var message = "Observable and criteria must match.\r\n" +
                           "Observed:\r\n" +
-                          "  RoslynSandbox.Foo.Value1\r\n" +
+                          "  RoslynSandbox.C1.P1\r\n" +
                           "Used in criteria:\r\n" +
-                          "  RoslynSandbox.Foo.Value2\r\n" +
+                          "  RoslynSandbox.C1.P2\r\n" +
                           "Not observed:\r\n" +
-                          "  RoslynSandbox.Foo.Value2";
+                          "  RoslynSandbox.C1.P2";
 
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), FooCode, code);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), C1, code);
         }
     }
 }

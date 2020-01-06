@@ -8,50 +8,50 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA02ObservableAndCriteriaMustMatchTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 
-        private const string FooCode = @"
+        private const string C = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C : INotifyPropertyChanged
     {
-        private int value1;
-        private int value2;
+        private int p1;
+        private int p2;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Value1
+        public int P1
         {
-            get => this.value1;
+            get => this.p1;
 
             set
             {
-                if (value == this.value1)
+                if (value == this.p1)
                 {
                     return;
                 }
 
-                this.value1 = value;
+                this.p1 = value;
                 this.OnPropertyChanged();
             }
         }
 
-        public int Value2
+        public int P2
         {
             get
             {
-                return this.value2;
+                return this.p2;
             }
 
             set
             {
-                if (value == this.value2)
+                if (value == this.p2)
                 {
                     return;
                 }
 
-                this.value2 = value;
+                this.p2 = value;
                 this.OnPropertyChanged();
             }
         }
@@ -66,22 +66,22 @@ namespace RoslynSandbox
         [Test]
         public static void CorrectBaseCall()
         {
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class P1Condition : Condition
     {
-        public FooCondition(Foo foo)
+        public P1Condition(C c)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value1),
-                () => foo.Value1 == 2)
+                c.ObservePropertyChangedSlim(x => x.P1),
+                () => c.P1 == 2)
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, C, code);
         }
 
         [Test]
@@ -95,9 +95,9 @@ namespace RoslynSandbox
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class P1Condition : Condition
     {
-        public FooCondition(IScheduler scheduler)
+        public P1Condition(IScheduler scheduler)
             : base(
                 Observable.Interval(TimeSpan.FromSeconds(1)).Select(x => (object) x),
                 () => scheduler.Now > DateTimeOffset.Now)
@@ -111,7 +111,7 @@ namespace RoslynSandbox
         [Test]
         public static void PropertyAndSchedulerNow()
         {
-            var testCode = @"
+            var code = @"
 #pragma warning disable GUREA10 // Split up into two conditions?
 namespace RoslynSandbox
 {
@@ -120,71 +120,70 @@ namespace RoslynSandbox
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class P1Condition : Condition
     {
-        public FooCondition(Foo foo, IScheduler scheduler)
+        public P1Condition(C c, IScheduler scheduler)
             : base(
                 Observable.Merge(
-                    foo.ObservePropertyChangedSlim(x => x.Value1),
+                    c.ObservePropertyChangedSlim(x => x.P1),
                     Observable.Interval(TimeSpan.FromSeconds(1)).Select(x => (object) x)),
-                () => foo.Value1 == 2 &&
+                () => c.P1 == 2 &&
                       scheduler.Now > DateTimeOffset.Now)
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, C, code);
         }
 
         [Test]
         public static void CorrectNew()
         {
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
 
-    class Bar
+    class C1
     {
         public static ICondition Create()
         {
-            var foo = new Foo();
+            var c = new C();
             return new Condition(
-                foo.ObservePropertyChangedSlim(x => x.Value1),
-                () => foo.Value1 == 2);
+                c.ObservePropertyChangedSlim(x => x.P1),
+                () => c.P1 == 2);
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, Descriptors.GUREA02ObservableAndCriteriaMustMatch, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, Descriptors.GUREA02ObservableAndCriteriaMustMatch, C, code);
         }
 
         [Test]
         public static void WhenUsingImmutableProperty()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public sealed class Foo : INotifyPropertyChanged
+    public sealed class C1 : INotifyPropertyChanged
     {
-        private Bar bar;
+        private C2 p;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Bar Bar
+        public C2 P
         {
-            get => this.bar;
-
+            get => this.p;
             set
             {
-                if (ReferenceEquals(value, this.bar))
+                if (ReferenceEquals(value, this.p))
                 {
                     return;
                 }
 
-                this.bar = value;
+                this.p = value;
                 this.OnPropertyChanged();
             }
         }
@@ -196,12 +195,12 @@ namespace RoslynSandbox
     }
 }";
 
-            var barCode = @"
+            var c2 = @"
 namespace RoslynSandbox
 {
-    public class Bar
+    public class C2
     {
-        public Bar(int value)
+        public C2(int value)
         {
             Value = value;
         }
@@ -209,51 +208,51 @@ namespace RoslynSandbox
         public int Value { get; }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class PCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public PCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Bar),
-                () => foo.Bar.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.P),
+                () => c1.P.Value == 2)
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, barCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, c2, code);
         }
 
         [Test]
         public static void WhenUsingPrivateSetPropertyOnlyAssignedInCtor()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public sealed class Foo : INotifyPropertyChanged
+    public sealed class C1 : INotifyPropertyChanged
     {
-        private Bar bar;
+        private C2 p;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Bar Bar
+        public C2 P
         {
-            get => this.bar;
+            get => this.p;
 
             set
             {
-                if (ReferenceEquals(value, this.bar))
+                if (ReferenceEquals(value, this.p))
                 {
                     return;
                 }
 
-                this.bar = value;
+                this.p = value;
                 this.OnPropertyChanged();
             }
         }
@@ -265,12 +264,12 @@ namespace RoslynSandbox
     }
 }";
 
-            var barCode = @"
+            var c2 = @"
 namespace RoslynSandbox
 {
-    public class Bar
+    public class C2
     {
-        public Bar(int value)
+        public C2(int value)
         {
             Value = value;
         }
@@ -278,34 +277,34 @@ namespace RoslynSandbox
         public int Value { get; private set; }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class CCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public CCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Bar),
-                () => foo.Bar.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.P),
+                () => c1.P.Value == 2)
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, barCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, c2, code);
         }
 
         [Test]
         public static void WhenUsingNullableValue()
         {
-            var fooCode = @"
+            var c = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public sealed class Foo : INotifyPropertyChanged
+    public sealed class C : INotifyPropertyChanged
     {
         private int? value;
 
@@ -334,35 +333,35 @@ namespace RoslynSandbox
     }
 }";
 
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C c)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => { return foo.Value == null ? (bool?)null : foo.Value.Value == 1; })
+                c.ObservePropertyChangedSlim(x => x.Value),
+                () => { return c.Value == null ? (bool?)null : c.Value.Value == 1; })
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c, code);
         }
 
         [Test]
         public static void IgnoreUsageInThrowOneLevel()
         {
-            var fooCode = @"
+            var c = @"
 namespace RoslynSandbox
 {
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public sealed class Foo : INotifyPropertyChanged, IDisposable
+    public sealed class C : INotifyPropertyChanged, IDisposable
     {
         private int value;
         private bool disposed;
@@ -414,58 +413,58 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C c)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c.ObservePropertyChangedSlim(x => x.Value),
+                () => c.Value == 2)
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c, code);
         }
 
         [Test]
         public static void IgnoreUsageInThrowTwoLevels()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace RoslynSandbox
 {
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public sealed class Foo : INotifyPropertyChanged, IDisposable
+    public sealed class C1 : INotifyPropertyChanged, IDisposable
     {
         private bool disposed;
-        private Bar bar;
+        private C2 p;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Bar Bar
+        public C2 P
         {
             get
             {
                 ThrowIfDisposed();
-                return this.bar;
+                return this.p;
             }
 
             set
             {
                 ThrowIfDisposed();
-                if (ReferenceEquals(value, this.bar))
+                if (ReferenceEquals(value, this.p))
                 {
                     return;
                 }
 
-                this.bar = value;
+                this.p = value;
                 this.OnPropertyChanged();
             }
         }
@@ -494,14 +493,14 @@ namespace RoslynSandbox
         }
     }
 }";
-            var barCode = @"
+            var c2 = @"
 namespace RoslynSandbox
 {
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Bar : INotifyPropertyChanged, IDisposable
+    public class C2 : INotifyPropertyChanged, IDisposable
     {
         private int value;
         private bool disposed;
@@ -547,34 +546,34 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Bar.Value),
-                () => foo.Bar?.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.P.Value),
+                () => c1.P?.Value == 2)
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, barCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, c2, code);
         }
 
         [Test]
         public static void IgnoreTypeofFullName()
         {
-            var fooCode = @"
+            var c = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C : INotifyPropertyChanged
     {
         private string text;
 
@@ -602,34 +601,34 @@ namespace RoslynSandbox
     }
 }";
 
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class TextCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public TextCondition(C c)
             : base(
-                foo.ObservePropertyChanged(x => x.Text),
-                () => foo.Text == typeof(Foo).FullName)
+                c.ObservePropertyChanged(x => x.Text),
+                () => c.Text == typeof(C).FullName)
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c, code);
         }
 
         [Test]
         public static void IgnoreRegex()
         {
-            var fooCode = @"
+            var c = @"
 namespace RoslynSandbox
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C : INotifyPropertyChanged
     {
         private string text;
 
@@ -657,24 +656,24 @@ namespace RoslynSandbox
     }
 }";
 
-            var testCode = @"
+            var code = @"
 namespace RoslynSandbox
 {
     using System.Text.RegularExpressions;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class CCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public CCondition(C c)
             : base(
-                foo.ObservePropertyChanged(x => x.Text),
-                () => Criteria(foo))
+                c.ObservePropertyChanged(x => x.Text),
+                () => Criteria(c))
         {
         }
 
-        private static bool? Criteria(Foo foo)
+        private static bool? Criteria(C c)
         {
-            if (foo.Text is string text)
+            if (c.Text is string text)
             {
                 var match = Regex.Match(text, string.Empty);
                 return match.Success &&
@@ -686,7 +685,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c, code);
         }
     }
 }
