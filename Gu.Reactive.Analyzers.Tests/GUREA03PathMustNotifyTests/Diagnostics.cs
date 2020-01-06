@@ -18,7 +18,7 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
         private int value;
 
@@ -38,12 +38,12 @@ namespace RoslynSandbox
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
-            foo.ObservePropertyChanged(x => x.↓Value)
+            var c1 = new C1();
+            c1.ObservePropertyChanged(x => x.↓Value)
                .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
@@ -60,7 +60,7 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
         private int value;
 
@@ -80,12 +80,12 @@ namespace RoslynSandbox
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C2
     {
-        public Bar()
+        public C2()
         {
-            var foo = new Foo();
-            foo.ObservePropertyChanged(↓x => x.ToString())
+            var c1 = new C1();
+            c1.ObservePropertyChanged(↓x => x.ToString())
                .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
@@ -100,13 +100,12 @@ namespace RoslynSandbox
 namespace RoslynSandbox
 {
     using System.ComponentModel;
-    using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Bar Bar { get; set; }
+        public C2 P { get; set; }
     }
 }";
             var barCode = @"
@@ -115,7 +114,7 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Bar : INotifyPropertyChanged
+    public class C2 : INotifyPropertyChanged
     {
         private int value;
 
@@ -152,12 +151,12 @@ namespace RoslynSandbox
     using System;
     using Gu.Reactive;
 
-    public class Baz
+    public class C3
     {
-        public Baz()
+        public C3()
         {
-            var foo = new Foo();
-            foo.ObservePropertyChanged(x => x.↓Bar.Value)
+            var c1 = new C1();
+            c1.ObservePropertyChanged(x => x.↓P.Value)
                .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
@@ -174,27 +173,23 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
-        private Bar bar;
+        private C2 p;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Bar Bar
+        public C2 P
         {
-            get
-            {
-                return this.bar;
-            }
-
+            get => this.p;
             set
             {
-                if (value == this.bar)
+                if (value == this.p)
                 {
                     return;
                 }
 
-                this.bar = value;
+                this.p = value;
                 this.OnPropertyChanged();
             }
         }
@@ -211,7 +206,7 @@ namespace RoslynSandbox
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Bar : INotifyPropertyChanged
+    public class C2 : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -229,12 +224,12 @@ namespace RoslynSandbox
     using System;
     using Gu.Reactive;
 
-    public class Baz
+    public class C3
     {
-        public Baz()
+        public C3()
         {
-            var foo = new Foo();
-            foo.ObservePropertyChanged(x => x.Bar.↓Value)
+            var c1 = new C1();
+            c1.ObservePropertyChanged(x => x.P.↓Value)
                .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
