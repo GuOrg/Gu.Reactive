@@ -12,7 +12,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
         public static void WhenSingleLine()
         {
             var fooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -49,7 +49,7 @@ namespace RoslynSandbox
     }
 }";
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;

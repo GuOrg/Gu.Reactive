@@ -13,7 +13,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA05FullPathMustHaveMoreThanOneItemTest
         public static void OneLevel()
         {
             var fooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -50,7 +50,7 @@ namespace RoslynSandbox
     }
 }";
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;

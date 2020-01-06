@@ -9,7 +9,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
         private const string FooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -50,7 +50,7 @@ namespace RoslynSandbox
         public static void WhenPassingSlimToConditionCtor()
         {
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -71,7 +71,7 @@ namespace RoslynSandbox
         public static void WhenSubscribingToSlimNotUsingArg()
         {
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -93,7 +93,7 @@ namespace RoslynSandbox
         public static void WhenSubscribingToSlimUsingArg()
         {
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;

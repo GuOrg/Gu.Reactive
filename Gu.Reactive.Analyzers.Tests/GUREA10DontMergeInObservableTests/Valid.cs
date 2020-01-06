@@ -9,7 +9,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 
         private const string FooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -50,7 +50,7 @@ namespace RoslynSandbox
         public static void WhenNoMerge()
         {
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;

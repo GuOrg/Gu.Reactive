@@ -11,7 +11,7 @@ namespace Gu.Reactive.Analyzers
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(UseSlimCodeFix))]
     [Shared]
-    public class UseSlimCodeFix : DocumentEditorCodeFixProvider
+    internal class UseSlimCodeFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             Descriptors.GUREA04PreferSlimOverload.Id);

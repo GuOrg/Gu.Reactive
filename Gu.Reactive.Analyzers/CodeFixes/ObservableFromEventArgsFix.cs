@@ -12,7 +12,7 @@ namespace Gu.Reactive.Analyzers
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ObservableFromEventArgsFix))]
     [Shared]
-    public class ObservableFromEventArgsFix : DocumentEditorCodeFixProvider
+    internal class ObservableFromEventArgsFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             Descriptors.GUREA12ObservableFromEventDelegateType.Id);

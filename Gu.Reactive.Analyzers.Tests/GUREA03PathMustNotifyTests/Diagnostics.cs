@@ -12,8 +12,8 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA03PathMustNotifyTests
         [Test]
         public static void OneLevel()
         {
-            var fooCode = @"
-namespace RoslynSandbox
+            var c1 = @"
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -33,7 +33,7 @@ namespace RoslynSandbox
     }
 }";
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -48,14 +48,14 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, code);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, c1, code);
         }
 
         [Test]
         public static void OneLevelMethod()
         {
-            var fooCode = @"
-namespace RoslynSandbox
+            var c1 = @"
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -75,7 +75,7 @@ namespace RoslynSandbox
     }
 }";
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -90,14 +90,14 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, code);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, c1, code);
         }
 
         [Test]
         public static void TwoLevelsFirstNotNotifying()
         {
-            var fooCode = @"
-namespace RoslynSandbox
+            var c1 = @"
+namespace N
 {
     using System.ComponentModel;
 
@@ -108,8 +108,8 @@ namespace RoslynSandbox
         public C2 P { get; set; }
     }
 }";
-            var barCode = @"
-namespace RoslynSandbox
+            var c2 = @"
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -146,7 +146,7 @@ namespace RoslynSandbox
     }
 }";
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -161,14 +161,14 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, barCode, code);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, c1, c2, code);
         }
 
         [Test]
         public static void TwoLevelsLastNotNotifying()
         {
-            var fooCode = @"
-namespace RoslynSandbox
+            var c1 = @"
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -200,8 +200,8 @@ namespace RoslynSandbox
         }
     }
 }";
-            var barCode = @"
-namespace RoslynSandbox
+            var c2 = @"
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -219,7 +219,7 @@ namespace RoslynSandbox
     }
 }";
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -234,7 +234,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, barCode, code);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, c1, c2, code);
         }
     }
 }

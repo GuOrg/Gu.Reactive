@@ -12,7 +12,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA08InlineSingleLine);
 
         private const string FooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -53,7 +53,7 @@ namespace RoslynSandbox
         public static void WhenCreateObservableIsSingleLine()
         {
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.ComponentModel;
@@ -76,7 +76,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.ComponentModel;
@@ -99,7 +99,7 @@ namespace RoslynSandbox
         public static void WhenCriteriaIsSingleLineStatementBody()
         {
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -120,7 +120,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -141,7 +141,7 @@ namespace RoslynSandbox
         public static void WhenCriteriaIsSingleLineExpressionBody()
         {
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -159,7 +159,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 

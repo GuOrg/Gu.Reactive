@@ -11,7 +11,7 @@ namespace Gu.Reactive.Analyzers
     using Microsoft.CodeAnalysis.Diagnostics;
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class ConstructorAnalyzer : DiagnosticAnalyzer
+    internal class ConstructorAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             Descriptors.GUREA02ObservableAndCriteriaMustMatch,

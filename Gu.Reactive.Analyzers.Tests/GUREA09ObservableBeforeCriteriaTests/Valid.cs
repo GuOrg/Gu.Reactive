@@ -11,7 +11,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
         private static readonly DiagnosticDescriptor Descriptor = Descriptors.GUREA09ObservableBeforeCriteria;
 
         private const string FooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -52,7 +52,7 @@ namespace RoslynSandbox
         public static void BaseCall()
         {
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -74,7 +74,7 @@ namespace RoslynSandbox
         public static void CorrectNew()
         {
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 

@@ -10,7 +10,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA02ObservableAndCriteriaMustMatchTests
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA02ObservableAndCriteriaMustMatch);
 
         private const string C1 = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -71,7 +71,7 @@ namespace RoslynSandbox
         public static void BaseCall()
         {
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -87,11 +87,11 @@ namespace RoslynSandbox
 }";
             var message = "Observable and criteria must match.\r\n" +
                            "Observed:\r\n" +
-                           "  RoslynSandbox.C1.P1\r\n" +
+                           "  N.C1.P1\r\n" +
                            "Used in criteria:\r\n" +
-                           "  RoslynSandbox.C1.P2\r\n" +
+                           "  N.C1.P2\r\n" +
                            "Not observed:\r\n" +
-                           "  RoslynSandbox.C1.P2";
+                           "  N.C1.P2";
             RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), C1, code);
         }
 
@@ -99,7 +99,7 @@ namespace RoslynSandbox
         public static void New()
         {
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -116,11 +116,11 @@ namespace RoslynSandbox
 }";
             var message = "Observable and criteria must match.\r\n" +
                           "Observed:\r\n" +
-                          "  RoslynSandbox.C1.P1\r\n" +
+                          "  N.C1.P1\r\n" +
                           "Used in criteria:\r\n" +
-                          "  RoslynSandbox.C1.P2\r\n" +
+                          "  N.C1.P2\r\n" +
                           "Not observed:\r\n" +
-                          "  RoslynSandbox.C1.P2";
+                          "  N.C1.P2";
 
             RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic.WithMessage(message), C1, code);
         }

@@ -12,7 +12,7 @@ namespace Gu.Reactive.Analyzers
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SortArgsFix))]
     [Shared]
-    public class SortArgsFix : DocumentEditorCodeFixProvider
+    internal class SortArgsFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             Descriptors.GUREA13SyncParametersAndArgs.Id);

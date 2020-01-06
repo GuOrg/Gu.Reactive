@@ -9,7 +9,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 
         private const string Condition1 = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -24,7 +24,7 @@ namespace RoslynSandbox
 }";
 
         private const string Condition2 = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -42,7 +42,7 @@ namespace RoslynSandbox
         public static void AndConditionSortArgs()
         {
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 

@@ -11,8 +11,8 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA03PathMustNotifyTests
         [Test]
         public static void OneLevel()
         {
-            var fooCode = @"
-namespace RoslynSandbox
+            var c1 = @"
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -48,8 +48,8 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
-namespace RoslynSandbox
+            var c2 = @"
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -64,14 +64,14 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, c2);
         }
 
         [Test]
         public static void OneLevelGetOnly()
         {
-            var fooCode = @"
-namespace RoslynSandbox
+            var c1 = @"
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -88,8 +88,8 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"
-namespace RoslynSandbox
+            var c2 = @"
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -104,17 +104,16 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, c2);
         }
 
         [Test]
         public static void InterfaceGetSet()
         {
-            var fooCode = @"
-namespace RoslynSandbox
+            var i = @"
+namespace N
 {
     using System.ComponentModel;
-    using System.Runtime.CompilerServices;
 
     public interface I : INotifyPropertyChanged
     {
@@ -122,7 +121,7 @@ namespace RoslynSandbox
     }
 }";
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -136,14 +135,14 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, i, testCode);
         }
 
         [Test]
         public static void ObservableCollectionCount()
         {
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -163,43 +162,41 @@ namespace RoslynSandbox
         [Test]
         public static void InterfaceGetOnly()
         {
-            var fooCode = @"
-namespace RoslynSandbox
+            var i = @"
+namespace N
 {
     using System.ComponentModel;
-    using System.Runtime.CompilerServices;
 
     public interface I : INotifyPropertyChanged
     {
         int P { get; }
     }
 }";
-            var testCode = @"
-namespace RoslynSandbox
+            var code = @"
+namespace N
 {
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C
     {
-        public Bar(I i)
+        public C(I i)
         {
             i.ObservePropertyChanged(x => x.P)
              .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, i, code);
         }
 
         [Test]
         public static void GenericConstraint()
         {
-            var fooCode = @"
-namespace RoslynSandbox
+            var i = @"
+namespace N
 {
     using System.ComponentModel;
-    using System.Runtime.CompilerServices;
 
     public interface I : INotifyPropertyChanged
     {
@@ -207,7 +204,7 @@ namespace RoslynSandbox
     }
 }";
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -222,105 +219,102 @@ namespace RoslynSandbox
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, i, testCode);
         }
 
         [Test]
         public static void GenericProperty()
         {
-            var iBarCode = @"
-namespace RoslynSandbox
+            var i = @"
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public interface IBar : INotifyPropertyChanged
+    public interface I : INotifyPropertyChanged
     {
         int Value { get; set; }
     }
 }";
 
-            var iFooCode = @"
-namespace RoslynSandbox
+            var iOfT = @"
+namespace N
 {
     using System.ComponentModel;
-    using System.Runtime.CompilerServices;
 
-    public interface IFoo<T> : INotifyPropertyChanged
-        where T: class, IBar
+    public interface I<T> : INotifyPropertyChanged
+        where T: class, I
     {
-        T Bar { get; set; }
+        T P { get; set; }
     }
 }";
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C
     {
-        public Bar(IFoo<IBar> foo)
+        public C(I<I> i)
         {
-            foo.ObservePropertyChangedSlim(x => x.Bar.Value)
+            i.ObservePropertyChangedSlim(x => x.P.Value)
                .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, iBarCode, iFooCode, testCode);
+            RoslynAssert.Valid(Analyzer, i, iOfT, testCode);
         }
 
         [Test]
         public static void GenericConstrainedProperty()
         {
             var iBarCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
-    using System.Runtime.CompilerServices;
 
-    public interface IBar : INotifyPropertyChanged
+    public interface I : INotifyPropertyChanged
     {
         int Value { get; set; }
     }
 }";
 
-            var iFooCode = @"
-namespace RoslynSandbox
+            var iOfT = @"
+namespace N
 {
     using System.ComponentModel;
-    using System.Runtime.CompilerServices;
 
-    public interface IFoo<T> : INotifyPropertyChanged
-        where T: class, IBar
+    public interface I<T> : INotifyPropertyChanged
+        where T: class, I
     {
-        T Bar { get; set; }
+        T P { get; set; }
     }
 }";
-            var testCode = @"
-namespace RoslynSandbox
+            var cOfT = @"
+namespace N
 {
     using System;
     using Gu.Reactive;
 
-    public class Bar<T>
-        where T: class, IBar
+    public class C<T>
+        where T: class, I
     {
-        public Bar(IFoo<T> foo)
+        public C(I<T> i)
         {
-            foo.ObservePropertyChangedSlim(x => x.Bar.Value)
-               .Subscribe(_ => Console.WriteLine(string.Empty));
+            i.ObservePropertyChangedSlim(x => x.P.Value)
+             .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, iBarCode, iFooCode, testCode);
+            RoslynAssert.Valid(Analyzer, iBarCode, iOfT, cOfT);
         }
 
         [Test]
         public static void TwoLevels()
         {
             var fooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -357,7 +351,7 @@ namespace RoslynSandbox
     }
 }";
             var barCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -394,7 +388,7 @@ namespace RoslynSandbox
     }
 }";
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;

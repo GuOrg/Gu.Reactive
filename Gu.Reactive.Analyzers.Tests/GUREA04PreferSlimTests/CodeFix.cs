@@ -12,7 +12,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = Roslyn.Asserts.ExpectedDiagnostic.Create(Descriptors.GUREA04PreferSlimOverload);
 
         private const string FooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -53,7 +53,7 @@ namespace RoslynSandbox
         public static void PassingObservePropertyChangedToConditionCtor()
         {
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -69,7 +69,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -90,7 +90,7 @@ namespace RoslynSandbox
         public static void WhenSubscribingNotUsingArg()
         {
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -107,7 +107,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;

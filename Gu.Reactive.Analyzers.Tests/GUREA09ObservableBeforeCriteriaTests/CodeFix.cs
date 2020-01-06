@@ -12,7 +12,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA09ObservableBeforeCriteria);
 
         private const string FooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -53,7 +53,7 @@ namespace RoslynSandbox
         public static void BaseCall()
         {
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -69,7 +69,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -90,7 +90,7 @@ namespace RoslynSandbox
         public static void New()
         {
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -107,7 +107,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 

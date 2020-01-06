@@ -9,7 +9,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA02ObservableAndCriteriaMustMatchTests
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
 
         private const string C = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -67,7 +67,7 @@ namespace RoslynSandbox
         public static void CorrectBaseCall()
         {
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -88,7 +88,7 @@ namespace RoslynSandbox
         public static void IntervalAndSchedulerNow()
         {
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.Reactive.Concurrency;
@@ -113,7 +113,7 @@ namespace RoslynSandbox
         {
             var code = @"
 #pragma warning disable GUREA10 // Split up into two conditions?
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.Reactive.Concurrency;
@@ -140,7 +140,7 @@ namespace RoslynSandbox
         public static void CorrectNew()
         {
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -162,7 +162,7 @@ namespace RoslynSandbox
         public static void WhenUsingImmutableProperty()
         {
             var c1 = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -196,7 +196,7 @@ namespace RoslynSandbox
 }";
 
             var c2 = @"
-namespace RoslynSandbox
+namespace N
 {
     public class C2
     {
@@ -209,7 +209,7 @@ namespace RoslynSandbox
     }
 }";
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -230,7 +230,7 @@ namespace RoslynSandbox
         public static void WhenUsingPrivateSetPropertyOnlyAssignedInCtor()
         {
             var c1 = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -265,7 +265,7 @@ namespace RoslynSandbox
 }";
 
             var c2 = @"
-namespace RoslynSandbox
+namespace N
 {
     public class C2
     {
@@ -278,7 +278,7 @@ namespace RoslynSandbox
     }
 }";
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -299,7 +299,7 @@ namespace RoslynSandbox
         public static void WhenUsingNullableValue()
         {
             var c = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -334,7 +334,7 @@ namespace RoslynSandbox
 }";
 
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -355,7 +355,7 @@ namespace RoslynSandbox
         public static void IgnoreUsageInThrowOneLevel()
         {
             var c = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.ComponentModel;
@@ -414,7 +414,7 @@ namespace RoslynSandbox
     }
 }";
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -435,7 +435,7 @@ namespace RoslynSandbox
         public static void IgnoreUsageInThrowTwoLevels()
         {
             var c1 = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.ComponentModel;
@@ -494,7 +494,7 @@ namespace RoslynSandbox
     }
 }";
             var c2 = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.ComponentModel;
@@ -547,7 +547,7 @@ namespace RoslynSandbox
     }
 }";
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -568,7 +568,7 @@ namespace RoslynSandbox
         public static void IgnoreTypeofFullName()
         {
             var c = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -602,7 +602,7 @@ namespace RoslynSandbox
 }";
 
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -623,7 +623,7 @@ namespace RoslynSandbox
         public static void IgnoreRegex()
         {
             var c = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -657,7 +657,7 @@ namespace RoslynSandbox
 }";
 
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Text.RegularExpressions;
     using Gu.Reactive;

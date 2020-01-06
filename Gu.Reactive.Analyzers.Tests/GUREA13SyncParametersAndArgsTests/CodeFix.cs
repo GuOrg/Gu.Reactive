@@ -13,7 +13,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA13SyncParametersAndArgsTests
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA13SyncParametersAndArgs);
 
         private const string Condition1 = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -28,7 +28,7 @@ namespace RoslynSandbox
 }";
 
         private const string Condition2 = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -43,7 +43,7 @@ namespace RoslynSandbox
 }";
 
         private const string Condition3 = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -61,7 +61,7 @@ namespace RoslynSandbox
         public static void AndConditionSortArgs()
         {
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -75,7 +75,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -94,7 +94,7 @@ namespace RoslynSandbox
         public static void OrConditionSortArgs()
         {
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -114,7 +114,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -139,7 +139,7 @@ namespace RoslynSandbox
         public static void AndConditionSortParameters()
         {
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -153,7 +153,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -172,7 +172,7 @@ namespace RoslynSandbox
         public static void OrConditionSortParameters()
         {
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -192,7 +192,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 

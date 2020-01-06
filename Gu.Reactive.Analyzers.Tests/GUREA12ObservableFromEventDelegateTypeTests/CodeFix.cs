@@ -15,7 +15,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA12ObservableFromEventDelegateTypeTest
         public static void EventHandlerOfInt()
         {
             var fooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 
@@ -26,7 +26,7 @@ namespace RoslynSandbox
 }";
 
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 
@@ -44,7 +44,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 
@@ -67,7 +67,7 @@ namespace RoslynSandbox
         public static void EventHandler()
         {
             var fooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 
@@ -78,7 +78,7 @@ namespace RoslynSandbox
 }";
 
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 
@@ -96,7 +96,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 

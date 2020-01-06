@@ -16,7 +16,7 @@ namespace Gu.Reactive.Analyzers
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(InjectNegatedCodeFix))]
     [Shared]
-    public class InjectNegatedCodeFix : CodeFixProvider
+    internal class InjectNegatedCodeFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             Descriptors.GUREA07DoNotNegateCondition.Id);

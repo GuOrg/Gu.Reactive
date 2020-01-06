@@ -10,7 +10,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA10DoNotMergeInObservable);
 
         private const string FooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -91,7 +91,7 @@ namespace RoslynSandbox
         public static void WhenMergingInline()
         {
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -116,7 +116,7 @@ namespace RoslynSandbox
         public static void WhenMergingInFactoryMethod()
         {
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.ComponentModel;

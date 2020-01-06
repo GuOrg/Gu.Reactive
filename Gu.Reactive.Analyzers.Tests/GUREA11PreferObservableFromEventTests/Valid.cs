@@ -9,7 +9,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
         private static readonly DiagnosticAnalyzer Analyzer = new AddAssignmentAnalyzer();
 
         private const string FooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -50,7 +50,7 @@ namespace RoslynSandbox
         public static void Misc()
         {
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -72,7 +72,7 @@ namespace RoslynSandbox
         public static void InsideObservableFromEventArg()
         {
             var fooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 
@@ -83,7 +83,7 @@ namespace RoslynSandbox
 }";
 
             var testCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.Reactive.Linq;

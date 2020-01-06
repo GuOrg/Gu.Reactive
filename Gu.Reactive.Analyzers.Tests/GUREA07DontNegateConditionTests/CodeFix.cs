@@ -12,7 +12,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA07DoNotNegateCondition);
 
         private const string FooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -53,7 +53,7 @@ namespace RoslynSandbox
         public static void WhenNegatingCondition()
         {
             var conditionCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -69,7 +69,7 @@ namespace RoslynSandbox
     }
 }";
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -84,7 +84,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -104,7 +104,7 @@ namespace RoslynSandbox
         public static void WhenPassingNegatedConditionToBaseCtor()
         {
             var fooConditionCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -120,7 +120,7 @@ namespace RoslynSandbox
     }
 }";
             var barConditionCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -136,7 +136,7 @@ namespace RoslynSandbox
     }
 }";
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -150,7 +150,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -169,7 +169,7 @@ namespace RoslynSandbox
         public static void WhenPassingNegatedConditionToBaseCtorArgPerLine()
         {
             var fooConditionCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -185,7 +185,7 @@ namespace RoslynSandbox
     }
 }";
             var barConditionCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -201,7 +201,7 @@ namespace RoslynSandbox
     }
 }";
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -219,7 +219,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -242,7 +242,7 @@ namespace RoslynSandbox
         public static void WhenNegatingNegatedCondition()
         {
             var fooConditionCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -258,7 +258,7 @@ namespace RoslynSandbox
     }
 }";
             var barConditionCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -274,7 +274,7 @@ namespace RoslynSandbox
     }
 }";
             var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 
@@ -288,7 +288,7 @@ namespace RoslynSandbox
 }";
 
             var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using Gu.Reactive;
 

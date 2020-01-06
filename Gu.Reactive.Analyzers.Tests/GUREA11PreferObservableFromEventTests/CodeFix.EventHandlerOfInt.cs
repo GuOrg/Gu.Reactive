@@ -8,7 +8,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
         public class EventHandlerOfInt
         {
             private const string FooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 
@@ -22,7 +22,7 @@ namespace RoslynSandbox
             public void WhenNotUsingSenderNorArgLambda()
             {
                 var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 
@@ -37,7 +37,7 @@ namespace RoslynSandbox
 }";
 
                 var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.Reactive.Linq;
@@ -62,7 +62,7 @@ namespace RoslynSandbox
             public void WhenUsingArgLambda()
             {
                 var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 
@@ -77,7 +77,7 @@ namespace RoslynSandbox
 }";
 
                 var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.Reactive.Linq;
@@ -102,7 +102,7 @@ namespace RoslynSandbox
             public void WhenNotUsingSenderNorArgMethodGroup()
             {
                 var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 
@@ -122,7 +122,7 @@ namespace RoslynSandbox
 }";
 
                 var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.Reactive.Linq;
@@ -152,7 +152,7 @@ namespace RoslynSandbox
             public void WhenUsingArgMethodGroup()
             {
                 var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
 
@@ -172,7 +172,7 @@ namespace RoslynSandbox
 }";
 
                 var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.Reactive.Linq;

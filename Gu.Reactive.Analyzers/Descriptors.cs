@@ -2,7 +2,7 @@ namespace Gu.Reactive.Analyzers
 {
     using Microsoft.CodeAnalysis;
 
-    public static class Descriptors
+    internal static class Descriptors
     {
         internal static readonly DiagnosticDescriptor GUREA01DoNotObserveMutableProperty = new DiagnosticDescriptor(
             id: "GUREA01",

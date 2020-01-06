@@ -12,7 +12,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA01DontObserveMutablePropertyTests
         public static void ObservingLocal()
         {
             var fooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -48,7 +48,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var code = @"namespace RoslynSandbox
+            var code = @"namespace N
 {
     using System;
     using Gu.Reactive;
@@ -70,7 +70,7 @@ namespace RoslynSandbox
         public static void ObservingGetOnlyPropertyInSelf()
         {
             var fooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -106,7 +106,7 @@ namespace RoslynSandbox
         }
     }
 }";
-            var testCode = @"namespace RoslynSandbox
+            var testCode = @"namespace N
 {
     using System;
     using Gu.Reactive;

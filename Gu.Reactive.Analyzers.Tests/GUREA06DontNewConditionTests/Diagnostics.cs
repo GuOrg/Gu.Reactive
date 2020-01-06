@@ -13,7 +13,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA06DontNewConditionTests
         public static void WhenCreatingCondition()
         {
             var fooCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -50,7 +50,7 @@ namespace RoslynSandbox
     }
 }";
             var conditionCode = @"
-namespace RoslynSandbox
+namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
@@ -66,7 +66,7 @@ namespace RoslynSandbox
     }
 }";
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;

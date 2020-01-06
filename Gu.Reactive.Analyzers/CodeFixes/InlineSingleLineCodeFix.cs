@@ -14,7 +14,7 @@ namespace Gu.Reactive.Analyzers
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(InlineSingleLineCodeFix))]
     [Shared]
-    public class InlineSingleLineCodeFix : DocumentEditorCodeFixProvider
+    internal class InlineSingleLineCodeFix : DocumentEditorCodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             Descriptors.GUREA08InlineSingleLine.Id);

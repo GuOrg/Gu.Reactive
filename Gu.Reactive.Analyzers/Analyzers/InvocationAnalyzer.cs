@@ -8,7 +8,7 @@ namespace Gu.Reactive.Analyzers
     using Microsoft.CodeAnalysis.Diagnostics;
 
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class InvocationAnalyzer : DiagnosticAnalyzer
+    internal class InvocationAnalyzer : DiagnosticAnalyzer
     {
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             Descriptors.GUREA01DoNotObserveMutableProperty,

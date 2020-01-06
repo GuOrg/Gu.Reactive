@@ -15,7 +15,7 @@ namespace Gu.Reactive.Analyzers
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(EventSubscriptionToObserveFix))]
     [Shared]
-    public class EventSubscriptionToObserveFix : DocumentEditorCodeFixProvider
+    internal class EventSubscriptionToObserveFix : DocumentEditorCodeFixProvider
     {
         private const string ObservableFromEventString = @"Observable.FromEvent<HANDLERTYPE, ARGTYPE>(
                 h => LEFT += h,

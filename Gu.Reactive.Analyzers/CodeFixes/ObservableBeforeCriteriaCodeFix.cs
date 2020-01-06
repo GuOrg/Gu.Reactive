@@ -13,7 +13,7 @@ namespace Gu.Reactive.Analyzers
 
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ObservableBeforeCriteriaCodeFix))]
     [Shared]
-    public class ObservableBeforeCriteriaCodeFix : CodeFixProvider
+    internal class ObservableBeforeCriteriaCodeFix : CodeFixProvider
     {
         public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(
             Descriptors.GUREA09ObservableBeforeCriteria.Id);

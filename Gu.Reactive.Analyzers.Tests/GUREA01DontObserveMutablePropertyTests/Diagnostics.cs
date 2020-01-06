@@ -12,8 +12,8 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA01DontObserveMutablePropertyTests
         [Test]
         public static void ObservingMutablePropertyInSelf()
         {
-            var fooCode = @"
-namespace RoslynSandbox
+            var c1 = @"
+namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -50,7 +50,7 @@ namespace RoslynSandbox
     }
 }";
             var code = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using Gu.Reactive;
@@ -67,7 +67,7 @@ namespace RoslynSandbox
         public C1 C1 { get; set; }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, code);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, c1, code);
         }
     }
 }

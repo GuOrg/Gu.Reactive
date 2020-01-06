@@ -11,7 +11,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
             public static void WhenNotUsingSenderNorArgLambda()
             {
                 var before = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.IO;
@@ -27,7 +27,7 @@ namespace RoslynSandbox
 }";
 
                 var after = @"
-namespace RoslynSandbox
+namespace N
 {
     using System;
     using System.IO;
