@@ -57,9 +57,9 @@ namespace Gu.Reactive.Analyzers
                         }
                     }
 
-                    if (TryGetSilentNode(invocation, context, out var node))
+                    if (FindSilentNode(invocation, context) is { } silentNode)
                     {
-                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA03PathMustNotify, node.GetLocation()));
+                        context.ReportDiagnostic(Diagnostic.Create(Descriptors.GUREA03PathMustNotify, silentNode.GetLocation()));
                     }
                 }
                 else if (method == KnownSymbol.ICondition.Negate)
@@ -145,70 +145,56 @@ namespace Gu.Reactive.Analyzers
             };
         }
 
-        private static bool TryGetSilentNode(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context, [NotNullWhen(true)] out SyntaxNode? node)
+        private static SyntaxNode? FindSilentNode(InvocationExpressionSyntax invocation, SyntaxNodeAnalysisContext context)
         {
-            node = null;
             if (invocation is { ArgumentList: { Arguments: { } arguments } } &&
-                arguments.TryFirst<ArgumentSyntax>(out ArgumentSyntax? argument))
+                arguments.TryFirst(out var argument))
             {
-                if (argument.Expression is SimpleLambdaExpressionSyntax lambda)
+                if (argument.Expression is SimpleLambdaExpressionSyntax { Body: MemberAccessExpressionSyntax memberAccess })
                 {
-                    if (lambda.Body is MemberAccessExpressionSyntax memberAccess)
-                    {
-                        while (memberAccess != null)
-                        {
-                            var symbol = context.SemanticModel.GetSymbolSafe(memberAccess, context.CancellationToken);
-                            if (!(symbol is IPropertySymbol))
-                            {
-                                node = memberAccess.Name;
-                                return true;
-                            }
-
-                            var containingType = context.SemanticModel.GetTypeInfoSafe(
-                                                            memberAccess.Expression,
-                                                            context.CancellationToken)
-                                                        .Type;
-                            if (containingType == null)
-                            {
-                                continue;
-                            }
-
-                            if (containingType.IsValueType ||
-                                !containingType.IsAssignableTo(KnownSymbol.INotifyPropertyChanged, context.Compilation))
-                            {
-                                node = memberAccess.Name;
-                                return true;
-                            }
-
-                            if (symbol.DeclaringSyntaxReferences.Length > 0 &&
-                                !symbol.IsAbstract)
-                            {
-                                foreach (var reference in symbol.DeclaringSyntaxReferences)
-                                {
-                                    var propertyDeclaration = (PropertyDeclarationSyntax)reference.GetSyntax(context.CancellationToken);
-                                    if (propertyDeclaration.TryGetSetter(out AccessorDeclarationSyntax? setter) &&
-                                        setter.Body == null)
-                                    {
-                                        node = memberAccess.Name;
-                                        return true;
-                                    }
-                                }
-                            }
-
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-                            memberAccess = memberAccess.Expression as MemberAccessExpressionSyntax;
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-                        }
-                    }
-                    else
-                    {
-                        node = lambda;
-                        return true;
-                    }
+                    return FindSilentNode(memberAccess);
                 }
+
+                return argument.Expression;
             }
 
-            return false;
+            return null;
+
+            SyntaxNode? FindSilentNode(MemberAccessExpressionSyntax memberAccess)
+            {
+                switch (context.SemanticModel.GetSymbolSafe(memberAccess, context.CancellationToken))
+                {
+                    case IPropertySymbol { ContainingType: { } containingType }
+                        when containingType.IsValueType ||
+                             !Notifies(containingType):
+                        return memberAccess.Name;
+                    case IPropertySymbol { SetMethod: { }, IsAbstract: false } property
+                        when property.IsAutoProperty():
+                        return memberAccess.Name;
+                    case IPropertySymbol _
+                        when memberAccess.Expression is MemberAccessExpressionSyntax parent:
+                        return FindSilentNode(parent);
+                    case IPropertySymbol _:
+                        return null;
+                    default:
+                        return memberAccess.Name;
+                }
+
+                bool Notifies(INamedTypeSymbol containingType)
+                {
+                    if (containingType.IsAssignableTo(KnownSymbol.INotifyPropertyChanged, context.Compilation))
+                    {
+                        return true;
+                    }
+
+                    if (context.SemanticModel.TryGetType(memberAccess.Expression, context.CancellationToken, out var type))
+                    {
+                        return type.IsAssignableTo(KnownSymbol.INotifyPropertyChanged, context.Compilation);
+                    }
+
+                    return false;
+                }
+            }
         }
 
         private static bool IsForEventHandler(IParameterSymbol parameter)
