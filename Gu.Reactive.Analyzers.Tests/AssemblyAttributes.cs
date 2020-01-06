@@ -1,3 +1,3 @@
 using Gu.Roslyn.Asserts;
 
-[assembly:TransitiveMetadataReferences(typeof(Gu.Wpf.Reactive.ConditionControl))]
+[assembly: TransitiveMetadataReferences(typeof(Gu.Wpf.Reactive.ConditionControl))]

@@ -87,14 +87,11 @@ namespace Gu.Reactive.Analyzers
             node = null;
             if (invocation is { ArgumentList: { Arguments: { } arguments } } &&
                 arguments.TryFirst(out ArgumentSyntax? argument) &&
-                argument is { Expression: SimpleLambdaExpressionSyntax { Body: { } body } })
+                argument is { Expression: SimpleLambdaExpressionSyntax { Body: MemberAccessExpressionSyntax body } } &&
+                !(body.Expression is MemberAccessExpressionSyntax))
             {
-                var firstMember = body as MemberAccessExpressionSyntax;
-                if (!(firstMember?.Expression is MemberAccessExpressionSyntax))
-                {
-                    node = body;
-                    return true;
-                }
+                node = body;
+                return true;
             }
 
             return false;
