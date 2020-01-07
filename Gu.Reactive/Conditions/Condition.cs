@@ -38,7 +38,7 @@ namespace Gu.Reactive
         /// More observables that triggers updates of <see cref="IsSatisfied"/>.
         /// </param>
         public Condition(Func<bool?> criteria, IObservable<object> observable, params IObservable<object>[] observables)
-            : this(Observable.Merge(observables.Concat(new[] { observable })), criteria)
+            : this(observables is null ? observable : Observable.Merge(observables.Concat(new[] { observable })), criteria)
         {
         }
 
@@ -53,10 +53,12 @@ namespace Gu.Reactive
         /// </param>
         public Condition(IObservable<object> observable, Func<bool?> criteria)
         {
-            Ensure.NotNull(observable, nameof(observable));
-            Ensure.NotNull(criteria, nameof(criteria));
+            if (observable is null)
+            {
+                throw new ArgumentNullException(nameof(observable));
+            }
 
-            this.criteria = criteria;
+            this.criteria = criteria ?? throw new ArgumentNullException(nameof(criteria));
             this.name = this.GetType().PrettyName();
             this.subscription = observable.StartWith((object)null)
                                           .Subscribe(x => this.UpdateIsSatisfied());
@@ -213,8 +215,16 @@ namespace Gu.Reactive
             TValue value)
             where TSource : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(path, nameof(path));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (path is null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
             return For(source, path, value, (x, y) => Maybe.Equals(x, y, EqualityComparer<TValue>.Default.Equals));
         }
 
@@ -232,8 +242,16 @@ namespace Gu.Reactive
             EqualityComparer<TValue> comparer)
             where TSource : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(path, nameof(path));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (path is null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
             return For(source, path, value, (x, y) => Maybe.Equals(x, y, comparer.Equals));
         }
 
@@ -251,8 +269,16 @@ namespace Gu.Reactive
             Func<TValue, TValue, bool> @equals)
             where TSource : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(path, nameof(path));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (path is null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
             return For(source, path, value, (x, y) => Maybe.Equals(x, y, @equals));
         }
 
@@ -270,8 +296,16 @@ namespace Gu.Reactive
             Func<Maybe<TValue>, TValue, bool?> compare)
             where TSource : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(path, nameof(path));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (path is null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
             var notifyingPath = NotifyingPath.GetOrCreate(path);
             return new ObservableAndCriteria(
                 Observable.Create<object>(o =>

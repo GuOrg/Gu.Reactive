@@ -28,7 +28,6 @@ namespace Gu.Reactive
 
         internal static int GetHashCode(MemberExpression obj)
         {
-            Ensure.NotNull(obj, nameof(obj));
             return obj.Member.GetHashCode() * 397 ^ obj.Expression.Type.GetHashCode();
         }
     }

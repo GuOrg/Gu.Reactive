@@ -32,8 +32,10 @@ namespace Gu.Reactive
 #pragma warning restore GU0003 // Name the parameters to match the members.
             : base(prerequisites, TimeSpan.Zero, ImmediateScheduler.Instance, leaveOpen)
         {
-            Ensure.NotNull(isSatisfied, nameof(isSatisfied));
-            Ensure.NotNull(prerequisites, nameof(prerequisites));
+            if (prerequisites is null)
+            {
+                throw new ArgumentNullException(nameof(prerequisites));
+            }
 
             var set = IdentitySet.Borrow<ICondition>();
             set.UnionWithWithRetries(prerequisites);
@@ -55,7 +57,7 @@ namespace Gu.Reactive
 
             IdentitySet.Return(set);
 
-            this.isSatisfied = isSatisfied;
+            this.isSatisfied = isSatisfied ?? throw new ArgumentNullException(nameof(isSatisfied));
             this.subscription = this.ObserveItemPropertyChangedSlim(x => x.IsSatisfied)
                                     .Subscribe(_ => this.IsSatisfied = isSatisfied(this));
             this.previousIsSatisfied = isSatisfied(this);
@@ -90,8 +92,16 @@ namespace Gu.Reactive
 
         internal static IReadOnlyList<ICondition> Prepend(ICondition condition1, ICondition condition2, ICondition[] conditions)
         {
-            Ensure.NotNull(condition1, nameof(condition1));
-            Ensure.NotNull(condition2, nameof(condition2));
+            if (condition1 is null)
+            {
+                throw new ArgumentNullException(nameof(condition1));
+            }
+
+            if (condition2 is null)
+            {
+                throw new ArgumentNullException(nameof(condition2));
+            }
+
             if (conditions == null || conditions.Length == 0)
             {
                 return new[] { condition1, condition2 };

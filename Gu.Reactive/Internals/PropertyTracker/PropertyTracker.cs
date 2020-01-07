@@ -16,14 +16,10 @@ namespace Gu.Reactive.Internals
 
         internal PropertyTracker(IPropertyPathTracker pathTracker, NotifyingGetter<TSource, TValue> getter)
         {
-            Ensure.NotNull(pathTracker, nameof(pathTracker));
-            Ensure.NotNull(getter, nameof(getter));
-
-            Ensure.NotNull(getter.Property.ReflectedType, nameof(getter));
             var type = getter.Property.ReflectedType;
-            if (type == null)
+            if (type is null)
             {
-                throw new ArgumentException("PathProperty.ReflectedType == null");
+                throw new ArgumentException("getter.Property.ReflectedType is null");
             }
 
             if (type.IsValueType)

@@ -13,6 +13,11 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Johan Larsson</Authors>
     <Version>4.2.0</Version>

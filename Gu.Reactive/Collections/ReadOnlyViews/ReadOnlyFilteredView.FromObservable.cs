@@ -1,9 +1,8 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
     using System.Reactive.Concurrency;
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// Factory methods fro creating <see cref="ReadOnlyFilteredView{T}"/>.
@@ -21,8 +20,16 @@
             this IObservable<IEnumerable<T>> source,
             Func<T, bool> filter)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return source.AsReadOnlyView()
                          .AsReadOnlyFilteredView(filter, leaveOpen: false);
         }
@@ -38,8 +45,16 @@
             this IObservable<IMaybe<IEnumerable<T>>> source,
             Func<T, bool> filter)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return source.AsReadOnlyView()
                          .AsReadOnlyFilteredView(filter, leaveOpen: false);
         }
@@ -55,8 +70,16 @@
             this IObservable<Maybe<IEnumerable<T>>> source,
             Func<T, bool> filter)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return source.AsReadOnlyView()
                          .AsReadOnlyFilteredView(filter, leaveOpen: false);
         }
@@ -74,8 +97,16 @@
             Func<T, bool> filter,
             IScheduler scheduler)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return source.AsReadOnlyView()
                          .AsReadOnlyFilteredView(filter, scheduler, leaveOpen: false);
         }
@@ -93,8 +124,16 @@
             Func<T, bool> filter,
             IScheduler scheduler)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return source.AsReadOnlyView()
                          .AsReadOnlyFilteredView(filter, scheduler, leaveOpen: false);
         }
@@ -112,8 +151,16 @@
             Func<T, bool> filter,
             IScheduler scheduler)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return source.AsReadOnlyView()
                          .AsReadOnlyFilteredView(filter, scheduler, leaveOpen: false);
         }

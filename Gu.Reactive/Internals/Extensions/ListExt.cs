@@ -27,19 +27,6 @@ namespace Gu.Reactive.Internals
 
         internal static void CopyTo<T>(this IReadOnlyList<T> source, Array array, int index)
         {
-            Ensure.NotNull(array, nameof(array));
-            Ensure.GreaterThanOrEqual(index, 0, nameof(index));
-            Ensure.LessThan(index, array.Length, nameof(index));
-
-            for (var i = 0; i < source.Count; i++)
-            {
-                array.SetValue(source[i], i + index);
-            }
-        }
-
-        internal static void CopyTo<T>(this IList<T> source, Array array, int index)
-        {
-            Ensure.NotNull(array, nameof(array));
             Ensure.GreaterThanOrEqual(index, 0, nameof(index));
             Ensure.LessThan(index, array.Length, nameof(index));
 

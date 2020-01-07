@@ -27,7 +27,11 @@ namespace Gu.Reactive
         /// </summary>
         public static IGetter GetOrCreate(PropertyInfo property)
         {
-            Ensure.NotNull(property, nameof(property));
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
             VerifyProperty(property);
             return Cache.GetOrAdd(property, Create);
         }

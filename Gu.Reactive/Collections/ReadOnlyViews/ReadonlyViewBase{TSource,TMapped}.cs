@@ -31,8 +31,12 @@ namespace Gu.Reactive
         /// <param name="startEmpty">True means that the tracker is empty after the constructor.</param>
         protected ReadonlyViewBase(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper, bool leaveOpen, bool startEmpty = false)
         {
-            Ensure.NotNull(mapper, nameof(mapper));
-            this.mapper = mapper;
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.leaveOpen = leaveOpen;
             this.source = source ?? Array.Empty<TSource>();
             this.Tracker = new CollectionSynchronizer<TMapped>(startEmpty ? mapper(Array.Empty<TSource>()) : mapper(source));
@@ -52,7 +56,7 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         public bool IsFixedSize => true;
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IReadOnlyView{TMapped}" />
         public int Count => this.ThrowIfDisposed(() => this.Tracker.Count);
 
 #pragma warning disable CA1033 // Interface methods should be callable by child types
