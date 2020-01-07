@@ -82,7 +82,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views
             }
 
             using (source.AsFilteredView(x => true)
-                       .AsThrottledView(TimeSpan.Zero))
+                         .AsThrottledView(TimeSpan.Zero))
             {
             }
         }

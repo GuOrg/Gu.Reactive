@@ -166,8 +166,6 @@ Gu.Reactive.Mapper<TSource, TResult>.Mapper(Gu.Reactive.ITracker<TSource> source
 Gu.Reactive.Mapper<TSource, TResult>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
 Gu.Reactive.Mapper<TSource, TResult>.Value.get -> TResult
 Gu.Reactive.MappingView
-Gu.Reactive.MappingView
-Gu.Reactive.MappingView<TSource, TResult>
 Gu.Reactive.MappingView<TSource, TResult>
 Gu.Reactive.MappingView<TSource, TResult>.MappingView(Gu.Reactive.IObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
 Gu.Reactive.MappingView<TSource, TResult>.MappingView(Gu.Reactive.IObservableCollection<TSource> source, System.Func<TSource, TResult> selector, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler = null, bool leaveOpen = false, params System.IObservable<object>[] triggers) -> void
@@ -231,7 +229,6 @@ Gu.Reactive.NotifyCollectionChangedEventArgs<T>.OldItems.get -> System.Collectio
 Gu.Reactive.NotifyCollectionChangedEventArgs<T>.OldStartingIndex.get -> int
 Gu.Reactive.NotifyCollectionChangedEventArgsExt
 Gu.Reactive.NotifyCollectionChangedExt
-Gu.Reactive.NotifyCollectionChangedExt
 Gu.Reactive.NotifyPropertyChangedExt
 Gu.Reactive.NullIsFalse<TCondition>
 Gu.Reactive.NullIsFalse<TCondition>.NullIsFalse(TCondition condition) -> void
@@ -287,9 +284,6 @@ Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.PropertyChangedAndValueE
 Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.Value.get -> TProperty
 Gu.Reactive.PropertyPathComparer
 Gu.Reactive.ReadOnlyFilteredView
-Gu.Reactive.ReadOnlyFilteredView
-Gu.Reactive.ReadOnlyFilteredView
-Gu.Reactive.ReadOnlyFilteredView<T>
 Gu.Reactive.ReadOnlyFilteredView<T>
 Gu.Reactive.ReadOnlyFilteredView<T>.BufferTime.get -> System.TimeSpan
 Gu.Reactive.ReadOnlyFilteredView<T>.Filter.get -> System.Func<T, bool>
@@ -297,6 +291,7 @@ Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(Gu.Reactive.IObservable
 Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(Gu.Reactive.IObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> void
 Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> void
 Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> void
+Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.Func<T, System.IObservable<object>> observableFactory, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen) -> void
 Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, System.Collections.Generic.IEnumerable<System.IObservable<object>> triggers) -> void
 Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> void
 Gu.Reactive.ReadOnlyFilteredView<T>.ReadOnlyFilteredView(System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> void
@@ -598,6 +593,8 @@ static Gu.Reactive.ObservableExt.Throttle<T>(this System.IObservable<T> source, 
 static Gu.Reactive.ObservableExt.Throttle<T>(this System.IObservable<T> source, System.TimeSpan dueTime, System.TimeSpan maxTime, System.Reactive.Concurrency.IScheduler scheduler) -> System.IObservable<T>
 static Gu.Reactive.ObservableExt.WithMaybePrevious<T>(this System.IObservable<T> source) -> System.IObservable<Gu.Reactive.WithMaybePrevious<T>>
 static Gu.Reactive.ObservableExt.WithPrevious<T>(this System.IObservable<T> source) -> System.IObservable<Gu.Reactive.WithPrevious<T>>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Func<T, System.IObservable<object>> observableFactory, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Func<T, System.IObservable<object>> observableFactory, bool leaveOpen = false) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this Gu.Reactive.IReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
@@ -622,6 +619,8 @@ static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Co
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, bool leaveOpen, System.IObservable<object> trigger) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, bool leaveOpen, System.Collections.Generic.IEnumerable<System.IObservable<object>> triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter, bool leaveOpen, System.IObservable<object> trigger) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.Func<T, System.IObservable<object>> observableFactory, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.Func<T, System.IObservable<object>> observableFactory, bool leaveOpen = false) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
@@ -630,6 +629,8 @@ static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Co
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Func<T, System.IObservable<object>> observableFactory, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen) -> Gu.Reactive.ReadOnlyFilteredView<T>
+static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Func<T, System.IObservable<object>> observableFactory, bool leaveOpen = false) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.Reactive.Concurrency.IScheduler scheduler, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
 static Gu.Reactive.ReadOnlyFilteredView.AsReadOnlyFilteredView<T>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler scheduler, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Reactive.ReadOnlyFilteredView<T>
