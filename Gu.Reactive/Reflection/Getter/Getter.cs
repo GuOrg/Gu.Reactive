@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Concurrent;
@@ -50,7 +50,10 @@ namespace Gu.Reactive
         /// <exception cref="ArgumentException">If the property does not have a getter.</exception>
         public static void VerifyProperty(PropertyInfo property)
         {
-            Ensure.NotNull(property, nameof(property));
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             if (property.GetMethod == null)
             {

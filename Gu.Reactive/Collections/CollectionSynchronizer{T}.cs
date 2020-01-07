@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -54,7 +54,7 @@ namespace Gu.Reactive
         /// <param name="collectionChanges">The captured collection change args.</param>
         /// <param name="propertyChanged">The <see cref="Action{PropertyChangedEventArgs}"/> to notify on.</param>
         /// <param name="collectionChanged">The <see cref="Action{NotifyCollectionChangedEventArgs}"/> to notify on.</param>
-        public void Refresh(IEnumerable<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges = null, Action<PropertyChangedEventArgs> propertyChanged = null, Action<NotifyCollectionChangedEventArgs> collectionChanged = null)
+        public void Refresh(IEnumerable<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs>? collectionChanges = null, Action<PropertyChangedEventArgs>? propertyChanged = null, Action<NotifyCollectionChangedEventArgs>? collectionChanged = null)
         {
             lock (this.Items)
             {
@@ -100,7 +100,7 @@ namespace Gu.Reactive
             }
         }
 
-        private NotifyCollectionChangedEventArgs Update(IEnumerable<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges, Action<PropertyChangedEventArgs> propertyChanged, Action<NotifyCollectionChangedEventArgs> collectionChanged)
+        private NotifyCollectionChangedEventArgs? Update(IEnumerable<T> updated, IReadOnlyList<NotifyCollectionChangedEventArgs>? collectionChanges, Action<PropertyChangedEventArgs>? propertyChanged, Action<NotifyCollectionChangedEventArgs>? collectionChanged)
         {
             var retry = 0;
             while (true)

@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Reflection;
@@ -11,7 +11,15 @@ namespace Gu.Reactive
         private StructGetter(PropertyInfo property)
             : base(property)
         {
-            this.getter = (GetterDelegate)Delegate.CreateDelegate(typeof(GetterDelegate), property.GetMethod, throwOnBindFailure: true);
+            if (property is { GetMethod: { } getMethod })
+            {
+                this.getter = (GetterDelegate?)Delegate.CreateDelegate(typeof(GetterDelegate), getMethod, throwOnBindFailure: true) ?? throw new InvalidOperationException("Failed creating delegate.");
+
+            }
+            else
+            {
+                throw new InvalidOperationException("Property does not have a get method.");
+            }
         }
 
         private delegate TValue GetterDelegate(ref TSource source);
