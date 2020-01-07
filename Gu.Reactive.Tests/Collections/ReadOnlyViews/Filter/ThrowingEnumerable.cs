@@ -24,7 +24,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
             return ((IEnumerable)this.inner).GetEnumerator();
         }
 
-        private class ThrowingEnumerator : IEnumerator<T>
+        private sealed class ThrowingEnumerator : IEnumerator<T>
         {
             private readonly List<T> source;
             private readonly IEnumerator<T> inner;

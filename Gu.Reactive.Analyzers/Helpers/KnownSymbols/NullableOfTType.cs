@@ -10,7 +10,8 @@ namespace Gu.Reactive.Analyzers
         internal NullableOfTType()
             : base("System.Nullable`1")
         {
-            this.Value = new QualifiedProperty(this, nameof(this.HasValue));
+            this.Value = new QualifiedProperty(this, nameof(this.Value));
+            this.HasValue = new QualifiedProperty(this, nameof(this.HasValue));
         }
     }
 }

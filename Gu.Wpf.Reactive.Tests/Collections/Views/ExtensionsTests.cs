@@ -1,4 +1,3 @@
-#pragma warning disable CS0618 // Type or member is obsolete
 namespace Gu.Wpf.Reactive.Tests.Collections.Views
 {
     using System;
@@ -30,7 +29,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views
             }
 
             using (source.AsThrottledView(TimeSpan.Zero)
-                       .AsFilteredView(x => true))
+                         .AsFilteredView(x => true))
             {
             }
         }
@@ -44,12 +43,12 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views
             }
 
             using (source.AsMappingView(x => x.ToString(CultureInfo.InvariantCulture))
-                       .AsReadOnlyFilteredView(x => true))
+                         .AsReadOnlyFilteredView(x => true))
             {
             }
 
             using (source.AsThrottledView(TimeSpan.Zero)
-                       .AsReadOnlyFilteredView(x => true))
+                         .AsReadOnlyFilteredView(x => true))
             {
             }
 
@@ -97,12 +96,12 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views
             }
 
             using (source.AsFilteredView(x => true)
-                       .AsReadOnlyThrottledView(TimeSpan.Zero))
+                         .AsReadOnlyThrottledView(TimeSpan.Zero))
             {
             }
 
             using (source.AsMappingView(x => x.ToString(CultureInfo.InvariantCulture))
-                       .AsReadOnlyThrottledView(TimeSpan.Zero))
+                         .AsReadOnlyThrottledView(TimeSpan.Zero))
             {
             }
 

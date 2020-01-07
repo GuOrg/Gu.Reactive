@@ -81,7 +81,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        private class Reader : IDisposable
+        private sealed class Reader : IDisposable
         {
             private readonly ReaderWriterLockSlim rwLock;
 
@@ -107,7 +107,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        private class UpgradeableReader : IDisposable
+        private sealed class UpgradeableReader : IDisposable
         {
             private readonly ReaderWriterLockSlim rwLock;
 
@@ -133,7 +133,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        private class Writer : IDisposable
+        private sealed class Writer : IDisposable
         {
             private readonly ReaderWriterLockSlim rwLock;
 
