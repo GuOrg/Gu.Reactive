@@ -5,8 +5,6 @@ namespace Gu.Reactive
     using System.Collections.Generic;
     using System.Reactive.Concurrency;
 
-    using Gu.Reactive.Internals;
-
     /// <summary>
     /// Factory methods fro creating <see cref="ReadOnlyFilteredView{T}"/>.
     /// </summary>

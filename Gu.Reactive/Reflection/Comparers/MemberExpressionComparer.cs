@@ -2,7 +2,6 @@ namespace Gu.Reactive
 {
     using System.Collections.Generic;
     using System.Linq.Expressions;
-    using Gu.Reactive.Internals;
 
     internal class MemberExpressionComparer : IEqualityComparer<MemberExpression>
     {

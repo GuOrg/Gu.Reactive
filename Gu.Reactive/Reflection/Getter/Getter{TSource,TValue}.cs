@@ -17,7 +17,11 @@ namespace Gu.Reactive
         /// </summary>
         protected Getter(PropertyInfo property)
         {
-            Ensure.NotNull(property, nameof(property));
+            if (property is null)
+            {
+                throw new System.ArgumentNullException(nameof(property));
+            }
+
             Ensure.Equal(typeof(TSource), property.ReflectedType, nameof(property));
             Ensure.Equal(typeof(TValue), property.PropertyType, nameof(property));
             this.Property = property;

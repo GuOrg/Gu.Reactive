@@ -8,8 +8,6 @@ namespace Gu.Reactive
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
 
-    using Gu.Reactive.Internals;
-
     /// <inheritdoc cref="IReadOnlyFilteredView{T}" />
     public partial class ReadOnlyFilteredView<T> : ReadonlyViewBase<T, T>, IReadOnlyFilteredView<T>
     {

@@ -5,8 +5,6 @@ namespace Gu.Reactive
     using System.Collections.Generic;
     using System.Reactive.Concurrency;
 
-    using Gu.Reactive.Internals;
-
     /// <summary>
     /// Factory methods for creating <see cref="MappingView{TSource,TResult}"/>.
     /// </summary>
