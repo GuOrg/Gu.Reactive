@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>library</OutputType>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFrameworks>net46;netcoreapp3.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <UseWpf>true</UseWpf>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -31,13 +31,6 @@
 FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
     <PackageTags>reactive rx INotifyPropertyChanged ICommand</PackageTags>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" />
