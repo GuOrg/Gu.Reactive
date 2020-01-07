@@ -2,6 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net472</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
     <OutputType>Exe</OutputType>
     <StartupObject>Gu.Reactive.Benchmarks.Program</StartupObject>
     <CodeAnalysisRuleSet>Gu.Reactive.Benchmarks.ruleset</CodeAnalysisRuleSet>
