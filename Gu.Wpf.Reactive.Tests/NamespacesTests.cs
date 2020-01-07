@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive.Tests
+﻿namespace Gu.Wpf.Reactive.Tests
 {
     using System.Linq;
     using System.Windows.Markup;
@@ -20,6 +20,7 @@ namespace Gu.Wpf.Reactive.Tests
                 "TypeConverters",
                 "Microsoft.CodeAnalysis",
                 "System.Runtime.CompilerServices",
+                "System.Diagnostics.CodeAnalysis",
             };
 
         [Test]

@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Conditions
+﻿namespace Gu.Reactive.Tests.Conditions
 {
     using System;
     using System.Reactive.Subjects;
@@ -10,7 +10,7 @@ namespace Gu.Reactive.Tests.Conditions
     public static class ConditionExtTests
     {
         [Test]
-        [Explicit("Not sure if we want caching")]
+        [Ignore("Not sure if we want caching")]
         public static void Caches()
         {
             using (var observable = new Subject<object>())
