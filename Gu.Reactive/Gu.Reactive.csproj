@@ -32,6 +32,17 @@ FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
   
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+
+    <None Update="NotifyCollectionChangedExt.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NotifyCollectionChangedExt.generated.cs</LastGenOutput>
+    </None>
+
+    <Compile Update="NotifyCollectionChangedExt.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NotifyCollectionChangedExt.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

@@ -30,8 +30,15 @@
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(o =>
             {
@@ -78,8 +85,16 @@
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
             var observable = Observable.Create<PropertyChangedEventArgs>(o =>
             {
                 var tracker = ItemsTrackerSlim.Create(source, NotifyingPath.GetOrCreate(property));
@@ -114,8 +129,15 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChanged<ObservableCollection<TItem>, TItem, TProperty>(source, property);
         }
@@ -135,8 +157,15 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChanged<ObservableCollection<TItem>, TItem, TProperty>(source, property);
         }
@@ -156,8 +185,15 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChangedSlim<ObservableCollection<TItem>, TItem, TProperty>(source, property);
         }
@@ -176,8 +212,15 @@
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(o =>
             {
@@ -224,8 +267,16 @@
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
             var observable = Observable.Create<PropertyChangedEventArgs>(o =>
             {
                 var tracker = ItemsTrackerSlim.Create(source, NotifyingPath.GetOrCreate(property));
@@ -260,8 +311,15 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChanged<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
         }
@@ -281,8 +339,15 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChanged<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
         }
@@ -302,8 +367,15 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChangedSlim<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
         }
@@ -322,8 +394,15 @@
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(o =>
             {
@@ -370,8 +449,16 @@
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
             var observable = Observable.Create<PropertyChangedEventArgs>(o =>
             {
                 var tracker = ItemsTrackerSlim.Create(source, NotifyingPath.GetOrCreate(property));
@@ -406,8 +493,15 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChanged<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
         }
@@ -427,8 +521,15 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChanged<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
         }
@@ -448,8 +549,15 @@
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChangedSlim<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
         }
