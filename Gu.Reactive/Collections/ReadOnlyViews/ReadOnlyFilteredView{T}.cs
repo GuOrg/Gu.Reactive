@@ -10,7 +10,7 @@ namespace Gu.Reactive
 
     using Gu.Reactive.Internals;
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="IReadOnlyFilteredView{T}" />
     public partial class ReadOnlyFilteredView<T> : ReadonlyViewBase<T, T>, IReadOnlyFilteredView<T>
     {
         private readonly IDisposable refreshSubscription;
@@ -31,9 +31,12 @@ namespace Gu.Reactive
         public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, IEnumerable<IObservable<object>> triggers)
             : base(source, x => x.Where(filter), leaveOpen, startEmpty: true)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            this.Filter = filter;
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            this.Filter = filter ?? throw new ArgumentNullException(nameof(filter));
             this.BufferTime = bufferTime;
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.refreshSubscription = Observable.Merge(
@@ -59,9 +62,17 @@ namespace Gu.Reactive
         public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, Func<T, IObservable<object>> observableFactory, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
             : base(source, x => x.Where(filter), leaveOpen, startEmpty: true)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            this.Filter = filter;
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (observableFactory is null)
+            {
+                throw new ArgumentNullException(nameof(observableFactory));
+            }
+
+            this.Filter = filter ?? throw new ArgumentNullException(nameof(filter));
             this.BufferTime = bufferTime;
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.refreshSubscription = Observable.Merge(

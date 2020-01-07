@@ -1,4 +1,4 @@
-﻿// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Reactive
 {
     using System;
@@ -26,8 +26,16 @@ namespace Gu.Reactive
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector), TimeSpan.Zero, scheduler: null, leaveOpen: true, triggers: triggers);
         }
 
@@ -47,8 +55,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector), TimeSpan.Zero, scheduler: null, leaveOpen: leaveOpen, triggers: triggers);
         }
 
@@ -70,8 +86,16 @@ namespace Gu.Reactive
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -95,8 +119,16 @@ namespace Gu.Reactive
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -121,9 +153,21 @@ namespace Gu.Reactive
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -150,9 +194,21 @@ namespace Gu.Reactive
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -182,9 +238,21 @@ namespace Gu.Reactive
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -216,9 +284,21 @@ namespace Gu.Reactive
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -251,9 +331,21 @@ namespace Gu.Reactive
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -288,9 +380,21 @@ namespace Gu.Reactive
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), bufferTime, scheduler, leaveOpen, triggers);
         }
     }

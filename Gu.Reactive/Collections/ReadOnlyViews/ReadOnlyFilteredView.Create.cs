@@ -1,4 +1,4 @@
-﻿// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Reactive
 {
     using System;
@@ -25,8 +25,16 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, leaveOpen: true, triggers: triggers);
         }
 
@@ -45,8 +53,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, leaveOpen, triggers);
         }
 
@@ -67,9 +83,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -92,9 +120,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, leaveOpen, triggers);
         }
     }

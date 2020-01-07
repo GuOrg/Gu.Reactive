@@ -9,8 +9,6 @@ namespace Gu.Reactive
     using System.Reactive.Concurrency;
     using System.Reactive.Linq;
 
-    using Gu.Reactive.Internals;
-
     /// <summary>
     /// A view of a collection that maps the values.
     /// </summary>
@@ -31,11 +29,13 @@ namespace Gu.Reactive
         internal MappingView(IEnumerable<TSource> source, IMapper<TSource, TResult> factory, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
             : base(source, s => s.Select(factory.GetOrCreate), leaveOpen, startEmpty: true)
         {
-            Ensure.NotNull(source as INotifyCollectionChanged, nameof(source));
-            Ensure.NotNull(factory, nameof(factory));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
 
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
-            this.factory = factory;
+            this.factory = factory ?? throw new ArgumentNullException(nameof(factory));
             this.refreshSubscription = Observable.Merge(
                                                      source.ObserveCollectionChangedSlimOrDefault(signalInitial: false),
                                                      triggers.MergeOrNever()

@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive
+namespace Gu.Reactive
 {
     using System;
 
@@ -14,16 +14,6 @@
         internal static TResult ThrowCollectionIsReadonly<TResult>()
         {
             throw new InvalidOperationException(CollectionIsReadonly);
-        }
-
-        internal static void ThrowNotSupportedException(string message)
-        {
-            throw new NotSupportedException(message);
-        }
-
-        internal static TResult ThrowNotSupportedException<TResult>(string message)
-        {
-            throw new NotSupportedException(message);
         }
     }
 }
