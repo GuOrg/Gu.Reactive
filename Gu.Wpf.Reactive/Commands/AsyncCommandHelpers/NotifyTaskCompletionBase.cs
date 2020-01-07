@@ -12,8 +12,6 @@ namespace Gu.Wpf.Reactive
     public abstract class NotifyTaskCompletionBase<T> : INotifyPropertyChanged
         where T : Task
     {
-        private T completed;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="NotifyTaskCompletionBase{T}"/> class.
         /// </summary>
@@ -21,11 +19,7 @@ namespace Gu.Wpf.Reactive
         protected NotifyTaskCompletionBase(T task)
         {
             this.Task = task ?? throw new ArgumentNullException(nameof(task));
-            if (task.IsCompleted)
-            {
-                this.completed = task;
-            }
-            else
+            if (!task.IsCompleted)
             {
                 this.AwaitTask(task);
             }
@@ -87,28 +81,20 @@ namespace Gu.Wpf.Reactive
         /// <summary>
         /// Null if the run is not completed.
         /// </summary>
-        public T Completed
-        {
-            get => this.completed;
-
-            private set
-            {
-                if (this.completed == value)
-                {
-                    return;
-                }
-
-                this.completed = value;
-                this.OnPropertyChanged();
-            }
-        }
+        public T Completed => this.Task.IsCompleted
+            ? this.Task
+            : null;
 
         /// <summary>
         /// Called after awaiting the task.
         /// </summary>
         protected virtual void OnCompleted()
         {
-            this.Completed = this.Task;
+            this.OnPropertyChanged(nameof(this.Completed));
+            this.OnPropertyChanged(nameof(this.Status));
+            this.OnPropertyChanged(nameof(this.IsCompleted));
+            this.OnPropertyChanged(nameof(this.IsSuccessfullyCompleted));
+            this.OnPropertyChanged(nameof(this.IsNotCompleted));
         }
 
         /// <summary>
