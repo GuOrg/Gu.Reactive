@@ -62,7 +62,7 @@ namespace Gu.Reactive
         [field: NonSerialized]
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IReadOnlyCollection{T}" />
         public int Count => this.inner.Count;
 
 #pragma warning disable CA1033 // Interface methods should be callable by child types
@@ -135,22 +135,22 @@ namespace Gu.Reactive
             }
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IReadonlySet{T}" />
         public bool IsSubsetOf(IEnumerable<T> other) => this.inner.IsSubsetOf(other);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IReadonlySet{T}" />
         public bool IsSupersetOf(IEnumerable<T> other) => this.inner.IsSupersetOf(other);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IReadonlySet{T}" />
         public bool IsProperSupersetOf(IEnumerable<T> other) => this.inner.IsProperSupersetOf(other);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IReadonlySet{T}" />
         public bool IsProperSubsetOf(IEnumerable<T> other) => this.inner.IsProperSubsetOf(other);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IReadonlySet{T}" />
         public bool Overlaps(IEnumerable<T> other) => this.inner.Overlaps(other);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IReadonlySet{T}" />
         public bool SetEquals(IEnumerable<T> other) => this.inner.SetEquals(other);
 
         /// <inheritdoc/>

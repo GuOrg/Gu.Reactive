@@ -111,13 +111,15 @@ namespace Gu.Reactive
                     this.temp.AddRange(updated);
                     break;
                 }
-                catch (InvalidOperationException e) when (e.Message == Exceptions.CollectionWasModified.Message &&
-                                                          retry < 5)
+                catch (InvalidOperationException e)
+                    when (e.Message == Exceptions.CollectionWasModified.Message &&
+                          retry < 5)
                 {
                     retry++;
                 }
-                catch (ArgumentException e) when (e.Message == Exceptions.DestinationNotLongEnough.Message &&
-                                                          retry < 5)
+                catch (ArgumentException e)
+                    when (e.Message == Exceptions.DestinationNotLongEnough.Message &&
+                          retry < 5)
                 {
                     retry++;
                 }

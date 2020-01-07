@@ -31,11 +31,6 @@ namespace Gu.Reactive
         /// <param name="startEmpty">True means that the tracker is empty after the constructor.</param>
         protected ReadonlyViewBase(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper, bool leaveOpen, bool startEmpty = false)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.leaveOpen = leaveOpen;
             this.source = source ?? Array.Empty<TSource>();
