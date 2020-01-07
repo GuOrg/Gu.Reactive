@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -25,8 +25,7 @@ namespace Gu.Reactive
         /// <param name="source">The changes of the source collection.</param>
         public MinMaxTracker(IChanges<TValue> source)
         {
-            Ensure.NotNull(source, nameof(source));
-            this.source = source;
+            this.source = source ?? throw new ArgumentNullException(nameof(source));
             source.Add += this.OnAdd;
             source.Remove += this.OnRemove;
             source.Reset += this.OnReset;
@@ -34,7 +33,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc />
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// The min value or null if the collection is empty.

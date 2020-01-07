@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -10,7 +10,7 @@ namespace Gu.Reactive
     public abstract class CollectionCondition : Condition
     {
         private readonly ConditionCollection prerequisites;
-        private IReadOnlyList<ICondition> snapshot;
+        private IReadOnlyList<ICondition>? snapshot;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CollectionCondition"/> class.
@@ -30,7 +30,7 @@ namespace Gu.Reactive
             get
             {
                 this.ThrowIfDisposed();
-                return this.snapshot ?? (this.snapshot = this.prerequisites.Snapshot());
+                return this.snapshot ??= this.prerequisites.Snapshot();
             }
         }
 

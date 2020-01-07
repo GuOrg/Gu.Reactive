@@ -10,6 +10,6 @@
         /// <summary>
         /// Get the next tracker in the path.
         /// </summary>
-        IPropertyTracker GetNext(IPropertyTracker propertyTracker);
+        IPropertyTracker? GetNext(IPropertyTracker propertyTracker);
     }
 }

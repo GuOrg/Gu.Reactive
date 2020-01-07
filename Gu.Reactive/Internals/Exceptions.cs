@@ -1,16 +1,16 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections.Generic;
 
     internal static class Exceptions
     {
-        private static InvalidOperationException collectionWasModified;
-        private static ArgumentException destinationNotLongEnough;
+        private static InvalidOperationException? collectionWasModified;
+        private static ArgumentException? destinationNotLongEnough;
 
-        internal static InvalidOperationException CollectionWasModified => collectionWasModified ?? (collectionWasModified = CreateCollectionWasModified());
+        internal static InvalidOperationException CollectionWasModified => collectionWasModified ??= CreateCollectionWasModified();
 
-        internal static ArgumentException DestinationNotLongEnough => destinationNotLongEnough ?? (destinationNotLongEnough = CreateDestinationNotLongEnough());
+        internal static ArgumentException DestinationNotLongEnough => destinationNotLongEnough ??= CreateDestinationNotLongEnough();
 
         private static InvalidOperationException CreateCollectionWasModified()
         {
@@ -18,14 +18,13 @@ namespace Gu.Reactive.Internals
             var ints = new List<int>(1);
             try
             {
-                using (var enumerator = ints.GetEnumerator())
-                {
-                    // this increments version of the list.
-                    ints.Clear();
+                using var enumerator = ints.GetEnumerator();
 
-                    // this throws collection was modified.
-                    _ = enumerator.MoveNext();
-                }
+                // this increments version of the list.
+                ints.Clear();
+
+                // this throws collection was modified.
+                _ = enumerator.MoveNext();
             }
             catch (InvalidOperationException e)
             {

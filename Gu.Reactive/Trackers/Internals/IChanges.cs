@@ -6,7 +6,7 @@
     /// <summary>
     /// A view of the changes in an observable collection.
     /// </summary>
-    public interface IChanges<TValue> : IDisposable
+    public interface IChanges<out TValue> : IDisposable
     {
         /// <summary>
         /// When an item is added. On replace add is called before remove.

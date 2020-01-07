@@ -1,4 +1,4 @@
-// ReSharper disable MemberCanBePrivate.Global
+﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable VirtualMemberNeverOverridden.Global
 namespace Gu.Reactive
 {
@@ -38,7 +38,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged
+        public event PropertyChangedEventHandler? PropertyChanged
         {
             add
             {
@@ -49,7 +49,7 @@ namespace Gu.Reactive
             remove => this.PropertyChangedCore -= value;
         }
 
-        private event PropertyChangedEventHandler PropertyChangedCore;
+        private event PropertyChangedEventHandler? PropertyChangedCore;
 
         /// <inheritdoc/>
         public bool? IsSatisfied => this.condition.Value.IsSatisfied;

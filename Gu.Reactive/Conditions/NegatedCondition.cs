@@ -1,4 +1,4 @@
-// ReSharper disable MemberCanBePrivate.Global
+﻿// ReSharper disable MemberCanBePrivate.Global
 namespace Gu.Reactive
 {
     using System;
@@ -36,7 +36,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc/>
         public bool? IsSatisfied
@@ -140,7 +140,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Raise PropertyChanged event to any listeners.
         /// </summary>
-        protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

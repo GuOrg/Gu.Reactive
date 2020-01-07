@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections;
@@ -83,7 +83,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        private void UpdateSubscriptions(IEnumerable oldItems, IEnumerable newItems)
+        private void UpdateSubscriptions(IEnumerable? oldItems, IEnumerable newItems)
         {
             if (this.Disposed)
             {

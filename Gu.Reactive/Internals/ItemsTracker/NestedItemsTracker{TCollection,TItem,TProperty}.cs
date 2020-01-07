@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections;
@@ -15,7 +15,7 @@ namespace Gu.Reactive.Internals
 
         private readonly IdentityMap<TItem, PropertyPathTracker<TItem, TProperty>> map = IdentityMap.Borrow<TItem, PropertyPathTracker<TItem, TProperty>>();
 
-        private TCollection source;
+        private TCollection? source;
         private bool disposed;
 
         internal NestedItemsTracker(TCollection source, NotifyingPath<TItem, TProperty> path)

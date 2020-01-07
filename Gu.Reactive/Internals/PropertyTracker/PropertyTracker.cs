@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.ComponentModel;
@@ -47,9 +47,9 @@ namespace Gu.Reactive.Internals
                 };
         }
 
-        public event TrackedPropertyChangedEventHandler<TValue> TrackedPropertyChanged;
+        public event TrackedPropertyChangedEventHandler<TValue>? TrackedPropertyChanged;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         event PropertyChangedEventHandler IPropertyTracker.TrackedPropertyChanged
         {
@@ -57,7 +57,7 @@ namespace Gu.Reactive.Internals
             remove => this.TrackedPropertyChangedInternal -= value;
         }
 
-        private event PropertyChangedEventHandler TrackedPropertyChangedInternal;
+        private event PropertyChangedEventHandler? TrackedPropertyChangedInternal;
 
         public IPropertyPathTracker PathTracker { get; }
 

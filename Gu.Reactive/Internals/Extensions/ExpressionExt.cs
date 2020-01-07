@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Linq.Expressions;
@@ -22,8 +22,7 @@ namespace Gu.Reactive.Internals
                                 return memberExpression;
                             }
 
-                            throw new ArgumentException(
-                                $"Expected path to be properties only. Was {lambda}. Unexpected item: {memberExpression.Member}");
+                            throw new ArgumentException($"Expected path to be properties only. Was {lambda}. Unexpected item: {memberExpression.Member}");
                         }
 
                         throw new ArgumentException($"Expected path to be properties only. Was {lambda}");
@@ -44,7 +43,7 @@ namespace Gu.Reactive.Internals
             throw new ArgumentException($"Expected path to be properties only. Was {lambda}");
         }
 
-        internal static MemberExpression GetPreviousProperty(this MemberExpression parent)
+        internal static MemberExpression? GetPreviousProperty(this MemberExpression parent)
         {
             if (parent.Expression == null ||
                 parent.Expression.NodeType == ExpressionType.Parameter ||
@@ -75,27 +74,21 @@ namespace Gu.Reactive.Internals
         internal static Type GetSourceType(this LambdaExpression lambda)
         {
             var property = lambda.GetRootProperty();
-            while (property.Expression is MemberExpression && property.Member is PropertyInfo)
+            while (property is { Expression: MemberExpression expression, Member: PropertyInfo _ })
             {
-                property = (MemberExpression)property.Expression;
+                property = expression;
             }
 
-            if (property.Expression is ConstantExpression constant)
+            return property switch
             {
-                if (IsCompilerGenerated(property.Member))
-                {
-                    return property.Type;
-                }
-
-                return constant.Type;
-            }
-
-            if (property.Expression is ParameterExpression parameter)
-            {
-                return parameter.Type;
-            }
-
-            throw new ArgumentException("Could not determine source type.");
+                { Expression: ConstantExpression constant }
+                => IsCompilerGenerated(property.Member)
+                    ? property.Type
+                    : constant.Type,
+                { Expression: ParameterExpression parameter }
+                => parameter.Type,
+                _ => throw new ArgumentException("Could not determine source type."),
+            };
         }
 
         private static bool IsCompilerGenerated(MemberInfo member)

@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections;
@@ -6,7 +6,7 @@ namespace Gu.Reactive
     // ReSharper disable once InconsistentNaming
     internal static class IListExt
     {
-        internal static bool TrySingle(this IList source, out object item)
+        internal static bool TrySingle(this IList source, out object? item)
         {
             if (source.Count == 1)
             {
@@ -18,7 +18,7 @@ namespace Gu.Reactive
             return false;
         }
 
-        internal static bool All(this IList source, Func<object, bool> predicate)
+        internal static bool All(this IList source, Func<object?, bool> predicate)
         {
             foreach (var item in source)
             {
@@ -31,7 +31,7 @@ namespace Gu.Reactive
             return true;
         }
 
-        internal static bool Any(this IList source, Func<object, bool> predicate)
+        internal static bool Any(this IList source, Func<object?, bool> predicate)
         {
             foreach (var item in source)
             {

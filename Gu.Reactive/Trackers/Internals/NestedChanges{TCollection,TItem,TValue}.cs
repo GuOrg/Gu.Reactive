@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -30,11 +30,11 @@ namespace Gu.Reactive
                                       .Subscribe(this.OnSourceChanged);
         }
 
-        public event Action<TValue> Add;
+        public event Action<TValue>? Add;
 
-        public event Action<TValue> Remove;
+        public event Action<TValue>? Remove;
 
-        public event Action<IEnumerable<TValue>> Reset;
+        public event Action<IEnumerable<TValue>>? Reset;
 
         public IEnumerable<TValue> Values => this.source.Where(m => m.Value.HasValue)
                                                  .Select(m => m.Value.Value);
@@ -57,7 +57,7 @@ namespace Gu.Reactive
             {
                 case NotifyCollectionChangedAction.Add:
                     {
-                        if (e.TryGetSingleNewItem(out ValueTracker tracker))
+                        if (e.TryGetSingleNewItem<ValueTracker>(out var tracker))
                         {
                             var value = tracker.Value;
                             if (value.HasValue)
@@ -75,7 +75,7 @@ namespace Gu.Reactive
 
                 case NotifyCollectionChangedAction.Remove:
                     {
-                        if (e.TryGetSingleOldItem(out ValueTracker tracker))
+                        if (e.TryGetSingleOldItem<ValueTracker>(out var tracker))
                         {
                             var value = tracker.Value;
                             if (value.HasValue)
@@ -93,8 +93,8 @@ namespace Gu.Reactive
 
                 case NotifyCollectionChangedAction.Replace:
                     {
-                        if (e.TryGetSingleNewItem(out ValueTracker newTracker) &&
-                            e.TryGetSingleOldItem(out ValueTracker oldTracker))
+                        if (e.TryGetSingleNewItem<ValueTracker>(out var newTracker) &&
+                            e.TryGetSingleOldItem<ValueTracker>(out var oldTracker))
                         {
                             var newValue = newTracker.Value;
                             if (newValue.HasValue)

@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace Gu.Reactive.Internals
     {
         protected readonly object Gate = new object();
 
-        internal event TrackedItemPropertyChangedEventHandler<TItem, TProperty> TrackedItemChanged;
+        internal event TrackedItemPropertyChangedEventHandler<TItem, TProperty>? TrackedItemChanged;
 
         protected bool HasSubscribers => this.TrackedItemChanged != null;
 

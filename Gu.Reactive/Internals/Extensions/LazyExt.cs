@@ -7,7 +7,7 @@
         // ReSharper disable once UnusedParameter.Global
         internal static void ForceCreate<T>(this Lazy<T> lazy)
         {
-            if (lazy.Value == null)
+            if (lazy.Value is null)
             {
                 throw new InvalidOperationException();
             }

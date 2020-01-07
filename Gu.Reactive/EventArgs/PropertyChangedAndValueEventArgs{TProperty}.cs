@@ -31,7 +31,7 @@
 
         /// <summary>
         /// The value of the property.
-        /// This is not guaranteed to be the value when the event was raised in a multithreaded scenario.
+        /// This is not guaranteed to be the value when the event was raised in a multi threaded scenario.
         /// </summary>
         public TProperty Value { get; }
     }

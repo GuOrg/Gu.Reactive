@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections;
@@ -26,7 +26,7 @@ namespace Gu.Reactive.Internals
             this.Last.TrackedPropertyChanged += this.OnTrackedPropertyChanged;
         }
 
-        internal event TrackedPropertyChangedEventHandler<TValue> TrackedPropertyChanged;
+        internal event TrackedPropertyChangedEventHandler<TValue>? TrackedPropertyChanged;
 
         public int Count => this.parts.Count;
 
@@ -43,7 +43,7 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        IPropertyTracker IPropertyPathTracker.GetNext(IPropertyTracker tracker)
+        IPropertyTracker? IPropertyPathTracker.GetNext(IPropertyTracker tracker)
         {
             for (var i = 0; i < this.parts.Count - 1; i++)
             {

@@ -1,9 +1,8 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// A reactive mapper from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
@@ -20,14 +19,22 @@ namespace Gu.Reactive
         /// </summary>
         public Mapper(ITracker<TSource> source, Func<TSource, TResult> selector)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             this.subscription = source.ObservePropertyChangedSlim(nameof(source.Value))
                                       .Subscribe(_ => { this.Value = selector(source.Value); });
         }
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// The mapped value.

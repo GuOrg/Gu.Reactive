@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Linq;
@@ -127,7 +127,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Get the name of a method.
         /// </summary>
-        /// <typeparam name="TResult">The type of the returnvalue of the method.</typeparam>
+        /// <typeparam name="TResult">The type of the return value of the method.</typeparam>
         /// <param name="method">An expression specifying a method.</param>
         /// <returns> The name of the method specified by <paramref name="method"/>.</returns>
         public static string Method<TResult>(Expression<Func<TResult>> method)
@@ -144,7 +144,7 @@ namespace Gu.Reactive
         /// Get the name of a method.
         /// </summary>
         /// <typeparam name="TClass">The type containing the method.</typeparam>
-        /// <typeparam name="TReturnValue">The type of the returnvalue of the method.</typeparam>
+        /// <typeparam name="TReturnValue">The type of the return value of the method.</typeparam>
         /// <param name="method">An expression specifying a method.</param>
         /// <returns> The name of the method specified by <paramref name="method"/>.</returns>
         public static string Method<TClass, TReturnValue>(Expression<Func<TClass, TReturnValue>> method)

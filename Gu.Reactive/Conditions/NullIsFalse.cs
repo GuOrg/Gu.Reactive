@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System.Collections.Generic;
     using System.Reactive.Linq;
@@ -17,7 +17,7 @@ namespace Gu.Reactive
         public NullIsFalse(TCondition condition)
             : base(
                 condition.ObserveValue(x => x.IsSatisfied)
-                         .Select(x => (object)x.GetValueOrDefault(false))
+                         .Select(x => (object?)x.GetValueOrDefault(false))
                          .DistinctUntilChanged(),
                 () => condition.IsSatisfied ?? false)
         {
