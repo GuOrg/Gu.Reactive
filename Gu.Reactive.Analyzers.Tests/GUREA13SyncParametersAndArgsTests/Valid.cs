@@ -41,7 +41,7 @@ namespace N
         [Test]
         public static void AndConditionSortArgs()
         {
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using Gu.Reactive;
@@ -54,7 +54,7 @@ namespace N
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, Condition1, Condition2, testCode);
+            RoslynAssert.Valid(Analyzer, Condition1, Condition2, code);
         }
     }
 }

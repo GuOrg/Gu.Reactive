@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA06DontNewConditionTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA06DoNotNewConditionTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
@@ -11,13 +11,13 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA06DontNewConditionTests
         [Test]
         public static void WhenInjectingCondition()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
         private int value;
 
@@ -48,39 +48,39 @@ namespace N
         }
     }
 }";
-            var conditionCode = @"
+            var valueCondition = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2)
         {
         }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C
     {
         private readonly ICondition condition;
-        public Bar(FooCondition condition)
+        public C(ValueCondition condition)
         {
-            var foo = new Foo();
+            var c1 = new C1();
             this.condition = condition;
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, conditionCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, valueCondition, code);
         }
     }
 }

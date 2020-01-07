@@ -8,13 +8,16 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA11PreferObservableFromEventTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new AddAssignmentAnalyzer();
 
-        private const string FooCode = @"
+        [Test]
+        public static void Misc()
+        {
+            var c = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C : INotifyPropertyChanged
     {
         private int value;
 
@@ -46,43 +49,40 @@ namespace N
     }
 }";
 
-        [Test]
-        public static void Misc()
-        {
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C c)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c.ObservePropertyChangedSlim(x => x.Value),
+                () => c.Value == 2)
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c, code);
         }
 
         [Test]
         public static void InsideObservableFromEventArg()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System;
 
     public class C1
     {
-        public event EventHandler<int> SomeEvent;
+        public event EventHandler<int> E;
     }
 }";
 
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using System;
@@ -95,15 +95,15 @@ namespace N
             var c1 = new C1();
             using (Observable.FromEvent<EventHandler<int>, int>(
                                  h => (_, e) => h(e),
-                                 h => c1.SomeEvent += h,
-                                 h => c1.SomeEvent -= h)
+                                 h => c1.E += h,
+                                 h => c1.E -= h)
                              .Subscribe(_ => Console.WriteLine(string.Empty)))
             {
             }
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, code);
         }
     }
 }

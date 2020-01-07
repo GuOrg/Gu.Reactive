@@ -11,13 +11,13 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
         private static readonly CodeFixProvider Fix = new ObservableBeforeCriteriaCodeFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA09ObservableBeforeCriteria);
 
-        private const string FooCode = @"
+        private const string C1 = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
         private int value;
 
@@ -57,12 +57,12 @@ namespace N
 {
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C1 c1)
             : base↓(
-                () => foo.Value == 2,
-                foo.ObservePropertyChangedSlim(x => x.Value))
+                () => c1.Value == 2,
+                c1.ObservePropertyChangedSlim(x => x.Value))
         {
         }
     }
@@ -73,17 +73,17 @@ namespace N
 {
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2)
         {
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, before }, after);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { C1, before }, after);
         }
 
         [Test]
@@ -94,14 +94,14 @@ namespace N
 {
     using Gu.Reactive;
 
-    class Bar
+    class C
     {
         public static ICondition Create()
         {
-            var foo = new Foo();
+            var c1 = new C1();
             return new Condition↓(
-                () => foo.Value == 2,
-                foo.ObservePropertyChangedSlim(x => x.Value));
+                () => c1.Value == 2,
+                c1.ObservePropertyChangedSlim(x => x.Value));
         }
     }
 }";
@@ -111,18 +111,18 @@ namespace N
 {
     using Gu.Reactive;
 
-    class Bar
+    class C
     {
         public static ICondition Create()
         {
-            var foo = new Foo();
+            var c1 = new C1();
             return new Condition(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2);
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2);
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic,  new[] { FooCode, before }, after);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic,  new[] { C1, before }, after);
         }
     }
 }

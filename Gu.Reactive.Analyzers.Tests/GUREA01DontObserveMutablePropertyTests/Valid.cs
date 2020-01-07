@@ -11,7 +11,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA01DontObserveMutablePropertyTests
         [Test]
         public static void ObservingLocal()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System.ComponentModel;
@@ -63,13 +63,13 @@ namespace N
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, code);
+            RoslynAssert.Valid(Analyzer, c1, code);
         }
 
         [Test]
         public static void ObservingGetOnlyPropertyInSelf()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System.ComponentModel;
@@ -106,7 +106,7 @@ namespace N
         }
     }
 }";
-            var testCode = @"namespace N
+            var code = @"namespace N
 {
     using System;
     using Gu.Reactive;
@@ -123,7 +123,7 @@ namespace N
         public C1 C1 { get; }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, code);
         }
     }
 }

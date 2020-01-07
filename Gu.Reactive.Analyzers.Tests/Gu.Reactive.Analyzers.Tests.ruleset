@@ -119,4 +119,12 @@
     <Rule Id="SA1651" Action="None" />
     <Rule Id="SA1652" Action="None" />
   </Rules>
+  <Rules AnalyzerId="Gu.Roslyn.Asserts.Analyzers" RuleNamespace="Gu.Roslyn.Asserts.Analyzers">
+    <Rule Id="GURA09" Action="Warning" />
+    <Rule Id="GURA01" Action="Warning" />
+    <Rule Id="GURA03" Action="Warning" />
+    <Rule Id="GURA02" Action="Warning" />
+    <Rule Id="GURA11" Action="Warning" />
+    <Rule Id="GURA08a" Action="Warning" />
+  </Rules>
 </RuleSet>

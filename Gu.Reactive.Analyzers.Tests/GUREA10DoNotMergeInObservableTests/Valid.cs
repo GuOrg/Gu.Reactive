@@ -1,24 +1,20 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA06DontNewConditionTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA10DoNotMergeInObservableTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public static class Diagnostics
+    public static class Valid
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA06DoNotNewCondition);
 
-        [Test]
-        public static void WhenCreatingCondition()
-        {
-            var fooCode = @"
+        private const string C = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C : INotifyPropertyChanged
     {
         private int value;
 
@@ -49,38 +45,27 @@ namespace N
         }
     }
 }";
-            var conditionCode = @"
+
+        [Test]
+        public static void WhenNoMerge()
+        {
+            var code = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C c)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c.ObservePropertyChangedSlim(x => x.Value),
+                () => c.Value == 2)
         {
         }
     }
 }";
-            var code = @"
-namespace N
-{
-    using System;
-    using Gu.Reactive;
-
-    public class Bar
-    {
-        public Bar()
-        {
-            var foo = new Foo();
-            var condition = ↓new FooCondition(foo);
-        }
-    }
-}";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, conditionCode, code);
+            RoslynAssert.Valid(Analyzer, C, code);
         }
     }
 }

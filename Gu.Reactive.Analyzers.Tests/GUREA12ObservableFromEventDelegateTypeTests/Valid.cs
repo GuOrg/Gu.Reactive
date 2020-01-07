@@ -11,7 +11,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA12ObservableFromEventDelegateTypeTest
         [Test]
         public static void ActionOfInt()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System;
@@ -22,14 +22,14 @@ namespace N
     }
 }";
 
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using System;
 
-    public class C2
+    public class C
     {
-        public C2()
+        public C()
         {
             var c1 = new C1();
             System.Reactive.Linq.Observable.FromEvent<System.Action<int>, int>(
@@ -39,13 +39,13 @@ namespace N
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, code);
         }
 
         [Test]
         public static void EventHandlerOfInt()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System;
@@ -56,7 +56,7 @@ namespace N
     }
 }";
 
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using System;
@@ -74,13 +74,13 @@ namespace N
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, code);
         }
 
         [Test]
         public static void EventHandler()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System;
@@ -91,7 +91,7 @@ namespace N
     }
 }";
 
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using System;
@@ -109,7 +109,7 @@ namespace N
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, code);
         }
     }
 }

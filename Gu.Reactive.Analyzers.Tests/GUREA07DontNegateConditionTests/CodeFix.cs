@@ -11,13 +11,13 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
         private static readonly CodeFixProvider Fix = new InjectNegatedCodeFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA07DoNotNegateCondition);
 
-        private const string FooCode = @"
+        private const string C1 = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
         private int value;
 
@@ -52,18 +52,18 @@ namespace N
         [Test]
         public static void WhenNegatingCondition()
         {
-            var conditionCode = @"
+            var valueCondition = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2)
         {
         }
     }
@@ -74,11 +74,11 @@ namespace N
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C
     {
-        public Bar(FooCondition fooCondition)
+        public C(ValueCondition valueCondition)
         {
-            var condition = fooCondition.↓Negate();
+            var condition = valueCondition.↓Negate();
         }
     }
 }";
@@ -89,48 +89,48 @@ namespace N
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C
     {
-        public Bar(Negated<FooCondition> notFooCondition)
+        public C(Negated<ValueCondition> notValueCondition)
         {
-            var condition = notFooCondition;
+            var condition = notValueCondition;
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, conditionCode, before }, after);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { C1, valueCondition, before }, after);
         }
 
         [Test]
         public static void WhenPassingNegatedConditionToBaseCtor()
         {
-            var fooConditionCode = @"
+            var valueCondition = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2)
         {
         }
     }
 }";
-            var barConditionCode = @"
+            var otherCondition = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class BarCondition : Condition
+    public class OtherCondition : Condition
     {
-        public BarCondition(Foo foo)
+        public OtherCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2)
         {
         }
     }
@@ -140,10 +140,10 @@ namespace N
 {
     using Gu.Reactive;
 
-    public class MegaMeh : AndCondition
+    public class C : AndCondition
     {
-        public MegaMeh(FooCondition fooCondition, BarCondition barCondition)
-            : base(fooCondition.↓Negate(), barCondition)
+        public C(ValueCondition valueCondition, OtherCondition otherCondition)
+            : base(valueCondition.↓Negate(), otherCondition)
         {
         }
     }
@@ -154,48 +154,48 @@ namespace N
 {
     using Gu.Reactive;
 
-    public class MegaMeh : AndCondition
+    public class C : AndCondition
     {
-        public MegaMeh(Negated<FooCondition> notFooCondition, BarCondition barCondition)
-            : base(notFooCondition, barCondition)
+        public C(Negated<ValueCondition> notValueCondition, OtherCondition otherCondition)
+            : base(notValueCondition, otherCondition)
         {
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, before }, after);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { C1, valueCondition, otherCondition, before }, after);
         }
 
         [Test]
         public static void WhenPassingNegatedConditionToBaseCtorArgPerLine()
         {
-            var fooConditionCode = @"
+            var valueCondition = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2)
         {
         }
     }
 }";
-            var barConditionCode = @"
+            var otherCondition = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class BarCondition : Condition
+    public class OtherCondition : Condition
     {
-        public BarCondition(Foo foo)
+        public OtherCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2)
         {
         }
     }
@@ -205,14 +205,14 @@ namespace N
 {
     using Gu.Reactive;
 
-    public class MegaMeh : AndCondition
+    public class C : AndCondition
     {
-        public MegaMeh(
-            FooCondition fooCondition,
-            BarCondition barCondition)
+        public C(
+            ValueCondition valueCondition,
+            OtherCondition otherCondition)
             : base(
-                fooCondition.↓Negate(),
-                barCondition)
+                valueCondition.↓Negate(),
+                otherCondition)
         {
         }
     }
@@ -223,52 +223,52 @@ namespace N
 {
     using Gu.Reactive;
 
-    public class MegaMeh : AndCondition
+    public class C : AndCondition
     {
-        public MegaMeh(
-            Negated<FooCondition> notFooCondition,
-            BarCondition barCondition)
+        public C(
+            Negated<ValueCondition> notValueCondition,
+            OtherCondition otherCondition)
             : base(
-                notFooCondition,
-                barCondition)
+                notValueCondition,
+                otherCondition)
         {
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, before }, after);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { C1, valueCondition, otherCondition, before }, after);
         }
 
         [Test]
         public static void WhenNegatingNegatedCondition()
         {
-            var fooConditionCode = @"
+            var valueCondition = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2)
         {
         }
     }
 }";
-            var barConditionCode = @"
+            var otherCondition = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class BarCondition : Condition
+    public class OtherCondition : Condition
     {
-        public BarCondition(Foo foo)
+        public OtherCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2)
         {
         }
     }
@@ -278,10 +278,10 @@ namespace N
 {
     using Gu.Reactive;
 
-    public class MegaMeh : AndCondition
+    public class C : AndCondition
     {
-        public MegaMeh(Negated<FooCondition> notFooCondition, BarCondition barCondition)
-            : base(notFooCondition.↓Negate(), barCondition)
+        public C(Negated<ValueCondition> notValueCondition, OtherCondition otherCondition)
+            : base(notValueCondition.↓Negate(), otherCondition)
         {
         }
     }
@@ -292,15 +292,15 @@ namespace N
 {
     using Gu.Reactive;
 
-    public class MegaMeh : AndCondition
+    public class C : AndCondition
     {
-        public MegaMeh(FooCondition fooCondition, BarCondition barCondition)
-            : base(fooCondition, barCondition)
+        public C(ValueCondition valueCondition, OtherCondition otherCondition)
+            : base(valueCondition, otherCondition)
         {
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { FooCode, fooConditionCode, barConditionCode, before }, after);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { C1, valueCondition, otherCondition, before }, after);
         }
     }
 }

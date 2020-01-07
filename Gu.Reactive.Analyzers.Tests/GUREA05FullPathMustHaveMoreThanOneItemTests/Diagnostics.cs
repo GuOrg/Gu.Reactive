@@ -12,13 +12,13 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA05FullPathMustHaveMoreThanOneItemTest
         [Test]
         public static void OneLevel()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
         private int value;
 
@@ -55,17 +55,17 @@ namespace N
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C
     {
-        public Bar()
+        public C()
         {
-            var foo = new Foo();
-            foo.ObserveFullPropertyPathSlim(x => ↓x.Value)
-               .Subscribe(_ => Console.WriteLine(string.Empty));
+            var c1 = new C1();
+            c1.ObserveFullPropertyPathSlim(x => ↓x.Value)
+              .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
 }";
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, fooCode, code);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, c1, code);
         }
     }
 }

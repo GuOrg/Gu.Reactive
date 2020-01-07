@@ -203,7 +203,7 @@ namespace N
         int P { get; }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using System;
@@ -219,7 +219,7 @@ namespace N
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, i, testCode);
+            RoslynAssert.Valid(Analyzer, i, code);
         }
 
         [Test]
@@ -248,7 +248,7 @@ namespace N
         T P { get; set; }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using System;
@@ -263,13 +263,13 @@ namespace N
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, i, iOfT, testCode);
+            RoslynAssert.Valid(Analyzer, i, iOfT, code);
         }
 
         [Test]
         public static void GenericConstrainedProperty()
         {
-            var iBarCode = @"
+            var i = @"
 namespace N
 {
     using System.ComponentModel;
@@ -307,39 +307,39 @@ namespace N
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, iBarCode, iOfT, cOfT);
+            RoslynAssert.Valid(Analyzer, i, iOfT, cOfT);
         }
 
         [Test]
         public static void TwoLevels()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
-        private Bar bar;
+        private C2 p;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Bar Bar
+        public C2 P
         {
             get
             {
-                return this.bar;
+                return this.p;
             }
 
             set
             {
-                if (value == this.bar)
+                if (value == this.p)
                 {
                     return;
                 }
 
-                this.bar = value;
+                this.p = value;
                 this.OnPropertyChanged();
             }
         }
@@ -350,13 +350,13 @@ namespace N
         }
     }
 }";
-            var barCode = @"
+            var c2 = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Bar : INotifyPropertyChanged
+    public class C2 : INotifyPropertyChanged
     {
         private int value;
 
@@ -387,23 +387,23 @@ namespace N
         }
     }
 }";
-            var testCode = @"
+            var c3 = @"
 namespace N
 {
     using System;
     using Gu.Reactive;
 
-    public class Baz
+    public class C3
     {
-        public Baz()
+        public C3()
         {
-            var foo = new Foo();
-            foo.ObservePropertyChanged(x => x.Bar.Value)
+            var c1 = new C1();
+            c1.ObservePropertyChanged(x => x.P.Value)
                .Subscribe(x => Console.WriteLine(x));
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, barCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, c2, c3);
         }
     }
 }

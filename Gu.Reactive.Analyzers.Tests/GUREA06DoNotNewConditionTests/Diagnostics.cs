@@ -1,20 +1,24 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA06DoNotNewConditionTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
-    public static class Valid
+    public static class Diagnostics
     {
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA06DoNotNewCondition);
 
-        private const string FooCode = @"
+        [Test]
+        public static void WhenCreatingCondition()
+        {
+            var c1 = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
         private int value;
 
@@ -45,27 +49,38 @@ namespace N
         }
     }
 }";
-
-        [Test]
-        public static void WhenNoMerge()
-        {
-            var testCode = @"
+            var valueCondition = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2)
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, FooCode, testCode);
+            var code = @"
+namespace N
+{
+    using System;
+    using Gu.Reactive;
+
+    public class C
+    {
+        public C()
+        {
+            var c1 = new C1();
+            var condition = ↓new ValueCondition(c1);
+        }
+    }
+}";
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, c1, valueCondition, code);
         }
     }
 }

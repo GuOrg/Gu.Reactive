@@ -8,33 +8,33 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
 
-        private const string FooCode = @"
+        private const string C1 = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
-        private int value1;
+        private int value;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Value1
+        public int Value
         {
             get
             {
-                return this.value1;
+                return this.value;
             }
 
             set
             {
-                if (value == this.value1)
+                if (value == this.value)
                 {
                     return;
                 }
 
-                this.value1 = value;
+                this.value = value;
                 this.OnPropertyChanged();
             }
         }
@@ -49,66 +49,66 @@ namespace N
         [Test]
         public static void WhenPassingSlimToConditionCtor()
         {
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C1 c1)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value1),
-                () => foo.Value1 == 2)
+                c1.ObservePropertyChangedSlim(x => x.Value),
+                () => c1.Value == 2)
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, C1, code);
         }
 
         [Test]
         public static void WhenSubscribingToSlimNotUsingArg()
         {
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C
     {
-        public Bar()
+        public C()
         {
-            var foo = new Foo();
-            foo.ObservePropertyChangedSlim(x => x.Value1)
+            var c1 = new C1();
+            c1.ObservePropertyChangedSlim(x => x.Value)
                .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, C1, code);
         }
 
         [Test]
         public static void WhenSubscribingToSlimUsingArg()
         {
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using System;
     using Gu.Reactive;
 
-    public class Bar
+    public class C
     {
-        public Bar()
+        public C()
         {
-            var foo = new Foo();
-            foo.ObservePropertyChangedSlim(x => x.Value1)
+            var c1 = new C1();
+            c1.ObservePropertyChangedSlim(x => x.Value)
                .Subscribe(x => Console.WriteLine(x.PropertyName));
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, FooCode, testCode);
+            RoslynAssert.Valid(Analyzer, C1, code);
         }
     }
 }

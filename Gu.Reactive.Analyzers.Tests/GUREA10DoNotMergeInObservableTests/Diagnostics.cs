@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
+namespace Gu.Reactive.Analyzers.Tests.GUREA10DoNotMergeInObservableTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
@@ -9,73 +9,53 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA10DontMergeInObservableTests
         private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA10DoNotMergeInObservable);
 
-        private const string FooCode = @"
+        private const string C1 = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
-        private int value1;
-        private int value;
-        private int value2;
+        private int p1;
+        private int p2;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Value
+        public int P1
         {
             get
             {
-                return this.value;
+                return this.p1;
             }
 
             set
             {
-                if (value == this.value)
+                if (value == this.p1)
                 {
                     return;
                 }
 
-                this.value = value;
+                this.p1 = value;
                 this.OnPropertyChanged();
             }
         }
 
-        public int Value1
+        public int P2
         {
             get
             {
-                return this.value1;
+                return this.p2;
             }
 
             set
             {
-                if (value == this.value1)
+                if (value == this.p2)
                 {
                     return;
                 }
 
-                this.value1 = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        public int Value2
-        {
-            get
-            {
-                return this.value2;
-            }
-
-            set
-            {
-                if (value == this.value2)
-                {
-                    return;
-                }
-
-                this.value2 = value;
+                this.p2 = value;
                 this.OnPropertyChanged();
             }
         }
@@ -96,20 +76,20 @@ namespace N
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class P1AndP2Condition : Condition
     {
-        public FooCondition(Foo foo)
+        public P1AndP2Condition(C1 c1)
             : base(
                ↓Observable.Merge(
-                   foo.ObservePropertyChangedSlim(x => x.Value1),
-                   foo.ObservePropertyChangedSlim(x => x.Value2)),
-               () => foo.Value1 == 1 && foo.Value2 == 2)
+                   c1.ObservePropertyChangedSlim(x => x.P1),
+                   c1.ObservePropertyChangedSlim(x => x.P2)),
+               () => c1.P1 == 1 && c1.P2 == 2)
         {
         }
     }
 }";
 
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, FooCode, code);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, C1, code);
         }
 
         [Test]
@@ -123,25 +103,25 @@ namespace N
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class P1AndP2Condition : Condition
     {
-        public FooCondition(Foo foo)
+        public P1AndP2Condition(C1 c1)
             : base(
-               ↓CreateObservable(foo),
-               () => foo.Value1 == 1 && foo.Value2 == 2)
+               ↓CreateObservable(c1),
+               () => c1.P1 == 1 && c1.P2 == 2)
         {
         }
 
-        private static IObservable<PropertyChangedEventArgs> CreateObservable(Foo foo)
+        private static IObservable<PropertyChangedEventArgs> CreateObservable(C1 c1)
         {
             return Observable.Merge(
-                foo.ObservePropertyChangedSlim(x => x.Value1),
-                foo.ObservePropertyChangedSlim(x => x.Value2));
+                c1.ObservePropertyChangedSlim(x => x.P1),
+                c1.ObservePropertyChangedSlim(x => x.P2));
         }
     }
 }";
 
-            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, FooCode, code);
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, C1, code);
         }
     }
 }

@@ -11,13 +11,13 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
         [Test]
         public static void WhenSingleLine()
         {
-            var fooCode = @"
+            var c = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C : INotifyPropertyChanged
     {
         private int value;
 
@@ -48,23 +48,23 @@ namespace N
         }
     }
 }";
-            var testCode = @"
+            var code = @"
 namespace N
 {
     using System.Reactive.Linq;
     using Gu.Reactive;
 
-    public class FooCondition : Condition
+    public class ValueCondition : Condition
     {
-        public FooCondition(Foo foo)
+        public ValueCondition(C c)
             : base(
-                foo.ObservePropertyChangedSlim(x => x.Value),
-                () => foo.Value == 2)
+                c.ObservePropertyChangedSlim(x => x.Value),
+                () => c.Value == 2)
         {
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, testCode);
+            RoslynAssert.Valid(Analyzer, c, code);
         }
     }
 }

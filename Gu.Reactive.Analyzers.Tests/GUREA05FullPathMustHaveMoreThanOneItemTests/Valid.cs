@@ -11,33 +11,33 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA05FullPathMustHaveMoreThanOneItemTest
         [Test]
         public static void TwoLevels()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Foo : INotifyPropertyChanged
+    public class C1 : INotifyPropertyChanged
     {
-        private Bar bar;
+        private C2 p;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Bar Bar
+        public C2 P
         {
             get
             {
-                return this.bar;
+                return this.p;
             }
 
             set
             {
-                if (value == this.bar)
+                if (value == this.p)
                 {
                     return;
                 }
 
-                this.bar = value;
+                this.p = value;
                 this.OnPropertyChanged();
             }
         }
@@ -48,13 +48,13 @@ namespace N
         }
     }
 }";
-            var barCode = @"
+            var c2 = @"
 namespace N
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class Bar : INotifyPropertyChanged
+    public class C2 : INotifyPropertyChanged
     {
         private int value;
 
@@ -91,17 +91,17 @@ namespace N
     using System;
     using Gu.Reactive;
 
-    public class Baz
+    public class C
     {
-        public Baz()
+        public C()
         {
-            var foo = new Foo();
-            foo.ObserveFullPropertyPathSlim(x => x.Bar.Value)
+            var c1 = new C1();
+            c1.ObserveFullPropertyPathSlim(x => x.P.Value)
                .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
 }";
-            RoslynAssert.Valid(Analyzer, fooCode, barCode, testCode);
+            RoslynAssert.Valid(Analyzer, c1, c2, testCode);
         }
     }
 }

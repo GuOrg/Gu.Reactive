@@ -14,7 +14,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA12ObservableFromEventDelegateTypeTest
         [Test]
         public static void EventHandlerOfInt()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System;
@@ -30,9 +30,9 @@ namespace N
 {
     using System;
 
-    public class C2
+    public class C
     {
-        public C2()
+        public C()
         {
             var c1 = new C1();
             ↓System.Reactive.Linq.Observable.FromEvent<System.EventHandler<int>, int>(
@@ -48,9 +48,9 @@ namespace N
 {
     using System;
 
-    public class C2
+    public class C
     {
-        public C2()
+        public C()
         {
             var c1 = new C1();
             System.Reactive.Linq.Observable.FromEvent<System.EventHandler<int>, int>(
@@ -60,13 +60,13 @@ namespace N
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { fooCode, before }, after);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { c1, before }, after);
         }
 
         [Test]
         public static void EventHandler()
         {
-            var fooCode = @"
+            var c1 = @"
 namespace N
 {
     using System;
@@ -82,9 +82,9 @@ namespace N
 {
     using System;
 
-    public class C2
+    public class C
     {
-        public C2()
+        public C()
         {
             var c1 = new C1();
             ↓System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
@@ -100,9 +100,9 @@ namespace N
 {
     using System;
 
-    public class C2
+    public class C
     {
-        public C2()
+        public C()
         {
             var c1 = new C1();
             System.Reactive.Linq.Observable.FromEvent<System.EventHandler, EventArgs>(
@@ -112,7 +112,7 @@ namespace N
         }
     }
 }";
-            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { fooCode, before }, after);
+            RoslynAssert.CodeFix(Analyzer, Fix, ExpectedDiagnostic, new[] { c1, before }, after);
         }
     }
 }

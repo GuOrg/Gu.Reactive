@@ -16,13 +16,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C15ED745-9
 		RELEASE_NOTES.md = RELEASE_NOTES.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive", "Gu.Reactive\Gu.Reactive.csproj", "{2230088E-F6DC-4C79-9983-D9654274D689}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive", "Gu.Reactive\Gu.Reactive.csproj", "{2230088E-F6DC-4C79-9983-D9654274D689}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.Tests", "Gu.Reactive.Tests\Gu.Reactive.Tests.csproj", "{F0E0A5A6-1FE8-4996-8A37-F00F690613F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Reactive.Demo", "Gu.Reactive.Demo\Gu.Reactive.Demo.csproj", "{E82B1D44-E08C-4D56-8F7A-D203315E6F46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Reactive.Demo", "Gu.Reactive.Demo\Gu.Reactive.Demo.csproj", "{E82B1D44-E08C-4D56-8F7A-D203315E6F46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gu.Wpf.Reactive", "Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj", "{4C0610EE-96A2-4E34-BCE1-17B06A64556B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Reactive", "Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj", "{4C0610EE-96A2-4E34-BCE1-17B06A64556B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gu.Wpf.Reactive.Tests", "Gu.Wpf.Reactive.Tests\Gu.Wpf.Reactive.Tests.csproj", "{F94EA890-7658-47C9-A033-8967F626360A}"
 EndProject
