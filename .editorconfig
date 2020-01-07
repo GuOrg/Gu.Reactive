@@ -41,7 +41,7 @@ end_of_line = lf
 indent_size = 2
 
 # Dotnet code style settings:
-[*.{cs,vb}]
+[*.cs]
 # Sort using and Import directives with System.* appearing first
 dotnet_sort_system_directives_first = true
 # Always use "this." and "Me." when applicable; let StyleCop Analyzers provide the warning and fix

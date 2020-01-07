@@ -43,6 +43,56 @@ FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
       <DependentUpon>NotifyCollectionChangedExt.tt</DependentUpon>
     </Compile>
 
+    <None Update="Collections/ReadOnlyViews/MappingView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MappingView.generated.cs</LastGenOutput>
+    </None>
+    <Compile Update="Collections/ReadOnlyViews/MappingView.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MappingView.tt</DependentUpon>
+    </Compile>
+
+    <None Update="Collections/ReadOnlyViews/MappingView{TSource,TResult}.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MappingView{TSource,TResult}.generated.cs</LastGenOutput>
+    </None>
+    <Compile Update="Collections/ReadOnlyViews/MappingView{TSource,TResult}.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MappingView{TSource,TResult}.tt</DependentUpon>
+    </Compile>
+
+    <None Update="Collections/ReadOnlyViews/ReadOnlyFilteredView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReadOnlyFilteredView.generated.cs</LastGenOutput>
+    </None>
+    <Compile Update="Collections/ReadOnlyViews/ReadOnlyFilteredView.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ReadOnlyFilteredView.tt</DependentUpon>
+    </Compile>
+
+    <None Update="Collections/ReadOnlyViews/ReadOnlyFilteredView{T}.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReadOnlyFilteredView{T}.generated.cs</LastGenOutput>
+    </None>
+    <Compile Update="Collections/ReadOnlyViews/ReadOnlyFilteredView{T}.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ReadOnlyFilteredView{T}.tt</DependentUpon>
+    </Compile>
+
+    <None Update="Collections/ReadOnlyViews/ReadOnlyThrottledView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReadOnlyThrottledView.generated.cs</LastGenOutput>
+    </None>
+    <Compile Update="Collections/ReadOnlyViews/ReadOnlyThrottledView.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ReadOnlyThrottledView.tt</DependentUpon>
+    </Compile>
+
     <None Update="Trackers/MaxTracker.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MaxTracker.generated.cs</LastGenOutput>

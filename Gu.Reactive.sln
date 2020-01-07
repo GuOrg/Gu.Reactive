@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{E9C570CF-F
 		.editorconfig = .editorconfig
 		appveyor.yml = appveyor.yml
 		azure-pipelines.yml = azure-pipelines.yml
+		Gu.Reactive.sln.DotSettings = Gu.Reactive.sln.DotSettings
 		Settings.XamlStyler = Settings.XamlStyler
 		stylecop.json = stylecop.json
 	EndProjectSection
