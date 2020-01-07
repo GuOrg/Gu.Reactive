@@ -13,10 +13,10 @@ namespace Gu.Wpf.Reactive
         {
         }
 
-#pragma warning disable CA1721 // Property names should not match get methods
         /// <summary>
         /// The singleton instance.
         /// </summary>
+#pragma warning disable CA1721 // Property names should not match get methods
         public static CanExecuteChangedEventManager CurrentManager
 #pragma warning restore CA1721 // Property names should not match get methods
         {

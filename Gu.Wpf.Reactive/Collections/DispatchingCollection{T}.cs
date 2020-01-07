@@ -56,8 +56,8 @@ namespace Gu.Wpf.Reactive
         [field: NonSerialized]
         public override event NotifyCollectionChangedEventHandler CollectionChanged;
 
-#pragma warning disable AvoidAsyncVoid // Avoid async void
         /// <inheritdoc/>
+#pragma warning disable AvoidAsyncVoid // Avoid async void
         protected override async void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
 #pragma warning restore AvoidAsyncVoid // Avoid async void
         {

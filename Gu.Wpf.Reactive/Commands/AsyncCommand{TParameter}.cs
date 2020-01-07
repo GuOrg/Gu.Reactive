@@ -95,13 +95,13 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public NotifyTaskCompletion Execution => this.runner.TaskCompletion;
 
-#pragma warning disable AvoidAsyncVoid // Avoid async void
         /// <summary>
         /// Sets IsExecuting to true.
         /// Invokes <see cref="Action"/>
         /// Sets IsExecuting to false.
         /// </summary>
         /// <param name="parameter">The command parameter is passed as argument to the Action invocation.</param>
+#pragma warning disable AvoidAsyncVoid // Avoid async void
         protected override async void InternalExecute(TParameter parameter)
 #pragma warning restore AvoidAsyncVoid // Avoid async void
         {

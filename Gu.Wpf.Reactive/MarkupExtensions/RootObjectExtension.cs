@@ -5,12 +5,10 @@ namespace Gu.Wpf.Reactive
     using System.Windows.Markup;
     using System.Xaml;
 
-#pragma warning disable WPF0081 // MarkupExtensionReturnType must use correct return type.
     /// <summary>
     /// <see cref="MarkupExtension"/> for binding to the root object when not in the visual tree.
     /// </summary>
     [MarkupExtensionReturnType(typeof(ContentControl))]
-#pragma warning restore WPF0081 // MarkupExtensionReturnType must use correct return type.
     public class RootObjectExtension : MarkupExtension
     {
         /// <inheritdoc/>

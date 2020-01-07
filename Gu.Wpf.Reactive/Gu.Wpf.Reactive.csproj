@@ -3,6 +3,7 @@
     <OutputType>library</OutputType>
     <TargetFramework>net46</TargetFramework>
     <UseWpf>true</UseWpf>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>Gu.Wpf.Reactive.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
