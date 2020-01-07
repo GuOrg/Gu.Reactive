@@ -51,7 +51,7 @@ namespace Gu.Reactive.Analyzers
                         }
                     }
 
-                    if (ctor.TryFindParameter(parameter.Name, out ParameterSyntax? parameterSyntax))
+                    if (ctor.TryFindParameter(parameter.Name, out var parameterSyntax))
                     {
                         context.RegisterCodeFix(
                             CodeAction.Create(

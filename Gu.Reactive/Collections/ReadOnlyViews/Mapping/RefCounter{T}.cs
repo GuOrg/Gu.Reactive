@@ -52,7 +52,7 @@ namespace Gu.Reactive
                 var currentCache = this.isRefreshing
                                        ? this.transactionCache
                                        : this.cache;
-                if (currentCache.TryGetValue(item, out int count))
+                if (currentCache.TryGetValue(item, out var count))
                 {
                     currentCache[item] = count + 1;
                 }

@@ -263,7 +263,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #pragma warning disable CS0162 // Unreachable code detected
             var source = new Fake { Level1 = new Level1() };
 #pragma warning restore CS0162 // Unreachable code detected
-            WeakReference wr = new WeakReference(source.Level1);
+            var wr = new WeakReference(source.Level1);
             Assert.IsTrue(wr.IsAlive);
             var observable = source.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: false);
 #pragma warning disable IDISP001  // Dispose created.
@@ -286,7 +286,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #pragma warning disable CS0162 // Unreachable code detected
             var source = new Fake { Level1 = new Level1() };
 #pragma warning restore CS0162 // Unreachable code detected
-            WeakReference wr = new WeakReference(source.Level1);
+            var wr = new WeakReference(source.Level1);
             Assert.IsTrue(wr.IsAlive);
             var observable = source.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: false);
             using (var subscription = observable.Subscribe())

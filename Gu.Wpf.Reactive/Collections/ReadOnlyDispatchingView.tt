@@ -15,7 +15,7 @@ namespace Gu.Wpf.Reactive
     {
 <#
     var readOnlyTypeNames = new []{ "ObservableCollection", "ReadOnlyObservableCollection", "IReadOnlyObservableCollection" };
-    for(int i = 0; i < readOnlyTypeNames.Length; i++)
+    for(var i = 0; i < readOnlyTypeNames.Length; i++)
     {
         var typeName = readOnlyTypeNames[i];
                 if(i > 0)

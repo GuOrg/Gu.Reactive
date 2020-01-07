@@ -56,7 +56,7 @@ namespace Gu.Reactive.Tests.Trackers
                 using (var tracker = ints.TrackMax())
                 {
                     Assert.AreEqual(3, tracker.Value);
-                    int count = 0;
+                    var count = 0;
                     using (tracker.ObservePropertyChangedSlim(x => x.Value, signalInitial: false)
                                   .Subscribe(_ => count++))
                     {

@@ -59,7 +59,7 @@ namespace Gu.Reactive
             {
                 lock (this)
                 {
-                    while (this.innerQueue.Count > this.Size && this.innerQueue.TryDequeue(out T _))
+                    while (this.innerQueue.Count > this.Size && this.innerQueue.TryDequeue(out var _))
                     {
                     }
                 }

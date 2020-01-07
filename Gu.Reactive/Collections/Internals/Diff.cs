@@ -81,9 +81,9 @@ namespace Gu.Reactive
 
         private static NotifyCollectionChangedEventArgs AddOrReset<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IComparer<T> comparer)
         {
-            int newIndex = after.Count - 1;
-            int offset = 0;
-            for (int i = 0; i < before.Count; i++)
+            var newIndex = after.Count - 1;
+            var offset = 0;
+            for (var i = 0; i < before.Count; i++)
             {
                 if (comparer.Compare(before[i], after[i + offset]) != 0)
                 {
@@ -103,9 +103,9 @@ namespace Gu.Reactive
 
         private static NotifyCollectionChangedEventArgs RemoveOrReset<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IComparer<T> comparer)
         {
-            int oldIndex = before.Count - 1;
-            int offset = 0;
-            for (int i = 0; i < after.Count; i++)
+            var oldIndex = before.Count - 1;
+            var offset = 0;
+            for (var i = 0; i < after.Count; i++)
             {
                 if (comparer.Compare(before[i - offset], after[i]) != 0)
                 {
@@ -124,9 +124,9 @@ namespace Gu.Reactive
 
         private static NotifyCollectionChangedEventArgs MoveReplaceNoneOrReset<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IComparer<T> comparer)
         {
-            int oldIndex = -1;
-            int newIndex = -1;
-            for (int i = 0; i < after.Count; i++)
+            var oldIndex = -1;
+            var newIndex = -1;
+            for (var i = 0; i < after.Count; i++)
             {
                 if (comparer.Compare(before[i], after[i]) != 0)
                 {

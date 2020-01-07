@@ -84,7 +84,7 @@ namespace Gu.Reactive.Analyzers
         private static SyntaxNode? FindInvalidFullPropertyPath(InvocationExpressionSyntax invocation)
         {
             if (invocation is { ArgumentList: { Arguments: { } arguments } } &&
-                arguments.TryFirst(out ArgumentSyntax? argument) &&
+                arguments.TryFirst(out var argument) &&
                 argument is { Expression: SimpleLambdaExpressionSyntax { Body: MemberAccessExpressionSyntax body } } &&
                 !(body.Expression is MemberAccessExpressionSyntax))
             {
@@ -111,7 +111,7 @@ namespace Gu.Reactive.Analyzers
                 parentInvocation.IsSymbol(KnownSymbol.ObservableExtensions.Subscribe, context.SemanticModel, context.CancellationToken))
             {
                 using var pooled = IdentifierNameWalker.Borrow(lambda.Body);
-                if (pooled.IdentifierNames.TryFirst(x => x.Identifier.ValueText == lambda.Parameter.Identifier.ValueText, out IdentifierNameSyntax _))
+                if (pooled.IdentifierNames.TryFirst(x => x.Identifier.ValueText == lambda.Parameter.Identifier.ValueText, out var _))
                 {
                     return null;
                 }

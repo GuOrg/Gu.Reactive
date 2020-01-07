@@ -8,7 +8,7 @@
         internal static T GetOrCreate<T>(this ConcurrentQueue<T> queue)
             where T : new()
         {
-            if (queue.TryDequeue(out T item))
+            if (queue.TryDequeue(out var item))
             {
                 return item;
             }
@@ -18,7 +18,7 @@
 
         internal static T GetOrCreate<T>(this ConcurrentQueue<T> queue, Func<T> create)
         {
-            if (queue.TryDequeue(out T item))
+            if (queue.TryDequeue(out var item))
             {
                 return item;
             }

@@ -18,7 +18,7 @@ namespace Gu.Reactive.Benchmarks
             foreach (var ints in new[] { this.ints1, this.ints2 })
             {
                 ints.Clear();
-                for (int i = 0; i < 1000; i++)
+                for (var i = 0; i < 1000; i++)
                 {
                     ints.Add(i);
                 }

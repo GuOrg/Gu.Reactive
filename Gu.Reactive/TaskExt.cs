@@ -222,7 +222,7 @@ namespace Gu.Reactive
                     proxy.TrySetCanceled();
                     break;
                 case TaskStatus.RanToCompletion:
-                    Task<TResult> castedSource = source as Task<TResult>;
+                    var castedSource = source as Task<TResult>;
                     proxy.TrySetResult(castedSource == null
                                             ? default // source is a Task
                                             : castedSource.Result); // source is a Task<TResult>

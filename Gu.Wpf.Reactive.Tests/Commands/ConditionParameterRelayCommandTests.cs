@@ -19,7 +19,7 @@
         [Test]
         public async Task NotifiesOnConditionChanged()
         {
-            int count = 0;
+            var count = 0;
             var fake = new Fake { IsTrueOrNull = false };
             using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull))
             {

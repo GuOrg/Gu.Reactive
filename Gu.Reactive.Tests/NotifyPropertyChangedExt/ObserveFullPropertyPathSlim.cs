@@ -1018,7 +1018,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 expected.Add("IsTrue");
                 CollectionAssert.AreEqual(expected, actual.Select(x => x.PropertyName));
 
-                Level level1 = source.Next;
+                var level1 = source.Next;
                 source.Next = null;
                 Assert.AreEqual(4, actual.Count);
                 expected.Add("Next");

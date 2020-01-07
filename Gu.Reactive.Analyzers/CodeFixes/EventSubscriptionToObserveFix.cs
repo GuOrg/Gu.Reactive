@@ -172,7 +172,7 @@ namespace Gu.Reactive.Analyzers
         {
             if (eventSymbol.Type is INamedTypeSymbol { DelegateInvokeMethod: { Parameters: { } parameters } } &&
                 parameters.Length <= 2 &&
-                parameters.TryLast(out IParameterSymbol? parameter))
+                parameters.TryLast(out var parameter))
             {
                 return parameter!.Type.ToDisplayString();
             }

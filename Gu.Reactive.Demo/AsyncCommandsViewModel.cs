@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.ComponentModel;
@@ -110,7 +110,7 @@ namespace Gu.Reactive.Demo
         private async Task CancelableTaskAsync(CancellationToken token)
         {
             this.Count = 0;
-            for (int i = 0; i < 5; i++)
+            for (var i = 0; i < 5; i++)
             {
                 token.ThrowIfCancellationRequested();
                 this.Count++;

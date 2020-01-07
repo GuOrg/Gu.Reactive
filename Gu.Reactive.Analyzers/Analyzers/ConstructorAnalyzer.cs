@@ -139,11 +139,11 @@ namespace Gu.Reactive.Analyzers
             {
                 using var observableIdentifiers = IdentifierNameExecutionWalker.Create(observableArg, SearchScope.Recursive, context.SemanticModel, context.CancellationToken);
                 using var criteriaIdentifiers = IdentifierNameExecutionWalker.Create(criteriaArg, SearchScope.Recursive, context.SemanticModel, context.CancellationToken);
-                bool observesInterval = false;
+                var observesInterval = false;
                 using var observed = PooledSet<IPropertySymbol>.Borrow();
                 foreach (var name in observableIdentifiers.IdentifierNames)
                 {
-                    if (context.SemanticModel.TryGetSymbol(name, context.CancellationToken, out ISymbol? symbol))
+                    if (context.SemanticModel.TryGetSymbol(name, context.CancellationToken, out var symbol))
                     {
                         if (symbol is IPropertySymbol property)
                         {

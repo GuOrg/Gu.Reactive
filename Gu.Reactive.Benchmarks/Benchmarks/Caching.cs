@@ -51,7 +51,7 @@ namespace Gu.Reactive.Benchmarks
         [Benchmark]
         public object TryTakeAdd()
         {
-            if (Bag.TryTake(out IdentitySet<string> set))
+            if (Bag.TryTake(out var set))
             {
                 Bag.Add(set);
             }

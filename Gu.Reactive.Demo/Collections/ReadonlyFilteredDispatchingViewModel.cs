@@ -131,7 +131,7 @@ namespace Gu.Reactive.Demo
 
         private void Add(int n)
         {
-            for (int i = 0; i < n; i++)
+            for (var i = 0; i < n; i++)
             {
                 this.AddOne();
             }

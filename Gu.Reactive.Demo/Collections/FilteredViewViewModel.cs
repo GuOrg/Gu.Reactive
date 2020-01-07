@@ -217,7 +217,7 @@ namespace Gu.Reactive.Demo
         private void UpdateRawCollection()
         {
             this.peopleRaw.Clear();
-            for (int i = 0; i < this.NumberOfItems; i++)
+            for (var i = 0; i < this.NumberOfItems; i++)
             {
                 this.AddOne();
             }

@@ -91,7 +91,7 @@ namespace Gu.Reactive
             {
                 lock (this.Gate)
                 {
-                    if (!this.cache.TryGetValue(key, out TResult result))
+                    if (!this.cache.TryGetValue(key, out var result))
                     {
                         result = this.selector(key);
                         this.cache.Add(key, result);

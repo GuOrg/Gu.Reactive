@@ -58,7 +58,7 @@ namespace Gu.Reactive.Tests.Trackers
                 using (var tracker = MinTracker.TrackMin(ints))
                 {
                     Assert.AreEqual(1, tracker.Value);
-                    int count = 0;
+                    var count = 0;
                     using (tracker.ObservePropertyChangedSlim(x => x.Value, signalInitial: false)
                                   .Subscribe(_ => count++))
                     {

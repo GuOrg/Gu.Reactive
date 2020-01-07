@@ -1034,7 +1034,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Assert.AreEqual(3, changes.Count);
                 Assert.AreEqual("IsTrue", changes.Last().PropertyName);
 
-                Level level1 = fake.Next;
+                var level1 = fake.Next;
                 fake.Next = null;
                 Assert.AreEqual(4, changes.Count);
                 Assert.AreEqual("Next", changes.Last().PropertyName);

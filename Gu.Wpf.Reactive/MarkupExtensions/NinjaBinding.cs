@@ -125,7 +125,7 @@ namespace Gu.Wpf.Reactive
 
         private static Binding CreateDataContextBinding(FrameworkElement rootObject, Binding original)
         {
-            string path = $"{FrameworkElement.DataContextProperty.Name}.{original.Path.Path}";
+            var path = $"{FrameworkElement.DataContextProperty.Name}.{original.Path.Path}";
             var binding = new Binding(path)
             {
                 Source = rootObject,

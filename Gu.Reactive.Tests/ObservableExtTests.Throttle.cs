@@ -85,7 +85,7 @@ namespace Gu.Reactive.Tests
                     var expectedTimes = new List<int>();
                     var expectedMessages = new List<Recorded<Notification<int>>>();
 
-                    for (int i = 0; i < expected.GetLength(0); i++)
+                    for (var i = 0; i < expected.GetLength(0); i++)
                     {
                         var value = expected[i, 0];
                         expectedPattern.Add(value);
@@ -105,7 +105,7 @@ namespace Gu.Reactive.Tests
                     var pattern = $"{string.Join(", ", this.Pattern)}";
                     var expected = new StringBuilder();
                     expected.Append("{");
-                    for (int i = 0; i < this.ExpectedTimes.Count; i++)
+                    for (var i = 0; i < this.ExpectedTimes.Count; i++)
                     {
                         expected.AppendFormat(CultureInfo.InvariantCulture, @"({0}, {1})", this.ExpectedPattern[i], this.ExpectedTimes[i]);
                         if (i < this.ExpectedTimes.Count - 1)

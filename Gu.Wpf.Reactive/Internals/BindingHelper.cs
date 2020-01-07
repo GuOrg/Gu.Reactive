@@ -38,7 +38,7 @@ namespace Gu.Wpf.Reactive
 
         internal static PropertyPath GetPath(string path)
         {
-            if (!PropertyPaths.TryGetValue(path, out PropertyPath propertyPath))
+            if (!PropertyPaths.TryGetValue(path, out var propertyPath))
             {
                 propertyPath = new PropertyPath(path);
                 PropertyPaths[path] = propertyPath;
