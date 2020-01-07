@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@ namespace Gu.Reactive
 
     internal static class Diff
     {
-        internal static NotifyCollectionChangedEventArgs CollectionChange<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges)
+        internal static NotifyCollectionChangedEventArgs? CollectionChange<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IReadOnlyList<NotifyCollectionChangedEventArgs> collectionChanges)
         {
             if (collectionChanges != null && collectionChanges.Count == 1)
             {
@@ -28,7 +28,7 @@ namespace Gu.Reactive
             return CollectionChange(before, after);
         }
 
-        internal static NotifyCollectionChangedEventArgs CollectionChange<T>(IReadOnlyList<T> before, IReadOnlyList<T> after)
+        internal static NotifyCollectionChangedEventArgs? CollectionChange<T>(IReadOnlyList<T> before, IReadOnlyList<T> after)
         {
             var diff = before.Count - after.Count;
             if (Math.Abs(diff) > 1)
@@ -59,22 +59,22 @@ namespace Gu.Reactive
             return MoveReplaceNoneOrReset(before, after, comparer);
         }
 
-        internal static NotifyCollectionChangedEventArgs CreateAddEventArgs(object newItem, int newIndex)
+        internal static NotifyCollectionChangedEventArgs CreateAddEventArgs(object? newItem, int newIndex)
         {
             return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newItem, newIndex);
         }
 
-        internal static NotifyCollectionChangedEventArgs CreateRemoveEventArgs(object oldItem, int index)
+        internal static NotifyCollectionChangedEventArgs CreateRemoveEventArgs(object? oldItem, int index)
         {
             return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem, index);
         }
 
-        internal static NotifyCollectionChangedEventArgs CreateReplaceEventArgs(object newItem, object oldItem, int index)
+        internal static NotifyCollectionChangedEventArgs CreateReplaceEventArgs(object? newItem, object? oldItem, int index)
         {
             return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItem, oldItem, index);
         }
 
-        internal static NotifyCollectionChangedEventArgs CreateMoveEventArgs(object item, int newIndex, int oldIndex)
+        internal static NotifyCollectionChangedEventArgs CreateMoveEventArgs(object? item, int newIndex, int oldIndex)
         {
             return new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex);
         }
@@ -122,7 +122,7 @@ namespace Gu.Reactive
             return CreateRemoveEventArgs(before[oldIndex], oldIndex);
         }
 
-        private static NotifyCollectionChangedEventArgs MoveReplaceNoneOrReset<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IComparer<T> comparer)
+        private static NotifyCollectionChangedEventArgs? MoveReplaceNoneOrReset<T>(IReadOnlyList<T> before, IReadOnlyList<T> after, IComparer<T> comparer)
         {
             var oldIndex = -1;
             var newIndex = -1;

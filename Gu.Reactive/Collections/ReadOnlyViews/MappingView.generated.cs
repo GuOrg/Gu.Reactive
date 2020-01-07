@@ -1,10 +1,10 @@
-﻿namespace Gu.Reactive
+﻿#nullable enable
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Reactive.Concurrency;
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// Factory methods for creating <see cref="MappingView{TSource, TResult}"/>
@@ -25,8 +25,16 @@
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, null, false, triggers);
         }
 
@@ -46,8 +54,16 @@
             bool leaveOpen,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, null, leaveOpen, triggers);
         }
 
@@ -65,12 +81,20 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -90,12 +114,20 @@
             this ObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -115,14 +147,26 @@
             this ObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -144,14 +188,26 @@
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -177,13 +233,25 @@
             this ObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -211,13 +279,25 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -245,14 +325,26 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -282,14 +374,26 @@
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -307,8 +411,16 @@
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, null, false, triggers);
         }
 
@@ -328,8 +440,16 @@
             bool leaveOpen,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, null, leaveOpen, triggers);
         }
 
@@ -347,12 +467,20 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -372,12 +500,20 @@
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -397,14 +533,26 @@
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -426,14 +574,26 @@
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -459,13 +619,25 @@
             this ReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -493,13 +665,25 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -527,14 +711,26 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -564,14 +760,26 @@
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -589,8 +797,16 @@
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, null, false, triggers);
         }
 
@@ -610,8 +826,16 @@
             bool leaveOpen,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, null, leaveOpen, triggers);
         }
 
@@ -629,12 +853,20 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -654,12 +886,20 @@
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return new MappingView<TSource, TResult>(source, selector, bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -679,14 +919,26 @@
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -708,14 +960,26 @@
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -741,13 +1005,25 @@
             this IReadOnlyObservableCollection<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -775,13 +1051,25 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -809,14 +1097,26 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -846,14 +1146,26 @@
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = false,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -871,8 +1183,16 @@
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, null, false, triggers);
         }
@@ -890,11 +1210,19 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IObservable<IEnumerable<TSource>> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -914,11 +1242,19 @@
             this IObservable<IEnumerable<TSource>> source,
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -938,13 +1274,25 @@
             this IObservable<IEnumerable<TSource>> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, onRemove, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -966,13 +1314,25 @@
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, onRemove, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -998,12 +1358,24 @@
             this IObservable<IEnumerable<TSource>> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1031,12 +1403,24 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1064,13 +1448,25 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, onRemove, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1100,13 +1496,25 @@
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, onRemove, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1125,8 +1533,16 @@
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, null, false, triggers);
         }
@@ -1144,11 +1560,19 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IObservable<IMaybe<IEnumerable<TSource>>> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1168,11 +1592,19 @@
             this IObservable<IMaybe<IEnumerable<TSource>>> source,
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1192,13 +1624,25 @@
             this IObservable<IMaybe<IEnumerable<TSource>>> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, onRemove, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1220,13 +1664,25 @@
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, onRemove, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1252,12 +1708,24 @@
             this IObservable<IMaybe<IEnumerable<TSource>>> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1285,12 +1753,24 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1318,13 +1798,25 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, onRemove, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1354,13 +1846,25 @@
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, onRemove, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1379,8 +1883,16 @@
             Func<TSource, TResult> selector,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, null, false, triggers);
         }
@@ -1398,11 +1910,19 @@
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this IObservable<Maybe<IEnumerable<TSource>>> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1422,11 +1942,19 @@
             this IObservable<Maybe<IEnumerable<TSource>>> source,
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1446,13 +1974,25 @@
             this IObservable<Maybe<IEnumerable<TSource>>> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, onRemove, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1474,13 +2014,25 @@
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(onRemove, nameof(onRemove));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (onRemove is null)
+            {
+                 throw new ArgumentNullException(nameof(onRemove));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, onRemove, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1506,12 +2058,24 @@
             this IObservable<Maybe<IEnumerable<TSource>>> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1539,12 +2103,24 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1572,13 +2148,25 @@
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, onRemove, TimeSpan.Zero, scheduler, leaveOpen: false, triggers: triggers);
         }
@@ -1608,13 +2196,25 @@
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             params IObservable<object>[] triggers)
             where TResult : class
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(selector, nameof(selector));
-            Ensure.NotNull(updater, nameof(updater));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
+            if (updater is null)
+            {
+                 throw new ArgumentNullException(nameof(updater));
+            }
+
             return source.AsReadOnlyView()
                          .AsMappingView<TSource, TResult>(selector, updater, onRemove, bufferTime, scheduler, leaveOpen: false, triggers: triggers);
         }

@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -20,13 +20,10 @@ namespace Gu.Reactive
     {
         private readonly IDisposable refreshSubscription;
         private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;
-
-#pragma warning disable IDISP008  // Don't assign member with injected and created disposables.
         private readonly IMapper<TSource, TResult> factory;
-#pragma warning restore IDISP008  // Don't assign member with injected and created disposables.
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        internal MappingView(IEnumerable<TSource> source, IMapper<TSource, TResult> factory, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
+        internal MappingView(IEnumerable<TSource> source, IMapper<TSource, TResult> factory, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen, params IObservable<object>[] triggers)
             : base(source, s => s.Select(factory.GetOrCreate), leaveOpen, startEmpty: true)
         {
             if (source is null)
@@ -72,7 +69,7 @@ namespace Gu.Reactive
         /// The <see cref="NotifyCollectionChangedEventArgs"/> update causes or null.
         /// If the updated instance is the same reference null is returned.
         /// </returns>
-        protected virtual NotifyCollectionChangedEventArgs UpdateAt(int index, bool createEventArgOnUpdate)
+        protected virtual NotifyCollectionChangedEventArgs? UpdateAt(int index, bool createEventArgOnUpdate)
         {
             if (!this.factory.CanUpdateIndex)
             {

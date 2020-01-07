@@ -1,4 +1,4 @@
-// ReSharper disable VirtualMemberNeverOverridden.Global
+﻿// ReSharper disable VirtualMemberNeverOverridden.Global
 // ReSharper disable MemberCanBePrivate.Global
 namespace Gu.Reactive
 {
@@ -37,7 +37,7 @@ namespace Gu.Reactive
         /// <param name="observables">
         /// More observables that triggers updates of <see cref="IsSatisfied"/>.
         /// </param>
-        public Condition(Func<bool?> criteria, IObservable<object> observable, params IObservable<object>[] observables)
+        public Condition(Func<bool?> criteria, IObservable<object?> observable, params IObservable<object>[] observables)
             : this(observables is null ? observable : Observable.Merge(observables.Concat(new[] { observable })), criteria)
         {
         }
@@ -51,7 +51,7 @@ namespace Gu.Reactive
         /// <param name="criteria">
         /// The criteria that is evaluated to give IsSatisfied.
         /// </param>
-        public Condition(IObservable<object> observable, Func<bool?> criteria)
+        public Condition(IObservable<object?> observable, Func<bool?> criteria)
         {
             if (observable is null)
             {
@@ -60,7 +60,7 @@ namespace Gu.Reactive
 
             this.criteria = criteria ?? throw new ArgumentNullException(nameof(criteria));
             this.name = this.GetType().PrettyName();
-            this.subscription = observable.StartWith((object)null)
+            this.subscription = observable.StartWith((object?)null)
                                           .Subscribe(x => this.UpdateIsSatisfied());
         }
 
@@ -73,7 +73,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// A log of the last 100 times the condition has signaled. Use for debugging.
@@ -168,7 +168,7 @@ namespace Gu.Reactive
 
                 string IsSatisfiedString()
                 {
-                    if (this.IsSatisfied is bool b)
+                    if (this.IsSatisfied is { } b)
                     {
                         return b
                             ? "true"

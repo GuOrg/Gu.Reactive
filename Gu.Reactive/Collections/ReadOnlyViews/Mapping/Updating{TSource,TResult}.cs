@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Reactive.Disposables;
@@ -9,7 +9,7 @@ namespace Gu.Reactive
         private readonly Func<TResult, int, TResult> updater;
         private bool disposed;
 
-        internal Updating(Func<TSource, int, TResult> selector, Func<TResult, int, TResult> updater)
+        internal Updating(Func<TSource, int, TResult> selector, Func<TResult, int, TResult>? updater)
         {
             this.selector = selector;
             this.updater = updater ?? Id;
@@ -18,6 +18,10 @@ namespace Gu.Reactive
         protected Updating(Func<TSource, int, TResult> selector)
             : this(selector, null)
         {
+            if (selector is null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
         }
 
         public virtual bool CanUpdateIndex => true;

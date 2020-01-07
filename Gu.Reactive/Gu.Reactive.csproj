@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net46;netcoreapp3.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <CodeAnalysisRuleSet>Gu.Reactive.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -14,6 +15,10 @@
   <PropertyGroup>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateNullableAttributes>true</GenerateNullableAttributes>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -142,6 +147,8 @@ FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
     <PackageReference Include="ReflectionAnalyzers" Version="0.1.21-dev" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.113" PrivateAssets="all" />
     <PackageReference Include="System.Reactive" Version="4.0.0" />
+    <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[3.1.0]" />
+    <PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.154" PrivateAssets="all" />
     <PackageReference Include="WpfAnalyzers" Version="2.4.4" PrivateAssets="all" />
   </ItemGroup>
 </Project>

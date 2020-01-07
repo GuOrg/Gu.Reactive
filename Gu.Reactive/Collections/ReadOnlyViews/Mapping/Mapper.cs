@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
@@ -70,9 +70,9 @@ namespace Gu.Reactive
         [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         private static class Factory<TSource, TResult>
         {
-            private static Func<Func<TSource, TResult>, IMapper<TSource, TResult>> creatingCaching;
-            private static Func<Func<TSource, TResult>, Action<TResult>, IMapper<TSource, TResult>> creatingRemoving;
-            private static Func<Func<TSource, TResult>, Action<TResult>, IMapper<TSource, TResult>> creatingCachingRemoving;
+            private static Func<Func<TSource, TResult>, IMapper<TSource, TResult>>? creatingCaching;
+            private static Func<Func<TSource, TResult>, Action<TResult>, IMapper<TSource, TResult>>? creatingRemoving;
+            private static Func<Func<TSource, TResult>, Action<TResult>, IMapper<TSource, TResult>>? creatingCachingRemoving;
 
             internal static IMapper<TSource, TResult> CreatingCaching(Func<TSource, TResult> selector)
             {
@@ -107,10 +107,13 @@ namespace Gu.Reactive
             private static T CreateDelegate<T>(string methodName)
                 where T : Delegate
             {
-                var method = typeof(Mapper)
-                             .GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly)
-                             .MakeGenericMethod(typeof(TSource), typeof(TResult));
-                return (T)Delegate.CreateDelegate(typeof(T), method);
+                if (typeof(Mapper).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.DeclaredOnly) is { IsGenericMethodDefinition: true } methodDefinition)
+                {
+                    var method = methodDefinition.MakeGenericMethod(typeof(TSource), typeof(TResult));
+                    return (T)Delegate.CreateDelegate(typeof(T), method);
+                }
+
+                throw new InvalidOperationException($"Did not find a method named {methodName} on {nameof(Mapper)}. Bug in Gu.Reactive.");
             }
         }
     }

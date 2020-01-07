@@ -1,4 +1,4 @@
-// ReSharper disable PossibleMultipleEnumeration
+﻿// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Reactive
 {
     using System;
@@ -80,7 +80,7 @@ namespace Gu.Reactive
         public static MappingView<TSource, TResult> Create<TSource, TResult>(
             this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
@@ -113,7 +113,7 @@ namespace Gu.Reactive
             this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
@@ -146,7 +146,7 @@ namespace Gu.Reactive
             this IEnumerable<TSource> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
             where TResult : class
@@ -187,7 +187,7 @@ namespace Gu.Reactive
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
             where TResult : class
@@ -232,7 +232,7 @@ namespace Gu.Reactive
             this IEnumerable<TSource> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
@@ -278,7 +278,7 @@ namespace Gu.Reactive
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
         {
@@ -324,7 +324,7 @@ namespace Gu.Reactive
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
             where TResult : class
@@ -373,7 +373,7 @@ namespace Gu.Reactive
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
-            IScheduler scheduler = null,
+            IScheduler? scheduler = null,
             bool leaveOpen = true,
             params IObservable<object>[] triggers)
             where TResult : class

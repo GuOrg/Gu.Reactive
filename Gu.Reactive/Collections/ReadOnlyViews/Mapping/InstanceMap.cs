@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -55,22 +55,27 @@ namespace Gu.Reactive
             return this.inner.ContainsKey(Maybe<TKey>.Some(key));
         }
 
-        private class KeyComparer : EqualityComparer<Maybe<TKey>>
+        private sealed class KeyComparer : IEqualityComparer<Maybe<TKey>>
         {
+            internal static readonly KeyComparer Default = new KeyComparer();
+
             private KeyComparer()
             {
             }
 
-            public override bool Equals(Maybe<TKey> x, Maybe<TKey> y)
-            {
-                return ReferenceEquals(x.Value, y.Value);
-            }
+            public bool Equals(Maybe<TKey> x, Maybe<TKey> y) => x.HasValue == y.HasValue &&
+                                                                                 ReferenceEquals(x.Value, y.Value);
 
-            public override int GetHashCode(Maybe<TKey> obj)
+            public int GetHashCode(Maybe<TKey> obj)
             {
-                return obj.Value != null
-                           ? RuntimeHelpers.GetHashCode(obj.Value)
-                           : 0;
+                if (obj.HasValue)
+                {
+                    return obj.GetValueOrDefault() is { } value
+                        ? RuntimeHelpers.GetHashCode(value)
+                        : 0;
+                }
+
+                return -1;
             }
         }
     }
