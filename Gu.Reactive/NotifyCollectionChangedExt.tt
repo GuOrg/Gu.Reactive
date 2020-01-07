@@ -48,8 +48,15 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(o =>
             {
@@ -96,8 +103,16 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
+
             var observable = Observable.Create<PropertyChangedEventArgs>(o =>
             {
                 var tracker = ItemsTrackerSlim.Create(source, NotifyingPath.GetOrCreate(property));
@@ -132,8 +147,15 @@ namespace Gu.Reactive
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChanged<<#= typeName #><TItem>, TItem, TProperty>(source, property);
         }
@@ -153,8 +175,15 @@ namespace Gu.Reactive
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChanged<<#= typeName #><TItem>, TItem, TProperty>(source, property);
         }
@@ -174,8 +203,15 @@ namespace Gu.Reactive
              Expression<Func<TItem, TProperty>> property)
              where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return ItemPropertyChangedSlim<<#= typeName #><TItem>, TItem, TProperty>(source, property);
         }

@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections;
@@ -24,6 +24,11 @@ namespace Gu.Reactive
             this INotifyCollectionChanged source,
             bool signalInitial)
         {
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             if (signalInitial)
             {
                 return Observable.Return(CachedEventArgs.NotifyCollectionReset)
@@ -50,6 +55,11 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TCollection : IEnumerable, INotifyCollectionChanged
         {
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             if (signalInitial)
             {
                 return Observable.Return(
@@ -74,8 +84,15 @@ namespace Gu.Reactive
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o => source.ObserveItemPropertyChangedCore(
@@ -101,8 +118,15 @@ namespace Gu.Reactive
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return Observable.Create<PropertyChangedEventArgs>(
                 o => source.ObserveItemPropertyChangedCore(
@@ -121,8 +145,15 @@ namespace Gu.Reactive
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o => source.ItemPropertyChangedCore(
@@ -146,8 +177,15 @@ namespace Gu.Reactive
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(
                 o => source.ItemPropertyChangedCore(
@@ -171,8 +209,15 @@ namespace Gu.Reactive
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             return Observable.Create<PropertyChangedEventArgs>(
                 o => source.ItemPropertyChangedCore(

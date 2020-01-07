@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Reactive.Concurrency;
@@ -89,10 +89,10 @@ namespace Gu.Reactive
         private Thread CreateThread(ThreadStart arg)
         {
             this.thread = new Thread(arg)
-                          {
-                              Name = "ForegroundScheduler",
-                              IsBackground = true, // maybe we want it as foreground when saving?
-                          };
+            {
+                Name = "ForegroundScheduler",
+                IsBackground = true, // maybe we want it as foreground when saving?
+            };
             return this.thread;
         }
 
