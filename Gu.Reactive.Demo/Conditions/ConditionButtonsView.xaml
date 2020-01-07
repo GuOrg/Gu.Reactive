@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Gu.Reactive.Demo.ConditionButtonsView"
+<UserControl x:Class="Gu.Reactive.Demo.ConditionButtonsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,7 +12,9 @@
         <Style x:Key="ButtonWithCommandToolTipStyle"
                BasedOn="{StaticResource LocalInfoButtonStyle}"
                TargetType="{x:Type Button}">
-            <Setter Property="toolTips:TouchToolTipService.ToolTip">
+            <Setter Property="ToolTipService.ShowOnDisabled" Value="True"></Setter>
+            <Setter Property="toolTips:TouchToolTipService.IsEnabled" Value="True"></Setter>
+            <Setter Property="ToolTip">
                 <Setter.Value>
                     <reactive:ConditionToolTip />
                 </Setter.Value>
@@ -25,22 +27,12 @@
             <Button Command="{Binding StartCommand}"
                     Content="Start"
                     Style="{StaticResource LocalInfoButtonStyle}">
-                <toolTips:TouchToolTipService.ToolTip>
-                    <reactive:ConditionToolTip>
-                        <TextBlock Text="Tool tip text" />
-                    </reactive:ConditionToolTip>
-                </toolTips:TouchToolTipService.ToolTip>
             </Button>
 
             <TextBlock HorizontalAlignment="Center" Text="Mouseover and touch" />
             <Button Command="{Binding StopCommand}"
                     Content="Stop"
-                    Style="{StaticResource LocalInfoButtonStyle}"
-                    ToolTipService.ShowOnDisabled="True">
-                <toolTips:TouchToolTipService.ToolTip>
-                    <reactive:ConditionToolTip />
-                </toolTips:TouchToolTipService.ToolTip>
-            </Button>
+                    Style="{StaticResource LocalInfoButtonStyle}" />
 
             <TextBlock HorizontalAlignment="Center" Text="Tooltip from style" />
             <Button Command="{Binding StartCommand}"
