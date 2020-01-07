@@ -12,8 +12,8 @@
         <Style x:Key="ButtonWithCommandToolTipStyle"
                BasedOn="{StaticResource LocalInfoButtonStyle}"
                TargetType="{x:Type Button}">
-            <Setter Property="ToolTipService.ShowOnDisabled" Value="True"></Setter>
-            <Setter Property="toolTips:TouchToolTipService.IsEnabled" Value="True"></Setter>
+            <Setter Property="ToolTipService.ShowOnDisabled" Value="True" />
+            <Setter Property="toolTips:TouchToolTipService.IsEnabled" Value="True" />
             <Setter Property="ToolTip">
                 <Setter.Value>
                     <reactive:ConditionToolTip />
@@ -26,8 +26,7 @@
             <TextBlock HorizontalAlignment="Center" Text="Touch only" />
             <Button Command="{Binding StartCommand}"
                     Content="Start"
-                    Style="{StaticResource LocalInfoButtonStyle}">
-            </Button>
+                    Style="{StaticResource LocalInfoButtonStyle}" />
 
             <TextBlock HorizontalAlignment="Center" Text="Mouseover and touch" />
             <Button Command="{Binding StopCommand}"
