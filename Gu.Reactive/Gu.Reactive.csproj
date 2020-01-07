@@ -37,11 +37,40 @@ FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>NotifyCollectionChangedExt.generated.cs</LastGenOutput>
     </None>
-
     <Compile Update="NotifyCollectionChangedExt.generated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>NotifyCollectionChangedExt.tt</DependentUpon>
+    </Compile>
+
+    <None Update="Trackers/MaxTracker.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MaxTracker.generated.cs</LastGenOutput>
+    </None>
+    <Compile Update="Trackers/MaxTracker.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MaxTracker.tt</DependentUpon>
+    </Compile>
+
+    <None Update="Trackers/MinTracker.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MinTracker.generated.cs</LastGenOutput>
+    </None>
+    <Compile Update="Trackers/MinTracker.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MinTracker.tt</DependentUpon>
+    </Compile>
+
+    <None Update="Trackers/MinMaxTracker.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>MinMaxTracker.generated.cs</LastGenOutput>
+    </None>
+    <Compile Update="Trackers/MinMaxTracker.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MinMaxTracker.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
