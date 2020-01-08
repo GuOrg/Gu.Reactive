@@ -12,16 +12,16 @@
         private const string Uri = @"http://Gu.com/Reactive";
 
         private static readonly string[] IgnoredNamespaces =
-            {
-                "Annotations",
-                "Properties",
-                "XamlGeneratedNamespace",
-                "Internals",
-                "TypeConverters",
-                "Microsoft.CodeAnalysis",
-                "System.Runtime.CompilerServices",
-                "System.Diagnostics.CodeAnalysis",
-            };
+        {
+            "Annotations",
+            "Properties",
+            "XamlGeneratedNamespace",
+            "Internals",
+            "TypeConverters",
+            "Microsoft.CodeAnalysis",
+            "System.Runtime.CompilerServices",
+            "System.Diagnostics.CodeAnalysis",
+        };
 
         [Test]
         public void XmlnsDefinitions()
