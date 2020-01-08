@@ -11,7 +11,7 @@
         private readonly PropertyChangedEventHandler onTrackedPropertyChanged;
         private readonly object gate = new object();
 
-        private TSource source;
+        private TSource? source;
         private bool disposed;
 
         internal PropertyTracker(IPropertyPathTracker pathTracker, NotifyingGetter<TSource, TValue> getter)
@@ -25,26 +25,26 @@
             if (type.IsValueType)
             {
                 var message = $"Property path cannot have structs in it. Copy by value will make subscribing error prone.{Environment.NewLine}" +
-                              $"The type {type.Namespace}.{type.PrettyName()} is a value type not so {type.PrettyName()}.{getter.Property.Name} subscribing to changes is weird.";
+                                    $"The type {type.Namespace}.{type.PrettyName()} is a value type not so {type.PrettyName()}.{getter.Property.Name} subscribing to changes is weird.";
                 throw new ArgumentException(message, nameof(getter));
             }
 
             if (!typeof(INotifyPropertyChanged).IsAssignableFrom(type))
             {
                 var message = $"All levels in the path must implement INotifyPropertyChanged.{Environment.NewLine}" +
-                              $"The type {type.Namespace}.{type.PrettyName()} does not so the property {type.PrettyName()}.{getter.Property.Name} will not notify when value changes.";
+                                    $"The type {type.Namespace}.{type.PrettyName()} does not so the property {type.PrettyName()}.{getter.Property.Name} will not notify when value changes.";
                 throw new ArgumentException(message, nameof(getter));
             }
 
             this.PathTracker = pathTracker;
             this.Getter = getter;
             this.onTrackedPropertyChanged = (o, e) =>
+            {
+                if (e.IsMatch(getter.Property))
                 {
-                    if (e.IsMatch(getter.Property))
-                    {
-                        this.OnTrackedPropertyChanged(o, e);
-                    }
-                };
+                    this.OnTrackedPropertyChanged(o, e);
+                }
+            };
         }
 
         public event TrackedPropertyChangedEventHandler<TValue>? TrackedPropertyChanged;
@@ -68,7 +68,7 @@
         /// <summary>
         /// Gets or sets the source.
         /// </summary>
-        public TSource Source
+        public TSource? Source
         {
             get => this.source;
 
@@ -103,12 +103,10 @@
             }
         }
 
-        INotifyPropertyChanged IPropertyTracker.Source
+        INotifyPropertyChanged? IPropertyTracker.Source
         {
             get => this.source;
-#pragma warning disable GU0022 // Use get-only.
-            set => this.Source = (TSource)value;
-#pragma warning restore GU0022 // Use get-only.
+            set => this.Source = (TSource?)value;
         }
 
         internal IPropertyTracker Next => this.PathTracker.GetNext(this);

@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -35,8 +35,15 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             return ObservePropertyChangedCore(
@@ -58,8 +65,16 @@ namespace Gu.Reactive
             string propertyName,
             bool signalInitial = true)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNullOrEmpty(propertyName, nameof(propertyName));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (propertyName is null)
+            {
+                throw new ArgumentNullException(nameof(propertyName));
+            }
+
             if (source.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) is null)
             {
                 throw new ArgumentException($"The type {source.GetType()} does not have a property named {propertyName}", propertyName);
@@ -78,7 +93,11 @@ namespace Gu.Reactive
         /// <param name="source">The source.</param>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(this INotifyPropertyChanged source)
         {
-            Ensure.NotNull(source, nameof(source));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             return Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
                 x => source.PropertyChanged += x,
                 x => source.PropertyChanged -= x);
@@ -104,8 +123,15 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             return ObservePropertyChangedCore(source, notifyingPath, (_, e) => e, signalInitial);
@@ -119,8 +145,15 @@ namespace Gu.Reactive
         /// <param name="signalInitial"> If true OnNext is called immediately on subscribe. </param>
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source, string propertyName, bool signalInitial = true)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNullOrEmpty(propertyName, nameof(propertyName));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                throw new ArgumentException("message", nameof(propertyName));
+            }
 
             if (source.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) is null)
             {
@@ -140,7 +173,11 @@ namespace Gu.Reactive
         /// <param name="source">The source.</param>
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source)
         {
-            Ensure.NotNull(source, nameof(source));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             var observable = Observable.Create<PropertyChangedEventArgs>(
                 o =>
                 {
@@ -161,8 +198,15 @@ namespace Gu.Reactive
         public static IObservable<PropertyChangedEventArgs> ObserveFullPropertyPathSlim<TNotifier, TProperty>(this TNotifier source, Expression<Func<TNotifier, TProperty>> property, bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             if (notifyingPath.Count < 2)
@@ -196,8 +240,15 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             return source.ObserveValueCore(
@@ -208,7 +259,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Observe propertychanges with values.
+        /// Observe property changes with values.
         /// </summary>
         /// <param name="source">The source.</param>
         /// <param name="property">An expression specifying the property path.</param>
@@ -222,8 +273,15 @@ namespace Gu.Reactive
             bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(property, nameof(property));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (property is null)
+            {
+                throw new ArgumentNullException(nameof(property));
+            }
 
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             return source.ObservePropertyChangedWithValue(notifyingPath, signalInitial);
