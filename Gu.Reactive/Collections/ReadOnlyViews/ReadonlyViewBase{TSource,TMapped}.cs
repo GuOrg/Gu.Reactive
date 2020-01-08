@@ -134,22 +134,22 @@
 
 #pragma warning disable CA1033 // Interface methods should be callable by child types
         /// <inheritdoc/>
-        int IList.Add(object value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
+        int IList.Add(object? value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
 
         /// <inheritdoc/>
-        bool IList.Contains(object value) => this.Tracker.Contains(value);
+        bool IList.Contains(object? value) => this.Tracker.Contains(value);
 
         /// <inheritdoc/>
         void IList.Clear() => ThrowHelper.ThrowCollectionIsReadonly();
 
         /// <inheritdoc/>
-        int IList.IndexOf(object value) => this.Tracker.IndexOf(value);
+        int IList.IndexOf(object? value) => this.Tracker.IndexOf(value);
 
         /// <inheritdoc/>
-        void IList.Insert(int index, object value) => ThrowHelper.ThrowCollectionIsReadonly();
+        void IList.Insert(int index, object? value) => ThrowHelper.ThrowCollectionIsReadonly();
 
         /// <inheritdoc/>
-        void IList.Remove(object value) => ThrowHelper.ThrowCollectionIsReadonly();
+        void IList.Remove(object? value) => ThrowHelper.ThrowCollectionIsReadonly();
 
         /// <inheritdoc/>
         void IList.RemoveAt(int index) => ThrowHelper.ThrowCollectionIsReadonly();

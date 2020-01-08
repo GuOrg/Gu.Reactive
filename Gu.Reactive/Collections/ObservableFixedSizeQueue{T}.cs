@@ -15,15 +15,16 @@
     public class ObservableFixedSizeQueue<T> : FixedSizedQueue<T>, INotifyCollectionChanged, INotifyPropertyChanged
 #pragma warning restore CA1010 // Collections should implement generic interface
     {
-        private readonly IScheduler scheduler;
+        private readonly IScheduler? scheduler;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableFixedSizeQueue{T}"/> class.
         /// </summary>
         /// <param name="size">The maximum number of elements in the queue.</param>
         public ObservableFixedSizeQueue(int size)
-            : this(size, null)
+            : base(size)
         {
+            this.scheduler = null;
         }
 
         /// <summary>
@@ -31,6 +32,7 @@
         /// </summary>
         /// <param name="size">The maximum number of elements in the queue.</param>
         /// <param name="scheduler">The scheduler to notify collection changes on.</param>
+        [Obsolete("Use overload without scheduler.")]
         public ObservableFixedSizeQueue(int size, IScheduler scheduler)
             : base(size)
         {

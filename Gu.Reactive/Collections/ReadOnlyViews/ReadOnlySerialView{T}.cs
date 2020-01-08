@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace Gu.Reactive
         /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
         /// </summary>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        public ReadOnlySerialView(IEnumerable<T> source, IScheduler scheduler = null)
+        public ReadOnlySerialView(IEnumerable<T> source, IScheduler? scheduler = null)
             : this(source, TimeSpan.Zero, scheduler)
         {
         }
@@ -41,7 +41,7 @@ namespace Gu.Reactive
         /// Initializes a new instance of the <see cref="ReadOnlySerialView{T}"/> class.
         /// </summary>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        public ReadOnlySerialView(IEnumerable<T> source, TimeSpan bufferTime, IScheduler scheduler)
+        public ReadOnlySerialView(IEnumerable<T> source, TimeSpan bufferTime, IScheduler? scheduler)
             : base(source, bufferTime, scheduler, leaveOpen: true)
         {
         }
