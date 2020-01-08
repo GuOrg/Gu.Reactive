@@ -51,12 +51,12 @@
         }
 
         /// <inheritdoc/>
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IReadOnlyObservableCollection{T}" />
         public int Count => this.ThrowIfDisposed(this.source.Count);
 
 #pragma warning disable CA1033 // Interface methods should be callable by child types
@@ -77,7 +77,7 @@
         public T this[int index] => this.ThrowIfDisposed(this.source[index]);
 
         /// <inheritdoc/>
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get => this[index];
             //// ReSharper disable once ValueParameterNotUsed
@@ -101,22 +101,22 @@
         void ICollection.CopyTo(Array array, int index) => this.source.CopyTo(array, index);
 
         /// <inheritdoc/>
-        int IList.Add(object value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
+        int IList.Add(object? value) => ThrowHelper.ThrowCollectionIsReadonly<int>();
 
         /// <inheritdoc/>
-        bool IList.Contains(object value) => this.source.Contains(value);
+        bool IList.Contains(object? value) => this.source.Contains(value);
 
         /// <inheritdoc/>
         void IList.Clear() => ThrowHelper.ThrowCollectionIsReadonly();
 
         /// <inheritdoc/>
-        int IList.IndexOf(object value) => this.source.IndexOf(value);
+        int IList.IndexOf(object? value) => this.source.IndexOf(value);
 
         /// <inheritdoc/>
-        void IList.Insert(int index, object value) => ThrowHelper.ThrowCollectionIsReadonly();
+        void IList.Insert(int index, object? value) => ThrowHelper.ThrowCollectionIsReadonly();
 
         /// <inheritdoc/>
-        void IList.Remove(object value) => ThrowHelper.ThrowCollectionIsReadonly();
+        void IList.Remove(object? value) => ThrowHelper.ThrowCollectionIsReadonly();
 
         /// <inheritdoc/>
         void IList.RemoveAt(int index) => ThrowHelper.ThrowCollectionIsReadonly();

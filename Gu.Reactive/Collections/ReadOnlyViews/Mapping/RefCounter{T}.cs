@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Threading;
@@ -11,7 +11,7 @@ namespace Gu.Reactive
 
         private bool isRefreshing;
 
-        internal event Action<T> OnRemove;
+        internal event Action<T>? OnRemove;
 
         private object Gate => this.cache.Gate;
 

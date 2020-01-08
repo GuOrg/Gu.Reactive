@@ -52,14 +52,6 @@ namespace Gu.Reactive.Internals
             }
         }
 
-        private static string ToStringOrNull<T>(this T value)
-        {
-            if (value is null)
-            {
-                return "null";
-            }
-
-            return value.ToString();
-        }
+        private static string ToStringOrNull<T>(this T value) => value?.ToString() ?? "null";
     }
 }

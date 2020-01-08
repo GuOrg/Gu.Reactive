@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -16,7 +16,7 @@ namespace Gu.Reactive
         private bool isDisposed;
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Gets a value that indicates whether the object is disposed.

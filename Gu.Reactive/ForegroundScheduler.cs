@@ -21,7 +21,17 @@
 
         private ForegroundScheduler()
         {
-            this.inner = new EventLoopScheduler(this.CreateThread);
+            this.inner = new EventLoopScheduler(x => CreateThread(x));
+
+            Thread CreateThread(ThreadStart arg)
+            {
+                this.thread = new Thread(arg)
+                {
+                    Name = "ForegroundScheduler",
+                    IsBackground = true, // maybe we want it as foreground when saving?
+                };
+                return this.thread;
+            }
         }
 
         /// <inheritdoc/>
@@ -84,16 +94,6 @@
             }
 
             return disposable;
-        }
-
-        private Thread CreateThread(ThreadStart arg)
-        {
-            this.thread = new Thread(arg)
-            {
-                Name = "ForegroundScheduler",
-                IsBackground = true, // maybe we want it as foreground when saving?
-            };
-            return this.thread;
         }
 
         private void ThrowIfDisposed()

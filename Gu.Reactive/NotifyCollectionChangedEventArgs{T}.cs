@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections;
@@ -63,7 +63,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is NotifyCollectionChangedEventArgs<T> other && this.Equals(other);
         }

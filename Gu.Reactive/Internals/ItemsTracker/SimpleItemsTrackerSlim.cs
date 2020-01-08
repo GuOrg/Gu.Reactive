@@ -63,9 +63,10 @@
                     this.OnItemPropertyChanged(CachedEventArgs.StringEmpty);
                     this.UpdateSubscriptions(e.OldItems, e.NewItems);
                     break;
-                case NotifyCollectionChangedAction.Replace when e.OldItems.TrySingle(out var oldItem) &&
-                                                                e.NewItems.TrySingle(out var newItem) &&
-                                                                ReferenceEquals(oldItem, newItem):
+                case NotifyCollectionChangedAction.Replace
+                    when e.OldItems.TrySingle(out var oldItem) &&
+                         e.NewItems.TrySingle(out var newItem) &&
+                         ReferenceEquals(oldItem, newItem):
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     this.OnItemPropertyChanged(CachedEventArgs.StringEmpty);
@@ -99,7 +100,7 @@
 
                 if (newItems != null)
                 {
-                    foreach (TItem item in newItems)
+                    foreach (TItem? item in newItems)
                     {
                         if (!(item is null) &&
                             this.set.Add(item))
@@ -112,7 +113,7 @@
                 if (oldItems != null)
                 {
                     this.set.IntersectWith(this.source);
-                    foreach (TItem item in oldItems)
+                    foreach (TItem? item in oldItems)
                     {
                         if (!(item is null) &&
                             !this.set.Contains(item))

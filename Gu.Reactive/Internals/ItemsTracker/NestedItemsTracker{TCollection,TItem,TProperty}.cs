@@ -142,9 +142,10 @@
                     case NotifyCollectionChangedAction.Remove:
                         this.RemoveItems(e.OldItems);
                         break;
-                    case NotifyCollectionChangedAction.Replace when e.OldItems.TrySingle(out var oldItem) &&
-                                                                    e.NewItems.TrySingle(out var newItem) &&
-                                                                    ReferenceEquals(oldItem, newItem):
+                    case NotifyCollectionChangedAction.Replace
+                        when e.OldItems.TrySingle(out var oldItem) &&
+                             e.NewItems.TrySingle(out var newItem) &&
+                             ReferenceEquals(oldItem, newItem):
                         break;
                     case NotifyCollectionChangedAction.Replace:
                         this.RemoveItems(e.OldItems);
@@ -164,7 +165,7 @@
 
         private void AddItems(IEnumerable items)
         {
-            foreach (TItem item in items)
+            foreach (TItem? item in items)
             {
                 //// Signaling initial before subscribing here to get the events in correct order
                 //// This can't be made entirely thread safe as an event can be raised on source between signal initial & subscribe.
@@ -187,7 +188,7 @@
         private void RemoveItems(IEnumerable items)
         {
             var set = IdentitySet.Borrow<TItem>();
-            foreach (TItem item in items)
+            foreach (TItem? item in items)
             {
                 this.OnTrackedItemChanged(
                     null,

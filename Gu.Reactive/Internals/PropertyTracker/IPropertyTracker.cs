@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.ComponentModel;
@@ -26,7 +26,7 @@ namespace Gu.Reactive.Internals
         /// <summary>
         /// The source that the <see cref="Getter"/> gets value for.
         /// </summary>
-        INotifyPropertyChanged Source { get; set; }
+        INotifyPropertyChanged? Source { get; set; }
 
         /// <summary>
         /// Previous property in the path notifies via this method.

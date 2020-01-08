@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections;
@@ -7,12 +7,12 @@ namespace Gu.Reactive.Internals
 
     internal static class ListExt
     {
-        internal static bool Contains<T>(this IEnumerable<T> source, object value)
+        internal static bool Contains<T>(this IEnumerable<T> source, object? value)
         {
             return source.Any(item => Equals(value, item));
         }
 
-        internal static int IndexOf<T>(this IReadOnlyList<T> source, object value)
+        internal static int IndexOf<T>(this IReadOnlyList<T> source, object? value)
         {
             for (var i = 0; i < source.Count; i++)
             {

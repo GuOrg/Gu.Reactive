@@ -23,15 +23,14 @@
         /// </summary>
         protected Tracker(IChanges<TValue> source)
         {
-            Ensure.NotNull(source, nameof(source));
-            this.source = source;
+            this.source = source ?? throw new ArgumentNullException(nameof(source));
             source.Add += this.OnAdd;
             source.Remove += this.OnRemove;
             source.Reset += this.OnReset;
         }
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc/>
         public TValue? Value

@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -57,7 +57,7 @@ namespace Gu.Reactive
             EqualityComparer<T>.Default.Equals(this.Previous, other.Previous);
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) => obj is WithPrevious<T> other && this.Equals(other);
+        public override bool Equals(object? obj) => obj is WithPrevious<T> other && this.Equals(other);
 
         /// <inheritdoc/>
         public override int GetHashCode()

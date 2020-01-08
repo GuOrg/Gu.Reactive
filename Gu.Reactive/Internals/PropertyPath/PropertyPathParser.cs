@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections.Concurrent;
@@ -71,7 +71,7 @@ namespace Gu.Reactive.Internals
             public override string Name => this.property.Name;
 
             /// <inheritdoc />
-            public override Type DeclaringType => this.property.DeclaringType;
+            public override Type? DeclaringType => this.property.DeclaringType;
 
             /// <inheritdoc />
             public override Type ReflectedType => this.reflectedType;
@@ -95,13 +95,13 @@ namespace Gu.Reactive.Internals
             public override bool IsDefined(Type attributeType, bool inherit) => this.property.IsDefined(attributeType, inherit);
 
             /// <inheritdoc />
-            public override object GetValue(object obj, BindingFlags invokeAttr, Binder binder, object[] index, CultureInfo culture)
+            public override object? GetValue(object? obj, BindingFlags invokeAttr, Binder? binder, object?[]? index, CultureInfo? culture)
             {
                 return this.property.GetValue(obj, invokeAttr, binder, index, culture);
             }
 
             /// <inheritdoc />
-            public override void SetValue(object obj, object value, BindingFlags invokeAttr, Binder binder, object[] index, CultureInfo culture)
+            public override void SetValue(object? obj, object? value, BindingFlags invokeAttr, Binder? binder, object?[]? index, CultureInfo? culture)
             {
                 this.property.SetValue(obj, value, invokeAttr, binder, index, culture);
             }
@@ -110,10 +110,10 @@ namespace Gu.Reactive.Internals
             public override MethodInfo[] GetAccessors(bool nonPublic) => this.property.GetAccessors(nonPublic);
 
             /// <inheritdoc />
-            public override MethodInfo GetGetMethod(bool nonPublic) => this.property.GetGetMethod(nonPublic);
+            public override MethodInfo? GetGetMethod(bool nonPublic) => this.property.GetGetMethod(nonPublic);
 
             /// <inheritdoc />
-            public override MethodInfo GetSetMethod(bool nonPublic) => this.property.GetSetMethod(nonPublic);
+            public override MethodInfo? GetSetMethod(bool nonPublic) => this.property.GetSetMethod(nonPublic);
 
             /// <inheritdoc />
             public override ParameterInfo[] GetIndexParameters() => this.property.GetIndexParameters();
@@ -122,7 +122,7 @@ namespace Gu.Reactive.Internals
             public override object[] GetCustomAttributes(Type attributeType, bool inherit) => this.property.GetCustomAttributes(attributeType, inherit);
 
             /// <inheritdoc />
-            public override bool Equals(object obj)
+            public override bool Equals(object? obj)
             {
                 if (obj is null)
                 {

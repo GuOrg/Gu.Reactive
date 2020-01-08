@@ -1,4 +1,4 @@
-// ReSharper disable StaticMemberInGenericType
+﻿// ReSharper disable StaticMemberInGenericType
 namespace Gu.Reactive
 {
     using System;
@@ -56,11 +56,11 @@ namespace Gu.Reactive
 
         /// <inheritdoc/>
         [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc/>
         [field: NonSerialized]
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <inheritdoc cref="IReadOnlyCollection{T}" />
         public int Count => this.inner.Count;

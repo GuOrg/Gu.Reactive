@@ -39,11 +39,11 @@
 
         /// <inheritdoc/>
         [field: NonSerialized]
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <inheritdoc/>
         [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc/>
         public bool IsReadOnly => true;
@@ -109,7 +109,7 @@
 
         /// <inheritdoc/>
         [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
-        object IList.this[int index]
+        object? IList.this[int index]
         {
             get => this[index];
 #pragma warning disable CA1033 // Interface methods should be callable by child types
