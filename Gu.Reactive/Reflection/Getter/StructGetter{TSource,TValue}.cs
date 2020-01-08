@@ -14,7 +14,6 @@
             if (property is { GetMethod: { } getMethod })
             {
                 this.getter = (GetterDelegate?)Delegate.CreateDelegate(typeof(GetterDelegate), getMethod, throwOnBindFailure: true) ?? throw new InvalidOperationException("Failed creating delegate.");
-
             }
             else
             {

@@ -30,7 +30,7 @@
 
         public int Count => this.parts.Count;
 
-        internal TSource Source => (TSource)this.parts[0].Source;
+        internal TSource? Source => (TSource?)this.parts[0].Source;
 
         private IPropertyTracker<TValue> Last => (IPropertyTracker<TValue>)this.parts[this.parts.Count - 1];
 

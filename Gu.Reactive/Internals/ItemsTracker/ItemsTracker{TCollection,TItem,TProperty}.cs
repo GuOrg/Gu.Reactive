@@ -11,7 +11,7 @@
     {
         protected readonly object Gate = new object();
 
-        internal event TrackedItemPropertyChangedEventHandler<TItem, TProperty>? TrackedItemChanged;
+        internal event TrackedItemPropertyChangedEventHandler<TItem?, TProperty>? TrackedItemChanged;
 
         protected bool HasSubscribers => this.TrackedItemChanged != null;
 

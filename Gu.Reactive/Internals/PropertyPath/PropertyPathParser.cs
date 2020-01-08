@@ -27,18 +27,18 @@
         private static IReadOnlyList<PropertyInfo> Create(LambdaExpression expression)
         {
             var path = new List<PropertyInfo>();
-            var member = expression.GetRootProperty();
-            while (member != null)
+            var memberExpression = expression.GetRootProperty();
+            while (memberExpression != null)
             {
-                path.Add(member.Property());
-                member = member.GetPreviousProperty();
+                path.Add(memberExpression.PropertyInfo());
+                memberExpression = memberExpression.GetPreviousProperty();
             }
 
             path.Reverse();
             return path;
         }
 
-        private static PropertyInfo Property(this MemberExpression member)
+        private static PropertyInfo PropertyInfo(this MemberExpression member)
         {
             var property = (PropertyInfo)member.Member;
             var type = member.Expression.Type;

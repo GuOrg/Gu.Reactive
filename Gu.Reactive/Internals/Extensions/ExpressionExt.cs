@@ -9,38 +9,25 @@
     {
         internal static MemberExpression GetRootProperty(this LambdaExpression lambda)
         {
-            switch (lambda.Body.NodeType)
+            return lambda.Body switch
             {
-                case ExpressionType.Convert:
-                case ExpressionType.ConvertChecked:
-                    {
-                        var convert = (UnaryExpression)lambda.Body;
-                        if (convert.Operand is MemberExpression memberExpression)
-                        {
-                            if (memberExpression.Member is PropertyInfo)
-                            {
-                                return memberExpression;
-                            }
+                UnaryExpression { Operand: MemberExpression { Member: PropertyInfo _ } memberExpression } unary
+                when IsConversion(unary)
+                => memberExpression,
+                MemberExpression { Member: PropertyInfo _ } memberExpression => memberExpression,
+                MemberExpression member => throw new ArgumentException($"Expected path to be properties only. Was {lambda}. Unexpected item: {member.Member}"),
+                _ => throw new ArgumentException($"Expected path to be properties only. Was {lambda}"),
+            };
 
-                            throw new ArgumentException($"Expected path to be properties only. Was {lambda}. Unexpected item: {memberExpression.Member}");
-                        }
-
-                        throw new ArgumentException($"Expected path to be properties only. Was {lambda}");
-                    }
-            }
-
-            if (lambda.Body is MemberExpression member)
+            bool IsConversion(UnaryExpression unary)
             {
-                if (member.Member is PropertyInfo)
+                return unary switch
                 {
-                    return member;
-                }
-
-                throw new ArgumentException(
-                    $"Expected path to be properties only. Was {lambda}. Unexpected item: {member.Member}");
+                    { NodeType: ExpressionType.Convert } => true,
+                    { NodeType: ExpressionType.ConvertChecked } => true,
+                    _ => false,
+                };
             }
-
-            throw new ArgumentException($"Expected path to be properties only. Was {lambda}");
         }
 
         internal static MemberExpression? GetPreviousProperty(this MemberExpression parent)
