@@ -55,7 +55,7 @@
                 throw new ArgumentNullException(nameof(property));
             }
 
-            if (property.GetMethod == null)
+            if (property.GetMethod is null)
             {
                 var message = "Property cannot be write only.\r\n" +
                               $"The property {property.ReflectedType?.Namespace}.{property.ReflectedType.PrettyName()}.{property.Name} does not have a getter.";

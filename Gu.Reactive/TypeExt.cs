@@ -13,7 +13,7 @@ namespace Gu.Reactive
         /// </summary>
         public static string PrettyName(this Type type)
         {
-            if (type == null)
+            if (type is null)
             {
                 throw new ArgumentNullException(nameof(type));
             }
@@ -57,7 +57,7 @@ namespace Gu.Reactive
         /// </summary>
         public static bool IsNullable(this Type type)
         {
-            if (type == null)
+            if (type is null)
             {
                 throw new ArgumentNullException(nameof(type));
             }

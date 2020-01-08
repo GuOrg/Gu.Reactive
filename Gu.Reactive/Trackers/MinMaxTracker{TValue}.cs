@@ -103,8 +103,8 @@
         {
             var currentMin = this.min;
             var currentMax = this.max;
-            if (currentMin == null ||
-                currentMax == null)
+            if (currentMin is null ||
+                currentMax is null)
             {
                 this.Min = value;
                 this.Max = value;
@@ -126,8 +126,8 @@
         {
             var currentMin = this.min;
             var currentMax = this.max;
-            if (currentMin == null ||
-                currentMax == null)
+            if (currentMin is null ||
+                currentMax is null)
             {
                 return;
             }

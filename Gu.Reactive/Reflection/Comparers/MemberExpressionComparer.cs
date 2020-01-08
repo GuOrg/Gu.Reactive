@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System.Collections.Generic;
     using System.Linq.Expressions;
@@ -16,7 +16,7 @@ namespace Gu.Reactive
                 return true;
             }
 
-            if (x == null || y == null)
+            if (x is null || y is null)
             {
                 return false;
             }

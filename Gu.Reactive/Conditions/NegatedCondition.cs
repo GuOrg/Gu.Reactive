@@ -45,7 +45,7 @@ namespace Gu.Reactive
             {
                 this.ThrowIfDisposed();
                 var isSatisfied = this.condition.IsSatisfied;
-                if (isSatisfied == null)
+                if (isSatisfied is null)
                 {
                     return null;
                 }

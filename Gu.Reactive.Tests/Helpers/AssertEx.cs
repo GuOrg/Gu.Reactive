@@ -9,7 +9,7 @@ namespace Gu.Reactive.Tests.Helpers
     {
         public static void AreEqual(PropertyChangedEventArgs expected, object actual)
         {
-            if (expected == null && actual == null)
+            if (expected is null && actual is null)
             {
                 return;
             }
@@ -24,7 +24,7 @@ namespace Gu.Reactive.Tests.Helpers
 
         public static void AreEqual(NotifyCollectionChangedEventArgs expected, object actual)
         {
-            if (expected == null && actual == null)
+            if (expected is null && actual is null)
             {
                 return;
             }

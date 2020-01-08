@@ -47,14 +47,14 @@ namespace Gu.Wpf.Reactive
         /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            if (serviceProvider == null)
+            if (serviceProvider is null)
             {
                 throw new ArgumentNullException(nameof(serviceProvider));
             }
 
-            if (this.Binding == null)
+            if (this.Binding is null)
             {
-                throw new ArgumentException("Binding == null");
+                throw new ArgumentException("Binding is null");
             }
 
             if (IsInDesignMode)
@@ -72,10 +72,10 @@ namespace Gu.Wpf.Reactive
             {
                 var reference = new Reference(this.Binding.ElementName);
                 var source = reference.ProvideValue(serviceProvider) as FrameworkElement;
-                if (source == null)
+                if (source is null)
                 {
                     var rootObjectProvider = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
-                    if (rootObjectProvider == null)
+                    if (rootObjectProvider is null)
                     {
                         throw new ArgumentException($"Could not resolve element: {this.Binding.ElementName}");
                     }
@@ -100,9 +100,9 @@ namespace Gu.Wpf.Reactive
             else
             {
                 var rootObjectProvider = (IRootObjectProvider)serviceProvider.GetService(typeof(IRootObjectProvider));
-                if (rootObjectProvider == null)
+                if (rootObjectProvider is null)
                 {
-                    throw new ArgumentException("rootObjectProvider == null");
+                    throw new ArgumentException("rootObjectProvider is null");
                 }
 
                 binding = CreateDataContextBinding((FrameworkElement)rootObjectProvider.RootObject, this.Binding);
@@ -151,9 +151,9 @@ namespace Gu.Wpf.Reactive
         private static object DefaultValue(IServiceProvider serviceProvider)
         {
             var provideValueTarget = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
-            if (provideValueTarget == null)
+            if (provideValueTarget is null)
             {
-                throw new ArgumentException("provideValueTarget == null");
+                throw new ArgumentException("provideValueTarget is null");
             }
 
             var dependencyProperty = (DependencyProperty)provideValueTarget.TargetProperty;

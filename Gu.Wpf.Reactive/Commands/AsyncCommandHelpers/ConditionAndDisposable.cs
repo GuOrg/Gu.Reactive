@@ -24,7 +24,7 @@ namespace Gu.Wpf.Reactive
 
         internal static ConditionAndDisposable Create(ICondition canRunCondition, IReadOnlyList<ICondition> conditions)
         {
-            if (conditions == null || conditions.Count == 0)
+            if (conditions is null || conditions.Count == 0)
             {
                 return new ConditionAndDisposable(canRunCondition, null);
             }

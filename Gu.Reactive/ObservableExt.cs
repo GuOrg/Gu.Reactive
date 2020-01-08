@@ -151,7 +151,7 @@ namespace Gu.Reactive
         /// <returns>An observable with the last two values from <paramref name="source"/>.</returns>
         public static IObservable<WithPrevious<T>> WithPrevious<T>(this IObservable<T> source)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
@@ -186,7 +186,7 @@ namespace Gu.Reactive
         /// <returns>An observable with the last two values from <paramref name="source"/>.</returns>
         public static IObservable<WithMaybePrevious<T>> WithMaybePrevious<T>(this IObservable<T> source)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
@@ -265,7 +265,7 @@ namespace Gu.Reactive
 
         internal static IObservable<T> ObserveOnOrDefault<T>(this IObservable<T> source, IScheduler scheduler)
         {
-            if (scheduler == null)
+            if (scheduler is null)
             {
                 return source;
             }

@@ -150,12 +150,12 @@
         /// </summary>
         protected static IEnumerable<T> Filtered(IEnumerable<T> source, Func<T, bool> filter)
         {
-            if (source == null)
+            if (source is null)
             {
                 return Enumerable.Empty<T>();
             }
 
-            if (filter == null)
+            if (filter is null)
             {
                 return source;
             }

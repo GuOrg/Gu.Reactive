@@ -147,7 +147,7 @@
 
         private void Update(Chunk<NotifyCollectionChangedEventArgs> changes)
         {
-            if (changes == null || changes.Count == 0)
+            if (changes is null || changes.Count == 0)
             {
                 return;
             }

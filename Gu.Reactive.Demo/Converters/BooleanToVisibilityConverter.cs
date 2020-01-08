@@ -19,7 +19,7 @@
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var meh = value as bool?;
-            if (meh == null)
+            if (meh is null)
             {
                 return this.WhenNull;
             }

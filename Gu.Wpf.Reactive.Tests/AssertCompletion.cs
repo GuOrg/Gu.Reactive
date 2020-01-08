@@ -9,12 +9,12 @@ namespace Gu.Wpf.Reactive.Tests
         public static void AreEqual<T>(Task expected, NotifyTaskCompletionBase<T> actual)
             where T : Task
         {
-            if (expected == null)
+            if (expected is null)
             {
                 throw new System.ArgumentNullException(nameof(expected));
             }
 
-            if (actual == null)
+            if (actual is null)
             {
                 throw new System.ArgumentNullException(nameof(actual));
             }

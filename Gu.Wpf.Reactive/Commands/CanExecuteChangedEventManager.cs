@@ -24,7 +24,7 @@ namespace Gu.Wpf.Reactive
             {
                 var managerType = typeof(CanExecuteChangedEventManager);
                 var currentManager = (CanExecuteChangedEventManager)GetCurrentManager(managerType);
-                if (currentManager == null)
+                if (currentManager is null)
                 {
                     currentManager = new CanExecuteChangedEventManager();
                     SetCurrentManager(managerType, currentManager);
@@ -41,12 +41,12 @@ namespace Gu.Wpf.Reactive
         /// <param name="listener">The object to add as a listener.</param>
         public static void AddListener(ICommand source, IWeakEventListener listener)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (listener == null)
+            if (listener is null)
             {
                 throw new ArgumentNullException(nameof(listener));
             }
@@ -61,7 +61,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="listener">The listener to remove.</param>
         public static void RemoveListener(ICommand source, IWeakEventListener listener)
         {
-            if (listener == null)
+            if (listener is null)
             {
                 throw new ArgumentNullException(nameof(listener));
             }
@@ -76,7 +76,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="handler">The delegate that handles the event.</param>
         public static void AddHandler(ICommand source, EventHandler handler)
         {
-            if (handler == null)
+            if (handler is null)
             {
                 throw new ArgumentNullException(nameof(handler));
             }
@@ -91,7 +91,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="handler">The delegate that handles the event.</param>
         public static void RemoveHandler(ICommand source, EventHandler handler)
         {
-            if (handler == null)
+            if (handler is null)
             {
                 throw new ArgumentNullException(nameof(handler));
             }
@@ -105,7 +105,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="source">The object on which to start listening to.</param>
         protected override void StartListening(object source)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
@@ -119,7 +119,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="source">The source object on which to stop listening to.</param>
         protected override void StopListening(object source)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }

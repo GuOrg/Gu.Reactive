@@ -109,7 +109,7 @@ namespace Gu.Reactive.Demo
 
         private bool Filter(DummyItem arg)
         {
-            if (arg == null)
+            if (arg is null)
             {
                 return true;
             }

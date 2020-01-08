@@ -146,7 +146,7 @@ namespace Gu.Reactive.Demo
 
         private static bool IsMatch(string value, string pattern)
         {
-            if (value == null)
+            if (value is null)
             {
                 return false;
             }
@@ -206,7 +206,7 @@ namespace Gu.Reactive.Demo
                 return true;
             }
 
-            if (person.TagsValues == null || !person.TagsValues.Any())
+            if (person.TagsValues is null || !person.TagsValues.Any())
             {
                 return true;
             }

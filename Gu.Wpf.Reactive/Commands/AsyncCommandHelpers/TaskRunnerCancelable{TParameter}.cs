@@ -52,7 +52,7 @@
                 }
 
                 var cts = this.cancellationTokenSource;
-                if (cts == null)
+                if (cts is null)
                 {
                     return false;
                 }

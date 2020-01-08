@@ -114,7 +114,7 @@
                     return Reactive.SourceAndValue.Create(valueSource, this.Last.GetMaybe());
                 }
 
-                value = newSource == null
+                value = newSource is null
                             ? Maybe<INotifyPropertyChanged>.None
                             : Maybe<INotifyPropertyChanged>.Some((INotifyPropertyChanged)part.Getter.GetValue(newSource));
             }

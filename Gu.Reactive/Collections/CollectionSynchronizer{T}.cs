@@ -59,7 +59,7 @@
             lock (this.Items)
             {
                 var change = this.Update(updated, collectionChanges, propertyChanged, collectionChanged);
-                if (change == null)
+                if (change is null)
                 {
                     return;
                 }

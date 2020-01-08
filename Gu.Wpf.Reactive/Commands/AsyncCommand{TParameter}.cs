@@ -79,7 +79,7 @@ namespace Gu.Wpf.Reactive
 
             var completionSubscription = runner.ObservePropertyChangedSlim(nameof(runner.TaskCompletion))
                                                .Subscribe(_ => this.OnPropertyChanged(nameof(this.Execution)));
-            this.disposable = conditionAndDisposable.Disposable == null
+            this.disposable = conditionAndDisposable.Disposable is null
                 ? completionSubscription
                 : new CompositeDisposable(2) { completionSubscription, conditionAndDisposable.Disposable };
         }

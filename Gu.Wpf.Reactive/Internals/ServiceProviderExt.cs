@@ -14,7 +14,7 @@ namespace Gu.Wpf.Reactive
         [Obsolete("To be removed.")]
         public static IXamlTypeResolver XamlTypeResolver(this IServiceProvider provider)
         {
-            if (provider == null)
+            if (provider is null)
             {
                 throw new ArgumentNullException(nameof(provider));
             }
@@ -25,7 +25,7 @@ namespace Gu.Wpf.Reactive
         [Obsolete("To be removed.")]
         public static IProvideValueTarget ProvideValueTarget(this IServiceProvider provider)
         {
-            if (provider == null)
+            if (provider is null)
             {
                 throw new ArgumentNullException(nameof(provider));
             }
@@ -36,7 +36,7 @@ namespace Gu.Wpf.Reactive
         [Obsolete("To be removed.")]
         public static IRootObjectProvider RootObjectProvider(this IServiceProvider provider)
         {
-            if (provider == null)
+            if (provider is null)
             {
                 throw new ArgumentNullException(nameof(provider));
             }
@@ -47,7 +47,7 @@ namespace Gu.Wpf.Reactive
         [Obsolete("To be removed.")]
         public static ITypeDescriptorContext TypeDescriptorContext(this IServiceProvider provider)
         {
-            if (provider == null)
+            if (provider is null)
             {
                 throw new ArgumentNullException(nameof(provider));
             }
@@ -58,7 +58,7 @@ namespace Gu.Wpf.Reactive
         [Obsolete("To be removed.")]
         public static IUriContext UriContext(this IServiceProvider provider)
         {
-            if (provider == null)
+            if (provider is null)
             {
                 throw new ArgumentNullException(nameof(provider));
             }
@@ -69,7 +69,7 @@ namespace Gu.Wpf.Reactive
         [Obsolete("To be removed.")]
         public static IXamlNameResolver XamlNameResolver(this IServiceProvider provider)
         {
-            if (provider == null)
+            if (provider is null)
             {
                 throw new ArgumentNullException(nameof(provider));
             }
@@ -80,7 +80,7 @@ namespace Gu.Wpf.Reactive
         [Obsolete("To be removed.")]
         public static IXamlNamespaceResolver XamlNamespaceResolver(this IServiceProvider provider)
         {
-            if (provider == null)
+            if (provider is null)
             {
                 throw new ArgumentNullException(nameof(provider));
             }
@@ -91,7 +91,7 @@ namespace Gu.Wpf.Reactive
         [Obsolete("To be removed.")]
         public static IXamlSchemaContextProvider XamlSchemaContextProvider(this IServiceProvider provider)
         {
-            if (provider == null)
+            if (provider is null)
             {
                 throw new ArgumentNullException(nameof(provider));
             }
@@ -102,7 +102,7 @@ namespace Gu.Wpf.Reactive
         [Obsolete("To be removed.")]
         public static bool IsInTemplate(this IServiceProvider serviceProvider)
         {
-            if (serviceProvider == null)
+            if (serviceProvider is null)
             {
                 throw new ArgumentNullException(nameof(serviceProvider));
             }

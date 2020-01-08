@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System.Collections.Generic;
     using System.Linq.Expressions;
@@ -48,7 +48,7 @@ namespace Gu.Reactive
                 yMember = yMember.GetPreviousProperty();
             }
 
-            return xMember == null && yMember == null &&
+            return xMember is null && yMember is null &&
                    x.GetSourceType() == y.GetSourceType();
         }
 

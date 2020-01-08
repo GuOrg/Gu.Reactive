@@ -76,7 +76,7 @@ namespace Gu.Reactive
 
         private static IReadOnlyList<T> GetItems(IList items)
         {
-            if (items == null || items.Count == 0)
+            if (items is null || items.Count == 0)
             {
                 return Array.Empty<T>();
             }

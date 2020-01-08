@@ -70,7 +70,7 @@ namespace Gu.Wpf.Reactive
         {
             this.ThrowIfDisposed();
             var completion = this.TaskCompletion;
-            if (completion == null)
+            if (completion is null)
             {
                 return true;
             }

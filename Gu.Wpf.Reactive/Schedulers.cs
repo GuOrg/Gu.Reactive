@@ -20,7 +20,7 @@ namespace Gu.Wpf.Reactive
             get
             {
                 var dispatcher = Application.Current?.Dispatcher;
-                if (dispatcher == null)
+                if (dispatcher is null)
                 {
                     return Scheduler.CurrentThread;
                 }

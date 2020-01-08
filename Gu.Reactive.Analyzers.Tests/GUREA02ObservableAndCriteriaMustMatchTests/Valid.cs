@@ -343,7 +343,7 @@ namespace N
         public ValueCondition(C c)
             : base(
                 c.ObservePropertyChangedSlim(x => x.Value),
-                () => { return c.Value == null ? (bool?)null : c.Value.Value == 1; })
+                () => { return c.Value is null ? (bool?)null : c.Value.Value == 1; })
         {
         }
     }

@@ -50,7 +50,7 @@
                 }
 
                 this.source = newSource;
-                if (newSource == null)
+                if (newSource is null)
                 {
                     foreach (var kvp in this.map)
                     {
@@ -201,7 +201,7 @@
             set.ExceptWith(this.source ?? Enumerable.Empty<TItem>());
             foreach (var item in set)
             {
-                if (item == null)
+                if (item is null)
                 {
                     continue;
                 }

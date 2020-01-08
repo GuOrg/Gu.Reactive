@@ -59,7 +59,7 @@ namespace Gu.Reactive.Tests.Internals
         [TestCase(1, 1, null)]
         public void Equal(object value, object expected, string message)
         {
-            if (message == null)
+            if (message is null)
             {
                 Ensure.Equal(value, expected, nameof(value));
             }
@@ -74,7 +74,7 @@ namespace Gu.Reactive.Tests.Internals
         [TestCase(1, 2, null)]
         public void NotEqual(object value, object expected, string message)
         {
-            if (message == null)
+            if (message is null)
             {
                 Ensure.NotEqual(value, expected, nameof(value));
             }
@@ -90,7 +90,7 @@ namespace Gu.Reactive.Tests.Internals
         [TestCase(1, 0, "Expected x to be less than 0, x was 1\r\nParameter name: x")]
         public void LessThan(int x, int max, string message)
         {
-            if (message == null)
+            if (message is null)
             {
                 Ensure.LessThan(x, max, nameof(x));
             }
@@ -106,7 +106,7 @@ namespace Gu.Reactive.Tests.Internals
         [TestCase(1, 0, "Expected x to be less than or equal to 0, x was 1\r\nParameter name: x")]
         public void LessThanOrEqualTo(int x, int max, string message)
         {
-            if (message == null)
+            if (message is null)
             {
                 Ensure.LessThanOrEqual(x, max, nameof(x));
             }
@@ -122,7 +122,7 @@ namespace Gu.Reactive.Tests.Internals
         [TestCase(0, 1, "Expected x to be greater than 1, x was 0\r\nParameter name: x")]
         public void GreaterThan(int x, int min, string message)
         {
-            if (message == null)
+            if (message is null)
             {
                 Ensure.GreaterThan(x, min, nameof(x));
             }
@@ -138,7 +138,7 @@ namespace Gu.Reactive.Tests.Internals
         [TestCase(0, 1, "Expected x to be greater than or equal to 1, x was 0\r\nParameter name: x")]
         public void GreaterThanOrEqualTo(int x, int min, string message)
         {
-            if (message == null)
+            if (message is null)
             {
                 Ensure.GreaterThanOrEqual(x, min, nameof(x));
             }

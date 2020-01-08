@@ -24,12 +24,12 @@ namespace Gu.Wpf.Reactive
         /// <param name="comparison">The comparison.</param>
         public static void InvokeInsertSorted<T>(this ObservableCollection<T> collection, T item, Comparison<T> comparison = null)
         {
-            if (collection == null)
+            if (collection is null)
             {
                 throw new ArgumentNullException(nameof(collection));
             }
 
-            if (comparison == null)
+            if (comparison is null)
             {
                 comparison = Comparer<T>.Default.Compare;
             }
@@ -124,7 +124,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="collection">The collection.</param>
         public static void InvokeClear<T>(this ObservableCollection<T> collection)
         {
-            if (collection == null)
+            if (collection is null)
             {
                 throw new ArgumentNullException(nameof(collection));
             }
@@ -180,7 +180,7 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         public static Task ClearAsync<T>(this ObservableCollection<T> collection)
         {
-            if (collection == null)
+            if (collection is null)
             {
                 throw new ArgumentNullException(nameof(collection));
             }

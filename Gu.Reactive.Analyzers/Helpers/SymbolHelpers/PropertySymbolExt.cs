@@ -20,7 +20,7 @@ namespace Gu.Reactive.Analyzers
                     using var walker = MutationWalker.For(property, semanticModel, cancellationToken);
                     foreach (var mutation in walker.All())
                     {
-                        if (mutation.FirstAncestor<ConstructorDeclarationSyntax>() == null)
+                        if (mutation.FirstAncestor<ConstructorDeclarationSyntax>() is null)
                         {
                             return false;
                         }
@@ -32,7 +32,7 @@ namespace Gu.Reactive.Analyzers
                 return false;
             }
 
-            return property.SetMethod == null;
+            return property.SetMethod is null;
         }
 
         private static bool TryGetDeclaration(IPropertySymbol property, [NotNullWhen(true)] out BasePropertyDeclarationSyntax? declaration)

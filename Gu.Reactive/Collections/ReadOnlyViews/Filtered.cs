@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Specialized;
@@ -7,7 +7,7 @@ namespace Gu.Reactive
     {
         internal static bool AffectsFilteredOnly<T>(NotifyCollectionChangedEventArgs e, Func<T, bool> filter)
         {
-            if (filter == null)
+            if (filter is null)
             {
                 return false;
             }

@@ -1,4 +1,4 @@
-// ReSharper disable StaticMemberInGenericType
+﻿// ReSharper disable StaticMemberInGenericType
 namespace Gu.Reactive
 {
     using System;
@@ -108,7 +108,7 @@ namespace Gu.Reactive
         /// <param name="items">The new contents of the collection.</param>
         public void ResetTo(IEnumerable<T> items)
         {
-            if (items == null)
+            if (items is null)
             {
                 throw new ArgumentNullException(nameof(items));
             }
@@ -129,7 +129,7 @@ namespace Gu.Reactive
         /// <param name="items">The items to add.</param>
         protected virtual void AddItems(IEnumerable<T> items)
         {
-            if (items == null)
+            if (items is null)
             {
                 throw new ArgumentNullException(nameof(items));
             }
@@ -175,7 +175,7 @@ namespace Gu.Reactive
         /// <param name="items">The items to add.</param>
         protected virtual void RemoveItems(IEnumerable<T> items)
         {
-            if (items == null)
+            if (items is null)
             {
                 throw new ArgumentNullException(nameof(items));
             }

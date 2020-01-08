@@ -29,7 +29,7 @@
         //// ReSharper disable once UnusedParameter.Global
         public static string Property<T>(Expression<Func<T>> property, bool allowNestedProperty = false)
         {
-            if (property == null)
+            if (property is null)
             {
                 throw new ArgumentNullException(nameof(property));
             }
@@ -58,7 +58,7 @@
         /// </returns>
         public static string Property<TSource>(Expression<Func<TSource, object>> property)
         {
-            if (property == null)
+            if (property is null)
             {
                 throw new ArgumentNullException(nameof(property));
             }
@@ -84,7 +84,7 @@
         /// </returns>
         public static string Property<TItem, TValue>(Expression<Func<TItem, TValue>> property)
         {
-            if (property == null)
+            if (property is null)
             {
                 throw new ArgumentNullException(nameof(property));
             }
@@ -100,7 +100,7 @@
         /// <returns> The name of the method specified by <paramref name="method"/>.</returns>
         public static string Method(Expression<Action> method)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
@@ -116,7 +116,7 @@
         /// <returns> The name of the method specified by <paramref name="method"/>.</returns>
         public static string Method<TSource>(Expression<Action<TSource>> method)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
@@ -132,7 +132,7 @@
         /// <returns> The name of the method specified by <paramref name="method"/>.</returns>
         public static string Method<TResult>(Expression<Func<TResult>> method)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
@@ -149,7 +149,7 @@
         /// <returns> The name of the method specified by <paramref name="method"/>.</returns>
         public static string Method<TClass, TReturnValue>(Expression<Func<TClass, TReturnValue>> method)
         {
-            if (method == null)
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }

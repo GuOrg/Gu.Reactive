@@ -42,7 +42,7 @@
                             return false;
                         }
 
-                        isNull |= prerequisiteIsSatisfied == null;
+                        isNull |= prerequisiteIsSatisfied is null;
                     }
 
                     return isNull ? (bool?)null : true; // Mix of trues and nulls means not enough info.

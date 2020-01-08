@@ -23,7 +23,7 @@ namespace Gu.Reactive
         /// </returns>
         public static async Task<T> WithCancellation<T>(this Task<T> task, CancellationToken cancellationToken)
         {
-            if (task == null)
+            if (task is null)
             {
                 throw new ArgumentNullException(nameof(task));
             }
@@ -47,7 +47,7 @@ namespace Gu.Reactive
         /// </summary>
         public static Task TimeoutAfter(this Task task, TimeSpan timeout)
         {
-            if (task == null)
+            if (task is null)
             {
                 throw new ArgumentNullException(nameof(task));
             }
@@ -62,7 +62,7 @@ namespace Gu.Reactive
         /// </summary>
         public static Task TimeoutAfter(this Task task, int millisecondsTimeout)
         {
-            if (task == null)
+            if (task is null)
             {
                 throw new ArgumentNullException(nameof(task));
             }
@@ -127,7 +127,7 @@ namespace Gu.Reactive
         /// </summary>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, TimeSpan timeout)
         {
-            if (task == null)
+            if (task is null)
             {
                 throw new ArgumentNullException(nameof(task));
             }
@@ -142,7 +142,7 @@ namespace Gu.Reactive
         /// </summary>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, int millisecondsTimeout)
         {
-            if (task == null)
+            if (task is null)
             {
                 throw new ArgumentNullException(nameof(task));
             }
@@ -202,12 +202,12 @@ namespace Gu.Reactive
 
         internal static void MarshalTaskResults<TResult>(Task source, TaskCompletionSource<TResult> proxy)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (proxy == null)
+            if (proxy is null)
             {
                 throw new ArgumentNullException(nameof(proxy));
             }
@@ -223,7 +223,7 @@ namespace Gu.Reactive
                     break;
                 case TaskStatus.RanToCompletion:
                     var castedSource = source as Task<TResult>;
-                    proxy.TrySetResult(castedSource == null
+                    proxy.TrySetResult(castedSource is null
                                             ? default // source is a Task
                                             : castedSource.Result); // source is a Task<TResult>
                     break;

@@ -23,7 +23,7 @@ namespace Gu.Reactive
         /// </summary>
         public static T GetValueOrDefault<T>(this IMaybe<T> maybe)
         {
-            if (maybe == null)
+            if (maybe is null)
             {
                 throw new ArgumentNullException(nameof(maybe));
             }
@@ -59,7 +59,7 @@ namespace Gu.Reactive
         /// <param name="compare">How to compare x and y.</param>
         public static bool? Equals<T>(Maybe<T> x, T y, Func<T, T, bool> compare)
         {
-            if (compare == null)
+            if (compare is null)
             {
                 throw new ArgumentNullException(nameof(compare));
             }
@@ -84,7 +84,7 @@ namespace Gu.Reactive
         /// </summary>
         public static Maybe<T> Cast<T>(this IMaybe<object> maybe)
         {
-            if (maybe == null)
+            if (maybe is null)
             {
                 throw new ArgumentNullException(nameof(maybe));
             }

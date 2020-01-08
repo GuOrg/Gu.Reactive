@@ -105,7 +105,7 @@ namespace Gu.Wpf.Reactive
         // ReSharper disable once UnusedParameter.Global
         protected virtual void OnConditionChanged(ICondition oldCondition, ICondition newCondition)
         {
-            if (newCondition == null)
+            if (newCondition is null)
             {
                 this.Root = Array.Empty<ICondition>();
                 this.FlattenedPrerequisites = Array.Empty<ICondition>();
@@ -125,7 +125,7 @@ namespace Gu.Wpf.Reactive
 
         private static IReadOnlyList<ICondition> FlattenPrerequisites(ICondition condition, List<ICondition> list = null)
         {
-            if (list == null)
+            if (list is null)
             {
                 list = new List<ICondition>();
             }

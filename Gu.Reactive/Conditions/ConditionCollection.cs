@@ -1,4 +1,4 @@
-// ReSharper disable MemberCanBePrivate.Global
+﻿// ReSharper disable MemberCanBePrivate.Global
 namespace Gu.Reactive
 {
     using System;
@@ -102,7 +102,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(condition2));
             }
 
-            if (conditions == null || conditions.Length == 0)
+            if (conditions is null || conditions.Length == 0)
             {
                 return new[] { condition1, condition2 };
             }

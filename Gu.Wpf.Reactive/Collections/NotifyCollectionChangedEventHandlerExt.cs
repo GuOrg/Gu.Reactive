@@ -21,7 +21,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         public static Task InvokeOnDispatcherAsync(this NotifyCollectionChangedEventHandler handler, object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (handler == null)
+            if (handler is null)
             {
                 return FinishedTask;
             }

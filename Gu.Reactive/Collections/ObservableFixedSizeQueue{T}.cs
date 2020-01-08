@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Specialized;
@@ -88,7 +88,7 @@ namespace Gu.Reactive
         /// </summary>
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            if (this.scheduler == null)
+            if (this.scheduler is null)
             {
                 this.CollectionChanged?.Invoke(this, e);
                 return;

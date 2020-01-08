@@ -11,7 +11,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
     {
         public static void Start()
         {
-            if (Current == null)
+            if (Current is null)
             {
                 _ = Task.Run(
                         () =>

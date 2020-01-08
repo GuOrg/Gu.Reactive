@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace Gu.Reactive.Internals
                                : Reactive.SourceAndValue.Create(source, Maybe<TValue>.None);
                 }
 
-                if (value.GetValueOrDefault() == null)
+                if (value.GetValueOrDefault() is null)
                 {
                     return Reactive.SourceAndValue.Create(source, Maybe<TValue>.None);
                 }

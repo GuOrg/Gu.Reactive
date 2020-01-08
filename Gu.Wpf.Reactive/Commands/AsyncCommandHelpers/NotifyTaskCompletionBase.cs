@@ -128,7 +128,7 @@ namespace Gu.Wpf.Reactive
             }
 
             var handler = this.PropertyChanged;
-            if (handler == null)
+            if (handler is null)
             {
                 return;
             }

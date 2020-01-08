@@ -214,7 +214,7 @@ namespace Gu.Reactive.Analyzers
 
         private static bool? HasMatchingArgumentAndParameterPositions(ConstructorInitializerSyntax initializer, SyntaxNodeAnalysisContext context)
         {
-            if (initializer?.ArgumentList == null)
+            if (initializer?.ArgumentList is null)
             {
                 return null;
             }

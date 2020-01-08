@@ -1,4 +1,4 @@
-// ReSharper disable UnusedParameter.Global
+﻿// ReSharper disable UnusedParameter.Global
 namespace Gu.Reactive.Internals
 {
     using System;
@@ -10,7 +10,7 @@ namespace Gu.Reactive.Internals
             where T : class
         {
             Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
-            if (value == null)
+            if (value is null)
             {
                 throw new ArgumentNullException(parameterName);
             }
@@ -54,7 +54,7 @@ namespace Gu.Reactive.Internals
 
         private static string ToStringOrNull<T>(this T value)
         {
-            if (value == null)
+            if (value is null)
             {
                 return "null";
             }

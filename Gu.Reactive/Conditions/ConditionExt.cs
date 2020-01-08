@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -52,7 +52,7 @@ namespace Gu.Reactive
         /// </summary>
         public static bool IsInSync(this ICondition condition)
         {
-            if (condition == null)
+            if (condition is null)
             {
                 throw new ArgumentNullException(nameof(condition));
             }

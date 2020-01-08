@@ -125,7 +125,7 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         protected virtual void Notify(NotifyCollectionChangedEventArgs change)
         {
-            if (change == null || !this.HasListeners)
+            if (change is null || !this.HasListeners)
             {
                 return;
             }
@@ -158,7 +158,7 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            if (changes == null)
+            if (changes is null)
             {
                 throw new ArgumentNullException(nameof(changes));
             }
@@ -183,7 +183,7 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         protected virtual bool IsSourceChange(NotifyCollectionChangedEventArgs e)
         {
-            if (e == null)
+            if (e is null)
             {
                 throw new ArgumentNullException(nameof(e));
             }

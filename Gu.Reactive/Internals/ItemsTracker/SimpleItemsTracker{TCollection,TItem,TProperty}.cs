@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections;
@@ -48,7 +48,7 @@ namespace Gu.Reactive.Internals
                 }
 
                 this.source = newSource;
-                if (newSource == null)
+                if (newSource is null)
                 {
                     foreach (var item in this.set)
                     {

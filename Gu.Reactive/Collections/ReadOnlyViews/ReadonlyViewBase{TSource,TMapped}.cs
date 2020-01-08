@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections;
@@ -259,7 +259,7 @@ namespace Gu.Reactive
         /// <param name="result">The action to invoke.</param>
         protected TResult ThrowIfDisposed<TResult>(Func<TResult> result)
         {
-            if (result == null)
+            if (result is null)
             {
                 throw new ArgumentNullException(nameof(result));
             }
@@ -323,7 +323,7 @@ namespace Gu.Reactive
         /// </summary>
         protected virtual void Notify(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
-            if (changes == null ||
+            if (changes is null ||
                 changes.Count == 0)
             {
                 return;
@@ -346,7 +346,7 @@ namespace Gu.Reactive
         /// </summary>
         protected virtual void Notify(NotifyCollectionChangedEventArgs change)
         {
-            if (change == null)
+            if (change is null)
             {
                 return;
             }

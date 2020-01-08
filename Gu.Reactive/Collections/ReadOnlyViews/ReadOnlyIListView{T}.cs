@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections;
@@ -192,7 +192,7 @@ namespace Gu.Reactive
         /// </summary>
         protected void ThrowIfDisposed(Action action)
         {
-            if (action == null)
+            if (action is null)
             {
                 throw new ArgumentNullException(nameof(action));
             }

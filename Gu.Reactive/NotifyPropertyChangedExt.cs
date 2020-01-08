@@ -60,7 +60,7 @@ namespace Gu.Reactive
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNullOrEmpty(propertyName, nameof(propertyName));
-            if (source.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) == null)
+            if (source.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) is null)
             {
                 throw new ArgumentException($"The type {source.GetType()} does not have a property named {propertyName}", propertyName);
             }
@@ -122,7 +122,7 @@ namespace Gu.Reactive
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNullOrEmpty(propertyName, nameof(propertyName));
 
-            if (source.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) == null)
+            if (source.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) is null)
             {
                 throw new ArgumentException($"The type {source.GetType()} does not have a property named {propertyName}", propertyName);
             }

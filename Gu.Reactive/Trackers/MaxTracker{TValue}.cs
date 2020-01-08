@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace Gu.Reactive
         protected override void OnAdd(TValue value)
         {
             var current = this.Value;
-            if (current == null)
+            if (current is null)
             {
                 this.Value = value;
                 return;
@@ -40,7 +40,7 @@ namespace Gu.Reactive
         protected override void OnRemove(TValue value)
         {
             var current = this.Value;
-            if (current == null)
+            if (current is null)
             {
                 return;
             }
@@ -54,7 +54,7 @@ namespace Gu.Reactive
         /// <inheritdoc/>
         protected override TValue? GetValueOrDefault(IEnumerable<TValue> source)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }

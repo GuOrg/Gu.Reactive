@@ -45,7 +45,7 @@
 
         internal static MemberExpression? GetPreviousProperty(this MemberExpression parent)
         {
-            if (parent.Expression == null ||
+            if (parent.Expression is null ||
                 parent.Expression.NodeType == ExpressionType.Parameter ||
                 parent.Expression.NodeType == ExpressionType.Constant)
             {
