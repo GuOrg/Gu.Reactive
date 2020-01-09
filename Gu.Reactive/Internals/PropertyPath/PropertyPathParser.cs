@@ -31,7 +31,7 @@
             while (memberExpression != null)
             {
                 path.Add(memberExpression.PropertyInfo());
-                memberExpression = memberExpression.GetPreviousProperty();
+                memberExpression = memberExpression.GetPreviousProperty()!;
             }
 
             path.Reverse();
@@ -47,7 +47,7 @@
                 return property;
             }
 
-            property = type.GetProperty(member.Member.Name);
+            property = type.GetProperty(member.Member.Name)!;
             if (property != null)
             {
                 return property;
@@ -154,9 +154,9 @@
                 }
             }
 
-            protected bool Equals(InterfaceProperty other)
+            private bool Equals(InterfaceProperty other)
             {
-                return base.Equals(other) && this.property.Equals(other.property) && this.reflectedType.Equals(other.reflectedType);
+                return base.Equals(other) && this.property.Equals(other.property) && this.reflectedType == other.reflectedType;
             }
         }
     }

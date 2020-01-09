@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Internals
+﻿namespace Gu.Reactive.Tests.Internals
 {
     using System;
 
@@ -6,7 +6,7 @@ namespace Gu.Reactive.Tests.Internals
 
     using NUnit.Framework;
 
-    public partial class EnsureTests
+    public class EnsureTests
     {
         [TestCase(null, true)]
         [TestCase("", false)]
