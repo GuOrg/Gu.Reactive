@@ -166,37 +166,32 @@ namespace Gu.Reactive
             }
 
             this.CheckReentrancy();
-            var count = 0;
-            var index = -1;
-            var removed = default(T);
-            foreach (var item in items)
+            var before = this.Items.Count;
+            //// using KeyValuePair here, not dragging in reference to value tuple just for this.
+            KeyValuePair<int, T>? first = null;
+            using var e = items.GetEnumerator();
+            while (e.MoveNext())
             {
-                if (count > 0)
+                if (first is null &&
+                    this.Items.IndexOf(e.Current) is { } i &&
+                    i >= 0)
                 {
-                    this.Items.Remove(item);
-                }
-                else
-                {
-                    removed = item;
-                    index = this.Items.IndexOf(item);
-                    this.Items.RemoveAt(index);
+                    first = new KeyValuePair<int, T>(i, e.Current);
                 }
 
-                count++;
+                while (this.Items.Remove(e.Current))
+                {
+                }
             }
 
-            if (count == 0)
-            {
-                return;
-            }
-
-            if (count == 1)
+            if (this.Items.Count == before + 1 &&
+                first is { Key: { } index, Value: var removed })
             {
                 this.OnPropertyChanged(CountPropertyChangedEventArgs);
                 this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
                 this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, removed, index));
             }
-            else
+            else if (this.Items.Count != before)
             {
                 this.RaiseReset();
             }
