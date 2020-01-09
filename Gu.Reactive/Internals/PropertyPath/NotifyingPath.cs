@@ -1,9 +1,10 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
@@ -57,7 +58,7 @@ namespace Gu.Reactive.Internals
             return new NotifyingPath<TNotifier, TProperty>(parts);
         }
 
-        private static bool TryGetError(IReadOnlyList<PropertyInfo> path, int i, out string errorMessage)
+        private static bool TryGetError(IReadOnlyList<PropertyInfo> path, int i, [NotNullWhen(true)] out string? errorMessage)
         {
             var propertyInfo = path[i];
             var reflectedType = propertyInfo.ReflectedType;

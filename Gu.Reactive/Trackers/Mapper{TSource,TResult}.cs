@@ -17,7 +17,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Mapper{TSource, TResult}"/> class.
         /// </summary>
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public Mapper(ITracker<TSource> source, Func<TSource, TResult> selector)
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
             if (source is null)
             {

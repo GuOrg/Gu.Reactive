@@ -159,7 +159,7 @@
                     item,
                     this.source,
                     CachedEventArgs.StringEmpty,
-                    new SourceAndValue<INotifyPropertyChanged, TProperty>(item, this.getter.GetMaybe(item)));
+                    new SourceAndValue<INotifyPropertyChanged?, TProperty>(item, this.getter.GetMaybe(item)));
 
                 if (item != null &&
                     !this.set.Contains(item))
@@ -179,7 +179,7 @@
                     null,
                     this.source,
                     CachedEventArgs.StringEmpty,
-                    new SourceAndValue<INotifyPropertyChanged, TProperty>(item, this.getter.GetMaybe(item)));
+                    new SourceAndValue<INotifyPropertyChanged?, TProperty>(item, this.getter.GetMaybe(item)));
 
                 if (item != null &&
                     !this.set.Contains(item))
@@ -199,7 +199,7 @@
                     sender,
                     e,
                     SourceAndValue.Create(
-                        (INotifyPropertyChanged)sender,
+                        (INotifyPropertyChanged?)sender,
                         this.getter.GetMaybe(item)));
             }
         }

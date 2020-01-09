@@ -61,7 +61,7 @@
 
         public IPropertyPathTracker PathTracker { get; }
 
-        public Getter<TSource?, TValue> Getter { get; }
+        public Getter<TSource, TValue> Getter { get; }
 
         IGetter IPropertyTracker.Getter => this.Getter;
 

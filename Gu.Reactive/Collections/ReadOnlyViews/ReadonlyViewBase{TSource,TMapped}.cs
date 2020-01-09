@@ -29,7 +29,7 @@
         /// <param name="mapper">The mapping function.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="startEmpty">True means that the tracker is empty after the constructor.</param>
-        protected ReadonlyViewBase(IEnumerable<TSource> source, Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper, bool leaveOpen, bool startEmpty = false)
+        protected ReadonlyViewBase(IEnumerable<TSource>? source, Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper, bool leaveOpen, bool startEmpty = false)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.leaveOpen = leaveOpen;

@@ -135,35 +135,20 @@ namespace Gu.Reactive
             }
 
             this.CheckReentrancy();
-            var count = 0;
-            var added = default(T);
-            foreach (var item in items)
+            var before = this.Items.Count;
+            using var e = items.GetEnumerator();
+            while (e.MoveNext())
             {
-                if (count > 0)
-                {
-                    this.Items.Add(item);
-                }
-                else
-                {
-                    added = item;
-                    this.Items.Add(item);
-                }
-
-                count++;
+                this.Items.Add(e.Current);
             }
 
-            if (count == 0)
-            {
-                return;
-            }
-
-            if (count == 1)
+            if (this.Items.Count == before + 1)
             {
                 this.OnPropertyChanged(CountPropertyChangedEventArgs);
                 this.OnPropertyChanged(IndexerPropertyChangedEventArgs);
-                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, added, this.Items.Count - 1));
+                this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, this.Items[this.Items.Count - 1], this.Items.Count - 1));
             }
-            else
+            else if (this.Items.Count != before)
             {
                 this.RaiseReset();
             }

@@ -22,7 +22,7 @@
         /// <param name="bufferTime">The time to buffer changes from the source collection.</param>
         /// <param name="scheduler">The scheduler to observe changes on.</param>
         /// <param name="leaveOpen">True means that <paramref name="source"/> is not disposed when this instance is disposed.</param>
-        protected ReadOnlySerialViewBase(IEnumerable<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
+        protected ReadOnlySerialViewBase(IEnumerable<T>? source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : base(source, s => s, leaveOpen, startEmpty: true)
         {
             this.Chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
