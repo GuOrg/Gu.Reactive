@@ -39,13 +39,13 @@
 
         /// <inheritdoc />
         public Maybe<TValue> GetMaybe(TSource source) => source is null
-                                                             ? Maybe<TValue>.None
-                                                             : Maybe<TValue>.Some(this.GetValue(source));
+            ? Maybe<TValue>.None
+            : Maybe<TValue>.Some(this.GetValue(source));
 
         /// <inheritdoc/>
         Maybe<object?> IGetter.GetMaybe(object source) => source is null
-                                                             ? Maybe<object?>.None
-                                                             : Maybe<object?>.Some(this.GetValue((TSource)source));
+            ? Maybe<object?>.None
+            : Maybe<object?>.Some(this.GetValue((TSource)source));
 
         /// <inheritdoc/>
         Maybe<TValue> IGetter<TValue>.GetMaybe(object? source) => this.GetMaybe((TSource)source);

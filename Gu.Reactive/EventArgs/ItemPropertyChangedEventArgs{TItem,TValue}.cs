@@ -8,7 +8,7 @@
     /// </summary>
     public class ItemPropertyChangedEventArgs<TItem, TValue> : PropertyChangedEventArgs
     {
-        internal ItemPropertyChangedEventArgs(TItem item, SourceAndValue<INotifyPropertyChanged, TValue> sourceAndValue, string propertyName)
+        internal ItemPropertyChangedEventArgs(TItem item, SourceAndValue<INotifyPropertyChanged?, TValue> sourceAndValue, string propertyName)
             : base(propertyName)
         {
             this.SourceAndValue = sourceAndValue;
@@ -26,7 +26,7 @@
         /// The value is the value of the end node in the property path or <see cref="Maybe{T}.None"/> if it is null.
         /// This is not guaranteed to be the value when the event was raised in a multi threaded scenario.
         /// </summary>
-        public SourceAndValue<INotifyPropertyChanged, TValue> SourceAndValue { get; }
+        public SourceAndValue<INotifyPropertyChanged?, TValue> SourceAndValue { get; }
 
         /// <summary>
         /// Gets SourceAndValue.Value.GetValueOrDefault().

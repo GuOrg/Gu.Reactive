@@ -111,7 +111,7 @@
             base.Dispose(disposing);
         }
 
-        private void OnItemPropertyChanged(IPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+        private void OnItemPropertyChanged(IPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
         {
             this.OnTrackedItemChanged(
                 ((PropertyPathTracker<TItem, TProperty>)tracker.PathTracker).Source,

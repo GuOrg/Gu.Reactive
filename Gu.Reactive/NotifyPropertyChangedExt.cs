@@ -414,7 +414,7 @@
                     o =>
                         {
                             var tracker = notifyingPath.CreateTracker(source);
-                            void Handler(IPropertyTracker _, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TProperty> __) => o.OnNext(create(sender, e));
+                            void Handler(IPropertyTracker _, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged?, TProperty> __) => o.OnNext(create(sender, e));
                             tracker.TrackedPropertyChanged += Handler;
                             return new CompositeDisposable(2)
                                        {
@@ -434,8 +434,7 @@
             {
                 return Observable.Return(
                                      create(
-                                         notifyingPath.SourceAndValue(source)
-                                                      .Source,
+                                         notifyingPath.SourceAndValue(source).Source,
                                          CachedEventArgs.GetOrCreatePropertyChangedEventArgs(string.Empty)))
                                  .Concat(source.ObserveFullPropertyPathCore(notifyingPath, create, signalInitial: false));
             }

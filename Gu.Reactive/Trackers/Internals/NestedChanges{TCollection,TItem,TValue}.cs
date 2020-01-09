@@ -187,7 +187,7 @@
                 this.inner?.Dispose();
             }
 
-            private void TrackerOnTrackedPropertyChanged(IPropertyTracker tracker, object sender, PropertyChangedEventArgs propertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged, TValue> sourceAndValue)
+            private void TrackerOnTrackedPropertyChanged(IPropertyTracker tracker, object sender, PropertyChangedEventArgs propertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TValue> sourceAndValue)
             {
                 this.Value = sourceAndValue.Value;
             }

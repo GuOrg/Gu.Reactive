@@ -242,7 +242,7 @@ namespace Gu.Reactive
                     tracker,
                 };
 
-                void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+                void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
                 {
                     o.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
                           sender,
@@ -424,7 +424,7 @@ namespace Gu.Reactive
                     tracker,
                 };
 
-                void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+                void Handler(TItem? item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
                 {
                     o.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
                           sender,

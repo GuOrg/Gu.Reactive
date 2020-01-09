@@ -30,7 +30,7 @@
             }
 
             this.subscription = source.ObservePropertyChangedSlim(nameof(source.Value))
-                                      .Subscribe(_ => { this.Value = selector(source.Value); });
+                                      .Subscribe(_ => this.Value = selector(source.Value));
         }
 
         /// <inheritdoc/>
