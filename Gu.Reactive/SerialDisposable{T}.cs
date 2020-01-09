@@ -12,7 +12,7 @@
         where T : class, IDisposable
     {
         private readonly object gate = new object();
-        private T disposable;
+        private T? disposable;
         private bool isDisposed;
 
         /// <inheritdoc/>
@@ -34,7 +34,7 @@
 
         /// <summary>Gets or sets the underlying disposable.</summary>
         /// <remarks>If the SerialDisposable has already been disposed, assignment to this property causes immediate disposal of the given disposable object. Assigning this property disposes the previous disposable object.</remarks>
-        public T Disposable
+        public T? Disposable
         {
             get => this.disposable;
 
@@ -53,7 +53,7 @@
                     return;
                 }
 
-                IDisposable toDispose;
+                IDisposable? toDispose;
                 lock (this.gate)
                 {
                     if (ReferenceEquals(value, this.disposable))
@@ -89,7 +89,7 @@
                 return;
             }
 
-            IDisposable toDispose;
+            IDisposable? toDispose;
             lock (this.gate)
             {
                 if (this.isDisposed)

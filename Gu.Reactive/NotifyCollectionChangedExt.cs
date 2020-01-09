@@ -266,7 +266,7 @@
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
-            var tracker = ItemsTracker.Create((TCollection)null, NotifyingPath.GetOrCreate(property));
+            var tracker = ItemsTracker.Create((TCollection?)null, NotifyingPath.GetOrCreate(property));
             tracker.TrackedItemChanged += Handler;
             var subscription = source.Subscribe(x => tracker.UpdateSource(x));
             return new CompositeDisposable(3)
@@ -276,7 +276,7 @@
                 subscription,
             };
 
-            void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+            void Handler(TItem? item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
             {
                 observer.OnNext(create(item, sender, args, sourceAndValue));
             }
@@ -309,7 +309,7 @@
                 tracker,
             };
 
-            void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+            void Handler(TItem? item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
             {
                 o.OnNext(
                     create(
