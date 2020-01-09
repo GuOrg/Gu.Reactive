@@ -94,9 +94,9 @@
         /// Gets the value recursively from the root.
         /// This is for extra security in case changes are notified on different threads.
         /// </summary>
-        internal SourceAndValue<INotifyPropertyChanged, TValue> SourceAndValue()
+        internal SourceAndValue<INotifyPropertyChanged?, TValue> SourceAndValue()
         {
-            var valueSource = (INotifyPropertyChanged)this.Source;
+            var valueSource = (INotifyPropertyChanged?)this.Source;
             var value = Maybe.Some(valueSource);
             for (var i = 0; i < this.parts.Count; i++)
             {
@@ -115,8 +115,8 @@
                 }
 
                 value = newSource is null
-                            ? Maybe<INotifyPropertyChanged>.None
-                            : Maybe<INotifyPropertyChanged>.Some((INotifyPropertyChanged)part.Getter.GetValue(newSource));
+                            ? Maybe<INotifyPropertyChanged?>.None
+                            : Maybe<INotifyPropertyChanged?>.Some((INotifyPropertyChanged?)part.Getter.GetValue(newSource));
             }
 
             return Reactive.SourceAndValue.Create(valueSource, Maybe<TValue>.None);

@@ -109,7 +109,7 @@
             set => this.Source = (TSource?)value;
         }
 
-        internal IPropertyTracker Next => this.PathTracker.GetNext(this);
+        internal IPropertyTracker? Next => this.PathTracker.GetNext(this);
 
         Maybe<TValue> IPropertyTracker<TValue>.GetMaybe() => this.Getter.GetMaybe(this.source);
 

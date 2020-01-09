@@ -83,7 +83,9 @@
 
             if (items.Count == 1)
             {
+#pragma warning disable CS8601 // Possible null reference assignment.
                 return new[] { (T)items[0] };
+#pragma warning restore CS8601 // Possible null reference assignment.
             }
 
             return items.Cast<T>()
