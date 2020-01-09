@@ -1,4 +1,4 @@
-#pragma warning disable UseAsyncSuffix // Use Async suffix
+﻿#pragma warning disable UseAsyncSuffix // Use Async suffix
 namespace Gu.Reactive
 {
     using System;
@@ -29,7 +29,11 @@ namespace Gu.Reactive
             }
 
             var tcs = new TaskCompletionSource<bool>();
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
             using (cancellationToken.Register(s => ((TaskCompletionSource<bool>)s).TrySetResult(true), tcs))
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             {
                 if (task != await Task.WhenAny(task, tcs.Task).ConfigureAwait(false))
                 {
@@ -89,11 +93,11 @@ namespace Gu.Reactive
             // Set up a timer to complete after the specified timeout period
 #pragma warning disable IDISP001  // Dispose created.
             var timer = new Timer(
-                callback: state =>
-                    {
-                        // Recover your state information
-                        _ = ((TaskCompletionSource<VoidTypeStruct>)state).TrySetException(new TimeoutException());
-                    },
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                callback: state => ((TaskCompletionSource<VoidTypeStruct>)state).TrySetException(new TimeoutException()),
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
                 state: tcs,
                 dueTime: millisecondsTimeout,
                 period: Timeout.Infinite);
@@ -104,10 +108,12 @@ namespace Gu.Reactive
                 (antecedent, state) =>
                     {
                         // Recover our state data
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                         var tuple = (Tuple<Timer, TaskCompletionSource<VoidTypeStruct>>)state;
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
                         // Cancel the Timer
-                        tuple.Item1.Dispose();
+                        tuple!.Item1.Dispose();
 
                         // Marshal results to proxy
                         MarshalTaskResults(antecedent, tuple.Item2);
@@ -169,10 +175,11 @@ namespace Gu.Reactive
             // Set up a timer to complete after the specified timeout period
 #pragma warning disable IDISP001  // Dispose created.
             var timer = new Timer(
-                callback: state =>
-                    {
-                        _ = ((TaskCompletionSource<T>)state).TrySetException(new TimeoutException());
-                    },
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+                callback: state => ((TaskCompletionSource<T>)state).TrySetException(new TimeoutException()),
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
                 state: tcs,
                 dueTime: millisecondsTimeout,
                 period: Timeout.Infinite);
@@ -183,8 +190,7 @@ namespace Gu.Reactive
                 (antecedent, state) =>
                     {
                         // Recover our state data
-                        var tuple =
-                                    (Tuple<Timer, TaskCompletionSource<T>>)state;
+                        var tuple = (Tuple<Timer, TaskCompletionSource<T>>)state!;
 
                         // Cancel the Timer
                         tuple.Item1.Dispose();
@@ -216,16 +222,21 @@ namespace Gu.Reactive
             {
                 case TaskStatus.Faulted:
                     // ReSharper disable once AssignNullToNotNullAttribute
-                    proxy.TrySetException(source.Exception);
+                    proxy.TrySetException(source.Exception!);
                     break;
                 case TaskStatus.Canceled:
                     proxy.TrySetCanceled();
                     break;
                 case TaskStatus.RanToCompletion:
-                    var castedSource = source as Task<TResult>;
-                    proxy.TrySetResult(castedSource is null
-                                            ? default // source is a Task
-                                            : castedSource.Result); // source is a Task<TResult>
+                    if (source is Task<TResult> generic)
+                    {
+                        _ = proxy.TrySetResult(generic.Result);
+                    }
+                    else
+                    {
+                        _ = proxy.TrySetResult(default!);
+                    }
+
                     break;
             }
         }
