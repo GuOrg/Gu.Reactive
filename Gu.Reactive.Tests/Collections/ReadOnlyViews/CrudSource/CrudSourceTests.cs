@@ -34,15 +34,13 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         [Test]
         public void NoChangeNoEvent()
         {
-            using (var actual = this.View.SubscribeAll())
-            {
-                CollectionAssert.AreEqual(this.Source, this.View);
-                (this.View as IRefreshAble)?.Refresh();
-                this.Scheduler?.Start();
+            using var actual = this.View.SubscribeAll();
+            CollectionAssert.AreEqual(this.Source, this.View);
+            (this.View as IRefreshAble)?.Refresh();
+            this.Scheduler?.Start();
 
-                CollectionAssert.AreEqual(this.Source, this.View);
-                CollectionAssert.IsEmpty(actual);
-            }
+            CollectionAssert.AreEqual(this.Source, this.View);
+            CollectionAssert.IsEmpty(actual);
         }
 
         [Test]
@@ -70,17 +68,13 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         [Test]
         public void Add()
         {
-            using (var expected = this.Source.SubscribeAll())
-            {
-                using (var actual = this.View.SubscribeAll())
-                {
-                    this.Source.Add(4);
-                    this.Scheduler?.Start();
+            using var expected = this.Source.SubscribeAll();
+            using var actual = this.View.SubscribeAll();
+            this.Source.Add(4);
+            this.Scheduler?.Start();
 
-                    CollectionAssert.AreEqual(this.Source, this.View);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
+            CollectionAssert.AreEqual(this.Source, this.View);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
@@ -91,75 +85,61 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 Assert.Inconclusive();
             }
 
-            using (var actual = this.View.SubscribeAll())
+            using var actual = this.View.SubscribeAll();
+            for (var i = 0; i < 10; i++)
             {
-                for (var i = 0; i < 10; i++)
-                {
-                    this.Source.Add(i);
-                }
-
-                this.Scheduler.Start();
-
-                CollectionAssert.AreEqual(this.Source, this.View);
-                var expected = new EventArgs[]
-                                   {
-                                       CachedEventArgs.CountPropertyChanged,
-                                       CachedEventArgs.IndexerPropertyChanged,
-                                       CachedEventArgs.NotifyCollectionReset,
-                                   };
-                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                this.Source.Add(i);
             }
+
+            this.Scheduler.Start();
+
+            CollectionAssert.AreEqual(this.Source, this.View);
+            var expected = new EventArgs[]
+            {
+                CachedEventArgs.CountPropertyChanged,
+                CachedEventArgs.IndexerPropertyChanged,
+                CachedEventArgs.NotifyCollectionReset,
+            };
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [TestCase(1)]
         [TestCase(2)]
         public void Remove(int toRemove)
         {
-            using (var expected = this.Source.SubscribeAll())
-            {
-                using (var actual = this.View.SubscribeAll())
-                {
-                    this.Source.Remove(toRemove);
-                    this.Scheduler?.Start();
+            using var expected = this.Source.SubscribeAll();
+            using var actual = this.View.SubscribeAll();
+            this.Source.Remove(toRemove);
+            this.Scheduler?.Start();
 
-                    CollectionAssert.AreEqual(this.Source, this.View);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
+            CollectionAssert.AreEqual(this.Source, this.View);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [TestCase(2, 1)]
         [TestCase(0, 2)]
         public void Replace(int index, int value)
         {
-            using (var expected = this.Source.SubscribeAll())
-            {
-                using (var actual = this.View.SubscribeAll())
-                {
-                    this.Source[index] = value;
-                    this.Scheduler?.Start();
+            using var expected = this.Source.SubscribeAll();
+            using var actual = this.View.SubscribeAll();
+            this.Source[index] = value;
+            this.Scheduler?.Start();
 
-                    Assert.AreEqual(value, this.View[index]);
-                    CollectionAssert.AreEqual(this.Source, this.View);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
+            Assert.AreEqual(value, this.View[index]);
+            CollectionAssert.AreEqual(this.Source, this.View);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [TestCase(0, 1)]
         public void Move(int fromIndex, int toIndex)
         {
-            using (var expected = this.Source.SubscribeAll())
-            {
-                using (var actual = this.View.SubscribeAll())
-                {
-                    this.Source.Move(fromIndex, toIndex);
-                    this.Scheduler?.Start();
+            using var expected = this.Source.SubscribeAll();
+            using var actual = this.View.SubscribeAll();
+            this.Source.Move(fromIndex, toIndex);
+            this.Scheduler?.Start();
 
-                    CollectionAssert.AreEqual(this.Source, this.View);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
+            CollectionAssert.AreEqual(this.Source, this.View);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
     }
 }

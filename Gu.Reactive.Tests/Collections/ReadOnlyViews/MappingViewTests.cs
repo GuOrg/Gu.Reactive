@@ -13,68 +13,60 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         public static void DoesNotDisposeInner()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
-            using (var mapped1 = source.AsMappingView(x => x, leaveOpen: true))
+            using var mapped1 = source.AsMappingView(x => x, leaveOpen: true);
+            using (var mapped2 = mapped1.AsMappingView(x => x, leaveOpen: true))
             {
-                using (var mapped2 = mapped1.AsMappingView(x => x, leaveOpen: true))
-                {
-                    CollectionAssert.AreEqual(mapped1, source);
-                    CollectionAssert.AreEqual(mapped2, source);
-                }
-
                 CollectionAssert.AreEqual(mapped1, source);
+                CollectionAssert.AreEqual(mapped2, source);
             }
+
+            CollectionAssert.AreEqual(mapped1, source);
         }
 
         [Test]
         public static void DoesNotDisposeInnerDisposeTwice()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
-            using (var mapped1 = source.AsMappingView(x => x, leaveOpen: true))
+            using var mapped1 = source.AsMappingView(x => x, leaveOpen: true);
+            using (var mapped2 = mapped1.AsMappingView(x => x, leaveOpen: true))
             {
-                using (var mapped2 = mapped1.AsMappingView(x => x, leaveOpen: true))
-                {
-                    CollectionAssert.AreEqual(mapped1, source);
-                    CollectionAssert.AreEqual(mapped2, source);
-#pragma warning disable IDISP016 // Don't use disposed instance.
-                    mapped2.Dispose();
-#pragma warning restore IDISP016 // Don't use disposed instance.
-                    mapped2.Dispose();
-                }
-
                 CollectionAssert.AreEqual(mapped1, source);
+                CollectionAssert.AreEqual(mapped2, source);
+#pragma warning disable IDISP016 // Don't use disposed instance.
+                mapped2.Dispose();
+#pragma warning restore IDISP016 // Don't use disposed instance.
+                mapped2.Dispose();
             }
+
+            CollectionAssert.AreEqual(mapped1, source);
         }
 
         [Test]
         public static void DisposesInnerByDefault()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
-            using (var mapped1 = source.AsMappingView(x => x, leaveOpen: true))
+            using var mapped1 = source.AsMappingView(x => x, leaveOpen: true);
+            using (var mapped2 = mapped1.AsMappingView(x => x))
             {
-                using (var mapped2 = mapped1.AsMappingView(x => x))
-                {
-                    CollectionAssert.AreEqual(mapped1, source);
-                    CollectionAssert.AreEqual(mapped2, source);
-                }
-
-                _ = Assert.Throws<ObjectDisposedException>(() => _ = mapped1.Count);
+                CollectionAssert.AreEqual(mapped1, source);
+                CollectionAssert.AreEqual(mapped2, source);
             }
+
+            _ = Assert.Throws<ObjectDisposedException>(() => _ = mapped1.Count);
         }
 
         [Test]
         public static void DisposesInnerExplicit()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
-            using (var mapped1 = source.AsMappingView(x => x, leaveOpen: true))
+            using var mapped1 = source.AsMappingView(x => x, leaveOpen: true);
+            using (var mapped2 = mapped1.AsMappingView(x => x, leaveOpen: false))
             {
-                using (var mapped2 = mapped1.AsMappingView(x => x, leaveOpen: false))
-                {
-                    CollectionAssert.AreEqual(mapped1, source);
-                    CollectionAssert.AreEqual(mapped2, source);
-                }
-
-                _ = Assert.Throws<ObjectDisposedException>(() => _ = mapped1.Count);
+                CollectionAssert.AreEqual(mapped1, source);
+                CollectionAssert.AreEqual(mapped2, source);
             }
+
+            _ = Assert.Throws<ObjectDisposedException>(() => _ = mapped1.Count);
         }
 
         public static class Model

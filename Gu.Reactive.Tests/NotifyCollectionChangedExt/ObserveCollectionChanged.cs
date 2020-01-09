@@ -76,16 +76,14 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         {
             var changes = new List<EventPattern<NotifyCollectionChangedEventArgs>>();
             var source = new ObservableCollection<int>();
-            using (var view = source.AsReadOnlyFilteredView(x => true))
+            using var view = source.AsReadOnlyFilteredView(x => true);
+            using (view.ObserveCollectionChanged(signalInitial: false)
+                       .Subscribe(x => changes.Add(x)))
             {
-                using (view.ObserveCollectionChanged(signalInitial: false)
-                           .Subscribe(x => changes.Add(x)))
-                {
-                    source.Add(1);
-                    Assert.AreEqual(1, changes.Count);
-                    Assert.AreEqual(source, changes[0].Sender);
-                    Assert.AreEqual(NotifyCollectionChangedAction.Add, changes[0].EventArgs.Action);
-                }
+                source.Add(1);
+                Assert.AreEqual(1, changes.Count);
+                Assert.AreEqual(source, changes[0].Sender);
+                Assert.AreEqual(NotifyCollectionChangedAction.Add, changes[0].EventArgs.Action);
             }
         }
 

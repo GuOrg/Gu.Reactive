@@ -32,29 +32,25 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(Vm.Create))
-                {
-                    Assert.AreSame(view[0], view[1]);
-                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-                }
+                using var view = source.AsMappingView(Vm.Create);
+                Assert.AreSame(view[0], view[1]);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
             }
 
             [Test]
             public static void Updates()
             {
                 var source = new ObservableCollection<Model<int>>();
-                using (var view = source.AsMappingView(Vm.Create))
-                {
-                    var model = Model.Create(1);
-                    source.Add(model);
-                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                using var view = source.AsMappingView(Vm.Create);
+                var model = Model.Create(1);
+                source.Add(model);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
 
-                    source.Clear();
-                    CollectionAssert.IsEmpty(view);
+                source.Clear();
+                CollectionAssert.IsEmpty(view);
 
-                    source.Add(model);
-                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-                }
+                source.Add(model);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
             }
 
             [Test]
@@ -76,48 +72,40 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(Vm.Create))
-                {
-                    using (var expected = source.SubscribeAll())
-                    {
-                        using (var actual = view.SubscribeAll())
-                        {
-                            CollectionAssert.IsEmpty(actual);
-                            CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                using var view = source.AsMappingView(Vm.Create);
+                using var expected = source.SubscribeAll();
+                using var actual = view.SubscribeAll();
+                CollectionAssert.IsEmpty(actual);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
 
-                            source.AddRange(new[] { model1, model2, model2 });
-                            CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-                            CollectionAssert.AreEqual(expected, actual);
+                source.AddRange(new[] { model1, model2, model2 });
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                CollectionAssert.AreEqual(expected, actual);
 
-                            source.Clear();
-                            CollectionAssert.IsEmpty(view);
-                            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                        }
-                    }
-                }
+                source.Clear();
+                CollectionAssert.IsEmpty(view);
+                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
             }
 
             [Test]
             public static void Caches()
             {
                 var source = new ObservableCollection<Model<int>>();
-                using (var view = source.AsMappingView(Vm.Create))
-                {
-                    var model = Model.Create(1);
-                    source.Add(model);
-                    Assert.AreEqual(1, view.Count);
+                using var view = source.AsMappingView(Vm.Create);
+                var model = Model.Create(1);
+                source.Add(model);
+                Assert.AreEqual(1, view.Count);
 
-                    source.Add(model);
-                    Assert.AreEqual(2, view.Count);
-                    Assert.AreSame(view[0], view[1]);
+                source.Add(model);
+                Assert.AreEqual(2, view.Count);
+                Assert.AreSame(view[0], view[1]);
 
-                    var vm = view[0];
-                    source.Clear();
-                    CollectionAssert.IsEmpty(view);
-                    source.Add(model);
-                    Assert.AreNotSame(vm, view[0]);
-                    Assert.AreSame(vm.Model, view[0].Model);
-                }
+                var vm = view[0];
+                source.Clear();
+                CollectionAssert.IsEmpty(view);
+                source.Add(model);
+                Assert.AreNotSame(vm, view[0]);
+                Assert.AreSame(vm.Model, view[0].Model);
             }
 
             [Test]
@@ -140,65 +128,59 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         model3,
                         });
 
-                using (var view = source.AsMappingView(Vm.Create))
-                {
-                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                using var view = source.AsMappingView(Vm.Create);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
 
-                    var model4 = Model.Create(4);
-                    source.Add(model4);
-                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                var model4 = Model.Create(4);
+                source.Add(model4);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
 
-                    source.Add(model4);
-                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                source.Add(model4);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
 
-                    source.Add(model1);
-                    CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                source.Add(model1);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
 
-                    source.Clear();
-                    CollectionAssert.IsEmpty(view);
-                }
+                source.Clear();
+                CollectionAssert.IsEmpty(view);
             }
 
             [Test]
             public static void Add()
             {
                 var source = new ObservableCollection<Model<int>>();
-                using (var view = source.AsMappingView(Vm.Create))
+                using var view = source.AsMappingView(Vm.Create);
+                using var actual = view.SubscribeAll();
+                var model1 = Model.Create(1);
+                source.Add(model1);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                var expected = new List<EventArgs>
                 {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        var model1 = Model.Create(1);
-                        source.Add(model1);
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-                        var expected = new List<EventArgs>
-                        {
-                            CachedEventArgs.CountPropertyChanged,
-                            CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateAddEventArgs(view[0], 0),
-                        };
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                    CachedEventArgs.CountPropertyChanged,
+                    CachedEventArgs.IndexerPropertyChanged,
+                    Diff.CreateAddEventArgs(view[0], 0),
+                };
+                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
-                        source.Add(model1);
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-                        expected.AddRange(new EventArgs[]
-                        {
-                            CachedEventArgs.CountPropertyChanged,
-                            CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateAddEventArgs(view[1], 1),
-                        });
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+                source.Add(model1);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                expected.AddRange(new EventArgs[]
+                {
+                    CachedEventArgs.CountPropertyChanged,
+                    CachedEventArgs.IndexerPropertyChanged,
+                    Diff.CreateAddEventArgs(view[1], 1),
+                });
+                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
-                        source.Add(Model.Create(2));
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-                        expected.AddRange(new EventArgs[]
-                        {
-                            CachedEventArgs.CountPropertyChanged,
-                            CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateAddEventArgs(view[2], 2),
-                        });
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
+                source.Add(Model.Create(2));
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                expected.AddRange(new EventArgs[]
+                {
+                    CachedEventArgs.CountPropertyChanged,
+                    CachedEventArgs.IndexerPropertyChanged,
+                    Diff.CreateAddEventArgs(view[2], 2),
+                });
+                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
             }
 
             [Test]
@@ -220,22 +202,18 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(Vm.Create))
+                using var view = source.AsMappingView(Vm.Create);
+                using var actual = view.SubscribeAll();
+                var mapped0 = view[0];
+                source.RemoveAt(0);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                var expected = new List<EventArgs>
                 {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        var mapped0 = view[0];
-                        source.RemoveAt(0);
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-                        var expected = new List<EventArgs>
-                        {
-                            CachedEventArgs.CountPropertyChanged,
-                            CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateRemoveEventArgs(mapped0, 0),
-                        };
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
+                    CachedEventArgs.CountPropertyChanged,
+                    CachedEventArgs.IndexerPropertyChanged,
+                    Diff.CreateRemoveEventArgs(mapped0, 0),
+                };
+                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
             }
 
             [Test]
@@ -257,22 +235,18 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(Vm.Create))
+                using var view = source.AsMappingView(Vm.Create);
+                using var actual = view.SubscribeAll();
+                var old = view[0];
+                var @new = view[5];
+                source[0] = source[5];
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                var expected = new List<EventArgs>
                 {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        var old = view[0];
-                        var @new = view[5];
-                        source[0] = source[5];
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-                        var expected = new List<EventArgs>
-                        {
-                            CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateReplaceEventArgs(@new, old, 0),
-                        };
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
+                    CachedEventArgs.IndexerPropertyChanged,
+                    Diff.CreateReplaceEventArgs(@new, old, 0),
+                };
+                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
             }
 
             [Test]
@@ -294,20 +268,16 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(Vm.Create))
+                using var view = source.AsMappingView(Vm.Create);
+                using var actual = view.SubscribeAll();
+                source.Move(0, 4);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                var expected = new List<EventArgs>
                 {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Move(0, 4);
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-                        var expected = new List<EventArgs>
-                        {
-                            CachedEventArgs.IndexerPropertyChanged,
-                            Diff.CreateMoveEventArgs(view[4], 4, 0),
-                        };
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
+                    CachedEventArgs.IndexerPropertyChanged,
+                    Diff.CreateMoveEventArgs(view[4], 4, 0),
+                };
+                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
             }
 
             [Test]
@@ -329,21 +299,17 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                         model3,
                         model3,
                         });
-                using (var view = source.AsMappingView(Vm.Create))
+                using var view = source.AsMappingView(Vm.Create);
+                using var actual = view.SubscribeAll();
+                source.Clear();
+                CollectionAssert.AreEqual(source, view.Select(x => x.Model));
+                var expected = new List<EventArgs>
                 {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Clear();
-                        CollectionAssert.AreEqual(source, view.Select(x => x.Model));
-                        var expected = new List<EventArgs>
-                        {
-                            CachedEventArgs.CountPropertyChanged,
-                            CachedEventArgs.IndexerPropertyChanged,
-                            CachedEventArgs.NotifyCollectionReset,
-                        };
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
+                    CachedEventArgs.CountPropertyChanged,
+                    CachedEventArgs.IndexerPropertyChanged,
+                    CachedEventArgs.NotifyCollectionReset,
+                };
+                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
             }
         }
     }

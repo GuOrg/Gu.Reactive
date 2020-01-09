@@ -20,10 +20,8 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         public void InitializeFiltered()
         {
             var ints = new ObservableCollection<int> { 1, 2 };
-            using (var view = ints.AsReadOnlyFilteredView(x => x < 2))
-            {
-                CollectionAssert.AreEqual(new[] { 1 }, view);
-            }
+            using var view = ints.AsReadOnlyFilteredView(x => x < 2);
+            CollectionAssert.AreEqual(new[] { 1 }, view);
         }
     }
 }

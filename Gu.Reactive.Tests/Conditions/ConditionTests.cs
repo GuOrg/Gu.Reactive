@@ -17,115 +17,101 @@ namespace Gu.Reactive.Tests.Conditions
         public static void IsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            using (var condition = new Condition(
+            using var condition = new Condition(
                 fake.ObservePropertyChanged(x => x.IsTrueOrNull),
-                () => fake.IsTrueOrNull))
-            {
-                Assert.AreEqual(false, condition.IsSatisfied);
+                () => fake.IsTrueOrNull);
+            Assert.AreEqual(false, condition.IsSatisfied);
 
-                fake.IsTrueOrNull = true;
-                Assert.AreEqual(true, condition.IsSatisfied);
+            fake.IsTrueOrNull = true;
+            Assert.AreEqual(true, condition.IsSatisfied);
 
-                fake.IsTrueOrNull = false;
-                Assert.AreEqual(false, condition.IsSatisfied);
-            }
+            fake.IsTrueOrNull = false;
+            Assert.AreEqual(false, condition.IsSatisfied);
         }
 
         [Test]
         public static void ConditionImplSimpleIsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            using (var condition = new ConditionImplSimple(fake))
-            {
-                Assert.AreEqual(false, condition.IsSatisfied);
+            using var condition = new ConditionImplSimple(fake);
+            Assert.AreEqual(false, condition.IsSatisfied);
 
-                fake.IsTrueOrNull = true;
-                Assert.AreEqual(true, condition.IsSatisfied);
+            fake.IsTrueOrNull = true;
+            Assert.AreEqual(true, condition.IsSatisfied);
 
-                fake.IsTrueOrNull = false;
-                Assert.AreEqual(false, condition.IsSatisfied);
-            }
+            fake.IsTrueOrNull = false;
+            Assert.AreEqual(false, condition.IsSatisfied);
         }
 
         [Test]
         public static void ConditionImplEqualityComparerIsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            using (var condition = new ConditionImplEqualityComparer(fake))
-            {
-                Assert.AreEqual(false, condition.IsSatisfied);
+            using var condition = new ConditionImplEqualityComparer(fake);
+            Assert.AreEqual(false, condition.IsSatisfied);
 
-                fake.IsTrueOrNull = true;
-                Assert.AreEqual(true, condition.IsSatisfied);
+            fake.IsTrueOrNull = true;
+            Assert.AreEqual(true, condition.IsSatisfied);
 
-                fake.IsTrueOrNull = false;
-                Assert.AreEqual(false, condition.IsSatisfied);
-            }
+            fake.IsTrueOrNull = false;
+            Assert.AreEqual(false, condition.IsSatisfied);
         }
 
         [Test]
         public static void ConditionImplFuncIsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            using (var condition = new ConditionImplFunc(fake))
-            {
-                Assert.AreEqual(false, condition.IsSatisfied);
+            using var condition = new ConditionImplFunc(fake);
+            Assert.AreEqual(false, condition.IsSatisfied);
 
-                fake.IsTrueOrNull = true;
-                Assert.AreEqual(true, condition.IsSatisfied);
+            fake.IsTrueOrNull = true;
+            Assert.AreEqual(true, condition.IsSatisfied);
 
-                fake.IsTrueOrNull = false;
-                Assert.AreEqual(false, condition.IsSatisfied);
-            }
+            fake.IsTrueOrNull = false;
+            Assert.AreEqual(false, condition.IsSatisfied);
         }
 
         [Test]
         public static void ConditionImplMaybeFuncIsSatisfied()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            using (var condition = new ConditionImplMaybeFunc(fake))
-            {
-                Assert.AreEqual(false, condition.IsSatisfied);
+            using var condition = new ConditionImplMaybeFunc(fake);
+            Assert.AreEqual(false, condition.IsSatisfied);
 
-                fake.IsTrueOrNull = true;
-                Assert.AreEqual(true, condition.IsSatisfied);
+            fake.IsTrueOrNull = true;
+            Assert.AreEqual(true, condition.IsSatisfied);
 
-                fake.IsTrueOrNull = false;
-                Assert.AreEqual(false, condition.IsSatisfied);
-            }
+            fake.IsTrueOrNull = false;
+            Assert.AreEqual(false, condition.IsSatisfied);
         }
 
         [Test]
         public static void Notifies()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            using (var condition = new Condition(
+            using var condition = new Condition(
                 fake.ObservePropertyChanged(x => x.IsTrueOrNull, signalInitial: false),
-                () => fake.IsTrueOrNull))
-            {
-                var argses = new List<PropertyChangedEventArgs>();
-                condition.PropertyChanged += (sender, args) => argses.Add(args);
-                fake.IsTrueOrNull = true;
-                Assert.AreEqual(1, argses.Count);
-            }
+                () => fake.IsTrueOrNull);
+            var argses = new List<PropertyChangedEventArgs>();
+            condition.PropertyChanged += (sender, args) => argses.Add(args);
+            fake.IsTrueOrNull = true;
+            Assert.AreEqual(1, argses.Count);
         }
 
         [Test]
         public static void History()
         {
             var fake = new Fake { IsTrueOrNull = false };
-            using (var condition = new Condition(
+            using var condition = new Condition(
                 fake.ObservePropertyChanged(x => x.IsTrueOrNull, signalInitial: false),
-                () => fake.IsTrueOrNull))
-            {
-                CollectionAssert.AreEqual(new[] { false }, condition.History.Select(x => x.State));
+                () => fake.IsTrueOrNull);
+            CollectionAssert.AreEqual(new[] { false }, condition.History.Select(x => x.State));
 
-                fake.IsTrueOrNull = true;
-                CollectionAssert.AreEqual(new[] { false, true }, condition.History.Select(x => x.State));
+            fake.IsTrueOrNull = true;
+            CollectionAssert.AreEqual(new[] { false, true }, condition.History.Select(x => x.State));
 
-                fake.IsTrueOrNull = null;
-                CollectionAssert.AreEqual(new bool?[] { false, true, null }, condition.History.Select(x => x.State));
-            }
+            fake.IsTrueOrNull = null;
+            CollectionAssert.AreEqual(new bool?[] { false, true, null }, condition.History.Select(x => x.State));
         }
 
         [Test]

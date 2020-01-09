@@ -27,17 +27,15 @@ namespace Gu.Reactive.Tests
         {
             var scheduler = new TestScheduler();
             var chunk = new Chunk<int>(TimeSpan.Zero, scheduler);
-            using (var subject = new Subject<int>())
+            using var subject = new Subject<int>();
+            var list = new List<IReadOnlyList<int>>();
+            using (subject.Slide(chunk)
+                          .Subscribe(x => list.Add(x.ToArray())))
             {
-                var list = new List<IReadOnlyList<int>>();
-                using (subject.Slide(chunk)
-                              .Subscribe(x => list.Add(x.ToArray())))
-                {
-                    CollectionAssert.IsEmpty(list);
+                CollectionAssert.IsEmpty(list);
 
-                    subject.OnNext(1);
-                    CollectionAssert.AreEqual(new[] { 1 }, list.Single());
-                }
+                subject.OnNext(1);
+                CollectionAssert.AreEqual(new[] { 1 }, list.Single());
             }
         }
 
@@ -46,19 +44,17 @@ namespace Gu.Reactive.Tests
         {
             var scheduler = new TestScheduler();
             var chunk = new Chunk<int>(TimeSpan.FromMilliseconds(100), scheduler);
-            using (var subject = new Subject<int>())
+            using var subject = new Subject<int>();
+            var list = new List<IReadOnlyList<int>>();
+            using (subject.Slide(chunk)
+                          .Subscribe(x => list.Add(x.ToArray())))
             {
-                var list = new List<IReadOnlyList<int>>();
-                using (subject.Slide(chunk)
-                              .Subscribe(x => list.Add(x.ToArray())))
-                {
-                    CollectionAssert.IsEmpty(list);
+                CollectionAssert.IsEmpty(list);
 
-                    subject.OnNext(1);
-                    CollectionAssert.IsEmpty(list);
-                    scheduler.Start();
-                    CollectionAssert.AreEqual(new[] { 1 }, list.Single());
-                }
+                subject.OnNext(1);
+                CollectionAssert.IsEmpty(list);
+                scheduler.Start();
+                CollectionAssert.AreEqual(new[] { 1 }, list.Single());
             }
         }
 
@@ -67,20 +63,18 @@ namespace Gu.Reactive.Tests
         {
             var scheduler = new TestScheduler();
             var chunk = new Chunk<int>(TimeSpan.FromMilliseconds(100), scheduler);
-            using (var subject = new Subject<int>())
+            using var subject = new Subject<int>();
+            var list = new List<IReadOnlyList<int>>();
+            using (subject.Slide(chunk)
+                          .Subscribe(x => list.Add(x.ToArray())))
             {
-                var list = new List<IReadOnlyList<int>>();
-                using (subject.Slide(chunk)
-                              .Subscribe(x => list.Add(x.ToArray())))
-                {
-                    CollectionAssert.IsEmpty(list);
+                CollectionAssert.IsEmpty(list);
 
-                    subject.OnNext(1);
-                    subject.OnNext(2);
-                    CollectionAssert.IsEmpty(list);
-                    scheduler.Start();
-                    CollectionAssert.AreEqual(new[] { 1, 2 }, list.Single());
-                }
+                subject.OnNext(1);
+                subject.OnNext(2);
+                CollectionAssert.IsEmpty(list);
+                scheduler.Start();
+                CollectionAssert.AreEqual(new[] { 1, 2 }, list.Single());
             }
         }
 
@@ -89,30 +83,28 @@ namespace Gu.Reactive.Tests
         {
             var scheduler = new TestScheduler();
             var chunk = new Chunk<int>(TimeSpan.FromMilliseconds(100), scheduler);
-            using (var subject = new Subject<int>())
+            using var subject = new Subject<int>();
+            var list = new List<IReadOnlyList<int>>();
+            using (subject.Slide(chunk)
+                          .Subscribe(x => list.Add(x.ToArray())))
             {
-                var list = new List<IReadOnlyList<int>>();
-                using (subject.Slide(chunk)
-                              .Subscribe(x => list.Add(x.ToArray())))
+                CollectionAssert.IsEmpty(list);
+
+                subject.OnNext(1);
+                CollectionAssert.IsEmpty(list);
+
+                chunk.BufferTime = TimeSpan.FromMilliseconds(200);
+                scheduler.Start();
+                CollectionAssert.AreEqual(new[] { 1 }, list.Single());
+
+                using (chunk.ClearTransaction())
                 {
-                    CollectionAssert.IsEmpty(list);
-
-                    subject.OnNext(1);
-                    CollectionAssert.IsEmpty(list);
-
-                    chunk.BufferTime = TimeSpan.FromMilliseconds(200);
-                    scheduler.Start();
-                    CollectionAssert.AreEqual(new[] { 1 }, list.Single());
-
-                    using (chunk.ClearTransaction())
-                    {
-                    }
-
-                    subject.OnNext(2);
-                    scheduler.Start();
-                    Assert.AreEqual(2, list.Count);
-                    CollectionAssert.AreEqual(new[] { 2 }, list.Last());
                 }
+
+                subject.OnNext(2);
+                scheduler.Start();
+                Assert.AreEqual(2, list.Count);
+                CollectionAssert.AreEqual(new[] { 2 }, list.Last());
             }
         }
 
@@ -121,20 +113,18 @@ namespace Gu.Reactive.Tests
         {
             var scheduler = new TestScheduler();
             var chunk = new Chunk<int>(TimeSpan.FromMilliseconds(100), scheduler);
-            using (var subject = new Subject<int>())
+            using var subject = new Subject<int>();
+            var list = new List<IReadOnlyList<int>>();
+            using (subject.Slide(chunk)
+                          .Subscribe(x => list.Add(x.ToArray())))
             {
-                var list = new List<IReadOnlyList<int>>();
-                using (subject.Slide(chunk)
-                              .Subscribe(x => list.Add(x.ToArray())))
-                {
-                    CollectionAssert.IsEmpty(list);
+                CollectionAssert.IsEmpty(list);
 
-                    subject.OnNext(1);
-                    CollectionAssert.IsEmpty(list);
+                subject.OnNext(1);
+                CollectionAssert.IsEmpty(list);
 
-                    chunk.BufferTime = TimeSpan.Zero;
-                    CollectionAssert.AreEqual(new[] { 1 }, list.Single());
-                }
+                chunk.BufferTime = TimeSpan.Zero;
+                CollectionAssert.AreEqual(new[] { 1 }, list.Single());
             }
         }
     }

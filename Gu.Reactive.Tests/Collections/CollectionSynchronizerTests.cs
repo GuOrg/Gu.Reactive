@@ -39,16 +39,12 @@ namespace Gu.Reactive.Tests.Collections
         {
             var source = new ObservableCollection<int>();
             var synchronizer = new CollectionSynchronizer<int>(source);
-            using (var expected = source.SubscribeAll())
-            {
-                using (var actual = this.SubscribeAll())
-                {
-                    source.Add(1);
-                    synchronizer.Refresh(source, null, this.OnPropertyChanged, this.OnCollectionChanged);
-                    CollectionAssert.AreEqual(source, synchronizer);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
+            using var expected = source.SubscribeAll();
+            using var actual = this.SubscribeAll();
+            source.Add(1);
+            synchronizer.Refresh(source, null, this.OnPropertyChanged, this.OnCollectionChanged);
+            CollectionAssert.AreEqual(source, synchronizer);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         public IEnumerator GetEnumerator()

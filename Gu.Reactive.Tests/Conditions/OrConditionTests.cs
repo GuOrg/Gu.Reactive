@@ -28,15 +28,12 @@ namespace Gu.Reactive.Tests.Conditions
         [TestCase(null, null, null, null)]
         public static void IsSatisfied(bool? first, bool? second, bool? third, bool? expected)
         {
-            using (var collection = new OrCondition(
+            using var collection = new OrCondition(
 #pragma warning disable GU0033 // Don't ignore returnvalue of type IDisposable.
                 Mock.Of<ICondition>(x => x.IsSatisfied == first),
                 Mock.Of<ICondition>(x => x.IsSatisfied == second),
-                Mock.Of<ICondition>(x => x.IsSatisfied == third)))
-#pragma warning restore GU0033 // Don't ignore returnvalue of type IDisposable.
-            {
-                Assert.AreEqual(expected, collection.IsSatisfied);
-            }
+                Mock.Of<ICondition>(x => x.IsSatisfied == third));
+            Assert.AreEqual(expected, collection.IsSatisfied);
         }
 
         [Test]
@@ -46,45 +43,37 @@ namespace Gu.Reactive.Tests.Conditions
             var fake1 = new Fake { IsTrue = false };
             var fake2 = new Fake { IsTrue = false };
             var fake3 = new Fake { IsTrue = false };
-            using (var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrue), () => fake1.IsTrue))
+            using var condition1 = new Condition(fake1.ObservePropertyChanged(x => x.IsTrue), () => fake1.IsTrue);
+            using var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrue), () => fake2.IsTrue);
+            using var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrue), () => fake3.IsTrue);
+            using var collection = new OrCondition(condition1, condition2, condition3);
+            using (collection.ObserveIsSatisfiedChanged()
+                             .Subscribe(_ => count++))
             {
-                using (var condition2 = new Condition(fake2.ObservePropertyChanged(x => x.IsTrue), () => fake2.IsTrue))
-                {
-                    using (var condition3 = new Condition(fake3.ObservePropertyChanged(x => x.IsTrue), () => fake3.IsTrue))
-                    {
-                        using (var collection = new OrCondition(condition1, condition2, condition3))
-                        {
-                            using (collection.ObserveIsSatisfiedChanged()
-                                             .Subscribe(_ => count++))
-                            {
-                                Assert.AreEqual(false, collection.IsSatisfied);
-                                fake1.IsTrue = !fake1.IsTrue;
-                                Assert.AreEqual(true, collection.IsSatisfied);
-                                Assert.AreEqual(1, count);
+                Assert.AreEqual(false, collection.IsSatisfied);
+                fake1.IsTrue = !fake1.IsTrue;
+                Assert.AreEqual(true, collection.IsSatisfied);
+                Assert.AreEqual(1, count);
 
-                                fake2.IsTrue = !fake2.IsTrue;
-                                Assert.AreEqual(true, collection.IsSatisfied);
-                                Assert.AreEqual(1, count);
+                fake2.IsTrue = !fake2.IsTrue;
+                Assert.AreEqual(true, collection.IsSatisfied);
+                Assert.AreEqual(1, count);
 
-                                fake3.IsTrue = !fake3.IsTrue;
-                                Assert.AreEqual(true, collection.IsSatisfied);
-                                Assert.AreEqual(1, count);
+                fake3.IsTrue = !fake3.IsTrue;
+                Assert.AreEqual(true, collection.IsSatisfied);
+                Assert.AreEqual(1, count);
 
-                                fake1.IsTrue = !fake1.IsTrue;
-                                Assert.AreEqual(true, collection.IsSatisfied);
-                                Assert.AreEqual(1, count);
+                fake1.IsTrue = !fake1.IsTrue;
+                Assert.AreEqual(true, collection.IsSatisfied);
+                Assert.AreEqual(1, count);
 
-                                fake2.IsTrue = !fake2.IsTrue;
-                                Assert.AreEqual(true, collection.IsSatisfied);
-                                Assert.AreEqual(1, count);
+                fake2.IsTrue = !fake2.IsTrue;
+                Assert.AreEqual(true, collection.IsSatisfied);
+                Assert.AreEqual(1, count);
 
-                                fake3.IsTrue = !fake3.IsTrue;
-                                Assert.AreEqual(false, collection.IsSatisfied);
-                                Assert.AreEqual(2, count);
-                            }
-                        }
-                    }
-                }
+                fake3.IsTrue = !fake3.IsTrue;
+                Assert.AreEqual(false, collection.IsSatisfied);
+                Assert.AreEqual(2, count);
             }
         }
 
@@ -108,10 +97,8 @@ namespace Gu.Reactive.Tests.Conditions
 #pragma warning disable IDISP001  // Dispose created.
             var mock1 = Mock.Of<ICondition>();
             var mock2 = Mock.Of<ICondition>();
-            using (var condition = new OrCondition(mock1, mock2))
-            {
-                CollectionAssert.AreEqual(new[] { mock1, mock2 }, condition.Prerequisites);
-            }
+            using var condition = new OrCondition(mock1, mock2);
+            CollectionAssert.AreEqual(new[] { mock1, mock2 }, condition.Prerequisites);
 #pragma warning restore IDISP001  // Dispose created.
         }
 
@@ -122,10 +109,8 @@ namespace Gu.Reactive.Tests.Conditions
             var mock1 = Mock.Of<ICondition>();
             var mock2 = Mock.Of<ICondition>();
             var mock3 = Mock.Of<ICondition>();
-            using (var condition = new OrCondition(mock1, mock2, mock3))
-            {
-                CollectionAssert.AreEqual(new[] { mock1, mock2, mock3 }, condition.Prerequisites);
-            }
+            using var condition = new OrCondition(mock1, mock2, mock3);
+            CollectionAssert.AreEqual(new[] { mock1, mock2, mock3 }, condition.Prerequisites);
 #pragma warning restore IDISP001  // Dispose created.
         }
 
@@ -137,10 +122,8 @@ namespace Gu.Reactive.Tests.Conditions
             var mock2 = Mock.Of<ICondition>();
             var mock3 = Mock.Of<ICondition>();
             var mock4 = Mock.Of<ICondition>();
-            using (var condition = new OrCondition(mock1, mock2, mock3, mock4))
-            {
-                CollectionAssert.AreEqual(new[] { mock1, mock2, mock3, mock4 }, condition.Prerequisites);
-            }
+            using var condition = new OrCondition(mock1, mock2, mock3, mock4);
+            CollectionAssert.AreEqual(new[] { mock1, mock2, mock3, mock4 }, condition.Prerequisites);
 #pragma warning restore IDISP001  // Dispose created.
         }
 
@@ -164,38 +147,36 @@ namespace Gu.Reactive.Tests.Conditions
         public static void DynamicList()
         {
             var conditions = new ObservableCollection<ICondition>();
-            using (var condition = new OrCondition(conditions, leaveOpen: true))
+            using var condition = new OrCondition(conditions, leaveOpen: true);
+            var actuals = new List<bool?>();
+            using (condition.ObserveIsSatisfiedChanged()
+                            .Subscribe(c => actuals.Add(c.IsSatisfied)))
             {
-                var actuals = new List<bool?>();
-                using (condition.ObserveIsSatisfiedChanged()
-                                .Subscribe(c => actuals.Add(c.IsSatisfied)))
+                var preRequisiteChanges = 0;
+                using (condition.ObservePropertyChangedSlim(x => x.Prerequisites, signalInitial: false)
+                                .Subscribe(x => preRequisiteChanges++))
                 {
-                    var preRequisiteChanges = 0;
-                    using (condition.ObservePropertyChangedSlim(x => x.Prerequisites, signalInitial: false)
-                                    .Subscribe(x => preRequisiteChanges++))
-                    {
-                        Assert.AreEqual(0, preRequisiteChanges);
-                        CollectionAssert.IsEmpty(condition.Prerequisites);
-                        Assert.AreSame(condition.Prerequisites, condition.Prerequisites);
-                        Assert.AreEqual(null, condition.IsSatisfied);
-                        CollectionAssert.IsEmpty(actuals);
-                        Assert.AreEqual(null, condition.IsSatisfied);
+                    Assert.AreEqual(0, preRequisiteChanges);
+                    CollectionAssert.IsEmpty(condition.Prerequisites);
+                    Assert.AreSame(condition.Prerequisites, condition.Prerequisites);
+                    Assert.AreEqual(null, condition.IsSatisfied);
+                    CollectionAssert.IsEmpty(actuals);
+                    Assert.AreEqual(null, condition.IsSatisfied);
 
-                        conditions.Add(Mock.Of<ICondition>(x => x.IsSatisfied == true));
-                        Assert.AreEqual(true, condition.IsSatisfied);
-                        CollectionAssert.AreEqual(new[] { true }, actuals);
-                        Assert.AreEqual(1, preRequisiteChanges);
-                        CollectionAssert.AreEqual(conditions, condition.Prerequisites);
-                        Assert.AreSame(condition.Prerequisites, condition.Prerequisites);
+                    conditions.Add(Mock.Of<ICondition>(x => x.IsSatisfied == true));
+                    Assert.AreEqual(true, condition.IsSatisfied);
+                    CollectionAssert.AreEqual(new[] { true }, actuals);
+                    Assert.AreEqual(1, preRequisiteChanges);
+                    CollectionAssert.AreEqual(conditions, condition.Prerequisites);
+                    Assert.AreSame(condition.Prerequisites, condition.Prerequisites);
 
-                        Mock.Get(conditions[0]).SetupGet(x => x.IsSatisfied).Returns(false);
-                        Mock.Get(conditions[0]).Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("IsSatisfied"));
-                        Assert.AreEqual(false, condition.IsSatisfied);
-                        CollectionAssert.AreEqual(new[] { true, false }, actuals);
-                        Assert.AreEqual(1, preRequisiteChanges);
-                        CollectionAssert.AreEqual(conditions, condition.Prerequisites);
-                        Assert.AreSame(condition.Prerequisites, condition.Prerequisites);
-                    }
+                    Mock.Get(conditions[0]).SetupGet(x => x.IsSatisfied).Returns(false);
+                    Mock.Get(conditions[0]).Raise(x => x.PropertyChanged += null, new PropertyChangedEventArgs("IsSatisfied"));
+                    Assert.AreEqual(false, condition.IsSatisfied);
+                    CollectionAssert.AreEqual(new[] { true, false }, actuals);
+                    Assert.AreEqual(1, preRequisiteChanges);
+                    CollectionAssert.AreEqual(conditions, condition.Prerequisites);
+                    Assert.AreSame(condition.Prerequisites, condition.Prerequisites);
                 }
             }
         }

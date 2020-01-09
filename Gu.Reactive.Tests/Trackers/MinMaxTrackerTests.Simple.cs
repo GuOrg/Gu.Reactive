@@ -15,22 +15,18 @@ namespace Gu.Reactive.Tests.Trackers
             public void InitializesWithValues()
             {
                 var ints = new ObservableCollection<int> { 1, 2, 3 };
-                using (var tracker = ints.TrackMinMax())
-                {
-                    Assert.AreEqual(1, tracker.Min);
-                    Assert.AreEqual(3, tracker.Max);
-                }
+                using var tracker = ints.TrackMinMax();
+                Assert.AreEqual(1, tracker.Min);
+                Assert.AreEqual(3, tracker.Max);
             }
 
             [Test]
             public void InitializesWhenEmpty()
             {
                 var ints = new ObservableCollection<int>(Array.Empty<int>());
-                using (var tracker = ints.TrackMinMax())
-                {
-                    Assert.AreEqual(null, tracker.Min);
-                    Assert.AreEqual(null, tracker.Max);
-                }
+                using var tracker = ints.TrackMinMax();
+                Assert.AreEqual(null, tracker.Min);
+                Assert.AreEqual(null, tracker.Max);
             }
 
             [TestCase(0, -2, -2, 3, new[] { "Min" })]
@@ -44,20 +40,18 @@ namespace Gu.Reactive.Tests.Trackers
             public void Replace(int index, int value, int expectedMin, int expectedMax, string[] expected)
             {
                 var ints = new ObservableCollection<int> { 1, 2, 3 };
-                using (var tracker = ints.TrackMinMax())
-                {
-                    Assert.AreEqual(1, tracker.Min);
-                    Assert.AreEqual(3, tracker.Max);
+                using var tracker = ints.TrackMinMax();
+                Assert.AreEqual(1, tracker.Min);
+                Assert.AreEqual(3, tracker.Max);
 
-                    var actual = new List<PropertyChangedEventArgs>();
-                    using (tracker.ObservePropertyChangedSlim()
-                                  .Subscribe(actual.Add))
-                    {
-                        ints[index] = value;
-                        Assert.AreEqual(expectedMin, tracker.Min);
-                        Assert.AreEqual(expectedMax, tracker.Max);
-                        CollectionAssert.AreEqual(expected, actual.Select(x => x.PropertyName));
-                    }
+                var actual = new List<PropertyChangedEventArgs>();
+                using (tracker.ObservePropertyChangedSlim()
+                              .Subscribe(actual.Add))
+                {
+                    ints[index] = value;
+                    Assert.AreEqual(expectedMin, tracker.Min);
+                    Assert.AreEqual(expectedMax, tracker.Max);
+                    CollectionAssert.AreEqual(expected, actual.Select(x => x.PropertyName));
                 }
             }
 
@@ -65,35 +59,33 @@ namespace Gu.Reactive.Tests.Trackers
             public void ReactsAndNotifiesOnSourceChanges()
             {
                 var ints = new ObservableCollection<int> { 1, 2, 3 };
-                using (var tracker = ints.TrackMinMax())
+                using var tracker = ints.TrackMinMax();
+                Assert.AreEqual(1, tracker.Min);
+                Assert.AreEqual(3, tracker.Max);
+
+                var actual = new List<PropertyChangedEventArgs>();
+                using (tracker.ObservePropertyChangedSlim()
+                              .Subscribe(actual.Add))
                 {
+                    ints.Remove(2);
                     Assert.AreEqual(1, tracker.Min);
                     Assert.AreEqual(3, tracker.Max);
+                    CollectionAssert.IsEmpty(actual);
 
-                    var actual = new List<PropertyChangedEventArgs>();
-                    using (tracker.ObservePropertyChangedSlim()
-                                  .Subscribe(actual.Add))
-                    {
-                        ints.Remove(2);
-                        Assert.AreEqual(1, tracker.Min);
-                        Assert.AreEqual(3, tracker.Max);
-                        CollectionAssert.IsEmpty(actual);
+                    ints.Remove(1);
+                    Assert.AreEqual(3, tracker.Min);
+                    Assert.AreEqual(3, tracker.Max);
+                    CollectionAssert.AreEqual(new[] { "Min" }, actual.Select(x => x.PropertyName));
 
-                        ints.Remove(1);
-                        Assert.AreEqual(3, tracker.Min);
-                        Assert.AreEqual(3, tracker.Max);
-                        CollectionAssert.AreEqual(new[] { "Min" }, actual.Select(x => x.PropertyName));
+                    ints.Remove(3);
+                    Assert.AreEqual(null, tracker.Min);
+                    Assert.AreEqual(null, tracker.Max);
+                    CollectionAssert.AreEqual(new[] { "Min", "Min", "Max" }, actual.Select(x => x.PropertyName));
 
-                        ints.Remove(3);
-                        Assert.AreEqual(null, tracker.Min);
-                        Assert.AreEqual(null, tracker.Max);
-                        CollectionAssert.AreEqual(new[] { "Min", "Min", "Max" }, actual.Select(x => x.PropertyName));
-
-                        ints.Add(2);
-                        Assert.AreEqual(2, tracker.Min);
-                        Assert.AreEqual(2, tracker.Max);
-                        CollectionAssert.AreEqual(new[] { "Min", "Min", "Max", "Min", "Max" }, actual.Select(x => x.PropertyName));
-                    }
+                    ints.Add(2);
+                    Assert.AreEqual(2, tracker.Min);
+                    Assert.AreEqual(2, tracker.Max);
+                    CollectionAssert.AreEqual(new[] { "Min", "Min", "Max", "Min", "Max" }, actual.Select(x => x.PropertyName));
                 }
             }
         }

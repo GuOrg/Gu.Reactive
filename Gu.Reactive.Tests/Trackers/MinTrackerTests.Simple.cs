@@ -13,20 +13,16 @@ namespace Gu.Reactive.Tests.Trackers
             public void InitializesWithValues()
             {
                 var ints = new ObservableCollection<int> { 1, 2, 3 };
-                using (var tracker = ints.TrackMin())
-                {
-                    Assert.AreEqual(1, tracker.Value);
-                }
+                using var tracker = ints.TrackMin();
+                Assert.AreEqual(1, tracker.Value);
             }
 
             [Test]
             public void InitializesWhenEmpty()
             {
                 var ints = new ObservableCollection<int>();
-                using (var tracker = ints.TrackMin())
-                {
-                    Assert.AreEqual(null, tracker.Value);
-                }
+                using var tracker = ints.TrackMin();
+                Assert.AreEqual(null, tracker.Value);
             }
 
             [TestCase(0, -2, -2, 1)]
@@ -37,17 +33,15 @@ namespace Gu.Reactive.Tests.Trackers
             {
                 var ints = new ObservableCollection<int> { 1, 2, 3 };
                 int count;
-                using (var tracker = ints.TrackMin())
+                using var tracker = ints.TrackMin();
+                Assert.AreEqual(1, tracker.Value);
+                count = 0;
+                using (tracker.ObservePropertyChangedSlim(x => x.Value, signalInitial: false)
+                              .Subscribe(_ => count++))
                 {
-                    Assert.AreEqual(1, tracker.Value);
-                    count = 0;
-                    using (tracker.ObservePropertyChangedSlim(x => x.Value, signalInitial: false)
-                                  .Subscribe(_ => count++))
-                    {
-                        ints[index] = value;
-                        Assert.AreEqual(expectedValue, tracker.Value);
-                        Assert.AreEqual(expectedCount, count);
-                    }
+                    ints[index] = value;
+                    Assert.AreEqual(expectedValue, tracker.Value);
+                    Assert.AreEqual(expectedCount, count);
                 }
             }
 
@@ -55,29 +49,27 @@ namespace Gu.Reactive.Tests.Trackers
             public void ReactsAndNotifiesOnSourceChanges()
             {
                 var ints = new ObservableCollection<int> { 1, 2, 3 };
-                using (var tracker = MinTracker.TrackMin(ints))
+                using var tracker = MinTracker.TrackMin(ints);
+                Assert.AreEqual(1, tracker.Value);
+                var count = 0;
+                using (tracker.ObservePropertyChangedSlim(x => x.Value, signalInitial: false)
+                              .Subscribe(_ => count++))
                 {
+                    ints.Remove(2);
+                    Assert.AreEqual(0, count);
                     Assert.AreEqual(1, tracker.Value);
-                    var count = 0;
-                    using (tracker.ObservePropertyChangedSlim(x => x.Value, signalInitial: false)
-                                  .Subscribe(_ => count++))
-                    {
-                        ints.Remove(2);
-                        Assert.AreEqual(0, count);
-                        Assert.AreEqual(1, tracker.Value);
 
-                        ints.Remove(1);
-                        Assert.AreEqual(1, count);
-                        Assert.AreEqual(3, tracker.Value);
+                    ints.Remove(1);
+                    Assert.AreEqual(1, count);
+                    Assert.AreEqual(3, tracker.Value);
 
-                        ints.Remove(3);
-                        Assert.AreEqual(2, count);
-                        Assert.AreEqual(null, tracker.Value);
+                    ints.Remove(3);
+                    Assert.AreEqual(2, count);
+                    Assert.AreEqual(null, tracker.Value);
 
-                        ints.Add(2);
-                        Assert.AreEqual(3, count);
-                        Assert.AreEqual(2, tracker.Value);
-                    }
+                    ints.Add(2);
+                    Assert.AreEqual(3, count);
+                    Assert.AreEqual(2, tracker.Value);
                 }
             }
         }

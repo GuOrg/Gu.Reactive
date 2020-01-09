@@ -29,15 +29,13 @@
         {
             var queue = new FixedSizedQueue<int>(2);
             var binaryFormatter = new BinaryFormatter();
-            using (var stream = new MemoryStream())
-            {
-                queue.Enqueue(1);
-                queue.Enqueue(2);
-                binaryFormatter.Serialize(stream, queue);
-                stream.Position = 0;
-                var roundtripped = (FixedSizedQueue<int>)binaryFormatter.Deserialize(stream);
-                Assert.AreEqual(queue, roundtripped);
-            }
+            using var stream = new MemoryStream();
+            queue.Enqueue(1);
+            queue.Enqueue(2);
+            binaryFormatter.Serialize(stream, queue);
+            stream.Position = 0;
+            var roundtripped = (FixedSizedQueue<int>)binaryFormatter.Deserialize(stream);
+            Assert.AreEqual(queue, roundtripped);
         }
     }
 }

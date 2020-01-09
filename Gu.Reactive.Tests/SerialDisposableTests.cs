@@ -25,28 +25,24 @@ namespace Gu.Reactive.Tests
         [Test]
         public void DisposesOnAssignWhenDisposed()
         {
-            using (var serialDisposable = new SerialDisposable<IDisposable>())
-            {
+            using var serialDisposable = new SerialDisposable<IDisposable>();
 #pragma warning disable IDISP016 // Don't use disposed instance.
-                serialDisposable.Dispose();
+            serialDisposable.Dispose();
 #pragma warning restore IDISP016 // Don't use disposed instance.
-                var mock = new Mock<IDisposable>(MockBehavior.Strict);
-                mock.Setup(x => x.Dispose());
-                serialDisposable.Disposable = mock.Object;
-                mock.Verify(x => x.Dispose(), Times.Once);
-            }
+            var mock = new Mock<IDisposable>(MockBehavior.Strict);
+            mock.Setup(x => x.Dispose());
+            serialDisposable.Disposable = mock.Object;
+            mock.Verify(x => x.Dispose(), Times.Once);
         }
 
         [Test]
         public void AssignSameTwiceDoesNotDispose()
         {
-            using (var serialDisposable = new SerialDisposable<IDisposable>())
-            {
-                var mock = new Mock<IDisposable>(MockBehavior.Strict);
-                serialDisposable.Disposable = mock.Object;
-                serialDisposable.Disposable = mock.Object;
-                mock.Setup(x => x.Dispose());
-            }
+            using var serialDisposable = new SerialDisposable<IDisposable>();
+            var mock = new Mock<IDisposable>(MockBehavior.Strict);
+            serialDisposable.Disposable = mock.Object;
+            serialDisposable.Disposable = mock.Object;
+            mock.Setup(x => x.Dispose());
         }
     }
 }
