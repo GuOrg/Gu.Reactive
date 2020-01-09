@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests
 {
     using System;
 
@@ -26,9 +26,9 @@ namespace Gu.Reactive.Tests
         public void DisposesOnAssignWhenDisposed()
         {
             using var serialDisposable = new SerialDisposable<IDisposable>();
-#pragma warning disable IDISP016 // Don't use disposed instance.
+#pragma warning disable IDISP016, IDISP017 // Don't use disposed instance.
             serialDisposable.Dispose();
-#pragma warning restore IDISP016 // Don't use disposed instance.
+#pragma warning restore IDISP016, IDISP017 // Don't use disposed instance.
             var mock = new Mock<IDisposable>(MockBehavior.Strict);
             mock.Setup(x => x.Dispose());
             serialDisposable.Disposable = mock.Object;

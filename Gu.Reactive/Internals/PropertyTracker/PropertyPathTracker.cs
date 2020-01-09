@@ -136,9 +136,9 @@
             }
         }
 
-        private void OnTrackedPropertyChanged(IPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged, TValue> sourceandvalue)
+        private void OnTrackedPropertyChanged(IPropertyTracker tracker, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged?, TValue> sourceAndValue)
         {
-            this.TrackedPropertyChanged?.Invoke(tracker, sender, e, sourceandvalue);
+            this.TrackedPropertyChanged?.Invoke(tracker, sender, e, sourceAndValue);
         }
     }
 }

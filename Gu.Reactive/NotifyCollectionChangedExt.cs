@@ -247,7 +247,7 @@
             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
             IObserver<T> observer,
             Expression<Func<TItem, TProperty>> property,
-            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged, TProperty>, T> create)
+            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TProperty>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
@@ -262,7 +262,7 @@
             this IObservable<TCollection> source,
             IObserver<T> observer,
             Expression<Func<TItem, TProperty>> property,
-            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged, TProperty>, T> create)
+            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TProperty>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
@@ -276,7 +276,7 @@
                 subscription,
             };
 
-            void Handler(TItem? item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+            void Handler(TItem? item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
             {
                 observer.OnNext(create(item, sender, args, sourceAndValue));
             }
@@ -287,7 +287,7 @@
             IObserver<T> o,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial,
-            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged, TProperty>, T> create)
+            Func<TItem, object, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TProperty>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
@@ -309,7 +309,7 @@
                 tracker,
             };
 
-            void Handler(TItem? item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+            void Handler(TItem? item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
             {
                 o.OnNext(
                     create(
