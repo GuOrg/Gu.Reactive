@@ -184,7 +184,7 @@ namespace Gu.Reactive
                 }
             }
 
-            if (this.Items.Count == before + 1 &&
+            if (this.Items.Count == before - 1 &&
                 first is { Key: { } index, Value: var removed })
             {
                 this.OnPropertyChanged(CountPropertyChangedEventArgs);
