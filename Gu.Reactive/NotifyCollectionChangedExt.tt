@@ -1,6 +1,7 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ output extension="generated.cs" #>
+#nullable enable
 namespace Gu.Reactive
 {
     using System;
@@ -21,18 +22,18 @@ namespace Gu.Reactive
     {
 <#
     var typeNames = new []
-                        {
-                            "ObservableCollection", 
-							"ReadOnlyObservableCollection", 
-							"IReadOnlyObservableCollection"
-                        };
+    {
+        "ObservableCollection", 
+        "ReadOnlyObservableCollection", 
+        "IReadOnlyObservableCollection"
+    };
     for(var i = 0; i < typeNames.Length; i++)
     {
         var typeName = typeNames[i];
         if(i > 0)
         {#>
 
-<#      }    
+<#      }
 #>
         /// <summary>
         /// Observes property changes for items in the collection.

@@ -106,8 +106,9 @@
                     this.Value = this.GetValueOrDefault(values);
                     break;
                 }
-                catch (InvalidOperationException e) when (e.Message == Exceptions.CollectionWasModified.Message &&
-                                                          retry < 5)
+                catch (InvalidOperationException e)
+                    when (e.Message == Exceptions.CollectionWasModified.Message &&
+                          retry < 5)
                 {
                     retry++;
                 }
@@ -150,7 +151,7 @@
         /// Properties/methods modifying this <see cref="Tracker{TValue}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

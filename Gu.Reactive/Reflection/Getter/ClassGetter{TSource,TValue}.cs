@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Reflection;
@@ -11,7 +11,14 @@ namespace Gu.Reactive
         protected ClassGetter(PropertyInfo property)
             : base(property)
         {
-            this.getter = (Func<TSource, TValue>)Delegate.CreateDelegate(typeof(Func<TSource, TValue>), property.GetMethod, throwOnBindFailure: true);
+            if (property is { GetMethod: { } getMethod })
+            {
+                this.getter = (Func<TSource, TValue>?)Delegate.CreateDelegate(typeof(Func<TSource, TValue>), getMethod, throwOnBindFailure: true) ?? throw new InvalidOperationException($"Could not create getter delegate for {property}.");
+            }
+            else
+            {
+                throw new InvalidOperationException("Property does not have a get method.");
+            }
         }
 
         /// <inheritdoc/>

@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive
+﻿#nullable enable
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.ObjectModel;

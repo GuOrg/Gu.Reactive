@@ -36,14 +36,26 @@
                                binder: null,
                                types: new[] { typeof(PropertyInfo) },
                                modifiers: null);
-                return (IGetter)ctor.Invoke(new object[] { property });
+                return (IGetter)ctor!.Invoke(new object[] { property });
+
+                static Type GetGetterType(PropertyInfo property)
+                {
+                    if (property.ReflectedType?.IsValueType == true)
+                    {
+                        return typeof(StructGetter<,>);
+                    }
+
+                    return typeof(INotifyPropertyChanged).IsAssignableFrom(property.ReflectedType)
+                        ? typeof(NotifyingGetter<,>)
+                        : typeof(ClassGetter<,>);
+                }
             }
         }
 
         /// <summary>
         /// Same as <see cref="PropertyInfo.GetValue(object)"/> but uses a cached delegate for performance.
         /// </summary>
-        public static object GetValueViaDelegate(this PropertyInfo property, object source)
+        public static object? GetValueViaDelegate(this PropertyInfo property, object source)
         {
             return GetOrCreate(property).GetValue(source);
         }
@@ -71,18 +83,6 @@
                                    $"The property {property.ReflectedType.Namespace}.{property.ReflectedType.PrettyName()}.{property.Name} does not have a getter.";
                 throw new ArgumentException(message, nameof(property));
             }
-        }
-
-        private static Type GetGetterType(PropertyInfo property)
-        {
-            if (property.ReflectedType?.IsValueType == true)
-            {
-                return typeof(StructGetter<,>);
-            }
-
-            return typeof(INotifyPropertyChanged).IsAssignableFrom(property.ReflectedType)
-                ? typeof(NotifyingGetter<,>)
-                : typeof(ClassGetter<,>);
         }
     }
 }

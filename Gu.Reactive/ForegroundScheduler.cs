@@ -15,7 +15,7 @@
         /// </summary>
         public static readonly ForegroundScheduler Default = new ForegroundScheduler();
         private readonly EventLoopScheduler inner;
-        private Thread thread;
+        private Thread thread = null!;
         private int count;
         private bool disposed;
 
