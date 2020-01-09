@@ -16,7 +16,9 @@
     /// <typeparam name="TResult">The type of the items in the resulting collection. Can be the same type.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
+#pragma warning disable CA1010 // Collections should implement generic interface
     public partial class MappingView<TSource, TResult> : ReadonlyViewBase<TSource, TResult>, IReadOnlyObservableCollection<TResult>
+#pragma warning restore CA1010 // Collections should implement generic interface
     {
         private readonly IDisposable refreshSubscription;
         private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;

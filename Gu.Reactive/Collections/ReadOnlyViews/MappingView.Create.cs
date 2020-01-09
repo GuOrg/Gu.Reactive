@@ -94,7 +94,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(selector));
             }
 
-            return new MappingView<TSource, TResult>(source, Mapper.Create(selector), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(onRemove));
             }
 
-            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, onRemove), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(updater));
             }
 
-            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(updater));
             }
 
-            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), System.TimeSpan.Zero, scheduler, leaveOpen, triggers);
+            return new MappingView<TSource, TResult>(source, Mapper.Create(selector, updater, onRemove), TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
         /// <summary>

@@ -9,7 +9,9 @@
     using System.Reactive.Linq;
 
     /// <inheritdoc cref="IReadOnlyFilteredView{T}" />
+#pragma warning disable CA1010 // Collections should implement generic interface
     public partial class ReadOnlyFilteredView<T> : ReadonlyViewBase<T, T>, IReadOnlyFilteredView<T>
+#pragma warning restore CA1010 // Collections should implement generic interface
     {
         private readonly IDisposable refreshSubscription;
         private readonly Chunk<NotifyCollectionChangedEventArgs> chunk;

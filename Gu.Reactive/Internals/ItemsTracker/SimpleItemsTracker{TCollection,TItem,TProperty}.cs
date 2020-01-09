@@ -13,7 +13,7 @@
         private readonly Getter<TItem, TProperty> getter;
         private readonly IdentitySet<TItem> set = IdentitySet.Borrow<TItem>();
 
-        private TCollection source;
+        private TCollection? source;
         private bool disposed;
 
         internal SimpleItemsTracker(TCollection source, Getter<TItem, TProperty> getter)

@@ -160,7 +160,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Raise PropertyChanged event to any listeners.
         /// </summary>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }

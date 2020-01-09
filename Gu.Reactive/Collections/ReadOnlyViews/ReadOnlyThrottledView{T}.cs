@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -53,7 +53,7 @@ namespace Gu.Reactive
         }
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler scheduler, IEnumerable<T> source, bool leaveOpen)
+        private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler? scheduler, IEnumerable<T> source, bool leaveOpen)
             : base(source, s => s, leaveOpen, startEmpty: true)
         {
             this.BufferTime = bufferTime;

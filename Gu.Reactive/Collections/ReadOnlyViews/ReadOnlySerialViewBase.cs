@@ -27,7 +27,7 @@
         {
             this.Chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
             this.refreshSubscription = this.ObserveValue(x => x.Source)
-                                           .Select(x => NotifyCollectionChangedExt.ObserveCollectionChangedSlimOrDefault(x.GetValueOrDefault(), signalInitial: true)
+                                           .Select(x => x.GetValueOrDefault().ObserveCollectionChangedSlimOrDefault(signalInitial: true)
                                                          .Slide(this.Chunk))
                                            .Switch()
                                            .ObserveOn(scheduler ?? ImmediateScheduler.Instance)

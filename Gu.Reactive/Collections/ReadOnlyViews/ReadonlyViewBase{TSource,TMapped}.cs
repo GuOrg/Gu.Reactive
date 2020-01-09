@@ -34,7 +34,7 @@
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.leaveOpen = leaveOpen;
             this.source = source ?? Array.Empty<TSource>();
-            this.Tracker = new CollectionSynchronizer<TMapped>(startEmpty ? mapper(Array.Empty<TSource>()) : mapper(source));
+            this.Tracker = new CollectionSynchronizer<TMapped>(startEmpty ? mapper(Array.Empty<TSource>()) : mapper(this.source));
         }
 
         /// <inheritdoc/>
@@ -301,7 +301,7 @@
         /// Properties/methods modifying this <see cref="ReadonlyViewBase{TSource,TMapped}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
