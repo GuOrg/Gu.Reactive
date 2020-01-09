@@ -17,6 +17,6 @@
         /// <summary>
         /// Get the value of the property for <paramref name="source"/>.
         /// </summary>
-        Maybe<TValue> GetMaybe(object source);
+        Maybe<TValue> GetMaybe(object? source);
     }
 }

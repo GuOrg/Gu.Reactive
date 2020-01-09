@@ -37,15 +37,16 @@
             var xMember = x.GetRootProperty();
             var yMember = y.GetRootProperty();
 
-            while (xMember != null && yMember != null)
+            while (xMember != null &&
+                   yMember != null)
             {
                 if (!MemberExpressionComparer.Equals(xMember, yMember))
                 {
                     return false;
                 }
 
-                xMember = xMember.GetPreviousProperty();
-                yMember = yMember.GetPreviousProperty();
+                xMember = xMember.GetPreviousProperty()!;
+                yMember = yMember.GetPreviousProperty()!;
             }
 
             return xMember is null && yMember is null &&
@@ -61,7 +62,7 @@
                 do
                 {
                     hash = (hash * 397) ^ MemberExpressionComparer.GetHashCode(member);
-                    member = member.GetPreviousProperty();
+                    member = member.GetPreviousProperty()!;
                 }
                 while (member != null);
                 return (hash * 397) ^ obj.GetSourceType().GetHashCode();

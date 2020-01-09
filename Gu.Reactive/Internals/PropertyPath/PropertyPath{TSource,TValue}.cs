@@ -33,14 +33,14 @@
         /// Get the source of the last item in the path.
         /// </summary>
         /// <param name="root">The root instance for the path.</param>
-        internal SourceAndValue<INotifyPropertyChanged, TValue> SourceAndValue(TSource root)
+        internal SourceAndValue<INotifyPropertyChanged?, TValue> SourceAndValue(TSource root)
         {
             if (this.Count == 1)
             {
-                return Reactive.SourceAndValue.Create((INotifyPropertyChanged)root, this.Last.GetMaybe(root));
+                return Reactive.SourceAndValue.Create((INotifyPropertyChanged?)root, this.Last.GetMaybe(root));
             }
 
-            var source = (INotifyPropertyChanged)root;
+            var source = (INotifyPropertyChanged?)root;
             for (var i = 0; i < this.parts.Count; i++)
             {
                 var value = this.parts[i].GetMaybe(source);
@@ -56,7 +56,7 @@
                     return Reactive.SourceAndValue.Create(source, Maybe<TValue>.None);
                 }
 
-                source = (INotifyPropertyChanged)value.Value;
+                source = (INotifyPropertyChanged?)value.Value;
             }
 
             return Reactive.SourceAndValue.Create(source, Maybe<TValue>.None);

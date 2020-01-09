@@ -61,7 +61,7 @@
 
         public IPropertyPathTracker PathTracker { get; }
 
-        public Getter<TSource, TValue> Getter { get; }
+        public Getter<TSource?, TValue> Getter { get; }
 
         IGetter IPropertyTracker.Getter => this.Getter;
 
@@ -121,7 +121,7 @@
                 return;
             }
 
-            INotifyPropertyChanged oldSource;
+            INotifyPropertyChanged? oldSource;
             lock (this.gate)
             {
                 if (this.disposed)
@@ -140,7 +140,7 @@
             }
         }
 
-        void IPropertyTracker.OnTrackedPropertyChanged(object sender, INotifyPropertyChanged newSource, PropertyChangedEventArgs e) => this.OnTrackedPropertyChanged(sender, newSource, e);
+        void IPropertyTracker.OnTrackedPropertyChanged(object sender, INotifyPropertyChanged? newSource, PropertyChangedEventArgs e) => this.OnTrackedPropertyChanged(sender, newSource, e);
 
         private void OnTrackedPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -148,14 +148,14 @@
             this.OnTrackedPropertyChanged(sender, this.source, e);
         }
 
-        private void OnTrackedPropertyChanged(object sender, INotifyPropertyChanged newSource, PropertyChangedEventArgs e)
+        private void OnTrackedPropertyChanged(object sender, INotifyPropertyChanged? newSource, PropertyChangedEventArgs e)
         {
-            this.Source = (TSource)newSource;
+            this.Source = (TSource?)newSource;
             var value = this.Getter.GetMaybe(this.source);
             var next = this.Next;
             if (next != null)
             {
-                var nextSource = (INotifyPropertyChanged)value.GetValueOrDefault();
+                var nextSource = (INotifyPropertyChanged?)value.GetValueOrDefault();
                 if (next.Source != null ||
                     nextSource != null)
                 {
