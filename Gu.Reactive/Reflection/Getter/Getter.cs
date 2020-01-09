@@ -2,9 +2,7 @@
 {
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
     using System.Reflection;
 
     using Gu.Reactive.Internals;
@@ -15,12 +13,6 @@
     public static class Getter
     {
         private static readonly ConcurrentDictionary<PropertyInfo, IGetter> Cache = new ConcurrentDictionary<PropertyInfo, IGetter>();
-
-        // ReSharper disable once UnusedMember.Local for inspection in the debugger.
-        internal static IReadOnlyList<CacheItem> CacheDebugView =>
-            Cache.Select(x => new CacheItem(x))
-                 .OrderBy(x => x.Property)
-                 .ToArray();
 
         /// <summary>
         /// Get or create an <see cref="IGetter"/> for <paramref name="property"/>.
@@ -34,6 +26,18 @@
 
             VerifyProperty(property);
             return Cache.GetOrAdd(property, Create);
+
+            static IGetter Create(PropertyInfo property)
+            {
+                var ctor = GetGetterType(property)
+                           .MakeGenericType(property.ReflectedType!, property.PropertyType)
+                           .GetConstructor(
+                               bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance,
+                               binder: null,
+                               types: new[] { typeof(PropertyInfo) },
+                               modifiers: null);
+                return (IGetter)ctor.Invoke(new object[] { property });
+            }
         }
 
         /// <summary>
@@ -55,26 +59,18 @@
                 throw new ArgumentNullException(nameof(property));
             }
 
+            if (property.ReflectedType is null)
+            {
+                var message = $"Property.ReflectedType is null {property}.";
+                throw new ArgumentException(message, nameof(property));
+            }
+
             if (property.GetMethod is null)
             {
                 var message = "Property cannot be write only.\r\n" +
-                                   $"The property {property.ReflectedType?.Namespace}.{property.ReflectedType.PrettyName()}.{property.Name} does not have a getter.";
+                                   $"The property {property.ReflectedType.Namespace}.{property.ReflectedType.PrettyName()}.{property.Name} does not have a getter.";
                 throw new ArgumentException(message, nameof(property));
             }
-        }
-
-        private static IGetter Create(PropertyInfo property)
-        {
-            Ensure.NotNull(property.ReflectedType, nameof(property));
-
-            var ctor = GetGetterType(property)
-                .MakeGenericType(property.ReflectedType, property.PropertyType)
-                .GetConstructor(
-                    bindingAttr: BindingFlags.NonPublic | BindingFlags.Instance,
-                    binder: null,
-                    types: new[] { typeof(PropertyInfo) },
-                    modifiers: null);
-            return (IGetter)ctor.Invoke(new object[] { property });
         }
 
         private static Type GetGetterType(PropertyInfo property)
@@ -87,18 +83,6 @@
             return typeof(INotifyPropertyChanged).IsAssignableFrom(property.ReflectedType)
                 ? typeof(NotifyingGetter<,>)
                 : typeof(ClassGetter<,>);
-        }
-
-        internal struct CacheItem
-        {
-            internal CacheItem(KeyValuePair<PropertyInfo, IGetter> keyValuePair)
-            {
-                this.KeyValuePair = keyValuePair;
-            }
-
-            internal KeyValuePair<PropertyInfo, IGetter> KeyValuePair { get; }
-
-            internal string Property => $"{this.KeyValuePair.Key.DeclaringType.PrettyName()}.{this.KeyValuePair.Key.Name}";
         }
     }
 }

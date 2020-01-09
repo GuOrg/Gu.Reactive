@@ -25,7 +25,7 @@
         }
 
         [Test]
-        public void SerializeRountrip()
+        public void SerializeRoundtrip()
         {
             var queue = new FixedSizedQueue<int>(2);
             var binaryFormatter = new BinaryFormatter();
@@ -34,8 +34,8 @@
             queue.Enqueue(2);
             binaryFormatter.Serialize(stream, queue);
             stream.Position = 0;
-            var roundtripped = (FixedSizedQueue<int>)binaryFormatter.Deserialize(stream);
-            Assert.AreEqual(queue, roundtripped);
+            var deserialize = (FixedSizedQueue<int>)binaryFormatter.Deserialize(stream);
+            Assert.AreEqual(queue, deserialize);
         }
     }
 }

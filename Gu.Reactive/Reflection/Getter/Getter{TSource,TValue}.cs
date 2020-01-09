@@ -1,6 +1,5 @@
 ﻿namespace Gu.Reactive
 {
-    using System.Collections.Generic;
     using System.Reflection;
 
     using Gu.Reactive.Internals;
@@ -32,13 +31,8 @@
         /// </summary>
         public PropertyInfo Property { get; }
 
-#pragma warning disable CA1822
-        //// ReSharper disable once UnusedMember.Local for inspection  of the cache in the debugger.
-        private IReadOnlyList<Getter.CacheItem> CacheDebugView => Getter.CacheDebugView;
-#pragma warning restore CA1822
-
         /// <inheritdoc/>
-        object IGetter.GetValue(object source) => this.GetValue((TSource)source);
+        object? IGetter.GetValue(object source) => this.GetValue((TSource)source);
 
         /// <inheritdoc />
         public abstract TValue GetValue(TSource source);
@@ -49,9 +43,9 @@
                                                              : Maybe<TValue>.Some(this.GetValue(source));
 
         /// <inheritdoc/>
-        Maybe<object> IGetter.GetMaybe(object source) => source is null
-                                                             ? Maybe<object>.None
-                                                             : Maybe<object>.Some(this.GetValue((TSource)source));
+        Maybe<object?> IGetter.GetMaybe(object source) => source is null
+                                                             ? Maybe<object?>.None
+                                                             : Maybe<object?>.Some(this.GetValue((TSource)source));
 
         /// <inheritdoc/>
         Maybe<TValue> IGetter<TValue>.GetMaybe(object source) => this.GetMaybe((TSource)source);

@@ -20,7 +20,7 @@
         /// <summary>
         /// The default instance when value is missing.
         /// </summary>
-        public static Maybe<T> None { get; } = new Maybe<T>(hasValue: false, value: default);
+        public static Maybe<T> None { get; } = new Maybe<T>(hasValue: false, value: default!);
 #pragma warning restore CA1000 // Do not declare static members on generic types
 
         /// <inheritdoc />
@@ -92,7 +92,7 @@
         /// <summary>
         /// Get the value if HasValue is true and default(T) if not.
         /// </summary>
-        public T GetValueOrDefault() => this.HasValue ? this.value : default(T);
+        public T GetValueOrDefault() => this.HasValue ? this.value : default!;
 
         /// <summary>
         /// Get the value if HasValue is true and <paramref name="defaultValue"/> if not.

@@ -1,9 +1,9 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System.Reflection;
 
     /// <summary>
-    /// A wrapper around a delegate created from a <see cref="System.Reflection.PropertyInfo.GetMethod"/>.
+    /// A wrapper around a delegate created from a <see cref="PropertyInfo.GetMethod"/>.
     /// </summary>
     public interface IGetter<TValue>
     {
