@@ -25,7 +25,7 @@ namespace Gu.Reactive
         /// <param name="source">The source item to track changes for.</param>
         /// <param name="property">Sample: item => item.SomeProp.SomeNestedProp</param>
         /// <param name="signalInitial">When true a reset is signaled on subscribe.</param>
-        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TItem, TProperty>(
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem?, TProperty>>> ObserveItemPropertyChanged<TItem, TProperty>(
             this ObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
@@ -41,7 +41,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(o =>
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem?, TProperty>>>(o =>
             {
                 var tracker = ItemsTracker.Create(
                     signalInitial
@@ -60,14 +60,15 @@ namespace Gu.Reactive
                     tracker,
                 };
 
-                void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue)
+                void Handler(TItem? item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
                 {
-                    o.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
-                          sender,
-                          new ItemPropertyChangedEventArgs<TItem, TProperty>(
-                              item,
-                              sourceAndValue,
-                              args.PropertyName)));
+                    o.OnNext(
+                        new EventPattern<ItemPropertyChangedEventArgs<TItem?, TProperty>>(
+                            sender,
+                            new ItemPropertyChangedEventArgs<TItem?, TProperty>(
+                                item,
+                                sourceAndValue,
+                                args.PropertyName)));
                 }
             });
         }
@@ -207,7 +208,7 @@ namespace Gu.Reactive
         /// <param name="source">The source item to track changes for.</param>
         /// <param name="property">Sample: item => item.SomeProp.SomeNestedProp</param>
         /// <param name="signalInitial">When true a reset is signaled on subscribe.</param>
-        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TItem, TProperty>(
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem?, TProperty>>> ObserveItemPropertyChanged<TItem, TProperty>(
             this ReadOnlyObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
@@ -223,7 +224,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(o =>
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem?, TProperty>>>(o =>
             {
                 var tracker = ItemsTracker.Create(
                     signalInitial
@@ -242,14 +243,15 @@ namespace Gu.Reactive
                     tracker,
                 };
 
-                void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
+                void Handler(TItem? item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
                 {
-                    o.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
-                          sender,
-                          new ItemPropertyChangedEventArgs<TItem, TProperty>(
-                              item,
-                              sourceAndValue,
-                              args.PropertyName)));
+                    o.OnNext(
+                        new EventPattern<ItemPropertyChangedEventArgs<TItem?, TProperty>>(
+                            sender,
+                            new ItemPropertyChangedEventArgs<TItem?, TProperty>(
+                                item,
+                                sourceAndValue,
+                                args.PropertyName)));
                 }
             });
         }
@@ -389,7 +391,7 @@ namespace Gu.Reactive
         /// <param name="source">The source item to track changes for.</param>
         /// <param name="property">Sample: item => item.SomeProp.SomeNestedProp</param>
         /// <param name="signalInitial">When true a reset is signaled on subscribe.</param>
-        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TItem, TProperty>(
+        public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem?, TProperty>>> ObserveItemPropertyChanged<TItem, TProperty>(
             this IReadOnlyObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
@@ -405,7 +407,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>>(o =>
+            return Observable.Create<EventPattern<ItemPropertyChangedEventArgs<TItem?, TProperty>>>(o =>
             {
                 var tracker = ItemsTracker.Create(
                     signalInitial
@@ -426,12 +428,13 @@ namespace Gu.Reactive
 
                 void Handler(TItem? item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
                 {
-                    o.OnNext(new EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>(
-                          sender,
-                          new ItemPropertyChangedEventArgs<TItem, TProperty>(
-                              item,
-                              sourceAndValue,
-                              args.PropertyName)));
+                    o.OnNext(
+                        new EventPattern<ItemPropertyChangedEventArgs<TItem?, TProperty>>(
+                            sender,
+                            new ItemPropertyChangedEventArgs<TItem?, TProperty>(
+                                item,
+                                sourceAndValue,
+                                args.PropertyName)));
                 }
             });
         }
