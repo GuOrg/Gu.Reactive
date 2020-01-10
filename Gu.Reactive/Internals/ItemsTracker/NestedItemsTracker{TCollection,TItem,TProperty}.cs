@@ -163,8 +163,13 @@
             }
         }
 
-        private void AddItems(IEnumerable items)
+        private void AddItems(IEnumerable? items)
         {
+            if (items is null)
+            {
+                return;
+            }
+
             foreach (TItem? item in items)
             {
                 //// Signaling initial before subscribing here to get the events in correct order
@@ -196,10 +201,13 @@
                     CachedEventArgs.StringEmpty,
                     this.path.SourceAndValue(item));
 
-                set.Add(item);
+                if (item != null)
+                {
+                    set.Add(item);
+                }
             }
 
-            set.ExceptWith(this.source ?? Enumerable.Empty<TItem>());
+            set.ExceptWith(this.source.NotNull());
             foreach (var item in set)
             {
                 if (item is null)

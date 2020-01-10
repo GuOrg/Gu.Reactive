@@ -5,8 +5,25 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    internal static class ListExt
+    internal static class EnumerableExt
     {
+        internal static IEnumerable<T> NotNull<T>(this IEnumerable<T?>? source)
+            where T : class
+        {
+            if (source is null)
+            {
+                yield break;
+            }
+
+            foreach (var item in source)
+            {
+                if (item != null)
+                {
+                    yield return item;
+                }
+            }
+        }
+
         internal static bool Contains<T>(this IEnumerable<T> source, object? value)
         {
             return source.Any(item => Equals(value, item));
