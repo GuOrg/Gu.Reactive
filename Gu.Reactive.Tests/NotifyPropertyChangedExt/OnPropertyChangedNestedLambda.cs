@@ -1,4 +1,4 @@
-// ReSharper disable All
+﻿// ReSharper disable All
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
@@ -100,12 +100,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         [TestCase(true)]
         [TestCase(false)]
-        public void ThrowsOnStructInPath(bool signalIntital)
+        public void ThrowsOnStructInPath(bool signalInitial)
         {
             var fake = new Fake();
             var exception =
                 Assert.Throws<ArgumentException>(
-                    () => fake.ObservePropertyChanged(x => x.StructLevel.Name, signalIntital));
+                    () => fake.ObservePropertyChanged(x => x.StructLevel.Name, signalInitial));
             var expected = "Error found in x => x.StructLevel.Name\r\n" +
                            "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?\r\n" +
                            "The type StructLevel is a value type not so StructLevel.Name will not notify when it changes.\r\n" +
@@ -116,12 +116,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         [TestCase(true)]
         [TestCase(false)]
-        public void ThrowsOnNotNotifyingnPath(bool signalIntital)
+        public void ThrowsOnNotNotifyingPath(bool signalInitial)
         {
             var fake = new Fake();
             var exception =
                 Assert.Throws<ArgumentException>(
-                    () => fake.ObservePropertyChanged(x => x.Name.Length, signalIntital));
+                    () => fake.ObservePropertyChanged(x => x.Name.Length, signalInitial));
             var expected = "Error found in x => x.Name.Length\r\n" +
                            "All levels in the path must implement INotifyPropertyChanged.\r\n" +
                            "The type string does not so Name.Length will not notify when it changes.\r\n" +

@@ -96,12 +96,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         [TestCase(true)]
         [TestCase(false)]
-        public static void ThrowsOnStructInPath(bool signalIntital)
+        public static void ThrowsOnStructInPath(bool signalInitial)
         {
             var source = new Fake();
             var exception =
                 Assert.Throws<ArgumentException>(
-                    () => source.ObserveFullPropertyPathSlim(x => x.StructLevel.Name, signalIntital));
+                    () => source.ObserveFullPropertyPathSlim(x => x.StructLevel.Name, signalInitial));
             var expected = "Error found in x => x.StructLevel.Name\r\n" +
                            "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?\r\n" +
                            "The type StructLevel is a value type not so StructLevel.Name will not notify when it changes.\r\n" +
@@ -112,11 +112,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         [TestCase(true)]
         [TestCase(false)]
-        public static void ThrowsOnNotNotifyingnPath(bool signalIntital)
+        public static void ThrowsOnNotNotifyingPath(bool signalInitial)
         {
             var source = new Fake();
             var exception = Assert.Throws<ArgumentException>(
-                    () => source.ObserveFullPropertyPathSlim(x => x.Name.Length, signalIntital));
+                    () => source.ObserveFullPropertyPathSlim(x => x.Name.Length, signalInitial));
             var expected = "Error found in x => x.Name.Length\r\n" +
                            "All levels in the path must implement INotifyPropertyChanged.\r\n" +
                            "The type string does not so Name.Length will not notify when it changes.\r\n" +
@@ -357,11 +357,11 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var actual = new List<PropertyChangedEventArgs>();
             var intActual = new List<PropertyChangedEventArgs>();
             var source = new Fake();
-            var intsource = new Fake<int>();
+            var intSource = new Fake<int>();
             using (source.ObserveFullPropertyPathSlim(x => x.Next.Value, signalInitial: true)
                          .Subscribe(actual.Add))
             {
-                using (intsource.ObserveFullPropertyPathSlim(x => x.Next.Value, signalInitial: true)
+                using (intSource.ObserveFullPropertyPathSlim(x => x.Next.Value, signalInitial: true)
                               .Subscribe(intActual.Add))
                 {
                     CollectionAssert.AreEqual(new[] { string.Empty }, actual.Select(x => x.PropertyName));
@@ -377,13 +377,13 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                         actual.Select(x => x.PropertyName));
                     CollectionAssert.AreEqual(new[] { string.Empty }, intActual.Select(x => x.PropertyName));
 
-                    intsource.Next = new Level<int>();
+                    intSource.Next = new Level<int>();
                     CollectionAssert.AreEqual(
                         new[] { string.Empty, "Next", "Value" },
                         actual.Select(x => x.PropertyName));
                     CollectionAssert.AreEqual(new[] { string.Empty, "Next" }, intActual.Select(x => x.PropertyName));
 
-                    intsource.Next.Value++;
+                    intSource.Next.Value++;
                     CollectionAssert.AreEqual(
                         new[] { string.Empty, "Next", "Value" },
                         actual.Select(x => x.PropertyName));
@@ -423,7 +423,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
-        public static void TwoLevelsExistsingChangeLastValueInPath()
+        public static void TwoLevelsExistingChangeLastValueInPath()
         {
             var actual = new List<PropertyChangedEventArgs>();
             var source = new Fake { Next = new Level() };
