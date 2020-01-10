@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.Globalization;

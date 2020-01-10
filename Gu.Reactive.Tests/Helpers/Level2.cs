@@ -81,15 +81,4 @@
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-
-    class C
-    {
-        private string p;
-
-        public string P
-        {
-            get => this.p;
-            set => this.p = value;
-        }
-    }
 }
