@@ -68,7 +68,7 @@
                 new Condition(() => this.source.Any(), this.source.ObserveCollectionChanged()));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public IReadOnlyObservableCollection<int> Ints { get; }
 
@@ -143,7 +143,7 @@
             (this.RemoveAtCommand as IDisposable)?.Dispose();
         }
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

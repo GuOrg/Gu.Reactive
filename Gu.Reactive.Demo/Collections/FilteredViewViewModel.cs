@@ -53,7 +53,7 @@ namespace Gu.Reactive.Demo
                               };
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public AsyncCommand AddOneOnOtherThread { get; }
 
@@ -160,7 +160,7 @@ namespace Gu.Reactive.Demo
             return indexOf >= 0;
         }
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -37,7 +37,7 @@ namespace Gu.Reactive.Demo
                                       });
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public IEnumerable<int> Enumerable { get; }
 
@@ -89,6 +89,6 @@ namespace Gu.Reactive.Demo
             return this.Filter(value);
         }
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

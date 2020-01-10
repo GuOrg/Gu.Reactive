@@ -49,7 +49,7 @@ namespace Gu.Reactive.Demo
                               };
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public ObservableCollection<DummyItem> Source { get; }
 
@@ -101,7 +101,7 @@ namespace Gu.Reactive.Demo
             (this.ResetCommand as IDisposable)?.Dispose();
         }
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

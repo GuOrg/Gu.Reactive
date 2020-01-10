@@ -32,7 +32,7 @@ namespace Gu.Reactive.Demo
             this.OnPropertyChanged(nameof(this.AddTwoCommand));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public AsyncCommand AddOneCommand { get; }
 
@@ -69,7 +69,7 @@ namespace Gu.Reactive.Demo
             this.isNotAddingAny.Dispose();
         }
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -30,7 +30,7 @@ namespace Gu.Reactive.Demo
                 .Subscribe(x => this.ViewChanges.Add(x));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public ReadOnlySerialView<DummyItem> View { get; } = new ReadOnlySerialView<DummyItem>();
 
@@ -71,7 +71,7 @@ namespace Gu.Reactive.Demo
             (this.ResetCommand as IDisposable)?.Dispose();
         }
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.ComponentModel;
@@ -40,7 +40,7 @@ namespace Gu.Reactive.Demo
                     });
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public RelayCommand RaiseCanExecuteCommand { get; }
 
@@ -116,7 +116,7 @@ namespace Gu.Reactive.Demo
             (this.DelayedToggleCanExecute as IDisposable)?.Dispose();
         }
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

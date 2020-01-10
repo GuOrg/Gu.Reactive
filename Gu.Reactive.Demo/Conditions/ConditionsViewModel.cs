@@ -33,7 +33,7 @@ namespace Gu.Reactive.Demo
             this.StopCommand = new ConditionRelayCommand(() => ConditionState.Instance.IsMotorRunning = false, this.CanStopCondition);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public ICondition IsLeftDoorOpenCondition { get; } = new IsLeftDoorOpen();
 
@@ -75,7 +75,7 @@ namespace Gu.Reactive.Demo
         }
 
         // ReSharper disable once UnusedMember.Local
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

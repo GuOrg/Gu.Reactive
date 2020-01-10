@@ -26,7 +26,7 @@
             this.AsyncThrowCommand = new AsyncCommand(this.VoidTaskThrowMethodAsync);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public AsyncCommand AsyncCommand { get; }
 
@@ -134,6 +134,6 @@
             throw new Exception("Something went wrong");
         }
 
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
