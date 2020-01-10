@@ -20,7 +20,7 @@
         internal static ItemsTrackerSlim Create<TCollection, TItem, TProperty>(
             TCollection source,
             NotifyingPath<TItem, TProperty> path)
-            where TCollection : class, IEnumerable<TItem?>, INotifyCollectionChanged
+            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
             if (path.Count == 1)

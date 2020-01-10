@@ -5,10 +5,9 @@
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
-    using System.Linq;
 
     internal sealed class NestedItemsTracker<TCollection, TItem, TProperty> : ItemsTracker<TCollection, TItem, TProperty>
-        where TCollection : class, IEnumerable<TItem?>, INotifyCollectionChanged
+        where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
         private readonly NotifyingPath<TItem, TProperty> path;

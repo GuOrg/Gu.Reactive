@@ -276,7 +276,7 @@
                 subscription,
             };
 
-            void Handler(TItem? item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
+            void Handler(TItem item, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
             {
                 observer.OnNext(create(item, sender, args, sourceAndValue));
             }
