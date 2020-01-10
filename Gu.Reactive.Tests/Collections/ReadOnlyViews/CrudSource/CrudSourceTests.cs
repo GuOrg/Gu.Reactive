@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.ObjectModel;
@@ -46,8 +46,8 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         [Test]
         public void UpdatesBeforeItNotifies()
         {
-            int[] actual = null;
-            int[] expected = null;
+            int[]? actual = null;
+            int[]? expected = null;
             using (this.View.ObserveCollectionChanged(signalInitial: false)
                        .Subscribe(_ => { actual = this.View.ToArray(); }))
             {

@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Helpers
+﻿namespace Gu.Reactive.Tests.Helpers
 {
     using System;
     using System.Collections;
@@ -39,7 +39,7 @@ namespace Gu.Reactive.Tests.Helpers
             return Compare(x, y) == 0;
         }
 
-        public static int Compare(object x, object y)
+        public static int Compare(object? x, object? y)
         {
             if (Equals(x, y))
             {
@@ -66,6 +66,6 @@ namespace Gu.Reactive.Tests.Helpers
             return 0;
         }
 
-        int IComparer.Compare(object x, object y) => Compare(x, y);
+        int IComparer.Compare(object? x, object? y) => Compare(x, y);
     }
 }

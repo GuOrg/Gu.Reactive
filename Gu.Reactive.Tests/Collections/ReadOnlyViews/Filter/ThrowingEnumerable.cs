@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
+﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
 {
     using System.Collections;
     using System.Collections.Generic;
@@ -40,7 +40,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
 
             public T Current => this.inner.Current;
 
-            object IEnumerator.Current => ((IEnumerator)this.inner).Current;
+            object? IEnumerator.Current => ((IEnumerator)this.inner).Current;
 
             public void Dispose() => this.inner.Dispose();
 
@@ -48,7 +48,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
             {
                 if (this.throws)
                 {
-                    this.source.Add(default);
+                    this.source.Add(default!);
                     this.source.RemoveAt(this.source.Count - 1);
                     this.throws = false;
                 }
