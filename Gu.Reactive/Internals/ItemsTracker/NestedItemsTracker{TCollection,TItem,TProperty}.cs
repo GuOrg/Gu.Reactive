@@ -62,8 +62,8 @@
                 }
                 else
                 {
-                    this.AddItems(this.source);
-                    this.source.CollectionChanged += this.OnSourceChanged;
+                    this.AddItems(newSource);
+                    newSource.CollectionChanged += this.OnSourceChanged;
                 }
             }
         }

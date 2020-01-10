@@ -28,7 +28,7 @@
             // nop
         }
 
-        protected void OnTrackedItemChanged(TItem? item, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
+        protected void OnTrackedItemChanged(TItem? item, object? sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
         {
             this.TrackedItemChanged?.Invoke(item, sender, e, sourceAndValue);
         }

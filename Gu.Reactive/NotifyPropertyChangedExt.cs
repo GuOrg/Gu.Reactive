@@ -365,7 +365,7 @@
                     o =>
                     {
                         var tracker = notifyingPath.CreateTracker(source);
-                        void Handler(IPropertyTracker _, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged, TProperty> sourceAndValue) => o.OnNext(create(sender, args, sourceAndValue.Value));
+                        void Handler(IPropertyTracker _, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue) => o.OnNext(create(sender, args, sourceAndValue.Value));
                         tracker.TrackedPropertyChanged += Handler;
                         return new CompositeDisposable(2)
                         {
