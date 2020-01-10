@@ -6,10 +6,10 @@
     public class Level : INotifyPropertyChanged
     {
         private bool isTrue;
-        private Level next;
-        private Level<int> nextInt;
-        private NotNotifying notNotifying;
-        private string name;
+        private Level? next;
+        private Level<int>? nextInt;
+        private NotNotifying? notNotifying;
+        private string? name;
 
         private bool? isTrueOrNull;
 
@@ -99,7 +99,7 @@
             }
         }
 
-        public string Name
+        public string? Name
         {
             get => this.name;
 
@@ -115,7 +115,7 @@
             }
         }
 
-        public Level Next
+        public Level? Next
         {
             get => this.next;
 
@@ -131,7 +131,7 @@
             }
         }
 
-        public Level<int> NextInt
+        public Level<int>? NextInt
         {
             get => this.nextInt;
 
@@ -147,7 +147,7 @@
             }
         }
 
-        public NotNotifying NotNotifying
+        public NotNotifying? NotNotifying
         {
             get => this.notNotifying;
 

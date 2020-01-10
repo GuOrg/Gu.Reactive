@@ -5,13 +5,13 @@
 
     public class Level<T> : INotifyPropertyChanged
     {
-        private string name;
+        private string? name;
         private T value;
-        private Level<T> next;
+        private Level<T>? next;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string Name
+        public string? Name
         {
             get => this.name;
 
@@ -43,7 +43,7 @@
             }
         }
 
-        public Level<T> Next
+        public Level<T>? Next
         {
             get => this.next;
 

@@ -5,14 +5,14 @@
 
     public class Level2 : INotifyPropertyChanged
     {
-        private string name;
+        private string? name;
         private bool isTrue;
         private int value;
-        private Level3 level3;
+        private Level3? level3;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public Level3 Level3
+        public Level3? Level3
         {
             get => this.level3;
 
@@ -28,7 +28,7 @@
             }
         }
 
-        public string Name
+        public string? Name
         {
             get => this.name;
 

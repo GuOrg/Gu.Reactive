@@ -7,12 +7,12 @@
     {
         private bool? isTrueOrNull;
         private bool isTrue;
-        private Level next;
-        private Level<int> nextInt;
-        private string name;
-        private Level1 level1;
+        private Level? next;
+        private Level<int>? nextInt;
+        private string? name;
+        private Level1? level1;
         private StructLevel structLevel;
-        private NotNotifying notNotifying;
+        private NotNotifying? notNotifying;
         private int value;
 
         // ReSharper disable once NotAccessedField.Local
@@ -57,7 +57,7 @@
             }
         }
 
-        public string Name
+        public string? Name
         {
             get => this.name;
 
@@ -73,7 +73,7 @@
             }
         }
 
-        public Level1 Level1
+        public Level1? Level1
         {
             get => this.level1;
 
@@ -89,7 +89,7 @@
             }
         }
 
-        public Level Next
+        public Level? Next
         {
             get => this.next;
 
@@ -105,7 +105,7 @@
             }
         }
 
-        public Level<int> NextInt
+        public Level<int>? NextInt
         {
             get => this.nextInt;
 
@@ -137,7 +137,7 @@
             }
         }
 
-        public NotNotifying NotNotifying
+        public NotNotifying? NotNotifying
         {
             get => this.notNotifying;
 
