@@ -100,7 +100,7 @@
 
                 if (newItems != null)
                 {
-                    foreach (TItem? item in newItems)
+                    foreach (TItem item in newItems)
                     {
                         if (!(item is null) &&
                             this.set.Add(item))
@@ -113,7 +113,7 @@
                 if (oldItems != null)
                 {
                     this.set.IntersectWith(this.source);
-                    foreach (TItem? item in oldItems)
+                    foreach (TItem item in oldItems)
                     {
                         if (!(item is null) &&
                             !this.set.Contains(item))

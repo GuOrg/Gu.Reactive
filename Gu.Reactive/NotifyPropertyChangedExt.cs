@@ -340,7 +340,7 @@
         private static IObservable<T> ObserveValueCore<TNotifier, TProperty, T>(
             this TNotifier source,
             NotifyingPath<TNotifier, TProperty> notifyingPath,
-            Func<object, PropertyChangedEventArgs, Maybe<TProperty>, T> create,
+            Func<object?, PropertyChangedEventArgs, Maybe<TProperty>, T> create,
             bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
@@ -395,7 +395,7 @@
         private static IObservable<T> ObservePropertyChangedCore<TNotifier, TProperty, T>(
             this TNotifier source,
             NotifyingPath<TNotifier, TProperty> notifyingPath,
-            Func<object, PropertyChangedEventArgs, T> create,
+            Func<object?, PropertyChangedEventArgs, T> create,
             bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
@@ -427,7 +427,7 @@
             return ObservePropertyChangedCore(source, notifyingPath.Last.Property.Name, create, signalInitial: false);
         }
 
-        private static IObservable<T> ObserveFullPropertyPathCore<TNotifier, TProperty, T>(this TNotifier source, NotifyingPath<TNotifier, TProperty> notifyingPath, Func<object, PropertyChangedEventArgs, T> create, bool signalInitial = true)
+        private static IObservable<T> ObserveFullPropertyPathCore<TNotifier, TProperty, T>(this TNotifier source, NotifyingPath<TNotifier, TProperty> notifyingPath, Func<object?, PropertyChangedEventArgs, T> create, bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
             if (signalInitial)

@@ -102,7 +102,7 @@
                 set.UnionWith(this.map.Keys);
                 if (newItems != null)
                 {
-                    foreach (TItem? item in newItems)
+                    foreach (TItem item in newItems)
                     {
                         if (!(item is null) &&
                             set.Add(item))
@@ -117,7 +117,7 @@
                 if (oldItems != null)
                 {
                     set.IntersectWith(this.source.NotNull());
-                    foreach (TItem? item in oldItems)
+                    foreach (TItem item in oldItems)
                     {
                         if (!(item is null) &&
                             !set.Contains(item))
