@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     internal abstract class PropertyPath<TSource, TValue> : IPropertyPath
@@ -33,7 +34,7 @@
         /// Get the source of the last item in the path.
         /// </summary>
         /// <param name="root">The root instance for the path.</param>
-        internal SourceAndValue<INotifyPropertyChanged?, TValue> SourceAndValue(TSource root)
+        internal SourceAndValue<INotifyPropertyChanged?, TValue> SourceAndValue([AllowNull] TSource root)
         {
             if (this.Count == 1)
             {

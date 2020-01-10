@@ -31,6 +31,6 @@
         /// <summary>
         /// Previous property in the path notifies via this method.
         /// </summary>
-        void OnTrackedPropertyChanged(object sender, INotifyPropertyChanged newSource, PropertyChangedEventArgs e);
+        void OnTrackedPropertyChanged(object sender, INotifyPropertyChanged? newSource, PropertyChangedEventArgs e);
     }
 }
