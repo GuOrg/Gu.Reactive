@@ -102,7 +102,9 @@
                 set.UnionWith(this.map.Keys);
                 if (newItems != null)
                 {
+#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
                     foreach (TItem item in newItems)
+#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
                     {
                         if (!(item is null) &&
                             set.Add(item))
@@ -117,7 +119,9 @@
                 if (oldItems != null)
                 {
                     set.IntersectWith(this.source.NotNull());
+#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
                     foreach (TItem item in oldItems)
+#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
                     {
                         if (!(item is null) &&
                             !set.Contains(item))

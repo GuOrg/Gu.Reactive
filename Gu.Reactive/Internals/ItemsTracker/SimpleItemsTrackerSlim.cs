@@ -100,7 +100,9 @@
 
                 if (newItems != null)
                 {
+#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
                     foreach (TItem item in newItems)
+#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
                     {
                         if (!(item is null) &&
                             this.set.Add(item))
@@ -113,7 +115,9 @@
                 if (oldItems != null)
                 {
                     this.set.IntersectWith(this.source);
+#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
                     foreach (TItem item in oldItems)
+#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
                     {
                         if (!(item is null) &&
                             !this.set.Contains(item))

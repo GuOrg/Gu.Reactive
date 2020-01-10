@@ -1,5 +1,6 @@
 ﻿namespace Gu.Reactive
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
 
     using Gu.Reactive.Internals;
@@ -38,12 +39,12 @@
         public abstract TValue GetValue(TSource source);
 
         /// <inheritdoc />
-        public Maybe<TValue> GetMaybe(TSource source) => source is null
+        public Maybe<TValue> GetMaybe([AllowNull]TSource source) => source is null
             ? Maybe<TValue>.None
             : Maybe<TValue>.Some(this.GetValue(source));
 
         /// <inheritdoc/>
-        Maybe<object?> IGetter.GetMaybe(object source) => source is null
+        Maybe<object?> IGetter.GetMaybe(object? source) => source is null
             ? Maybe<object?>.None
             : Maybe<object?>.Some(this.GetValue((TSource)source));
 

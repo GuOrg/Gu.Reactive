@@ -169,7 +169,9 @@
                 return;
             }
 
+#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
             foreach (TItem item in items)
+#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
             {
                 //// Signaling initial before subscribing here to get the events in correct order
                 //// This can't be made entirely thread safe as an event can be raised on source between signal initial & subscribe.
@@ -192,7 +194,9 @@
         private void RemoveItems(IEnumerable items)
         {
             var set = IdentitySet.Borrow<TItem>();
+#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
             foreach (TItem item in items)
+#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
             {
                 this.OnTrackedItemChanged(
                     null,

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
 
     internal abstract class ItemsTracker<TCollection, TItem, TProperty> : IDisposable
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
@@ -28,7 +29,7 @@
             // nop
         }
 
-        protected void OnTrackedItemChanged(TItem item, object? sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
+        protected void OnTrackedItemChanged([AllowNull] TItem item, object? sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
         {
             this.TrackedItemChanged?.Invoke(item, sender, e, sourceAndValue);
         }
