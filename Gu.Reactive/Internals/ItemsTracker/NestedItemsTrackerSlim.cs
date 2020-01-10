@@ -7,7 +7,7 @@
     using System.ComponentModel;
 
     internal sealed class NestedItemsTrackerSlim<TCollection, TItem, TProperty> : ItemsTrackerSlim
-        where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+        where TCollection : class, IEnumerable<TItem?>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
         private readonly object gate = new object();

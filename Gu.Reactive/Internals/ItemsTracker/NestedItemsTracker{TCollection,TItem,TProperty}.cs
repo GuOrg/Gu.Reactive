@@ -8,7 +8,7 @@
     using System.Linq;
 
     internal sealed class NestedItemsTracker<TCollection, TItem, TProperty> : ItemsTracker<TCollection, TItem, TProperty>
-        where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+        where TCollection : class, IEnumerable<TItem?>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
         private readonly NotifyingPath<TItem, TProperty> path;
@@ -18,7 +18,7 @@
         private TCollection? source;
         private bool disposed;
 
-        internal NestedItemsTracker(TCollection source, NotifyingPath<TItem, TProperty> path)
+        internal NestedItemsTracker(TCollection? source, NotifyingPath<TItem, TProperty> path)
         {
             this.path = path;
             if (source != null)
@@ -27,7 +27,7 @@
             }
         }
 
-        internal override void UpdateSource(TCollection newSource)
+        internal override void UpdateSource(TCollection? newSource)
         {
             if (this.disposed ||
                 ReferenceEquals(this.source, newSource))

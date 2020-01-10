@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -139,7 +139,7 @@ namespace Gu.Reactive
         public static IObservable<T> RepeatAfterDelay<T>(this IObservable<T> source, TimeSpan delayTime, IScheduler scheduler)
         {
             var delay = Observable.Empty<T>().Delay(delayTime, scheduler);
-            return Observable.Concat(source, delay).Repeat();
+            return source.Concat(delay).Repeat();
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Gu.Reactive
                 o =>
                 {
                     var hasPrevious = false;
-                    var previous = default(T);
+                    var previous = default(T)!;
                     return source.Subscribe(
                         x =>
                         {
@@ -195,7 +195,7 @@ namespace Gu.Reactive
                 o =>
                 {
                     var hasPrevious = false;
-                    var previous = default(T);
+                    var previous = default(T)!;
                     return source.Subscribe(
                         x =>
                         {

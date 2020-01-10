@@ -7,7 +7,7 @@
     using System.ComponentModel;
 
     internal sealed class SimpleItemsTracker<TCollection, TItem, TProperty> : ItemsTracker<TCollection, TItem, TProperty>
-        where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+        where TCollection : class, IEnumerable<TItem?>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
         private readonly Getter<TItem, TProperty> getter;
@@ -16,7 +16,7 @@
         private TCollection? source;
         private bool disposed;
 
-        internal SimpleItemsTracker(TCollection source, Getter<TItem, TProperty> getter)
+        internal SimpleItemsTracker(TCollection? source, Getter<TItem, TProperty> getter)
         {
             this.getter = getter;
             if (source != null)
@@ -25,7 +25,7 @@
             }
         }
 
-        internal override void UpdateSource(TCollection newSource)
+        internal override void UpdateSource(TCollection? newSource)
         {
             if (this.disposed ||
                 ReferenceEquals(this.source, newSource))
@@ -59,8 +59,8 @@
                 }
                 else
                 {
-                    this.AddItems(this.source);
-                    this.source.CollectionChanged += this.OnSourceChanged;
+                    this.AddItems(newSource);
+                    newSource.CollectionChanged += this.OnSourceChanged;
                 }
             }
         }

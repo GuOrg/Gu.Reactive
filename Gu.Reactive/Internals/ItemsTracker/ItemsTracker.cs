@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -7,9 +7,9 @@ namespace Gu.Reactive.Internals
     internal static class ItemsTracker
     {
         internal static ItemsTracker<TCollection, TItem, TProperty> Create<TCollection, TItem, TProperty>(
-            TCollection source,
+            TCollection? source,
             NotifyingPath<TItem, TProperty> path)
-            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TCollection : class, IEnumerable<TItem?>, INotifyCollectionChanged
             where TItem : class, INotifyPropertyChanged
         {
             if (path.Count == 1)

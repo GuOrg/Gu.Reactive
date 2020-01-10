@@ -6,7 +6,7 @@
     using System.ComponentModel;
 
     internal abstract class ItemsTracker<TCollection, TItem, TProperty> : IDisposable
-        where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+        where TCollection : class, IEnumerable<TItem?>, INotifyCollectionChanged
         where TItem : class, INotifyPropertyChanged
     {
         protected readonly object Gate = new object();
@@ -21,7 +21,7 @@
             GC.SuppressFinalize(this);
         }
 
-        internal abstract void UpdateSource(TCollection newSource);
+        internal abstract void UpdateSource(TCollection? newSource);
 
         protected virtual void Dispose(bool disposing)
         {
