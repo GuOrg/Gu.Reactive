@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Helpers
+﻿namespace Gu.Reactive.Tests.Helpers
 {
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -9,7 +9,8 @@ namespace Gu.Reactive.Tests.Helpers
     {
         public static void AreEqual(PropertyChangedEventArgs expected, object actual)
         {
-            if (expected is null && actual is null)
+            if (expected is null &&
+                actual is null)
             {
                 return;
             }
@@ -22,9 +23,10 @@ namespace Gu.Reactive.Tests.Helpers
             DumpIfDebug.WriteLine("PropertyChangedEventArgs Success: " + expected.PropertyName);
         }
 
-        public static void AreEqual(NotifyCollectionChangedEventArgs expected, object actual)
+        public static void AreEqual(NotifyCollectionChangedEventArgs? expected, object? actual)
         {
-            if (expected is null && actual is null)
+            if (expected is null &&
+                actual is null)
             {
                 return;
             }

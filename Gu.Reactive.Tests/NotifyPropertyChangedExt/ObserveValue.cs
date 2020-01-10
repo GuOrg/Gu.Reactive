@@ -1,4 +1,4 @@
-// ReSharper disable RedundantArgumentDefaultValue
+﻿// ReSharper disable RedundantArgumentDefaultValue
 // ReSharper disable NotResolvedInText
 // ReSharper disable HeuristicUnreachableCode
 // ReSharper disable ExplicitCallerInfoArgument
@@ -610,7 +610,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         public class A : INotifyPropertyChanged
         {
-            public event PropertyChangedEventHandler PropertyChanged;
+            public event PropertyChangedEventHandler? PropertyChanged;
 
             public virtual string Value => "A";
 

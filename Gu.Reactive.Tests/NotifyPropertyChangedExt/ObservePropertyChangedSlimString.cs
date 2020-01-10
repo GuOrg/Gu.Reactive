@@ -1,4 +1,4 @@
-// ReSharper disable All
+﻿// ReSharper disable All
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
@@ -19,7 +19,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
         private int privateProperty;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public int PublicProperty
         {
@@ -239,7 +239,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             }
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

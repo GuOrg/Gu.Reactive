@@ -1,4 +1,4 @@
-#pragma warning disable CA1010 // Collections should implement generic interface
+﻿#pragma warning disable CA1010 // Collections should implement generic interface
 namespace Gu.Reactive.Tests.Collections
 {
     using System;
@@ -13,9 +13,9 @@ namespace Gu.Reactive.Tests.Collections
 
     public class CollectionSynchronizerTests : INotifyPropertyChanged, INotifyCollectionChanged, IEnumerable
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         [Test]
         public void Initialize()

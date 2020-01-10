@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Helpers
+﻿namespace Gu.Reactive.Tests.Helpers
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -10,7 +10,7 @@ namespace Gu.Reactive.Tests.Helpers
         private int value;
         private Level2 level2;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public Level2 Level2
         {
@@ -76,7 +76,7 @@ namespace Gu.Reactive.Tests.Helpers
             }
         }
 
-        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

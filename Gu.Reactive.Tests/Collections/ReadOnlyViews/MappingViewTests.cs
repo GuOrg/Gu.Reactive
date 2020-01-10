@@ -154,7 +154,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 return $"{nameof(this.Index)}: {this.Index}, {nameof(this.Model)}: {this.Model}";
             }
 
-            protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+            protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? propertyName = null)
             {
                 this.PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }

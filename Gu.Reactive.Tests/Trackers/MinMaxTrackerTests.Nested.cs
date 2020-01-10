@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Trackers
+﻿namespace Gu.Reactive.Tests.Trackers
 {
     using System;
     using System.Collections.Generic;
@@ -150,7 +150,7 @@ namespace Gu.Reactive.Tests.Trackers
                     this.value = value;
                 }
 
-                public event PropertyChangedEventHandler PropertyChanged;
+                public event PropertyChangedEventHandler? PropertyChanged;
 
                 public int Value
                 {
@@ -173,7 +173,7 @@ namespace Gu.Reactive.Tests.Trackers
                     return $"{nameof(this.Value)}: {this.Value}";
                 }
 
-                protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+                protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
                 {
                     this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
                 }

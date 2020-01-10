@@ -18,7 +18,7 @@
         // ReSharper disable once NotAccessedField.Local
         private int writeOnly;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public int WriteOnly
         {
@@ -174,7 +174,7 @@
             return this.Next;
         }
 
-        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
