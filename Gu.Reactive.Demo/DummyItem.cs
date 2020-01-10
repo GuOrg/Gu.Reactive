@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System.ComponentModel;
     using System.Globalization;
@@ -17,7 +17,7 @@ namespace Gu.Reactive.Demo
             this.value = value;
         }
 
-        public event PropertyChangedEventHandler?? PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public int Value
         {
