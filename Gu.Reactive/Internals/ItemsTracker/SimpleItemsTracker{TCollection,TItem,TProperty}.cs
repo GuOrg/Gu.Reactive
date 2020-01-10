@@ -129,9 +129,10 @@
                     case NotifyCollectionChangedAction.Remove:
                         this.RemoveItems(e.OldItems);
                         break;
-                    case NotifyCollectionChangedAction.Replace when e.OldItems.TrySingle(out var oldItem) &&
-                                                                    e.NewItems.TrySingle(out var newItem) &&
-                                                                    ReferenceEquals(oldItem, newItem):
+                    case NotifyCollectionChangedAction.Replace
+                        when e.OldItems.TrySingle(out var oldItem) &&
+                             e.NewItems.TrySingle(out var newItem) &&
+                             ReferenceEquals(oldItem, newItem):
                         break;
                     case NotifyCollectionChangedAction.Replace:
                         this.RemoveItems(e.OldItems);
@@ -149,8 +150,13 @@
             }
         }
 
-        private void AddItems(IEnumerable items)
+        private void AddItems(IEnumerable? items)
         {
+            if (items is null)
+            {
+                return;
+            }
+
             foreach (TItem? item in items)
             {
                 //// Signaling initial before subscribing here to get the events in correct order
