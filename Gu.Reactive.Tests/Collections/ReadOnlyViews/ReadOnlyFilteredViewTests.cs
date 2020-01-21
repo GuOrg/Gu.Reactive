@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.Generic;
@@ -519,7 +519,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         [Test]
         public static void ObserveValueAsReadOnlyFilteredView()
         {
-            var fake = new Fake<IEnumerable<int>>();
+            var fake = new Fake<IEnumerable<int>?>();
             using var view = fake.ObserveValue(x => x.Value, signalInitial: true)
                                  .AsReadOnlyFilteredView(x => x % 2 == 0);
             CollectionAssert.IsEmpty(view);
@@ -547,7 +547,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         public static void ObservesItem()
         {
             var source = new ObservableCollection<With<int>> { new With<int> { Value = 1 } };
-            using var view = source.AsReadOnlyFilteredView(x => x.Value > 1, x => x.ObserveValue(item => item.Value).Select(_ => (object)null));
+            using var view = source.AsReadOnlyFilteredView(x => x.Value > 1, x => x.ObserveValue(item => item.Value).Select(_ => (object?)null));
             using var actual = view.SubscribeAll();
             CollectionAssert.IsEmpty(view);
             CollectionAssert.IsEmpty(actual);

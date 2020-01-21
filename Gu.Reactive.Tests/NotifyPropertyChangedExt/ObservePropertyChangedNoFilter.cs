@@ -1,4 +1,4 @@
-// ReSharper disable NotResolvedInText
+﻿// ReSharper disable NotResolvedInText
 // ReSharper disable UnusedVariable
 // ReSharper disable HeuristicUnreachableCode
 #pragma warning disable WPF1014 // Don't raise PropertyChanged for missing property.
@@ -202,7 +202,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #pragma warning restore IDISP001  // Dispose created.
 
             // ReSharper disable once RedundantAssignment
-            source = null;
+            source = null!;
             GC.Collect();
 
             Assert.IsFalse(wr.IsAlive);

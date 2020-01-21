@@ -1,4 +1,4 @@
-// ReSharper disable HeuristicUnreachableCode
+﻿// ReSharper disable HeuristicUnreachableCode
 namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 {
     using System;
@@ -119,7 +119,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             }
 
             // ReSharper disable once RedundantAssignment
-            source = null;
+            source = null!;
             GC.Collect();
             Assert.IsFalse(wr.IsAlive);
         }
@@ -141,7 +141,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             GC.KeepAlive(subscription);
 
             // ReSharper disable once RedundantAssignment
-            source = null;
+            source = null!;
             GC.Collect();
 
             Assert.IsFalse(wr.IsAlive);

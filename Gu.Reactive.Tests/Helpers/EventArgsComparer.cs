@@ -46,15 +46,15 @@
                 return 0;
             }
 
-            if (x is NotifyCollectionChangedEventArgs collectionChangedEventArgs)
+            return (x, y) switch
             {
-                return Compare(collectionChangedEventArgs, y);
-            }
-
-            return Compare((PropertyChangedEventArgs)x, y);
+                (NotifyCollectionChangedEventArgs ex, NotifyCollectionChangedEventArgs ey) => Compare(ex, ey),
+                (PropertyChangedEventArgs ex, PropertyChangedEventArgs ey) => Compare(ex, ey),
+                _ => 1
+            };
         }
 
-        public static int Compare(NotifyCollectionChangedEventArgs x, object y)
+        public static int Compare(NotifyCollectionChangedEventArgs x, NotifyCollectionChangedEventArgs y)
         {
             AssertEx.AreEqual(x, y);
             return 0;

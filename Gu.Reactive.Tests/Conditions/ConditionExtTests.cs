@@ -23,11 +23,11 @@
         [Test]
         public static void Signals()
         {
-            using var source = new Subject<object>();
+            using var source = new Subject<object?>();
             var isSatisfied = false;
             //// ReSharper disable once AccessToModifiedClosure
             using var condition = new Condition(source, () => isSatisfied);
-            ICondition result = null;
+            ICondition? result = null;
             using (condition.ObserveIsSatisfiedChanged()
                             .Subscribe(x => result = x))
             {
@@ -48,7 +48,7 @@
         }
 
         [Test]
-        public static void IsInSyncWhenSetupCorrectlyNagated()
+        public static void IsInSyncWhenSetupCorrectlyNegated()
         {
             var source = new Fake();
             using var condition = new Condition(source.ObservePropertyChangedSlim(nameof(source.IsTrueOrNull)), () => source.IsTrueOrNull);
