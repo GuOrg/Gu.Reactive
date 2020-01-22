@@ -25,7 +25,7 @@
 
   <PropertyGroup>
     <PackageId>Gu.Reactive.Analyzers</PackageId>
-    <Version>0.1.3.11</Version>
+    <Version>0.1.3.12</Version>
     <Authors>Johan Larsson</Authors>
     <Description>Roslyn analyzers for Gu.Reactive.</Description>
     <PackageTags>Reactive Roslyn Diagnostic Analyzer DotnetAnalyzers</PackageTags>
