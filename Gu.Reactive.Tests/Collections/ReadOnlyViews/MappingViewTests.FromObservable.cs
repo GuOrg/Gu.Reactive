@@ -63,7 +63,7 @@
             [Test]
             public static void ObserveValueAsMappingView()
             {
-                var fake = new Fake<IEnumerable<int>>();
+                var fake = new Fake<IEnumerable<int>?>();
                 using var view = fake.ObserveValue(x => x.Value, signalInitial: true)
                                      .AsMappingView(x => x * 2);
                 CollectionAssert.IsEmpty(view);

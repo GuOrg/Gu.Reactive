@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.Collections.ObjectModel;
@@ -16,12 +16,12 @@ namespace Gu.Reactive.Demo
     public sealed class ReadOnlySerialViewViewModel : INotifyPropertyChanged, IDisposable
     {
         private readonly IDisposable disposable;
-        private string items;
+        private string? items;
         private bool disposed;
 
         public ReadOnlySerialViewViewModel()
         {
-            this.UpdateCommand = new RelayCommand(() => this.View.SetSource(this.items.Split(',').Select(x => new DummyItem(int.Parse(x, CultureInfo.InvariantCulture)))));
+            this.UpdateCommand = new RelayCommand(() => this.View.SetSource(this.items?.Split(',').Select(x => new DummyItem(int.Parse(x, CultureInfo.InvariantCulture)))));
             this.ClearSourceCommand = new RelayCommand(() => this.View.ClearSource());
             this.ResetCommand = new AsyncCommand(this.ResetAsync);
             this.disposable = this.View
@@ -42,7 +42,7 @@ namespace Gu.Reactive.Demo
 
         public ICommand ResetCommand { get; }
 
-        public string Items
+        public string? Items
         {
             get => this.items;
 
