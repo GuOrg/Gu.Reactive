@@ -18,7 +18,7 @@
 
         public AsyncCommandsViewModel()
         {
-            this.canExecuteCondition = new Condition(this.ObservePropertyChanged(x => x.CanExecute), () => this.CanExecute);
+            this.canExecuteCondition = new Condition(this.ObservePropertyChangedSlim(x => x.CanExecute), () => this.CanExecute);
             this.AsyncCommand = new AsyncCommand(this.SimpleTaskAsync);
             this.AsyncCancelableCommand = new AsyncCommand(this.CancelableTaskAsync);
             this.AsyncParameterCommand = new AsyncCommand<string>(this.ParameterTaskAsync);

@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive.Tests.Collections
+﻿namespace Gu.Wpf.Reactive.Tests.Collections
 {
     using System;
     using System.Collections.ObjectModel;
@@ -25,49 +25,37 @@ namespace Gu.Wpf.Reactive.Tests.Collections
         public static async Task WhenAddToSource()
         {
             var source = new ObservableCollection<int>();
-            using (var expected = source.SubscribeAll())
-            {
-                using (var view = new ReadOnlyDispatchingView<int>(source, TimeSpan.Zero))
-                {
-                    await Application.Current.Dispatcher.SimulateYield();
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Add(1);
-                        await Application.Current.Dispatcher.SimulateYield();
+            using var expected = source.SubscribeAll();
+            using var view = new ReadOnlyDispatchingView<int>(source, TimeSpan.Zero);
+            await Application.Current.Dispatcher.SimulateYield();
+            using var actual = view.SubscribeAll();
+            source.Add(1);
+            await Application.Current.Dispatcher.SimulateYield();
 
-                        CollectionAssert.AreEqual(source, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
-            }
+            CollectionAssert.AreEqual(source, view);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
         public static async Task WhenAddToSourceWithBufferTime()
         {
             var source = new ObservableCollection<int>();
-            using (var expected = source.SubscribeAll())
-            {
-                var bufferTime = TimeSpan.FromMilliseconds(20);
-                using (var view = new ReadOnlyDispatchingView<int>(source, bufferTime))
-                {
-                    await Application.Current.Dispatcher.SimulateYield();
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Add(1);
-                        await Application.Current.Dispatcher.SimulateYield();
-                        CollectionAssert.IsEmpty(view);
-                        CollectionAssert.IsEmpty(actual);
+            using var expected = source.SubscribeAll();
+            var bufferTime = TimeSpan.FromMilliseconds(20);
+            using var view = new ReadOnlyDispatchingView<int>(source, bufferTime);
+            await Application.Current.Dispatcher.SimulateYield();
+            using var actual = view.SubscribeAll();
+            source.Add(1);
+            await Application.Current.Dispatcher.SimulateYield();
+            CollectionAssert.IsEmpty(view);
+            CollectionAssert.IsEmpty(actual);
 
-                        await Task.Delay(bufferTime).ConfigureAwait(false);
-                        await Task.Delay(bufferTime).ConfigureAwait(false);
-                        await Application.Current.Dispatcher.SimulateYield();
+            await Task.Delay(bufferTime).ConfigureAwait(false);
+            await Task.Delay(bufferTime).ConfigureAwait(false);
+            await Application.Current.Dispatcher.SimulateYield();
 
-                        CollectionAssert.AreEqual(source, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
-            }
+            CollectionAssert.AreEqual(source, view);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
@@ -75,31 +63,27 @@ namespace Gu.Wpf.Reactive.Tests.Collections
         {
             var source = new ObservableCollection<int>();
             var bufferTime = TimeSpan.FromMilliseconds(20);
-            using (var view = new ReadOnlyDispatchingView<int>(source, bufferTime))
+            using var view = new ReadOnlyDispatchingView<int>(source, bufferTime);
+            await Application.Current.Dispatcher.SimulateYield();
+            using var actual = view.SubscribeAll();
+            source.Add(1);
+            source.Add(1);
+            await Application.Current.Dispatcher.SimulateYield();
+            CollectionAssert.IsEmpty(view);
+            CollectionAssert.IsEmpty(actual);
+
+            await Task.Delay(bufferTime).ConfigureAwait(false);
+            await Task.Delay(bufferTime).ConfigureAwait(false);
+            await Application.Current.Dispatcher.SimulateYield();
+
+            CollectionAssert.AreEqual(source, view);
+            var expected = new EventArgs[]
             {
-                await Application.Current.Dispatcher.SimulateYield();
-                using (var actual = view.SubscribeAll())
-                {
-                    source.Add(1);
-                    source.Add(1);
-                    await Application.Current.Dispatcher.SimulateYield();
-                    CollectionAssert.IsEmpty(view);
-                    CollectionAssert.IsEmpty(actual);
-
-                    await Task.Delay(bufferTime).ConfigureAwait(false);
-                    await Task.Delay(bufferTime).ConfigureAwait(false);
-                    await Application.Current.Dispatcher.SimulateYield();
-
-                    CollectionAssert.AreEqual(source, view);
-                    var expected = new EventArgs[]
-                                       {
-                                           CachedEventArgs.CountPropertyChanged,
-                                           CachedEventArgs.IndexerPropertyChanged,
-                                           CachedEventArgs.NotifyCollectionReset,
-                                       };
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
+                CachedEventArgs.CountPropertyChanged,
+                CachedEventArgs.IndexerPropertyChanged,
+                CachedEventArgs.NotifyCollectionReset,
+            };
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
     }
 }

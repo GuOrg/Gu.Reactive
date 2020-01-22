@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive.Tests.Collections.Views.CrudView
+﻿namespace Gu.Wpf.Reactive.Tests.Collections.Views.CrudView
 {
     using System;
     using System.Collections;
@@ -42,13 +42,11 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views.CrudView
         public void NoChangeNoEvent()
         {
             CollectionAssert.AreEqual(this.Ints, this.View);
-            using (var actual = this.View.SubscribeAll())
-            {
-                (this.View as IRefreshAble)?.Refresh();
-                this.Scheduler?.Start();
-                CollectionAssert.AreEqual(this.Ints, this.View);
-                CollectionAssert.IsEmpty(actual);
-            }
+            using var actual = this.View.SubscribeAll();
+            (this.View as IRefreshAble)?.Refresh();
+            this.Scheduler?.Start();
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.IsEmpty(actual);
         }
 
         [Test]
@@ -76,72 +74,57 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views.CrudView
         [Test]
         public void Add()
         {
-            using (var expected = this.Ints.SubscribeAll())
-            {
-                using (var actual = this.View.SubscribeAll())
-                {
-                    this.View.Add(4);
-                    this.Scheduler?.Start();
-                    CollectionAssert.AreEqual(this.Ints, this.View);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
+            using var expected = this.Ints.SubscribeAll();
+            using var actual = this.View.SubscribeAll();
+            this.View.Add(4);
+            this.Scheduler?.Start();
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
         public void ListAdd()
         {
-            using (var expected = this.Ints.SubscribeAll())
-            {
-                using (var actual = this.View.SubscribeAll())
-                {
-                    // DataGrid adds items like this
-                    var index = ((IList)this.View).Add(4);
-                    this.Scheduler?.Start();
-                    Assert.AreEqual(3, index);
-                    CollectionAssert.AreEqual(this.Ints, this.View);
-                    CollectionAssert.IsNotEmpty(actual);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+            using var expected = this.Ints.SubscribeAll();
+            using var actual = this.View.SubscribeAll();
+            
+            // DataGrid adds items like this
+            var index = ((IList)this.View).Add(4);
+            this.Scheduler?.Start();
+            Assert.AreEqual(3, index);
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.IsNotEmpty(actual);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
 
-                    var before = actual.ToArray();
-                    this.Scheduler?.Start(); // Should not signal deferred
+            var before = actual.ToArray();
+            this.Scheduler?.Start(); // Should not signal deferred
 
-                    CollectionAssert.AreEqual(before, actual, EventArgsComparer.Default);
-                }
-            }
+            CollectionAssert.AreEqual(before, actual, EventArgsComparer.Default);
         }
 
         [TestCase(1)]
         [TestCase(2)]
         public void Remove(int toRemove)
         {
-            using (var expected = this.Ints.SubscribeAll())
-            {
-                using (var actual = this.View.SubscribeAll())
-                {
-                    this.View.Remove(toRemove);
-                    this.Scheduler?.Start();
-                    CollectionAssert.AreEqual(this.Ints, this.View);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
+            using var expected = this.Ints.SubscribeAll();
+            using var actual = this.View.SubscribeAll();
+            this.View.Remove(toRemove);
+            this.Scheduler?.Start();
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [TestCase(2, 5)]
         [TestCase(0, 5)]
         public void ReplaceIndexer(int index, int value)
         {
-            using (var expected = this.Ints.SubscribeAll())
-            {
-                using (var actual = this.View.SubscribeAll())
-                {
-                    this.View[index] = value;
-                    this.Scheduler?.Start();
-                    Assert.AreEqual(value, this.View[index]);
-                    CollectionAssert.AreEqual(this.Ints, this.View);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
+            using var expected = this.Ints.SubscribeAll();
+            using var actual = this.View.SubscribeAll();
+            this.View[index] = value;
+            this.Scheduler?.Start();
+            Assert.AreEqual(value, this.View[index]);
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [TestCase(0, 1)]
@@ -152,16 +135,12 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views.CrudView
         [TestCase(2, 0)]
         public void Move(int fromIndex, int toIndex)
         {
-            using (var expected = this.Ints.SubscribeAll())
-            {
-                using (var actual = this.View.SubscribeAll())
-                {
-                    this.View.Move(fromIndex, toIndex);
-                    this.Scheduler?.Start();
-                    CollectionAssert.AreEqual(this.Ints, this.View);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
+            using var expected = this.Ints.SubscribeAll();
+            using var actual = this.View.SubscribeAll();
+            this.View.Move(fromIndex, toIndex);
+            this.Scheduler?.Start();
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]

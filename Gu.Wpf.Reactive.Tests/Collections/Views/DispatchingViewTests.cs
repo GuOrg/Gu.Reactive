@@ -22,83 +22,59 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views
         public async Task WhenAddToSource()
         {
             var source = new ObservableCollection<int>();
-            using (var expected = source.SubscribeAll())
-            {
-                using (var view = source.AsDispatchingView())
-                {
-                    await Application.Current.Dispatcher.SimulateYield();
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Add(1);
-                        await Application.Current.Dispatcher.SimulateYield();
+            using var expected = source.SubscribeAll();
+            using var view = source.AsDispatchingView();
+            await Application.Current.Dispatcher.SimulateYield();
+            using var actual = view.SubscribeAll();
+            source.Add(1);
+            await Application.Current.Dispatcher.SimulateYield();
 
-                        CollectionAssert.AreEqual(source, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
-            }
+            CollectionAssert.AreEqual(source, view);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
         public async Task WhenAddToSourceExplicitZero()
         {
             var source = new ObservableCollection<int>();
-            using (var expected = source.SubscribeAll())
-            {
-                using (var view = source.AsDispatchingView())
-                {
-                    await Application.Current.Dispatcher.SimulateYield();
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Add(1);
-                        await Application.Current.Dispatcher.SimulateYield();
+            using var expected = source.SubscribeAll();
+            using var view = source.AsDispatchingView();
+            await Application.Current.Dispatcher.SimulateYield();
+            using var actual = view.SubscribeAll();
+            source.Add(1);
+            await Application.Current.Dispatcher.SimulateYield();
 
-                        CollectionAssert.AreEqual(source, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
-            }
+            CollectionAssert.AreEqual(source, view);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
         public async Task WhenAddToView()
         {
             var source = new ObservableCollection<int>();
-            using (var expected = source.SubscribeAll())
-            {
-                using (var view = source.AsDispatchingView())
-                {
-                    await Application.Current.Dispatcher.SimulateYield();
-                    using (var actual = view.SubscribeAll())
-                    {
-                        view.Add(1);
-                        await Application.Current.Dispatcher.SimulateYield();
+            using var expected = source.SubscribeAll();
+            using var view = source.AsDispatchingView();
+            await Application.Current.Dispatcher.SimulateYield();
+            using var actual = view.SubscribeAll();
+            view.Add(1);
+            await Application.Current.Dispatcher.SimulateYield();
 
-                        CollectionAssert.AreEqual(source, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
-            }
+            CollectionAssert.AreEqual(source, view);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
         public async Task WhenAddToViewExplicitZero()
         {
             var source = new ObservableCollection<int>();
-            using (var expected = source.SubscribeAll())
-            {
-                using (var view = source.AsDispatchingView())
-                {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        view.Add(1);
-                        await Application.Current.Dispatcher.SimulateYield();
+            using var expected = source.SubscribeAll();
+            using var view = source.AsDispatchingView();
+            using var actual = view.SubscribeAll();
+            view.Add(1);
+            await Application.Current.Dispatcher.SimulateYield();
 
-                        CollectionAssert.AreEqual(source, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
-            }
+            CollectionAssert.AreEqual(source, view);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
     }
 }

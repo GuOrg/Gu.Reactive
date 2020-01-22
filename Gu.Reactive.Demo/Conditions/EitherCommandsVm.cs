@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.ComponentModel;
@@ -19,10 +19,10 @@ namespace Gu.Reactive.Demo
         public EitherCommandsVm()
         {
             this.isAddingOne = new Condition(
-                this.ObservePropertyChanged(x => x.AddOneCommand.IsExecuting),
+                this.ObservePropertyChangedSlim(x => x.AddOneCommand.IsExecuting),
                 () => this.AddOneCommand?.IsExecuting);
             this.isAddingTwo = new Condition(
-                this.ObservePropertyChanged(x => x.AddTwoCommand.IsExecuting),
+                this.ObservePropertyChangedSlim(x => x.AddTwoCommand.IsExecuting),
                 () => this.AddTwoCommand?.IsExecuting);
 
             this.isNotAddingAny = new OrCondition(this.isAddingOne, this.isAddingTwo).Negate();

@@ -1,4 +1,4 @@
-#pragma warning disable 618
+﻿#pragma warning disable 618
 namespace Gu.Wpf.Reactive.Tests.Collections.Views
 {
     using System;
@@ -29,58 +29,40 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true))
-            {
-                scheduler.Start();
-                using (var expected = source.SubscribeAll())
-                {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Add(4);
-                        scheduler.Start();
-                        CollectionAssert.AreEqual(source, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
-            }
+            using var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true);
+            scheduler.Start();
+            using var expected = source.SubscribeAll();
+            using var actual = view.SubscribeAll();
+            source.Add(4);
+            scheduler.Start();
+            CollectionAssert.AreEqual(source, view);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
         public void AddToSourceExplicitRefresh()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
-            using (var view = source.AsThrottledView(TimeSpan.FromMilliseconds(10)))
-            {
-                using (var expected = source.SubscribeAll())
-                {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Add(4);
-                        view.Refresh();
-                        CollectionAssert.AreEqual(source, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
-            }
+            using var view = source.AsThrottledView(TimeSpan.FromMilliseconds(10));
+            using var expected = source.SubscribeAll();
+            using var actual = view.SubscribeAll();
+            source.Add(4);
+            view.Refresh();
+            CollectionAssert.AreEqual(source, view);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
         public async Task AddToSourceAwait()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
-            using (var view = source.AsThrottledView(TimeSpan.FromMilliseconds(10)))
-            {
-                using (var expected = source.SubscribeAll())
-                {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Add(4);
-                        await Task.Delay(TimeSpan.FromMilliseconds(40)).ConfigureAwait(false);
-                        CollectionAssert.AreEqual(source, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
-            }
+            using var view = source.AsThrottledView(TimeSpan.FromMilliseconds(10));
+            using var expected = source.SubscribeAll();
+            using var actual = view.SubscribeAll();
+            source.Add(4);
+            await Task.Delay(TimeSpan.FromMilliseconds(40)).ConfigureAwait(false);
+            CollectionAssert.AreEqual(source, view);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
@@ -88,28 +70,24 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(100), scheduler, leaveOpen: true))
+            using var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(100), scheduler, leaveOpen: true);
+            using var actual = view.SubscribeAll();
+            for (var i = 4; i < 10; i++)
             {
-                using (var actual = view.SubscribeAll())
-                {
-                    for (var i = 4; i < 10; i++)
-                    {
-                        source.Add(i);
-                    }
-
-                    CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
-                    CollectionAssert.IsEmpty(actual);
-                    view.Refresh();
-                    CollectionAssert.AreEqual(source, view);
-                    var expected = new EventArgs[]
-                    {
-                        CachedEventArgs.CountPropertyChanged,
-                        CachedEventArgs.IndexerPropertyChanged,
-                        CachedEventArgs.NotifyCollectionReset,
-                    };
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
+                source.Add(i);
             }
+
+            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+            CollectionAssert.IsEmpty(actual);
+            view.Refresh();
+            CollectionAssert.AreEqual(source, view);
+            var expected = new EventArgs[]
+            {
+                CachedEventArgs.CountPropertyChanged,
+                CachedEventArgs.IndexerPropertyChanged,
+                CachedEventArgs.NotifyCollectionReset,
+            };
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
@@ -117,30 +95,26 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using (var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(100), scheduler, leaveOpen: true))
+            using var view = new ThrottledView<int>(source, TimeSpan.FromMilliseconds(100), scheduler, leaveOpen: true);
+            scheduler.Start();
+            CollectionAssert.AreEqual(source, view);
+            using var actual = view.SubscribeAll();
+            for (var i = 4; i < 10; i++)
             {
-                scheduler.Start();
-                CollectionAssert.AreEqual(source, view);
-                using (var actual = view.SubscribeAll())
-                {
-                    for (var i = 4; i < 10; i++)
-                    {
-                        source.Add(i);
-                    }
-
-                    CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
-                    CollectionAssert.IsEmpty(actual);
-                    scheduler.Start();
-                    CollectionAssert.AreEqual(source, view);
-                    var expected = new EventArgs[]
-                    {
-                        CachedEventArgs.CountPropertyChanged,
-                        CachedEventArgs.IndexerPropertyChanged,
-                        CachedEventArgs.NotifyCollectionReset,
-                    };
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
+                source.Add(i);
             }
+
+            CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);
+            CollectionAssert.IsEmpty(actual);
+            scheduler.Start();
+            CollectionAssert.AreEqual(source, view);
+            var expected = new EventArgs[]
+            {
+                CachedEventArgs.CountPropertyChanged,
+                CachedEventArgs.IndexerPropertyChanged,
+                CachedEventArgs.NotifyCollectionReset,
+            };
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
@@ -149,57 +123,49 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views
             var changes = new List<NotifyCollectionChangedEventArgs>();
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var deferTime = TimeSpan.FromMilliseconds(10);
-            using (var throttledView = source.AsThrottledView(deferTime))
+            using var throttledView = source.AsThrottledView(deferTime);
+            throttledView.CollectionChanged += (_, e) => changes.Add(e);
+            for (var i = 0; i < 10; i++)
             {
-                throttledView.CollectionChanged += (_, e) => changes.Add(e);
-                for (var i = 0; i < 10; i++)
-                {
-                    source.Add(i);
-                }
-
-                throttledView.Refresh();
-                for (var i = 0; i < 10; i++)
-                {
-                    source.Add(i);
-                }
-
-                throttledView.Refresh();
-                CollectionAssert.AreEqual(source, throttledView);
-
-                var expected = new[]
-                                   {
-                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset),
-                                       new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset),
-                                   };
-                CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
+                source.Add(i);
             }
+
+            throttledView.Refresh();
+            for (var i = 0; i < 10; i++)
+            {
+                source.Add(i);
+            }
+
+            throttledView.Refresh();
+            CollectionAssert.AreEqual(source, throttledView);
+
+            var expected = new[]
+            {
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset),
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset),
+            };
+            CollectionAssert.AreEqual(expected, changes, EventArgsComparer.Default);
         }
 
         [Test]
         public async Task WhenAddToSourceWithBufferTime()
         {
             var source = new ObservableCollection<int>();
-            using (var expected = source.SubscribeAll())
-            {
-                var bufferTime = TimeSpan.FromMilliseconds(20);
-                using (var view = source.AsThrottledView(bufferTime))
-                {
-                    using (var actual = view.SubscribeAll())
-                    {
-                        source.Add(1);
-                        ////await Application.Current.Dispatcher.SimulateYield();
-                        CollectionAssert.IsEmpty(view);
-                        CollectionAssert.IsEmpty(actual);
+            using var expected = source.SubscribeAll();
+            var bufferTime = TimeSpan.FromMilliseconds(20);
+            using var view = source.AsThrottledView(bufferTime);
+            using var actual = view.SubscribeAll();
+            source.Add(1);
+            ////await Application.Current.Dispatcher.SimulateYield();
+            CollectionAssert.IsEmpty(view);
+            CollectionAssert.IsEmpty(actual);
 
-                        await Task.Delay(bufferTime).ConfigureAwait(false);
-                        await Application.Current.Dispatcher.SimulateYield();
-                        await Application.Current.Dispatcher.SimulateYield();
+            await Task.Delay(bufferTime).ConfigureAwait(false);
+            await Application.Current.Dispatcher.SimulateYield();
+            await Application.Current.Dispatcher.SimulateYield();
 
-                        CollectionAssert.AreEqual(source, view);
-                        CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                    }
-                }
-            }
+            CollectionAssert.AreEqual(source, view);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
 
         [Test]
@@ -207,30 +173,26 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views
         {
             var source = new ObservableCollection<int>();
             var bufferTime = TimeSpan.FromMilliseconds(20);
-            using (var view = source.AsThrottledView(bufferTime))
+            using var view = source.AsThrottledView(bufferTime);
+            using var actual = view.SubscribeAll();
+            source.Add(1);
+            source.Add(1);
+            await Application.Current.Dispatcher.SimulateYield();
+            CollectionAssert.IsEmpty(view);
+            CollectionAssert.IsEmpty(actual);
+
+            await Task.Delay(bufferTime).ConfigureAwait(false);
+            await Task.Delay(bufferTime).ConfigureAwait(false);
+            await Application.Current.Dispatcher.SimulateYield();
+
+            CollectionAssert.AreEqual(source, view);
+            var expected = new EventArgs[]
             {
-                using (var actual = view.SubscribeAll())
-                {
-                    source.Add(1);
-                    source.Add(1);
-                    await Application.Current.Dispatcher.SimulateYield();
-                    CollectionAssert.IsEmpty(view);
-                    CollectionAssert.IsEmpty(actual);
-
-                    await Task.Delay(bufferTime).ConfigureAwait(false);
-                    await Task.Delay(bufferTime).ConfigureAwait(false);
-                    await Application.Current.Dispatcher.SimulateYield();
-
-                    CollectionAssert.AreEqual(source, view);
-                    var expected = new EventArgs[]
-                                       {
-                                           CachedEventArgs.CountPropertyChanged,
-                                           CachedEventArgs.IndexerPropertyChanged,
-                                           CachedEventArgs.NotifyCollectionReset,
-                                       };
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
-            }
+                CachedEventArgs.CountPropertyChanged,
+                CachedEventArgs.IndexerPropertyChanged,
+                CachedEventArgs.NotifyCollectionReset,
+            };
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
     }
 }

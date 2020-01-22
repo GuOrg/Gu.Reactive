@@ -1,4 +1,4 @@
-#pragma warning disable 618
+﻿#pragma warning disable 618
 namespace Gu.Reactive.Demo
 {
     using System;
@@ -45,12 +45,12 @@ namespace Gu.Reactive.Demo
             this.PeopleRaw = this.peopleRaw.AsDispatchingView();
             this.AddOneOnOtherThread = new AsyncCommand(() => Task.Run(() => this.AddOne()));
             this.disposable = new System.Reactive.Disposables.CompositeDisposable
-                              {
-                                  this.ObservePropertyChanged(x => x.NumberOfItems)
-                                      .Subscribe(_ => this.UpdateRawCollection()),
-                                  this.ObservePropertyChanged(x => x.SearchText)
-                                      .Subscribe(_ => this.HasSearchText = !string.IsNullOrEmpty(this.SearchText)),
-                              };
+            {
+                this.ObservePropertyChangedSlim(x => x.NumberOfItems)
+                    .Subscribe(_ => this.UpdateRawCollection()),
+                this.ObservePropertyChangedSlim(x => x.SearchText)
+                    .Subscribe(_ => this.HasSearchText = !string.IsNullOrEmpty(this.SearchText)),
+            };
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -28,7 +28,7 @@
             this.ObservingRelayCommand = new ObservingRelayCommand(() => this.Executed = "ObservingRelayCommand", () => this.CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
             this.ObservingRelayCommandWithParameter = new ObservingRelayCommand<string>(x => this.Executed = "ObservingRelayCommandWithParameter: " + x, x => this.CanExecute, this.ObservePropertyChanged(x => x.CanExecute));
 
-            this.canExecuteCondition = new Condition(this.ObservePropertyChanged(x => x.CanExecute), () => this.CanExecute);
+            this.canExecuteCondition = new Condition(this.ObservePropertyChangedSlim(x => x.CanExecute), () => this.CanExecute);
             this.ConditionRelayCommand = new ConditionRelayCommand(() => this.Executed = "ConditionRelayCommand", this.canExecuteCondition);
             this.ConditionRelayCommandWithParameter = new ConditionRelayCommand<string>(x => this.Executed = "ConditionRelayCommandWithParameter: " + x, this.canExecuteCondition);
             this.RaiseCanExecuteCommand = new RelayCommand(this.RaiseCanExecute);

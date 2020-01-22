@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Helpers
+﻿namespace Gu.Reactive.Tests.Helpers
 {
     using System.ComponentModel;
     using System.Reactive;

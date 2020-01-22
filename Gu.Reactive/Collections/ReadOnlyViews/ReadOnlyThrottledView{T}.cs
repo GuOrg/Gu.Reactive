@@ -23,7 +23,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
-        public ReadOnlyThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
+        public ReadOnlyThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {
         }
@@ -31,7 +31,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
-        public ReadOnlyThrottledView(ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
+        public ReadOnlyThrottledView(ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {
         }
@@ -39,7 +39,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
-        public ReadOnlyThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
+        public ReadOnlyThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {
         }
@@ -47,7 +47,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
-        public ReadOnlyThrottledView(IReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen)
+        public ReadOnlyThrottledView(IReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {
         }

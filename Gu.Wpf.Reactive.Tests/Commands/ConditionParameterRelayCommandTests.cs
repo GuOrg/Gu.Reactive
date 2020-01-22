@@ -21,16 +21,12 @@
         {
             var count = 0;
             var fake = new Fake { IsTrueOrNull = false };
-            using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull))
-            {
-                using (var command = new ConditionRelayCommand<int>(x => { }, condition))
-                {
-                    command.CanExecuteChanged += (sender, args) => count++;
-                    fake.IsTrueOrNull = true;
-                    await Application.Current.Dispatcher.SimulateYield();
-                    Assert.AreEqual(1, count);
-                }
-            }
+            using var condition = new Condition(fake.ObservePropertyChangedSlim(x => x.IsTrueOrNull), () => fake.IsTrueOrNull);
+            using var command = new ConditionRelayCommand<int>(x => { }, condition);
+            command.CanExecuteChanged += (sender, args) => count++;
+            fake.IsTrueOrNull = true;
+            await Application.Current.Dispatcher.SimulateYield();
+            Assert.AreEqual(1, count);
         }
 
         [TestCase(false)]
@@ -38,14 +34,10 @@
         public void CanExecute(bool expected)
         {
             var fake = new Fake { IsTrueOrNull = false };
-            using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull))
-            {
-                using (var command = new ConditionRelayCommand<int>(x => { }, condition))
-                {
-                    fake.IsTrueOrNull = expected;
-                    Assert.AreEqual(expected, command.CanExecute(0));
-                }
-            }
+            using var condition = new Condition(fake.ObservePropertyChangedSlim(x => x.IsTrueOrNull), () => fake.IsTrueOrNull);
+            using var command = new ConditionRelayCommand<int>(x => { }, condition);
+            fake.IsTrueOrNull = expected;
+            Assert.AreEqual(expected, command.CanExecute(0));
         }
 
         [Test]
@@ -53,14 +45,10 @@
         {
             var i = 0;
             var fake = new Fake { IsTrueOrNull = false };
-            using (var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull))
-            {
-                using (var command = new ConditionRelayCommand<int>(x => i = x, condition))
-                {
-                    command.Execute(1);
-                    Assert.AreEqual(1, i);
-                }
-            }
+            using var condition = new Condition(fake.ObservePropertyChangedSlim(x => x.IsTrueOrNull), () => fake.IsTrueOrNull);
+            using var command = new ConditionRelayCommand<int>(x => i = x, condition);
+            command.Execute(1);
+            Assert.AreEqual(1, i);
         }
     }
 }

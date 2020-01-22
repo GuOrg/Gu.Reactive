@@ -1,4 +1,4 @@
-// ReSharper disable AccessToDisposedClosure
+﻿// ReSharper disable AccessToDisposedClosure
 namespace Gu.Wpf.Reactive.Tests
 {
     using System;
@@ -19,41 +19,33 @@ namespace Gu.Wpf.Reactive.Tests
         [Test]
         public void CanExecuteNoCondition()
         {
-            using (var command = new AsyncCommand<int>(x => Task.FromResult(1)))
-            {
-                Assert.IsTrue(command.CanExecute(0));
-                Assert.IsFalse(command.CancelCommand.CanExecute());
-                Assert.IsInstanceOf<Condition>(command.Condition);
-            }
+            using var command = new AsyncCommand<int>(x => Task.FromResult(1));
+            Assert.IsTrue(command.CanExecute(0));
+            Assert.IsFalse(command.CancelCommand.CanExecute());
+            Assert.IsInstanceOf<Condition>(command.Condition);
         }
 
         [Test]
         public void CanCancel()
         {
-            using (var command = new AsyncCommand<int>((i, x) => x.AsObservable().FirstAsync().ToTask()))
-            {
-                Assert.IsTrue(command.CanExecute(0));
-                Assert.IsFalse(command.CancelCommand.CanExecute());
-                command.Execute(0);
-                Assert.IsTrue(command.CancelCommand.CanExecute());
-                command.CancelCommand.Execute();
-                Assert.IsFalse(command.CancelCommand.CanExecute());
-                Assert.IsInstanceOf<Condition>(command.Condition);
-            }
+            using var command = new AsyncCommand<int>((i, x) => x.AsObservable().FirstAsync().ToTask());
+            Assert.IsTrue(command.CanExecute(0));
+            Assert.IsFalse(command.CancelCommand.CanExecute());
+            command.Execute(0);
+            Assert.IsTrue(command.CancelCommand.CanExecute());
+            command.CancelCommand.Execute();
+            Assert.IsFalse(command.CancelCommand.CanExecute());
+            Assert.IsInstanceOf<Condition>(command.Condition);
         }
 
         [TestCase(true)]
         [TestCase(false)]
         public void CanExecuteCondition(bool expected)
         {
-            using (var condition = Mock.Of<ICondition>(x => x.IsSatisfied == expected))
-            {
-                using (var command = new AsyncCommand<int>(x => Task.FromResult(1), condition))
-                {
-                    Assert.AreEqual(2, ((AndCondition)command.Condition).Prerequisites.Count);
-                    Assert.AreEqual(expected, command.CanExecute(0));
-                }
-            }
+            using var condition = Mock.Of<ICondition>(x => x.IsSatisfied == expected);
+            using var command = new AsyncCommand<int>(x => Task.FromResult(1), condition);
+            Assert.AreEqual(2, ((AndCondition)command.Condition).Prerequisites.Count);
+            Assert.AreEqual(expected, command.CanExecute(0));
         }
 
         [Test]
@@ -61,27 +53,25 @@ namespace Gu.Wpf.Reactive.Tests
         {
             var count = 0;
             var tcs = new TaskCompletionSource<int>();
-            using (var command = new AsyncCommand<int>(x => tcs.Task))
+            using var command = new AsyncCommand<int>(x => tcs.Task);
+            command.CanExecuteChanged += (_, __) => count++;
+            var isExecutingCount = 0;
+            using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), signalInitial: false)
+                          .Subscribe(_ => isExecutingCount++))
             {
-                command.CanExecuteChanged += (_, __) => count++;
-                var isExecutingCount = 0;
-                using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), signalInitial: false)
-                       .Subscribe(_ => isExecutingCount++))
-                {
-                    Assert.IsFalse(command.IsExecuting);
-                    Assert.IsFalse(command.CancelCommand.CanExecute());
-                    Assert.AreEqual(0, isExecutingCount);
-                    command.Execute(1);
-                    Assert.IsTrue(command.IsExecuting);
-                    Assert.AreEqual(1, isExecutingCount);
-                    Assert.IsFalse(command.CancelCommand.CanExecute());
-                    Assert.AreEqual(1, count);
-                    tcs.SetResult(1);
-                    await command.Execution.Task.ConfigureAwait(false);
-                    Assert.IsFalse(command.IsExecuting);
-                    Assert.AreEqual(2, count);
-                    Assert.AreEqual(2, isExecutingCount);
-                }
+                Assert.IsFalse(command.IsExecuting);
+                Assert.IsFalse(command.CancelCommand.CanExecute());
+                Assert.AreEqual(0, isExecutingCount);
+                command.Execute(1);
+                Assert.IsTrue(command.IsExecuting);
+                Assert.AreEqual(1, isExecutingCount);
+                Assert.IsFalse(command.CancelCommand.CanExecute());
+                Assert.AreEqual(1, count);
+                tcs.SetResult(1);
+                await command.Execution.Task.ConfigureAwait(false);
+                Assert.IsFalse(command.IsExecuting);
+                Assert.AreEqual(2, count);
+                Assert.AreEqual(2, isExecutingCount);
             }
         }
 
@@ -91,25 +81,23 @@ namespace Gu.Wpf.Reactive.Tests
         {
             // http://stackoverflow.com/questions/34811639/is-there-a-way-to-be-notified-when-task-status-changes-to-running
             var tcs = new TaskCompletionSource<int>();
-            using (var command = new AsyncCommand<int>(x => tcs.Task))
+            using var command = new AsyncCommand<int>(x => tcs.Task);
+            var taskStatuses = new List<TaskStatus>();
+            using (command.ObservePropertyChangedWithValue(x => x.Execution.Status)
+                          .Subscribe(x => taskStatuses.Add(x.EventArgs.Value)))
             {
-                var taskStatuses = new List<TaskStatus>();
-                using (command.ObservePropertyChangedWithValue(x => x.Execution.Status)
-                       .Subscribe(x => taskStatuses.Add(x.EventArgs.Value)))
-                {
-                    Assert.IsFalse(command.IsExecuting);
-                    Assert.IsFalse(command.CancelCommand.CanExecute());
-                    command.Execute(1);
-                    Assert.IsTrue(command.IsExecuting);
-                    Assert.IsFalse(command.CancelCommand.CanExecute());
-                    var expectedStatuses = new List<TaskStatus> { TaskStatus.Created, TaskStatus.WaitingForActivation, TaskStatus.Running, };
-                    CollectionAssert.AreEqual(expectedStatuses, taskStatuses);
-                    tcs.SetResult(1);
-                    await command.Execution.Task.ConfigureAwait(false);
-                    Assert.IsFalse(command.IsExecuting);
-                    expectedStatuses.Add(TaskStatus.RanToCompletion);
-                    CollectionAssert.AreEqual(expectedStatuses, taskStatuses);
-                }
+                Assert.IsFalse(command.IsExecuting);
+                Assert.IsFalse(command.CancelCommand.CanExecute());
+                command.Execute(1);
+                Assert.IsTrue(command.IsExecuting);
+                Assert.IsFalse(command.CancelCommand.CanExecute());
+                var expectedStatuses = new List<TaskStatus> { TaskStatus.Created, TaskStatus.WaitingForActivation, TaskStatus.Running, };
+                CollectionAssert.AreEqual(expectedStatuses, taskStatuses);
+                tcs.SetResult(1);
+                await command.Execution.Task.ConfigureAwait(false);
+                Assert.IsFalse(command.IsExecuting);
+                expectedStatuses.Add(TaskStatus.RanToCompletion);
+                CollectionAssert.AreEqual(expectedStatuses, taskStatuses);
             }
         }
 
@@ -117,15 +105,13 @@ namespace Gu.Wpf.Reactive.Tests
         public async Task ExecuteFinished()
         {
             var finished = Task.FromResult(1);
-            using (var command = new AsyncCommand<int>(x => finished))
-            {
-                Assert.IsTrue(command.CanExecute(0));
-                command.Execute(0);
-                await command.Execution.Task.ConfigureAwait(false);
-                Assert.IsTrue(command.CanExecute(0));
-                Assert.AreSame(finished, command.Execution.Task);
-                Assert.AreSame(finished, command.Execution.Completed);
-            }
+            using var command = new AsyncCommand<int>(x => finished);
+            Assert.IsTrue(command.CanExecute(0));
+            command.Execute(0);
+            await command.Execution.Task.ConfigureAwait(false);
+            Assert.IsTrue(command.CanExecute(0));
+            Assert.AreSame(finished, command.Execution.Task);
+            Assert.AreSame(finished, command.Execution.Completed);
         }
 
         [Test]
@@ -133,43 +119,35 @@ namespace Gu.Wpf.Reactive.Tests
         {
             var tcs = new TaskCompletionSource<int>();
             tcs.SetCanceled();
-            using (var command = new AsyncCommand<int>(x => tcs.Task))
-            {
-                command.Execute(0);
-                Assert.AreSame(tcs.Task, command.Execution.Task);
-            }
+            using var command = new AsyncCommand<int>(x => tcs.Task);
+            command.Execute(0);
+            Assert.AreSame(tcs.Task, command.Execution.Task);
         }
 
         [Test]
         public void ExecuteThrows()
         {
             var exception = new Exception();
-            using (var command = new AsyncCommand<int>(x => Task.Run(() => { throw exception; })))
-            {
-                command.Execute(0);
-                _ = Assert.ThrowsAsync<Exception>(() => command.Execution.Task);
+            using var command = new AsyncCommand<int>(x => Task.Run(() => { throw exception; }));
+            command.Execute(0);
+            _ = Assert.ThrowsAsync<Exception>(() => command.Execution.Task);
 
-                Assert.AreEqual(exception, command.Execution.InnerException);
-                Assert.AreEqual(TaskStatus.Faulted, command.Execution.Status);
-                Assert.AreEqual(true, command.CanExecute(0));
-            }
+            Assert.AreEqual(exception, command.Execution.InnerException);
+            Assert.AreEqual(TaskStatus.Faulted, command.Execution.Status);
+            Assert.AreEqual(true, command.CanExecute(0));
         }
 
         [Test]
         public async Task CannotExecuteWhileRunning()
         {
-            using (var resetEvent = new ManualResetEventSlim())
-            {
-                using (var command = new AsyncCommand<int>(x => Task.Run(() => resetEvent.Wait())))
-                {
-                    Assert.IsTrue(command.CanExecute(0));
-                    command.Execute(0);
-                    Assert.IsFalse(command.CanExecute(0));
-                    resetEvent.Set();
-                    await command.Execution.Task.ConfigureAwait(false);
-                    Assert.IsTrue(command.CanExecute(0));
-                }
-            }
+            using var resetEvent = new ManualResetEventSlim();
+            using var command = new AsyncCommand<int>(x => Task.Run(() => resetEvent.Wait()));
+            Assert.IsTrue(command.CanExecute(0));
+            command.Execute(0);
+            Assert.IsFalse(command.CanExecute(0));
+            resetEvent.Set();
+            await command.Execution.Task.ConfigureAwait(false);
+            Assert.IsTrue(command.CanExecute(0));
         }
 
         [Test]

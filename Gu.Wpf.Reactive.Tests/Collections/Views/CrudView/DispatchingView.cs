@@ -23,20 +23,16 @@
         [Test]
         public void AddFour()
         {
-            using (var expected = this.Ints.SubscribeAll())
+            using var expected = this.Ints.SubscribeAll();
+            using var actual = this.View.SubscribeAll();
+            for (var i = 0; i < 4; i++)
             {
-                using (var actual = this.View.SubscribeAll())
-                {
-                    for (var i = 0; i < 4; i++)
-                    {
-                        this.View.Add(i);
-                    }
-
-                    this.Scheduler?.Start();
-                    CollectionAssert.AreEqual(this.Ints, this.View);
-                    CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
-                }
+                this.View.Add(i);
             }
+
+            this.Scheduler?.Start();
+            CollectionAssert.AreEqual(this.Ints, this.View);
+            CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
         }
     }
 }

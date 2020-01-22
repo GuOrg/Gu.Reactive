@@ -1,4 +1,4 @@
-#pragma warning disable 618
+﻿#pragma warning disable 618
 namespace Gu.Reactive.Demo
 {
     using System;
@@ -20,14 +20,14 @@ namespace Gu.Reactive.Demo
         public CollectionViewDemoViewModel()
         {
             this.Enumerable = new[] { 1, 2, 3, 4, 5 };
-            this.FilteredView1 = this.Enumerable.AsReadOnlyFilteredView(this.FilterMethod, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher, this.ObservePropertyChanged(x => x.Filter));
-            this.FilteredView2 = this.Enumerable.AsReadOnlyFilteredView(this.FilterMethod, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher, this.ObservePropertyChanged(x => x.Filter));
+            this.FilteredView1 = this.Enumerable.AsReadOnlyFilteredView(this.FilterMethod, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher, this.ObservePropertyChangedSlim(x => x.Filter));
+            this.FilteredView2 = this.Enumerable.AsReadOnlyFilteredView(this.FilterMethod, TimeSpan.FromMilliseconds(10), WpfSchedulers.Dispatcher, this.ObservePropertyChangedSlim(x => x.Filter));
 
             this.ObservableCollection = new ObservableCollection<int>(new[] { 1, 2, 3, 4, 5 });
             this.ObservableDefaultView = CollectionViewSource.GetDefaultView(this.ObservableCollection);
             this.ObservableFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.Zero);
             this.ThrottledFilteredView = this.ObservableCollection.AsFilteredView(this.Filter, TimeSpan.FromMilliseconds(10));
-            this.disposable = this.ObservePropertyChanged(x => x.Filter, signalInitial: false)
+            this.disposable = this.ObservePropertyChangedSlim(x => x.Filter, signalInitial: false)
                                   .Subscribe(
                                       x =>
                                       {
