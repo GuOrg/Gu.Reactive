@@ -26,8 +26,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                          .Subscribe(changes.Add))
             {
                 Assert.AreEqual(2, changes.Count);
-                EventPatternAssert.AreEqual(item1, source, item1, Maybe.Some("1"), string.Empty, changes[0]);
-                EventPatternAssert.AreEqual(item2, source, item2, Maybe.Some("2"), string.Empty, changes[1]);
+                EventPatternAssert.AreEqual(item1, source, item1, Maybe.Some<string?>("1"), string.Empty, changes[0]);
+                EventPatternAssert.AreEqual(item2, source, item2, Maybe.Some<string?>("2"), string.Empty, changes[1]);
             }
 
             Assert.AreEqual(2, changes.Count);
@@ -44,8 +44,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                          .Subscribe(changes.Add))
             {
                 Assert.AreEqual(2, changes.Count);
-                EventPatternAssert.AreEqual(item1, source, item1.Level1, Maybe.Some("1"), string.Empty, changes[0]);
-                EventPatternAssert.AreEqual(item2, source, item2.Level1, Maybe.Some("2"), string.Empty, changes[1]);
+                EventPatternAssert.AreEqual(item1, source, item1.Level1, Maybe.Some<string?>("1"), string.Empty, changes[0]);
+                EventPatternAssert.AreEqual(item2, source, item2.Level1, Maybe.Some<string?>("2"), string.Empty, changes[1]);
             }
 
             Assert.AreEqual(2, changes.Count);
@@ -54,7 +54,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public static void DoesNotSignalInitialSimple()
         {
-            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string?>>>();
             var item1 = new Fake { Name = "1" };
             var item2 = new Fake { Name = "2" };
             var source = new ObservableCollection<Fake> { item1, item2 };
@@ -70,7 +70,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public static void DoesNotSignalInitialNested()
         {
-            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string?>>>();
             var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
             var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
             var source = new ObservableCollection<Fake> { item1, item2 };
@@ -86,7 +86,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public static void AddSimple()
         {
-            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string>>>();
+            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string?>>>();
             var item1 = new Fake { Name = "1" };
             var item2 = new Fake { Name = "2" };
             var source = new ObservableCollection<Fake> { item1, item2 };
@@ -94,13 +94,13 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                          .Subscribe(changes.Add))
             {
                 Assert.AreEqual(2, changes.Count);
-                EventPatternAssert.AreEqual(item1, source, item1, Maybe.Some("1"), string.Empty, changes[0]);
-                EventPatternAssert.AreEqual(item2, source, item2, Maybe.Some("2"), string.Empty, changes[1]);
+                EventPatternAssert.AreEqual(item1, source, item1, Maybe.Some<string?>("1"), string.Empty, changes[0]);
+                EventPatternAssert.AreEqual(item2, source, item2, Maybe.Some<string?>("2"), string.Empty, changes[1]);
 
                 var item3 = new Fake { Name = "3" };
                 source.Add(item3);
                 Assert.AreEqual(3, changes.Count);
-                EventPatternAssert.AreEqual(item3, source, item3, Maybe.Some("3"), string.Empty, changes.Last());
+                EventPatternAssert.AreEqual(item3, source, item3, Maybe.Some<string?>("3"), string.Empty, changes.Last());
             }
 
             Assert.AreEqual(3, changes.Count);
@@ -109,7 +109,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public static void AddNullSimple()
         {
-            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string?>>>();
+            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake?, string?>>>();
             var item1 = new Fake { Name = "1" };
             var item2 = new Fake { Name = "2" };
             var source = new ObservableCollection<Fake?> { item1, item2 };
@@ -256,10 +256,10 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public static void ReplaceWithNullSimple()
         {
-            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string?>>>();
+            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake?, string?>>>();
             var item1 = new Fake { Name = "1" };
             var item2 = new Fake { Name = "2" };
-            var source = new ObservableCollection<Fake> { item1, item2 };
+            var source = new ObservableCollection<Fake?> { item1, item2 };
             using (source.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)
                          .Subscribe(changes.Add))
             {
@@ -309,10 +309,10 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public static void ReplaceWithNullNested()
         {
-            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string?>>>();
+            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake?, string?>>>();
             var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
             var item2 = new Fake { Level1 = new Level1 { Name = "2" } };
-            var source = new ObservableCollection<Fake> { item1, item2 };
+            var source = new ObservableCollection<Fake?> { item1, item2 };
             using (source.ObserveItemPropertyChanged(x => x.Level1.Name, signalInitial: false)
                          .Subscribe(changes.Add))
             {
@@ -711,7 +711,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public static void NullItemNested()
         {
-            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string?>>>();
+            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake?, string?>>>();
             var item = new Fake { Next = new Level { Name = "1" } };
             var source = new ObservableCollection<Fake?> { item, null };
             using (source.ObserveItemPropertyChanged(x => x.Next.Name, signalInitial: false)

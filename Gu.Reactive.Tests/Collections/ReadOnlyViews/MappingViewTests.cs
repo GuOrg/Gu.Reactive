@@ -78,7 +78,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
         public static class Vm
         {
-            public static Vm<T> Create<T>(Model<T> model) => new Vm<T>(model, 0);
+            public static Vm<T> Create<T>(Model<T>? model) => new Vm<T>(model, 0);
 
             public static Vm<T> Create<T>(Model<T>? model, int index) => new Vm<T>(model, index);
         }

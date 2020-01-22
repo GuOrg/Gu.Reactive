@@ -54,7 +54,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(null)]
         public void DoesNotReactOnStringEmptyOrNullFromRootWithoutValue(string prop)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var source = new Fake();
             using (source.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: false)
                        .Subscribe(changes.Add))
@@ -69,7 +69,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(null)]
         public void ReactsOnStringEmptyOrNullFromRootWithValue(string prop)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var source = new Fake { Level1 = new Level1 { Level2 = new Level2 { Name = "Johan" } } };
             using (source.ObservePropertyChangedWithValue(x => x.Level1.Level2.Name, signalInitial: false)
                          .Subscribe(changes.Add))
@@ -77,7 +77,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 Assert.AreEqual(0, changes.Count);
                 source.OnPropertyChanged(prop);
                 //// This means all properties changed according to wpf convention
-                EventPatternAssert.AreEqual(source, prop, Maybe.Some("Johan"), changes.Single());
+                EventPatternAssert.AreEqual(source, prop, Maybe.Some<string?>("Johan"), changes.Single());
             }
         }
 
@@ -86,7 +86,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase("Name")]
         public void ReactsOnStringEmptyOrNullWithValue(string prop)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var source = new Fake { Level1 = new Level1 { Level2 = new Level2 { Name = "Johan" } } };
             using (source.ObservePropertyChangedWithValue(x => x.Level1.Level2.Name, signalInitial: false)
                          .Subscribe(changes.Add))
@@ -105,8 +105,8 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void TwoSubscriptionsOneObservable()
         {
-            var changes1 = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
-            var changes2 = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes1 = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
+            var changes2 = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var source = new Fake { Level1 = new Level1 { Name = string.Empty } };
             var observable = source.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: false);
             using (observable.Subscribe(changes1.Add))
@@ -117,20 +117,20 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                     Assert.AreEqual(0, changes2.Count);
 
                     source.Level1.Name += "a";
-                    EventPatternAssert.AreEqual(source.Level1, "Name", Maybe.Some("a"), changes1.Single());
-                    EventPatternAssert.AreEqual(source.Level1, "Name", Maybe.Some("a"), changes2.Single());
+                    EventPatternAssert.AreEqual(source.Level1, "Name", Maybe.Some<string?>("a"), changes1.Single());
+                    EventPatternAssert.AreEqual(source.Level1, "Name", Maybe.Some<string?>("a"), changes2.Single());
 
                     source.Level1.Name += "a";
                     Assert.AreEqual(2, changes1.Count);
-                    EventPatternAssert.AreEqual(source.Level1, "Name", Maybe.Some("aa"), changes1.Last());
+                    EventPatternAssert.AreEqual(source.Level1, "Name", Maybe.Some<string?>("aa"), changes1.Last());
                     Assert.AreEqual(2, changes2.Count);
-                    EventPatternAssert.AreEqual(source.Level1, "Name", Maybe.Some("aa"), changes2.Last());
+                    EventPatternAssert.AreEqual(source.Level1, "Name", Maybe.Some<string?>("aa"), changes2.Last());
 
                     source.Level1 = null;
                     Assert.AreEqual(3, changes1.Count);
-                    EventPatternAssert.AreEqual(source, "Level1", Maybe.None<string>(), changes1.Last());
+                    EventPatternAssert.AreEqual(source, "Level1", Maybe.None<string?>(), changes1.Last());
                     Assert.AreEqual(3, changes2.Count);
-                    EventPatternAssert.AreEqual(source, "Level1", Maybe.None<string>(), changes2.Last());
+                    EventPatternAssert.AreEqual(source, "Level1", Maybe.None<string?>(), changes2.Last());
                 }
             }
         }
@@ -139,12 +139,12 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase("abc")]
         public void SignalsInitialThreeLevelsWhenValueIs(string value)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var source = new Fake { Level1 = new Level1 { Name = value } };
             using (source.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: true)
                          .Subscribe(changes.Add))
             {
-                EventPatternAssert.AreEqual(source.Level1, string.Empty, Maybe.Some(value), changes.Single());
+                EventPatternAssert.AreEqual(source.Level1, string.Empty, Maybe.Some<string?>(value), changes.Single());
             }
         }
 
@@ -152,7 +152,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(false)]
         public void SignalsInitialThreeLevelsWhenMissing(bool signalInitial)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var source = new Fake();
             using (source.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial)
                          .Subscribe(changes.Add))
@@ -172,7 +172,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(false)]
         public void SignalsInitialThreeLevelsWhenNull(bool signalInitial)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var source = new Fake { Level1 = new Level1 { Name = null } };
             using (source.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial)
                          .Subscribe(changes.Add))
@@ -207,18 +207,18 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(false)]
         public void SignalInitialWhenHasValue(bool signalInitial)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var source = new Fake { Level1 = new Level1 { Name = "Johan" } };
             using (source.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial)
                          .Subscribe(changes.Add))
             {
                 if (signalInitial)
                 {
-                    EventPatternAssert.AreEqual(source.Level1, string.Empty, Maybe.Some("Johan"), changes.Single());
+                    EventPatternAssert.AreEqual(source.Level1, string.Empty, Maybe.Some<string?>("Johan"), changes.Single());
 
                     source.Level1.Name = "Erik";
                     Assert.AreEqual(2, changes.Count);
-                    EventPatternAssert.AreEqual(source.Level1, "Name", Maybe<string?>.Some("Erik"), changes.Last());
+                    EventPatternAssert.AreEqual(source.Level1, "Name", Maybe.Some<string?>("Erik"), changes.Last());
 
                     using (source.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial)
                                .Subscribe(changes.Add))
@@ -237,7 +237,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void SignalsOnSourceChanges()
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var source = new Fake();
             using (source.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial: true)
                          .Subscribe(changes.Add))
