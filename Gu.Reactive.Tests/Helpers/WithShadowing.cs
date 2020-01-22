@@ -1,8 +1,8 @@
-namespace Gu.Reactive.Tests.Helpers
+﻿namespace Gu.Reactive.Tests.Helpers
 {
     public class WithShadowing<T> : With<T>
     {
-        private T value;
+        private T value = default!;
 
         public new T Value
         {

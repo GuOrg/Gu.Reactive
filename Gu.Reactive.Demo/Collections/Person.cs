@@ -6,16 +6,16 @@
 
     public class Person : INotifyPropertyChanged
     {
-        private string firstName;
-        private string lastName;
-        private IReadOnlyList<int> tagsValues;
-        private string tags;
+        private string? firstName;
+        private string? lastName;
+        private IReadOnlyList<int>? tagsValues;
+        private string? tags;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string Tags => this.tags;
+        public string? Tags => this.tags;
 
-        public string FirstName
+        public string? FirstName
         {
             get => this.firstName;
 
@@ -31,7 +31,7 @@
             }
         }
 
-        public string LastName
+        public string? LastName
         {
             get => this.lastName;
 
@@ -47,7 +47,7 @@
             }
         }
 
-        internal IReadOnlyList<int> TagsValues
+        internal IReadOnlyList<int>? TagsValues
         {
             get => this.tagsValues;
 

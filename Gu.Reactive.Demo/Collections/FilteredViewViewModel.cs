@@ -19,7 +19,7 @@ namespace Gu.Reactive.Demo
         private readonly ObservableCollection<Person> peopleRaw;
         private readonly Random random = new Random();
         private readonly System.Reactive.Disposables.CompositeDisposable disposable;
-        private string searchText;
+        private string? searchText;
         private bool hasSearchText;
         private IEnumerable<int> selectedTags = Enumerable.Empty<int>();
         private int numberOfItems = 100;
@@ -81,7 +81,7 @@ namespace Gu.Reactive.Demo
             }
         }
 
-        public string SearchText
+        public string? SearchText
         {
             get => this.searchText;
 

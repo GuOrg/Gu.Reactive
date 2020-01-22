@@ -5,7 +5,7 @@
 
     public class With<T> : INotifyPropertyChanged
     {
-        private T value;
+        private T value = default!;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

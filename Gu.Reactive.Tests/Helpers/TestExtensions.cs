@@ -88,7 +88,7 @@
         {
             public bool HasValue => this.Value != null;
 
-            public TNotifyCollectionChangedEventArgs Value { get; set; }
+            public TNotifyCollectionChangedEventArgs Value { get; set; } = default!;
         }
     }
 }

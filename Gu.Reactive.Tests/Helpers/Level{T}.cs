@@ -6,7 +6,7 @@
     public class Level<T> : INotifyPropertyChanged
     {
         private string? name;
-        private T value;
+        private T value = default!;
         private Level<T>? next;
 
         public event PropertyChangedEventHandler? PropertyChanged;
