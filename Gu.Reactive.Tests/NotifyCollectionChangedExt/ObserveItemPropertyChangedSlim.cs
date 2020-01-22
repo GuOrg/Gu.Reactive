@@ -450,7 +450,7 @@
         {
             var changes = new List<PropertyChangedEventArgs>();
             var item1 = new Fake { Level1 = new Level1 { Name = "1" } };
-            var source = new ObservableCollection<Fake> { item1, null };
+            var source = new ObservableCollection<Fake?> { item1, null };
             using (source.ObserveItemPropertyChangedSlim(x => x.Level1.Name, signalInitial: false)
                          .Subscribe(changes.Add))
             {

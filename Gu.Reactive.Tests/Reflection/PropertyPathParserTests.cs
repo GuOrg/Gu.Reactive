@@ -1,3 +1,4 @@
+﻿#pragma warning disable CS8602, CS8603
 namespace Gu.Reactive.Tests.Reflection
 {
     using System;
@@ -25,7 +26,7 @@ namespace Gu.Reactive.Tests.Reflection
         [Test]
         public void ThrowsOnNestedMethod()
         {
-            var exception = Assert.Throws<ArgumentException>(() => PropertyPathParser.GetPath<Level, Level>(x => x.Next.Method()));
+            var exception = Assert.Throws<ArgumentException>(() => PropertyPathParser.GetPath<Level, Level?>(x => x.Next.Method()));
             Assert.AreEqual("Expected path to be properties only. Was x => x.Next.Method()", exception.Message);
         }
 

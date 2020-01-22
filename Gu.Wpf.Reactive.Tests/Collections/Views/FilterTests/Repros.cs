@@ -118,7 +118,7 @@
             var scheduler = new TestScheduler();
             var max = 5;
             using var trigger = new Subject<object>();
-            // ReSharper disable once AccessToModifiedClosure
+            //// ReSharper disable once AccessToModifiedClosure
             using var view = new FilteredView<int>(source, x => x < max, TimeSpan.Zero, scheduler, leaveOpen: true, triggers: trigger);
             using var actual = view.SubscribeAll();
             CollectionAssert.AreEqual(new[] { 1, 2, 3 }, view);

@@ -1,8 +1,9 @@
-namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reactive.Concurrency;
     using System.Reactive.Subjects;
     using Microsoft.Reactive.Testing;
     using NUnit.Framework;
@@ -12,7 +13,7 @@ namespace Gu.Reactive.Tests
         [Test]
         public void ClearTransaction()
         {
-            var chunk = new Chunk<int>(TimeSpan.Zero, null) { 1 };
+            var chunk = new Chunk<int>(TimeSpan.Zero, ImmediateScheduler.Instance) { 1 };
             CollectionAssert.AreEqual(new[] { 1 }, chunk);
             using (chunk.ClearTransaction())
             {

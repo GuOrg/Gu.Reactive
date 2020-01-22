@@ -14,9 +14,9 @@
     public abstract class CrudSourceTests
     {
 #pragma warning disable SA1306 // Field names must begin with lower-case letter
-        protected VirtualTimeSchedulerBase<long, long> Scheduler;
-        protected IReadOnlyObservableCollection<int> View;
-        protected ObservableCollection<int> Source;
+        protected VirtualTimeSchedulerBase<long, long>? Scheduler;
+        protected IReadOnlyObservableCollection<int>? View;
+        protected ObservableCollection<int>? Source;
 #pragma warning restore SA1306 // Field names must begin with lower-case letter
 
         [SetUp]

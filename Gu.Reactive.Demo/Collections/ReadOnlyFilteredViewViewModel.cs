@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.Collections.ObjectModel;
@@ -14,7 +14,7 @@ namespace Gu.Reactive.Demo
 
     public sealed class ReadOnlyFilteredViewViewModel : IDisposable, INotifyPropertyChanged
     {
-        private readonly Subject<object> trigger = new Subject<object>();
+        private readonly Subject<object?> trigger = new Subject<object?>();
         private readonly System.Reactive.Disposables.CompositeDisposable disposable;
         private bool disposed;
 

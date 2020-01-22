@@ -18,7 +18,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(false)]
         public void SignalInitialWhenValueIsNull(bool signalInitial)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var fake = new Fake();
             using (fake.ObservePropertyChangedWithValue(x => x.Name, signalInitial)
                        .Subscribe(changes.Add))
@@ -49,7 +49,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(false)]
         public void TwoLevelsSignalInitialWhenHasValue(bool signalInitial)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var fake = new Fake { Level1 = new Level1 { Name = "Johan" } };
             using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial)
                        .Subscribe(changes.Add))
@@ -80,7 +80,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(false)]
         public void TwoLevelsSignalInitialWhenMissing(bool signalInitial)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var fake = new Fake();
             using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial)
                        .Subscribe(changes.Add))
@@ -115,7 +115,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(false)]
         public void TwoLevelsSignalInitialWhenValueIsNull(bool signalInitial)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var fake = new Fake { Level1 = new Level1() };
             using (fake.ObservePropertyChangedWithValue(x => x.Level1.Name, signalInitial)
                        .Subscribe(changes.Add))
@@ -146,7 +146,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [TestCase(false)]
         public void SignalInitialWhenHasValue(bool signalInitial)
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var fake = new Fake { Name = "Johan" };
             using (fake.ObservePropertyChangedWithValue(x => x.Name, signalInitial)
                        .Subscribe(changes.Add))
@@ -196,7 +196,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void DoesNotSignalOnSubscribe()
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var fake = new Fake { Name = "Johan" };
             using (fake.ObservePropertyChangedWithValue(x => x.Name, signalInitial: false)
                        .Subscribe(changes.Add))
@@ -208,7 +208,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public void SignalsOnSourceChanges()
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var fake = new Fake();
             using (fake.ObservePropertyChangedWithValue(x => x.Name, signalInitial: false)
                        .Subscribe(changes.Add))
@@ -216,14 +216,14 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 CollectionAssert.IsEmpty(changes);
 
                 fake.Name = "Johan";
-                EventPatternAssert.AreEqual(fake, "Name", Maybe.Some("Johan"), changes.Single());
+                EventPatternAssert.AreEqual(fake, "Name", Maybe.Some<string?>("Johan"), changes.Single());
             }
         }
 
         [Test]
         public void SignalsOnDerivedSourceChanges()
         {
-            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string>>>();
+            var changes = new List<EventPattern<PropertyChangedAndValueEventArgs<string?>>>();
             var fake = new DerivedFake();
             using (fake.ObservePropertyChangedWithValue(x => x.Name, signalInitial: false)
                        .Subscribe(changes.Add))
@@ -231,7 +231,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                 CollectionAssert.IsEmpty(changes);
 
                 fake.Name = "Johan";
-                EventPatternAssert.AreEqual(fake, "Name", Maybe.Some("Johan"), changes.Single());
+                EventPatternAssert.AreEqual(fake, "Name", Maybe.Some<string?>("Johan"), changes.Single());
             }
         }
 
