@@ -1,9 +1,11 @@
-// ReSharper disable All
+﻿// ReSharper disable All
 #pragma warning disable WPF1011 // Implement INotifyPropertyChanged.
 namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
     using Gu.Reactive.Internals;
     using NUnit.Framework;
 
@@ -78,7 +80,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         {
             public static Vm<T> Create<T>(Model<T> model) => new Vm<T>(model, 0);
 
-            public static Vm<T> Create<T>(Model<T> model, int index) => new Vm<T>(model, index);
+            public static Vm<T> Create<T>(Model<T>? model, int index) => new Vm<T>(model, index);
         }
 
         public class Model<T>
@@ -98,22 +100,22 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
         public class Vm<T> : System.ComponentModel.INotifyPropertyChanged
         {
-            private Model<T> model;
+            private Model<T>? model;
             private int index;
 
             public Vm()
             {
             }
 
-            public Vm(Model<T> model, int index)
+            public Vm(Model<T>? model, int index)
             {
                 this.model = model;
                 this.index = index;
             }
 
-            public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+            public event PropertyChangedEventHandler? PropertyChanged;
 
-            public Model<T> Model
+            public Model<T>? Model
             {
                 get => this.model;
                 set
@@ -154,7 +156,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 return $"{nameof(this.Index)}: {this.Index}, {nameof(this.Model)}: {this.Model}";
             }
 
-            protected virtual void OnPropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string? propertyName = null)
+            protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
             {
                 this.PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }

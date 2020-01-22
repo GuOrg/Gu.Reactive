@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         {
             public interface IDisposableVm<T> : IDisposable
             {
-                Model<T> Model { get; }
+                Model<T>? Model { get; }
             }
 
             [Test]
@@ -77,7 +77,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public static void UpdatesWithNulls()
             {
-                var source = new ObservableCollection<Model<int>>();
+                var source = new ObservableCollection<Model<int>?>();
                 using var view = source.AsMappingView(CreateStrictMock, x => x.Object.Dispose());
                 var model = Model.Create(1);
                 source.Add(model);
@@ -500,7 +500,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 _ = Assert.Throws<ObjectDisposedException>(() => Assert.AreEqual(0, view.Count));
             }
 
-            private static Mock<IDisposableVm<T>> CreateStrictMock<T>(Model<T> model)
+            private static Mock<IDisposableVm<T>> CreateStrictMock<T>(Model<T>? model)
             {
                 var mock = new Mock<IDisposableVm<T>>(MockBehavior.Strict);
                 mock.SetupGet(x => x.Model)

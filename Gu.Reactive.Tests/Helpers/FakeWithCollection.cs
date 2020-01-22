@@ -6,11 +6,11 @@
 
     public class FakeWithCollection : INotifyPropertyChanged
     {
-        private ObservableCollection<Fake> collection;
+        private ObservableCollection<Fake>? collection;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ObservableCollection<Fake> Collection
+        public ObservableCollection<Fake>? Collection
         {
             get => this.collection;
 

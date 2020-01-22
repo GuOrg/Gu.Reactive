@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Conditions
+﻿namespace Gu.Reactive.Tests.Conditions
 {
     using System;
     using System.Collections.Generic;
@@ -78,50 +78,40 @@ namespace Gu.Reactive.Tests.Conditions
         [SuppressMessage("ReSharper", "ObjectCreationAsStatement")]
         public static void ThrowsIfPrerequisiteIsNull()
         {
-#pragma warning disable IDISP001  // Dispose created.
             var mock = Mock.Of<ICondition>();
-            var exception = Assert.Throws<ArgumentNullException>(() => new AndCondition(mock, null));
-            Assert.AreEqual("Value cannot be null.\r\nParameter name: condition2", exception.Message);
+            _ = Assert.Throws<ArgumentNullException>(() => new AndCondition(mock, null!));
 
-            exception = Assert.Throws<ArgumentNullException>(() => new AndCondition(null, mock));
-            Assert.AreEqual("Value cannot be null.\r\nParameter name: condition1", exception.Message);
-#pragma warning restore IDISP001  // Dispose created.
+            _ = Assert.Throws<ArgumentNullException>(() => new AndCondition(null!, mock));
         }
 
         [Test]
         public static void Prerequisites2()
         {
-#pragma warning disable IDISP001  // Dispose created.
             var mock1 = Mock.Of<ICondition>();
             var mock2 = Mock.Of<ICondition>();
             using var condition = new AndCondition(mock1, mock2);
             CollectionAssert.AreEqual(new[] { mock1, mock2 }, condition.Prerequisites);
-#pragma warning restore IDISP001  // Dispose created.
         }
 
         [Test]
         public static void Prerequisites3()
         {
-#pragma warning disable IDISP001  // Dispose created.
             var mock1 = Mock.Of<ICondition>();
             var mock2 = Mock.Of<ICondition>();
             var mock3 = Mock.Of<ICondition>();
             using var condition = new AndCondition(mock1, mock2, mock3);
             CollectionAssert.AreEqual(new[] { mock1, mock2, mock3 }, condition.Prerequisites);
-#pragma warning restore IDISP001  // Dispose created.
         }
 
         [Test]
         public static void Prerequisites4()
         {
-#pragma warning disable IDISP001  // Dispose created.
             var mock1 = Mock.Of<ICondition>();
             var mock2 = Mock.Of<ICondition>();
             var mock3 = Mock.Of<ICondition>();
             var mock4 = Mock.Of<ICondition>();
             using var condition = new AndCondition(mock1, mock2, mock3, mock4);
             CollectionAssert.AreEqual(new[] { mock1, mock2, mock3, mock4 }, condition.Prerequisites);
-#pragma warning restore IDISP001  // Dispose created.
         }
 
         [Test]

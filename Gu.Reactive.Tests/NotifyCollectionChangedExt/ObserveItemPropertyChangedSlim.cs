@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
+﻿namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 {
     using System;
     using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var item = new Fake { Name = "1" };
-            var source = new ObservableCollection<Fake> { item, null };
+            var source = new ObservableCollection<Fake?> { item, null };
             using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
                          .Subscribe(changes.Add))
             {
@@ -58,7 +58,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         {
             var changes = new List<PropertyChangedEventArgs>();
             var item = new Fake { Next = new Level { Name = "1" } };
-            var source = new ObservableCollection<Fake> { item, null };
+            var source = new ObservableCollection<Fake?> { item, null };
             using (source.ObserveItemPropertyChangedSlim(x => x.Next.Name, signalInitial: false)
                          .Subscribe(changes.Add))
             {
@@ -144,7 +144,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public static void AddNullSimple()
         {
-            var source = new ObservableCollection<Fake>();
+            var source = new ObservableCollection<Fake?>();
             var changes = new List<PropertyChangedEventArgs>();
             using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
                          .Subscribe(x => changes.Add(x)))
@@ -240,7 +240,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
             var changes = new List<PropertyChangedEventArgs>();
             var item1 = new Fake { Name = "1" };
             var item2 = new Fake { Name = "2" };
-            var source = new ObservableCollection<Fake> { item1, item2 };
+            var source = new ObservableCollection<Fake?> { item1, item2 };
             using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
                          .Subscribe(changes.Add))
             {
@@ -261,7 +261,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         public static void ReplaceNullWithNullSimple()
         {
             var changes = new List<PropertyChangedEventArgs>();
-            var source = new ObservableCollection<Fake> { null };
+            var source = new ObservableCollection<Fake?> { null };
             using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
                          .Subscribe(changes.Add))
             {
@@ -277,7 +277,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         public static void ReplaceNullWithItemSimple()
         {
             var changes = new List<PropertyChangedEventArgs>();
-            var source = new ObservableCollection<Fake> { null };
+            var source = new ObservableCollection<Fake?> { null };
             using (source.ObserveItemPropertyChangedSlim(x => x.Name, signalInitial: false)
                          .Subscribe(changes.Add))
             {

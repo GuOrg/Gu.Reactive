@@ -1,6 +1,7 @@
 ﻿namespace Gu.Reactive.Tests.Helpers
 {
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Reactive;
 
     using NUnit.Framework;
@@ -25,11 +26,11 @@
             else
             {
                 Assert.AreEqual(false, pattern.EventArgs.HasValue);
-                Assert.AreEqual(default(T), pattern.EventArgs.Value);
+                Assert.AreEqual(default(T)!, pattern.EventArgs.Value);
             }
         }
 
-        public static void AreEqual<TItem, TProperty>(TItem item, object sender, object source, Maybe<TProperty> value, string propertyName, EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>> actual)
+        public static void AreEqual<TItem, TProperty>([AllowNull] TItem item, object? sender, object? source, Maybe<TProperty> value, string propertyName, EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>> actual)
         {
             Assert.AreSame(item, actual.EventArgs.Item);
             Assert.AreSame(sender, actual.Sender);
@@ -48,7 +49,7 @@
             {
                 Assert.AreEqual(false, actual.EventArgs.SourceAndValue.Value.HasValue);
 #pragma warning disable 618
-                Assert.AreEqual(default(TProperty), actual.EventArgs.Value);
+                Assert.AreEqual(default(TProperty)!, actual.EventArgs.Value);
 #pragma warning restore 618
             }
         }

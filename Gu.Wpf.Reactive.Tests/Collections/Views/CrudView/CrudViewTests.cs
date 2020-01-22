@@ -87,7 +87,7 @@
         {
             using var expected = this.Ints.SubscribeAll();
             using var actual = this.View.SubscribeAll();
-            
+
             // DataGrid adds items like this
             var index = ((IList)this.View).Add(4);
             this.Scheduler?.Start();

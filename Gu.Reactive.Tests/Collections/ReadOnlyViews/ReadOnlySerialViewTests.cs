@@ -1,4 +1,4 @@
-// ReSharper disable RedundantArgumentDefaultValue
+﻿// ReSharper disable RedundantArgumentDefaultValue
 namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
@@ -332,7 +332,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
         [Test]
         public static void ObserveValueAsReadOnlyView()
         {
-            var fake = new Fake<IEnumerable<int>>();
+            var fake = new Fake<IEnumerable<int>?>();
             using var view = fake.ObserveValue(x => x.Value, signalInitial: true)
                                  .AsReadOnlyView();
             CollectionAssert.IsEmpty(view);

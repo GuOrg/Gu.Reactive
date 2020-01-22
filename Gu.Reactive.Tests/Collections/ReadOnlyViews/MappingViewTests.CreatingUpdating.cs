@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.ObjectModel;
@@ -86,7 +86,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public static void UpdatesReferenceTypeNulls()
             {
-                var source = new ObservableCollection<Model<int>>();
+                var source = new ObservableCollection<Model<int>?>();
                 using var view = source.AsMappingView(
                     Vm.Create,
                     (x, i) => x.WithIndex(i));

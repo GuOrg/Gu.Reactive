@@ -58,7 +58,7 @@
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
-        public new void SetSource(IEnumerable<T> source)
+        public new void SetSource(IEnumerable<T>? source)
         {
             // new to change it to public.
             base.SetSource(source);

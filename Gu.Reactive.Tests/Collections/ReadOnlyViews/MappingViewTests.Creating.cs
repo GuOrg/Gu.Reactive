@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.Generic;
@@ -35,7 +35,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
             [Test]
             public static void InitializesReferenceTypeWithNulls()
             {
-                var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2), null, null, Model.Create(3) };
+                var source = new ObservableCollection<Model<int>?> { Model.Create(1), Model.Create(2), null, null, Model.Create(3) };
                 using var view = source.AsMappingView(Vm.Create);
                 Assert.AreNotSame(view[0], view[1]);
                 Assert.AreSame(view[2], view[3]);
@@ -129,7 +129,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 var oldView = vmView[0];
                 source.Remove(1);
 
-                var expected = new EventArgs[]
+                var expected = new EventArgs?[]
                 {
                     CachedEventArgs.CountPropertyChanged,
                     CachedEventArgs.IndexerPropertyChanged,

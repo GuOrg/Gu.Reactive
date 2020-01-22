@@ -56,7 +56,7 @@
         /// <returns>
         /// Returns the simple name of the property.
         /// </returns>
-        public static string Property<TSource>(Expression<Func<TSource, object>> property)
+        public static string Property<TSource>(Expression<Func<TSource, object?>> property)
         {
             if (property is null)
             {

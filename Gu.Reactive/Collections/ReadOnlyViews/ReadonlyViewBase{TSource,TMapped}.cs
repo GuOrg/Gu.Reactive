@@ -188,7 +188,7 @@
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
-        protected virtual void SetSource(IEnumerable<TSource> newSource)
+        protected virtual void SetSource(IEnumerable<TSource>? newSource)
         {
             this.SetSourceCore(newSource);
         }
@@ -196,7 +196,7 @@
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
-        protected void SetSourceCore(IEnumerable<TSource> newSource)
+        protected void SetSourceCore(IEnumerable<TSource>? newSource)
         {
             this.ThrowIfDisposed();
             this.Source = newSource ?? Array.Empty<TSource>();

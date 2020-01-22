@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.ObjectModel;
@@ -24,7 +24,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 using var vmView = modelView.AsMappingView(Vm.Create);
                 using var vmViewChanges = vmView.SubscribeAll();
                 source.Add(1);
-                var expected = new EventArgs[]
+                var expected = new EventArgs?[]
                 {
                     CachedEventArgs.CountPropertyChanged,
                     CachedEventArgs.IndexerPropertyChanged,
@@ -53,7 +53,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
                 var oldView = vmView[0];
                 source.Remove(1);
 
-                var expected = new EventArgs[]
+                var expected = new EventArgs?[]
                 {
                     CachedEventArgs.CountPropertyChanged,
                     CachedEventArgs.IndexerPropertyChanged,

@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
+﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
 {
     using System;
     using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
         public void FilterEnumerable()
         {
             this.filter = x => true;
-            using var subject = new Subject<object>();
+            using var subject = new Subject<object?>();
             var source = Enumerable.Range(1, 3);
             using var view = source.AsReadOnlyFilteredView(this.Filter, subject);
             using var actual = view.SubscribeAll();
@@ -40,7 +40,7 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews.Filter
         public void FilterThrowingEnumerable(bool[] throws)
         {
             this.filter = x => true;
-            using var subject = new Subject<object>();
+            using var subject = new Subject<object?>();
             var source = new ThrowingEnumerable<int>(new[] { 1, 2, 3, 4 }, new Queue<bool>(throws));
             var scheduler = new TestScheduler();
             using var view = source.AsReadOnlyFilteredView(this.Filter, scheduler, subject);

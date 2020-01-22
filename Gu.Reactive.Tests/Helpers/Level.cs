@@ -163,7 +163,7 @@
             }
         }
 
-        public Level Method()
+        public Level? Method()
         {
             return this.Next;
         }

@@ -12,14 +12,14 @@
 
         bool IsTrue { get; set; }
 
-        string Name { get; set; }
+        string? Name { get; set; }
 
-        Level Next { get; set; }
+        Level? Next { get; set; }
 
         StructLevel StructLevel { get; set; }
 
         int Value { get; set; }
 
-        Level Method();
+        Level? Method();
     }
 }

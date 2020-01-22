@@ -13,9 +13,9 @@ namespace Gu.Reactive.Tests
     {
         public class Property
         {
-            public string StringProp { get; }
+            public string? StringProp { get; }
 
-            public Fake Fake { get; }
+            public Fake? Fake { get; }
 
             [Test]
             public void PropertyHappyPath()
@@ -26,7 +26,7 @@ namespace Gu.Reactive.Tests
                 name = NameOf.Property<Property>(x => this.StringProp);
                 Assert.AreEqual(nameof(this.StringProp), name);
 
-                name = NameOf.Property<Property, string>(x => this.StringProp);
+                name = NameOf.Property<Property, string?>(x => this.StringProp);
                 Assert.AreEqual(nameof(this.StringProp), name);
             }
 
@@ -39,10 +39,10 @@ namespace Gu.Reactive.Tests
                 name = NameOf.Property<Property>(x => x.StringProp);
                 Assert.AreEqual(nameof(this.StringProp), name);
 
-                name = NameOf.Property<Property, string>(x => x.StringProp);
+                name = NameOf.Property<Property, string?>(x => x.StringProp);
                 Assert.AreEqual(nameof(this.StringProp), name);
 
-                name = NameOf.Property<Property, string>(x => x.StringProp);
+                name = NameOf.Property<Property, string?>(x => x.StringProp);
                 Assert.AreEqual(nameof(this.StringProp), name);
             }
 
@@ -69,7 +69,7 @@ namespace Gu.Reactive.Tests
                 name = NameOf.Property<Property>(x => this.Fake.Next.Name);
                 Assert.AreEqual("Name", name);
 
-                name = NameOf.Property<Property, string>(x => this.Fake.Next.Name);
+                name = NameOf.Property<Property, string?>(x => this.Fake.Next.Name);
                 Assert.AreEqual("Name", name);
             }
 
@@ -85,7 +85,7 @@ namespace Gu.Reactive.Tests
             {
                 Assert.Throws<ArgumentException>(() => NameOf.Property(() => this.Fake.Method()));
                 Assert.Throws<ArgumentException>(() => NameOf.Property<Property>(x => x.Fake.Method()));
-                Assert.Throws<ArgumentException>(() => NameOf.Property<Property, Level>(x => x.Fake.Method()));
+                Assert.Throws<ArgumentException>(() => NameOf.Property<Property, Level?>(x => x.Fake.Method()));
             }
 
             [Test]
@@ -93,7 +93,7 @@ namespace Gu.Reactive.Tests
             {
                 Assert.Throws<ArgumentException>(() => NameOf.Property(() => this.Fake.Next.Method()));
                 Assert.Throws<ArgumentException>(() => NameOf.Property<Property>(x => x.Fake.Next.Method()));
-                Assert.Throws<ArgumentException>(() => NameOf.Property<Property, Level>(x => x.Fake.Next.Method()));
+                Assert.Throws<ArgumentException>(() => NameOf.Property<Property, Level?>(x => x.Fake.Next.Method()));
             }
         }
     }
