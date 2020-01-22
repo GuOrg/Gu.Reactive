@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA03PathMustNotifyTests
+﻿namespace Gu.Reactive.Analyzers.Tests.GUREA03PathMustNotifyTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
@@ -24,7 +24,7 @@ namespace N
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Value { get; set; }
+        public int P { get; set; }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -43,7 +43,7 @@ namespace N
         public C2()
         {
             var c1 = new C1();
-            c1.ObservePropertyChanged(x => x.↓Value)
+            c1.ObservePropertyChanged(x => x.↓P)
                .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
@@ -62,11 +62,7 @@ namespace N
 
     public class C1 : INotifyPropertyChanged
     {
-        private int value;
-
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public int Value { get; set; }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -85,7 +81,7 @@ namespace N
         public C2()
         {
             var c1 = new C1();
-            c1.ObservePropertyChanged(↓x => x.ToString())
+            c1.ObservePropertyChanged(x => ↓x.ToString())
                .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
@@ -116,25 +112,21 @@ namespace N
 
     public class C2 : INotifyPropertyChanged
     {
-        private int value;
+        private int p;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Value
+        public int P
         {
-            get
-            {
-                return this.value;
-            }
-
+            get => this.p;
             set
             {
-                if (value == this.value)
+                if (value == this.p)
                 {
                     return;
                 }
 
-                this.value = value;
+                this.p = value;
                 this.OnPropertyChanged();
             }
         }
@@ -156,7 +148,7 @@ namespace N
         public C3()
         {
             var c1 = new C1();
-            c1.ObservePropertyChanged(x => x.↓P.Value)
+            c1.ObservePropertyChanged(x => x.↓P.P)
                .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
@@ -210,7 +202,7 @@ namespace N
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public int Value { get; set; }
+        public int P { get; set; }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -229,12 +221,50 @@ namespace N
         public C3()
         {
             var c1 = new C1();
-            c1.ObservePropertyChanged(x => x.P.↓Value)
+            c1.ObservePropertyChanged(x => x.P.↓P)
                .Subscribe(_ => Console.WriteLine(string.Empty));
         }
     }
 }";
             RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, c1, c2, code);
+        }
+
+        [Test]
+        public static void Nameof()
+        {
+            var c1 = @"
+namespace N
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    public class C1 : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}";
+            var code = @"
+namespace N
+{
+    using System;
+    using Gu.Reactive;
+
+    public class C
+    {
+        public C()
+        {
+            var c1 = new C1();
+            c1.ObservePropertyChanged(nameof(c1.↓ToString))
+              .Subscribe(x => Console.WriteLine(x));
+        }
+    }
+}";
+            RoslynAssert.Diagnostics(Analyzer, ExpectedDiagnostic, c1, code);
         }
     }
 }

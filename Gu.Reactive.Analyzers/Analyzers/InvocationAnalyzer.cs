@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers
+﻿namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
     using Gu.Roslyn.AnalyzerExtensions;
@@ -151,35 +151,39 @@ namespace Gu.Reactive.Analyzers
             if (invocation is { ArgumentList: { Arguments: { } arguments } } &&
                 arguments.TryFirst(out var argument))
             {
-                if (argument.Expression is SimpleLambdaExpressionSyntax { Body: MemberAccessExpressionSyntax memberAccess })
+                return argument.Expression switch
                 {
-                    return FindSilentNode(memberAccess);
-                }
-
-                return argument.Expression;
+                    SimpleLambdaExpressionSyntax { Body: MemberAccessExpressionSyntax memberAccess } => FindSilentNode(memberAccess),
+                    SimpleLambdaExpressionSyntax { Body: InvocationExpressionSyntax call } => call,
+                    InvocationExpressionSyntax { Expression: IdentifierNameSyntax { Identifier: { ValueText: "nameof" } }, ArgumentList: { Arguments: { Count: 1 } args } }
+                    => args[0].Expression switch
+                    {
+                        MemberAccessExpressionSyntax memberAccess => FindSilentNode(memberAccess),
+                        _ => null,
+                    },
+                    _ => null
+                };
             }
 
             return null;
 
             SyntaxNode? FindSilentNode(MemberAccessExpressionSyntax memberAccess)
             {
-                switch (context.SemanticModel.GetSymbolSafe(memberAccess, context.CancellationToken))
+                return context.SemanticModel.GetSymbolSafe(memberAccess, context.CancellationToken) switch
                 {
-                    case IPropertySymbol { ContainingType: { } containingType }
-                        when containingType.IsValueType ||
-                             !Notifies(containingType):
-                        return memberAccess.Name;
-                    case IPropertySymbol { SetMethod: { }, IsAbstract: false } property
-                        when property.IsAutoProperty():
-                        return memberAccess.Name;
-                    case IPropertySymbol _
-                        when memberAccess.Expression is MemberAccessExpressionSyntax parent:
-                        return FindSilentNode(parent);
-                    case IPropertySymbol _:
-                        return null;
-                    default:
-                        return memberAccess.Name;
-                }
+                    IPropertySymbol { ContainingType: { } containingType }
+                    when containingType.IsValueType ||
+                         !Notifies(containingType)
+                    => memberAccess.Name,
+                    IPropertySymbol { SetMethod: { }, IsAbstract: false } property
+                    when property.IsAutoProperty()
+                    => memberAccess.Name,
+                    IPropertySymbol _
+                    when memberAccess.Expression is MemberAccessExpressionSyntax next
+                    => FindSilentNode(next),
+                    IPropertySymbol _ => null,
+                    _ => memberAccess.Name
+                };
 
                 bool Notifies(INamedTypeSymbol containingType)
                 {

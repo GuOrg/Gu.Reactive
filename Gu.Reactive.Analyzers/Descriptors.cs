@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers
+﻿namespace Gu.Reactive.Analyzers
 {
     using Microsoft.CodeAnalysis;
 
@@ -31,7 +31,7 @@ namespace Gu.Reactive.Analyzers
             title: "Path must notify.",
             messageFormat: "Path must notify.",
             category: AnalyzerCategory.Correctness,
-            defaultSeverity: DiagnosticSeverity.Error,
+            defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true);
 
         internal static readonly DiagnosticDescriptor GUREA04PreferSlimOverload = new DiagnosticDescriptor(
