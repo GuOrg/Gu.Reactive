@@ -1,4 +1,4 @@
-// ReSharper disable HeuristicUnreachableCode
+﻿// ReSharper disable HeuristicUnreachableCode
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
@@ -129,10 +129,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         public static void ThrowsOnMethodInPath()
         {
             var source = new Fake();
-            var exception = Assert.Throws<ArgumentException>(
-                () => source.ObserveFullPropertyPathSlim(
-                    x => x.Method()
-                          .Name));
+            var exception = Assert.Throws<ArgumentException>(() => source.ObserveFullPropertyPathSlim(x => x.Method().Name));
             Assert.AreEqual("Expected path to be properties only. Was x.Method().Name", exception.Message);
         }
 

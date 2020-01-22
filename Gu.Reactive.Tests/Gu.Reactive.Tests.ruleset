@@ -14,6 +14,14 @@
     <Rule Id="GU0010" Action="Warning" />
     <Rule Id="GU0020" Action="Warning" />
   </Rules>
+  <Rules AnalyzerId="Gu.Reactive.Analyzers" RuleNamespace="Gu.Reactive.Analyzers">
+    <Rule Id="GUREA01" Action="None" />
+    <Rule Id="GUREA02" Action="None" />
+    <Rule Id="GUREA03" Action="None" />
+    <Rule Id="GUREA04" Action="None" />
+    <Rule Id="GUREA05" Action="None" />
+    <Rule Id="GUREA11" Action="None" />
+  </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1001" Action="Warning" />
     <Rule Id="CA1009" Action="Warning" />
