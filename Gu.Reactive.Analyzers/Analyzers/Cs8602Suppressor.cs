@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Analyzers.Analyzers
+﻿namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
     using Gu.Roslyn.AnalyzerExtensions;
@@ -45,6 +45,8 @@
                         "ItemPropertyChanged" => true,
                         "ItemPropertyChangedSlim" => true,
                         "Property" => true,
+                        "TrackMin" => true,
+                        "TrackMax" => true,
                         "TrackMinMax" => true,
                         _ => false,
                     };

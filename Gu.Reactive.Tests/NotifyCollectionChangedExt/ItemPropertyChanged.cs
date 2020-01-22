@@ -149,7 +149,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 EventPatternAssert.AreEqual(fake.Collection[0], fake.Collection, fake.Collection[0].Next, Maybe.Some<string?>("3"), string.Empty, changes[4]);
                 EventPatternAssert.AreEqual(fake.Collection[1], fake.Collection, fake.Collection[1].Next, Maybe.Some<string?>("4"), string.Empty, changes[5]);
 
-                fake.Collection[0].Next.Name = "5";
+                fake.Collection[0].Next!.Name = "5";
                 Assert.AreEqual(7, changes.Count);
                 EventPatternAssert.AreEqual(fake.Collection[0], fake.Collection[0].Next, fake.Collection[0].Next, Maybe.Some<string?>("5"), "Name", changes.Last());
 
@@ -224,11 +224,11 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                     EventPatternAssert.AreEqual(collection[1], collection, collection[1].Next, Maybe.Some<string?>("2"), string.Empty, changes1.Last());
                     EventPatternAssert.AreEqual(collection[1], collection, collection[1].Next, Maybe.Some<string?>("2"), string.Empty, changes2.Last());
 
-                    fake.Collection[1].Next.Name = "3";
+                    fake.Collection[1].Next!.Name = "3";
                     Assert.AreEqual(3, changes1.Count);
                     Assert.AreEqual(3, changes2.Count);
-                    EventPatternAssert.AreEqual(collection[1], collection[1].Next, collection[1].Next, Maybe.Some("3"), "Name", changes1.Last());
-                    EventPatternAssert.AreEqual(collection[1], collection[1].Next, collection[1].Next, Maybe.Some("3"), "Name", changes2.Last());
+                    EventPatternAssert.AreEqual(collection[1], collection[1].Next, collection[1].Next, Maybe.Some<string?>("3"), "Name", changes1.Last());
+                    EventPatternAssert.AreEqual(collection[1], collection[1].Next, collection[1].Next, Maybe.Some<string?>("3"), "Name", changes2.Last());
                 }
             }
         }

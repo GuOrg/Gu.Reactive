@@ -683,7 +683,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         [Test]
         public static void NullItemSimple()
         {
-            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string?>>>();
+            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake?, string?>>>();
             var item = new Fake { Name = "1" };
             var source = new ObservableCollection<Fake?> { item, null };
             using (source.ObserveItemPropertyChanged(x => x.Name, signalInitial: false)

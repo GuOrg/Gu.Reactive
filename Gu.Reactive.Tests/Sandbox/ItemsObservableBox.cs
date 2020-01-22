@@ -1,4 +1,5 @@
 ﻿// ReSharper disable UnusedVariable
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
 namespace Gu.Reactive.Tests.Sandbox
 {
     using System;
