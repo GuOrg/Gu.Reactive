@@ -2,15 +2,17 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Similar to Nullable{T} but for any type.
     /// </summary>
     public struct Maybe<T> : IMaybe<T>, IEquatable<Maybe<T>>
     {
+        [MaybeNull]
         private readonly T value;
 
-        private Maybe(bool hasValue, T value)
+        private Maybe(bool hasValue, [AllowNull]T value)
         {
             this.HasValue = hasValue;
             this.value = value;
@@ -27,6 +29,7 @@
         public bool HasValue { get; }
 
         /// <inheritdoc />
+        [MaybeNull]
         public T Value
         {
             get

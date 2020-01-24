@@ -1,7 +1,8 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// Extension methods for maybe types.
@@ -11,7 +12,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Create an instance with a value.
         /// </summary>
-        public static Maybe<T> Some<T>(T value) => Maybe<T>.Some(value);
+        public static Maybe<T> Some<T>([AllowNull]T value) => Maybe<T>.Some(value);
 
         /// <summary>
         /// The default instance when value is missing.
@@ -21,6 +22,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Get the value if HasValue is true and default(T) if not.
         /// </summary>
+        [return: MaybeNull]
         public static T GetValueOrDefault<T>(this IMaybe<T> maybe)
         {
             if (maybe is null)
