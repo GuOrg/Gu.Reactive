@@ -144,7 +144,7 @@ namespace Gu.Reactive.Demo
             this.disposable.Dispose();
         }
 
-        private static bool IsMatch(string value, string pattern)
+        private static bool IsMatch(string? value, string pattern)
         {
             if (value is null)
             {

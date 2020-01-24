@@ -59,7 +59,7 @@
                 }
 
                 this.tagsValues = value;
-                this.tags = string.Join(", ", this.tagsValues);
+                this.tags = value is null ? null : string.Join(", ", value);
                 this.OnPropertyChanged();
                 this.OnPropertyChanged(nameof(this.Tags));
             }

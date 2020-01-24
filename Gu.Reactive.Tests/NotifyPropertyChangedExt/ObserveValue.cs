@@ -294,19 +294,19 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         public static void VirtualProperty()
         {
             var source = new Fake<A>();
-            var actuals = new List<Maybe<string?>>();
+            var actuals = new List<Maybe<string>>();
             using (source.ObserveValue(x => x.Value.Value, signalInitial: false)
                          .Subscribe(actuals.Add))
             {
-                var expecteds = new List<Maybe<string?>>();
+                var expecteds = new List<Maybe<string>>();
                 CollectionAssert.AreEqual(expecteds, actuals);
 
                 source.Value = new A();
-                expecteds.Add(Maybe<string?>.Some("A"));
+                expecteds.Add(Maybe<string>.Some("A"));
                 CollectionAssert.AreEqual(expecteds, actuals);
 
                 source.Value = new B();
-                expecteds.Add(Maybe<string?>.Some("B"));
+                expecteds.Add(Maybe<string>.Some("B"));
                 CollectionAssert.AreEqual(expecteds, actuals);
             }
         }

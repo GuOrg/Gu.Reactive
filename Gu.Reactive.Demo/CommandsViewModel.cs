@@ -11,7 +11,7 @@
     {
         private readonly Condition canExecuteCondition;
 
-        private string executed;
+        private string? executed;
         private bool canExecute;
         private bool disposed;
 
@@ -68,7 +68,7 @@
 
         public ConditionRelayCommand<string> ConditionRelayCommandWithParameter { get; }
 
-        public string Executed
+        public string? Executed
         {
             get => this.executed;
 
