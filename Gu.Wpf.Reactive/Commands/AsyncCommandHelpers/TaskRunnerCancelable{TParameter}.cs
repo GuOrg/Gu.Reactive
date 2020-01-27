@@ -32,10 +32,10 @@
             this.CanCancelCondition = new Condition(
                 Observable.Merge<object>(
                     this.ObservePropertyChangedSlim(nameof(this.CanCancel)),
-                    this.CanRunCondition.ObserveIsSatisfiedChanged())
-                , () => this.CanCancel)
+                    this.CanRunCondition.ObserveIsSatisfiedChanged()),
+                () => this.CanCancel)
             {
-                Name = "CanCancel"
+                Name = "CanCancel",
             };
         }
 

@@ -32,7 +32,7 @@
                     this.CanRunCondition.ObserveIsSatisfiedChanged()),
                 () => this.CanCancel)
             {
-                Name = "CanCancel"
+                Name = "CanCancel",
             };
         }
 
