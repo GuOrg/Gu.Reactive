@@ -8,6 +8,8 @@ namespace Gu.Reactive.Benchmarks
 
         private static readonly Gu.Roslyn.Asserts.Benchmark ConstructorAnalyzerBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.ConstructorAnalyzer());
 
+        private static readonly Gu.Roslyn.Asserts.Benchmark Cs8602SuppressorBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.Cs8602Suppressor());
+
         private static readonly Gu.Roslyn.Asserts.Benchmark InvocationAnalyzerBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.InvocationAnalyzer());
 
         [BenchmarkDotNet.Attributes.Benchmark]
@@ -20,6 +22,12 @@ namespace Gu.Reactive.Benchmarks
         public void ConstructorAnalyzer()
         {
             ConstructorAnalyzerBenchmark.Run();
+        }
+
+        [BenchmarkDotNet.Attributes.Benchmark]
+        public void Cs8602Suppressor()
+        {
+            Cs8602SuppressorBenchmark.Run();
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]
