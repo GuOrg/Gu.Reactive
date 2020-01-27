@@ -27,7 +27,9 @@
         protected TaskRunnerBase()
         {
             this.CanRunCondition = new Condition(
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 this.ObservePropertyChanged(x => x.TaskCompletion.Status),
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
                 this.CanRun)
             {
                 Name = "CanRun",
