@@ -54,10 +54,10 @@
 #pragma warning disable CA1033 // Interface methods should be callable by child types
 
         /// <inheritdoc/>
-        bool ICommand.CanExecute(object? parameter) => this.InternalCanExecute((T)parameter);
+        bool ICommand.CanExecute(object? parameter) => this.InternalCanExecute((T)parameter!);
 
         /// <inheritdoc/>
-        void ICommand.Execute(object? parameter) => this.InternalExecute((T)parameter);
+        void ICommand.Execute(object? parameter) => this.InternalExecute((T)parameter!);
 #pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <summary>
@@ -87,7 +87,7 @@
         /// </summary>
         /// <param name="parameter">The command parameter is passed as argument to the Criteria invocation.</param>
         /// <returns>A value indicating if the command can execute.</returns>
-        protected abstract bool InternalCanExecute(T parameter);
+        protected abstract bool InternalCanExecute([AllowNull]T parameter);
 
         /// <summary>
         /// Note to inheritors:
@@ -103,7 +103,7 @@
         /// }.
         /// </summary>
         /// <param name="parameter">The command parameter.</param>
-        protected abstract void InternalExecute(T parameter);
+        protected abstract void InternalExecute([AllowNull]T parameter);
 
         /// <summary>
         /// Raise the <see cref="PropertyChanged"/> event for <paramref name="propertyName"/>.

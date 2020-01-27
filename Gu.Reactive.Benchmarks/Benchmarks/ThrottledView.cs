@@ -1,6 +1,5 @@
-#pragma warning disable 618
-#pragma warning disable INPC001 // Implement INotifyPropertyChanged.
-#pragma warning disable INPC002 // Implement INotifyPropertyChanged.
+﻿#pragma warning disable 618
+#pragma warning disable INPC001, INPC002
 namespace Gu.Reactive.Benchmarks
 {
     using System;

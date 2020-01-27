@@ -21,6 +21,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
+     <GenerateNullableAttributes>false</GenerateNullableAttributes> 
+  </PropertyGroup>
+
+  <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Johan Larsson</Authors>
     <Version>4.2.0</Version>

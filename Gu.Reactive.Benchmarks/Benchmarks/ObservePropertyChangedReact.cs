@@ -1,3 +1,4 @@
+﻿#pragma warning disable CS8602, CS8603
 namespace Gu.Reactive.Benchmarks
 {
     using System;

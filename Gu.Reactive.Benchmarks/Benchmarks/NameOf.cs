@@ -1,4 +1,5 @@
-#pragma warning disable CS0618 // Type or member is obsolete
+﻿#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS8602, CS8603
 namespace Gu.Reactive.Benchmarks
 {
     using BenchmarkDotNet.Attributes;
