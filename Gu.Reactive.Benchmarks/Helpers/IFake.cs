@@ -8,16 +8,16 @@
 
         bool IsTrue { get; set; }
 
-        string Name { get; set; }
+        string? Name { get; set; }
 
-        Level Next { get; set; }
+        Level? Next { get; set; }
 
         StructLevel StructLevel { get; set; }
 
-        NotInpc NotInpc { get; }
+        NotInpc? NotInpc { get; }
 
         int Value { get; set; }
 
-        Level Method();
+        Level? Method();
     }
 }

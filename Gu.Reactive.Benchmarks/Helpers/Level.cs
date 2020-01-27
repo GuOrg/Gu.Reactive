@@ -10,7 +10,7 @@ namespace Gu.Reactive.Benchmarks
         private string name;
         private int value;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public bool IsTrue
         {
@@ -86,6 +86,6 @@ namespace Gu.Reactive.Benchmarks
             return this.Next;
         }
 
-        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        public virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

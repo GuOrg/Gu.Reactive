@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Windows.Controls;
@@ -12,7 +12,7 @@ namespace Gu.Wpf.Reactive
     public class RootObjectExtension : MarkupExtension
     {
         /// <inheritdoc/>
-        public override object ProvideValue(IServiceProvider serviceProvider)
+        public override object? ProvideValue(IServiceProvider serviceProvider)
         {
             if (serviceProvider is null)
             {

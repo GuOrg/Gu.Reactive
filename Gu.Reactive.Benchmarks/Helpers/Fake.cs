@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Benchmarks
+﻿namespace Gu.Reactive.Benchmarks
 {
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
@@ -7,14 +7,14 @@ namespace Gu.Reactive.Benchmarks
     public class Fake : INotifyPropertyChanged, IFake
     {
         private bool isTrue;
-        private Level next;
-        private string name;
+        private Level? next;
+        private string? name;
         private StructLevel structLevel;
         private int value;
         //// ReSharper disable once NotAccessedField.Local
         private int writeOnly;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public int WriteOnly
         {
@@ -37,7 +37,7 @@ namespace Gu.Reactive.Benchmarks
             }
         }
 
-        public string Name
+        public string? Name
         {
             get => this.name;
 
@@ -53,7 +53,7 @@ namespace Gu.Reactive.Benchmarks
             }
         }
 
-        public Level Next
+        public Level? Next
         {
             get => this.next;
 
@@ -87,7 +87,7 @@ namespace Gu.Reactive.Benchmarks
 
 #pragma warning disable INPC002 // Mutable public property should notify.
         [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-        public NotInpc NotInpc { get; private set; }
+        public NotInpc? NotInpc { get; private set; }
 #pragma warning restore INPC002 // Mutable public property should notify.
 
         public int Value
@@ -106,12 +106,12 @@ namespace Gu.Reactive.Benchmarks
             }
         }
 
-        public Level Method()
+        public Level? Method()
         {
             return this.Next;
         }
 
-        public virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -83,7 +83,7 @@
         {
             if (disposing)
             {
-                this.cancellationTokenSource.Dispose();
+                this.cancellationTokenSource?.Dispose();
                 this.cancellationSubscription.Dispose();
                 this.CanCancelCondition.Dispose();
             }

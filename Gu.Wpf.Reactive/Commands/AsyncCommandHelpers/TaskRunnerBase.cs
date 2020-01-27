@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -17,7 +17,7 @@ namespace Gu.Wpf.Reactive
         /// A condition that always returns false.
         /// </summary>
         protected static readonly Condition NeverCancelCondition = new Condition(Observable.Empty<object>(), () => false) { Name = "CanCancel" };
-        private NotifyTaskCompletion taskCompletion;
+        private NotifyTaskCompletion? taskCompletion;
 
         private bool disposed;
 
@@ -46,7 +46,7 @@ namespace Gu.Wpf.Reactive
         /// <summary>
         /// The status of the current task.
         /// </summary>
-        public NotifyTaskCompletion TaskCompletion
+        public NotifyTaskCompletion? TaskCompletion
         {
             get => this.taskCompletion;
 

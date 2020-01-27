@@ -27,7 +27,7 @@
         ICondition CanRunCondition { get; }
 
         /// <summary>
-        /// Excecute the task.
+        /// Execute the task.
         /// </summary>
         /// <param name="parameter">The command parameter.</param>
         void Run(TParameter parameter);

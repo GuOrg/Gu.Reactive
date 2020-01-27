@@ -10,7 +10,7 @@
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// A taskrunner for generic tasks.
+    /// A task runner for generic tasks.
     /// </summary>
     /// <typeparam name="TParameter">The type of the command parameter.</typeparam>
     public class TaskRunnerCancelable<TParameter> : TaskRunnerBase, ITaskRunner<TParameter>
@@ -39,7 +39,7 @@
         public override ICondition CanCancelCondition { get; }
 
         /// <summary>
-        /// Check if execution can be cancellled.
+        /// Check if execution can be canceled.
         /// True if a cancellation token was provided and a task is running.
         /// </summary>
         public bool? CanCancel
@@ -84,7 +84,7 @@
         {
             if (disposing)
             {
-                this.cancellationTokenSource.Dispose();
+                this.cancellationTokenSource?.Dispose();
                 this.cancellationSubscription.Dispose();
                 this.CanCancelCondition.Dispose();
             }
