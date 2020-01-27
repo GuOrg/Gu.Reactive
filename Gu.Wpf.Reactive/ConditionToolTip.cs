@@ -121,7 +121,6 @@
             {
                 commandToolTip.SetCurrentValue(ConditionProperty, null);
                 commandToolTip.CommandType = null;
-                return;
             }
         }
 
