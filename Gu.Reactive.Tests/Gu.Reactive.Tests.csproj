@@ -11,8 +11,12 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>    
-  
+  </PropertyGroup>
+
+  <PropertyGroup>
+     <GenerateNullableAttributes>false</GenerateNullableAttributes> 
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" />
   </ItemGroup>
