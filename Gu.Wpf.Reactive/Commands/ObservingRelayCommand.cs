@@ -40,14 +40,14 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <inheritdoc/>
-        protected override bool InternalCanExecute(object parameter)
+        protected override bool InternalCanExecute(object? parameter)
         {
             this.ThrowIfDisposed();
             return base.InternalCanExecute(parameter);
         }
 
         /// <inheritdoc/>
-        protected override void InternalExecute(object parameter)
+        protected override void InternalExecute(object? parameter)
         {
             this.ThrowIfDisposed();
             base.InternalExecute(parameter);

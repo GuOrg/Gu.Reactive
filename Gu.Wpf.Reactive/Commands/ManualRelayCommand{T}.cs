@@ -2,8 +2,6 @@
 {
     using System;
 
-    using Gu.Reactive.Internals;
-
     /// <summary>
     /// A command with CommandParameter of type <typeparamref name="T"/>.
     /// </summary>
@@ -17,10 +15,9 @@
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
         /// <param name="criteria">The criteria for <see cref="CanExecute"/>.</param>
-        public ManualRelayCommand(Action<T> action, Func<T, bool> criteria)
+        public ManualRelayCommand(Action<T> action, Func<T, bool>? criteria)
         {
-            Ensure.NotNull(action, nameof(action));
-            this.Action = action;
+            this.Action = action ?? throw new ArgumentNullException(nameof(action));
             this.Criteria = criteria ?? AlwaysTrue;
         }
 

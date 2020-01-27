@@ -10,7 +10,7 @@
     using System.Xaml;
 
     /// <summary>
-    /// Binds to the datacontext of the current root object or elementname
+    /// Binds to the data context of the current root object or element name
     /// Us this for things that are not in the visual tree such as DataGridColumn.
     /// </summary>
     [MarkupExtensionReturnType(typeof(BindingExpression))]
@@ -40,7 +40,7 @@
         /// The binding to apply.
         /// </summary>
         [ConstructorArgument("binding")]
-        public Binding Binding { get; set; }
+        public Binding Binding { get; set; } = null!;
 
         private static bool IsInDesignMode => DesignerProperties.GetIsInDesignMode(DependencyObject);
 

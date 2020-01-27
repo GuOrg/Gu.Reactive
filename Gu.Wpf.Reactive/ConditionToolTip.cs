@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Windows;
@@ -15,8 +15,7 @@ namespace Gu.Wpf.Reactive
     public class ConditionToolTip : ToolTip
     {
 #pragma warning disable SA1202 // Elements must be ordered by access
-#pragma warning disable SA1600 // Elements must be documented
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
         /// <summary>Identifies the <see cref="Condition"/> dependency property.</summary>
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
             nameof(Condition),
@@ -55,8 +54,6 @@ namespace Gu.Wpf.Reactive
             new PropertyMetadata(default(ICommand), OnCommandProxyChanged));
 
 #pragma warning restore SA1202 // Elements must be ordered by access
-#pragma warning restore SA1600 // Elements must be documented
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         static ConditionToolTip()
         {
@@ -74,9 +71,9 @@ namespace Gu.Wpf.Reactive
         /// <summary>
         /// The command type of the PlacementTarget.
         /// </summary>
-        public Type CommandType
+        public Type? CommandType
         {
-            get => (Type)this.GetValue(CommandTypeProperty);
+            get => (Type?)this.GetValue(CommandTypeProperty);
             protected set => this.SetValue(CommandTypePropertyKey, value);
         }
 
@@ -92,9 +89,9 @@ namespace Gu.Wpf.Reactive
         /// <summary>
         /// The condition if the command is a ConditionRelayCommand null otherwise.
         /// </summary>
-        public ICondition Condition
+        public ICondition? Condition
         {
-            get => (ICondition)this.GetValue(ConditionProperty);
+            get => (ICondition?)this.GetValue(ConditionProperty);
             set => this.SetValue(ConditionProperty, value);
         }
 

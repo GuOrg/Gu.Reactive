@@ -101,7 +101,7 @@
         /// </summary>
         /// <param name="parameter">The command parameter is ignored by this implementation.</param>
 #pragma warning disable AvoidAsyncVoid // Avoid async void
-        protected override async void InternalExecute(object parameter)
+        protected override async void InternalExecute(object? parameter)
 #pragma warning restore AvoidAsyncVoid // Avoid async void
         {
             this.IsExecuting = true;
@@ -109,7 +109,7 @@
             {
                 this.Action();
                 await this.Execution.ObservePropertyChangedSlim(nameof(this.Execution.IsCompleted))
-                               .FirstAsync(_ => this.Execution?.IsCompleted == true);
+                                    .FirstAsync(_ => this.Execution?.IsCompleted == true);
             }
             finally
             {

@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -190,22 +190,21 @@ namespace Gu.Wpf.Reactive
 
         private static void Invoke(Action action)
         {
-            var application = Application.Current;
-            if (application != null)
+            if (Application.Current is { Dispatcher: { } dispatcher })
             {
-                application.Dispatcher.Invoke(action);
-                return;
+                dispatcher.Invoke(action);
             }
-
-            action();
+            else
+            {
+                action();
+            }
         }
 
         private static Task InvokeAsync(Action action)
         {
-            var application = Application.Current;
-            if (application != null)
+            if (Application.Current is { Dispatcher: { } dispatcher })
             {
-                return application.Dispatcher.InvokeAsync(action).Task;
+                return dispatcher.InvokeAsync(action).Task;
             }
 
             action();
@@ -214,10 +213,9 @@ namespace Gu.Wpf.Reactive
 
         private static Task<bool> InvokeAsync(Func<bool> action)
         {
-            var application = Application.Current;
-            if (application != null)
+            if (Application.Current is { Dispatcher: { } dispatcher })
             {
-                return application.Dispatcher.InvokeAsync(action).Task;
+                return dispatcher.InvokeAsync(action).Task;
             }
 
             var result = action();
