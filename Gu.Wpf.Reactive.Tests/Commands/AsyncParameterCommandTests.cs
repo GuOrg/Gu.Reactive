@@ -146,7 +146,7 @@ namespace Gu.Wpf.Reactive.Tests
             command.Execute(0);
             Assert.IsFalse(command.CanExecute(0));
             resetEvent.Set();
-            await command.Execution.Task.ConfigureAwait(false);
+            await command.Execution!.Task.ConfigureAwait(false);
             Assert.IsTrue(command.CanExecute(0));
         }
 

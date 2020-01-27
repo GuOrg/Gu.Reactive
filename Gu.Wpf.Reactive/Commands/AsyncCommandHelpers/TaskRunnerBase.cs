@@ -26,8 +26,12 @@
         /// </summary>
         protected TaskRunnerBase()
         {
-            var observable = this.ObservePropertyChanged(x => x.TaskCompletion.Status);
-            this.CanRunCondition = new Condition(observable, this.CanRun) { Name = "CanRun" };
+            this.CanRunCondition = new Condition(
+                this.ObservePropertyChanged(x => x.TaskCompletion.Status),
+                this.CanRun)
+            {
+                Name = "CanRun",
+            };
         }
 
         /// <inheritdoc/>
