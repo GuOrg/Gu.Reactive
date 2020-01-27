@@ -67,7 +67,7 @@ namespace Gu.Wpf.Reactive.Tests
                 Assert.IsFalse(command.CancelCommand.CanExecute());
                 Assert.AreEqual(1, count);
                 tcs.SetResult(1);
-                await command.Execution.Task.ConfigureAwait(false);
+                await command.Execution!.Task.ConfigureAwait(false);
                 Assert.AreEqual(2, isExecutingCount);
                 Assert.IsFalse(command.IsExecuting);
                 Assert.AreEqual(2, count);
@@ -93,7 +93,7 @@ namespace Gu.Wpf.Reactive.Tests
                 var expectedStatuses = new List<TaskStatus> { TaskStatus.Created, TaskStatus.WaitingForActivation, TaskStatus.Running, };
                 CollectionAssert.AreEqual(expectedStatuses, taskStatuses);
                 tcs.SetResult(1);
-                await command.Execution.Task.ConfigureAwait(false);
+                await command.Execution!.Task.ConfigureAwait(false);
                 Assert.IsFalse(command.IsExecuting);
                 expectedStatuses.Add(TaskStatus.RanToCompletion);
                 CollectionAssert.AreEqual(expectedStatuses, taskStatuses);
@@ -107,7 +107,7 @@ namespace Gu.Wpf.Reactive.Tests
             using var command = new AsyncCommand(() => finished);
             Assert.IsTrue(command.CanExecute());
             command.Execute();
-            await command.Execution.Task.ConfigureAwait(false);
+            await command.Execution!.Task.ConfigureAwait(false);
             Assert.IsTrue(command.CanExecute());
             Assert.AreSame(finished, command.Execution.Task);
             Assert.AreSame(finished, command.Execution.Completed);
@@ -120,7 +120,7 @@ namespace Gu.Wpf.Reactive.Tests
             tcs.SetCanceled();
             using var command = new AsyncCommand(() => tcs.Task);
             command.Execute();
-            Assert.AreSame(tcs.Task, command.Execution.Task);
+            Assert.AreSame(tcs.Task, command.Execution!.Task);
         }
 
         [Test]
@@ -129,9 +129,9 @@ namespace Gu.Wpf.Reactive.Tests
             var exception = new Exception();
             using var command = new AsyncCommand(() => Task.Run(() => throw exception));
             command.Execute();
-            _ = Assert.ThrowsAsync<Exception>(() => command.Execution.Task);
+            _ = Assert.ThrowsAsync<Exception>(() => command.Execution!.Task);
 
-            Assert.AreEqual(exception, command.Execution.InnerException);
+            Assert.AreEqual(exception, command.Execution!.InnerException);
             Assert.AreEqual(TaskStatus.Faulted, command.Execution.Status);
             Assert.AreEqual(true, command.CanExecute());
         }
@@ -145,7 +145,7 @@ namespace Gu.Wpf.Reactive.Tests
             command.Execute();
             Assert.IsFalse(command.CanExecute());
             resetEvent.Set();
-            await command.Execution.Task.ConfigureAwait(false);
+            await command.Execution!.Task.ConfigureAwait(false);
             Assert.IsTrue(command.CanExecute());
         }
 

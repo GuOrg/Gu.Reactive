@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Benchmarks
+﻿namespace Gu.Reactive.Benchmarks
 {
     // ReSharper disable once ClassNeverInstantiated.Global
 #pragma warning disable INPC001 // Implement INotifyPropertyChanged.
@@ -8,7 +8,7 @@ namespace Gu.Reactive.Benchmarks
 
         public bool? IsTrueOrNull { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public int Value { get; set; }
     }

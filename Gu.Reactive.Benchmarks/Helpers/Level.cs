@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Benchmarks
+﻿namespace Gu.Reactive.Benchmarks
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
@@ -6,8 +6,8 @@ namespace Gu.Reactive.Benchmarks
     public class Level : INotifyPropertyChanged
     {
         private bool isTrue;
-        private Level next;
-        private string name;
+        private Level? next;
+        private string? name;
         private int value;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -44,7 +44,7 @@ namespace Gu.Reactive.Benchmarks
             }
         }
 
-        public string Name
+        public string? Name
         {
             get => this.name;
 
@@ -60,7 +60,7 @@ namespace Gu.Reactive.Benchmarks
             }
         }
 
-        public Level Next
+        public Level? Next
         {
             get => this.next;
 
@@ -78,10 +78,10 @@ namespace Gu.Reactive.Benchmarks
 
 #pragma warning disable INPC002 // Mutable public property should notify.
         //// ReSharper disable once UnusedAutoPropertyAccessor.Local
-        public NotInpc NotInpc { get; private set; }
+        public NotInpc? NotInpc { get; private set; }
 #pragma warning restore INPC002 // Mutable public property should notify.
 
-        public Level Method()
+        public Level? Method()
         {
             return this.Next;
         }

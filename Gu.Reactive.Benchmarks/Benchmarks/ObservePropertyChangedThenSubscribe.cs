@@ -1,4 +1,4 @@
-#pragma warning disable IDISP011 // Don't return disposed instance.
+﻿#pragma warning disable IDISP011 // Don't return disposed instance.
 namespace Gu.Reactive.Benchmarks
 {
     using System;
@@ -39,10 +39,8 @@ namespace Gu.Reactive.Benchmarks
         [Benchmark]
         public IDisposable SubjectSubscribe()
         {
-            using (var disposable = Subject.Subscribe(_ => { }))
-            {
-                return disposable;
-            }
+            using var disposable = Subject.Subscribe(_ => { });
+            return disposable;
         }
 
         [Benchmark]
@@ -62,82 +60,66 @@ namespace Gu.Reactive.Benchmarks
         [Benchmark]
         public IDisposable ObservePropertyChangedSimpleLambda()
         {
-            using (var disposable = Fake.ObservePropertyChanged(x => x.Value, signalInitial: false)
-                                        .Subscribe(_ => { }))
-            {
-                return disposable;
-            }
+            using var disposable = Fake.ObservePropertyChanged(x => x.Value, signalInitial: false)
+                                       .Subscribe(_ => { });
+            return disposable;
         }
 
         [Benchmark]
         public IDisposable ObservePropertyChangedNestedCachedPath()
         {
-            using (var disposable = Fake.ObservePropertyChanged(PropertyPath, signalInitial: false)
-                                        .Subscribe(_ => { }))
-            {
-                return disposable;
-            }
+            using var disposable = Fake.ObservePropertyChanged(PropertyPath, signalInitial: false)
+                                       .Subscribe(_ => { });
+            return disposable;
         }
 
         [Benchmark]
         public IDisposable ObservePropertyChangedNestedLambda()
         {
-            using (var disposable = Fake.ObservePropertyChanged(x => x.Next.Name, signalInitial: false)
-                                         .Subscribe(_ => { }))
-            {
-                return disposable;
-            }
+            using var disposable = Fake.ObservePropertyChanged(x => x.Next.Name, signalInitial: false)
+                                       .Subscribe(_ => { });
+            return disposable;
         }
 
         [Benchmark]
         public IDisposable ObservePropertyChangedString()
         {
-            using (var disposable = Fake.ObservePropertyChanged("Value", signalInitial: false)
-                                         .Subscribe(_ => { }))
-            {
-                return disposable;
-            }
+            using var disposable = Fake.ObservePropertyChanged("Value", signalInitial: false)
+                                       .Subscribe(_ => { });
+            return disposable;
         }
 
         [Benchmark]
         public IDisposable ObservePropertyChangedSlimString()
         {
-            using (var disposable = Fake.ObservePropertyChangedSlim("Value", signalInitial: false)
-                                         .Subscribe(_ => { }))
-            {
-                return disposable;
-            }
+            using var disposable = Fake.ObservePropertyChangedSlim("Value", signalInitial: false)
+                                       .Subscribe(_ => { });
+            return disposable;
         }
 
         [Benchmark]
         public IDisposable ObservePropertyChangedSlimSimpleLambda()
         {
-            using (var disposable = Fake.ObservePropertyChangedSlim(x => x.Name, signalInitial: false)
-                                        .Subscribe(_ => { }))
-            {
-                return disposable;
-            }
+            using var disposable = Fake.ObservePropertyChangedSlim(x => x.Name, signalInitial: false)
+                                       .Subscribe(_ => { });
+            return disposable;
         }
 
         [Benchmark]
         public IDisposable ObservePropertyChangedSlimNestedLambda()
         {
-            using (var disposable = Fake.ObservePropertyChangedSlim(x => x.Next.Name, signalInitial: false)
-                                         .Subscribe(_ => { }))
-            {
-                return disposable;
-            }
+            using var disposable = Fake.ObservePropertyChangedSlim(x => x.Next.Name, signalInitial: false)
+                                       .Subscribe(_ => { });
+            return disposable;
         }
 
         [Benchmark]
         public IDisposable ObservableFromEventPattern()
         {
-            using (var disposable = Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(x => Fake.PropertyChanged += x, x => Fake.PropertyChanged -= x)
-                                              .Where(x => string.IsNullOrEmpty(x.EventArgs.PropertyName) || x.EventArgs.PropertyName == nameof(Fake.Value))
-                                              .Subscribe(_ => { }))
-            {
-                return disposable;
-            }
+            using var disposable = Observable.FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(x => Fake.PropertyChanged += x, x => Fake.PropertyChanged -= x)
+                                             .Where(x => string.IsNullOrEmpty(x.EventArgs.PropertyName) || x.EventArgs.PropertyName == nameof(Fake.Value))
+                                             .Subscribe(_ => { });
+            return disposable;
         }
 
         [Benchmark]

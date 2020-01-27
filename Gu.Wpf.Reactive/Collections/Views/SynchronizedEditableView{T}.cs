@@ -81,7 +81,7 @@
         /// <summary>
         /// The event we updated the source with.
         /// </summary>
-        protected NotifyCollectionChangedEventArgs UpdatedSourceWith { get; private set; }
+        protected NotifyCollectionChangedEventArgs? UpdatedSourceWith { get; private set; }
 
         /// <summary>
         /// Move item at oldIndex to newIndex.

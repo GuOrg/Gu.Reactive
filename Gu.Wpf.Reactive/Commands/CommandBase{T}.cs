@@ -1,7 +1,8 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.ComponentModel;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Input;
@@ -53,10 +54,10 @@ namespace Gu.Wpf.Reactive
 #pragma warning disable CA1033 // Interface methods should be callable by child types
 
         /// <inheritdoc/>
-        bool ICommand.CanExecute(object parameter) => this.InternalCanExecute((T)parameter);
+        bool ICommand.CanExecute(object? parameter) => this.InternalCanExecute((T)parameter);
 
         /// <inheritdoc/>
-        void ICommand.Execute(object parameter) => this.InternalExecute((T)parameter);
+        void ICommand.Execute(object? parameter) => this.InternalExecute((T)parameter);
 #pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <summary>

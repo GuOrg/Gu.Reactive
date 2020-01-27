@@ -1,8 +1,6 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
-
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// A command that does not use the CommandParameter
@@ -17,10 +15,9 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
         /// <param name="criteria">The criteria for <see cref="CanExecute"/>.</param>
-        public ManualRelayCommand(Action action, Func<bool> criteria)
+        public ManualRelayCommand(Action action, Func<bool>? criteria)
         {
-            Ensure.NotNull(action, nameof(action));
-            this.Action = action;
+            this.Action = action ?? throw new ArgumentNullException(nameof(action));
             this.Criteria = criteria ?? AlwaysTrue;
         }
 
@@ -67,7 +64,7 @@ namespace Gu.Wpf.Reactive
         /// </summary>
         /// <param name="parameter">The command parameter is ignored by this implementation.</param>
         /// <returns>A value indicating if the command can execute.</returns>
-        protected override bool InternalCanExecute(object parameter)
+        protected override bool InternalCanExecute(object? parameter)
         {
             return this.Criteria();
         }
@@ -78,7 +75,7 @@ namespace Gu.Wpf.Reactive
         /// Sets IsExecuting to false.
         /// </summary>
         /// <param name="parameter">The command parameter is ignored by this implementation.</param>
-        protected override void InternalExecute(object parameter)
+        protected override void InternalExecute(object? parameter)
         {
             this.IsExecuting = true;
             try

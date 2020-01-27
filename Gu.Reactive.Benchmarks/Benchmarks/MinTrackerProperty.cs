@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Benchmarks
+﻿namespace Gu.Reactive.Benchmarks
 {
     using System;
     using System.Collections.ObjectModel;
@@ -37,21 +37,17 @@ namespace Gu.Reactive.Benchmarks
         [Benchmark]
         public int? Tracker()
         {
-            using (var tracker = this.fakes2.TrackMin(x => x.Value))
-            {
-                Update(this.fakes2);
-                return tracker.Value;
-            }
+            using var tracker = this.fakes2.TrackMin(x => x.Value);
+            Update(this.fakes2);
+            return tracker.Value;
         }
 
         [Benchmark]
         public int? TrackerChanges()
         {
-            using (var changeTracker = this.fakes3.TrackMin(x => x.Value))
-            {
-                Update(this.fakes3);
-                return changeTracker.Value;
-            }
+            using var changeTracker = this.fakes3.TrackMin(x => x.Value);
+            Update(this.fakes3);
+            return changeTracker.Value;
         }
 
         private static void Update(ObservableCollection<Fake> ints)

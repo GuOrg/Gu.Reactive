@@ -1,4 +1,4 @@
-#pragma warning disable IDISP001 // Dispose created.
+﻿#pragma warning disable IDISP001 // Dispose created.
 #pragma warning disable IDISP004 // Don't ignore return value of type IDisposable.
 #pragma warning disable IDISP006 // Implement IDisposable.
 #pragma warning disable IDISP008 // Don't assign member with injected and created disposables.
@@ -13,16 +13,16 @@ namespace Gu.Wpf.Reactive
     {
 #pragma warning disable IDISP002 // Dispose member.
         internal readonly ICondition Condition;
-        internal readonly IDisposable Disposable;
+        internal readonly IDisposable? Disposable;
 #pragma warning restore IDISP002 // Dispose member.
 
-        private ConditionAndDisposable(ICondition condition, IDisposable disposable)
+        private ConditionAndDisposable(ICondition condition, IDisposable? disposable)
         {
             this.Condition = condition;
             this.Disposable = disposable;
         }
 
-        internal static ConditionAndDisposable Create(ICondition canRunCondition, IReadOnlyList<ICondition> conditions)
+        internal static ConditionAndDisposable Create(ICondition canRunCondition, IReadOnlyList<ICondition>? conditions)
         {
             if (conditions is null || conditions.Count == 0)
             {
