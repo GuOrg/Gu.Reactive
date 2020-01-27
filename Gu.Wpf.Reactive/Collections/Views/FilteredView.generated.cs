@@ -21,7 +21,7 @@
         public static FilteredView<T> AsFilteredView<T>(
             this ObservableCollection<T> collection,
             Func<T, bool> filter,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, false, triggers);
@@ -40,7 +40,7 @@
             this ObservableCollection<T> collection,
             Func<T, bool> filter,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, leaveOpen, triggers);
@@ -59,7 +59,7 @@
             this ObservableCollection<T> collection,
             Func<T, bool> filter,
             TimeSpan bufferTime,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
@@ -81,7 +81,7 @@
             Func<T, bool> filter,
             TimeSpan bufferTime,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
@@ -99,7 +99,7 @@
         public static FilteredView<T> AsFilteredView<T>(
             this IObservableCollection<T> collection,
             Func<T, bool> filter,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, false, triggers);
@@ -118,7 +118,7 @@
             this IObservableCollection<T> collection,
             Func<T, bool> filter,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, leaveOpen, triggers);
@@ -137,7 +137,7 @@
             this IObservableCollection<T> collection,
             Func<T, bool> filter,
             TimeSpan bufferTime,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
@@ -159,7 +159,7 @@
             Func<T, bool> filter,
             TimeSpan bufferTime,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));

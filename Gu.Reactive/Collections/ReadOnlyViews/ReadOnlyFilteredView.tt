@@ -1,6 +1,7 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ output extension=".generated.cs" #>
+#nullable enable
 namespace Gu.Reactive
 {
     using System;
@@ -35,7 +36,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this <#= typeName #><T> source,
             Func<T, bool> filter,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -55,7 +56,7 @@ namespace Gu.Reactive
             this <#= typeName #><T> source,
             Func<T, bool> filter,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -75,7 +76,7 @@ namespace Gu.Reactive
             this <#= typeName #><T> source,
             Func<T, bool> filter,
             TimeSpan bufferTime,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -97,7 +98,7 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             TimeSpan bufferTime,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -117,7 +118,7 @@ namespace Gu.Reactive
             this <#= typeName #><T> source,
             Func<T, bool> filter,
             IScheduler scheduler,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -140,7 +141,7 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             IScheduler scheduler,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -163,7 +164,7 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             TimeSpan bufferTime,
             IScheduler scheduler,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -188,7 +189,7 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             IScheduler scheduler,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));

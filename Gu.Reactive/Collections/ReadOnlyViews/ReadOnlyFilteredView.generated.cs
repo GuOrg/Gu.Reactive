@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive
+﻿#nullable enable
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +23,7 @@
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this ObservableCollection<T> source,
             Func<T, bool> filter,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -42,7 +43,7 @@
             this ObservableCollection<T> source,
             Func<T, bool> filter,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -62,7 +63,7 @@
             this ObservableCollection<T> source,
             Func<T, bool> filter,
             TimeSpan bufferTime,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -84,7 +85,7 @@
             Func<T, bool> filter,
             TimeSpan bufferTime,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -104,7 +105,7 @@
             this ObservableCollection<T> source,
             Func<T, bool> filter,
             IScheduler scheduler,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -127,7 +128,7 @@
             Func<T, bool> filter,
             IScheduler scheduler,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -150,7 +151,7 @@
             Func<T, bool> filter,
             TimeSpan bufferTime,
             IScheduler scheduler,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -175,7 +176,7 @@
             TimeSpan bufferTime,
             IScheduler scheduler,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -239,7 +240,7 @@
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this ReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -259,7 +260,7 @@
             this ReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -279,7 +280,7 @@
             this ReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
             TimeSpan bufferTime,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -301,7 +302,7 @@
             Func<T, bool> filter,
             TimeSpan bufferTime,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -321,7 +322,7 @@
             this ReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
             IScheduler scheduler,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -344,7 +345,7 @@
             Func<T, bool> filter,
             IScheduler scheduler,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -367,7 +368,7 @@
             Func<T, bool> filter,
             TimeSpan bufferTime,
             IScheduler scheduler,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -392,7 +393,7 @@
             TimeSpan bufferTime,
             IScheduler scheduler,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -456,7 +457,7 @@
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -476,7 +477,7 @@
             this IReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -496,7 +497,7 @@
             this IReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
             TimeSpan bufferTime,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -518,7 +519,7 @@
             Func<T, bool> filter,
             TimeSpan bufferTime,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -538,7 +539,7 @@
             this IReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
             IScheduler scheduler,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -561,7 +562,7 @@
             Func<T, bool> filter,
             IScheduler scheduler,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -584,7 +585,7 @@
             Func<T, bool> filter,
             TimeSpan bufferTime,
             IScheduler scheduler,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));
@@ -609,7 +610,7 @@
             TimeSpan bufferTime,
             IScheduler scheduler,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(source, nameof(source));
             Ensure.NotNull(filter, nameof(filter));

@@ -1,4 +1,4 @@
-// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
+﻿// ReSharper disable ClassWithVirtualMembersNeverInherited.Global
 namespace Gu.Wpf.Reactive
 {
     using System;
@@ -24,7 +24,7 @@ namespace Gu.Wpf.Reactive
         public ObservingRelayCommand(
             Action action,
             Func<bool> criteria,
-            params IObservable<object>[] observable)
+            params IObservable<object?>[] observable)
             : base(action, criteria)
         {
             Ensure.NotNullOrEmpty(observable, nameof(observable));

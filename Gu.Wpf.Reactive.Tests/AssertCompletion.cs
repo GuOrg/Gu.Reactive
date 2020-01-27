@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive.Tests
+﻿namespace Gu.Wpf.Reactive.Tests
 {
     using System.Threading.Tasks;
 
@@ -28,7 +28,7 @@ namespace Gu.Wpf.Reactive.Tests
             if (expectedException != null)
             {
                 var actualException = actual.Exception;
-                Assert.AreSame(expectedException.InnerException, actualException.InnerException);
+                Assert.AreSame(expectedException.InnerException, actualException!.InnerException);
             }
 
             Assert.AreEqual(expected.IsCanceled, actual.IsCanceled);

@@ -18,7 +18,7 @@
         private readonly Func<TParameter, CancellationToken, Task> action;
         private readonly SerialDisposable cancellationSubscription = new SerialDisposable();
 
-        private CancellationTokenSource cancellationTokenSource;
+        private CancellationTokenSource? cancellationTokenSource;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskRunnerCancelable{TParameter}"/> class.

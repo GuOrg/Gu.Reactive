@@ -22,11 +22,11 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
         }
 
         [Test]
-        public void ManyOnNextsOneReset()
+        public void ManyOnNextOneReset()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using var trigger = new Subject<object>();
+            using var trigger = new Subject<object?>();
             using var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true, triggers: trigger);
             using var actual = view.SubscribeAll();
             source.Clear();
@@ -50,9 +50,9 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
         }
 
         [Test]
-        public void ManyOnNextsOneAdd()
+        public void ManyOnNextOneAdd()
         {
-            using var trigger = new Subject<object>();
+            using var trigger = new Subject<object?>();
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
             using var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true, triggers: trigger);
@@ -79,11 +79,11 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
         }
 
         [Test]
-        public void AddTriggerThenManyOnNextsOneAdd()
+        public void AddTriggerThenManyOnNextOneAdd()
         {
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
-            using var trigger = new Subject<object>();
+            using var trigger = new Subject<object?>();
             using var view = new FilteredView<int>(source, x => true, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true, triggers: trigger);
             using var actual = view.SubscribeAll();
             source.Add(4);

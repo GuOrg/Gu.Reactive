@@ -25,7 +25,7 @@
         private readonly IMapper<TSource, TResult> factory;
 
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        internal MappingView(IEnumerable<TSource> source, IMapper<TSource, TResult> factory, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen, params IObservable<object>[] triggers)
+        internal MappingView(IEnumerable<TSource> source, IMapper<TSource, TResult> factory, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen, params IObservable<object?>[] triggers)
             : base(source, s => s.Select(factory.GetOrCreate), leaveOpen, startEmpty: true)
         {
             if (source is null)

@@ -13,47 +13,34 @@
         /// <summary>
         /// The template for <see cref="NegatedCondition"/>.
         /// </summary>
-        public DataTemplate NegatedConditionTemplate { get; set; }
+        public DataTemplate? NegatedConditionTemplate { get; set; }
 
         /// <summary>
         /// The template for <see cref="AndCondition"/>.
         /// </summary>
-        public DataTemplate AndConditionTemplate { get; set; }
+        public DataTemplate? AndConditionTemplate { get; set; }
 
         /// <summary>
         /// The template for <see cref="OrCondition"/>.
         /// </summary>
-        public DataTemplate OrConditionTemplate { get; set; }
+        public DataTemplate? OrConditionTemplate { get; set; }
 
         /// <summary>
         /// The template for <see cref="ICondition"/>.
         /// </summary>
-        public DataTemplate NodeConditionTemplate { get; set; }
+        public DataTemplate? NodeConditionTemplate { get; set; }
 
         /// <inheritdoc/>
-        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        public override DataTemplate? SelectTemplate(object item, DependencyObject container)
         {
-            if (item != null)
+            return item switch
             {
-                if (item is AndCondition)
-                {
-                    return this.AndConditionTemplate;
-                }
-
-                if (item is OrCondition)
-                {
-                    return this.OrConditionTemplate;
-                }
-
-                if (item is NegatedCondition)
-                {
-                    return this.NegatedConditionTemplate;
-                }
-
-                return this.NodeConditionTemplate;
-            }
-
-            return base.SelectTemplate(null, container);
+                AndCondition _ => this.AndConditionTemplate,
+                OrCondition _ => this.OrConditionTemplate,
+                NegatedCondition _ => this.NegatedConditionTemplate,
+                ICondition _ => this.NodeConditionTemplate,
+                _ => base.SelectTemplate(null, container),
+            };
         }
     }
 }

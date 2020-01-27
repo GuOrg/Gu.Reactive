@@ -37,7 +37,7 @@ namespace Gu.Reactive
         /// <param name="observables">
         /// More observables that triggers updates of <see cref="IsSatisfied"/>.
         /// </param>
-        public Condition(Func<bool?> criteria, IObservable<object?> observable, params IObservable<object>[] observables)
+        public Condition(Func<bool?> criteria, IObservable<object?> observable, params IObservable<object?>[] observables)
             : this(observables is null ? observable : Observable.Merge(observables.Concat(new[] { observable })), criteria)
         {
         }

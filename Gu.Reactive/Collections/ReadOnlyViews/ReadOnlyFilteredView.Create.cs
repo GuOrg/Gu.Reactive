@@ -1,4 +1,4 @@
-// ReSharper disable PossibleMultipleEnumeration
+﻿// ReSharper disable PossibleMultipleEnumeration
 namespace Gu.Reactive
 {
     using System;
@@ -21,7 +21,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> Create<T>(
             IEnumerable<T> source,
             Func<T, bool> filter,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -49,7 +49,7 @@ namespace Gu.Reactive
             IEnumerable<T> source,
             Func<T, bool> filter,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -79,7 +79,7 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             IScheduler scheduler,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -116,7 +116,7 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             IScheduler scheduler,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {

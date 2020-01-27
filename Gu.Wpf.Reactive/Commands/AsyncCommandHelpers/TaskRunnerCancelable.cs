@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Reactive.Disposables;
@@ -17,7 +17,7 @@ namespace Gu.Wpf.Reactive
         private readonly Func<CancellationToken, Task> action;
         private readonly SerialDisposable cancellationSubscription = new SerialDisposable();
 
-        private CancellationTokenSource cancellationTokenSource;
+        private CancellationTokenSource? cancellationTokenSource;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskRunnerCancelable"/> class.

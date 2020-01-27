@@ -32,7 +32,7 @@
                                   .Select(x => x.Namespace)
                                   .Where(x => x != null)
                                   .Distinct()
-                                  .Where(x => !IgnoredNamespaces.Any(x.EndsWith))
+                                  .Where(x => !IgnoredNamespaces.Any(x!.EndsWith))
                                   .OrderBy(x => x)
                                   .ToArray();
             var attributes = typeof(ConditionControl).Assembly.CustomAttributes.Where(x => x.AttributeType == typeof(XmlnsDefinitionAttribute))

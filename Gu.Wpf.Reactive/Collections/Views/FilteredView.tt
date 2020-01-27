@@ -1,6 +1,7 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ output extension=".generated.cs" #>
+#nullable enable
 namespace Gu.Wpf.Reactive
 {
     using System;
@@ -34,7 +35,7 @@ namespace Gu.Wpf.Reactive
         public static FilteredView<T> AsFilteredView<T>(
             this <#= typeName #><T> collection,
             Func<T, bool> filter,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, false, triggers);
@@ -53,7 +54,7 @@ namespace Gu.Wpf.Reactive
             this <#= typeName #><T> collection,
             Func<T, bool> filter,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, leaveOpen, triggers);
@@ -72,7 +73,7 @@ namespace Gu.Wpf.Reactive
             this <#= typeName #><T> collection,
             Func<T, bool> filter,
             TimeSpan bufferTime,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));
@@ -94,7 +95,7 @@ namespace Gu.Wpf.Reactive
             Func<T, bool> filter,
             TimeSpan bufferTime,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             Ensure.NotNull(collection, nameof(collection));
             Ensure.NotNull(filter, nameof(filter));

@@ -36,7 +36,7 @@ namespace Gu.Reactive
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this <#= typeName #><TSource> source,
             Func<TSource, TResult> selector,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -65,7 +65,7 @@ namespace Gu.Reactive
             this <#= typeName #><TSource> source,
             Func<TSource, TResult> selector,
             bool leaveOpen,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -96,7 +96,7 @@ namespace Gu.Reactive
             Func<TSource, TResult> selector,
             IScheduler? scheduler = null,
             bool leaveOpen = false,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -129,7 +129,7 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             IScheduler? scheduler = null,
             bool leaveOpen = false,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -162,7 +162,7 @@ namespace Gu.Reactive
             Action<TResult> onRemove,
             IScheduler? scheduler = null,
             bool leaveOpen = false,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
             where TResult : class
         {
             if (source is null)
@@ -203,7 +203,7 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             IScheduler? scheduler = null,
             bool leaveOpen = false,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
             where TResult : class
         {
             if (source is null)
@@ -248,7 +248,7 @@ namespace Gu.Reactive
             Func<TResult, int, TResult> updater,
             IScheduler? scheduler = null,
             bool leaveOpen = false,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -294,7 +294,7 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             IScheduler? scheduler = null,
             bool leaveOpen = false,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -340,7 +340,7 @@ namespace Gu.Reactive
             Action<TResult> onRemove,
             IScheduler? scheduler = null,
             bool leaveOpen = false,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
             where TResult : class
         {
             if (source is null)
@@ -389,7 +389,7 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             IScheduler? scheduler = null,
             bool leaveOpen = false,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
             where TResult : class
         {
             if (source is null)
@@ -428,7 +428,7 @@ namespace Gu.Reactive
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
             this <#= typeName #> source,
             Func<TSource, TResult> selector,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -458,7 +458,7 @@ namespace Gu.Reactive
             this <#= typeName #> source,
             Func<TSource, TResult> selector,
             IScheduler? scheduler = null,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -490,7 +490,7 @@ namespace Gu.Reactive
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
             IScheduler? scheduler = null,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -522,7 +522,7 @@ namespace Gu.Reactive
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             IScheduler? scheduler = null,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
             where TResult : class
         {
             if (source is null)
@@ -562,7 +562,7 @@ namespace Gu.Reactive
             Action<TResult> onRemove,
             TimeSpan bufferTime,
             IScheduler? scheduler = null,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
             where TResult : class
         {
             if (source is null)
@@ -606,7 +606,7 @@ namespace Gu.Reactive
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             IScheduler? scheduler = null,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -651,7 +651,7 @@ namespace Gu.Reactive
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
             IScheduler? scheduler = null,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
         {
             if (source is null)
             {
@@ -696,7 +696,7 @@ namespace Gu.Reactive
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
             IScheduler? scheduler = null,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
             where TResult : class
         {
             if (source is null)
@@ -744,7 +744,7 @@ namespace Gu.Reactive
             Action<TResult> onRemove,
             TimeSpan bufferTime,
             IScheduler? scheduler = null,
-            params IObservable<object>[] triggers)
+            params IObservable<object?>[] triggers)
             where TResult : class
         {
             if (source is null)

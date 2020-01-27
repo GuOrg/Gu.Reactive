@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Benchmarks
+﻿namespace Gu.Reactive.Benchmarks
 {
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -7,8 +7,8 @@ namespace Gu.Reactive.Benchmarks
 
     public class Diff
     {
-        private static List<Fake> x;
-        private static List<Fake> y;
+        private List<Fake> x = null!;
+        private List<Fake> y = null!;
 
         [Params(10, 100, 1000)]
 #pragma warning disable CA1044 // Properties should not be write only
@@ -17,15 +17,15 @@ namespace Gu.Reactive.Benchmarks
         {
             set
             {
-                x = CreateFakes(value);
-                y = CreateFakes(value);
+                this.x = CreateFakes(value);
+                this.y = CreateFakes(value);
             }
         }
 
         [Benchmark]
-        public NotifyCollectionChangedEventArgs CollectionChange()
+        public NotifyCollectionChangedEventArgs? CollectionChange()
         {
-            return Reactive.Diff.CollectionChange(x, y);
+            return Reactive.Diff.CollectionChange(this.x, this.y);
         }
 
         private static List<Fake> CreateFakes(int n)

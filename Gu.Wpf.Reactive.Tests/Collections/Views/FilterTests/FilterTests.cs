@@ -16,11 +16,13 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
     {
         private static readonly PropertyChangedEventArgs FilterChangedEventArgs = new PropertyChangedEventArgs("Filter");
 
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         protected VirtualTimeSchedulerBase<long, long> Scheduler { get; set; }
 
         protected IFilteredView<int> View { get; set; }
 
         protected ObservableCollection<int> Source { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
         [SetUp]
         public virtual void SetUp()

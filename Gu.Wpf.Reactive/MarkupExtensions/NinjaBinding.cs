@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -45,7 +45,7 @@ namespace Gu.Wpf.Reactive
         private static bool IsInDesignMode => DesignerProperties.GetIsInDesignMode(DependencyObject);
 
         /// <inheritdoc/>
-        public override object ProvideValue(IServiceProvider serviceProvider)
+        public override object? ProvideValue(IServiceProvider serviceProvider)
         {
             if (serviceProvider is null)
             {
