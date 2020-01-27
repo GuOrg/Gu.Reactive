@@ -31,7 +31,7 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <inheritdoc/>
-        public virtual event PropertyChangedEventHandler PropertyChanged;
+        public virtual event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Condition for if the current run can be canceled.

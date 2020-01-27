@@ -39,10 +39,10 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <inheritdoc/>
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc/>
         public void Move(int oldIndex, int newIndex)

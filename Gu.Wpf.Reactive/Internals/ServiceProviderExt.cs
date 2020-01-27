@@ -1,4 +1,4 @@
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 #pragma warning disable SA1600 // Elements must be documented
 namespace Gu.Wpf.Reactive
 {
@@ -12,7 +12,7 @@ namespace Gu.Wpf.Reactive
     public static class ServiceProviderExt
     {
         [Obsolete("To be removed.")]
-        public static IXamlTypeResolver XamlTypeResolver(this IServiceProvider provider)
+        public static IXamlTypeResolver? XamlTypeResolver(this IServiceProvider provider)
         {
             if (provider is null)
             {
@@ -23,7 +23,7 @@ namespace Gu.Wpf.Reactive
         }
 
         [Obsolete("To be removed.")]
-        public static IProvideValueTarget ProvideValueTarget(this IServiceProvider provider)
+        public static IProvideValueTarget? ProvideValueTarget(this IServiceProvider provider)
         {
             if (provider is null)
             {
@@ -34,7 +34,7 @@ namespace Gu.Wpf.Reactive
         }
 
         [Obsolete("To be removed.")]
-        public static IRootObjectProvider RootObjectProvider(this IServiceProvider provider)
+        public static IRootObjectProvider? RootObjectProvider(this IServiceProvider provider)
         {
             if (provider is null)
             {
@@ -45,7 +45,7 @@ namespace Gu.Wpf.Reactive
         }
 
         [Obsolete("To be removed.")]
-        public static ITypeDescriptorContext TypeDescriptorContext(this IServiceProvider provider)
+        public static ITypeDescriptorContext? TypeDescriptorContext(this IServiceProvider provider)
         {
             if (provider is null)
             {
@@ -56,7 +56,7 @@ namespace Gu.Wpf.Reactive
         }
 
         [Obsolete("To be removed.")]
-        public static IUriContext UriContext(this IServiceProvider provider)
+        public static IUriContext? UriContext(this IServiceProvider provider)
         {
             if (provider is null)
             {
@@ -67,7 +67,7 @@ namespace Gu.Wpf.Reactive
         }
 
         [Obsolete("To be removed.")]
-        public static IXamlNameResolver XamlNameResolver(this IServiceProvider provider)
+        public static IXamlNameResolver? XamlNameResolver(this IServiceProvider provider)
         {
             if (provider is null)
             {
@@ -78,7 +78,7 @@ namespace Gu.Wpf.Reactive
         }
 
         [Obsolete("To be removed.")]
-        public static IXamlNamespaceResolver XamlNamespaceResolver(this IServiceProvider provider)
+        public static IXamlNamespaceResolver? XamlNamespaceResolver(this IServiceProvider provider)
         {
             if (provider is null)
             {
@@ -89,7 +89,7 @@ namespace Gu.Wpf.Reactive
         }
 
         [Obsolete("To be removed.")]
-        public static IXamlSchemaContextProvider XamlSchemaContextProvider(this IServiceProvider provider)
+        public static IXamlSchemaContextProvider? XamlSchemaContextProvider(this IServiceProvider provider)
         {
             if (provider is null)
             {

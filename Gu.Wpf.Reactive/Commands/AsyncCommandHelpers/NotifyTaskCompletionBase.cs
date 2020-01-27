@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.ComponentModel;
@@ -26,7 +26,7 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// The current task.
@@ -81,7 +81,7 @@ namespace Gu.Wpf.Reactive
         /// <summary>
         /// Null if the run is not completed.
         /// </summary>
-        public T Completed => this.Task.IsCompleted
+        public T? Completed => this.Task.IsCompleted
             ? this.Task
             : null;
 

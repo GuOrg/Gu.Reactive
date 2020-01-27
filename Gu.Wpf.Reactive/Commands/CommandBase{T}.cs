@@ -27,9 +27,9 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <inheritdoc/>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        private event EventHandler InternalCanExecuteChanged;
+        private event EventHandler? InternalCanExecuteChanged;
 
         /// <summary>
         /// Gets a value indicating if the command is currently executing.

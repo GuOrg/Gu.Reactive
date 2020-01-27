@@ -57,11 +57,11 @@ namespace Gu.Wpf.Reactive
 
         /// <inheritdoc/>
         [field: NonSerialized]
-        public virtual event PropertyChangedEventHandler PropertyChanged;
+        public virtual event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc/>
         [field: NonSerialized]
-        public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
+        public virtual event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <summary>
         /// The source collection.

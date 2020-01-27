@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -54,7 +54,7 @@ namespace Gu.Wpf.Reactive
 
         /// <inheritdoc/>
         [field: NonSerialized]
-        public override event NotifyCollectionChangedEventHandler CollectionChanged;
+        public override event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <inheritdoc/>
 #pragma warning disable AvoidAsyncVoid // Avoid async void
