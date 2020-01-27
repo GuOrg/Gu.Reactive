@@ -1,4 +1,4 @@
-#pragma warning disable GU0011 // Don't ignore the return value.
+﻿#pragma warning disable GU0011 // Don't ignore the return value.
 namespace Gu.Wpf.Reactive.UiTests
 {
     using Gu.Wpf.UiAutomation;
@@ -10,15 +10,13 @@ namespace Gu.Wpf.Reactive.UiTests
         public void ClickAllTabs()
         {
             // Just a smoke test so that we do not explode.
-            using (var app = Application.Launch(Info.ExeFileName))
+            using var app = Application.Launch(Info.ExeFileName);
+            var window = app.MainWindow;
+            Assert.AreEqual("MainWindow", window.Title);
+            var tab = window.FindTabControl();
+            foreach (var tabItem in tab.Items)
             {
-                var window = app.MainWindow;
-                Assert.AreEqual("MainWindow", window.Title);
-                var tab = window.FindTabControl();
-                foreach (var tabItem in tab.Items)
-                {
-                    tabItem.Select();
-                }
+                tabItem.Select();
             }
         }
     }
