@@ -70,4 +70,49 @@ FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
     <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[3.1.0]" />
     <PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.154" PrivateAssets="all" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+
+    <None Update="Collections/ReadOnlyDispatchingView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReadOnlyDispatchingView.generated.cs</LastGenOutput>
+    </None>
+
+    <Compile Update="Collections\ReadOnlyDispatchingView.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ReadOnlyDispatchingView.tt</DependentUpon>
+    </Compile>
+
+    <None Update="Collections/Views/DispatchingView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DispatchingView.generated.cs</LastGenOutput>
+    </None>
+    <Compile Update="Collections\Views\DispatchingView.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DispatchingView.tt</DependentUpon>
+    </Compile>
+
+    <None Update="Collections/Views/FilteredView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FilteredView.generated.cs</LastGenOutput>
+    </None>
+    <Compile Update="Collections\Views\FilteredView.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FilteredView.tt</DependentUpon>
+    </Compile>
+
+    <None Update="Collections/Views/ThrottledView.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ThrottledView.generated.cs</LastGenOutput>
+    </None>
+    <Compile Update="Collections\Views\ThrottledView.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ThrottledView.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

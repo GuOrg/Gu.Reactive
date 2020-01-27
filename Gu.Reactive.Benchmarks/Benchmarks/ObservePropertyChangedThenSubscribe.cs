@@ -1,4 +1,4 @@
-#pragma warning disable IDISP011 // Don't return diposed instance.
+#pragma warning disable IDISP011 // Don't return disposed instance.
 namespace Gu.Reactive.Benchmarks
 {
     using System;

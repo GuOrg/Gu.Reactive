@@ -15,7 +15,7 @@
         /// </summary>
         /// <typeparam name="TItem">The type of the items in <paramref name="collection"/></typeparam>
         /// <param name="collection">The source collection.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="DispatchingView{T}"/></returns>
         public static DispatchingView<TItem> AsDispatchingView<TItem>(this IObservableCollection<TItem> collection, bool leaveOpen = false)
         {
@@ -28,7 +28,7 @@
         /// <typeparam name="TItem">The type of the items in <paramref name="collection"/></typeparam>
         /// <param name="collection">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="DispatchingView{T}"/></returns>
         public static DispatchingView<TItem> AsDispatchingView<TItem>(this IObservableCollection<TItem> collection, TimeSpan bufferTime, bool leaveOpen = false)
         {
@@ -40,7 +40,7 @@
         /// </summary>
         /// <typeparam name="TItem">The type of the items in <paramref name="collection"/></typeparam>
         /// <param name="collection">The source collection.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="DispatchingView{T}"/></returns>
         public static DispatchingView<TItem> AsDispatchingView<TItem>(this ObservableCollection<TItem> collection, bool leaveOpen = false)
         {
@@ -53,7 +53,7 @@
         /// <typeparam name="TItem">The type of the items in <paramref name="collection"/></typeparam>
         /// <param name="collection">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="DispatchingView{T}"/></returns>
         public static DispatchingView<TItem> AsDispatchingView<TItem>(this ObservableCollection<TItem> collection, TimeSpan bufferTime, bool leaveOpen = false)
         {

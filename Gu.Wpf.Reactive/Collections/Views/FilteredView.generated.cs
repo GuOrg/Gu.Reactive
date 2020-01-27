@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.Reactive
+﻿#nullable enable
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.ObjectModel;
@@ -33,7 +34,7 @@
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="collection">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
         public static FilteredView<T> AsFilteredView<T>(
@@ -73,7 +74,7 @@
         /// <param name="collection">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
         public static FilteredView<T> AsFilteredView<T>(
@@ -111,7 +112,7 @@
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="collection">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
         public static FilteredView<T> AsFilteredView<T>(
@@ -151,7 +152,7 @@
         /// <param name="collection">The source collection</param>
         /// <param name="filter">The predicate to filter by.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers for when filtering is updated.</param>
         /// <returns>A <see cref="FilteredView{T}"/></returns>
         public static FilteredView<T> AsFilteredView<T>(

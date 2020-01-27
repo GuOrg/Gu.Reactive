@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.Reactive
+﻿#nullable enable
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.ObjectModel;
@@ -16,7 +17,7 @@
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="collection">The source collection</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ThrottledView{T}"/></returns>
         public static ThrottledView<T> AsThrottledView<T>(this ObservableCollection<T> collection, TimeSpan bufferTime, bool leaveOpen = false)
         {
@@ -29,7 +30,7 @@
         /// <typeparam name="T">The type of the elements in the collection.</typeparam>
         /// <param name="collection">The source collection</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
-        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ThrottledView{T}"/></returns>
         public static ThrottledView<T> AsThrottledView<T>(this IObservableCollection<T> collection, TimeSpan bufferTime, bool leaveOpen = false)
         {

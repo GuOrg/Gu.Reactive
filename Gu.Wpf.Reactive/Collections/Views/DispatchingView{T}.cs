@@ -20,7 +20,7 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public DispatchingView(ObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen)
             : base(source, bufferTime, leaveOpen)
         {
@@ -32,7 +32,7 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public DispatchingView(IObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen)
             : base(source, bufferTime, leaveOpen)
         {

@@ -1,4 +1,4 @@
-// ReSharper disable MemberCanBePrivate.Global
+﻿// ReSharper disable MemberCanBePrivate.Global
 namespace Gu.Wpf.Reactive
 {
     using System;
@@ -24,7 +24,7 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="EditableListView{T}"/> class.
         /// </summary>
         /// <param name="list">The collection to decorate.</param>
-        /// <param name="leaveOpen">True means that <paramref name="list"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that <paramref name="list"/> is not disposed when this instance is disposed.</param>
         public EditableListView(IObservableCollection<T> list, bool leaveOpen)
             : base(list)
         {
