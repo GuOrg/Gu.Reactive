@@ -7,7 +7,7 @@
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// A taskrunner for generic tasks.
+    /// A task runner for generic tasks.
     /// </summary>
     /// <typeparam name="TParameter">The type of the command parameter.</typeparam>
     public class TaskRunner<TParameter> : TaskRunnerBase, ITaskRunner<TParameter>

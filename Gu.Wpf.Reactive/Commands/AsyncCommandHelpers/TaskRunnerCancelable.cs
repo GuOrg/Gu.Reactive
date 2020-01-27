@@ -7,10 +7,9 @@
     using System.Threading.Tasks;
 
     using Gu.Reactive;
-    using Gu.Reactive.Internals;
 
     /// <summary>
-    /// A taskrunner for nongeneric tasks.
+    /// A task runner for non-generic tasks.
     /// </summary>
     public class TaskRunnerCancelable : TaskRunnerBase, ITaskRunner
     {
@@ -25,13 +24,16 @@
         /// <param name="action">The source of tasks to execute.</param>
         public TaskRunnerCancelable(Func<CancellationToken, Task> action)
         {
-            Ensure.NotNull(action, nameof(action));
-            this.action = action;
+            this.action = action ?? throw new ArgumentNullException(nameof(action));
 
-            var observable = Observable.Merge<object>(
-                this.ObservePropertyChangedSlim(nameof(this.CanCancel)),
-                this.CanRunCondition.ObserveIsSatisfiedChanged());
-            this.CanCancelCondition = new Condition(observable, () => this.CanCancel) { Name = "CanCancel" };
+            this.CanCancelCondition = new Condition(
+                Observable.Merge<object>(
+                    this.ObservePropertyChangedSlim(nameof(this.CanCancel)),
+                    this.CanRunCondition.ObserveIsSatisfiedChanged()),
+                () => this.CanCancel)
+            {
+                Name = "CanCancel"
+            };
         }
 
         /// <inheritdoc/>

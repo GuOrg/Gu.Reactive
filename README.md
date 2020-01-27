@@ -575,7 +575,7 @@ Helpers for using System.Reactive with `INotifyPropertyChanged` in  WPF applicat
 
 ## Commands
 A set of relay commands. The generic versions take a command parameter of the generic type.
-The nongeneric version does not use the command parameter.
+The non-generic version does not use the command parameter.
 
 ### AsyncCommand
 For executing tasks. If the overload that takes a `CancellationToken` is used the `CancelCommand` cancels the execution.

@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Threading.Tasks;
@@ -7,7 +7,7 @@ namespace Gu.Wpf.Reactive
     using Gu.Reactive.Internals;
 
     /// <summary>
-    /// A taskrunner for nongeneric tasks.
+    /// A task runner for non-generic tasks.
     /// </summary>
     public class TaskRunner : TaskRunnerBase, ITaskRunner
     {

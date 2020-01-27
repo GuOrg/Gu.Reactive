@@ -14,7 +14,7 @@
         /// <summary>
         /// The status of the current task.
         /// </summary>
-        NotifyTaskCompletion TaskCompletion { get; }
+        NotifyTaskCompletion? TaskCompletion { get; }
 
         /// <summary>
         /// Condition for if the current run can be canceled.

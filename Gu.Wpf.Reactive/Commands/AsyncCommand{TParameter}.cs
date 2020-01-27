@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -93,7 +93,7 @@ namespace Gu.Wpf.Reactive
         /// <summary>
         /// Bindable info about the current execution.
         /// </summary>
-        public NotifyTaskCompletion Execution => this.runner.TaskCompletion;
+        public NotifyTaskCompletion? Execution => this.runner.TaskCompletion;
 
         /// <summary>
         /// Sets IsExecuting to true.
