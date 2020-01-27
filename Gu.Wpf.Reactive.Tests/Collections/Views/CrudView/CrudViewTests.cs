@@ -12,11 +12,13 @@
 
     public abstract class CrudViewTests
     {
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         protected VirtualTimeSchedulerBase<long, long> Scheduler { get; set; }
 
         protected IObservableCollection<int> View { get; set; }
 
         protected ObservableCollection<int> Ints { get; set; }
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -52,8 +54,8 @@
         [Test]
         public void UpdatesBeforeItNotifies()
         {
-            int[] actual = null;
-            int[] expected = null;
+            int[]? actual = null;
+            int[]? expected = null;
             using (this.View.ObserveCollectionChanged(signalInitial: false)
                        .Subscribe(_ => { actual = this.View.ToArray(); }))
             {

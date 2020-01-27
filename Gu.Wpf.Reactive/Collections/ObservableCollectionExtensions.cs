@@ -22,7 +22,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="collection">The collection.</param>
         /// <param name="item">The item to add.</param>
         /// <param name="comparison">The comparison.</param>
-        public static void InvokeInsertSorted<T>(this ObservableCollection<T> collection, T item, Comparison<T> comparison = null)
+        public static void InvokeInsertSorted<T>(this ObservableCollection<T> collection, T item, Comparison<T>? comparison = null)
         {
             if (collection is null)
             {

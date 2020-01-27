@@ -17,7 +17,7 @@
         /// <summary>
         /// Null if the run is not completed.
         /// </summary>
-        Task Completed { get; }
+        Task? Completed { get; }
 
         /// <summary>
         /// The current status of the <see cref="Task"/>.
@@ -52,16 +52,16 @@
         /// <summary>
         /// The exception produced by the run if any.
         /// </summary>
-        AggregateException Exception { get; }
+        AggregateException? Exception { get; }
 
         /// <summary>
         /// The inner exception produced by the run if any.
         /// </summary>
-        Exception InnerException { get; }
+        Exception? InnerException { get; }
 
         /// <summary>
         /// The exception message produced by the run if any.
         /// </summary>
-        string ErrorMessage { get; }
+        string? ErrorMessage { get; }
     }
 }

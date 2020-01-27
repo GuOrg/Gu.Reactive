@@ -27,9 +27,9 @@
         /// <param name="source">The source collection.</param>
         /// <param name="filter">The predicate used when filtering.</param>
         /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers when to re evaluate the filter.</param>
-        public FilteredView(ObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, bool leaveOpen, params IObservable<object>[] triggers)
+        public FilteredView(ObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, bool leaveOpen, params IObservable<object>[]? triggers)
             : this(source, filter, bufferTime, WpfSchedulers.Dispatcher, leaveOpen, triggers)
         {
         }
@@ -40,9 +40,9 @@
         /// <param name="source">The source collection.</param>
         /// <param name="filter">The predicate used when filtering.</param>
         /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers when to re evaluate the filter.</param>
-        public FilteredView(IObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, bool leaveOpen, params IObservable<object>[] triggers)
+        public FilteredView(IObservableCollection<T> source, Func<T, bool> filter, TimeSpan bufferTime, bool leaveOpen, params IObservable<object>[]? triggers)
             : this(source, filter, bufferTime, WpfSchedulers.Dispatcher, leaveOpen, triggers)
         {
         }
@@ -54,9 +54,9 @@
         /// <param name="filter">The predicate used when filtering.</param>
         /// <param name="bufferTime">The time to defer updates, useful if many triggers fire in short time. Then it will be only one Reset.</param>
         /// <param name="scheduler">The scheduler used when throttling. The collection changed events are raised on this scheduler.</param>
-        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is diposed.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers when to re evaluate the filter.</param>
-        internal FilteredView(IList<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[] triggers)
+        internal FilteredView(IList<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object>[]? triggers)
             : base(source, Filtered(source, filter), leaveOpen, startEmpty: true)
         {
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);

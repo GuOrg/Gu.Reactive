@@ -22,6 +22,6 @@
         Task INotifyTaskCompletion.Task => this.Task;
 
         /// <inheritdoc/>
-        Task INotifyTaskCompletion.Completed => this.Completed;
+        Task? INotifyTaskCompletion.Completed => this.Completed;
     }
 }

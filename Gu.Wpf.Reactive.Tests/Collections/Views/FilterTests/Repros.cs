@@ -17,7 +17,7 @@
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
             var max = 5;
-            using var trigger = new Subject<object>();
+            using var trigger = new Subject<object?>();
             //// ReSharper disable once AccessToModifiedClosure
             using var view = new FilteredView<int>(source, x => x < max, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true, triggers: trigger);
             using var actual = view.SubscribeAll();
@@ -70,7 +70,7 @@
             var source = new ObservableCollection<int> { 1, 2, 3 };
             var scheduler = new TestScheduler();
             var max = 5;
-            using var trigger = new Subject<object>();
+            using var trigger = new Subject<object?>();
             //// ReSharper disable once AccessToModifiedClosure
             using var view = new FilteredView<int>(source, x => x < max, TimeSpan.FromMilliseconds(10), scheduler, leaveOpen: true, triggers: trigger);
             using var actual = view.SubscribeAll();

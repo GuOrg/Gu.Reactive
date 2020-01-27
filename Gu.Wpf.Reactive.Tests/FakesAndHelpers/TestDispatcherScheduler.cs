@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
+﻿namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
 {
     using System;
     using System.Reactive.Concurrency;
@@ -26,7 +26,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
             throw new InvalidOperationException("Not meant to be used.");
         }
 
-        protected override IScheduledItem<long> GetNext()
+        protected override IScheduledItem<long>? GetNext()
         {
             _ = Application.Current.Dispatcher.SimulateYield().Wait();
             return null;

@@ -24,7 +24,7 @@ namespace Gu.Wpf.Reactive
 
         public static ICommand SetCollapseSatisfied { get; } = new RelayCommand(() => SetExpandedStyle(CollapseSatisfiedTreeViewItemStyleKey));
 
-        private static ComponentResourceKey CreateKey([CallerMemberName] string caller = null)
+        private static ComponentResourceKey CreateKey([CallerMemberName] string? caller = null)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             return new ComponentResourceKey(typeof(ConditionControl), caller);

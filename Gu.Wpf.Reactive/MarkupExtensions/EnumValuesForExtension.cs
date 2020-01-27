@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Windows.Markup;
@@ -17,10 +17,11 @@ namespace Gu.Wpf.Reactive
         /// Initializes a new instance of the <see cref="EnumValuesForExtension"/> class.
         /// </summary>
         /// <param name="type">The enum type.</param>
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         public EnumValuesForExtension(Type type)
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
-            Ensure.IsTrue(type?.IsEnum == true, nameof(type), "Expected type to be an enum");
-            this.type = type;
+            this.Type = type;
         }
 
         /// <summary>
@@ -33,7 +34,16 @@ namespace Gu.Wpf.Reactive
 
             set
             {
-                Ensure.IsTrue(value?.IsEnum == true, nameof(value), $"Expected {this.Type} to be an enum.");
+                if (value is null)
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                if (!value.IsEnum)
+                {
+                    throw new ArgumentException("Expected type to be an enum");
+                }
+
                 this.type = value;
             }
         }

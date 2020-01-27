@@ -11,7 +11,7 @@
         {
             var fromResult = Task.FromResult(1);
             var completion = new NotifyTaskCompletion<int>(fromResult);
-            Assert.AreEqual(fromResult.Result, completion.Completed.Result);
+            Assert.AreEqual(fromResult.Result, completion.Completed!.Result);
             AssertCompletion.AreEqual(fromResult, completion);
         }
 
@@ -23,7 +23,7 @@
             var completion = new NotifyTaskCompletion<int>(task);
             tcs.SetResult(1);
             await completion.Task.ConfigureAwait(false);
-            Assert.AreEqual(task.Result, completion.Completed.Result);
+            Assert.AreEqual(task.Result, completion.Completed!.Result);
             AssertCompletion.AreEqual(task, completion);
         }
 

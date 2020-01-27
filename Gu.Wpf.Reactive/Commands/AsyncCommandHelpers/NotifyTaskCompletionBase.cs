@@ -66,17 +66,17 @@
         /// <summary>
         /// The exception produced by the run if any.
         /// </summary>
-        public AggregateException Exception => this.Task.Exception;
+        public AggregateException? Exception => this.Task.Exception;
 
         /// <summary>
         /// The inner exception produced by the run if any.
         /// </summary>
-        public Exception InnerException => this.Exception?.InnerException;
+        public Exception? InnerException => this.Exception?.InnerException;
 
         /// <summary>
         /// The exception message produced by the run if any.
         /// </summary>
-        public string ErrorMessage => this.InnerException?.Message;
+        public string? ErrorMessage => this.InnerException?.Message;
 
         /// <summary>
         /// Null if the run is not completed.
@@ -101,7 +101,7 @@
         /// Notifies that <paramref name="propertyName"/> changed.
         /// </summary>
         /// <param name="propertyName">The name of the property.</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

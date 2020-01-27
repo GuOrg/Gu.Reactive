@@ -123,7 +123,7 @@ namespace Gu.Wpf.Reactive
             conditionControl.OnConditionChanged((ICondition)e.OldValue, (ICondition)e.NewValue);
         }
 
-        private static IReadOnlyList<ICondition> FlattenPrerequisites(ICondition condition, List<ICondition> list = null)
+        private static IReadOnlyList<ICondition> FlattenPrerequisites(ICondition condition, List<ICondition>? list = null)
         {
             if (list is null)
             {

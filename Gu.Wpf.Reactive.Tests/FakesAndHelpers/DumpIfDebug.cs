@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
+﻿namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
 {
     using System;
     using System.Diagnostics;
@@ -12,7 +12,7 @@ namespace Gu.Wpf.Reactive.Tests.FakesAndHelpers
         }
 
         [Conditional("DEBUG")]
-        internal static void WriteLine(string format, params object[] args)
+        internal static void WriteLine(string format, params object?[] args)
         {
             Console.WriteLine(format, args);
         }
