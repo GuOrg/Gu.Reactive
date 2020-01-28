@@ -82,7 +82,7 @@
                 Expression<Func<TItem, TProperty>> property,
                 bool signalInitial = true)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -116,7 +116,7 @@
                 Expression<Func<TItem, TProperty>> property,
                 bool signalInitial = true)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -143,7 +143,7 @@
                 this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
                 Expression<Func<TItem, TProperty>> property)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -175,7 +175,7 @@
                 this IObservable<TCollection> source,
                 Expression<Func<TItem, TProperty>> property)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -207,7 +207,7 @@
                 this IObservable<TCollection> source,
                 Expression<Func<TItem, TProperty>> property)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -249,7 +249,7 @@
             Expression<Func<TItem, TProperty>> property,
             Func<TItem, object?, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TProperty>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             return source.Select(x => x.EventArgs.Value)
                      .ItemPropertyChangedCore(
@@ -264,7 +264,7 @@
             Expression<Func<TItem, TProperty>> property,
             Func<TItem, object?, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TProperty>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             var tracker = ItemsTracker.Create((TCollection?)null, NotifyingPath.GetOrCreate(property));
             tracker.TrackedItemChanged += Handler;
@@ -289,7 +289,7 @@
             bool signalInitial,
             Func<TItem, object?, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TProperty>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             var tracker = ItemsTracker.Create(
                 signalInitial

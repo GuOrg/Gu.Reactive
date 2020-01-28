@@ -29,7 +29,7 @@ namespace Gu.Reactive
             this ObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -85,7 +85,7 @@ namespace Gu.Reactive
             this ObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -129,7 +129,7 @@ namespace Gu.Reactive
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
              this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> source,
              Expression<Func<TItem, TProperty>> property)
-             where TItem : class, INotifyPropertyChanged
+             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -157,7 +157,7 @@ namespace Gu.Reactive
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
              this IObservable<ObservableCollection<TItem>> source,
              Expression<Func<TItem, TProperty>> property)
-             where TItem : class, INotifyPropertyChanged
+             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -185,7 +185,7 @@ namespace Gu.Reactive
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
              this IObservable<ObservableCollection<TItem>> source,
              Expression<Func<TItem, TProperty>> property)
-             where TItem : class, INotifyPropertyChanged
+             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -212,7 +212,7 @@ namespace Gu.Reactive
             this ReadOnlyObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -268,7 +268,7 @@ namespace Gu.Reactive
             this ReadOnlyObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -312,7 +312,7 @@ namespace Gu.Reactive
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
              this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ReadOnlyObservableCollection<TItem>>>> source,
              Expression<Func<TItem, TProperty>> property)
-             where TItem : class, INotifyPropertyChanged
+             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -340,7 +340,7 @@ namespace Gu.Reactive
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
              this IObservable<ReadOnlyObservableCollection<TItem>> source,
              Expression<Func<TItem, TProperty>> property)
-             where TItem : class, INotifyPropertyChanged
+             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -368,7 +368,7 @@ namespace Gu.Reactive
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
              this IObservable<ReadOnlyObservableCollection<TItem>> source,
              Expression<Func<TItem, TProperty>> property)
-             where TItem : class, INotifyPropertyChanged
+             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -395,7 +395,7 @@ namespace Gu.Reactive
             this IReadOnlyObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -451,7 +451,7 @@ namespace Gu.Reactive
             this IReadOnlyObservableCollection<TItem> source,
             Expression<Func<TItem, TProperty>> property,
             bool signalInitial = true)
-            where TItem : class, INotifyPropertyChanged
+            where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -495,7 +495,7 @@ namespace Gu.Reactive
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
              this IObservable<EventPattern<PropertyChangedAndValueEventArgs<IReadOnlyObservableCollection<TItem>>>> source,
              Expression<Func<TItem, TProperty>> property)
-             where TItem : class, INotifyPropertyChanged
+             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -523,7 +523,7 @@ namespace Gu.Reactive
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
              this IObservable<IReadOnlyObservableCollection<TItem>> source,
              Expression<Func<TItem, TProperty>> property)
-             where TItem : class, INotifyPropertyChanged
+             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
@@ -551,7 +551,7 @@ namespace Gu.Reactive
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
              this IObservable<IReadOnlyObservableCollection<TItem>> source,
              Expression<Func<TItem, TProperty>> property)
-             where TItem : class, INotifyPropertyChanged
+             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
             {
