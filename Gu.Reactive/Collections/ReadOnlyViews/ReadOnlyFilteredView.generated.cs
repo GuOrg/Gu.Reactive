@@ -5,7 +5,6 @@ namespace Gu.Reactive
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Reactive.Concurrency;
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// Factory methods for creating <see cref="ReadOnlyFilteredView{T}"/>
@@ -986,7 +985,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(filter));
             }
 
-            Ensure.NotNull(triggers, "triggers");
+            if (triggers is null)
+            {
+                throw new ArgumentNullException(nameof(triggers));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, false, triggers);
         }
 
@@ -1015,7 +1018,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(filter));
             }
 
-            Ensure.NotNull(triggers, "triggers");
+            if (triggers is null)
+            {
+                throw new ArgumentNullException(nameof(triggers));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, leaveOpen, triggers);
         }
 
@@ -1044,7 +1051,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(filter));
             }
 
-            Ensure.NotNull(triggers, "triggers");
+            if (triggers is null)
+            {
+                throw new ArgumentNullException(nameof(triggers));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, false, triggers);
         }
 
@@ -1075,7 +1086,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(filter));
             }
 
-            Ensure.NotNull(triggers, "triggers");
+            if (triggers is null)
+            {
+                throw new ArgumentNullException(nameof(triggers));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, leaveOpen, triggers);
         }
 
@@ -1109,7 +1124,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(scheduler));
             }
 
-            Ensure.NotNull(triggers, "triggers");
+            if (triggers is null)
+            {
+                throw new ArgumentNullException(nameof(triggers));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, false, triggers);
         }
 
@@ -1145,7 +1164,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(scheduler));
             }
 
-            Ensure.NotNull(triggers, "triggers");
+            if (triggers is null)
+            {
+                throw new ArgumentNullException(nameof(triggers));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -1181,7 +1204,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(scheduler));
             }
 
-            Ensure.NotNull(triggers, "triggers");
+            if (triggers is null)
+            {
+                throw new ArgumentNullException(nameof(triggers));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, false, triggers);
         }
 
@@ -1219,7 +1246,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(scheduler));
             }
 
-            Ensure.NotNull(triggers, "triggers");
+            if (triggers is null)
+            {
+                throw new ArgumentNullException(nameof(triggers));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -1246,7 +1277,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(filter));
             }
 
-            Ensure.NotNull(trigger, "trigger");
+            if (trigger is null)
+            {
+                throw new ArgumentNullException(nameof(trigger));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, false, new[] { trigger });
         }
 
@@ -1275,7 +1310,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(filter));
             }
 
-            Ensure.NotNull(trigger, "trigger");
+            if (trigger is null)
+            {
+                throw new ArgumentNullException(nameof(trigger));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, leaveOpen, new[] { trigger });
         }
 
@@ -1304,7 +1343,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(filter));
             }
 
-            Ensure.NotNull(trigger, "trigger");
+            if (trigger is null)
+            {
+                throw new ArgumentNullException(nameof(trigger));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, false, new[] { trigger });
         }
 
@@ -1335,7 +1378,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(filter));
             }
 
-            Ensure.NotNull(trigger, "trigger");
+            if (trigger is null)
+            {
+                throw new ArgumentNullException(nameof(trigger));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, leaveOpen, new[] { trigger });
         }
 
@@ -1369,7 +1416,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(scheduler));
             }
 
-            Ensure.NotNull(trigger, "trigger");
+            if (trigger is null)
+            {
+                throw new ArgumentNullException(nameof(trigger));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, false, new[] { trigger });
         }
 
@@ -1405,7 +1456,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(scheduler));
             }
 
-            Ensure.NotNull(trigger, "trigger");
+            if (trigger is null)
+            {
+                throw new ArgumentNullException(nameof(trigger));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, leaveOpen, new[] { trigger });
         }
 
@@ -1441,7 +1496,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(scheduler));
             }
 
-            Ensure.NotNull(trigger, "trigger");
+            if (trigger is null)
+            {
+                throw new ArgumentNullException(nameof(trigger));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, false, new[] { trigger });
         }
 
@@ -1479,7 +1538,11 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(scheduler));
             }
 
-            Ensure.NotNull(trigger, "trigger");
+            if (trigger is null)
+            {
+                throw new ArgumentNullException(nameof(trigger));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, leaveOpen, new[] { trigger });
         }
     }
