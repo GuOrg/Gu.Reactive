@@ -4,7 +4,7 @@
     using System.ComponentModel;
 
     internal class NotifyingPath<TNotifier, TProperty> : PropertyPath<TNotifier, TProperty>
-        where TNotifier : class, INotifyPropertyChanged
+        where TNotifier : class?, INotifyPropertyChanged?
     {
         private readonly IReadOnlyList<INotifyingGetter> parts;
 

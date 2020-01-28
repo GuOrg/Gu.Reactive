@@ -16,7 +16,7 @@
         private static readonly ConcurrentDictionary<LambdaExpression, object> Cached = new ConcurrentDictionary<LambdaExpression, object>(PropertyPathComparer.Default);
 
         internal static NotifyingPath<TNotifier, TProperty> GetOrCreate<TNotifier, TProperty>(Expression<Func<TNotifier, TProperty>> property)
-            where TNotifier : class, INotifyPropertyChanged
+            where TNotifier : class?, INotifyPropertyChanged?
         {
             var notifyingPath = Cached.GetOrAdd(property, p => Create((Expression<Func<TNotifier, TProperty>>)p));
             var errorMessage = notifyingPath as string;
@@ -29,7 +29,7 @@
         }
 
         private static object Create<TNotifier, TProperty>(Expression<Func<TNotifier, TProperty>> propertyPath)
-            where TNotifier : class, INotifyPropertyChanged
+            where TNotifier : class?, INotifyPropertyChanged?
         {
             var properties = PropertyPathParser.GetPath(propertyPath);
             var errorBuilder = new StringBuilder();
