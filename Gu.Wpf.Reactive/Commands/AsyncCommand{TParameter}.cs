@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Reactive.Disposables;
-    using System.Reactive.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -109,8 +108,13 @@
             try
             {
                 this.Action(parameter);
-                await this.Execution.ObservePropertyChangedSlim(nameof(this.Execution.IsCompleted))
-                          .FirstAsync(_ => this.Execution?.IsCompleted == true);
+                if (this.Execution is { Task: { } task })
+                {
+                    await task.ConfigureAwait(true);
+                }
+            }
+            catch
+            {
             }
             finally
             {
