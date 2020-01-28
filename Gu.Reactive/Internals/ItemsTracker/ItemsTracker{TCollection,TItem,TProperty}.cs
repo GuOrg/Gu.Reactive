@@ -8,7 +8,7 @@
 
     internal abstract class ItemsTracker<TCollection, TItem, TProperty> : IDisposable
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
-        where TItem : class, INotifyPropertyChanged
+        where TItem : class?, INotifyPropertyChanged?
     {
         protected readonly object Gate = new object();
 

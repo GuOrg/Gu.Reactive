@@ -1,7 +1,6 @@
 ﻿namespace Gu.Reactive.Tests
 {
     using System;
-
     using Moq;
 
     using NUnit.Framework;

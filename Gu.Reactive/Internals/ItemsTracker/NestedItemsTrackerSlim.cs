@@ -8,7 +8,7 @@
 
     internal sealed class NestedItemsTrackerSlim<TCollection, TItem, TProperty> : ItemsTrackerSlim
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
-        where TItem : class, INotifyPropertyChanged
+        where TItem : class?, INotifyPropertyChanged?
     {
         private readonly object gate = new object();
         private readonly TCollection source;
@@ -40,10 +40,10 @@
                         return;
                     }
 
-                    foreach (var kvp in this.map)
+                    foreach (var tracker in this.map.Values)
                     {
-                        kvp.Value.TrackedPropertyChanged -= this.OnItemPropertyChanged;
-                        kvp.Value.Dispose();
+                        tracker.TrackedPropertyChanged -= this.OnItemPropertyChanged;
+                        tracker.Dispose();
                     }
 
                     IdentityMap.Return(this.map);

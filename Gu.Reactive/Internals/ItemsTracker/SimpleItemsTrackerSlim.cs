@@ -8,7 +8,7 @@
 
     internal sealed class SimpleItemsTrackerSlim<TCollection, TItem, TProperty> : ItemsTrackerSlim
         where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
-        where TItem : class, INotifyPropertyChanged
+        where TItem : class?, INotifyPropertyChanged?
     {
         private readonly object gate = new object();
         private readonly TCollection source;
