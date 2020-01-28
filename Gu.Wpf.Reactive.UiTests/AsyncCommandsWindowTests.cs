@@ -13,6 +13,7 @@
         public void OneTimeSetUp()
         {
             using var app = Application.AttachOrLaunch(Info.ExeFileName, WindowName);
+            
             // Try to fix intermittent failures on AppVeyor.
             _ = app.GetMainWindow(TimeSpan.FromSeconds(20));
         }
