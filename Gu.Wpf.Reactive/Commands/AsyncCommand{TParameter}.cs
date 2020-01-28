@@ -113,8 +113,12 @@
                     await task.ConfigureAwait(true);
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch
+#pragma warning restore CA1031 // Do not catch general exception types
             {
+                // The exception is stored in the tas runner
+                // swallowing is debatable design but keeping it as is.
             }
             finally
             {
