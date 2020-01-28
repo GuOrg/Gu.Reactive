@@ -25,8 +25,16 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, false, triggers);
         }
 
@@ -45,8 +53,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, leaveOpen, triggers);
         }
 
@@ -65,8 +81,16 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, false, triggers);
         }
 
@@ -87,8 +111,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, leaveOpen, triggers);
         }
 
@@ -107,9 +139,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, false, triggers);
         }
 
@@ -130,9 +174,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -153,9 +209,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, false, triggers);
         }
 
@@ -178,9 +246,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -199,8 +279,16 @@ namespace Gu.Reactive
             Func<T, IObservable<object>> observableFactory,
             bool leaveOpen = false)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, observableFactory, TimeSpan.Zero, null, leaveOpen);
         }
 
@@ -223,9 +311,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             bool leaveOpen)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, observableFactory, bufferTime, scheduler, leaveOpen);
         }
 
@@ -242,8 +342,16 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, false, triggers);
         }
 
@@ -262,8 +370,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, leaveOpen, triggers);
         }
 
@@ -282,8 +398,16 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, false, triggers);
         }
 
@@ -304,8 +428,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, leaveOpen, triggers);
         }
 
@@ -324,9 +456,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, false, triggers);
         }
 
@@ -347,9 +491,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -370,9 +526,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, false, triggers);
         }
 
@@ -395,9 +563,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -416,8 +596,16 @@ namespace Gu.Reactive
             Func<T, IObservable<object>> observableFactory,
             bool leaveOpen = false)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, observableFactory, TimeSpan.Zero, null, leaveOpen);
         }
 
@@ -440,9 +628,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             bool leaveOpen)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, observableFactory, bufferTime, scheduler, leaveOpen);
         }
 
@@ -459,8 +659,16 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, false, triggers);
         }
 
@@ -479,8 +687,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, leaveOpen, triggers);
         }
 
@@ -499,8 +715,16 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, false, triggers);
         }
 
@@ -521,8 +745,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, leaveOpen, triggers);
         }
 
@@ -541,9 +773,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, false, triggers);
         }
 
@@ -564,9 +808,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
 
@@ -587,9 +843,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, false, triggers);
         }
 
@@ -612,9 +880,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, leaveOpen, triggers);
         }
 
@@ -633,8 +913,16 @@ namespace Gu.Reactive
             Func<T, IObservable<object>> observableFactory,
             bool leaveOpen = false)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, observableFactory, TimeSpan.Zero, null, leaveOpen);
         }
 
@@ -657,9 +945,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             bool leaveOpen)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             return new ReadOnlyFilteredView<T>(source, filter, observableFactory, bufferTime, scheduler, leaveOpen);
         }
 
@@ -676,8 +976,16 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             IEnumerable<IObservable<object>> triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, false, triggers);
         }
@@ -697,8 +1005,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             IEnumerable<IObservable<object>> triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, leaveOpen, triggers);
         }
@@ -718,8 +1034,16 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             IEnumerable<IObservable<object>> triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, false, triggers);
         }
@@ -741,8 +1065,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             IEnumerable<IObservable<object>> triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, leaveOpen, triggers);
         }
@@ -762,9 +1094,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             IEnumerable<IObservable<object>> triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, false, triggers);
         }
@@ -786,9 +1130,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             IEnumerable<IObservable<object>> triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, leaveOpen, triggers);
         }
@@ -810,9 +1166,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             IEnumerable<IObservable<object>> triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, false, triggers);
         }
@@ -836,9 +1204,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             IEnumerable<IObservable<object>> triggers)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             Ensure.NotNull(triggers, "triggers");
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, leaveOpen, triggers);
         }
@@ -856,8 +1236,16 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             IObservable<object> trigger)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, false, new[] { trigger });
         }
@@ -877,8 +1265,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             IObservable<object> trigger)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, null, leaveOpen, new[] { trigger });
         }
@@ -898,8 +1294,16 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             IObservable<object> trigger)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, false, new[] { trigger });
         }
@@ -921,8 +1325,16 @@ namespace Gu.Reactive
             bool leaveOpen,
             IObservable<object> trigger)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, null, leaveOpen, new[] { trigger });
         }
@@ -942,9 +1354,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             IObservable<object> trigger)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, false, new[] { trigger });
         }
@@ -966,9 +1390,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             IObservable<object> trigger)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(source, filter, TimeSpan.Zero, scheduler, leaveOpen, new[] { trigger });
         }
@@ -990,9 +1426,21 @@ namespace Gu.Reactive
             IScheduler scheduler,
             IObservable<object> trigger)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, false, new[] { trigger });
         }
@@ -1016,9 +1464,21 @@ namespace Gu.Reactive
             bool leaveOpen,
             IObservable<object> trigger)
         {
-            Ensure.NotNull(source, nameof(source));
-            Ensure.NotNull(filter, nameof(filter));
-            Ensure.NotNull(scheduler, nameof(scheduler));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
+            if (scheduler is null)
+            {
+                throw new ArgumentNullException(nameof(scheduler));
+            }
+
             Ensure.NotNull(trigger, "trigger");
             return new ReadOnlyFilteredView<T>(source, filter, bufferTime, scheduler, leaveOpen, new[] { trigger });
         }
