@@ -77,7 +77,9 @@
         public static Maybe<T> Cast<T>(this Maybe<object> maybe)
         {
             return maybe.HasValue
+#pragma warning disable CS8601 // Possible null reference assignment.
                        ? Some((T)maybe.Value)
+#pragma warning restore CS8601 // Possible null reference assignment.
                        : Maybe<T>.None;
         }
 

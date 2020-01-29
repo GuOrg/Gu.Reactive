@@ -12,7 +12,9 @@
     {
         private readonly NotifyingPath<TItem, TProperty> path;
 
+#pragma warning disable CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
         private readonly IdentityMap<TItem, PropertyPathTracker<TItem, TProperty>> map = IdentityMap.Borrow<TItem, PropertyPathTracker<TItem, TProperty>>();
+#pragma warning restore CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
 
         private TCollection? source;
         private bool disposed;
@@ -103,7 +105,9 @@
                         tracker.Dispose();
                     }
 
+#pragma warning disable CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
                     IdentityMap.Return(this.map);
+#pragma warning restore CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
                 }
             }
 
@@ -193,7 +197,9 @@
 
         private void RemoveItems(IEnumerable items)
         {
+#pragma warning disable CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
             var set = IdentitySet.Borrow<TItem>();
+#pragma warning restore CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
 #pragma warning disable CS8606 // Possible null reference assignment to iteration variable
             foreach (TItem item in items)
 #pragma warning restore CS8606 // Possible null reference assignment to iteration variable
@@ -224,7 +230,9 @@
                 this.map.Remove(item);
             }
 
+#pragma warning disable CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
             IdentitySet.Return(set);
+#pragma warning restore CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
         }
     }
 }

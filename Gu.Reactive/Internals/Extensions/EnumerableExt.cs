@@ -7,8 +7,8 @@
 
     internal static class EnumerableExt
     {
-        internal static IEnumerable<T> NotNull<T>(this IEnumerable<T?>? source)
-            where T : class
+        internal static IEnumerable<T> NotNull<T>(this IEnumerable<T>? source)
+            where T : class?
         {
             if (source is null)
             {

@@ -11,7 +11,9 @@
         where TItem : class?, INotifyPropertyChanged?
     {
         private readonly Getter<TItem, TProperty> getter;
+#pragma warning disable CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
         private readonly IdentitySet<TItem> set = IdentitySet.Borrow<TItem>();
+#pragma warning restore CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
 
         private TCollection? source;
         private bool disposed;
@@ -52,7 +54,7 @@
                 {
                     foreach (var item in this.set)
                     {
-                        item.PropertyChanged -= this.OnItemPropertyChanged;
+                        item!.PropertyChanged -= this.OnItemPropertyChanged;
                     }
 
                     this.set.Clear();
@@ -97,10 +99,12 @@
 
                     foreach (var item in this.set)
                     {
-                        item.PropertyChanged -= this.OnItemPropertyChanged;
+                        item!.PropertyChanged -= this.OnItemPropertyChanged;
                     }
 
+#pragma warning disable CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
                     IdentitySet.Return(this.set);
+#pragma warning restore CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
                 }
             }
 
