@@ -51,10 +51,10 @@
                 this.source = newSource;
                 if (newSource is null)
                 {
-                    foreach (var kvp in this.map)
+                    foreach (var tracker in this.map.Values)
                     {
-                        kvp.Value.TrackedPropertyChanged -= this.OnItemPropertyChanged;
-                        kvp.Value.Dispose();
+                        tracker.TrackedPropertyChanged -= this.OnItemPropertyChanged;
+                        tracker.Dispose();
                     }
 
                     this.map.Clear();
@@ -97,10 +97,10 @@
                         this.source = null;
                     }
 
-                    foreach (var kvp in this.map)
+                    foreach (var tracker in this.map.Values)
                     {
-                        kvp.Value.TrackedPropertyChanged -= this.OnItemPropertyChanged;
-                        kvp.Value.Dispose();
+                        tracker.TrackedPropertyChanged -= this.OnItemPropertyChanged;
+                        tracker.Dispose();
                     }
 
                     IdentityMap.Return(this.map);
