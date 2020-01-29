@@ -344,8 +344,8 @@ namespace Gu.Reactive
 
     var triggers = new[]
                         {
-                            new[] { "IEnumerable<IObservable<object>>", "triggers", "triggers" },
-                            new[] { "IObservable<object>", "trigger", "new[] { trigger }" }
+                            new[] { "IEnumerable<IObservable<object?>>", "triggers", "triggers" },
+                            new[] { "IObservable<object?>", "trigger", "new[] { trigger }" }
                         };
     for(var i = 0; i < triggers.Length; i++)
     {

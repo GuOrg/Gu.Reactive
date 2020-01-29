@@ -973,7 +973,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IEnumerable<T> source,
             Func<T, bool> filter,
-            IEnumerable<IObservable<object>> triggers)
+            IEnumerable<IObservable<object?>> triggers)
         {
             if (source is null)
             {
@@ -1006,7 +1006,7 @@ namespace Gu.Reactive
             this IEnumerable<T> source,
             Func<T, bool> filter,
             bool leaveOpen,
-            IEnumerable<IObservable<object>> triggers)
+            IEnumerable<IObservable<object?>> triggers)
         {
             if (source is null)
             {
@@ -1039,7 +1039,7 @@ namespace Gu.Reactive
             this IEnumerable<T> source,
             Func<T, bool> filter,
             TimeSpan bufferTime,
-            IEnumerable<IObservable<object>> triggers)
+            IEnumerable<IObservable<object?>> triggers)
         {
             if (source is null)
             {
@@ -1074,7 +1074,7 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             TimeSpan bufferTime,
             bool leaveOpen,
-            IEnumerable<IObservable<object>> triggers)
+            IEnumerable<IObservable<object?>> triggers)
         {
             if (source is null)
             {
@@ -1107,7 +1107,7 @@ namespace Gu.Reactive
             this IEnumerable<T> source,
             Func<T, bool> filter,
             IScheduler scheduler,
-            IEnumerable<IObservable<object>> triggers)
+            IEnumerable<IObservable<object?>> triggers)
         {
             if (source is null)
             {
@@ -1147,7 +1147,7 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             IScheduler scheduler,
             bool leaveOpen,
-            IEnumerable<IObservable<object>> triggers)
+            IEnumerable<IObservable<object?>> triggers)
         {
             if (source is null)
             {
@@ -1187,7 +1187,7 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             TimeSpan bufferTime,
             IScheduler scheduler,
-            IEnumerable<IObservable<object>> triggers)
+            IEnumerable<IObservable<object?>> triggers)
         {
             if (source is null)
             {
@@ -1229,7 +1229,7 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             IScheduler scheduler,
             bool leaveOpen,
-            IEnumerable<IObservable<object>> triggers)
+            IEnumerable<IObservable<object?>> triggers)
         {
             if (source is null)
             {
@@ -1265,7 +1265,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IEnumerable<T> source,
             Func<T, bool> filter,
-            IObservable<object> trigger)
+            IObservable<object?> trigger)
         {
             if (source is null)
             {
@@ -1298,7 +1298,7 @@ namespace Gu.Reactive
             this IEnumerable<T> source,
             Func<T, bool> filter,
             bool leaveOpen,
-            IObservable<object> trigger)
+            IObservable<object?> trigger)
         {
             if (source is null)
             {
@@ -1331,7 +1331,7 @@ namespace Gu.Reactive
             this IEnumerable<T> source,
             Func<T, bool> filter,
             TimeSpan bufferTime,
-            IObservable<object> trigger)
+            IObservable<object?> trigger)
         {
             if (source is null)
             {
@@ -1366,7 +1366,7 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             TimeSpan bufferTime,
             bool leaveOpen,
-            IObservable<object> trigger)
+            IObservable<object?> trigger)
         {
             if (source is null)
             {
@@ -1399,7 +1399,7 @@ namespace Gu.Reactive
             this IEnumerable<T> source,
             Func<T, bool> filter,
             IScheduler scheduler,
-            IObservable<object> trigger)
+            IObservable<object?> trigger)
         {
             if (source is null)
             {
@@ -1439,7 +1439,7 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             IScheduler scheduler,
             bool leaveOpen,
-            IObservable<object> trigger)
+            IObservable<object?> trigger)
         {
             if (source is null)
             {
@@ -1479,7 +1479,7 @@ namespace Gu.Reactive
             Func<T, bool> filter,
             TimeSpan bufferTime,
             IScheduler scheduler,
-            IObservable<object> trigger)
+            IObservable<object?> trigger)
         {
             if (source is null)
             {
@@ -1521,7 +1521,7 @@ namespace Gu.Reactive
             TimeSpan bufferTime,
             IScheduler scheduler,
             bool leaveOpen,
-            IObservable<object> trigger)
+            IObservable<object?> trigger)
         {
             if (source is null)
             {
