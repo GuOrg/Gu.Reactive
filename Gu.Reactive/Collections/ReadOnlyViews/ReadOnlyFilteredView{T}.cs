@@ -59,7 +59,7 @@
         /// <param name="scheduler">The scheduler to perform the filtering and notification on.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, Func<T, IObservable<object>> observableFactory, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
+        public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, Func<T, IObservable<object?>> observableFactory, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : base(source, x => x.Where(filter), leaveOpen, startEmpty: true)
         {
             if (source is null)

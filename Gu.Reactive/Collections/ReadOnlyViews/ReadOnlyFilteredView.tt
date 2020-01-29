@@ -15,7 +15,7 @@ namespace Gu.Reactive
     public static partial class ReadOnlyFilteredView
     {
 <#
-    var typeNames = new[] {"ObservableCollection", "ReadOnlyObservableCollection", "IReadOnlyObservableCollection"};
+    var typeNames = new[] { "ObservableCollection", "ReadOnlyObservableCollection", "IReadOnlyObservableCollection" };
     for(var i = 0; i < typeNames.Length; i++)
     {
         var typeName = typeNames[i];
@@ -288,7 +288,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this <#= typeName #><T> source,
             Func<T, bool> filter,
-            Func<T, IObservable<object>> observableFactory,
+            Func<T, IObservable<object?>> observableFactory,
             bool leaveOpen = false)
         {
             if (source is null)
@@ -318,7 +318,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this <#= typeName #><T> source,
             Func<T, bool> filter,
-            Func<T, IObservable<object>> observableFactory,
+            Func<T, IObservable<object?>> observableFactory,
             TimeSpan bufferTime,
             IScheduler scheduler,
             bool leaveOpen)
@@ -343,10 +343,10 @@ namespace Gu.Reactive
 <#    }
 
     var triggers = new[]
-                        {
-                            new[] { "IEnumerable<IObservable<object?>>", "triggers", "triggers" },
-                            new[] { "IObservable<object?>", "trigger", "new[] { trigger }" }
-                        };
+    {
+        new[] { "IEnumerable<IObservable<object?>>", "triggers", "triggers" },
+        new[] { "IObservable<object?>", "trigger", "new[] { trigger }" }
+    };
     for(var i = 0; i < triggers.Length; i++)
     {
         var trigger = triggers[i];#>

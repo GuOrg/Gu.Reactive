@@ -275,7 +275,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this ObservableCollection<T> source,
             Func<T, bool> filter,
-            Func<T, IObservable<object>> observableFactory,
+            Func<T, IObservable<object?>> observableFactory,
             bool leaveOpen = false)
         {
             if (source is null)
@@ -305,7 +305,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this ObservableCollection<T> source,
             Func<T, bool> filter,
-            Func<T, IObservable<object>> observableFactory,
+            Func<T, IObservable<object?>> observableFactory,
             TimeSpan bufferTime,
             IScheduler scheduler,
             bool leaveOpen)
@@ -592,7 +592,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this ReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
-            Func<T, IObservable<object>> observableFactory,
+            Func<T, IObservable<object?>> observableFactory,
             bool leaveOpen = false)
         {
             if (source is null)
@@ -622,7 +622,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this ReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
-            Func<T, IObservable<object>> observableFactory,
+            Func<T, IObservable<object?>> observableFactory,
             TimeSpan bufferTime,
             IScheduler scheduler,
             bool leaveOpen)
@@ -909,7 +909,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
-            Func<T, IObservable<object>> observableFactory,
+            Func<T, IObservable<object?>> observableFactory,
             bool leaveOpen = false)
         {
             if (source is null)
@@ -939,7 +939,7 @@ namespace Gu.Reactive
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
             this IReadOnlyObservableCollection<T> source,
             Func<T, bool> filter,
-            Func<T, IObservable<object>> observableFactory,
+            Func<T, IObservable<object?>> observableFactory,
             TimeSpan bufferTime,
             IScheduler scheduler,
             bool leaveOpen)
