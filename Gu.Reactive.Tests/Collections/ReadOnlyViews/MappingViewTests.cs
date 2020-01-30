@@ -6,7 +6,6 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using Gu.Reactive.Internals;
     using NUnit.Framework;
 
     public static partial class MappingViewTests
