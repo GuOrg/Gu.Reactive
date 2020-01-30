@@ -25,7 +25,7 @@
         /// <param name="property">
         /// An expression specifying the property path to track.
         /// Example x => x.Foo.Bar.Meh.
-        ///  </param>
+        /// </param>
         /// <param name="signalInitial">
         /// If true OnNext is called immediately on subscribe.
         /// </param>

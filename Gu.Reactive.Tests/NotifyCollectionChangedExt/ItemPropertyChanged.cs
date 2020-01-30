@@ -19,14 +19,30 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         public static void SignalsOnNewCollection()
         {
             var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string?>>>();
-            var fake = new FakeWithCollection();
-            using (fake.ObservePropertyChangedWithValue(x => x.Collection)
+            var fake = new With<ObservableCollection<Fake>>();
+            using (fake.ObservePropertyChangedWithValue(x => x.Value)
                        .ItemPropertyChanged(x => x.Name)
                        .Subscribe(changes.Add))
             {
                 CollectionAssert.IsEmpty(changes);
                 var collection = new ObservableCollection<Fake> { new Fake { Name = "1" } };
-                fake.Collection = collection;
+                fake.Value = collection;
+                EventPatternAssert.AreEqual(collection[0], collection, collection[0], Maybe.Some<string?>("1"), string.Empty, changes.Single());
+            }
+        }
+
+        [Test]
+        public static void SignalsOnNewCollectionNullable()
+        {
+            var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string?>>>();
+            var fake = new With<ObservableCollection<Fake>?>();
+            using (fake.ObservePropertyChangedWithValue(x => x.Value)
+                       .ItemPropertyChanged(x => x.Name)
+                       .Subscribe(changes.Add))
+            {
+                CollectionAssert.IsEmpty(changes);
+                var collection = new ObservableCollection<Fake> { new Fake { Name = "1" } };
+                fake.Value = collection;
                 EventPatternAssert.AreEqual(collection[0], collection, collection[0], Maybe.Some<string?>("1"), string.Empty, changes.Single());
             }
         }
