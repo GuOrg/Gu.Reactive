@@ -52,8 +52,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
         {
             var changes = new List<EventPattern<ItemPropertyChangedEventArgs<Fake, string?>>>();
             var collection = new ObservableCollection<Fake> { new Fake { Name = "1" } };
-            var fake = new FakeWithCollection { Collection = collection };
-            using (fake.ObservePropertyChangedWithValue(x => x.Collection, signalInitial: true)
+            var fake = new With<ObservableCollection<Fake>> { Value = collection };
+            using (fake.ObservePropertyChangedWithValue(x => x.Value, signalInitial: true)
                        .ItemPropertyChanged(x => x.Name)
                        .Subscribe(changes.Add))
             {
@@ -70,8 +70,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 new Fake { Next = new Level { Name = "Johan" } },
                 new Fake { Next = new Level { Name = "Reed" } },
             };
-            var fake = new FakeWithCollection { Collection = collection };
-            using (fake.ObservePropertyChangedWithValue(x => x.Collection, signalInitial: true)
+            var fake = new With<ObservableCollection<Fake>> { Value = collection };
+            using (fake.ObservePropertyChangedWithValue(x => x.Value, signalInitial: true)
                        .ItemPropertyChanged(x => x.Next.Name)
                        .Subscribe(changes.Add))
             {
@@ -79,19 +79,19 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
                 EventPatternAssert.AreEqual(collection[0], collection, collection[0].Next, Maybe.Some<string?>("Johan"), string.Empty, changes[0]);
                 EventPatternAssert.AreEqual(collection[1], collection, collection[1].Next, Maybe.Some<string?>("Reed"), string.Empty, changes[1]);
 
-                fake.Collection[0].Next!.Name = "Erik";
+                fake.Value[0].Next!.Name = "Erik";
                 Assert.AreEqual(3, changes.Count);
                 EventPatternAssert.AreEqual(collection[0], collection[0].Next, collection[0].Next, Maybe.Some<string?>("Erik"), "Name", changes.Last());
 
-                fake.Collection.Add(fake.Collection[0]);
+                fake.Value.Add(fake.Value[0]);
                 Assert.AreEqual(4, changes.Count);
                 EventPatternAssert.AreEqual(collection[0], collection, collection[0].Next, Maybe.Some<string?>("Erik"), string.Empty, changes.Last());
 
-                fake.Collection[0].Next!.Name = "Max";
+                fake.Value[0].Next!.Name = "Max";
                 Assert.AreEqual(5, changes.Count);
                 EventPatternAssert.AreEqual(collection[0], collection[0].Next, collection[0].Next, Maybe.Some<string?>("Max"), "Name", changes.Last());
 
-                fake.Collection[1].Next!.Name = "Tom";
+                fake.Value[1].Next!.Name = "Tom";
                 Assert.AreEqual(6, changes.Count);
                 EventPatternAssert.AreEqual(collection[1], collection[1].Next, collection[1].Next, Maybe.Some<string?>("Tom"), "Name", changes.Last());
             }
