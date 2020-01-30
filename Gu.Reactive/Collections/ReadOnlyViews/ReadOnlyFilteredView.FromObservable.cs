@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Gu.Reactive
         /// <param name="filter">The predicate to filter by.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/>.</returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
-            this IObservable<IEnumerable<T>> source,
+            this IObservable<IEnumerable<T>?> source,
             Func<T, bool> filter)
         {
             if (source is null)
@@ -42,7 +42,7 @@ namespace Gu.Reactive
         /// <param name="filter">The predicate to filter by.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/>.</returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
-            this IObservable<IMaybe<IEnumerable<T>>> source,
+            this IObservable<IMaybe<IEnumerable<T>?>> source,
             Func<T, bool> filter)
         {
             if (source is null)
@@ -67,7 +67,7 @@ namespace Gu.Reactive
         /// <param name="filter">The predicate to filter by.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/>.</returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
-            this IObservable<Maybe<IEnumerable<T>>> source,
+            this IObservable<Maybe<IEnumerable<T>?>> source,
             Func<T, bool> filter)
         {
             if (source is null)
@@ -93,7 +93,7 @@ namespace Gu.Reactive
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/>.</returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
-            this IObservable<IEnumerable<T>> source,
+            this IObservable<IEnumerable<T>?> source,
             Func<T, bool> filter,
             IScheduler scheduler)
         {
@@ -120,7 +120,7 @@ namespace Gu.Reactive
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/>.</returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
-            this IObservable<IMaybe<IEnumerable<T>>> source,
+            this IObservable<IMaybe<IEnumerable<T>?>> source,
             Func<T, bool> filter,
             IScheduler scheduler)
         {
@@ -147,7 +147,7 @@ namespace Gu.Reactive
         /// <param name="scheduler">The scheduler to notify changes on.</param>
         /// <returns>A <see cref="ReadOnlyFilteredView{T}"/>.</returns>
         public static ReadOnlyFilteredView<T> AsReadOnlyFilteredView<T>(
-            this IObservable<Maybe<IEnumerable<T>>> source,
+            this IObservable<Maybe<IEnumerable<T>?>> source,
             Func<T, bool> filter,
             IScheduler scheduler)
         {

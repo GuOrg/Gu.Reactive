@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -47,7 +47,8 @@ namespace Gu.Reactive.Tests
             public void ObserveValueAsReadOnlyViewWhenIEnumerableOfT()
             {
                 var with = new With<IEnumerable<int>>();
-                using var view = with.ObserveValue(x => x.Value).AsReadOnlyView();
+                using var view = with.ObserveValue(x => x.Value)
+                                     .AsReadOnlyView();
                 using var actual = view.SubscribeAll();
                 with.Value = new[] { 1 };
                 CollectionAssert.AreEqual(new[] { 1 }, view);

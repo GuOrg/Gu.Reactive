@@ -1179,7 +1179,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IEnumerable<TSource>> source,
+            this IObservable<IEnumerable<TSource>?> source,
             Func<TSource, TResult> selector,
             params IObservable<object?>[] triggers)
         {
@@ -1208,7 +1208,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IEnumerable<TSource>> source,
+            this IObservable<IEnumerable<TSource>?> source,
             Func<TSource, TResult> selector,
             IScheduler? scheduler = null,
             params IObservable<object?>[] triggers)
@@ -1239,7 +1239,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IEnumerable<TSource>> source,
+            this IObservable<IEnumerable<TSource>?> source,
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
             IScheduler? scheduler = null,
@@ -1271,7 +1271,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IEnumerable<TSource>> source,
+            this IObservable<IEnumerable<TSource>?> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             IScheduler? scheduler = null,
@@ -1310,7 +1310,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IEnumerable<TSource>> source,
+            this IObservable<IEnumerable<TSource>?> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
@@ -1355,7 +1355,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IEnumerable<TSource>> source,
+            this IObservable<IEnumerable<TSource>?> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             IScheduler? scheduler = null,
@@ -1399,7 +1399,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IEnumerable<TSource>> source,
+            this IObservable<IEnumerable<TSource>?> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
@@ -1444,7 +1444,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IEnumerable<TSource>> source,
+            this IObservable<IEnumerable<TSource>?> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
@@ -1491,7 +1491,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IEnumerable<TSource>> source,
+            this IObservable<IEnumerable<TSource>?> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
@@ -1529,7 +1529,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IMaybe<IEnumerable<TSource>>> source,
+            this IObservable<IMaybe<IEnumerable<TSource>?>> source,
             Func<TSource, TResult> selector,
             params IObservable<object?>[] triggers)
         {
@@ -1558,7 +1558,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IMaybe<IEnumerable<TSource>>> source,
+            this IObservable<IMaybe<IEnumerable<TSource>?>> source,
             Func<TSource, TResult> selector,
             IScheduler? scheduler = null,
             params IObservable<object?>[] triggers)
@@ -1589,7 +1589,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IMaybe<IEnumerable<TSource>>> source,
+            this IObservable<IMaybe<IEnumerable<TSource>?>> source,
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
             IScheduler? scheduler = null,
@@ -1621,7 +1621,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IMaybe<IEnumerable<TSource>>> source,
+            this IObservable<IMaybe<IEnumerable<TSource>?>> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             IScheduler? scheduler = null,
@@ -1660,7 +1660,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IMaybe<IEnumerable<TSource>>> source,
+            this IObservable<IMaybe<IEnumerable<TSource>?>> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
@@ -1705,7 +1705,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IMaybe<IEnumerable<TSource>>> source,
+            this IObservable<IMaybe<IEnumerable<TSource>?>> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             IScheduler? scheduler = null,
@@ -1749,7 +1749,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IMaybe<IEnumerable<TSource>>> source,
+            this IObservable<IMaybe<IEnumerable<TSource>?>> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
@@ -1794,7 +1794,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IMaybe<IEnumerable<TSource>>> source,
+            this IObservable<IMaybe<IEnumerable<TSource>?>> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
@@ -1841,7 +1841,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<IMaybe<IEnumerable<TSource>>> source,
+            this IObservable<IMaybe<IEnumerable<TSource>?>> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
@@ -1879,7 +1879,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<Maybe<IEnumerable<TSource>>> source,
+            this IObservable<Maybe<IEnumerable<TSource>?>> source,
             Func<TSource, TResult> selector,
             params IObservable<object?>[] triggers)
         {
@@ -1908,7 +1908,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<Maybe<IEnumerable<TSource>>> source,
+            this IObservable<Maybe<IEnumerable<TSource>?>> source,
             Func<TSource, TResult> selector,
             IScheduler? scheduler = null,
             params IObservable<object?>[] triggers)
@@ -1939,7 +1939,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<Maybe<IEnumerable<TSource>>> source,
+            this IObservable<Maybe<IEnumerable<TSource>?>> source,
             Func<TSource, TResult> selector,
             TimeSpan bufferTime,
             IScheduler? scheduler = null,
@@ -1971,7 +1971,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<Maybe<IEnumerable<TSource>>> source,
+            this IObservable<Maybe<IEnumerable<TSource>?>> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             IScheduler? scheduler = null,
@@ -2010,7 +2010,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<Maybe<IEnumerable<TSource>>> source,
+            this IObservable<Maybe<IEnumerable<TSource>?>> source,
             Func<TSource, TResult> selector,
             Action<TResult> onRemove,
             TimeSpan bufferTime,
@@ -2055,7 +2055,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<Maybe<IEnumerable<TSource>>> source,
+            this IObservable<Maybe<IEnumerable<TSource>?>> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             IScheduler? scheduler = null,
@@ -2099,7 +2099,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<Maybe<IEnumerable<TSource>>> source,
+            this IObservable<Maybe<IEnumerable<TSource>?>> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             TimeSpan bufferTime,
@@ -2144,7 +2144,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<Maybe<IEnumerable<TSource>>> source,
+            this IObservable<Maybe<IEnumerable<TSource>?>> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,
@@ -2191,7 +2191,7 @@ namespace Gu.Reactive
         /// <param name="triggers">Additional triggers for when mapping is updated.</param>
         /// <returns>A <see cref="MappingView{TSource, TResult}"/></returns>
         public static MappingView<TSource, TResult> AsMappingView<TSource, TResult>(
-            this IObservable<Maybe<IEnumerable<TSource>>> source,
+            this IObservable<Maybe<IEnumerable<TSource>?>> source,
             Func<TSource, int, TResult> selector,
             Func<TResult, int, TResult> updater,
             Action<TResult> onRemove,

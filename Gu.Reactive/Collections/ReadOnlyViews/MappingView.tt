@@ -15,7 +15,7 @@ namespace Gu.Reactive
     public static partial class MappingView
     {
 <#
-    var typeNames = new[] {"ObservableCollection", "ReadOnlyObservableCollection", "IReadOnlyObservableCollection"};
+    var typeNames = new[] { "ObservableCollection", "ReadOnlyObservableCollection", "IReadOnlyObservableCollection" };
     for(var i = 0; i < typeNames.Length; i++)
     {
         var typeName = typeNames[i];
@@ -411,7 +411,7 @@ namespace Gu.Reactive
         }
 <#    } #>
 <#
-    typeNames = new[] {"IObservable<IEnumerable<TSource>>", "IObservable<IMaybe<IEnumerable<TSource>>>", "IObservable<Maybe<IEnumerable<TSource>>>"};
+    typeNames = new[] { "IObservable<IEnumerable<TSource>?>", "IObservable<IMaybe<IEnumerable<TSource>?>>", "IObservable<Maybe<IEnumerable<TSource>?>>" };
     foreach (var typeName in typeNames)
     { 
 #>

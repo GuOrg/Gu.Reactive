@@ -228,7 +228,7 @@
         /// <summary>
         /// Turn the observable into a <see cref="IReadOnlyView{T}"/> that can be bound.
         /// </summary>
-        public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<IMaybe<IEnumerable<T>>> source)
+        public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<IMaybe<IEnumerable<T>?>> source)
         {
             return new ReadOnlyView<T>(source.Select(x => x.GetValueOrDefault()));
         }
@@ -236,7 +236,7 @@
         /// <summary>
         /// Turn the observable into a <see cref="IReadOnlyView{T}"/> that can be bound.
         /// </summary>
-        public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<Maybe<IEnumerable<T>>> source)
+        public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<Maybe<IEnumerable<T>?>> source)
         {
             return new ReadOnlyView<T>(source.Select(x => x.GetValueOrDefault()));
         }
@@ -244,7 +244,7 @@
         /// <summary>
         /// Turn the observable into a <see cref="IReadOnlyView{T}"/> that can be bound.
         /// </summary>
-        public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<IEnumerable<T>> source)
+        public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<IEnumerable<T>?> source)
         {
             return new ReadOnlyView<T>(source);
         }
