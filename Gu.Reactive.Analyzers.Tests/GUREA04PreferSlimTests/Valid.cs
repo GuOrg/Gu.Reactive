@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
+﻿namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
 {
     using Gu.Roslyn.Asserts;
     using Microsoft.CodeAnalysis.Diagnostics;
@@ -22,11 +22,7 @@ namespace N
 
         public int Value
         {
-            get
-            {
-                return this.value;
-            }
-
+            get => this.value;
             set
             {
                 if (value == this.value)
