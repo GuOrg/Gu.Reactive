@@ -25,7 +25,9 @@
                 this.ObservePropertyChangedSlim(x => x.AddTwoCommand.IsExecuting),
                 () => this.AddTwoCommand?.IsExecuting);
 
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
             this.isNotAddingAny = new OrCondition(this.isAddingOne, this.isAddingTwo).Negate();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
             this.AddOneCommand = new AsyncCommand(this.AddOneAsync, this.isNotAddingAny);
             this.AddTwoCommand = new AsyncCommand(this.AddTwoAsync, this.isNotAddingAny);
             this.OnPropertyChanged(nameof(this.AddOneCommand));

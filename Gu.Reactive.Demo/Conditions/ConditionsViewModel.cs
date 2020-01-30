@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +22,9 @@ namespace Gu.Reactive.Demo
                 this.IsLeftDoorClosedCondition,
                 this.IsMotorRunningCondition,
                 new IsAnyDoorOpen(),
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
                 new IsAnyDoorOpen().Negate(),
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
                 this.CanStartCondition,
                 this.CanStartCondition.Negate(),
                 new SyncErrorCondition(),
@@ -41,7 +43,9 @@ namespace Gu.Reactive.Demo
 
         public ICondition IsBackDoorOpenCondition { get; } = new IsBackDoorOpen();
 
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
         public ICondition IsLeftDoorClosedCondition { get; } = new IsLeftDoorOpen().Negate();
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
 
         public ICondition IsMotorRunningCondition { get; } = new IsMotorRunning();
 
