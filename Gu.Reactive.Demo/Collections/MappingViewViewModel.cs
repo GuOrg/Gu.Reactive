@@ -65,7 +65,9 @@
 
             this.RemoveAtCommand = new ConditionRelayCommand(
                 () => this.source.RemoveAt(this.RemoveAt >= this.source.Count ? this.source.Count - 1 : this.RemoveAt),
+#pragma warning disable IDISP004 // Don't ignore created IDisposable.
                 new Condition(() => this.source.Any(), this.source.ObserveCollectionChanged()));
+#pragma warning restore IDISP004 // Don't ignore created IDisposable.
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

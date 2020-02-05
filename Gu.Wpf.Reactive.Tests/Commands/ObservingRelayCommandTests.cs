@@ -53,7 +53,8 @@
         {
             var invokeCount = 0;
             var isExecutingCount = 0;
-            using var command = new ObservingRelayCommand(() => invokeCount++, () => true, new Subject<object>());
+            using var observable = new Subject<object>();
+            using var command = new ObservingRelayCommand(() => invokeCount++, () => true, observable);
             using (command.ObservePropertyChangedSlim(nameof(command.IsExecuting), signalInitial: false)
                           .Subscribe(_ => isExecutingCount++))
             {

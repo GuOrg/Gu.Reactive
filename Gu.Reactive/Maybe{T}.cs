@@ -18,7 +18,7 @@
             this.value = value;
         }
 
-#pragma warning disable CA1000 // Do not declare static members on generic types
+    #pragma warning disable CA1000 // Do not declare static members on generic types
         /// <summary>
         /// The default instance when value is missing.
         /// </summary>
