@@ -34,3 +34,4 @@ packages/*
 .vs/*
 /paket-files/*
 /Gu.Reactive.Benchmarks/BenchmarkDotNet.Artifacts/*
+*.orig
