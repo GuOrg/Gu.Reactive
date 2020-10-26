@@ -25,16 +25,16 @@
     <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.12.1" />
     <PackageReference Include="Gu.Analyzers" Version="1.8.0" PrivateAssets="all" />
     <PackageReference Include="Gu.Roslyn.Asserts" Version="3.3.1" />
-    <PackageReference Include="IDisposableAnalyzers" Version="3.4.1" PrivateAssets="all" />
+    <PackageReference Include="IDisposableAnalyzers" Version="3.4.2" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.3.1" PrivateAssets="all" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0-preview-20200812-03" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" PrivateAssets="all" />
-    <PackageReference Include="PropertyChangedAnalyzers" Version="3.2.0" PrivateAssets="all" />
+    <PackageReference Include="PropertyChangedAnalyzers" Version="3.2.1" PrivateAssets="all" />
     <PackageReference Include="ReflectionAnalyzers" Version="0.1.22-dev" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.205" PrivateAssets="all" />
     <PackageReference Include="System.Reactive" Version="4.0.0" />
-    <PackageReference Include="WpfAnalyzers" Version="3.1.0" PrivateAssets="all" />
+    <PackageReference Include="WpfAnalyzers" Version="3.2.0" PrivateAssets="all" />
   </ItemGroup>
 </Project>
