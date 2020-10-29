@@ -5,7 +5,6 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <UseWpf>true</UseWpf>
-    <CodeAnalysisRuleSet>Gu.Reactive.Demo.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>

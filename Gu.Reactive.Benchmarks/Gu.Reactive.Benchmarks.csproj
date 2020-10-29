@@ -4,10 +4,8 @@
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-
     <OutputType>Exe</OutputType>
     <StartupObject>Gu.Reactive.Benchmarks.Program</StartupObject>
-    <CodeAnalysisRuleSet>Gu.Reactive.Benchmarks.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup>
