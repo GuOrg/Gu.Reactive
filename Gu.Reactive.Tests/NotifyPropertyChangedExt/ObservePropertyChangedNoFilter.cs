@@ -69,9 +69,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                          .Subscribe(changes.Add))
             {
                 Assert.AreEqual(0, changes.Count);
-                source.OnPropertyChanged("SomeProp");
+                source.OnPropertyChanged(nameof(source.Name));
                 Assert.AreEqual(1, changes.Count);
-                EventPatternAssert.AreEqual(source, "SomeProp", changes.Last());
+                EventPatternAssert.AreEqual(source, nameof(source.Name), changes.Last());
             }
         }
 
@@ -84,9 +84,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                          .Subscribe(changes.Add))
             {
                 Assert.AreEqual(0, changes.Count);
-                source.OnPropertyChanged("SomeProp");
+                source.OnPropertyChanged(nameof(source.Name));
                 Assert.AreEqual(1, changes.Count);
-                EventPatternAssert.AreEqual(source, "SomeProp", changes.Last());
+                EventPatternAssert.AreEqual(source, nameof(source.Name), changes.Last());
             }
         }
 
