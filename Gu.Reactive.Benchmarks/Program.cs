@@ -1,5 +1,6 @@
-// ReSharper disable HeuristicUnreachableCode
-#pragma warning disable 162
+﻿// ReSharper disable HeuristicUnreachableCode
+#pragma warning disable CS0162 // Unreachable code detected
+#pragma warning disable IDE0051 // Remove unused private members
 namespace Gu.Reactive.Benchmarks
 {
     using System;
@@ -8,34 +9,23 @@ namespace Gu.Reactive.Benchmarks
     using System.Linq;
     using BenchmarkDotNet.Reports;
     using BenchmarkDotNet.Running;
-    using Gu.Reactive.Analyzers;
 
     public static class Program
     {
         public static void Main()
         {
-            if (false)
+            foreach (var summary in RunSingle<ObservePropertyChanged>())
             {
-                var benchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new InvocationAnalyzer());
-
-                // Warmup
-                benchmark.Run();
-                Console.WriteLine("Attach profiler and press any key to continue...");
-                _ = Console.ReadKey();
-                benchmark.Run();
-            }
-            else
-            {
-                foreach (var summary in RunSingle<Diff>())
-                {
-                    CopyResult(summary);
-                }
+                CopyResult(summary);
             }
         }
 
         private static IEnumerable<Summary> RunAll() => new BenchmarkSwitcher(typeof(Program).Assembly).RunAll();
 
-        private static IEnumerable<Summary> RunSingle<T>() => new[] { BenchmarkRunner.Run<T>() };
+        private static IEnumerable<Summary> RunSingle<T>()
+        {
+            yield return BenchmarkRunner.Run<T>();
+        }
 
         private static void CopyResult(Summary summary)
         {
@@ -48,7 +38,7 @@ namespace Gu.Reactive.Benchmarks
                 return;
             }
 
-            var pattern = $"*{name}-report-github.md";
+            var pattern = $"{summary.Title.Split('-').First()}-report-github.md";
             var sourceFileName = Directory.EnumerateFiles(summary.ResultsDirectoryPath, pattern)
                                           .SingleOrDefault();
             if (sourceFileName is null)
