@@ -17,7 +17,9 @@
             nameof(Condition),
             typeof(ICondition),
             typeof(ConditionControl),
-            new PropertyMetadata(default(ICondition), OnConditionChanged));
+            new PropertyMetadata(
+                default(ICondition),
+                (o, e) => ((ConditionControl)o).OnConditionChanged((ICondition?)e.OldValue, (ICondition?)e.NewValue)));
 
         private static readonly DependencyPropertyKey RootPropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(Root),
@@ -89,9 +91,9 @@
         /// <summary>
         /// The condition.
         /// </summary>
-        public ICondition Condition
+        public ICondition? Condition
         {
-            get => (ICondition)this.GetValue(ConditionProperty);
+            get => (ICondition?)this.GetValue(ConditionProperty);
             set => this.SetValue(ConditionProperty, value);
         }
 
@@ -99,7 +101,7 @@
         /// <param name="oldCondition">The old value of <see cref="ConditionProperty"/>.</param>
         /// <param name="newCondition">The new value of <see cref="ConditionProperty"/>.</param>
         // ReSharper disable once UnusedParameter.Global
-        protected virtual void OnConditionChanged(ICondition oldCondition, ICondition newCondition)
+        protected virtual void OnConditionChanged(ICondition? oldCondition, ICondition? newCondition)
         {
             if (newCondition is null)
             {
@@ -110,13 +112,7 @@
 
             this.Root = new[] { newCondition };
             this.FlattenedPrerequisites = FlattenPrerequisites(newCondition);
-            this.IsInSync = this.Condition.IsInSync();
-        }
-
-        private static void OnConditionChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            var conditionControl = (ConditionControl)o;
-            conditionControl.OnConditionChanged((ICondition)e.OldValue, (ICondition)e.NewValue);
+            this.IsInSync = newCondition.IsInSync();
         }
 
         private static IReadOnlyList<ICondition> FlattenPrerequisites(ICondition condition, List<ICondition>? list = null)
