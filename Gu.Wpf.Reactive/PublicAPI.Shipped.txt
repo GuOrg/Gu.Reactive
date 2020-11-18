@@ -1,177 +1,178 @@
-﻿Gu.Wpf.Reactive.AsyncCommand
-Gu.Wpf.Reactive.AsyncCommand.AsyncCommand(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> action) -> void
-Gu.Wpf.Reactive.AsyncCommand.AsyncCommand(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> action, params Gu.Reactive.ICondition[] conditions) -> void
-Gu.Wpf.Reactive.AsyncCommand.AsyncCommand(System.Func<System.Threading.Tasks.Task> action) -> void
-Gu.Wpf.Reactive.AsyncCommand.AsyncCommand(System.Func<System.Threading.Tasks.Task> action, params Gu.Reactive.ICondition[] conditions) -> void
-Gu.Wpf.Reactive.AsyncCommand.CancelCommand.get -> Gu.Wpf.Reactive.ConditionRelayCommand
-Gu.Wpf.Reactive.AsyncCommand.Execution.get -> Gu.Wpf.Reactive.NotifyTaskCompletion
+﻿#nullable enable
+Gu.Wpf.Reactive.AsyncCommand
+Gu.Wpf.Reactive.AsyncCommand.AsyncCommand(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task!>! action) -> void
+Gu.Wpf.Reactive.AsyncCommand.AsyncCommand(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task!>! action, params Gu.Reactive.ICondition![]! conditions) -> void
+Gu.Wpf.Reactive.AsyncCommand.AsyncCommand(System.Func<System.Threading.Tasks.Task!>! action) -> void
+Gu.Wpf.Reactive.AsyncCommand.AsyncCommand(System.Func<System.Threading.Tasks.Task!>! action, params Gu.Reactive.ICondition![]! conditions) -> void
+Gu.Wpf.Reactive.AsyncCommand.CancelCommand.get -> Gu.Wpf.Reactive.ConditionRelayCommand!
+Gu.Wpf.Reactive.AsyncCommand.Execution.get -> Gu.Wpf.Reactive.NotifyTaskCompletion?
 Gu.Wpf.Reactive.AsyncCommand<TParameter>
-Gu.Wpf.Reactive.AsyncCommand<TParameter>.AsyncCommand(System.Func<TParameter, System.Threading.CancellationToken, System.Threading.Tasks.Task> action) -> void
-Gu.Wpf.Reactive.AsyncCommand<TParameter>.AsyncCommand(System.Func<TParameter, System.Threading.CancellationToken, System.Threading.Tasks.Task> action, params Gu.Reactive.ICondition[] conditions) -> void
-Gu.Wpf.Reactive.AsyncCommand<TParameter>.AsyncCommand(System.Func<TParameter, System.Threading.Tasks.Task> action) -> void
-Gu.Wpf.Reactive.AsyncCommand<TParameter>.AsyncCommand(System.Func<TParameter, System.Threading.Tasks.Task> action, params Gu.Reactive.ICondition[] conditions) -> void
-Gu.Wpf.Reactive.AsyncCommand<TParameter>.CancelCommand.get -> Gu.Wpf.Reactive.ConditionRelayCommand
-Gu.Wpf.Reactive.AsyncCommand<TParameter>.Execution.get -> Gu.Wpf.Reactive.NotifyTaskCompletion
+Gu.Wpf.Reactive.AsyncCommand<TParameter>.AsyncCommand(System.Func<TParameter, System.Threading.CancellationToken, System.Threading.Tasks.Task!>! action) -> void
+Gu.Wpf.Reactive.AsyncCommand<TParameter>.AsyncCommand(System.Func<TParameter, System.Threading.CancellationToken, System.Threading.Tasks.Task!>! action, params Gu.Reactive.ICondition![]! conditions) -> void
+Gu.Wpf.Reactive.AsyncCommand<TParameter>.AsyncCommand(System.Func<TParameter, System.Threading.Tasks.Task!>! action) -> void
+Gu.Wpf.Reactive.AsyncCommand<TParameter>.AsyncCommand(System.Func<TParameter, System.Threading.Tasks.Task!>! action, params Gu.Reactive.ICondition![]! conditions) -> void
+Gu.Wpf.Reactive.AsyncCommand<TParameter>.CancelCommand.get -> Gu.Wpf.Reactive.ConditionRelayCommand!
+Gu.Wpf.Reactive.AsyncCommand<TParameter>.Execution.get -> Gu.Wpf.Reactive.NotifyTaskCompletion?
 Gu.Wpf.Reactive.CanExecuteChangedEventManager
 Gu.Wpf.Reactive.CommandBase<T>
 Gu.Wpf.Reactive.CommandBase<T>.CommandBase() -> void
 Gu.Wpf.Reactive.CommandBase<T>.IsExecuting.get -> bool
 Gu.Wpf.Reactive.CommandBase<T>.IsExecuting.set -> void
-Gu.Wpf.Reactive.CommandBase<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Wpf.Reactive.CommandBase<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
 Gu.Wpf.Reactive.ConditionControl
-Gu.Wpf.Reactive.ConditionControl.Condition.get -> Gu.Reactive.ICondition
+Gu.Wpf.Reactive.ConditionControl.Condition.get -> Gu.Reactive.ICondition!
 Gu.Wpf.Reactive.ConditionControl.Condition.set -> void
 Gu.Wpf.Reactive.ConditionControl.ConditionControl() -> void
-Gu.Wpf.Reactive.ConditionControl.FlattenedPrerequisites.get -> System.Collections.Generic.IEnumerable<Gu.Reactive.ICondition>
+Gu.Wpf.Reactive.ConditionControl.FlattenedPrerequisites.get -> System.Collections.Generic.IEnumerable<Gu.Reactive.ICondition!>!
 Gu.Wpf.Reactive.ConditionControl.FlattenedPrerequisites.set -> void
 Gu.Wpf.Reactive.ConditionControl.IsInSync.get -> bool
 Gu.Wpf.Reactive.ConditionControl.IsInSync.set -> void
-Gu.Wpf.Reactive.ConditionControl.Root.get -> System.Collections.Generic.IEnumerable<Gu.Reactive.ICondition>
+Gu.Wpf.Reactive.ConditionControl.Root.get -> System.Collections.Generic.IEnumerable<Gu.Reactive.ICondition!>!
 Gu.Wpf.Reactive.ConditionControl.Root.set -> void
 Gu.Wpf.Reactive.ConditionRelayCommand
-Gu.Wpf.Reactive.ConditionRelayCommand.Condition.get -> Gu.Reactive.ICondition
-Gu.Wpf.Reactive.ConditionRelayCommand.ConditionRelayCommand(System.Action action, Gu.Reactive.ICondition condition) -> void
+Gu.Wpf.Reactive.ConditionRelayCommand.Condition.get -> Gu.Reactive.ICondition!
+Gu.Wpf.Reactive.ConditionRelayCommand.ConditionRelayCommand(System.Action! action, Gu.Reactive.ICondition! condition) -> void
 Gu.Wpf.Reactive.ConditionRelayCommand.Dispose() -> void
 Gu.Wpf.Reactive.ConditionRelayCommand.ThrowIfDisposed() -> void
 Gu.Wpf.Reactive.ConditionRelayCommand<T>
-Gu.Wpf.Reactive.ConditionRelayCommand<T>.Condition.get -> Gu.Reactive.ICondition
-Gu.Wpf.Reactive.ConditionRelayCommand<T>.ConditionRelayCommand(System.Action<T> action, Gu.Reactive.ICondition condition) -> void
+Gu.Wpf.Reactive.ConditionRelayCommand<T>.Condition.get -> Gu.Reactive.ICondition!
+Gu.Wpf.Reactive.ConditionRelayCommand<T>.ConditionRelayCommand(System.Action<T>! action, Gu.Reactive.ICondition! condition) -> void
 Gu.Wpf.Reactive.ConditionRelayCommand<T>.Dispose() -> void
 Gu.Wpf.Reactive.ConditionRelayCommand<T>.ThrowIfDisposed() -> void
 Gu.Wpf.Reactive.ConditionToolTip
-Gu.Wpf.Reactive.ConditionToolTip.CommandType.get -> System.Type
+Gu.Wpf.Reactive.ConditionToolTip.CommandType.get -> System.Type?
 Gu.Wpf.Reactive.ConditionToolTip.CommandType.set -> void
-Gu.Wpf.Reactive.ConditionToolTip.Condition.get -> Gu.Reactive.ICondition
+Gu.Wpf.Reactive.ConditionToolTip.Condition.get -> Gu.Reactive.ICondition?
 Gu.Wpf.Reactive.ConditionToolTip.Condition.set -> void
 Gu.Wpf.Reactive.ConditionToolTip.ConditionToolTip() -> void
 Gu.Wpf.Reactive.ConditionToolTip.InferConditionFromCommand.get -> bool
 Gu.Wpf.Reactive.ConditionToolTip.InferConditionFromCommand.set -> void
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector
-Gu.Wpf.Reactive.ConditionTypeTemplateSelector.AndConditionTemplate.get -> System.Windows.DataTemplate
+Gu.Wpf.Reactive.ConditionTypeTemplateSelector.AndConditionTemplate.get -> System.Windows.DataTemplate?
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector.AndConditionTemplate.set -> void
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector.ConditionTypeTemplateSelector() -> void
-Gu.Wpf.Reactive.ConditionTypeTemplateSelector.NegatedConditionTemplate.get -> System.Windows.DataTemplate
+Gu.Wpf.Reactive.ConditionTypeTemplateSelector.NegatedConditionTemplate.get -> System.Windows.DataTemplate?
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector.NegatedConditionTemplate.set -> void
-Gu.Wpf.Reactive.ConditionTypeTemplateSelector.NodeConditionTemplate.get -> System.Windows.DataTemplate
+Gu.Wpf.Reactive.ConditionTypeTemplateSelector.NodeConditionTemplate.get -> System.Windows.DataTemplate?
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector.NodeConditionTemplate.set -> void
-Gu.Wpf.Reactive.ConditionTypeTemplateSelector.OrConditionTemplate.get -> System.Windows.DataTemplate
+Gu.Wpf.Reactive.ConditionTypeTemplateSelector.OrConditionTemplate.get -> System.Windows.DataTemplate?
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector.OrConditionTemplate.set -> void
 Gu.Wpf.Reactive.DispatchingCollection<T>
 Gu.Wpf.Reactive.DispatchingCollection<T>.DispatchingCollection() -> void
-Gu.Wpf.Reactive.DispatchingCollection<T>.DispatchingCollection(System.Collections.Generic.IEnumerable<T> collection) -> void
-Gu.Wpf.Reactive.DispatchingCollection<T>.DispatchingCollection(System.Collections.Generic.IList<T> collection) -> void
+Gu.Wpf.Reactive.DispatchingCollection<T>.DispatchingCollection(System.Collections.Generic.IEnumerable<T>! collection) -> void
+Gu.Wpf.Reactive.DispatchingCollection<T>.DispatchingCollection(System.Collections.Generic.IList<T>! collection) -> void
 Gu.Wpf.Reactive.DispatchingView
 Gu.Wpf.Reactive.DispatchingView<T>
-Gu.Wpf.Reactive.DispatchingView<T>.DispatchingView(Gu.Reactive.IObservableCollection<T> source, System.TimeSpan bufferTime, bool leaveOpen) -> void
-Gu.Wpf.Reactive.DispatchingView<T>.DispatchingView(System.Collections.ObjectModel.ObservableCollection<T> source, System.TimeSpan bufferTime, bool leaveOpen) -> void
+Gu.Wpf.Reactive.DispatchingView<T>.DispatchingView(Gu.Reactive.IObservableCollection<T>! source, System.TimeSpan bufferTime, bool leaveOpen) -> void
+Gu.Wpf.Reactive.DispatchingView<T>.DispatchingView(System.Collections.ObjectModel.ObservableCollection<T>! source, System.TimeSpan bufferTime, bool leaveOpen) -> void
 Gu.Wpf.Reactive.EditableListView
 Gu.Wpf.Reactive.EditableListView<T>
-Gu.Wpf.Reactive.EditableListView<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler
+Gu.Wpf.Reactive.EditableListView<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler?
 Gu.Wpf.Reactive.EditableListView<T>.Dispose() -> void
-Gu.Wpf.Reactive.EditableListView<T>.EditableListView(Gu.Reactive.IObservableCollection<T> list, bool leaveOpen) -> void
+Gu.Wpf.Reactive.EditableListView<T>.EditableListView(Gu.Reactive.IObservableCollection<T>! list, bool leaveOpen) -> void
 Gu.Wpf.Reactive.EditableListView<T>.Move(int oldIndex, int newIndex) -> void
-Gu.Wpf.Reactive.EditableListView<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Wpf.Reactive.EditableListView<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
 Gu.Wpf.Reactive.EditableListView<T>.ThrowIfDisposed() -> void
 Gu.Wpf.Reactive.EnumValuesForExtension
-Gu.Wpf.Reactive.EnumValuesForExtension.EnumValuesForExtension(System.Type type) -> void
-Gu.Wpf.Reactive.EnumValuesForExtension.Type.get -> System.Type
+Gu.Wpf.Reactive.EnumValuesForExtension.EnumValuesForExtension(System.Type! type) -> void
+Gu.Wpf.Reactive.EnumValuesForExtension.Type.get -> System.Type!
 Gu.Wpf.Reactive.EnumValuesForExtension.Type.set -> void
 Gu.Wpf.Reactive.FilteredView
 Gu.Wpf.Reactive.FilteredView<T>
 Gu.Wpf.Reactive.FilteredView<T>.BufferTime.get -> System.TimeSpan
 Gu.Wpf.Reactive.FilteredView<T>.BufferTime.set -> void
-Gu.Wpf.Reactive.FilteredView<T>.Filter.get -> System.Func<T, bool>
+Gu.Wpf.Reactive.FilteredView<T>.Filter.get -> System.Func<T, bool>!
 Gu.Wpf.Reactive.FilteredView<T>.Filter.set -> void
-Gu.Wpf.Reactive.FilteredView<T>.Filtered() -> System.Collections.Generic.IEnumerable<T>
-Gu.Wpf.Reactive.FilteredView<T>.FilteredView(Gu.Reactive.IObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, bool leaveOpen, params System.IObservable<object>[] triggers) -> void
-Gu.Wpf.Reactive.FilteredView<T>.FilteredView(System.Collections.ObjectModel.ObservableCollection<T> source, System.Func<T, bool> filter, System.TimeSpan bufferTime, bool leaveOpen, params System.IObservable<object>[] triggers) -> void
+Gu.Wpf.Reactive.FilteredView<T>.Filtered() -> System.Collections.Generic.IEnumerable<T>!
+Gu.Wpf.Reactive.FilteredView<T>.FilteredView(Gu.Reactive.IObservableCollection<T>! source, System.Func<T, bool>! filter, System.TimeSpan bufferTime, bool leaveOpen, params System.IObservable<object?>![]? triggers) -> void
+Gu.Wpf.Reactive.FilteredView<T>.FilteredView(System.Collections.ObjectModel.ObservableCollection<T>! source, System.Func<T, bool>! filter, System.TimeSpan bufferTime, bool leaveOpen, params System.IObservable<object?>![]? triggers) -> void
 Gu.Wpf.Reactive.IAsyncCommand<T>
-Gu.Wpf.Reactive.IAsyncCommand<T>.ExecuteAsync(T parameter) -> System.Threading.Tasks.Task
+Gu.Wpf.Reactive.IAsyncCommand<T>.ExecuteAsync(T parameter) -> System.Threading.Tasks.Task!
 Gu.Wpf.Reactive.IConditionRelayCommand
-Gu.Wpf.Reactive.IConditionRelayCommand.Condition.get -> Gu.Reactive.ICondition
+Gu.Wpf.Reactive.IConditionRelayCommand.Condition.get -> Gu.Reactive.ICondition!
 Gu.Wpf.Reactive.INotifyTaskCompletion
-Gu.Wpf.Reactive.INotifyTaskCompletion.Completed.get -> System.Threading.Tasks.Task
-Gu.Wpf.Reactive.INotifyTaskCompletion.ErrorMessage.get -> string
-Gu.Wpf.Reactive.INotifyTaskCompletion.Exception.get -> System.AggregateException
-Gu.Wpf.Reactive.INotifyTaskCompletion.InnerException.get -> System.Exception
+Gu.Wpf.Reactive.INotifyTaskCompletion.Completed.get -> System.Threading.Tasks.Task?
+Gu.Wpf.Reactive.INotifyTaskCompletion.ErrorMessage.get -> string?
+Gu.Wpf.Reactive.INotifyTaskCompletion.Exception.get -> System.AggregateException?
+Gu.Wpf.Reactive.INotifyTaskCompletion.InnerException.get -> System.Exception?
 Gu.Wpf.Reactive.INotifyTaskCompletion.IsCanceled.get -> bool
 Gu.Wpf.Reactive.INotifyTaskCompletion.IsCompleted.get -> bool
 Gu.Wpf.Reactive.INotifyTaskCompletion.IsFaulted.get -> bool
 Gu.Wpf.Reactive.INotifyTaskCompletion.IsNotCompleted.get -> bool
 Gu.Wpf.Reactive.INotifyTaskCompletion.IsSuccessfullyCompleted.get -> bool
 Gu.Wpf.Reactive.INotifyTaskCompletion.Status.get -> System.Threading.Tasks.TaskStatus
-Gu.Wpf.Reactive.INotifyTaskCompletion.Task.get -> System.Threading.Tasks.Task
+Gu.Wpf.Reactive.INotifyTaskCompletion.Task.get -> System.Threading.Tasks.Task!
 Gu.Wpf.Reactive.ITaskRunner
-Gu.Wpf.Reactive.ITaskRunner.CanCancelCondition.get -> Gu.Reactive.ICondition
-Gu.Wpf.Reactive.ITaskRunner.CanRunCondition.get -> Gu.Reactive.ICondition
+Gu.Wpf.Reactive.ITaskRunner.CanCancelCondition.get -> Gu.Reactive.ICondition!
+Gu.Wpf.Reactive.ITaskRunner.CanRunCondition.get -> Gu.Reactive.ICondition!
 Gu.Wpf.Reactive.ITaskRunner.Cancel() -> void
 Gu.Wpf.Reactive.ITaskRunner.Run() -> void
-Gu.Wpf.Reactive.ITaskRunner.TaskCompletion.get -> Gu.Wpf.Reactive.NotifyTaskCompletion
+Gu.Wpf.Reactive.ITaskRunner.TaskCompletion.get -> Gu.Wpf.Reactive.NotifyTaskCompletion?
 Gu.Wpf.Reactive.ITaskRunner<TParameter>
-Gu.Wpf.Reactive.ITaskRunner<TParameter>.CanCancelCondition.get -> Gu.Reactive.ICondition
-Gu.Wpf.Reactive.ITaskRunner<TParameter>.CanRunCondition.get -> Gu.Reactive.ICondition
+Gu.Wpf.Reactive.ITaskRunner<TParameter>.CanCancelCondition.get -> Gu.Reactive.ICondition!
+Gu.Wpf.Reactive.ITaskRunner<TParameter>.CanRunCondition.get -> Gu.Reactive.ICondition!
 Gu.Wpf.Reactive.ITaskRunner<TParameter>.Cancel() -> void
 Gu.Wpf.Reactive.ITaskRunner<TParameter>.Run(TParameter parameter) -> void
-Gu.Wpf.Reactive.ITaskRunner<TParameter>.TaskCompletion.get -> Gu.Wpf.Reactive.NotifyTaskCompletion
+Gu.Wpf.Reactive.ITaskRunner<TParameter>.TaskCompletion.get -> Gu.Wpf.Reactive.NotifyTaskCompletion?
 Gu.Wpf.Reactive.ManualRelayCommand
-Gu.Wpf.Reactive.ManualRelayCommand.Action.get -> System.Action
+Gu.Wpf.Reactive.ManualRelayCommand.Action.get -> System.Action!
 Gu.Wpf.Reactive.ManualRelayCommand.CanExecute() -> bool
-Gu.Wpf.Reactive.ManualRelayCommand.Criteria.get -> System.Func<bool>
+Gu.Wpf.Reactive.ManualRelayCommand.Criteria.get -> System.Func<bool>!
 Gu.Wpf.Reactive.ManualRelayCommand.Execute() -> void
-Gu.Wpf.Reactive.ManualRelayCommand.ManualRelayCommand(System.Action action) -> void
-Gu.Wpf.Reactive.ManualRelayCommand.ManualRelayCommand(System.Action action, System.Func<bool> criteria) -> void
+Gu.Wpf.Reactive.ManualRelayCommand.ManualRelayCommand(System.Action! action) -> void
+Gu.Wpf.Reactive.ManualRelayCommand.ManualRelayCommand(System.Action! action, System.Func<bool>? criteria) -> void
 Gu.Wpf.Reactive.ManualRelayCommand<T>
-Gu.Wpf.Reactive.ManualRelayCommand<T>.Action.get -> System.Action<T>
+Gu.Wpf.Reactive.ManualRelayCommand<T>.Action.get -> System.Action<T>!
 Gu.Wpf.Reactive.ManualRelayCommand<T>.CanExecute(T parameter) -> bool
-Gu.Wpf.Reactive.ManualRelayCommand<T>.Criteria.get -> System.Func<T, bool>
+Gu.Wpf.Reactive.ManualRelayCommand<T>.Criteria.get -> System.Func<T, bool>!
 Gu.Wpf.Reactive.ManualRelayCommand<T>.Execute(T parameter) -> void
-Gu.Wpf.Reactive.ManualRelayCommand<T>.ManualRelayCommand(System.Action<T> action) -> void
-Gu.Wpf.Reactive.ManualRelayCommand<T>.ManualRelayCommand(System.Action<T> action, System.Func<T, bool> criteria) -> void
+Gu.Wpf.Reactive.ManualRelayCommand<T>.ManualRelayCommand(System.Action<T>! action) -> void
+Gu.Wpf.Reactive.ManualRelayCommand<T>.ManualRelayCommand(System.Action<T>! action, System.Func<T, bool>? criteria) -> void
 Gu.Wpf.Reactive.NinjaBinding
-Gu.Wpf.Reactive.NinjaBinding.Binding.get -> System.Windows.Data.Binding
+Gu.Wpf.Reactive.NinjaBinding.Binding.get -> System.Windows.Data.Binding!
 Gu.Wpf.Reactive.NinjaBinding.Binding.set -> void
 Gu.Wpf.Reactive.NinjaBinding.NinjaBinding() -> void
-Gu.Wpf.Reactive.NinjaBinding.NinjaBinding(System.Windows.Data.Binding binding) -> void
+Gu.Wpf.Reactive.NinjaBinding.NinjaBinding(System.Windows.Data.Binding! binding) -> void
 Gu.Wpf.Reactive.NotifyCollectionChangedEventHandlerExt
 Gu.Wpf.Reactive.NotifyTaskCompletion
-Gu.Wpf.Reactive.NotifyTaskCompletion.NotifyTaskCompletion(System.Threading.Tasks.Task task) -> void
+Gu.Wpf.Reactive.NotifyTaskCompletion.NotifyTaskCompletion(System.Threading.Tasks.Task! task) -> void
 Gu.Wpf.Reactive.NotifyTaskCompletion<TResult>
-Gu.Wpf.Reactive.NotifyTaskCompletion<TResult>.NotifyTaskCompletion(System.Threading.Tasks.Task<TResult> task) -> void
+Gu.Wpf.Reactive.NotifyTaskCompletion<TResult>.NotifyTaskCompletion(System.Threading.Tasks.Task<TResult>! task) -> void
 Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>
-Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.Completed.get -> T
-Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.ErrorMessage.get -> string
-Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.Exception.get -> System.AggregateException
-Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.InnerException.get -> System.Exception
+Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.Completed.get -> T?
+Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.ErrorMessage.get -> string?
+Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.Exception.get -> System.AggregateException?
+Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.InnerException.get -> System.Exception?
 Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.IsCanceled.get -> bool
 Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.IsCompleted.get -> bool
 Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.IsFaulted.get -> bool
 Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.IsNotCompleted.get -> bool
 Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.IsSuccessfullyCompleted.get -> bool
-Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.NotifyTaskCompletionBase(T task) -> void
-Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.NotifyTaskCompletionBase(T! task) -> void
+Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
 Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.Status.get -> System.Threading.Tasks.TaskStatus
-Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.Task.get -> T
+Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.Task.get -> T!
 Gu.Wpf.Reactive.ObservableCollectionExtensions
 Gu.Wpf.Reactive.ObservingRelayCommand
 Gu.Wpf.Reactive.ObservingRelayCommand.Dispose() -> void
-Gu.Wpf.Reactive.ObservingRelayCommand.ObservingRelayCommand(System.Action action, System.Func<bool> criteria, params System.IObservable<object>[] observable) -> void
+Gu.Wpf.Reactive.ObservingRelayCommand.ObservingRelayCommand(System.Action! action, System.Func<bool>! criteria, params System.IObservable<object?>![]! observable) -> void
 Gu.Wpf.Reactive.ObservingRelayCommand.ThrowIfDisposed() -> void
 Gu.Wpf.Reactive.ObservingRelayCommand<T>
 Gu.Wpf.Reactive.ObservingRelayCommand<T>.Dispose() -> void
-Gu.Wpf.Reactive.ObservingRelayCommand<T>.ObservingRelayCommand(System.Action<T> action, System.Func<T, bool> criteria, params System.IObservable<object>[] observable) -> void
+Gu.Wpf.Reactive.ObservingRelayCommand<T>.ObservingRelayCommand(System.Action<T>! action, System.Func<T, bool>! criteria, params System.IObservable<object?>![]! observable) -> void
 Gu.Wpf.Reactive.ObservingRelayCommand<T>.ThrowIfDisposed() -> void
 Gu.Wpf.Reactive.ReadOnlyDispatchingView
 Gu.Wpf.Reactive.ReadOnlyDispatchingView<T>
-Gu.Wpf.Reactive.ReadOnlyDispatchingView<T>.ReadOnlyDispatchingView(Gu.Reactive.IObservableCollection<T> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> void
-Gu.Wpf.Reactive.ReadOnlyDispatchingView<T>.ReadOnlyDispatchingView(Gu.Reactive.IReadOnlyObservableCollection<T> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> void
-Gu.Wpf.Reactive.ReadOnlyDispatchingView<T>.ReadOnlyDispatchingView(System.Collections.ObjectModel.ObservableCollection<T> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> void
-Gu.Wpf.Reactive.ReadOnlyDispatchingView<T>.ReadOnlyDispatchingView(System.Collections.ObjectModel.ReadOnlyObservableCollection<T> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> void
+Gu.Wpf.Reactive.ReadOnlyDispatchingView<T>.ReadOnlyDispatchingView(Gu.Reactive.IObservableCollection<T>! source, System.TimeSpan bufferTime, bool leaveOpen = false) -> void
+Gu.Wpf.Reactive.ReadOnlyDispatchingView<T>.ReadOnlyDispatchingView(Gu.Reactive.IReadOnlyObservableCollection<T>! source, System.TimeSpan bufferTime, bool leaveOpen = false) -> void
+Gu.Wpf.Reactive.ReadOnlyDispatchingView<T>.ReadOnlyDispatchingView(System.Collections.ObjectModel.ObservableCollection<T>! source, System.TimeSpan bufferTime, bool leaveOpen = false) -> void
+Gu.Wpf.Reactive.ReadOnlyDispatchingView<T>.ReadOnlyDispatchingView(System.Collections.ObjectModel.ReadOnlyObservableCollection<T>! source, System.TimeSpan bufferTime, bool leaveOpen = false) -> void
 Gu.Wpf.Reactive.RelayCommand
-Gu.Wpf.Reactive.RelayCommand.RelayCommand(System.Action action) -> void
-Gu.Wpf.Reactive.RelayCommand.RelayCommand(System.Action action, System.Func<bool> criteria) -> void
+Gu.Wpf.Reactive.RelayCommand.RelayCommand(System.Action! action) -> void
+Gu.Wpf.Reactive.RelayCommand.RelayCommand(System.Action! action, System.Func<bool>! criteria) -> void
 Gu.Wpf.Reactive.RelayCommand<T>
-Gu.Wpf.Reactive.RelayCommand<T>.RelayCommand(System.Action<T> action) -> void
-Gu.Wpf.Reactive.RelayCommand<T>.RelayCommand(System.Action<T> action, System.Func<T, bool> criteria) -> void
+Gu.Wpf.Reactive.RelayCommand<T>.RelayCommand(System.Action<T>! action) -> void
+Gu.Wpf.Reactive.RelayCommand<T>.RelayCommand(System.Action<T>! action, System.Func<T, bool>! criteria) -> void
 Gu.Wpf.Reactive.RootObjectExtension
 Gu.Wpf.Reactive.RootObjectExtension.RootObjectExtension() -> void
 Gu.Wpf.Reactive.Schedulers
@@ -180,182 +181,182 @@ Gu.Wpf.Reactive.SynchronizedEditableView<T>
 Gu.Wpf.Reactive.SynchronizedEditableView<T>.Dispose() -> void
 Gu.Wpf.Reactive.SynchronizedEditableView<T>.HasListeners.get -> bool
 Gu.Wpf.Reactive.SynchronizedEditableView<T>.Move(int oldIndex, int newIndex) -> void
-Gu.Wpf.Reactive.SynchronizedEditableView<T>.Source.get -> System.Collections.Generic.IList<T>
-Gu.Wpf.Reactive.SynchronizedEditableView<T>.SynchronizedEditableView(System.Collections.Generic.IList<T> source, System.Collections.Generic.IEnumerable<T> sourceItems, bool leaveOpen, bool startEmpty) -> void
-Gu.Wpf.Reactive.SynchronizedEditableView<T>.SynchronizedEditableView(System.Collections.Generic.IList<T> source, bool leaveOpen, bool startEmpty) -> void
+Gu.Wpf.Reactive.SynchronizedEditableView<T>.Source.get -> System.Collections.Generic.IList<T>!
+Gu.Wpf.Reactive.SynchronizedEditableView<T>.SynchronizedEditableView(System.Collections.Generic.IList<T>! source, System.Collections.Generic.IEnumerable<T>! sourceItems, bool leaveOpen, bool startEmpty) -> void
+Gu.Wpf.Reactive.SynchronizedEditableView<T>.SynchronizedEditableView(System.Collections.Generic.IList<T>! source, bool leaveOpen, bool startEmpty) -> void
 Gu.Wpf.Reactive.SynchronizedEditableView<T>.ThrowIfDisposed() -> void
-Gu.Wpf.Reactive.SynchronizedEditableView<T>.Tracker.get -> Gu.Reactive.CollectionSynchronizer<T>
-Gu.Wpf.Reactive.SynchronizedEditableView<T>.UpdatedSourceWith.get -> System.Collections.Specialized.NotifyCollectionChangedEventArgs
+Gu.Wpf.Reactive.SynchronizedEditableView<T>.Tracker.get -> Gu.Reactive.CollectionSynchronizer<T>!
+Gu.Wpf.Reactive.SynchronizedEditableView<T>.UpdatedSourceWith.get -> System.Collections.Specialized.NotifyCollectionChangedEventArgs?
 Gu.Wpf.Reactive.TaskRunner
 Gu.Wpf.Reactive.TaskRunner.Run() -> void
-Gu.Wpf.Reactive.TaskRunner.TaskRunner(System.Func<System.Threading.Tasks.Task> action) -> void
+Gu.Wpf.Reactive.TaskRunner.TaskRunner(System.Func<System.Threading.Tasks.Task!>! action) -> void
 Gu.Wpf.Reactive.TaskRunner<TParameter>
 Gu.Wpf.Reactive.TaskRunner<TParameter>.Run(TParameter parameter) -> void
-Gu.Wpf.Reactive.TaskRunner<TParameter>.TaskRunner(System.Func<TParameter, System.Threading.Tasks.Task> action) -> void
+Gu.Wpf.Reactive.TaskRunner<TParameter>.TaskRunner(System.Func<TParameter, System.Threading.Tasks.Task!>! action) -> void
 Gu.Wpf.Reactive.TaskRunnerBase
 Gu.Wpf.Reactive.TaskRunnerBase.CanRun() -> bool?
-Gu.Wpf.Reactive.TaskRunnerBase.CanRunCondition.get -> Gu.Reactive.ICondition
+Gu.Wpf.Reactive.TaskRunnerBase.CanRunCondition.get -> Gu.Reactive.ICondition!
 Gu.Wpf.Reactive.TaskRunnerBase.Dispose() -> void
-Gu.Wpf.Reactive.TaskRunnerBase.TaskCompletion.get -> Gu.Wpf.Reactive.NotifyTaskCompletion
+Gu.Wpf.Reactive.TaskRunnerBase.TaskCompletion.get -> Gu.Wpf.Reactive.NotifyTaskCompletion?
 Gu.Wpf.Reactive.TaskRunnerBase.TaskCompletion.set -> void
 Gu.Wpf.Reactive.TaskRunnerBase.TaskRunnerBase() -> void
 Gu.Wpf.Reactive.TaskRunnerBase.ThrowIfDisposed() -> void
 Gu.Wpf.Reactive.TaskRunnerCancelable
 Gu.Wpf.Reactive.TaskRunnerCancelable.CanCancel.get -> bool?
 Gu.Wpf.Reactive.TaskRunnerCancelable.Run() -> void
-Gu.Wpf.Reactive.TaskRunnerCancelable.TaskRunnerCancelable(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task> action) -> void
+Gu.Wpf.Reactive.TaskRunnerCancelable.TaskRunnerCancelable(System.Func<System.Threading.CancellationToken, System.Threading.Tasks.Task!>! action) -> void
 Gu.Wpf.Reactive.TaskRunnerCancelable<TParameter>
 Gu.Wpf.Reactive.TaskRunnerCancelable<TParameter>.CanCancel.get -> bool?
 Gu.Wpf.Reactive.TaskRunnerCancelable<TParameter>.Run(TParameter parameter) -> void
-Gu.Wpf.Reactive.TaskRunnerCancelable<TParameter>.TaskRunnerCancelable(System.Func<TParameter, System.Threading.CancellationToken, System.Threading.Tasks.Task> action) -> void
+Gu.Wpf.Reactive.TaskRunnerCancelable<TParameter>.TaskRunnerCancelable(System.Func<TParameter, System.Threading.CancellationToken, System.Threading.Tasks.Task!>! action) -> void
 Gu.Wpf.Reactive.ThrottledView
 Gu.Wpf.Reactive.ThrottledView<T>
 Gu.Wpf.Reactive.ThrottledView<T>.BufferTime.get -> System.TimeSpan
 Gu.Wpf.Reactive.ThrottledView<T>.BufferTime.set -> void
-Gu.Wpf.Reactive.ThrottledView<T>.ThrottledView(Gu.Reactive.IObservableCollection<T> source, System.TimeSpan bufferTime, bool leaveOpen) -> void
-Gu.Wpf.Reactive.ThrottledView<T>.ThrottledView(System.Collections.ObjectModel.ObservableCollection<T> source, System.TimeSpan bufferTime, bool leaveOpen) -> void
+Gu.Wpf.Reactive.ThrottledView<T>.ThrottledView(Gu.Reactive.IObservableCollection<T>! source, System.TimeSpan bufferTime, bool leaveOpen) -> void
+Gu.Wpf.Reactive.ThrottledView<T>.ThrottledView(System.Collections.ObjectModel.ObservableCollection<T>! source, System.TimeSpan bufferTime, bool leaveOpen) -> void
 Gu.Wpf.Reactive.VoidTypeStruct
 Gu.Wpf.Reactive.VoidTypeStruct.VoidTypeStruct() -> void
 Gu.Wpf.Reactive.WpfSchedulers
 Gu.Wpf.Reactive.WpfSchedulers.WpfSchedulers() -> void
 abstract Gu.Wpf.Reactive.CommandBase<T>.InternalCanExecute(T parameter) -> bool
 abstract Gu.Wpf.Reactive.CommandBase<T>.InternalExecute(T parameter) -> void
-abstract Gu.Wpf.Reactive.TaskRunnerBase.CanCancelCondition.get -> Gu.Reactive.ICondition
+abstract Gu.Wpf.Reactive.TaskRunnerBase.CanCancelCondition.get -> Gu.Reactive.ICondition!
 override Gu.Wpf.Reactive.AsyncCommand.Dispose(bool disposing) -> void
-override Gu.Wpf.Reactive.AsyncCommand.InternalExecute(object parameter) -> void
+override Gu.Wpf.Reactive.AsyncCommand.InternalExecute(object? parameter) -> void
 override Gu.Wpf.Reactive.AsyncCommand<TParameter>.Dispose(bool disposing) -> void
 override Gu.Wpf.Reactive.AsyncCommand<TParameter>.InternalExecute(TParameter parameter) -> void
-override Gu.Wpf.Reactive.ConditionRelayCommand.InternalCanExecute(object parameter) -> bool
-override Gu.Wpf.Reactive.ConditionRelayCommand.InternalExecute(object parameter) -> void
+override Gu.Wpf.Reactive.ConditionRelayCommand.InternalCanExecute(object? parameter) -> bool
+override Gu.Wpf.Reactive.ConditionRelayCommand.InternalExecute(object? parameter) -> void
 override Gu.Wpf.Reactive.ConditionRelayCommand<T>.InternalCanExecute(T parameter) -> bool
 override Gu.Wpf.Reactive.ConditionRelayCommand<T>.InternalExecute(T parameter) -> void
-override Gu.Wpf.Reactive.ConditionTypeTemplateSelector.SelectTemplate(object item, System.Windows.DependencyObject container) -> System.Windows.DataTemplate
-override Gu.Wpf.Reactive.DispatchingCollection<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler
-override Gu.Wpf.Reactive.DispatchingCollection<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) -> void
-override Gu.Wpf.Reactive.EnumValuesForExtension.ProvideValue(System.IServiceProvider serviceProvider) -> object
+override Gu.Wpf.Reactive.ConditionTypeTemplateSelector.SelectTemplate(object! item, System.Windows.DependencyObject! container) -> System.Windows.DataTemplate?
+override Gu.Wpf.Reactive.DispatchingCollection<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler?
+override Gu.Wpf.Reactive.DispatchingCollection<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs! e) -> void
+override Gu.Wpf.Reactive.EnumValuesForExtension.ProvideValue(System.IServiceProvider! serviceProvider) -> object!
 override Gu.Wpf.Reactive.FilteredView<T>.Dispose(bool disposing) -> void
 override Gu.Wpf.Reactive.FilteredView<T>.Refresh() -> void
-override Gu.Wpf.Reactive.ManualRelayCommand.InternalCanExecute(object parameter) -> bool
-override Gu.Wpf.Reactive.ManualRelayCommand.InternalExecute(object parameter) -> void
+override Gu.Wpf.Reactive.ManualRelayCommand.InternalCanExecute(object? parameter) -> bool
+override Gu.Wpf.Reactive.ManualRelayCommand.InternalExecute(object? parameter) -> void
 override Gu.Wpf.Reactive.ManualRelayCommand<T>.InternalCanExecute(T parameter) -> bool
 override Gu.Wpf.Reactive.ManualRelayCommand<T>.InternalExecute(T parameter) -> void
-override Gu.Wpf.Reactive.NinjaBinding.ProvideValue(System.IServiceProvider serviceProvider) -> object
-override Gu.Wpf.Reactive.ObservingRelayCommand.InternalCanExecute(object parameter) -> bool
-override Gu.Wpf.Reactive.ObservingRelayCommand.InternalExecute(object parameter) -> void
+override Gu.Wpf.Reactive.NinjaBinding.ProvideValue(System.IServiceProvider! serviceProvider) -> object?
+override Gu.Wpf.Reactive.ObservingRelayCommand.InternalCanExecute(object? parameter) -> bool
+override Gu.Wpf.Reactive.ObservingRelayCommand.InternalExecute(object? parameter) -> void
 override Gu.Wpf.Reactive.ObservingRelayCommand<T>.InternalCanExecute(T parameter) -> bool
 override Gu.Wpf.Reactive.ObservingRelayCommand<T>.InternalExecute(T parameter) -> void
-override Gu.Wpf.Reactive.RelayCommand.CanExecuteChanged -> System.EventHandler
-override Gu.Wpf.Reactive.RelayCommand<T>.CanExecuteChanged -> System.EventHandler
-override Gu.Wpf.Reactive.RootObjectExtension.ProvideValue(System.IServiceProvider serviceProvider) -> object
+override Gu.Wpf.Reactive.RelayCommand.CanExecuteChanged -> System.EventHandler!
+override Gu.Wpf.Reactive.RelayCommand<T>.CanExecuteChanged -> System.EventHandler!
+override Gu.Wpf.Reactive.RootObjectExtension.ProvideValue(System.IServiceProvider! serviceProvider) -> object?
 override Gu.Wpf.Reactive.SynchronizedEditableView<T>.ClearItems() -> void
 override Gu.Wpf.Reactive.SynchronizedEditableView<T>.InsertItem(int index, T item) -> void
 override Gu.Wpf.Reactive.SynchronizedEditableView<T>.RemoveItem(int index) -> void
 override Gu.Wpf.Reactive.SynchronizedEditableView<T>.SetItem(int index, T item) -> void
-override Gu.Wpf.Reactive.TaskRunner.CanCancelCondition.get -> Gu.Reactive.ICondition
-override Gu.Wpf.Reactive.TaskRunner<TParameter>.CanCancelCondition.get -> Gu.Reactive.ICondition
-override Gu.Wpf.Reactive.TaskRunnerCancelable.CanCancelCondition.get -> Gu.Reactive.ICondition
+override Gu.Wpf.Reactive.TaskRunner.CanCancelCondition.get -> Gu.Reactive.ICondition!
+override Gu.Wpf.Reactive.TaskRunner<TParameter>.CanCancelCondition.get -> Gu.Reactive.ICondition!
+override Gu.Wpf.Reactive.TaskRunnerCancelable.CanCancelCondition.get -> Gu.Reactive.ICondition!
 override Gu.Wpf.Reactive.TaskRunnerCancelable.Cancel() -> void
 override Gu.Wpf.Reactive.TaskRunnerCancelable.Dispose(bool disposing) -> void
-override Gu.Wpf.Reactive.TaskRunnerCancelable<TParameter>.CanCancelCondition.get -> Gu.Reactive.ICondition
+override Gu.Wpf.Reactive.TaskRunnerCancelable<TParameter>.CanCancelCondition.get -> Gu.Reactive.ICondition!
 override Gu.Wpf.Reactive.TaskRunnerCancelable<TParameter>.Cancel() -> void
 override Gu.Wpf.Reactive.TaskRunnerCancelable<TParameter>.Dispose(bool disposing) -> void
 override Gu.Wpf.Reactive.ThrottledView<T>.Dispose(bool disposing) -> void
 override Gu.Wpf.Reactive.ThrottledView<T>.Refresh() -> void
-override sealed Gu.Wpf.Reactive.FilteredView<T>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> changes) -> void
-override sealed Gu.Wpf.Reactive.ThrottledView<T>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> changes) -> void
-static Gu.Wpf.Reactive.CanExecuteChangedEventManager.AddHandler(System.Windows.Input.ICommand source, System.EventHandler handler) -> void
-static Gu.Wpf.Reactive.CanExecuteChangedEventManager.AddListener(System.Windows.Input.ICommand source, System.Windows.IWeakEventListener listener) -> void
-static Gu.Wpf.Reactive.CanExecuteChangedEventManager.CurrentManager.get -> Gu.Wpf.Reactive.CanExecuteChangedEventManager
-static Gu.Wpf.Reactive.CanExecuteChangedEventManager.RemoveHandler(System.Windows.Input.ICommand source, System.EventHandler handler) -> void
-static Gu.Wpf.Reactive.CanExecuteChangedEventManager.RemoveListener(System.Windows.Input.ICommand source, System.Windows.IWeakEventListener listener) -> void
-static Gu.Wpf.Reactive.ConditionControl.AllExpandedTreeViewItemStyleKey.get -> System.Windows.ResourceKey
-static Gu.Wpf.Reactive.ConditionControl.CollapseSatisfiedTreeViewItemStyleKey.get -> System.Windows.ResourceKey
-static Gu.Wpf.Reactive.ConditionControl.ConditionTemplateKey.get -> System.Windows.ResourceKey
-static Gu.Wpf.Reactive.ConditionControl.SetAllExpanded.get -> System.Windows.Input.ICommand
-static Gu.Wpf.Reactive.ConditionControl.SetCollapseSatisfied.get -> System.Windows.Input.ICommand
-static Gu.Wpf.Reactive.ConditionControl.SingleConditionControlStyleKey.get -> System.Windows.ResourceKey
-static Gu.Wpf.Reactive.ConditionControl.TreeviewItemStyleKey.get -> System.Windows.ResourceKey
-static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this Gu.Reactive.IObservableCollection<TItem> collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
-static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this Gu.Reactive.IObservableCollection<TItem> collection, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
-static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
-static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> collection, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
-static Gu.Wpf.Reactive.EditableListView.AsEditableListView<T>(this Gu.Reactive.IObservableCollection<T> source, bool leaveOpen) -> Gu.Wpf.Reactive.EditableListView<T>
-static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this Gu.Reactive.IObservableCollection<T> collection, System.Func<T, bool> filter, System.TimeSpan bufferTime, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Wpf.Reactive.FilteredView<T>
-static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this Gu.Reactive.IObservableCollection<T> collection, System.Func<T, bool> filter, System.TimeSpan bufferTime, params System.IObservable<object>[] triggers) -> Gu.Wpf.Reactive.FilteredView<T>
-static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this Gu.Reactive.IObservableCollection<T> collection, System.Func<T, bool> filter, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Wpf.Reactive.FilteredView<T>
-static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this Gu.Reactive.IObservableCollection<T> collection, System.Func<T, bool> filter, params System.IObservable<object>[] triggers) -> Gu.Wpf.Reactive.FilteredView<T>
-static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, System.Func<T, bool> filter, System.TimeSpan bufferTime, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Wpf.Reactive.FilteredView<T>
-static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, System.Func<T, bool> filter, System.TimeSpan bufferTime, params System.IObservable<object>[] triggers) -> Gu.Wpf.Reactive.FilteredView<T>
-static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, System.Func<T, bool> filter, bool leaveOpen, params System.IObservable<object>[] triggers) -> Gu.Wpf.Reactive.FilteredView<T>
-static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, System.Func<T, bool> filter, params System.IObservable<object>[] triggers) -> Gu.Wpf.Reactive.FilteredView<T>
-static Gu.Wpf.Reactive.FilteredView<T>.Filtered(System.Collections.Generic.IEnumerable<T> source, System.Func<T, bool> filter) -> System.Collections.Generic.IEnumerable<T>
-static Gu.Wpf.Reactive.NotifyCollectionChangedEventHandlerExt.InvokeOnDispatcherAsync(this System.Collections.Specialized.NotifyCollectionChangedEventHandler handler, object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) -> System.Threading.Tasks.Task
-static Gu.Wpf.Reactive.ObservableCollectionExtensions.AddAsync<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, T item) -> System.Threading.Tasks.Task
-static Gu.Wpf.Reactive.ObservableCollectionExtensions.AddRangeAsync<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, System.Collections.Generic.IEnumerable<T> items) -> System.Threading.Tasks.Task
-static Gu.Wpf.Reactive.ObservableCollectionExtensions.ClearAsync<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection) -> System.Threading.Tasks.Task
-static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeAdd<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, T item) -> void
-static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeAddRange<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, System.Collections.Generic.IEnumerable<T> items) -> void
-static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeClear<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection) -> void
-static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeInsertSorted<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, T item, System.Comparison<T> comparison = null) -> void
-static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeRemove<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, T item) -> void
-static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeRemoveRange<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, System.Collections.Generic.IEnumerable<T> items) -> void
-static Gu.Wpf.Reactive.ObservableCollectionExtensions.RemoveAsync<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, T item) -> System.Threading.Tasks.Task<bool>
-static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this Gu.Reactive.IReadOnlyObservableCollection<TItem> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
-static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this Gu.Reactive.IReadOnlyObservableCollection<TItem> source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
-static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
-static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
-static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
-static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem> source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
-static Gu.Wpf.Reactive.Schedulers.DispatcherOrCurrentThread.get -> System.Reactive.Concurrency.IScheduler
-static Gu.Wpf.Reactive.Schedulers.ObserveOnDispatcherOrCurrentThread<T>(this System.IObservable<T> observable) -> System.IObservable<T>
-static Gu.Wpf.Reactive.ServiceProviderExt.IsInTemplate(this System.IServiceProvider serviceProvider) -> bool
-static Gu.Wpf.Reactive.ServiceProviderExt.ProvideValueTarget(this System.IServiceProvider provider) -> System.Windows.Markup.IProvideValueTarget
-static Gu.Wpf.Reactive.ServiceProviderExt.RootObjectProvider(this System.IServiceProvider provider) -> System.Xaml.IRootObjectProvider
-static Gu.Wpf.Reactive.ServiceProviderExt.TypeDescriptorContext(this System.IServiceProvider provider) -> System.ComponentModel.ITypeDescriptorContext
-static Gu.Wpf.Reactive.ServiceProviderExt.UriContext(this System.IServiceProvider provider) -> System.Windows.Markup.IUriContext
-static Gu.Wpf.Reactive.ServiceProviderExt.XamlNameResolver(this System.IServiceProvider provider) -> System.Xaml.IXamlNameResolver
-static Gu.Wpf.Reactive.ServiceProviderExt.XamlNamespaceResolver(this System.IServiceProvider provider) -> System.Xaml.IXamlNamespaceResolver
-static Gu.Wpf.Reactive.ServiceProviderExt.XamlSchemaContextProvider(this System.IServiceProvider provider) -> System.Xaml.IXamlSchemaContextProvider
-static Gu.Wpf.Reactive.ServiceProviderExt.XamlTypeResolver(this System.IServiceProvider provider) -> System.Windows.Markup.IXamlTypeResolver
-static Gu.Wpf.Reactive.ThrottledView.AsThrottledView<T>(this Gu.Reactive.IObservableCollection<T> collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ThrottledView<T>
-static Gu.Wpf.Reactive.ThrottledView.AsThrottledView<T>(this System.Collections.ObjectModel.ObservableCollection<T> collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ThrottledView<T>
-static Gu.Wpf.Reactive.WpfSchedulers.Dispatcher.get -> System.Reactive.Concurrency.DispatcherScheduler
-static readonly Gu.Wpf.Reactive.CommandBase<T>.IsExecutingChangedEventArgs -> System.ComponentModel.PropertyChangedEventArgs
-static readonly Gu.Wpf.Reactive.ConditionControl.ConditionProperty -> System.Windows.DependencyProperty
-static readonly Gu.Wpf.Reactive.ConditionControl.FlattenedPrerequisitesProperty -> System.Windows.DependencyProperty
-static readonly Gu.Wpf.Reactive.ConditionControl.IsInSyncProperty -> System.Windows.DependencyProperty
-static readonly Gu.Wpf.Reactive.ConditionControl.RootProperty -> System.Windows.DependencyProperty
-static readonly Gu.Wpf.Reactive.ConditionToolTip.CommandTypeProperty -> System.Windows.DependencyProperty
-static readonly Gu.Wpf.Reactive.ConditionToolTip.ConditionProperty -> System.Windows.DependencyProperty
-static readonly Gu.Wpf.Reactive.ConditionToolTip.InferConditionFromCommandProperty -> System.Windows.DependencyProperty
-static readonly Gu.Wpf.Reactive.TaskRunnerBase.NeverCancelCondition -> Gu.Reactive.Condition
-virtual Gu.Wpf.Reactive.CommandBase<T>.CanExecuteChanged -> System.EventHandler
-virtual Gu.Wpf.Reactive.CommandBase<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) -> void
-virtual Gu.Wpf.Reactive.CommandBase<T>.OnPropertyChanged(string propertyName = null) -> void
+override sealed Gu.Wpf.Reactive.FilteredView<T>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs!>! changes) -> void
+override sealed Gu.Wpf.Reactive.ThrottledView<T>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs!>! changes) -> void
+static Gu.Wpf.Reactive.CanExecuteChangedEventManager.AddHandler(System.Windows.Input.ICommand! source, System.EventHandler! handler) -> void
+static Gu.Wpf.Reactive.CanExecuteChangedEventManager.AddListener(System.Windows.Input.ICommand! source, System.Windows.IWeakEventListener! listener) -> void
+static Gu.Wpf.Reactive.CanExecuteChangedEventManager.CurrentManager.get -> Gu.Wpf.Reactive.CanExecuteChangedEventManager!
+static Gu.Wpf.Reactive.CanExecuteChangedEventManager.RemoveHandler(System.Windows.Input.ICommand! source, System.EventHandler! handler) -> void
+static Gu.Wpf.Reactive.CanExecuteChangedEventManager.RemoveListener(System.Windows.Input.ICommand! source, System.Windows.IWeakEventListener! listener) -> void
+static Gu.Wpf.Reactive.ConditionControl.AllExpandedTreeViewItemStyleKey.get -> System.Windows.ResourceKey!
+static Gu.Wpf.Reactive.ConditionControl.CollapseSatisfiedTreeViewItemStyleKey.get -> System.Windows.ResourceKey!
+static Gu.Wpf.Reactive.ConditionControl.ConditionTemplateKey.get -> System.Windows.ResourceKey!
+static Gu.Wpf.Reactive.ConditionControl.SetAllExpanded.get -> System.Windows.Input.ICommand!
+static Gu.Wpf.Reactive.ConditionControl.SetCollapseSatisfied.get -> System.Windows.Input.ICommand!
+static Gu.Wpf.Reactive.ConditionControl.SingleConditionControlStyleKey.get -> System.Windows.ResourceKey!
+static Gu.Wpf.Reactive.ConditionControl.TreeviewItemStyleKey.get -> System.Windows.ResourceKey!
+~static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this Gu.Reactive.IObservableCollection<TItem> collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
+~static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this Gu.Reactive.IObservableCollection<TItem> collection, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
+~static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
+~static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> collection, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
+static Gu.Wpf.Reactive.EditableListView.AsEditableListView<T>(this Gu.Reactive.IObservableCollection<T>! source, bool leaveOpen) -> Gu.Wpf.Reactive.EditableListView<T>!
+static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this Gu.Reactive.IObservableCollection<T>! collection, System.Func<T, bool>! filter, System.TimeSpan bufferTime, bool leaveOpen, params System.IObservable<object?>![]! triggers) -> Gu.Wpf.Reactive.FilteredView<T>!
+static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this Gu.Reactive.IObservableCollection<T>! collection, System.Func<T, bool>! filter, System.TimeSpan bufferTime, params System.IObservable<object?>![]! triggers) -> Gu.Wpf.Reactive.FilteredView<T>!
+static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this Gu.Reactive.IObservableCollection<T>! collection, System.Func<T, bool>! filter, bool leaveOpen, params System.IObservable<object?>![]! triggers) -> Gu.Wpf.Reactive.FilteredView<T>!
+static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this Gu.Reactive.IObservableCollection<T>! collection, System.Func<T, bool>! filter, params System.IObservable<object?>![]! triggers) -> Gu.Wpf.Reactive.FilteredView<T>!
+static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.Func<T, bool>! filter, System.TimeSpan bufferTime, bool leaveOpen, params System.IObservable<object?>![]! triggers) -> Gu.Wpf.Reactive.FilteredView<T>!
+static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.Func<T, bool>! filter, System.TimeSpan bufferTime, params System.IObservable<object?>![]! triggers) -> Gu.Wpf.Reactive.FilteredView<T>!
+static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.Func<T, bool>! filter, bool leaveOpen, params System.IObservable<object?>![]! triggers) -> Gu.Wpf.Reactive.FilteredView<T>!
+static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.Func<T, bool>! filter, params System.IObservable<object?>![]! triggers) -> Gu.Wpf.Reactive.FilteredView<T>!
+static Gu.Wpf.Reactive.FilteredView<T>.Filtered(System.Collections.Generic.IEnumerable<T>! source, System.Func<T, bool>! filter) -> System.Collections.Generic.IEnumerable<T>!
+static Gu.Wpf.Reactive.NotifyCollectionChangedEventHandlerExt.InvokeOnDispatcherAsync(this System.Collections.Specialized.NotifyCollectionChangedEventHandler! handler, object! sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs! e) -> System.Threading.Tasks.Task!
+static Gu.Wpf.Reactive.ObservableCollectionExtensions.AddAsync<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, T item) -> System.Threading.Tasks.Task!
+static Gu.Wpf.Reactive.ObservableCollectionExtensions.AddRangeAsync<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.Collections.Generic.IEnumerable<T>! items) -> System.Threading.Tasks.Task!
+static Gu.Wpf.Reactive.ObservableCollectionExtensions.ClearAsync<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection) -> System.Threading.Tasks.Task!
+static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeAdd<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, T item) -> void
+static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeAddRange<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.Collections.Generic.IEnumerable<T>! items) -> void
+static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeClear<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection) -> void
+static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeInsertSorted<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, T item, System.Comparison<T>? comparison = null) -> void
+static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeRemove<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, T item) -> void
+static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeRemoveRange<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.Collections.Generic.IEnumerable<T>! items) -> void
+static Gu.Wpf.Reactive.ObservableCollectionExtensions.RemoveAsync<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, T item) -> System.Threading.Tasks.Task<bool>!
+~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this Gu.Reactive.IReadOnlyObservableCollection<TItem> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
+~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this Gu.Reactive.IReadOnlyObservableCollection<TItem> source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
+~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
+~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
+~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
+~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem> source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
+static Gu.Wpf.Reactive.Schedulers.DispatcherOrCurrentThread.get -> System.Reactive.Concurrency.IScheduler!
+static Gu.Wpf.Reactive.Schedulers.ObserveOnDispatcherOrCurrentThread<T>(this System.IObservable<T>! observable) -> System.IObservable<T>!
+static Gu.Wpf.Reactive.ServiceProviderExt.IsInTemplate(this System.IServiceProvider! serviceProvider) -> bool
+static Gu.Wpf.Reactive.ServiceProviderExt.ProvideValueTarget(this System.IServiceProvider! provider) -> System.Windows.Markup.IProvideValueTarget?
+static Gu.Wpf.Reactive.ServiceProviderExt.RootObjectProvider(this System.IServiceProvider! provider) -> System.Xaml.IRootObjectProvider?
+static Gu.Wpf.Reactive.ServiceProviderExt.TypeDescriptorContext(this System.IServiceProvider! provider) -> System.ComponentModel.ITypeDescriptorContext?
+static Gu.Wpf.Reactive.ServiceProviderExt.UriContext(this System.IServiceProvider! provider) -> System.Windows.Markup.IUriContext?
+static Gu.Wpf.Reactive.ServiceProviderExt.XamlNameResolver(this System.IServiceProvider! provider) -> System.Xaml.IXamlNameResolver?
+static Gu.Wpf.Reactive.ServiceProviderExt.XamlNamespaceResolver(this System.IServiceProvider! provider) -> System.Xaml.IXamlNamespaceResolver?
+static Gu.Wpf.Reactive.ServiceProviderExt.XamlSchemaContextProvider(this System.IServiceProvider! provider) -> System.Xaml.IXamlSchemaContextProvider?
+static Gu.Wpf.Reactive.ServiceProviderExt.XamlTypeResolver(this System.IServiceProvider! provider) -> System.Windows.Markup.IXamlTypeResolver?
+static Gu.Wpf.Reactive.ThrottledView.AsThrottledView<T>(this Gu.Reactive.IObservableCollection<T>! collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ThrottledView<T>!
+static Gu.Wpf.Reactive.ThrottledView.AsThrottledView<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ThrottledView<T>!
+static Gu.Wpf.Reactive.WpfSchedulers.Dispatcher.get -> System.Reactive.Concurrency.DispatcherScheduler!
+static readonly Gu.Wpf.Reactive.CommandBase<T>.IsExecutingChangedEventArgs -> System.ComponentModel.PropertyChangedEventArgs!
+static readonly Gu.Wpf.Reactive.ConditionControl.ConditionProperty -> System.Windows.DependencyProperty!
+static readonly Gu.Wpf.Reactive.ConditionControl.FlattenedPrerequisitesProperty -> System.Windows.DependencyProperty!
+static readonly Gu.Wpf.Reactive.ConditionControl.IsInSyncProperty -> System.Windows.DependencyProperty!
+static readonly Gu.Wpf.Reactive.ConditionControl.RootProperty -> System.Windows.DependencyProperty!
+static readonly Gu.Wpf.Reactive.ConditionToolTip.CommandTypeProperty -> System.Windows.DependencyProperty!
+static readonly Gu.Wpf.Reactive.ConditionToolTip.ConditionProperty -> System.Windows.DependencyProperty!
+static readonly Gu.Wpf.Reactive.ConditionToolTip.InferConditionFromCommandProperty -> System.Windows.DependencyProperty!
+static readonly Gu.Wpf.Reactive.TaskRunnerBase.NeverCancelCondition -> Gu.Reactive.Condition!
+virtual Gu.Wpf.Reactive.CommandBase<T>.CanExecuteChanged -> System.EventHandler!
+virtual Gu.Wpf.Reactive.CommandBase<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs! e) -> void
+virtual Gu.Wpf.Reactive.CommandBase<T>.OnPropertyChanged(string? propertyName = null) -> void
 virtual Gu.Wpf.Reactive.CommandBase<T>.RaiseCanExecuteChanged() -> void
-virtual Gu.Wpf.Reactive.ConditionControl.OnConditionChanged(Gu.Reactive.ICondition oldCondition, Gu.Reactive.ICondition newCondition) -> void
+virtual Gu.Wpf.Reactive.ConditionControl.OnConditionChanged(Gu.Reactive.ICondition! oldCondition, Gu.Reactive.ICondition! newCondition) -> void
 virtual Gu.Wpf.Reactive.ConditionRelayCommand.Dispose(bool disposing) -> void
 virtual Gu.Wpf.Reactive.ConditionRelayCommand<T>.Dispose(bool disposing) -> void
 virtual Gu.Wpf.Reactive.EditableListView<T>.Dispose(bool disposing) -> void
-virtual Gu.Wpf.Reactive.EditableListView<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) -> void
-virtual Gu.Wpf.Reactive.EditableListView<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) -> void
+virtual Gu.Wpf.Reactive.EditableListView<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs! e) -> void
+virtual Gu.Wpf.Reactive.EditableListView<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs! e) -> void
 virtual Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.OnCompleted() -> void
-virtual Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.OnPropertyChanged(string propertyName = null) -> void
+virtual Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.OnPropertyChanged(string? propertyName = null) -> void
 virtual Gu.Wpf.Reactive.ObservingRelayCommand.Dispose(bool disposing) -> void
 virtual Gu.Wpf.Reactive.ObservingRelayCommand<T>.Dispose(bool disposing) -> void
-virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler
+virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler?
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.Dispose(bool disposing) -> void
-virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.IsSourceChange(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) -> bool
+virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.IsSourceChange(System.Collections.Specialized.NotifyCollectionChangedEventArgs! e) -> bool
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.MoveItem(int oldIndex, int newIndex) -> void
-virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.Notify(System.Collections.Specialized.NotifyCollectionChangedEventArgs change) -> void
-virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e) -> void
-virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs e) -> void
-virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.OnPropertyChanged(string propertyName = null) -> void
-virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.Notify(System.Collections.Specialized.NotifyCollectionChangedEventArgs! change) -> void
+virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs! e) -> void
+virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs! e) -> void
+virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.OnPropertyChanged(string? propertyName = null) -> void
+virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.Refresh() -> void
-virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs> changes) -> void
+virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs!>! changes) -> void
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.SourceIndex(int index) -> int
 virtual Gu.Wpf.Reactive.TaskRunnerBase.Cancel() -> void
 virtual Gu.Wpf.Reactive.TaskRunnerBase.Dispose(bool disposing) -> void
-virtual Gu.Wpf.Reactive.TaskRunnerBase.OnPropertyChanged(string propertyName = null) -> void
-virtual Gu.Wpf.Reactive.TaskRunnerBase.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler
+virtual Gu.Wpf.Reactive.TaskRunnerBase.OnPropertyChanged(string? propertyName = null) -> void
+virtual Gu.Wpf.Reactive.TaskRunnerBase.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?

@@ -1,4 +1,5 @@
-﻿Gu.Reactive.AbstractCondition
+﻿#nullable enable
+Gu.Reactive.AbstractCondition
 Gu.Reactive.AbstractCondition.AbstractCondition(System.IObservable<object> observable) -> void
 Gu.Reactive.AbstractCondition.Dispose() -> void
 Gu.Reactive.AbstractCondition.History.get -> System.Collections.Generic.IEnumerable<Gu.Reactive.ConditionHistoryPoint>

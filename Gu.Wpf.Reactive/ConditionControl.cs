@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -12,8 +12,6 @@ namespace Gu.Wpf.Reactive
     /// </summary>
     public partial class ConditionControl : Control
     {
-#pragma warning disable SA1202 // Elements must be ordered by access
-
         /// <summary>Identifies the <see cref="Condition"/> dependency property.</summary>
         public static readonly DependencyProperty ConditionProperty = DependencyProperty.Register(
             nameof(Condition),
@@ -47,8 +45,6 @@ namespace Gu.Wpf.Reactive
 
         /// <summary>Identifies the <see cref="FlattenedPrerequisites"/> dependency property.</summary>
         public static readonly DependencyProperty FlattenedPrerequisitesProperty = FlattenedPrerequisitesPropertyKey.DependencyProperty;
-
-#pragma warning restore SA1202 // Elements must be ordered by access
 
         static ConditionControl()
         {
