@@ -1,22 +1,19 @@
-```ini
+``` ini
 
-BenchmarkDotNet=v0.9.7.0
-OS=Microsoft Windows NT 6.2.9200.0
-Processor=Intel(R) Core(TM) i7-3667U CPU 2.00GHz, ProcessorCount=4
-Frequency=2435865 ticks, Resolution=410.5318 ns, Timer=TSC
-HostCLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
-JitModules=clrjit-v4.6.1586.0
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19041.572 (2004/?/20H1)
+Intel Xeon CPU E5-2637 v4 3.50GHz, 2 CPU, 16 logical and 8 physical cores
+  [Host]     : .NET Framework 4.8 (4.8.4250.0), X64 RyuJIT
+  DefaultJob : .NET Framework 4.8 (4.8.4250.0), X64 RyuJIT
 
-Type=ObservePropertyChanged  Mode=Throughput  
 
 ```
-                                 Method |        Median |      StdDev | Scaled |    Gen 0 | Gen 1 | Gen 2 | Bytes Allocated/Op |
---------------------------------------- |-------------- |------------ |------- |--------- |------ |------ |------------------- |
-               SubscribeToEventStandard |   112.9286 ns |   8.1086 ns |   1.00 |   115,13 |     - |     - |              25,86 |
-     ObservePropertyChangedSimpleLambda | 4,997.4646 ns | 688.4558 ns |  44.25 | 1 398,00 |     - |     - |             324,38 |
-     ObservePropertyChangedNestedLambda | 5,574.6778 ns | 743.7959 ns |  49.36 | 1 542,01 |     - |     - |             347,21 |
- ObservePropertyChangedNestedCachedPath |    41.8956 ns |   5.8626 ns |   0.37 |   128,33 |     - |     - |              29,05 |
-           ObservePropertyChangedString |   147.4375 ns |  15.8882 ns |   1.31 |   395,64 |     - |     - |              89,31 |
-       ObservePropertyChangedSlimString |   187.8106 ns |  19.8516 ns |   1.66 |   255,86 |     - |     - |              58,42 |
- ObservePropertyChangedSlimSimpleLambda | 5,312.2823 ns | 991.8562 ns |  47.04 | 1 263,34 |     - |     - |             292,30 |
- ObservePropertyChangedSlimNestedLambda | 5,975.7788 ns | 972.8024 ns |  52.92 | 1 508,93 |     - |     - |             339,66 |
+|                                 Method |        Mean |     Error |     StdDev |      Median | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|--------------------------------------- |------------:|----------:|-----------:|------------:|------:|--------:|-------:|------:|------:|----------:|
+|               SubscribeToEventStandard |    82.89 ns |  1.689 ns |   2.255 ns |    82.80 ns |  1.00 |    0.00 | 0.0280 |     - |     - |     177 B |
+|     ObservePropertyChangedSimpleLambda | 2,477.12 ns | 54.555 ns | 160.856 ns | 2,428.42 ns | 30.42 |    2.46 | 0.1640 |     - |     - |    1059 B |
+|     ObservePropertyChangedNestedLambda | 2,830.39 ns | 56.608 ns | 103.511 ns | 2,817.12 ns | 34.60 |    1.42 | 0.2136 |     - |     - |    1356 B |
+| ObservePropertyChangedNestedCachedPath |    71.16 ns |  1.483 ns |   2.893 ns |    70.80 ns |  0.87 |    0.05 | 0.0203 |     - |     - |     128 B |
+|           ObservePropertyChangedString |   110.34 ns |  1.426 ns |   1.334 ns |   109.50 ns |  1.32 |    0.03 | 0.0203 |     - |     - |     128 B |
+|       ObservePropertyChangedSlimString |   114.49 ns |  2.264 ns |   2.516 ns |   114.40 ns |  1.37 |    0.04 | 0.0203 |     - |     - |     128 B |
+| ObservePropertyChangedSlimSimpleLambda | 2,387.95 ns | 47.127 ns |  91.918 ns | 2,406.96 ns | 28.99 |    1.30 | 0.1640 |     - |     - |    1059 B |
+| ObservePropertyChangedSlimNestedLambda | 3,039.85 ns | 59.216 ns |  63.361 ns | 3,025.93 ns | 36.37 |    1.32 | 0.2136 |     - |     - |    1356 B |
