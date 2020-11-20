@@ -3,6 +3,7 @@ namespace Gu.Reactive.Benchmarks
 {
     using System;
     using System.ComponentModel;
+    using System.Linq.Expressions;
     using System.Reactive;
 
     using BenchmarkDotNet.Attributes;
@@ -32,6 +33,18 @@ namespace Gu.Reactive.Benchmarks
             this.fake.Value++;
             this.fake.PropertyChanged -= Handler;
             return count;
+        }
+
+        [Benchmark]
+        public Expression<Func<Fake,int>> ExpressionSimpleLambda()
+        {
+            return x => x.Value;
+        }
+
+        [Benchmark]
+        public Expression<Func<Fake, string>> ExpressionNestedLambda()
+        {
+            return x => x.Next.Name;
         }
 
         [Benchmark]
