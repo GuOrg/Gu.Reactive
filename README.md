@@ -13,11 +13,12 @@ Helpers for using System.Reactive with `INotifyPropertyChanged`.
 # Table of contents
 
 - [Factory methods for creating observables.](#factory-methods-for-creating-observables)
-  - [ObservePropertyChanged:](#observepropertychanged)
-    - [SignalInitial](#signalinitial)
   - [ObservePropertyChangedSlim:](#observepropertychangedslim)
     - [SignalInitial](#signalinitial)
-    - [ObservePropertyChangedWithValue](#observepropertychangedwithvalue)
+  - [ObserveValue](#observevalue)
+  - [ObservePropertyChangedWithValue](#observepropertychangedwithvalue)
+  - [ObservePropertyChanged:](#observepropertychanged)
+    - [SignalInitial](#signalinitial)
   - [ObserveCollectionChanged:](#observecollectionchanged)
     - [SignalInitial](#signalinitial)
   - [ObservePropertyChangedSlim:](#observepropertychangedslim)
@@ -72,27 +73,10 @@ Nuget can generate redirects using PM> `Get-Project –All | Add-BindingRedirect
 
 # Factory methods for creating observables.
 
-## ObservePropertyChanged:
-
-```c#
-var subscription = fake.ObservePropertyChanged(x => x.Level1.Level2.Value)
-                       .Subscribe(...);
-```
-
-1) Create an observable from the `PropertytChangedEvent` for fake.
-2) Listens to nested changes. All steps in the property path must be INotifyPropertyChanged. Throws if not.
-3) When PropertyChanged is raised with string.Empty or null the observable notifies.
-4) Updates subscriptions for items in path and uses weak events.
-
-### SignalInitial
-Default true meaning that the observable will call OnNext on Subscribe.
-The sender will be tha last node in the path that has a value, in the example above it would be the value of the property `Level2` if it is not null, then `Level1` if not null if the entire path is null the root item `fake` is used as sender for the first notifixcation.
-The eventags for the signal initial event is `string.Empty`
-
 ## ObservePropertyChangedSlim:
 
 ```c#
-var subscription = this.ObservePropertyChangedSlim(nameof(this.Value))
+var subscription = foo.ObservePropertyChangedSlim(x => x.Bar.Baz)
                        .Subscribe(...);
 ```
 
@@ -109,9 +93,26 @@ If so it return `Maybe.None`
 
 ```c#
 var ints = new List<int>();
-fake.ObserveValue(x => x.Next.Value)
+foo.ObserveValue(x => x.Bar.Baz)
     .Subscribe(ints.Add);
 ```
+
+## ObservePropertyChanged:
+
+```c#
+var subscription = fake.ObservePropertyChanged(x => x.Level1.Level2.Value)
+                       .Subscribe(...);
+```
+
+1) Create an observable from the `PropertytChangedEvent` for fake.
+2) Listens to nested changes. All steps in the property path must be INotifyPropertyChanged. Throws if not.
+3) When PropertyChanged is raised with string.Empty or null the observable notifies.
+4) Updates subscriptions for items in path and uses weak events.
+
+### SignalInitial
+Default true meaning that the observable will call OnNext on Subscribe.
+The sender will be tha last node in the path that has a value, in the example above it would be the value of the property `Level2` if it is not null, then `Level1` if not null if the entire path is null the root item `fake` is used as sender for the first notifixcation.
+The eventags for the signal initial event is `string.Empty`
 
 ## ObservePropertyChangedWithValue
 ```c#
