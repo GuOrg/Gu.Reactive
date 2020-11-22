@@ -206,6 +206,8 @@ namespace Gu.Reactive
         /// <summary>
         /// Create an <see cref="ObservableAndCriteria"/> to be passed in as constructor argument.
         /// </summary>
+        /// <typeparam name="TSource">The source type.</typeparam>
+        /// <typeparam name="TValue">The value type.</typeparam>
         /// <param name="source">The source instance.</param>
         /// <param name="path">The property path to listen to changes for on source.</param>
         /// <param name="value">The value when satisfied.</param>
@@ -231,6 +233,8 @@ namespace Gu.Reactive
         /// <summary>
         /// Create an <see cref="ObservableAndCriteria"/> to be passed in as constructor argument.
         /// </summary>
+        /// <typeparam name="TSource">The source type.</typeparam>
+        /// <typeparam name="TValue">The value type.</typeparam>
         /// <param name="source">The source instance.</param>
         /// <param name="path">The property path to listen to changes for on source.</param>
         /// <param name="value">The value when satisfied.</param>
@@ -258,6 +262,8 @@ namespace Gu.Reactive
         /// <summary>
         /// Create an <see cref="ObservableAndCriteria"/> to be passed in as constructor argument.
         /// </summary>
+        /// <typeparam name="TSource">The source type.</typeparam>
+        /// <typeparam name="TValue">The value type.</typeparam>
         /// <param name="source">The source instance.</param>
         /// <param name="path">The property path to listen to changes for on source.</param>
         /// <param name="value">The value when satisfied.</param>
@@ -285,6 +291,8 @@ namespace Gu.Reactive
         /// <summary>
         /// Create an <see cref="ObservableAndCriteria"/> to be passed in as constructor argument.
         /// </summary>
+        /// <typeparam name="TSource">The source type.</typeparam>
+        /// <typeparam name="TValue">The value type.</typeparam>
         /// <param name="source">The source instance.</param>
         /// <param name="path">The property path to listen to changes for on source.</param>
         /// <param name="value">The value when satisfied.</param>

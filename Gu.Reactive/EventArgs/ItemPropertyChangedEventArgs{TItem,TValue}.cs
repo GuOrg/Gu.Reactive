@@ -6,6 +6,8 @@
     /// <summary>
     /// The property changed event args.
     /// </summary>
+    /// <typeparam name="TItem">The type of the items in the collection.</typeparam>
+    /// <typeparam name="TValue">The value type.</typeparam>
     public class ItemPropertyChangedEventArgs<TItem, TValue> : PropertyChangedEventArgs
     {
         internal ItemPropertyChangedEventArgs(TItem item, SourceAndValue<INotifyPropertyChanged?, TValue> sourceAndValue, string propertyName)

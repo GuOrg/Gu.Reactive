@@ -50,6 +50,7 @@
         /// <summary>
         /// Observes collection changed events for <paramref name="source"/>.
         /// </summary>
+        /// <typeparam name="TCollection">The source collection type.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="signalInitial">When true a reset is signaled on subscribe.</param>
         public static IObservable<EventPattern<NotifyCollectionChangedEventArgs>> ObserveCollectionChanged<TCollection>(this TCollection source, bool signalInitial = true)
@@ -77,6 +78,9 @@
         /// <summary>
         /// Observes property changes for items of the collection.
         /// </summary>
+        /// <typeparam name="TCollection">The source collection type.</typeparam>
+        /// <typeparam name="TItem">The type of the items in the collection.</typeparam>
+        /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="property">The expression specifying the property path.</param>
         /// <param name="signalInitial">When true a reset is signaled on subscribe.</param>
@@ -114,6 +118,9 @@
         /// <summary>
         /// Observes property changes for items of the collection.
         /// </summary>
+        /// <typeparam name="TCollection">The source collection type.</typeparam>
+        /// <typeparam name="TItem">The type of the items in the collection.</typeparam>
+        /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="property">The expression specifying the property path.</param>
         /// <param name="signalInitial">When true a reset is signaled on subscribe.</param>
@@ -145,6 +152,9 @@
         /// <summary>
         /// Observes property changes for items of the collection.
         /// </summary>
+        /// <typeparam name="TCollection">The source collection type.</typeparam>
+        /// <typeparam name="TItem">The type of the items in the collection.</typeparam>
+        /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="property">The expression specifying the property path.</param>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
@@ -179,6 +189,9 @@
         /// <summary>
         /// Observes property changes for items of the collection.
         /// </summary>
+        /// <typeparam name="TCollection">The source collection type.</typeparam>
+        /// <typeparam name="TItem">The type of the items in the collection.</typeparam>
+        /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="property">The expression specifying the property path.</param>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
@@ -213,6 +226,9 @@
         /// <summary>
         /// Observes property changes for items of the collection.
         /// </summary>
+        /// <typeparam name="TCollection">The source collection type.</typeparam>
+        /// <typeparam name="TItem">The type of the items in the collection.</typeparam>
+        /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="property">The expression specifying the property path.</param>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TCollection, TItem, TProperty>(

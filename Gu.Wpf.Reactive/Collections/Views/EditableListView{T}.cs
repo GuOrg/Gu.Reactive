@@ -85,7 +85,9 @@ namespace Gu.Wpf.Reactive
                 this.subscriptions.Dispose();
                 if (!this.leaveOpen)
                 {
+#pragma warning disable IDISP007 // Don't dispose injected.
                     (this.Items as IDisposable)?.Dispose();
+#pragma warning restore IDISP007 // Don't dispose injected.
                 }
             }
         }

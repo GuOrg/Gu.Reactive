@@ -13,6 +13,7 @@
     /// <summary>
     /// A base class for swapping out an <see cref="IEnumerable{T}"/> source and get notifications.
     /// </summary>
+    /// <typeparam name="TSource">The source type.</typeparam>
     [Serializable]
 #pragma warning disable CA1010 // Collections should implement generic interface
     public abstract class ReadonlyViewBase<TSource, TMapped> : IRefreshAble, IList, IReadOnlyView<TMapped>

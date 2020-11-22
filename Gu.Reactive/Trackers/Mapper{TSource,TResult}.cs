@@ -7,6 +7,7 @@
     /// <summary>
     /// A reactive mapper from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
     /// </summary>
+    /// <typeparam name="TSource">The source type.</typeparam>
     public sealed class Mapper<TSource, TResult> : ITracker<TResult>
     {
         private readonly IDisposable subscription;

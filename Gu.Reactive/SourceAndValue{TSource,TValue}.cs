@@ -5,6 +5,8 @@
     /// <summary>
     /// A value and the instance having the value.
     /// </summary>
+    /// <typeparam name="TSource">The source type.</typeparam>
+    /// <typeparam name="TValue">The value type.</typeparam>
     public struct SourceAndValue<TSource, TValue> : IEquatable<SourceAndValue<TSource, TValue>>
     {
         /// <summary>

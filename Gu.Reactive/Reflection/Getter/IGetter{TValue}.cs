@@ -5,6 +5,7 @@
     /// <summary>
     /// A wrapper around a delegate created from a <see cref="PropertyInfo.GetMethod"/>.
     /// </summary>
+    /// <typeparam name="TValue">The value type.</typeparam>
     public interface IGetter<TValue>
     {
 #pragma warning disable CA1716 // Identifiers should not match keywords

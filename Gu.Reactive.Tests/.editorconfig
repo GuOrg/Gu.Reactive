@@ -16,3 +16,9 @@ dotnet_diagnostic.CA1034.severity = none
 
 # GUREA04: Prefer slim overload.
 dotnet_diagnostic.GUREA04.severity = none
+
+# SA1401: Fields should be private
+dotnet_diagnostic.SA1401.severity = none
+
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = none

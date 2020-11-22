@@ -21,6 +21,8 @@
         /// Unsubscribes &amp; subscribes when each level changes.
         /// Handles nulls.
         /// </summary>
+        /// <typeparam name="TNotifier">The source type.</typeparam>
+        /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source instance to track changes for. </param>
         /// <param name="property">
         /// An expression specifying the property path to track.
@@ -109,6 +111,8 @@
         /// Unsubscribes &amp; subscribes when each level changes.
         /// Handles nulls.
         /// </summary>
+        /// <typeparam name="TNotifier">The source type.</typeparam>
+        /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source instance to track changes for. </param>
         /// <param name="property">
         /// An expression specifying the property path to track.
@@ -192,6 +196,8 @@
         /// Observe property changes for the path <paramref name="source"/>.
         /// This signals when any of the items in tha path signals.
         /// </summary>
+        /// <typeparam name="TNotifier">The source type.</typeparam>
+        /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source instance.</param>
         /// <param name="property">An expression specifying the property path.</param>
         /// <param name="signalInitial"> If true OnNext is called immediately on subscribe. </param>
@@ -226,6 +232,8 @@
         /// Unsubscribes &amp; subscribes when each level changes.
         /// Handles nulls.
         /// </summary>
+        /// <typeparam name="TNotifier">The source type.</typeparam>
+        /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source instance to track changes for. </param>
         /// <param name="property">
         /// An expression specifying the property path to track.

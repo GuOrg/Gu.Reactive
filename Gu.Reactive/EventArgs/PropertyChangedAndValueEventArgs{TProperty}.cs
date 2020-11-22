@@ -5,6 +5,7 @@
     /// <summary>
     /// A <see cref="PropertyChangedEventArgs"/> with the value of the property.
     /// </summary>
+    /// <typeparam name="TProperty">The property type.</typeparam>
     public class PropertyChangedAndValueEventArgs<TProperty> : PropertyChangedEventArgs, IMaybe<TProperty>
     {
         /// <summary>

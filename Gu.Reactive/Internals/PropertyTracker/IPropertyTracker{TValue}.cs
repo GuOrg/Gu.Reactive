@@ -3,6 +3,7 @@
     /// <summary>
     /// A tracker for nested property changes similar to a WPF binding.
     /// </summary>
+    /// <typeparam name="TValue">The value type.</typeparam>
     internal interface IPropertyTracker<TValue> : IPropertyTracker
     {
         /// <summary>

@@ -10,6 +10,7 @@
     /// <summary>
     /// A base class for trackers of aggregates of the values in a collection.
     /// </summary>
+    /// <typeparam name="TValue">The value type.</typeparam>
     public abstract class Tracker<TValue> : ITracker<TValue?>
         where TValue : struct
     {

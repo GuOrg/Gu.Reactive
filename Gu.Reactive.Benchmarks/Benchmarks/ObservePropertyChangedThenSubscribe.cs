@@ -126,7 +126,7 @@ namespace Gu.Reactive.Benchmarks
         [Benchmark]
         public EventHandler<PropertyChangedEventArgs> PropertyChangedEventManager()
         {
-            void Handler(object sender, PropertyChangedEventArgs args)
+            static void Handler(object sender, PropertyChangedEventArgs args)
             {
             }
 

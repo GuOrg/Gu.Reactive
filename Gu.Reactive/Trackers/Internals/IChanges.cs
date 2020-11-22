@@ -6,6 +6,7 @@
     /// <summary>
     /// A view of the changes in an observable collection.
     /// </summary>
+    /// <typeparam name="TValue">The value type.</typeparam>
     public interface IChanges<out TValue> : IDisposable
     {
         /// <summary>
