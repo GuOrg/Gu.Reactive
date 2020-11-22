@@ -18,9 +18,7 @@ namespace Gu.Reactive
         /// <typeparam name="T">The type of the task.</typeparam>
         /// <param name="task">The task.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// The <see cref="Task"/>.
-        /// </returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task<T> WithCancellation<T>(this Task<T> task, CancellationToken cancellationToken)
         {
             if (task is null)
@@ -29,11 +27,7 @@ namespace Gu.Reactive
             }
 
             var tcs = new TaskCompletionSource<bool>();
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            using (cancellationToken.Register(s => ((TaskCompletionSource<bool>)s).TrySetResult(true), tcs))
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            using (cancellationToken.Register(s => ((TaskCompletionSource<bool>)s!).TrySetResult(true), tcs))
             {
                 if (task != await Task.WhenAny(task, tcs.Task).ConfigureAwait(false))
                 {
@@ -49,6 +43,7 @@ namespace Gu.Reactive
         /// The inner task will still complete after canceling so side-effects may be an issue.
         /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static Task TimeoutAfter(this Task task, TimeSpan timeout)
         {
             if (task is null)
@@ -64,6 +59,7 @@ namespace Gu.Reactive
         /// The inner task will still complete after canceling so side-effects may be an issue.
         /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static Task TimeoutAfter(this Task task, int millisecondsTimeout)
         {
             if (task is null)
@@ -93,11 +89,7 @@ namespace Gu.Reactive
             // Set up a timer to complete after the specified timeout period
 #pragma warning disable IDISP001  // Dispose created.
             var timer = new Timer(
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                callback: state => ((TaskCompletionSource<VoidTypeStruct>)state).TrySetException(new TimeoutException()),
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+                callback: state => ((TaskCompletionSource<VoidTypeStruct>)state!).TrySetException(new TimeoutException()),
                 state: tcs,
                 dueTime: millisecondsTimeout,
                 period: Timeout.Infinite);
@@ -131,6 +123,8 @@ namespace Gu.Reactive
         /// The inner task will still complete after canceling so side-effects may be an issue.
         /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx.
         /// </summary>
+        /// <typeparam name="T">The type of the task.</typeparam>
+        /// <returns>A <see cref="Task{T}"/> representing the asynchronous operation.</returns>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, TimeSpan timeout)
         {
             if (task is null)
@@ -146,6 +140,8 @@ namespace Gu.Reactive
         /// The inner task will still complete after canceling so side-effects may be an issue.
         /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx.
         /// </summary>
+        /// <typeparam name="T">The type of the task.</typeparam>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static Task<T> TimeoutAfter<T>(this Task<T> task, int millisecondsTimeout)
         {
             if (task is null)
@@ -175,11 +171,7 @@ namespace Gu.Reactive
             // Set up a timer to complete after the specified timeout period
 #pragma warning disable IDISP001  // Dispose created.
             var timer = new Timer(
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 callback: state => ((TaskCompletionSource<T>)state).TrySetException(new TimeoutException()),
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
                 state: tcs,
                 dueTime: millisecondsTimeout,
                 period: Timeout.Infinite);

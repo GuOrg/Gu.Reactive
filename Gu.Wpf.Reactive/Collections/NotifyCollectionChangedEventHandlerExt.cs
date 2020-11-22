@@ -17,6 +17,7 @@
         /// <param name="handler">The NotifyCollectionChangedEventHandler.</param>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static Task InvokeOnDispatcherAsync(this NotifyCollectionChangedEventHandler handler, object sender, NotifyCollectionChangedEventArgs e)
         {
             if (handler is null)

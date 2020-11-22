@@ -12,6 +12,7 @@
     /// <summary>
     /// A view of a collection that buffers changes before notifying.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public class ThrottledView<T> : SynchronizedEditableView<T>, IThrottledView<T>, IReadOnlyThrottledView<T>
     {
         private readonly IDisposable refreshSubscription;
@@ -20,6 +21,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrottledView{T}"/> class.
         /// </summary>
+        /// <param name="source">The <see cref="ObservableCollection{T}"/>.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public ThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen)
@@ -30,6 +32,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ThrottledView{T}"/> class.
         /// </summary>
+        /// <param name="source">The <see cref="IObservableCollection{T}"/>.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public ThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen)

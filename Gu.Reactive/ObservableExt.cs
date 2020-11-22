@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Reactive;
     using System.Reactive.Concurrency;
@@ -76,6 +75,7 @@
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="dueTime">Throttling duration for each element.</param>
         /// <param name="scheduler">Scheduler to run the timers on.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, IScheduler scheduler)
         {
             Ensure.NotNull(source, nameof(source));
@@ -149,6 +149,7 @@
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="delayTime">The time to delay the repeat.</param>
         /// <param name="scheduler">Scheduler to run the timers on.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<T> RepeatAfterDelay<T>(this IObservable<T> source, TimeSpan delayTime, IScheduler scheduler)
         {
             var delay = Observable.Empty<T>().Delay(delayTime, scheduler);
@@ -243,7 +244,9 @@
         /// <summary>
         /// Turn the observable into a <see cref="IReadOnlyView{T}"/> that can be bound.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the collection.</typeparam>
         /// <param name="source">The source collection.</param>
+        /// <returns>An <see cref="IReadOnlyView{T}"/>.</returns>
         public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<IMaybe<IEnumerable<T>?>> source)
         {
             return new ReadOnlyView<T>(source.Select(x => x.GetValueOrDefault()));
@@ -252,7 +255,9 @@
         /// <summary>
         /// Turn the observable into a <see cref="IReadOnlyView{T}"/> that can be bound.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the collection.</typeparam>
         /// <param name="source">The source collection.</param>
+        /// <returns>An <see cref="IReadOnlyView{T}"/>.</returns>
         public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<Maybe<IEnumerable<T>?>> source)
         {
             return new ReadOnlyView<T>(source.Select(x => x.GetValueOrDefault()));
@@ -261,7 +266,9 @@
         /// <summary>
         /// Turn the observable into a <see cref="IReadOnlyView{T}"/> that can be bound.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the collection.</typeparam>
         /// <param name="source">The source collection.</param>
+        /// <returns>An <see cref="IReadOnlyView{T}"/>.</returns>
         public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<IEnumerable<T>?> source)
         {
             return new ReadOnlyView<T>(source);
@@ -270,6 +277,7 @@
         /// <summary>
         /// Return Observable.Merge if <paramref name="source"/> is not null or empty.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the collection.</typeparam>
         internal static IObservable<T> MergeOrNever<T>(this IEnumerable<IObservable<T>>? source)
         {
             if (source?.Any() == true)

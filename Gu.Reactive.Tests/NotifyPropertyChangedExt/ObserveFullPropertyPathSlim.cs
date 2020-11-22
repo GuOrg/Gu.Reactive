@@ -133,7 +133,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         public static void ThrowsOnMethodInPath()
         {
             var source = new Fake();
+#pragma warning disable GUREA05 // Full path must have more than one item.
             var exception = Assert.Throws<ArgumentException>(() => source.ObserveFullPropertyPathSlim(x => x.Method().Name));
+#pragma warning restore GUREA05 // Full path must have more than one item.
             Assert.AreEqual("Expected path to be properties only. Was x.Method().Name", exception.Message);
         }
 

@@ -62,7 +62,11 @@
         public static void IsInSyncWhenError()
         {
             var source = new Fake();
-            using var condition = new Condition(source.ObservePropertyChangedSlim(nameof(source.Name)), () => source.IsTrueOrNull);
+#pragma warning disable GUREA02 // Observable and criteria must match.
+            using var condition = new Condition(
+                source.ObservePropertyChangedSlim(nameof(source.Name)),
+                () => source.IsTrueOrNull);
+#pragma warning restore GUREA02 // Observable and criteria must match.
             Assert.IsTrue(condition.IsInSync());
             source.IsTrueOrNull = true;
             Assert.IsFalse(condition.IsInSync());
