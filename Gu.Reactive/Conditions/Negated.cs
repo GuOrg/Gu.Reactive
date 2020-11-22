@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     /// <summary>
     /// A negated condition wraps a <see cref="ICondition"/> and negates the IsSatisfied value.
@@ -10,6 +10,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="Negated{TCondition}"/> class.
         /// </summary>
+        /// <param name="condition">The condition.</param>
         public Negated(TCondition condition)
             : base(condition)
         {

@@ -9,6 +9,7 @@
     /// <summary>
     /// A view where the source can be updated that notifies about changes.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public class ReadOnlySerialView<T> : ReadOnlySerialViewBase<T>
 #pragma warning restore CA1010 // Collections should implement generic interface
     {

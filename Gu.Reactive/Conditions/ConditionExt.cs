@@ -50,6 +50,7 @@
         /// <summary>
         /// Returns true if history matches current state.
         /// </summary>
+        /// <param name="condition">The condition.</param>
         public static bool IsInSync(this ICondition condition)
         {
             if (condition is null)

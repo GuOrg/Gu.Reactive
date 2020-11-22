@@ -5,6 +5,7 @@
     /// <summary>
     /// A readonly view of <see cref="ISet{T}"/>.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public interface IReadonlySet<T> : IReadOnlyCollection<T>
     {
         /// <summary>

@@ -14,6 +14,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="NullIsFalse{TCondition}"/> class.
         /// </summary>
+        /// <param name="condition">The condition.</param>
         public NullIsFalse(TCondition condition)
             : base(
                 condition.ObserveValue(x => x.IsSatisfied)

@@ -9,6 +9,7 @@
     /// <summary>
     /// A generic decorator for <see cref="NotifyCollectionChangedEventArgs"/>.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public struct NotifyCollectionChangedEventArgs<T> : IEquatable<NotifyCollectionChangedEventArgs<T>>
     {
         private readonly NotifyCollectionChangedEventArgs args;

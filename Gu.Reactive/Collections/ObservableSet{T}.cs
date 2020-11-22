@@ -11,6 +11,7 @@ namespace Gu.Reactive
     /// <summary>
     /// A set that notifies about changes.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
     [Serializable]

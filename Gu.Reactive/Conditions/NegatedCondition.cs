@@ -20,6 +20,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="NegatedCondition"/> class.
         /// </summary>
+        /// <param name="condition">The condition.</param>
         public NegatedCondition(ICondition condition)
         {
             this.condition = condition ?? throw new ArgumentNullException(nameof(condition));

@@ -12,6 +12,7 @@
     /// <summary>
     /// A readonly view of a collection that buffers changes before notifying.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public class ReadOnlyThrottledView<T> : ReadonlyViewBase<T, T>, IReadOnlyThrottledView<T>
 #pragma warning restore CA1010 // Collections should implement generic interface
     {

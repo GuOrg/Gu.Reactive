@@ -13,6 +13,7 @@
     /// <summary>
     /// Helper for synchronizing two collections and notifying about diffs.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     [Serializable]
     public class CollectionSynchronizer<T> : Collection<T>
     {

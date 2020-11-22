@@ -12,16 +12,19 @@
         /// <summary>
         /// Create an instance with a value.
         /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
         public static Maybe<T> Some<T>([AllowNull]T value) => Maybe<T>.Some(value);
 
         /// <summary>
         /// The default instance when value is missing.
         /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
         public static Maybe<T> None<T>() => Maybe<T>.None;
 
         /// <summary>
         /// Get the value if HasValue is true and default(T) if not.
         /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
         [return: MaybeNull]
         public static T GetValueOrDefault<T>(this IMaybe<T> maybe)
         {
@@ -38,9 +41,10 @@
         /// <summary>
         /// Determines whether two objects of type <see cref="Maybe{T}" /> are equal.
         /// </summary>
-        /// <returns>true if the specified objects are equal; otherwise, false.</returns>
+        /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
+        /// <returns>true if the specified objects are equal; otherwise, false.</returns>
         public static bool Equals<T>(Maybe<T> x, Maybe<T> y)
         {
             if (x.HasValue != y.HasValue)
@@ -54,11 +58,12 @@
         /// <summary>
         /// Determines whether two objects of type <see cref="Maybe{T}" /> are equal.
         /// </summary>
-        /// <returns>true if the specified objects are equal; otherwise, false.
-        /// null if <paramref name="x"/> doe snot have value.</returns>
+        /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="x">The first object to compare.</param>
         /// <param name="y">The second object to compare.</param>
         /// <param name="compare">How to compare x and y.</param>
+        /// <returns>true if the specified objects are equal; otherwise, false.
+        /// null if <paramref name="x"/> doe snot have value.</returns>
         public static bool? Equals<T>(Maybe<T> x, T y, Func<T, T, bool> compare)
         {
             if (compare is null)
@@ -74,6 +79,7 @@
         /// <summary>
         /// Cast to Maybe{T}.
         /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
         public static Maybe<T> Cast<T>(this Maybe<object> maybe)
         {
             return maybe.HasValue
@@ -86,6 +92,7 @@
         /// <summary>
         /// Cast to Maybe{T}.
         /// </summary>
+        /// <typeparam name="T">The type of the value.</typeparam>
         public static Maybe<T> Cast<T>(this IMaybe<object> maybe)
         {
             if (maybe is null)

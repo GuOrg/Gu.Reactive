@@ -11,6 +11,7 @@
     /// <summary>
     /// A batch of changes.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public class Chunk<T> : IReadOnlyList<T>, INotifyPropertyChanged
     {
         private readonly List<T> items = new List<T>();

@@ -8,6 +8,7 @@
     /// <summary>
     /// A generic version of <see cref="System.Reactive.Disposables.SerialDisposable"/>.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public sealed class SerialDisposable<T> : ICancelable, IDisposable, INotifyPropertyChanged
         where T : class, IDisposable
     {

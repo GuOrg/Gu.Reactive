@@ -15,6 +15,7 @@
     /// For exposing a source collection as a readonly list.
     /// For example DataGrid needs <see cref="IList"/> for elements to be editable.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public class ReadOnlyIListView<T> : IReadOnlyObservableCollection<T>, IList, IDisposable
 #pragma warning restore CA1010 // Collections should implement generic interface
     {
