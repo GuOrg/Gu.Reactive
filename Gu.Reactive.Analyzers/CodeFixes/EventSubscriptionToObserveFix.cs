@@ -106,7 +106,7 @@
                                     void Fix(DocumentEditor editor)
                                     {
                                         var usesArg = false;
-                                        if (methodDeclaration!.ParameterList.Parameters.Any())
+                                        if (methodDeclaration.ParameterList.Parameters.Any())
                                         {
                                             using var pooled = IdentifierNameWalker.Borrow((SyntaxNode)methodDeclaration.Body ?? methodDeclaration.ExpressionBody);
                                             foreach (var name in pooled.IdentifierNames)

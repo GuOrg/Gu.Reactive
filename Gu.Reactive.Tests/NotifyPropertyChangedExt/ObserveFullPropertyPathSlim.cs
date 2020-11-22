@@ -1027,7 +1027,6 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
-        [SuppressMessage("ReSharper", "UnusedVariable")]
         public static void MemoryLeakRootDisposeTest()
         {
 #if DEBUG
@@ -1069,7 +1068,6 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
-        [SuppressMessage("ReSharper", "UnusedVariable")]
         public static void MemoryLeakLevelNoDisposeTest()
         {
 #if DEBUG

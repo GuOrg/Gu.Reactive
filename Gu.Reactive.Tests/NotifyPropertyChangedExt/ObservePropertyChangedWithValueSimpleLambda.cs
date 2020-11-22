@@ -236,7 +236,6 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
-        [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
         public void MemoryLeakNoDisposeTest()
         {
 #if DEBUG
@@ -260,7 +259,6 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         }
 
         [Test]
-        [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
         public void MemoryLeakDisposeTest()
         {
 #if DEBUG

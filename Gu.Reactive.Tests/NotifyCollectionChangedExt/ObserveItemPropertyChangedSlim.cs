@@ -807,7 +807,6 @@
         }
 
         [Test]
-        [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
         public static void MemoryLeakDisposeTest()
         {
 #if DEBUG
@@ -832,7 +831,6 @@
         }
 
         [Test]
-        [SuppressMessage("ReSharper", "HeuristicUnreachableCode")]
         public static void MemoryLeakNoDisposeTest()
         {
 #if DEBUG

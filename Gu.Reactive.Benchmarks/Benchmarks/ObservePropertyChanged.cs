@@ -36,7 +36,7 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [Benchmark]
-        public Expression<Func<Fake,int>> ExpressionSimpleLambda()
+        public Expression<Func<Fake, int>> ExpressionSimpleLambda()
         {
             return x => x.Value;
         }

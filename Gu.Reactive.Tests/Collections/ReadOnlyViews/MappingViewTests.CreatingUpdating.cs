@@ -7,7 +7,6 @@
 
     using NUnit.Framework;
 
-    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
     public static partial class MappingViewTests
     {
         public static class CreatingUpdating

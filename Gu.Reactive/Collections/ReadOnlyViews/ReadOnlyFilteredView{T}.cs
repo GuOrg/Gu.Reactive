@@ -27,7 +27,6 @@
         /// <param name="scheduler">The scheduler to perform the filtering and notification on.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Additional triggers for when to filter.</param>
-        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         public ReadOnlyFilteredView(IEnumerable<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen, IEnumerable<IObservable<object?>>? triggers)
             : base(source, x => x.Where(filter), leaveOpen, startEmpty: true)
         {

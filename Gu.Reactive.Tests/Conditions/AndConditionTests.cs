@@ -75,7 +75,6 @@
         }
 
         [Test]
-        [SuppressMessage("ReSharper", "ObjectCreationAsStatement")]
         public static void ThrowsIfPrerequisiteIsNull()
         {
             var mock = Mock.Of<ICondition>();

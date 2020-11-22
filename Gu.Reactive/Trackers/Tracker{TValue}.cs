@@ -95,7 +95,6 @@
         /// <summary>
         /// Called when the source collection notifies about collection changes.
         /// </summary>
-        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         protected virtual void OnReset(IEnumerable<TValue> values)
         {
             var retry = 0;
