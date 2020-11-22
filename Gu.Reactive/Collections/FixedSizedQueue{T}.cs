@@ -19,6 +19,7 @@
 #pragma warning restore CA1010 // Collections should implement generic interface
     {
         private readonly ConcurrentQueue<T> innerQueue = new ConcurrentQueue<T>();
+        private readonly object gate = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FixedSizedQueue{T}"/> class.
@@ -58,7 +59,7 @@
             this.innerQueue.Enqueue(item);
             if (this.innerQueue.Count > this.Size)
             {
-                lock (this)
+                lock (this.gate)
                 {
                     while (this.innerQueue.Count > this.Size && this.innerQueue.TryDequeue(out var _))
                     {

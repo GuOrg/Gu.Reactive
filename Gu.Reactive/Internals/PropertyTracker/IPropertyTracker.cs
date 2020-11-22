@@ -14,23 +14,24 @@
         event PropertyChangedEventHandler TrackedPropertyChanged;
 
         /// <summary>
-        /// The <see cref="IGetter"/> for the property.
+        /// Gets the <see cref="IGetter"/> for the property.
         /// </summary>
         IGetter Getter { get; }
 
         /// <summary>
-        /// The parent tracker.
+        /// Gets the parent tracker.
         /// </summary>
         IPropertyPathTracker PathTracker { get; }
 
         /// <summary>
-        /// The source that the <see cref="Getter"/> gets value for.
+        /// Gets or sets the source that the <see cref="Getter"/> gets value for.
         /// </summary>
         INotifyPropertyChanged? Source { get; set; }
 
         /// <summary>
         /// Previous property in the path notifies via this method.
         /// </summary>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
         void OnTrackedPropertyChanged(object sender, INotifyPropertyChanged? newSource, PropertyChangedEventArgs e);
     }
 }

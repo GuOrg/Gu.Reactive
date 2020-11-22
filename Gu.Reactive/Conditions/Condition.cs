@@ -379,6 +379,7 @@ namespace Gu.Reactive
         /// Properties/methods modifying this <see cref="Condition"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
         protected void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);

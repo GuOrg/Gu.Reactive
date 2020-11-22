@@ -49,6 +49,7 @@
         /// <summary>
         /// Called when the condition collection changes.
         /// </summary>
+        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         protected virtual void OnPreRequisitesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             this.snapshot = null;

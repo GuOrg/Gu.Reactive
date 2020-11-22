@@ -95,6 +95,7 @@ namespace Gu.Wpf.Reactive
         /// Properties/methods modifying this <see cref="EditableListView{T}"/> will raise
         /// a collection changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             this.CollectionChanged?.Invoke(this, e);

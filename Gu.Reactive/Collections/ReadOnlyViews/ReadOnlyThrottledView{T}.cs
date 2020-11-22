@@ -26,6 +26,7 @@
         /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public ReadOnlyThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {
@@ -37,6 +38,7 @@
         /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public ReadOnlyThrottledView(ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {
@@ -48,6 +50,7 @@
         /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public ReadOnlyThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {
@@ -59,6 +62,7 @@
         /// <param name="source">The source collection.</param>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
         /// <param name="scheduler">The scheduler to notify changes on.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public ReadOnlyThrottledView(IReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {

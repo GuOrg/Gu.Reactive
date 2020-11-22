@@ -269,6 +269,7 @@
         /// <summary>
         /// Synchronize with source and notify about changes.
         /// </summary>
+        /// <param name="changes">The <see cref="IReadOnlyList{NotifyCollectionChangedEventArgs}"/>.</param>
         protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             lock (this.source.SyncRootOrDefault(this.SyncRoot()))
@@ -289,6 +290,7 @@
         /// Properties/methods modifying this <see cref="ReadonlyViewBase{TSource,TMapped}"/> will raise
         /// a collection changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             this.CollectionChanged?.Invoke(this, e);
@@ -310,6 +312,7 @@
         /// Properties/methods modifying this <see cref="ReadonlyViewBase{TSource,TMapped}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
@@ -320,6 +323,7 @@
         /// Count is not signaled for move and replace.
         ///  If the list has more than one change a reset notification is performed.
         /// </summary>
+        /// <param name="changes">The <see cref="IReadOnlyList{NotifyCollectionChangedEventArgs}"/>.</param>
         protected virtual void Notify(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             if (changes is null ||

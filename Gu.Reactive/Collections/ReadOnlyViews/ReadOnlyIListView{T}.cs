@@ -166,6 +166,7 @@
         /// Properties/methods modifying this <see cref="ReadOnlyIListView{T}"/> will raise
         /// a collection changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e) => this.CollectionChanged?.Invoke(this, e);
 
         /// <summary>
@@ -173,6 +174,7 @@
         /// Properties/methods modifying this <see cref="ReadOnlyIListView{T}"/> will raise
         /// a collection changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => this.PropertyChanged?.Invoke(this, e);
 
         /// <summary>

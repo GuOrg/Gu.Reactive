@@ -21,6 +21,7 @@
         /// Initializes a new instance of the <see cref="ThrottledView{T}"/> class.
         /// </summary>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public ThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen)
             : this(source, bufferTime, WpfSchedulers.Dispatcher, leaveOpen)
         {
@@ -30,6 +31,7 @@
         /// Initializes a new instance of the <see cref="ThrottledView{T}"/> class.
         /// </summary>
         /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
+        /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         public ThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, bool leaveOpen)
             : this((IList<T>)source, bufferTime, WpfSchedulers.Dispatcher, leaveOpen)
         {

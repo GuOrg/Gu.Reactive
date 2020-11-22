@@ -187,6 +187,7 @@ namespace Gu.Reactive
         /// Properties/methods modifying this <see cref="ObservableSet{T}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
@@ -197,6 +198,7 @@ namespace Gu.Reactive
         /// Properties/methods modifying this <see cref="ObservableSet{T}"/> will raise
         /// a collection changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             this.CollectionChanged?.Invoke(this, e);
