@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// The items in the collection.
+        /// Gets the items in the collection.
         /// </summary>
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 #pragma warning disable CA1819 // Properties should not return arrays

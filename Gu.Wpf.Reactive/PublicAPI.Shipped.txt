@@ -359,4 +359,4 @@ virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.SourceIndex(int index) -> in
 virtual Gu.Wpf.Reactive.TaskRunnerBase.Cancel() -> void
 virtual Gu.Wpf.Reactive.TaskRunnerBase.Dispose(bool disposing) -> void
 virtual Gu.Wpf.Reactive.TaskRunnerBase.OnPropertyChanged(string? propertyName = null) -> void
-virtual Gu.Wpf.Reactive.TaskRunnerBase.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
+Gu.Wpf.Reactive.TaskRunnerBase.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?

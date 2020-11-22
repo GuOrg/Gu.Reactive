@@ -37,15 +37,15 @@
         }
 
         /// <inheritdoc/>
-        public virtual event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// Condition for if the current run can be canceled.
+        /// Gets the condition for if the current run can be canceled.
         /// </summary>
         public abstract ICondition CanCancelCondition { get; }
 
         /// <summary>
-        /// Condition for if the task can be executed.
+        /// Gets the condition for if the task can be executed.
         /// </summary>
         public ICondition CanRunCondition { get; }
 

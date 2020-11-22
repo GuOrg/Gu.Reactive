@@ -11,7 +11,7 @@
     public interface IConditionRelayCommand : ICommand, IDisposable
     {
         /// <summary>
-        /// The condition controlling if the command can execute.
+        /// Gets the condition controlling if the command can execute.
         /// </summary>
         ICondition Condition { get; }
     }

@@ -33,7 +33,7 @@
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// The scheduler to throttle changes on.
+        /// Gets the scheduler to throttle changes on.
         /// </summary>
         public IScheduler Scheduler { get; }
 
@@ -41,7 +41,7 @@
         public int Count => this.items.Count;
 
         /// <summary>
-        /// The time to buffer changes.
+        /// Gets or sets the time to buffer changes.
         /// </summary>
         public TimeSpan BufferTime
         {

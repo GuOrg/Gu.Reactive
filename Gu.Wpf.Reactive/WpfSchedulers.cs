@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Reactive.Concurrency;
@@ -15,7 +15,7 @@ namespace Gu.Wpf.Reactive
         private static readonly Lazy<DispatcherScheduler> LazyDispatcher = new Lazy<DispatcherScheduler>(() => new DispatcherScheduler(Application.Current.Dispatcher));
 
         /// <summary>
-        /// The dispatcher scheduler for the current application.
+        /// Gets the dispatcher scheduler for the current application.
         /// </summary>
         public static DispatcherScheduler Dispatcher => LazyDispatcher.Value;
 

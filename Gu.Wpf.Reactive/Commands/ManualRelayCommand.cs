@@ -31,12 +31,12 @@
         }
 
         /// <summary>
-        /// The action to invoke when the command is executed.
+        /// Gets the action to invoke when the command is executed.
         /// </summary>
         protected Action Action { get; }
 
         /// <summary>
-        /// The criteria for <see cref="CanExecute"/>.
+        /// Gets the criteria for <see cref="CanExecute"/>.
         /// </summary>
         protected Func<bool> Criteria { get; }
 
