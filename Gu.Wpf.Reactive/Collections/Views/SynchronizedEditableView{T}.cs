@@ -123,6 +123,7 @@
         /// <summary>
         /// Pass null as scheduler here, change came from the UI-thread.
         /// </summary>
+        /// <param name="change">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         protected virtual void Notify(NotifyCollectionChangedEventArgs change)
         {
             if (change is null || !this.HasListeners)
@@ -156,6 +157,7 @@
         /// <summary>
         /// Refreshes the view. May be deferred if there is a buffer time.
         /// </summary>
+        /// <param name="changes">The <see cref="IReadOnlyList{NotifyCollectionChangedEventArgs}"/>.</param>
         protected virtual void Refresh(IReadOnlyList<NotifyCollectionChangedEventArgs> changes)
         {
             if (changes is null)

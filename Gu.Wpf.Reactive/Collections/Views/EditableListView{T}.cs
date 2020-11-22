@@ -48,6 +48,7 @@ namespace Gu.Wpf.Reactive
         /// <inheritdoc/>
         public void Move(int oldIndex, int newIndex)
         {
+            this.ThrowIfDisposed();
             var item = this[oldIndex];
             this.RemoveItem(oldIndex);
             this.InsertItem(newIndex, item);
@@ -108,6 +109,7 @@ namespace Gu.Wpf.Reactive
         /// Properties/methods modifying this <see cref="EditableListView{T}"/> will raise
         /// a collection changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             var handler = this.PropertyChanged;

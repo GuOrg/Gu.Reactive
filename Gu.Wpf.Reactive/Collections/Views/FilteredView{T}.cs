@@ -146,9 +146,11 @@
 
         /// <summary>
         /// Get the filtered items from Source
-        /// If source is null and empty enuerable is returned.
+        /// If source is null and empty enumerable is returned.
         /// If filter is null the raw source is returned.
         /// </summary>
+        /// <param name="source">The <see cref="IEnumerable{T}"/>.</param>
+        /// <param name="filter">The <see cref="Func{T,Boolean}"/>.</param>
         protected static IEnumerable<T> Filtered(IEnumerable<T> source, Func<T, bool> filter)
         {
             if (source is null)
