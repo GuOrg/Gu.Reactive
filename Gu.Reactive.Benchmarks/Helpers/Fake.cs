@@ -86,7 +86,6 @@
         }
 
 #pragma warning disable INPC002 // Mutable public property should notify.
-        [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
         public NotInpc? NotInpc { get; private set; }
 #pragma warning restore INPC002 // Mutable public property should notify.
 

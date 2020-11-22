@@ -107,7 +107,6 @@
         public TMapped this[int index] => this.ThrowIfDisposed(() => this.Tracker[index]);
 
         /// <inheritdoc/>
-        [SuppressMessage("ReSharper", "ValueParameterNotUsed")]
         object? IList.this[int index]
         {
             get => this[index];

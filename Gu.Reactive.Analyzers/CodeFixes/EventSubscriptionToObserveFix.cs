@@ -3,8 +3,10 @@
     using System.Collections.Immutable;
     using System.Composition;
     using System.Threading.Tasks;
+
     using Gu.Roslyn.AnalyzerExtensions;
     using Gu.Roslyn.CodeFixExtensions;
+
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CodeFixes;
     using Microsoft.CodeAnalysis.CSharp;
@@ -40,7 +42,7 @@
             var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot is { } && 
+                if (syntaxRoot is { } &&
                     syntaxRoot.TryFindNode(diagnostic, out AssignmentExpressionSyntax? assignment) &&
                     semanticModel is { } &&
                     semanticModel.GetSymbolSafe(assignment.Left, context.CancellationToken) is IEventSymbol eventSymbol)

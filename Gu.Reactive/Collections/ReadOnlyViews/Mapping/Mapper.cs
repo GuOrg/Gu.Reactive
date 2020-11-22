@@ -67,7 +67,6 @@
             return new CreatingCachingRemoving<TSource, TResult>(selector, onRemove);
         }
 
-        [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
         private static class Factory<TSource, TResult>
         {
             private static Func<Func<TSource, TResult>, IMapper<TSource, TResult>>? creatingCaching;

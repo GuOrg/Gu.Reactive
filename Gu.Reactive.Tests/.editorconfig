@@ -7,3 +7,9 @@ dotnet_diagnostic.SA0001.severity = none
 
 # GUREA05: Full path must have more than one item.
 dotnet_diagnostic.GUREA05.severity = warning
+
+# CA1051: Do not declare visible instance fields
+dotnet_diagnostic.CA1051.severity = none
+
+# CA1034: Nested types should not be visible
+dotnet_diagnostic.CA1034.severity = none
