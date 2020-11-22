@@ -14,6 +14,7 @@
     /// <summary>
     /// Typed filtered CollectionView for intellisense in xaml.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
         private readonly IDisposable refreshSubscription;

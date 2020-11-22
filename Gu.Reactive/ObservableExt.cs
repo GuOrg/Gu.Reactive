@@ -20,9 +20,11 @@
         /// Author: Brandon Wallace, https://github.com/bman654
         /// http://stackoverflow.com/a/30761373/1069200.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the observable.</typeparam>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="dueTime">Throttling duration for each element.</param>
         /// <param name="maxTime">Max throttling time.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<T> Throttle<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime)
         {
             return source.Throttle(dueTime, maxTime, DefaultScheduler.Instance);
@@ -32,10 +34,12 @@
         /// Author: Brandon Wallace, https://github.com/bman654
         /// http://stackoverflow.com/a/30761373/1069200.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the observable.</typeparam>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="dueTime">Throttling duration for each element.</param>
         /// <param name="maxTime">Max throttling time.</param>
         /// <param name="scheduler">Scheduler to run the timers on.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<T> Throttle<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime, IScheduler scheduler)
         {
             return source.Publish(p => p
@@ -57,8 +61,10 @@
         /// <summary>
         /// Like throttle but returning all elements captured during the throttle time.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the observable.</typeparam>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="dueTime">Throttling duration for each element.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime)
         {
             return source.Chunks(dueTime, DefaultScheduler.Instance);
@@ -86,9 +92,11 @@
         /// <summary>
         /// Like throttle but returning all elements captured during the throttle time.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the observable.</typeparam>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="dueTime">Throttling duration for each element.</param>
         /// <param name="maxTime">Max throttling time.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime)
         {
             Ensure.NotNull(source, nameof(source));
@@ -103,10 +111,12 @@
         /// <summary>
         /// Like throttle but returning all elements captured during the throttle time.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the observable.</typeparam>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="dueTime">Throttling duration for each element.</param>
         /// <param name="maxTime">Max throttling time.</param>
         /// <param name="scheduler">Scheduler to run the timers on.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime, IScheduler scheduler)
         {
             Ensure.NotNull(source, nameof(source));
@@ -123,8 +133,10 @@
         /// <summary>
         /// Author: Brandon Wallace, https://github.com/bman654.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the observable.</typeparam>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="delayTime">The time to delay the repeat.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<T> RepeatAfterDelay<T>(this IObservable<T> source, TimeSpan delayTime)
         {
             return source.RepeatAfterDelay(delayTime, Scheduler.Default);
@@ -133,6 +145,7 @@
         /// <summary>
         /// Author: Brandon Wallace, https://github.com/bman654.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the observable.</typeparam>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="delayTime">The time to delay the repeat.</param>
         /// <param name="scheduler">Scheduler to run the timers on.</param>
@@ -212,6 +225,8 @@
         /// Turn a <see cref="CancellationToken"/> into an observable
         /// Author: Brandon Wallace, https://github.com/bman654.
         /// </summary>
+        /// <param name="token">The <see cref="CancellationToken"/> that cancels the operation.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<Unit> AsObservable(this CancellationToken token)
         {
             return Observable.Create<Unit>(observer =>

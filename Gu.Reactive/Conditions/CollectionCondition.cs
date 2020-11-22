@@ -15,6 +15,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="CollectionCondition"/> class.
         /// </summary>
+        /// <param name="prerequisites">The children.</param>
         protected CollectionCondition(ConditionCollection prerequisites)
             : base(
                 prerequisites.ObserveIsSatisfiedChanged(),

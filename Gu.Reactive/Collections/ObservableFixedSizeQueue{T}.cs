@@ -9,6 +9,7 @@
     /// <summary>
     /// A fixed size queue that notifies.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [Serializable]
 #pragma warning disable CA1010 // Collections should implement generic interface

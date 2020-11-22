@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System.Collections.Generic;
 
@@ -15,6 +15,9 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="OrCondition"/> class.
         /// </summary>
+        /// <param name="prerequisite1">The first child.</param>
+        /// <param name="prerequisite2">The second child.</param>
+        /// <param name="prerequisites">The children.</param>
         public OrCondition(ICondition prerequisite1, ICondition prerequisite2, params ICondition[] prerequisites)
             : this(new OrConditionCollection(ConditionCollection.Prepend(prerequisite1, prerequisite2, prerequisites), leaveOpen: true))
         {

@@ -26,17 +26,19 @@
         /// </summary>
         public Maybe<TValue> Value { get; }
 
-        /// <summary>
-        /// Determines if <paramref name="left"/> is equal to <paramref name="right"/>.
-        /// </summary>
+        /// <summary>Check if <paramref name="left"/> is equal to <paramref name="right"/>.</summary>
+        /// <param name="left">The left <see cref="SourceAndValue{TSource, TValue}"/>.</param>
+        /// <param name="right">The right <see cref="SourceAndValue{TSource, TValue}"/>.</param>
+        /// <returns>True if <paramref name="left"/> is equal to <paramref name="right"/>.</returns>
         public static bool operator ==(SourceAndValue<TSource, TValue> left, SourceAndValue<TSource, TValue> right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>
-        /// Determines if <paramref name="left"/> is not equal to <paramref name="right"/>.
-        /// </summary>
+        /// <summary>Check if <paramref name="left"/> is not equal to <paramref name="right"/>.</summary>
+        /// <param name="left">The left <see cref="SourceAndValue{TSource, TValue}"/>.</param>
+        /// <param name="right">The right <see cref="SourceAndValue{TSource, TValue}"/>.</param>
+        /// <returns>True if <paramref name="left"/> is not equal to <paramref name="right"/>.</returns>
         public static bool operator !=(SourceAndValue<TSource, TValue> left, SourceAndValue<TSource, TValue> right)
         {
             return !left.Equals(right);

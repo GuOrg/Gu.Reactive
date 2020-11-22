@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
     using System.Collections;
@@ -10,6 +10,7 @@ namespace Gu.Reactive
     /// A fixed size queue. Overflow is trimmed when adding more items than max.
     /// Wraps a <see cref="ConcurrentQueue{T}"/>.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     [Serializable]
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
