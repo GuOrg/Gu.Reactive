@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 {
     using System;
     using System.Collections.Generic;
@@ -493,15 +493,15 @@ namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
 
             private static Mock<IDisposableVm> NewWithIndex(Mock<IDisposableVm> mock, int index)
             {
-                var newMock = new Mock<IDisposableVm>(MockBehavior.Strict);
-                newMock.SetupGet(x => x.Value)
+                var disposableVmMock = new Mock<IDisposableVm>(MockBehavior.Strict);
+                disposableVmMock.SetupGet(x => x.Value)
                        .Returns(mock.Object.Value);
 
-                newMock.Name = "New index";
+                disposableVmMock.Name = "New index";
 
-                newMock.SetupGet(x => x.Index)
+                disposableVmMock.SetupGet(x => x.Index)
                        .Returns(index);
-                return newMock;
+                return disposableVmMock;
             }
         }
     }

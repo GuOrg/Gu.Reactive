@@ -13,3 +13,6 @@ dotnet_diagnostic.CA1051.severity = none
 
 # CA1034: Nested types should not be visible
 dotnet_diagnostic.CA1034.severity = none
+
+# GUREA04: Prefer slim overload.
+dotnet_diagnostic.GUREA04.severity = none

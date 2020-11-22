@@ -7,12 +7,12 @@
     /// <summary>
     /// Similar to Nullable{T} but for any type.
     /// </summary>
-    public struct Maybe<T> : IMaybe<T>, IEquatable<Maybe<T>>
+    /// <typeparam name="T">The type of the value.</typeparam>
+    public readonly struct Maybe<T> : IMaybe<T>, IEquatable<Maybe<T>>
     {
-        [MaybeNull]
         private readonly T value;
 
-        private Maybe(bool hasValue, [AllowNull]T value)
+        private Maybe(bool hasValue, T value)
         {
             this.HasValue = hasValue;
             this.value = value;
@@ -20,7 +20,7 @@
 
     #pragma warning disable CA1000 // Do not declare static members on generic types
         /// <summary>
-        /// The default instance when value is missing.
+        /// Gets the default instance when value is missing.
         /// </summary>
         public static Maybe<T> None { get; } = new Maybe<T>(hasValue: false, value: default!);
 #pragma warning restore CA1000 // Do not declare static members on generic types
@@ -29,7 +29,6 @@
         public bool HasValue { get; }
 
         /// <inheritdoc />
-        [MaybeNull]
         public T Value
         {
             get
@@ -65,7 +64,9 @@
         /// <summary>
         /// Create an instance with a value.
         /// </summary>
-        public static Maybe<T> Some([AllowNull]T value) => new Maybe<T>(hasValue: true, value: value);
+        /// <param name="value">The value.</param>
+        /// <returns>A <see cref="Maybe{T}"/>.</returns>
+        public static Maybe<T> Some(T value) => new Maybe<T>(hasValue: true, value: value);
 #pragma warning restore CA1000 // Do not declare static members on generic types
 
         /// <inheritdoc />
@@ -102,6 +103,8 @@
         /// <summary>
         /// Get the value if HasValue is true and <paramref name="defaultValue"/> if not.
         /// </summary>
+        /// <param name="defaultValue">The value if HasValue == false.</param>
+        /// <returns><see cref="Value"/> or <paramref name="defaultValue"/>.</returns>
         public T GetValueOrDefault(T defaultValue) => this.HasValue ? this.value : defaultValue;
 
         /// <inheritdoc/>

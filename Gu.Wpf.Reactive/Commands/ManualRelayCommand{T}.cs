@@ -1,6 +1,7 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A command with CommandParameter of type <typeparamref name="T"/>.
@@ -60,7 +61,7 @@
         }
 
         /// <inheritdoc/>
-        protected override bool InternalCanExecute(T parameter)
+        protected override bool InternalCanExecute([AllowNull]T parameter)
         {
             return this.Criteria(parameter);
         }
@@ -71,7 +72,7 @@
         /// Sets IsExecuting to false.
         /// </summary>
         /// <param name="parameter">The command parameter is passed as argument to the Action invocation.</param>
-        protected override void InternalExecute(T parameter)
+        protected override void InternalExecute([AllowNull]T parameter)
         {
             this.IsExecuting = true;
             try

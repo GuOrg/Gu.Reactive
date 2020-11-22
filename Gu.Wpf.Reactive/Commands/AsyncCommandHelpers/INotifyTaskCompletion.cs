@@ -10,17 +10,17 @@
     public interface INotifyTaskCompletion : INotifyPropertyChanged
     {
         /// <summary>
-        /// The task.
+        /// Gets the task.
         /// </summary>
         Task Task { get; }
 
         /// <summary>
-        /// Null if the run is not completed.
+        /// Gets null if the run is not completed.
         /// </summary>
         Task? Completed { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets the current status of the <see cref="Task"/>.
         /// </summary>
         TaskStatus Status { get; }
 
@@ -40,7 +40,7 @@
         bool IsSuccessfullyCompleted { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets a value indicating whether the current status of the <see cref="Task"/>.
         /// </summary>
         bool IsCanceled { get; }
 
@@ -50,17 +50,17 @@
         bool IsFaulted { get; }
 
         /// <summary>
-        /// The exception produced by the run if any.
+        /// Gets the exception produced by the run if any.
         /// </summary>
         AggregateException? Exception { get; }
 
         /// <summary>
-        /// The inner exception produced by the run if any.
+        /// Gets the inner exception produced by the run if any.
         /// </summary>
         Exception? InnerException { get; }
 
         /// <summary>
-        /// The exception message produced by the run if any.
+        /// Gets the exception message produced by the run if any.
         /// </summary>
         string? ErrorMessage { get; }
     }

@@ -29,57 +29,57 @@
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// The current task.
+        /// Gets the current task.
         /// </summary>
         public T Task { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets the current status of the <see cref="Task"/>.
         /// </summary>
         public TaskStatus Status => this.Task.Status;
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets a value indicating whether the current status of the <see cref="Task"/>.
         /// </summary>
         public bool IsCompleted => this.Task.IsCompleted;
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets a value indicating whether the current status of the <see cref="Task"/>.
         /// </summary>
         public bool IsNotCompleted => !this.Task.IsCompleted;
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets a value indicating whether the current status of the <see cref="Task"/>.
         /// </summary>
         public bool IsSuccessfullyCompleted => this.Task.Status == TaskStatus.RanToCompletion;
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets a value indicating whether the current status of the <see cref="Task"/>.
         /// </summary>
         public bool IsCanceled => this.Task.IsCanceled;
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets a value indicating whether the current status of the <see cref="Task"/>.
         /// </summary>
         public bool IsFaulted => this.Task.IsFaulted;
 
         /// <summary>
-        /// The exception produced by the run if any.
+        /// Gets the exception produced by the run if any.
         /// </summary>
         public AggregateException? Exception => this.Task.Exception;
 
         /// <summary>
-        /// The inner exception produced by the run if any.
+        /// Gets the inner exception produced by the run if any.
         /// </summary>
         public Exception? InnerException => this.Exception?.InnerException;
 
         /// <summary>
-        /// The exception message produced by the run if any.
+        /// Gets the exception message produced by the run if any.
         /// </summary>
         public string? ErrorMessage => this.InnerException?.Message;
 
         /// <summary>
-        /// Null if the run is not completed.
+        /// Gets null if the run is not completed.
         /// </summary>
         public T? Completed => this.Task.IsCompleted
             ? this.Task

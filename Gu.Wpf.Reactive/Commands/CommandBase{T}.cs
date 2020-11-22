@@ -54,10 +54,10 @@
 #pragma warning disable CA1033 // Interface methods should be callable by child types
 
         /// <inheritdoc/>
-        bool ICommand.CanExecute(object? parameter) => this.InternalCanExecute((T)parameter!);
+        bool ICommand.CanExecute(object? parameter) => this.InternalCanExecute((T)parameter);
 
         /// <inheritdoc/>
-        void ICommand.Execute(object? parameter) => this.InternalExecute((T)parameter!);
+        void ICommand.Execute(object? parameter) => this.InternalExecute((T)parameter);
 #pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <summary>

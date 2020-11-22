@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
 
@@ -9,15 +9,17 @@ namespace Gu.Reactive
     public interface IMaybe<out T>
     {
         /// <summary>
-        /// Tells you if this instance has a value.
-        /// Note that the value can be null.
+        /// Gets a value indicating whether this instance has a value.
         /// </summary>
         bool HasValue { get; }
 
         /// <summary>
-        /// Check HasValue before getting the value.
+        /// Gets the value.
         /// Note that null is a valid value for reference types.
         /// </summary>
+        /// <remarks>
+        /// Check <see cref="HasValue"/> before getting the value.
+        /// </remarks>
         T Value { get; }
     }
 }

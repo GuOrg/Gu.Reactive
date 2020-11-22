@@ -50,7 +50,7 @@
             {
                 (NotifyCollectionChangedEventArgs ex, NotifyCollectionChangedEventArgs ey) => Compare(ex, ey),
                 (PropertyChangedEventArgs ex, PropertyChangedEventArgs ey) => Compare(ex, ey),
-                _ => 1
+                _ => 1,
             };
         }
 

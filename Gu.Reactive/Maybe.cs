@@ -13,18 +13,23 @@
         /// Create an instance with a value.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
-        public static Maybe<T> Some<T>([AllowNull]T value) => Maybe<T>.Some(value);
+        /// <param name="value">The value.</param>
+        /// <returns>A <see cref="Maybe{T}"/>.</returns>
+        public static Maybe<T> Some<T>(T value) => Maybe<T>.Some(value);
 
         /// <summary>
         /// The default instance when value is missing.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
+        /// <returns>An empty <see cref="Maybe{T}"/>.</returns>
         public static Maybe<T> None<T>() => Maybe<T>.None;
 
         /// <summary>
         /// Get the value if HasValue is true and default(T) if not.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
+        /// <param name="maybe">The <see cref="IMaybe{T}"/>.</param>
+        /// <returns>The <see cref="Maybe{T}.Value"/> or <see langword="default"/>.</returns>
         [return: MaybeNull]
         public static T GetValueOrDefault<T>(this IMaybe<T> maybe)
         {
@@ -80,12 +85,14 @@
         /// Cast to Maybe{T}.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
-        public static Maybe<T> Cast<T>(this Maybe<object> maybe)
+        /// <param name="maybe">The <see cref="Maybe{Object}"/>.</param>
+        /// <returns>A <see cref="Maybe{T}"/>.</returns>
+        public static Maybe<T> Cast<T>(this Maybe<object?> maybe)
         {
             return maybe.HasValue
-#pragma warning disable CS8601 // Possible null reference assignment.
+#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
                        ? Some((T)maybe.Value)
-#pragma warning restore CS8601 // Possible null reference assignment.
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
                        : Maybe<T>.None;
         }
 
@@ -93,7 +100,9 @@
         /// Cast to Maybe{T}.
         /// </summary>
         /// <typeparam name="T">The type of the value.</typeparam>
-        public static Maybe<T> Cast<T>(this IMaybe<object> maybe)
+        /// <param name="maybe">The <see cref="IMaybe{Object}"/>.</param>
+        /// <returns>A <see cref="Maybe{T}"/>.</returns>
+        public static Maybe<T> Cast<T>(this IMaybe<object?> maybe)
         {
             if (maybe is null)
             {
@@ -101,7 +110,9 @@
             }
 
             return maybe.HasValue
+#pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
                        ? Some((T)maybe.Value)
+#pragma warning restore CS8619 // Nullability of reference types in value doesn't match target type.
                        : Maybe<T>.None;
         }
     }
