@@ -100,9 +100,9 @@
         /// Sets IsExecuting to false.
         /// </summary>
         /// <param name="parameter">The command parameter is passed as argument to the Action invocation.</param>
-#pragma warning disable AvoidAsyncVoid // Avoid async void
+#pragma warning disable VSTHRD100 // Avoid async void
         protected override async void InternalExecute(TParameter parameter)
-#pragma warning restore AvoidAsyncVoid // Avoid async void
+#pragma warning restore VSTHRD100 // Avoid async void
         {
             this.IsExecuting = true;
             try

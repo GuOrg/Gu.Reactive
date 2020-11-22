@@ -25,17 +25,17 @@
         TaskStatus Status { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets a value indicating whether the <see cref="Task"/> is completed.
         /// </summary>
         bool IsCompleted { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets a value indicating whether the <see cref="Task"/> is not completed.
         /// </summary>
         bool IsNotCompleted { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets a value indicating whether the <see cref="Task"/> is successfully completed.
         /// </summary>
         bool IsSuccessfullyCompleted { get; }
 
@@ -45,7 +45,7 @@
         bool IsCanceled { get; }
 
         /// <summary>
-        /// The current status of the <see cref="Task"/>.
+        /// Gets a value indicating whether the <see cref="Task"/> is faulted.
         /// </summary>
         bool IsFaulted { get; }
 

@@ -106,9 +106,9 @@
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-#pragma warning disable AvoidAsyncVoid // Avoid async void
+#pragma warning disable VSTHRD100 // Avoid async void
         private async void AwaitTask(T task)
-#pragma warning restore AvoidAsyncVoid // Avoid async void
+#pragma warning restore VSTHRD100 // Avoid async void
         {
             try
             {

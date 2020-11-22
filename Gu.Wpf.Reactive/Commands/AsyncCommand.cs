@@ -99,9 +99,9 @@
         /// Sets IsExecuting to false.
         /// </summary>
         /// <param name="parameter">The command parameter is ignored by this implementation.</param>
-#pragma warning disable AvoidAsyncVoid // Avoid async void
+#pragma warning disable VSTHRD100 // Avoid async void methods
         protected override async void InternalExecute(object? parameter)
-#pragma warning restore AvoidAsyncVoid // Avoid async void
+#pragma warning restore VSTHRD100 // Avoid async void methods
         {
             this.IsExecuting = true;
             try

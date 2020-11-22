@@ -57,9 +57,9 @@
         public override event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <inheritdoc/>
-#pragma warning disable AvoidAsyncVoid // Avoid async void
+#pragma warning disable VSTHRD100 // Avoid async void methods
         protected override async void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-#pragma warning restore AvoidAsyncVoid // Avoid async void
+#pragma warning restore VSTHRD100 // Avoid async void methods
         {
             var handler = this.CollectionChanged;
             if (handler != null)

@@ -5,10 +5,12 @@
     /// <summary>
     /// A factory for mapping values from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
     /// </summary>
+    /// <typeparam name="TSource">The source type.</typeparam>
+    /// <typeparam name="TResult">The mapped type.</typeparam>
     internal interface IMapper<in TSource, TResult> : IDisposable
     {
         /// <summary>
-        /// True if this factory supports updating index.
+        /// Gets a value indicating whether this factory supports updating index.
         /// </summary>
         bool CanUpdateIndex { get; }
 

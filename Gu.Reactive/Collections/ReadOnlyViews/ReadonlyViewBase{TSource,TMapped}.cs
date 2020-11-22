@@ -68,12 +68,12 @@
         protected CollectionSynchronizer<TMapped> Tracker { get; }
 
         /// <summary>
-        /// Returns true if there are any subscribers to the <see cref="PropertyChanged"/> or <see cref="CollectionChanged"/> events.
+        /// Gets a value indicating whether there are any subscribers to the <see cref="PropertyChanged"/> or <see cref="CollectionChanged"/> events.
         /// </summary>
         protected bool HasListeners => this.PropertyChanged != null || this.CollectionChanged != null;
 
         /// <summary>
-        /// True if this instance is disposed.
+        /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         protected bool IsDisposed { get; private set; }
 
@@ -83,7 +83,6 @@
         protected IEnumerable<TSource> Source
         {
             get => this.source;
-
             private set
             {
                 if (ReferenceEquals(value, this.source))

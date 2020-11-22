@@ -151,7 +151,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// True if this instance is disposed.
+        /// Gets a value indicating whether this instance is disposed.
         /// </summary>
         protected bool IsDisposed { get; private set; }
 
