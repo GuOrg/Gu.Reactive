@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers
+﻿namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
     using System.Composition;
@@ -29,8 +29,10 @@ namespace Gu.Reactive.Analyzers
                                              .ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out InvocationExpressionSyntax? invocation) &&
+                if (syntaxRoot is { } &&
+                    syntaxRoot.TryFindNodeOrAncestor(diagnostic, out InvocationExpressionSyntax? invocation) &&
                     invocation is { ArgumentList: { Arguments: { Count: 1 } } } &&
+                    semanticModel is { } &&
                     semanticModel.TryGetSymbol(invocation, context.CancellationToken, out var method) &&
                     method.Parameters.Length == 1 &&
                     semanticModel.GetSymbolSafe(invocation.ArgumentList.Arguments[0].Expression, context.CancellationToken) is IParameterSymbol parameter &&

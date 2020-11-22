@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers
+﻿namespace Gu.Reactive.Analyzers
 {
     using System;
     using System.Collections.Immutable;
@@ -32,9 +32,11 @@ namespace Gu.Reactive.Analyzers
                                                       .ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out InvocationExpressionSyntax? invocation) &&
+                if (syntaxRoot is { } &&
+                    syntaxRoot.TryFindNodeOrAncestor(diagnostic, out InvocationExpressionSyntax? invocation) &&
                     invocation.TryFirstAncestor(out ConstructorDeclarationSyntax? ctor) &&
                     invocation.Expression is MemberAccessExpressionSyntax { Expression: { } condition } &&
+                    semanticModel is { } &&
                     semanticModel.GetSymbolSafe(condition, context.CancellationToken) is IParameterSymbol parameter)
                 {
                     using (var pooled = IdentifierNameWalker.Borrow(ctor))

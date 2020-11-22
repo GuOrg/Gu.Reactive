@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers
+﻿namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
     using System.Composition;
@@ -40,7 +40,9 @@ namespace Gu.Reactive.Analyzers
             var semanticModel = await context.Document.GetSemanticModelAsync(context.CancellationToken).ConfigureAwait(false);
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNode(diagnostic, out AssignmentExpressionSyntax? assignment) &&
+                if (syntaxRoot is { } && 
+                    syntaxRoot.TryFindNode(diagnostic, out AssignmentExpressionSyntax? assignment) &&
+                    semanticModel is { } &&
                     semanticModel.GetSymbolSafe(assignment.Left, context.CancellationToken) is IEventSymbol eventSymbol)
                 {
                     switch (assignment.Right)

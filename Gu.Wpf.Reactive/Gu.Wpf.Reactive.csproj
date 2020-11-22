@@ -6,7 +6,6 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <UseWpf>true</UseWpf>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -24,7 +23,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Johan Larsson</Authors>
     <Version>4.2.0</Version>
     <Description>Wpf controls for Gu.Reactive</Description>
@@ -35,6 +33,8 @@
     <PackageReleaseNotes>FEATURE: WithPrevious
 FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
     <PackageTags>reactive rx INotifyPropertyChanged ICommand</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

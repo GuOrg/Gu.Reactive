@@ -8,7 +8,7 @@ namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
     public static class CodeFix
     {
         private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
-        private static readonly CodeFixProvider Fix = new UseSlimCodeFix();
+        private static readonly CodeFixProvider Fix = new UseSlimFix();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA04PreferSlimOverload);
 
         private const string C1 = @"

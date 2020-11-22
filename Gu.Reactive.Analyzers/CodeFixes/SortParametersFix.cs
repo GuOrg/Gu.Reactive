@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers
+﻿namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
     using System.Composition;
@@ -26,7 +26,8 @@ namespace Gu.Reactive.Analyzers
 
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out ConstructorInitializerSyntax? initializer) &&
+                if (syntaxRoot is { } &&
+                    syntaxRoot.TryFindNodeOrAncestor(diagnostic, out ConstructorInitializerSyntax? initializer) &&
                     initializer.ArgumentList is { } argumentList &&
                     initializer.Parent is ConstructorDeclarationSyntax { ParameterList: ParameterListSyntax parameterList })
                 {

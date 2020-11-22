@@ -142,7 +142,7 @@
             {
                 IPropertySymbol { IsReadOnly: false } => true,
                 IFieldSymbol { IsReadOnly: false, IsConst: false } => true,
-                _ => false
+                _ => false,
             };
         }
 
@@ -161,7 +161,7 @@
                         MemberAccessExpressionSyntax memberAccess => FindSilentNode(memberAccess),
                         _ => null,
                     },
-                    _ => null
+                    _ => null,
                 };
             }
 
@@ -182,7 +182,7 @@
                     when memberAccess.Expression is MemberAccessExpressionSyntax next
                     => FindSilentNode(next),
                     IPropertySymbol _ => null,
-                    _ => memberAccess.Name
+                    _ => memberAccess.Name,
                 };
 
                 bool Notifies(INamedTypeSymbol containingType)

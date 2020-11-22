@@ -3,7 +3,6 @@
     <TargetFrameworks>net46;netcoreapp3.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -17,7 +16,6 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>4.2.0</Version>
     <Authors>Johan Larsson</Authors>
     <Description>For using System.Reactive with INotifyPropertyChanged</Description>
@@ -28,6 +26,8 @@
     <PackageReleaseNotes>FEATURE: WithPrevious
 FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
     <PackageTags>reactive rx INotifyPropertyChanged ICommand</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <ItemGroup>

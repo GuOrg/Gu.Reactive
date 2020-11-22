@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Analyzers
+﻿namespace Gu.Reactive.Analyzers
 {
     using System.Collections.Immutable;
     using System.Composition;
@@ -27,7 +27,8 @@ namespace Gu.Reactive.Analyzers
 
             foreach (var diagnostic in context.Diagnostics)
             {
-                if (syntaxRoot.TryFindNodeOrAncestor(diagnostic, out ArgumentListSyntax? argumentList))
+                if (syntaxRoot is { } &&
+                    syntaxRoot.TryFindNodeOrAncestor(diagnostic, out ArgumentListSyntax? argumentList))
                 {
                     context.RegisterCodeFix(
                         CodeAction.Create(
