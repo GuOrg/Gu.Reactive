@@ -9,7 +9,7 @@
     {
 #pragma warning disable CA1716 // Identifiers should not match keywords
         /// <summary>
-        /// The <see cref="PropertyInfo"/> that this instance is a getter for.
+        /// Gets the <see cref="PropertyInfo"/> that this instance is a getter for.
         /// </summary>
         PropertyInfo Property { get; }
 #pragma warning restore CA1716 // Identifiers should not match keywords

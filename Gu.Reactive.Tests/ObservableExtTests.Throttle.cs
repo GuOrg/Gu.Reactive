@@ -1,4 +1,4 @@
-#pragma warning disable SA1500 // Braces for multi-line statements should not share line
+﻿#pragma warning disable SA1500 // Braces for multi-line statements should not share line
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 namespace Gu.Reactive.Tests
 {
@@ -104,7 +104,7 @@ namespace Gu.Reactive.Tests
                 {
                     var pattern = $"{string.Join(", ", this.Pattern)}";
                     var expected = new StringBuilder();
-                    expected.Append("{");
+                    expected.Append('{');
                     for (var i = 0; i < this.ExpectedTimes.Count; i++)
                     {
                         expected.AppendFormat(CultureInfo.InvariantCulture, @"({0}, {1})", this.ExpectedPattern[i], this.ExpectedTimes[i]);
@@ -114,7 +114,7 @@ namespace Gu.Reactive.Tests
                         }
                     }
 
-                    expected.Append("}");
+                    expected.Append('}');
 
                     return $"{pattern} -> {expected}";
                 }

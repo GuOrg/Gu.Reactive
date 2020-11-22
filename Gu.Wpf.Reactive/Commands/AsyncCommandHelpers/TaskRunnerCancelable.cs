@@ -40,7 +40,7 @@
         public override ICondition CanCancelCondition { get; }
 
         /// <summary>
-        /// Check if execution can be canceled.
+        /// Gets if execution can be canceled.
         /// True if a cancellation token was provided and a task is running.
         /// </summary>
         public bool? CanCancel
