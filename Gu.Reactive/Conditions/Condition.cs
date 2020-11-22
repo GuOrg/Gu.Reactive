@@ -76,7 +76,7 @@ namespace Gu.Reactive
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// A log of the last 100 times the condition has signaled. Use for debugging.
+        /// Gets a log of the last 100 times the condition has signaled. Use for debugging.
         /// </summary>
         public IEnumerable<ConditionHistoryPoint> History => this.history;
 

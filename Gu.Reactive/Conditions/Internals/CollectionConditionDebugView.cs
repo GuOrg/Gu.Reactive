@@ -1,4 +1,4 @@
-#pragma warning disable GU0073 // Member of non-public type should be internal.
+﻿#pragma warning disable GU0073 // Member of non-public type should be internal.
 namespace Gu.Reactive
 {
     using System;
@@ -21,7 +21,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// The items in the collection.
+        /// Gets the items in the collection.
         /// </summary>
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
 #pragma warning disable CA1819 // Properties should not return arrays

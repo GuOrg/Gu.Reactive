@@ -31,7 +31,7 @@
         }
 
         /// <summary>
-        /// The maximum number of items.
+        /// Gets the maximum number of items.
         /// </summary>
         public int Size { get; }
 

@@ -9,7 +9,7 @@
     public interface IReadOnlyFilteredView<T> : IReadOnlyThrottledView<T>
     {
         /// <summary>
-        /// The predicate used when filtering.
+        /// Gets the predicate used when filtering.
         /// </summary>
         Func<T, bool> Filter { get; }
     }

@@ -17,7 +17,7 @@
         }
 
         /// <summary>
-        /// The observable that signals when criteria should be evaluated.
+        /// Gets the observable that signals when criteria should be evaluated.
         /// </summary>
         public IObservable<object> Observable { get;  }
 

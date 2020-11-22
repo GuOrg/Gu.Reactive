@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Windows;
@@ -14,7 +14,7 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <summary>
-        /// The singleton instance.
+        /// Gets the singleton instance.
         /// </summary>
 #pragma warning disable CA1721 // Property names should not match get methods
         public static CanExecuteChangedEventManager CurrentManager

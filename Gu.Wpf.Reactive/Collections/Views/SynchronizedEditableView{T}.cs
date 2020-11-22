@@ -64,22 +64,22 @@
         public virtual event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <summary>
-        /// The source collection.
+        /// Gets the source collection.
         /// </summary>
         protected IList<T> Source { get; }
 
         /// <summary>
-        /// The <see cref="CollectionSynchronizer{T}"/> that keeps this in sync with <see cref="Source"/>.
+        /// Gets the <see cref="CollectionSynchronizer{T}"/> that keeps this in sync with <see cref="Source"/>.
         /// </summary>
         protected CollectionSynchronizer<T> Tracker { get; }
 
         /// <summary>
-        /// Returns true if there are any subscribers to the <see cref="PropertyChanged"/> or <see cref="CollectionChanged"/> events.
+        /// Gets a value indicating whether there are any subscribers to the <see cref="PropertyChanged"/> or <see cref="CollectionChanged"/> events.
         /// </summary>
         protected bool HasListeners => this.PropertyChanged != null || this.CollectionChanged != null;
 
         /// <summary>
-        /// The event we updated the source with.
+        /// Gets the event source was updated the source with.
         /// </summary>
         protected NotifyCollectionChangedEventArgs? UpdatedSourceWith { get; private set; }
 

@@ -36,7 +36,7 @@
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// The min value or null if the collection is empty.
+        /// Gets the minimum value or null if the collection is empty.
         /// </summary>
         public TValue? Min
         {
@@ -55,7 +55,7 @@
         }
 
         /// <summary>
-        /// The max value or null if the collection is empty.
+        /// Gets the maximum value or null if the collection is empty.
         /// </summary>
         public TValue? Max
         {

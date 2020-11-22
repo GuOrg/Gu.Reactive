@@ -26,12 +26,12 @@
         }
 
         /// <summary>
-        /// The time when the change occurred.
+        /// Gets the time when the change occurred.
         /// </summary>
         public DateTime TimeStamp { get; }
 
         /// <summary>
-        /// The state at <see cref="TimeStamp"/>.
+        /// Gets the state at <see cref="TimeStamp"/>.
         /// </summary>
         public bool? State { get; }
 

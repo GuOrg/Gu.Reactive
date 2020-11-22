@@ -11,22 +11,22 @@
     public interface ITaskRunner : INotifyPropertyChanged, IDisposable
     {
         /// <summary>
-        /// The status of the current task.
+        /// Gets the status of the current task.
         /// </summary>
         NotifyTaskCompletion? TaskCompletion { get; }
 
         /// <summary>
-        /// Condition for if the current run can be canceled.
+        /// Gets the condition for if the current run can be canceled.
         /// </summary>
         ICondition CanCancelCondition { get; }
 
         /// <summary>
-        /// Condition for if the task can be executed.
+        /// Gets the condition for if the task can be executed.
         /// </summary>
         ICondition CanRunCondition { get; }
 
         /// <summary>
-        /// Excecute the task.
+        /// Execute the task.
         /// </summary>
         void Run();
 

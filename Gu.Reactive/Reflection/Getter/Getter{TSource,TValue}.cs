@@ -29,7 +29,7 @@
         }
 
         /// <summary>
-        /// The <see cref="PropertyInfo"/> that this instance is for.
+        /// Gets the <see cref="PropertyInfo"/> that this instance is for.
         /// </summary>
         public PropertyInfo Property { get; }
 

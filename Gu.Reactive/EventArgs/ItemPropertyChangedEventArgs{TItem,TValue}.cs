@@ -22,7 +22,7 @@
         public TItem Item { get; }
 
         /// <summary>
-        /// The source is the last node in the property path that is not null.
+        /// Gets the source is the last node in the property path that is not null.
         /// The value is the value of the end node in the property path or <see cref="Maybe{T}.None"/> if it is null.
         /// This is not guaranteed to be the value when the event was raised in a multi threaded scenario.
         /// </summary>

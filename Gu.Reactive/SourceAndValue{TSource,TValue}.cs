@@ -17,12 +17,12 @@
         }
 
         /// <summary>
-        /// The source of the value or the first non-null source in the property path.
+        /// Gets the source of the value or the first non-null source in the property path.
         /// </summary>
         public TSource Source { get; }
 
         /// <summary>
-        /// The value. If the property path is not complete HasValue will be false.
+        /// Gets the value. If the property path is not complete HasValue will be false.
         /// </summary>
         public Maybe<TValue> Value { get; }
 
