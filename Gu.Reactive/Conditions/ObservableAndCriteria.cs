@@ -5,7 +5,7 @@
     /// <summary>
     /// An observable and a criteria for creating a <see cref="Condition"/>.
     /// </summary>
-    public struct ObservableAndCriteria : IEquatable<ObservableAndCriteria>
+    public readonly struct ObservableAndCriteria : IEquatable<ObservableAndCriteria>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableAndCriteria"/> struct.
@@ -22,9 +22,9 @@
         public IObservable<object> Observable { get;  }
 
         /// <summary>
-        /// The criteria evaluated by the condition to determine if satisfied.
+        /// Gets the criteria evaluated by the condition to determine if satisfied.
         /// </summary>
-        public Func<bool?> Criteria { get;  }
+        public Func<bool?> Criteria { get; }
 
         /// <summary>Returns a value indicating whether two specified instances of <see cref="ObservableAndCriteria" /> represent the same value.</summary>
         /// <param name="left">The first value to compare.</param>

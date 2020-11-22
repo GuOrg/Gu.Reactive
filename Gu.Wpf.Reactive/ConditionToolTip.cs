@@ -69,7 +69,7 @@
         }
 
         /// <summary>
-        /// The command type of the PlacementTarget.
+        /// Gets or sets the command type of the PlacementTarget.
         /// </summary>
         public Type? CommandType
         {
@@ -78,7 +78,7 @@
         }
 
         /// <summary>
-        /// Setting this to true binds <see cref="Condition"/> to the Condition of the command if any.
+        /// Gets or sets a value indicating whether <see cref="Condition"/> binds to the Condition of the command if any.
         /// </summary>
         public bool InferConditionFromCommand
         {
@@ -87,7 +87,7 @@
         }
 
         /// <summary>
-        /// The condition if the command is a ConditionRelayCommand null otherwise.
+        /// Gets or sets the condition if the command is a ConditionRelayCommand null otherwise.
         /// </summary>
         public ICondition? Condition
         {

@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Reactive.Concurrency;
@@ -11,7 +11,7 @@ namespace Gu.Wpf.Reactive
     public static class Schedulers
     {
         /// <summary>
-        /// Observes on DispatcherScheduler.Current id not null
+        /// Gets observes on DispatcherScheduler.Current if not null
         /// Falls back to DispatcherScheduler.Current (for tests).
         /// </summary>
         /// <returns>The scheduler.</returns>

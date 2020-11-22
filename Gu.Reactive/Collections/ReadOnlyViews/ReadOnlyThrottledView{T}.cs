@@ -82,7 +82,7 @@
         }
 
         /// <summary>
-        /// The time to buffer changes before notifying.
+        /// Gets the time to buffer changes before notifying.
         /// </summary>
         public TimeSpan BufferTime { get; }
 

@@ -147,7 +147,6 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="property">The <see cref="Expression{Func{TItem, TProperty}}"/>.</param>
-        /// <param name="signalInitial">When true a reset is signaled on subscribe.</param>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
                 this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
                 Expression<Func<TItem, TProperty>> property)

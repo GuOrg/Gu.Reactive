@@ -81,7 +81,7 @@ namespace Gu.Reactive
         public IEnumerable<ConditionHistoryPoint> History => this.history;
 
         /// <summary>
-        /// The sub conditions for this condition.
+        /// Gets the sub conditions for this condition.
         /// </summary>
         public virtual IReadOnlyList<ICondition> Prerequisites
         {
@@ -93,7 +93,7 @@ namespace Gu.Reactive
         }
 
         /// <summary>
-        /// Evaluates the criteria and returns if it is satisfied.
+        /// Gets the criteria and returns if it is satisfied.
         /// Notifies via PropertyChanged when it changes.
         /// </summary>
 #pragma warning disable INPC010 // The property sets a different field than it returns.

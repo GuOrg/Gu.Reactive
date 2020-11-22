@@ -76,7 +76,7 @@
         }
 
         /// <summary>
-        /// The predicate to filter by.
+        /// Gets or sets the predicate to filter by.
         /// </summary>
         public Func<T, bool> Filter
         {

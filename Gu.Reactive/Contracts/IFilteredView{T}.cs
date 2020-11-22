@@ -9,7 +9,7 @@
     public interface IFilteredView<T> : IThrottledView<T>
     {
         /// <summary>
-        /// The predicate used when filtering.
+        /// Gets or sets the predicate used when filtering.
         /// </summary>
         Func<T, bool> Filter { get; set; }
     }

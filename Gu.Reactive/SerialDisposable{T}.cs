@@ -20,7 +20,7 @@
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// Gets a value that indicates whether the object is disposed.
+        /// Gets a value indicating whether the object is disposed.
         /// </summary>
         public bool IsDisposed
         {

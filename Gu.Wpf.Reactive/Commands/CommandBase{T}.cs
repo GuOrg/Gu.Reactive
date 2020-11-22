@@ -33,7 +33,7 @@
         private event EventHandler? InternalCanExecuteChanged;
 
         /// <summary>
-        /// Gets a value indicating if the command is currently executing.
+        /// Gets or sets a value indicating whether the command is currently executing.
         /// </summary>
         public bool IsExecuting
         {

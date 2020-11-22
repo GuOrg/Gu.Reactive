@@ -84,13 +84,13 @@
         }
 
         /// <summary>
-        /// A command for canceling the execution.
+        /// Gets a command for canceling the execution.
         /// This assumes that the command was created with one of the overloads taking a <see cref="CancellationToken"/>.
         /// </summary>
         public ConditionRelayCommand CancelCommand { get; }
 
         /// <summary>
-        /// Bindable info about the current execution.
+        /// Gets bindable info about the current execution.
         /// </summary>
         public NotifyTaskCompletion? Execution => this.runner.TaskCompletion;
 

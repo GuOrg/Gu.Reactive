@@ -24,7 +24,7 @@
         event Action<IEnumerable<TValue>> Reset;
 
         /// <summary>
-        /// The values of the collection.
+        /// Gets the values of the collection.
         /// </summary>
         IEnumerable<TValue> Values { get; }
     }

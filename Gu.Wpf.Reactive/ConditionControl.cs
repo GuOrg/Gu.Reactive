@@ -62,7 +62,7 @@
         }
 
         /// <summary>
-        /// The condition exposed as an enumerable with one element for binding the root of <see cref="TreeView"/>.
+        /// Gets or sets the condition exposed as an enumerable with one element for binding the root of <see cref="TreeView"/>.
         /// </summary>
         public IEnumerable<ICondition> Root
         {
@@ -71,7 +71,7 @@
         }
 
         /// <summary>
-        /// A flat list of all conditions.
+        /// Gets or sets a flat list of all conditions.
         /// </summary>
         public IEnumerable<ICondition> FlattenedPrerequisites
         {
@@ -80,7 +80,7 @@
         }
 
         /// <summary>
-        /// True if all detected changes of ICondition.IsSatisfied have been notified.
+        /// Gets or sets a value indicating whether all detected changes of ICondition.IsSatisfied have been notified.
         /// </summary>
         public bool IsInSync
         {
@@ -89,7 +89,7 @@
         }
 
         /// <summary>
-        /// The condition.
+        /// Gets or sets the condition.
         /// </summary>
         public ICondition? Condition
         {

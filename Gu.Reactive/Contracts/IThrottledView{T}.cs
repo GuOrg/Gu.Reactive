@@ -11,7 +11,7 @@
     public interface IThrottledView<T> : IObservableCollection<T>, IDisposable
     {
         /// <summary>
-        /// The time while the collections buffers changes from the inner collection.
+        /// Gets or sets the time while the collections buffers changes from the inner collection.
         /// This means the the ThrottledView raises it's collection changed event after BufferTime has passed since the last collection change notification from the inner collection.
         /// </summary>
         TimeSpan BufferTime { get; set; }

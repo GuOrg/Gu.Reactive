@@ -37,7 +37,7 @@
         }
 
         /// <summary>
-        /// The binding to apply.
+        /// Gets or sets the binding to apply.
         /// </summary>
         [ConstructorArgument("binding")]
         public Binding Binding { get; set; } = null!;

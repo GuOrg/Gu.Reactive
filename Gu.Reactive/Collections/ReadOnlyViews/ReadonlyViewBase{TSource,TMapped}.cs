@@ -63,7 +63,7 @@
 #pragma warning restore CA1033 // Interface methods should be callable by child types
 
         /// <summary>
-        /// The collection synchronizer.
+        /// Gets the collection synchronizer.
         /// </summary>
         protected CollectionSynchronizer<TMapped> Tracker { get; }
 
@@ -78,7 +78,7 @@
         protected bool IsDisposed { get; private set; }
 
         /// <summary>
-        /// The source collection.
+        /// Gets the source collection.
         /// </summary>
         protected IEnumerable<TSource> Source
         {

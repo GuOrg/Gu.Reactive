@@ -50,7 +50,7 @@
         public ICondition CanRunCondition { get; }
 
         /// <summary>
-        /// The status of the current task.
+        /// Gets or sets the status of the current task.
         /// </summary>
         public NotifyTaskCompletion? TaskCompletion
         {
@@ -81,7 +81,9 @@
                 return true;
             }
 
+#pragma warning disable IDE0066 // Convert switch statement to expression
             switch (completion.Task.Status)
+#pragma warning restore IDE0066 // Convert switch statement to expression
             {
                 case TaskStatus.Created:
                 case TaskStatus.WaitingForActivation:

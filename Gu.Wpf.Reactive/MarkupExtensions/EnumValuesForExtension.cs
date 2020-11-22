@@ -25,7 +25,7 @@
         }
 
         /// <summary>
-        /// The enum type.
+        /// Gets or sets the enum type.
         /// </summary>
         [ConstructorArgument("type")]
         public Type Type

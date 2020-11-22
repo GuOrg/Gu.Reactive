@@ -9,7 +9,7 @@
     public interface ITracker<out TValue> : IDisposable, INotifyPropertyChanged
     {
         /// <summary>
-        /// The Value.
+        /// Gets the value.
         /// </summary>
         TValue Value { get; }
     }

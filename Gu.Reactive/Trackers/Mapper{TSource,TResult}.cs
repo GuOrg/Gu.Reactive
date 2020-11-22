@@ -39,7 +39,7 @@
         public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
-        /// The mapped value.
+        /// Gets the mapped value.
         /// </summary>
         public TResult Value
         {

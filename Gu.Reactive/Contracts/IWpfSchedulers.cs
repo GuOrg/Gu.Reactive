@@ -8,7 +8,7 @@
     public interface IWpfSchedulers : ISchedulers
     {
         /// <summary>
-        /// The dispatcher scheduler for the current application.
+        /// Gets the dispatcher scheduler for the current application.
         /// </summary>
         IScheduler Dispatcher { get; }
     }

@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System.ComponentModel;
 
@@ -8,7 +8,7 @@ namespace Gu.Reactive
     public interface ISatisfied : INotifyPropertyChanged
     {
         /// <summary>
-        /// Get if the criteria is satisfied.
+        /// Gets get if the criteria is satisfied.
         /// Notifies if value changes.
         /// </summary>
         bool? IsSatisfied { get; }

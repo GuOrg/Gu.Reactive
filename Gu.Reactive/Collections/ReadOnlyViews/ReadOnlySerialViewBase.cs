@@ -36,7 +36,7 @@
         }
 
         /// <summary>
-        /// The current chunk of changes in the source.
+        /// Gets the current chunk of changes in the source.
         /// </summary>
         protected Chunk<NotifyCollectionChangedEventArgs> Chunk { get; }
 
