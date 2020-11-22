@@ -81,7 +81,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public static void ShadowingPropertyCreateObservableOnBase()
         {
-            IObservable<PropertyChangedEventArgs> CreateObservable(With<int> source)
+            static IObservable<PropertyChangedEventArgs> CreateObservable(With<int> source)
             {
                 return source.ObservePropertyChangedSlim(x => x.Value, signalInitial: false);
             }
@@ -112,7 +112,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public static void GenericHelperMethodConstrainedToClassAndInterface()
         {
-            IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source, Expression<Func<T, int>> path)
+            static IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source, Expression<Func<T, int>> path)
                 where T : class, INotifyPropertyChanged
             {
                 return source.ObservePropertyChangedSlim(path, signalInitial: false);
@@ -131,7 +131,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public static void GenericHelperMethodConstrainedToAbstractType1()
         {
-            IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source, Expression<Func<T, int>> path)
+            static IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source, Expression<Func<T, int>> path)
                 where T : AbstractFake
             {
                 return source.ObservePropertyChangedSlim(path, signalInitial: false);
@@ -149,7 +149,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public static void GenericHelperMethodConstrainedToAbstractType2()
         {
-            IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source)
+            static IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source)
                 where T : AbstractFake
             {
                 return source.ObservePropertyChangedSlim(x => x.BaseValue, signalInitial: false);
@@ -167,7 +167,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public static void GenericHelperMethodConstrainedToClass1()
         {
-            IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source, Expression<Func<T, int>> path)
+            static IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source, Expression<Func<T, int>> path)
                 where T : With<AbstractFake>
             {
                 return source.ObservePropertyChangedSlim(path, signalInitial: false);
@@ -250,7 +250,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var fake = new Fake();
             var exception =
                 Assert.Throws<ArgumentException>(
+#pragma warning disable GUREA03 // Path must notify.
                     () => fake.ObservePropertyChangedSlim(x => x.StructLevel.Name, signalInitial));
+#pragma warning restore GUREA03 // Path must notify.
             var expected = "Error found in x => x.StructLevel.Name\r\n" +
                            "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?\r\n" +
                            "The type StructLevel is a value type not so StructLevel.Name will not notify when it changes.\r\n" +
@@ -266,7 +268,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var fake = new Fake();
             var exception =
                 Assert.Throws<ArgumentException>(
+#pragma warning disable GUREA03 // Path must notify.
                     () => fake.ObservePropertyChangedSlim(x => x.Name.Length, signalInitial));
+#pragma warning restore GUREA03 // Path must notify.
             var expected = "Error found in x => x.Name.Length\r\n" +
                            "All levels in the path must implement INotifyPropertyChanged.\r\n" +
                            "The type string does not so Name.Length will not notify when it changes.\r\n" +

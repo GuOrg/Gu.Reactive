@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System;
     using System.Collections;
@@ -47,23 +47,23 @@ namespace Gu.Reactive.Demo
             this.Changes = new ObservableCollection<NotifyCollectionChangedEventArgs>();
         }
 
-        public IEnumerable Source
+        public IEnumerable? Source
         {
-            get => (IEnumerable)this.GetValue(SourceProperty);
+            get => (IEnumerable?)this.GetValue(SourceProperty);
             set => this.SetValue(SourceProperty, value);
         }
 
 #pragma warning disable CA2227 // Collection properties should be read only
-        public ObservableCollection<NotifyCollectionChangedEventArgs> Changes
+        public ObservableCollection<NotifyCollectionChangedEventArgs>? Changes
 #pragma warning restore CA2227 // Collection properties should be read only
         {
-            get => (ObservableCollection<NotifyCollectionChangedEventArgs>)this.GetValue(ChangesProperty);
+            get => (ObservableCollection<NotifyCollectionChangedEventArgs>?)this.GetValue(ChangesProperty);
             set => this.SetValue(ChangesProperty, value);
         }
 
-        public string Header
+        public string? Header
         {
-            get => (string)this.GetValue(HeaderProperty);
+            get => (string?)this.GetValue(HeaderProperty);
             set => this.SetValue(HeaderProperty, value);
         }
 
@@ -78,10 +78,10 @@ namespace Gu.Reactive.Demo
             this.disposable.Dispose();
         }
 
-        private static object CoerceSource(DependencyObject d, object basevalue)
+        private static object CoerceSource(DependencyObject d, object? baseValue)
         {
             ((DataGridAndEventsView)d).Changes?.Clear();
-            return basevalue;
+            return baseValue;
         }
 
         private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

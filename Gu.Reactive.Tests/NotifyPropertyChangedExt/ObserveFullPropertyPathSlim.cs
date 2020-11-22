@@ -101,7 +101,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var source = new Fake();
             var exception =
                 Assert.Throws<ArgumentException>(
+#pragma warning disable GUREA03 // Path must notify.
                     () => source.ObserveFullPropertyPathSlim(x => x.StructLevel.Name, signalInitial));
+#pragma warning restore GUREA03 // Path must notify.
             var expected = "Error found in x => x.StructLevel.Name\r\n" +
                            "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?\r\n" +
                            "The type StructLevel is a value type not so StructLevel.Name will not notify when it changes.\r\n" +
@@ -116,7 +118,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         {
             var source = new Fake();
             var exception = Assert.Throws<ArgumentException>(
+#pragma warning disable GUREA03 // Path must notify.
                     () => source.ObserveFullPropertyPathSlim(x => x.Name.Length, signalInitial));
+#pragma warning restore GUREA03 // Path must notify.
             var expected = "Error found in x => x.Name.Length\r\n" +
                            "All levels in the path must implement INotifyPropertyChanged.\r\n" +
                            "The type string does not so Name.Length will not notify when it changes.\r\n" +

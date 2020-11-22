@@ -96,9 +96,7 @@ namespace Gu.Reactive
         /// Gets the criteria and returns if it is satisfied.
         /// Notifies via PropertyChanged when it changes.
         /// </summary>
-#pragma warning disable INPC010 // The property sets a different field than it returns.
         public bool? IsSatisfied
-#pragma warning restore INPC010 // The property sets a different field than it returns.
         {
             get
             {
