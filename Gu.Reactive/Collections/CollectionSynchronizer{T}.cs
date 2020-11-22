@@ -13,7 +13,6 @@
     /// <summary>
     /// Helper for synchronizing two collections and notifying about diffs.
     /// </summary>
-    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     [Serializable]
     public class CollectionSynchronizer<T> : Collection<T>
     {
@@ -22,6 +21,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="CollectionSynchronizer{T}"/> class.
         /// </summary>
+        /// <param name="source">The source collection.</param>
         public CollectionSynchronizer(IEnumerable<T> source)
         {
             this.Reset(source ?? Enumerable.Empty<T>());

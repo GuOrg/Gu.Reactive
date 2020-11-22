@@ -23,6 +23,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
+        /// <param name="source">The source collection.</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
         public ReadOnlyThrottledView(ObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {
@@ -31,6 +34,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
+        /// <param name="source">The source collection.</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
         public ReadOnlyThrottledView(ReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {
@@ -39,6 +45,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
+        /// <param name="source">The source collection.</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
         public ReadOnlyThrottledView(IObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {
@@ -47,12 +56,14 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyThrottledView{T}"/> class.
         /// </summary>
+        /// <param name="source">The source collection.</param>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
         public ReadOnlyThrottledView(IReadOnlyObservableCollection<T> source, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen)
             : this(bufferTime, scheduler, source, leaveOpen)
         {
         }
 
-        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private ReadOnlyThrottledView(TimeSpan bufferTime, IScheduler? scheduler, IEnumerable<T> source, bool leaveOpen)
             : base(source, s => s, leaveOpen, startEmpty: true)
         {

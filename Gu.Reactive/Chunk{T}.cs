@@ -21,6 +21,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Chunk{T}"/> class.
         /// </summary>
+        /// <param name="bufferTime">The time to buffer changes in <paramref name="source"/>.</param>
+        /// <param name="scheduler">The scheduler to notify changes on.</param>
         public Chunk(TimeSpan bufferTime, IScheduler scheduler)
         {
             this.bufferTime = bufferTime;

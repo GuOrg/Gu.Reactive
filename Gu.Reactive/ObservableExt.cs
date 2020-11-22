@@ -228,6 +228,7 @@
         /// <summary>
         /// Turn the observable into a <see cref="IReadOnlyView{T}"/> that can be bound.
         /// </summary>
+        /// <param name="source">The source collection.</param>
         public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<IMaybe<IEnumerable<T>?>> source)
         {
             return new ReadOnlyView<T>(source.Select(x => x.GetValueOrDefault()));
@@ -236,6 +237,7 @@
         /// <summary>
         /// Turn the observable into a <see cref="IReadOnlyView{T}"/> that can be bound.
         /// </summary>
+        /// <param name="source">The source collection.</param>
         public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<Maybe<IEnumerable<T>?>> source)
         {
             return new ReadOnlyView<T>(source.Select(x => x.GetValueOrDefault()));
@@ -244,6 +246,7 @@
         /// <summary>
         /// Turn the observable into a <see cref="IReadOnlyView{T}"/> that can be bound.
         /// </summary>
+        /// <param name="source">The source collection.</param>
         public static IReadOnlyView<T> AsReadOnlyView<T>(this IObservable<IEnumerable<T>?> source)
         {
             return new ReadOnlyView<T>(source);
@@ -252,7 +255,6 @@
         /// <summary>
         /// Return Observable.Merge if <paramref name="source"/> is not null or empty.
         /// </summary>
-        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         internal static IObservable<T> MergeOrNever<T>(this IEnumerable<IObservable<T>>? source)
         {
             if (source?.Any() == true)

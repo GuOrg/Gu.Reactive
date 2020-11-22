@@ -20,6 +20,7 @@
         /// <summary>
         /// Observes collection changed events for <paramref name="source"/>.
         /// </summary>
+        /// <param name="source">The source collection.</param>
         public static IObservable<NotifyCollectionChangedEventArgs> ObserveCollectionChangedSlim(
             this INotifyCollectionChanged source,
             bool signalInitial)
@@ -50,6 +51,7 @@
         /// <summary>
         /// Observes collection changed events for <paramref name="source"/>.
         /// </summary>
+        /// <param name="source">The source collection.</param>
         public static IObservable<EventPattern<NotifyCollectionChangedEventArgs>> ObserveCollectionChanged<TCollection>(
             this TCollection source,
             bool signalInitial = true)
@@ -77,6 +79,7 @@
         /// <summary>
         /// Observes property changes for items of the collection.
         /// </summary>
+        /// <param name="source">The source collection.</param>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TCollection, TItem, TProperty>(
                 TCollection source,
                 Expression<Func<TItem, TProperty>> property,
@@ -111,6 +114,7 @@
         /// <summary>
         /// Observes property changes for items of the collection.
         /// </summary>
+        /// <param name="source">The source collection.</param>
         public static IObservable<PropertyChangedEventArgs> ObserveItemPropertyChangedSlim<TCollection, TItem, TProperty>(
                 TCollection source,
                 Expression<Func<TItem, TProperty>> property,
@@ -139,6 +143,7 @@
         /// <summary>
         /// Observes property changes for items of the collection.
         /// </summary>
+        /// <param name="source">The source collection.</param>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
                 this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
                 Expression<Func<TItem, TProperty>> property)
@@ -171,6 +176,7 @@
         /// <summary>
         /// Observes property changes for items of the collection.
         /// </summary>
+        /// <param name="source">The source collection.</param>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
                 this IObservable<TCollection> source,
                 Expression<Func<TItem, TProperty>> property)
@@ -203,6 +209,7 @@
         /// <summary>
         /// Observes property changes for items of the collection.
         /// </summary>
+        /// <param name="source">The source collection.</param>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TCollection, TItem, TProperty>(
                 this IObservable<TCollection> source,
                 Expression<Func<TItem, TProperty>> property)
