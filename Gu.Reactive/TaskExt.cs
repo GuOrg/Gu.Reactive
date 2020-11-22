@@ -1,4 +1,4 @@
-﻿#pragma warning disable UseAsyncSuffix // Use Async suffix
+﻿#pragma warning disable VSTHRD200 // Use "Async" suffix for async methods
 namespace Gu.Reactive
 {
     using System;
@@ -230,7 +230,9 @@ namespace Gu.Reactive
                 case TaskStatus.RanToCompletion:
                     if (source is Task<TResult> generic)
                     {
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
                         _ = proxy.TrySetResult(generic.Result);
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
                     }
                     else
                     {

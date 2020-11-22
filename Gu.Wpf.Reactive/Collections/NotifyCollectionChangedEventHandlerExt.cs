@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive
+﻿namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Specialized;
@@ -11,8 +11,6 @@ namespace Gu.Wpf.Reactive
     /// </summary>
     public static class NotifyCollectionChangedEventHandlerExt
     {
-        private static readonly Task FinishedTask = Task.Delay(0);
-
         /// <summary>
         /// Invokes the change event on the dispatcher if needed.
         /// </summary>
@@ -23,14 +21,14 @@ namespace Gu.Wpf.Reactive
         {
             if (handler is null)
             {
-                return FinishedTask;
+                return Task.CompletedTask;
             }
 
             var invocationList = handler.GetInvocationList();
 
             if (invocationList.Length == 0)
             {
-                return FinishedTask;
+                return Task.CompletedTask;
             }
 
             if (invocationList.Length == 1)
@@ -51,7 +49,7 @@ namespace Gu.Wpf.Reactive
             }
 
             ((NotifyCollectionChangedEventHandler)invocation).Invoke(sender, e);
-            return FinishedTask;
+            return Task.CompletedTask;
         }
     }
 }

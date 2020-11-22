@@ -103,7 +103,7 @@ namespace Gu.Wpf.Reactive.Tests
         [Test]
         public async Task ExecuteFinished()
         {
-            var finished = Task.FromResult(1);
+            var finished = Task.CompletedTask;
             using var command = new AsyncCommand(() => finished);
             Assert.IsTrue(command.CanExecute());
             command.Execute();
