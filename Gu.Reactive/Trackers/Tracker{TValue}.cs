@@ -151,6 +151,7 @@
         /// Properties/methods modifying this <see cref="Tracker{TValue}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
+        /// <param name="propertyName">The property name.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

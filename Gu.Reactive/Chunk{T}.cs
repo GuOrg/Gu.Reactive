@@ -120,6 +120,7 @@
         /// <summary>
         /// Notify about <see cref="PropertyChanged"/> for this instance.
         /// </summary>
+        /// <param name="propertyName">The property name.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

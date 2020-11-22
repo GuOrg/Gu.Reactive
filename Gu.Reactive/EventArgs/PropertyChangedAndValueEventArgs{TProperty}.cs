@@ -10,6 +10,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyChangedAndValueEventArgs{TProperty}"/> class.
         /// </summary>
+        /// <param name="propertyName">The property name.</param>
         public PropertyChangedAndValueEventArgs(string propertyName, TProperty value, bool hasValue)
             : base(propertyName)
         {

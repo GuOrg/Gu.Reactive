@@ -15,6 +15,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Getter{TSource, TValue}"/> class.
         /// </summary>
+        /// <param name="property">The <see cref="PropertyInfo"/>.</param>
         protected Getter(PropertyInfo property)
         {
             if (property is null)

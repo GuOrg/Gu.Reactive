@@ -351,6 +351,7 @@
         /// <summary>
         /// Calls <see cref="OnPropertyChanged(PropertyChangedEventArgs)"/>.
         /// </summary>
+        /// <param name="propertyName">The property name.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));

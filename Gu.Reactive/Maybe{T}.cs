@@ -43,17 +43,19 @@
             }
         }
 
-        /// <summary>
-        /// Compare <paramref name="left"/> and <paramref name="right"/> for equality.
-        /// </summary>
+        /// <summary>Check if <paramref name="left"/> is equal to <paramref name="right"/>.</summary>
+        /// <param name="left">The left <see cref="Maybe{T}"/>.</param>
+        /// <param name="right">The right <see cref="Maybe{T}"/>.</param>
+        /// <returns>True if <paramref name="left"/> is equal to <paramref name="right"/>.</returns>
         public static bool operator ==(Maybe<T> left, Maybe<T> right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>
-        /// Compare <paramref name="left"/> and <paramref name="right"/> for inequality.
-        /// </summary>
+        /// <summary>Check if <paramref name="left"/> is not equal to <paramref name="right"/>.</summary>
+        /// <param name="left">The left <see cref="Maybe{T}"/>.</param>
+        /// <param name="right">The right <see cref="Maybe{T}"/>.</param>
+        /// <returns>True if <paramref name="left"/> is not equal to <paramref name="right"/>.</returns>
         public static bool operator !=(Maybe<T> left, Maybe<T> right)
         {
             return !left.Equals(right);

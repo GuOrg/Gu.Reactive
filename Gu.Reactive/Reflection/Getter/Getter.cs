@@ -17,6 +17,7 @@
         /// <summary>
         /// Get or create an <see cref="IGetter"/> for <paramref name="property"/>.
         /// </summary>
+        /// <param name="property">The <see cref="PropertyInfo"/>.</param>
         public static IGetter GetOrCreate(PropertyInfo property)
         {
             if (property is null)
@@ -55,6 +56,7 @@
         /// <summary>
         /// Same as <see cref="PropertyInfo.GetValue(object)"/> but uses a cached delegate for performance.
         /// </summary>
+        /// <param name="property">The <see cref="PropertyInfo"/>.</param>
         public static object? GetValueViaDelegate(this PropertyInfo property, object source)
         {
             return GetOrCreate(property).GetValue(source);
@@ -63,6 +65,7 @@
         /// <summary>
         /// Check that a Getter can be created for the property.
         /// </summary>
+        /// <param name="property">The <see cref="PropertyInfo"/>.</param>
         /// <exception cref="ArgumentException">If the property does not have a getter.</exception>
         public static void VerifyProperty(PropertyInfo property)
         {
