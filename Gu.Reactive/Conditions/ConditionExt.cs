@@ -14,6 +14,7 @@
         /// <summary>
         /// Get an observable that notifies when ICondition.IsSatisfied changes.
         /// </summary>
+        /// <typeparam name="T">The type of <paramref name="condition"/>.</typeparam>
         /// <param name="condition">The condition to track.</param>
         /// <returns>An observable that returns <paramref name="condition"/> every time ICondition.IsSatisfied changes.</returns>
         public static IObservable<T> ObserveIsSatisfiedChanged<T>(this T condition)

@@ -5,11 +5,12 @@
     /// <summary>
     /// Conditions keeps a log of the last changed states.
     /// </summary>
-    public struct ConditionHistoryPoint : IEquatable<ConditionHistoryPoint>
+    public readonly struct ConditionHistoryPoint : IEquatable<ConditionHistoryPoint>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionHistoryPoint"/> struct.
         /// </summary>
+        /// <param name="state">The value of <see cref="ISatisfied.IsSatisfied"/>.</param>
         public ConditionHistoryPoint(bool? state)
             : this(DateTime.UtcNow, state)
         {
@@ -18,6 +19,8 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionHistoryPoint"/> struct.
         /// </summary>
+        /// <param name="state">The value of <see cref="ISatisfied.IsSatisfied"/>.</param>
+        /// <param name="timeStamp">The <see cref="DateTime"/>.</param>
         public ConditionHistoryPoint(DateTime timeStamp, bool? state)
             : this()
         {

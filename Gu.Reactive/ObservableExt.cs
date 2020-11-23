@@ -72,6 +72,7 @@
         /// <summary>
         /// Like throttle but returning all elements captured during the throttle time.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the observable.</typeparam>
         /// <param name="source">Source sequence whose elements will be multicasted through a single shared subscription.</param>
         /// <param name="dueTime">Throttling duration for each element.</param>
         /// <param name="scheduler">Scheduler to run the timers on.</param>

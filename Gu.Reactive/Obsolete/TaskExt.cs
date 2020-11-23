@@ -1,4 +1,9 @@
-﻿#pragma warning disable VSTHRD200 // Use "Async" suffix for async methods
+﻿// ReSharper disable All
+#pragma warning disable VSTHRD200 // Use "Async" suffix for async methods
+#pragma warning disable SA1611 // Element parameters should be documented
+#pragma warning disable VSTHRD003 // Avoid awaiting foreign Tasks
+#pragma warning disable IDISP001  // Dispose created.
+#pragma warning disable CA2000 // Dispose objects before losing scope
 namespace Gu.Reactive
 {
     using System;
@@ -88,13 +93,11 @@ namespace Gu.Reactive
             }
 
             // Set up a timer to complete after the specified timeout period
-#pragma warning disable IDISP001  // Dispose created.
             var timer = new Timer(
                 callback: state => ((TaskCompletionSource<VoidTypeStruct>)state!).TrySetException(new TimeoutException()),
                 state: tcs,
                 dueTime: millisecondsTimeout,
                 period: Timeout.Infinite);
-#pragma warning restore IDISP001  // Dispose created.
 
             // Wire up the logic for what happens when source task completes
             _ = task.ContinueWith(

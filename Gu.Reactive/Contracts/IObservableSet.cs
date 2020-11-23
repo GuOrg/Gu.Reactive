@@ -7,6 +7,7 @@
     /// <summary>
     /// A set that notifies about changes.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public interface IObservableSet<T> : ISet<T>, INotifyPropertyChanged, INotifyCollectionChanged
     {
     }
