@@ -21,7 +21,7 @@
         }
 
         /// <inheritdoc/>
-        bool IEqualityComparer<LambdaExpression>.Equals(LambdaExpression x, LambdaExpression y)
+        bool IEqualityComparer<LambdaExpression>.Equals(LambdaExpression? x, LambdaExpression? y)
         {
             return Equals(x, y);
         }
@@ -32,8 +32,18 @@
             return GetHashCode(obj);
         }
 
-        internal static bool Equals(LambdaExpression x, LambdaExpression y)
+        internal static bool Equals(LambdaExpression? x, LambdaExpression? y)
         {
+            if (ReferenceEquals(x, y))
+            {
+                return true;
+            }
+
+            if (x is null || y is null)
+            {
+                return false;
+            }
+
             var xMember = x.GetRootProperty();
             var yMember = y.GetRootProperty();
 
@@ -45,8 +55,8 @@
                     return false;
                 }
 
-                xMember = xMember.GetPreviousProperty()!;
-                yMember = yMember.GetPreviousProperty()!;
+                xMember = xMember.GetPreviousProperty();
+                yMember = yMember.GetPreviousProperty();
             }
 
             return xMember is null && yMember is null &&

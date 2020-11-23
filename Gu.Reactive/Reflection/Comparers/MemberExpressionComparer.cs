@@ -5,11 +5,11 @@
 
     internal class MemberExpressionComparer : IEqualityComparer<MemberExpression>
     {
-        bool IEqualityComparer<MemberExpression>.Equals(MemberExpression x, MemberExpression y) => Equals(x, y);
+        bool IEqualityComparer<MemberExpression>.Equals(MemberExpression? x, MemberExpression? y) => Equals(x, y);
 
         int IEqualityComparer<MemberExpression>.GetHashCode(MemberExpression obj) => GetHashCode(obj);
 
-        internal static bool Equals(MemberExpression x, MemberExpression y)
+        internal static bool Equals(MemberExpression? x, MemberExpression? y)
         {
             if (ReferenceEquals(x, y))
             {
