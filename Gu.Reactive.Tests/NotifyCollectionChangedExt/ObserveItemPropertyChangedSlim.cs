@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;

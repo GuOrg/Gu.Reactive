@@ -1,7 +1,6 @@
 ﻿namespace Gu.Reactive
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
 
     internal static class Mapper

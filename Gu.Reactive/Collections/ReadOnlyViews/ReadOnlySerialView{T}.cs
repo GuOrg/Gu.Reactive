@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Reactive.Concurrency;
 
 #pragma warning disable CA1010 // Collections should implement generic interface

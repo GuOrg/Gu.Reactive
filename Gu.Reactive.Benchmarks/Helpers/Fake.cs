@@ -1,7 +1,6 @@
 ﻿namespace Gu.Reactive.Benchmarks
 {
     using System.ComponentModel;
-    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
 
     public class Fake : INotifyPropertyChanged, IFake
