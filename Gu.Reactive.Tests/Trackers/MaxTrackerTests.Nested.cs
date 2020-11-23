@@ -7,12 +7,12 @@
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
-    public partial class MaxTrackerTests
+    public static partial class MaxTrackerTests
     {
-        public class Nested
+        public static class Nested
         {
             [Test]
-            public void InitializesWithValues()
+            public static void InitializesWithValues()
             {
                 var source = new ObservableCollection<Dummy> { new Dummy(1), new Dummy(2), new Dummy(3) };
                 using var tracker = source.TrackMax(x => x.Value);
@@ -20,7 +20,7 @@
             }
 
             [Test]
-            public void InitializesWhenEmpty()
+            public static void InitializesWhenEmpty()
             {
                 var source = new ObservableCollection<Dummy>(Array.Empty<Dummy>());
                 using var tracker = source.TrackMax(x => x.Value);
@@ -28,7 +28,7 @@
             }
 
             [Test]
-            public void ReactsAndNotifiesOnSourceCollectionChanges()
+            public static void ReactsAndNotifiesOnSourceCollectionChanges()
             {
                 var source = new ObservableCollection<Dummy> { new Dummy(1), new Dummy(2), new Dummy(3) };
                 using var tracker = source.TrackMax(x => x.Value);
@@ -64,7 +64,7 @@
             }
 
             [Test]
-            public void ReactsAndNotifiesOnItemChangesOneLevel()
+            public static void ReactsAndNotifiesOnItemChangesOneLevel()
             {
                 var source = new ObservableCollection<Dummy> { new Dummy(1), new Dummy(2), new Dummy(3) };
                 using var tracker = source.TrackMax(x => x.Value);
@@ -80,7 +80,7 @@
             }
 
             [Test]
-            public void ReactsAndNotifiesOnItemChangesTwoLevels()
+            public static void ReactsAndNotifiesOnItemChangesTwoLevels()
             {
                 var source = new ObservableCollection<Fake>
                 {

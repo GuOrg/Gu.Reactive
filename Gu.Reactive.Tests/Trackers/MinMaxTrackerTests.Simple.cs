@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Trackers
+﻿namespace Gu.Reactive.Tests.Trackers
 {
     using System;
     using System.Collections.Generic;
@@ -7,12 +7,12 @@ namespace Gu.Reactive.Tests.Trackers
     using System.Linq;
     using NUnit.Framework;
 
-    public partial class MinMaxTrackerTests
+    public static partial class MinMaxTrackerTests
     {
-        public class Simple
+        public static class Simple
         {
             [Test]
-            public void InitializesWithValues()
+            public static void InitializesWithValues()
             {
                 var ints = new ObservableCollection<int> { 1, 2, 3 };
                 using var tracker = ints.TrackMinMax();
@@ -21,7 +21,7 @@ namespace Gu.Reactive.Tests.Trackers
             }
 
             [Test]
-            public void InitializesWhenEmpty()
+            public static void InitializesWhenEmpty()
             {
                 var ints = new ObservableCollection<int>(Array.Empty<int>());
                 using var tracker = ints.TrackMinMax();
@@ -37,7 +37,7 @@ namespace Gu.Reactive.Tests.Trackers
             [TestCase(2, -3, -3, 2, new[] { "Min", "Max" })]
             [TestCase(1, 4, 1, 4, new[] { "Max" })]
             [TestCase(2, 2, 1, 2, new[] { "Max" })]
-            public void Replace(int index, int value, int expectedMin, int expectedMax, string[] expected)
+            public static void Replace(int index, int value, int expectedMin, int expectedMax, string[] expected)
             {
                 var ints = new ObservableCollection<int> { 1, 2, 3 };
                 using var tracker = ints.TrackMinMax();
@@ -56,7 +56,7 @@ namespace Gu.Reactive.Tests.Trackers
             }
 
             [Test]
-            public void ReactsAndNotifiesOnSourceChanges()
+            public static void ReactsAndNotifiesOnSourceChanges()
             {
                 var ints = new ObservableCollection<int> { 1, 2, 3 };
                 using var tracker = ints.TrackMinMax();
