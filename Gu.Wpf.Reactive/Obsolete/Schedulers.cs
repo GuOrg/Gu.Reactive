@@ -8,6 +8,7 @@
     /// <summary>
     /// Helper for invoking on the dispatcher.
     /// </summary>
+    [Obsolete("This will be removed in future version.")]
     public static class Schedulers
     {
         /// <summary>

@@ -3,7 +3,6 @@
     /// <summary>
     /// Factory methods for creating <see cref="ReadOnlyIListView{T}"/>.
     /// </summary>
-    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     public static class ReadonlyIListView
     {
         /// <summary>

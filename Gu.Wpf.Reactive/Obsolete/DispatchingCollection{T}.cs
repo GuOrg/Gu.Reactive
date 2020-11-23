@@ -10,6 +10,7 @@
     /// An <see cref="ObservableBatchCollection{T}"/> that notifies on the dispatcher if needed.
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
+    [Obsolete("This will be removed in future version.")]
     [Serializable]
     public class DispatchingCollection<T> : ObservableBatchCollection<T>
     {

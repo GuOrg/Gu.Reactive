@@ -6,7 +6,7 @@
     /// <summary>
     /// Wraps a <see cref="ICondition"/> and returns false if the wrapped condition returns null.
     /// </summary>
-    /// <typeparam name="TCollection">The source collection type.</typeparam>
+    /// <typeparam name="TCondition">The source condition type.</typeparam>
     public class NullIsFalse<TCondition> : Condition
         where TCondition : class, ICondition
     {

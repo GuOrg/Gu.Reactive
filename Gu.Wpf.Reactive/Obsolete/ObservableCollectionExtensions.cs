@@ -9,6 +9,7 @@
     /// <summary>
     /// Extension methods for <see cref="ObservableCollection{T}"/>.
     /// </summary>
+    [Obsolete("This will be removed in future version.")]
     public static class ObservableCollectionExtensions
     {
         private static readonly Task CompletedTask = Task.FromResult(default(VoidTypeStruct)); // Task.CompletedTask is internal
