@@ -9,6 +9,7 @@
     /// <summary>
     /// Class provides methods to obtain member names of data types.
     /// </summary>
+    [Obsolete("This will be removed in future version.")]
     public static class NameOf
     {
         /// <summary>

@@ -8,6 +8,7 @@ namespace Gu.Reactive
     /// <summary>
     /// Helpers for <see cref="Task"/>.
     /// </summary>
+    [Obsolete("This will be removed in future version.")]
     public static class TaskExt
     {
         /// <summary>
