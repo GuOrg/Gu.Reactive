@@ -1,6 +1,7 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     /// <summary>
@@ -8,48 +9,53 @@ namespace Gu.Reactive
     /// </summary>
     public static class TypeExt
     {
+        private static readonly Dictionary<Type, string> Map = new Dictionary<Type, string>
+        {
+            { typeof(bool), "bool" },
+            { typeof(byte), "byte" },
+            { typeof(char), "char" },
+            { typeof(decimal), "decimal" },
+            { typeof(double), "double" },
+            { typeof(float), "float" },
+            { typeof(int), "int" },
+            { typeof(long), "long" },
+            { typeof(object), "object" },
+            { typeof(sbyte), "sbyte" },
+            { typeof(short), "short" },
+            { typeof(string), "string" },
+            { typeof(uint), "uint" },
+            { typeof(ulong), "ulong" },
+        };
+
         /// <summary>
         /// Returns nicely formatted type names for generic types.
         /// </summary>
-        public static string PrettyName(this Type type)
+        internal static string PrettyName(this Type type)
         {
-            if (type is null)
+            if (Map.TryGetValue(type, out var mapped))
             {
-                throw new ArgumentNullException(nameof(type));
+                return mapped;
             }
 
-            if (type == typeof(long))
+            return type switch
             {
-                return "long";
-            }
+                { IsGenericType: true } => Generic(),
+                { IsArray: true } => type.GetElementType()!.PrettyName() + "[]",
+                { DeclaringType: { } declaringType } => $"{declaringType.PrettyName()}.{type.Name}",
+                _ => type.Name,
+            };
 
-            if (type == typeof(double))
-            {
-                return "double";
-            }
-
-            if (type == typeof(int))
-            {
-                return "int";
-            }
-
-            if (type == typeof(string))
-            {
-                return "string";
-            }
-
-            if (type == typeof(bool))
-            {
-                return "bool";
-            }
-
-            if (type.IsGenericType)
+            string Generic()
             {
                 var arguments = string.Join(", ", type.GenericTypeArguments.Select(PrettyName));
+
+                if (type.DeclaringType != null)
+                {
+                    return $"{type.DeclaringType.PrettyName()}.{type.Name.Split('`').First()}<{arguments}>";
+                }
+
                 return $"{type.Name.Split('`').First()}<{arguments}>";
             }
-
-            return type.Name;
         }
 
         /// <summary>
