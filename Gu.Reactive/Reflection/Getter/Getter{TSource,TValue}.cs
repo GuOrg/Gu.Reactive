@@ -1,9 +1,8 @@
 ﻿namespace Gu.Reactive
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Reflection;
-
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// A wrapper around a delegate created from a <see cref="PropertyInfo.GetMethod"/>.
@@ -23,8 +22,16 @@
                 throw new System.ArgumentNullException(nameof(property));
             }
 
-            Ensure.Equal(typeof(TSource), property.ReflectedType, nameof(property));
-            Ensure.Equal(typeof(TValue), property.PropertyType, nameof(property));
+            if (property.ReflectedType != typeof(TSource))
+            {
+                throw new ArgumentException("ReflectedType != typeof(TSource)", nameof(property));
+            }
+
+            if (property.PropertyType != typeof(TValue))
+            {
+                throw new ArgumentException("PropertyType != typeof(TValue)", nameof(property));
+            }
+
             this.Property = property;
         }
 
