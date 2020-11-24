@@ -1,11 +1,13 @@
 ﻿namespace Gu.Reactive
 {
+    using System;
     using System.ComponentModel;
 
     /// <summary>
     /// A <see cref="PropertyChangedEventArgs"/> with the value of the property.
     /// </summary>
     /// <typeparam name="TProperty">The property type.</typeparam>
+    [Obsolete("Removing this as it is messy and hard to use. Use ObserveValue instead.")]
     public class PropertyChangedAndValueEventArgs<TProperty> : PropertyChangedEventArgs, IMaybe<TProperty>
     {
         /// <summary>
