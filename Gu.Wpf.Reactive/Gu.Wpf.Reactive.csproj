@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>library</OutputType>
-    <TargetFrameworks>net46;netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>net46</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <UseWpf>true</UseWpf>
