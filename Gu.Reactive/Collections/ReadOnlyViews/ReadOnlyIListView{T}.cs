@@ -193,6 +193,7 @@
         /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
         /// Invokes <paramref name="action"/> if not disposed.
         /// </summary>
+        /// <param name="action">The <see cref="Action"/>.</param>
         protected void ThrowIfDisposed(Action action)
         {
             if (action is null)
@@ -208,6 +209,8 @@
         /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
         /// Returns <paramref name="result"/> if not disposed.
         /// </summary>
+        /// <param name="result">The item.</param>
+        /// <returns>The same item.</returns>
         protected TResult ThrowIfDisposed<TResult>(TResult result)
         {
             this.ThrowIfDisposed();

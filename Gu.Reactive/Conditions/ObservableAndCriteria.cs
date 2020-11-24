@@ -10,6 +10,12 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableAndCriteria"/> struct.
         /// </summary>
+        /// <param name="observable">
+        /// The observable that triggers updates of <see cref="ICondition"/>.
+        /// </param>
+        /// <param name="criteria">
+        /// The criteria that is evaluated to give IsSatisfied.
+        /// </param>
         public ObservableAndCriteria(IObservable<object> observable, Func<bool?> criteria)
         {
             this.Observable = observable;

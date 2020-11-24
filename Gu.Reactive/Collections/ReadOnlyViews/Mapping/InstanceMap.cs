@@ -40,7 +40,7 @@
             this.inner.Remove(Maybe<TKey>.Some(key));
         }
 
-        internal bool TryGetValue(TKey key, out TValue result)
+        internal bool TryGetValue(TKey key, out TValue? result)
         {
             return this.inner.TryGetValue(Maybe<TKey>.Some(key), out result);
         }

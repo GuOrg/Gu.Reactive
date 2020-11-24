@@ -78,7 +78,7 @@
             this.disposable.Dispose();
         }
 
-        private static object CoerceSource(DependencyObject d, object? baseValue)
+        private static object? CoerceSource(DependencyObject d, object? baseValue)
         {
             ((DataGridAndEventsView)d).Changes?.Clear();
             return baseValue;

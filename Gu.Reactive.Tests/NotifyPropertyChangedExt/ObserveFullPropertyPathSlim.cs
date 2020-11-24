@@ -142,7 +142,9 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         public static void ThrowsOnSingleItemPath()
         {
             var source = new Fake();
+#pragma warning disable GUREA05 // Full path must have more than one item.
             var exception = Assert.Throws<ArgumentException>(() => source.ObserveFullPropertyPathSlim(x => x.IsTrue));
+#pragma warning restore GUREA05 // Full path must have more than one item.
             var expected = "Expected path to have more than one item.\r\n" +
                            "The path was x => x.IsTrue\r\n" +
                            "Did you mean to call ObservePropertyChangedSlim?\r\n" +

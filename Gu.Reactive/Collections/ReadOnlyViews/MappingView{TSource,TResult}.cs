@@ -58,6 +58,9 @@
         /// <summary>
         /// Delegates creation to mapping factory.
         /// </summary>
+        /// <param name="key">The source value.</param>
+        /// <param name="index">The index.</param>
+        /// <returns>The mapped value.</returns>
         protected virtual TResult GetOrCreate(TSource key, int index) => this.factory.GetOrCreate(key, index);
 
         /// <summary>

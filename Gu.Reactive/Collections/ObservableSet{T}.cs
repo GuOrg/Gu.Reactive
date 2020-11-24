@@ -33,6 +33,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableSet{T}"/> class.
         /// </summary>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/>.</param>
         public ObservableSet(IEqualityComparer<T> comparer)
         {
             this.inner = new HashSet<T>(comparer);
@@ -42,6 +43,7 @@ namespace Gu.Reactive
         /// Initializes a new instance of the <see cref="ObservableSet{T}"/> class.
         /// Uses <see cref="EqualityComparer{T}.Default"/>.
         /// </summary>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/>.</param>
         public ObservableSet(IEnumerable<T> collection)
             : this(collection, EqualityComparer<T>.Default)
         {
@@ -50,6 +52,8 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableSet{T}"/> class.
         /// </summary>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/>.</param>
+        /// <param name="comparer">The <see cref="IEqualityComparer{T}"/>.</param>
         public ObservableSet(IEnumerable<T> collection, IEqualityComparer<T> comparer)
         {
             this.inner = new HashSet<T>(collection, comparer);

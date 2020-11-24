@@ -80,9 +80,9 @@ Gu.Reactive.FixedSizedQueue<T>.GetEnumerator() -> System.Collections.Generic.IEn
 Gu.Reactive.FixedSizedQueue<T>.Size.get -> int
 Gu.Reactive.FixedSizedQueue<T>.ToArray() -> T[]!
 Gu.Reactive.FixedSizedQueue<T>.TryAdd(T item) -> bool
-Gu.Reactive.FixedSizedQueue<T>.TryDequeue(out T result) -> bool
-Gu.Reactive.FixedSizedQueue<T>.TryPeek(out T result) -> bool
-Gu.Reactive.FixedSizedQueue<T>.TryTake(out T item) -> bool
+Gu.Reactive.FixedSizedQueue<T>.TryDequeue(out T? result) -> bool
+Gu.Reactive.FixedSizedQueue<T>.TryPeek(out T? result) -> bool
+Gu.Reactive.FixedSizedQueue<T>.TryTake(out T? item) -> bool
 Gu.Reactive.ForegroundScheduler
 Gu.Reactive.ForegroundScheduler.Dispose() -> void
 Gu.Reactive.ForegroundScheduler.Now.get -> System.DateTimeOffset

@@ -15,6 +15,7 @@
     /// <summary>
     /// A synchronized view of a collection that supports two way bindings.
     /// </summary>
+    /// <typeparam name="T">The type of the items in the collection.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
     public abstract class SynchronizedEditableView<T> : Collection<T>, IRefreshAble, IDisposable, INotifyPropertyChanged, INotifyCollectionChanged
@@ -57,11 +58,11 @@
 
         /// <inheritdoc/>
         [field: NonSerialized]
-        public virtual event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <inheritdoc/>
         [field: NonSerialized]
-        public virtual event NotifyCollectionChangedEventHandler? CollectionChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <summary>
         /// Gets the source collection.
@@ -256,6 +257,8 @@
         /// <summary>
         /// Move item at oldIndex to newIndex.
         /// </summary>
+        /// <param name="oldIndex">The old index.</param>
+        /// <param name="newIndex">The new index.</param>
         protected virtual void MoveItem(int oldIndex, int newIndex)
         {
             var sourceOldIndex = this.SourceIndex(oldIndex);
@@ -289,6 +292,8 @@
         /// <summary>
         /// Get the corresponding index in <see cref="Source"/>.
         /// </summary>
+        /// <param name="index">The index in <see cref="Source"/>.</param>
+        /// <returns>The corresponding index.</returns>
         protected virtual int SourceIndex(int index)
         {
             var equals = typeof(T).IsValueType

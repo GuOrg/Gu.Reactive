@@ -31,6 +31,7 @@
         /// <param name="signalInitial">
         /// If true OnNext is called immediately on subscribe.
         /// </param>
+        /// <returns>The <see cref="IObservable{T}"/>.</returns>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
@@ -62,6 +63,7 @@
         /// <param name="source"> The source instance to track changes for. </param>
         /// <param name="propertyName"> The name of the property to track. Note that nested properties are not allowed. </param>
         /// <param name="signalInitial"> If true OnNext is called immediately on subscribe. </param>
+        /// <returns>The <see cref="IObservable{T}"/>.</returns>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(
             this INotifyPropertyChanged source,
             string propertyName,
@@ -93,6 +95,7 @@
         /// Observe property changes for <paramref name="source"/>.
         /// </summary>
         /// <param name="source">The source.</param>
+        /// <returns>The <see cref="IObservable{T}"/>.</returns>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(this INotifyPropertyChanged source)
         {
             if (source is null)
@@ -121,6 +124,7 @@
         /// <param name="signalInitial">
         /// If true OnNext is called immediately on subscribe.
         /// </param>
+        /// <returns>The <see cref="IObservable{T}"/>.</returns>
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim<TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
@@ -147,6 +151,7 @@
         /// <param name="source"> The source instance to track changes for. </param>
         /// <param name="propertyName"> The name of the property to track. Note that nested properties are not allowed. </param>
         /// <param name="signalInitial"> If true OnNext is called immediately on subscribe. </param>
+        /// <returns>The <see cref="IObservable{T}"/>.</returns>
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source, string propertyName, bool signalInitial = true)
         {
             if (source is null)
@@ -175,6 +180,7 @@
         /// Observe property changes for <paramref name="source"/>.
         /// </summary>
         /// <param name="source">The source.</param>
+        /// <returns>The <see cref="IObservable{T}"/>.</returns>
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim(this INotifyPropertyChanged source)
         {
             if (source is null)
@@ -201,6 +207,7 @@
         /// <param name="source">The source instance.</param>
         /// <param name="property">An expression specifying the property path.</param>
         /// <param name="signalInitial"> If true OnNext is called immediately on subscribe. </param>
+        /// <returns>The <see cref="IObservable{T}"/>.</returns>
         public static IObservable<PropertyChangedEventArgs> ObserveFullPropertyPathSlim<TNotifier, TProperty>(this TNotifier source, Expression<Func<TNotifier, TProperty>> property, bool signalInitial = true)
             where TNotifier : class, INotifyPropertyChanged
         {
@@ -242,6 +249,7 @@
         /// <param name="signalInitial">
         /// If true OnNext is called immediately on subscribe.
         /// </param>
+        /// <returns>The <see cref="IObservable{T}"/>.</returns>
         public static IObservable<Maybe<TProperty>> ObserveValue<TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
@@ -261,7 +269,7 @@
             var notifyingPath = NotifyingPath.GetOrCreate(property);
             return source.ObserveValueCore(
                              notifyingPath,
-                             (_, __, value) => value,
+                             (_, _, value) => value,
                              signalInitial)
                          .DistinctUntilChanged();
         }

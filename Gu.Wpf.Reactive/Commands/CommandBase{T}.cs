@@ -119,6 +119,7 @@
         /// Properties/methods modifying this <see cref="CommandBase{T}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
+        /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => this.PropertyChanged?.Invoke(this, e);
 
         private class InternalCanExecuteChangedEventManager : WeakEventManager
