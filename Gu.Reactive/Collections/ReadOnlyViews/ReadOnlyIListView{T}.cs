@@ -209,6 +209,7 @@
         /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
         /// Returns <paramref name="result"/> if not disposed.
         /// </summary>
+        /// <typeparam name="TResult">The value type.</typeparam>
         /// <param name="result">The item.</param>
         /// <returns>The same item.</returns>
         protected TResult ThrowIfDisposed<TResult>(TResult result)

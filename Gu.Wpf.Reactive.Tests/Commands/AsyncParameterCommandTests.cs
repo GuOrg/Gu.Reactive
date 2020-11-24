@@ -105,7 +105,9 @@ namespace Gu.Wpf.Reactive.Tests
         public async Task ExecuteFinished()
         {
             var finished = Task.FromResult(1);
+#pragma warning disable VSTHRD003 // Avoid awaiting foreign Tasks
             using var command = new AsyncCommand<int>(x => finished);
+#pragma warning restore VSTHRD003 // Avoid awaiting foreign Tasks
             Assert.IsTrue(command.CanExecute(0));
             command.Execute(0);
             await command.Execution!.Task.ConfigureAwait(false);

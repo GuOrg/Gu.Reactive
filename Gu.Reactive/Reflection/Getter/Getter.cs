@@ -18,6 +18,7 @@
         /// Get or create an <see cref="IGetter"/> for <paramref name="property"/>.
         /// </summary>
         /// <param name="property">The <see cref="PropertyInfo"/>.</param>
+        /// <returns>An <see cref="IGetter"/> for the property.</returns>
         public static IGetter GetOrCreate(PropertyInfo property)
         {
             if (property is null)

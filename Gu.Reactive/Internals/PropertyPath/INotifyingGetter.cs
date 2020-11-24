@@ -8,6 +8,8 @@
         /// <summary>
         /// Create tracker for the property.
         /// </summary>
+        /// <param name="tracker">The <see cref="IPropertyPathTracker"/>.</param>
+        /// <returns>An <see cref="IPropertyTracker"/>.</returns>
         IPropertyTracker CreateTracker(IPropertyPathTracker tracker);
     }
 }

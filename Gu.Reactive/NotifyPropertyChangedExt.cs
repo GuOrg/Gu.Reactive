@@ -31,7 +31,7 @@
         /// <param name="signalInitial">
         /// If true OnNext is called immediately on subscribe.
         /// </param>
-        /// <returns>The <see cref="IObservable{T}"/>.</returns>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged<TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,
@@ -63,7 +63,7 @@
         /// <param name="source"> The source instance to track changes for. </param>
         /// <param name="propertyName"> The name of the property to track. Note that nested properties are not allowed. </param>
         /// <param name="signalInitial"> If true OnNext is called immediately on subscribe. </param>
-        /// <returns>The <see cref="IObservable{T}"/>.</returns>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<EventPattern<PropertyChangedEventArgs>> ObservePropertyChanged(
             this INotifyPropertyChanged source,
             string propertyName,
@@ -124,7 +124,7 @@
         /// <param name="signalInitial">
         /// If true OnNext is called immediately on subscribe.
         /// </param>
-        /// <returns>The <see cref="IObservable{T}"/>.</returns>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChangedSlim<TNotifier, TProperty>(
             this TNotifier source,
             Expression<Func<TNotifier, TProperty>> property,

@@ -4,7 +4,6 @@ namespace Gu.Wpf.Reactive
     using System;
     using System.Collections.ObjectModel;
     using Gu.Reactive;
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// Factory methods for creating <see cref="FilteredView{T}"/>
@@ -24,7 +23,11 @@ namespace Gu.Wpf.Reactive
             Func<T, bool> filter,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(collection, nameof(collection));
+            if (collection is null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, false, triggers);
         }
 
@@ -43,7 +46,11 @@ namespace Gu.Wpf.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(collection, nameof(collection));
+            if (collection is null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, leaveOpen, triggers);
         }
 
@@ -62,8 +69,16 @@ namespace Gu.Wpf.Reactive
             TimeSpan bufferTime,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(collection, nameof(collection));
-            Ensure.NotNull(filter, nameof(filter));
+            if (collection is null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new FilteredView<T>(collection, filter, bufferTime, false, triggers);
         }
 
@@ -84,8 +99,16 @@ namespace Gu.Wpf.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(collection, nameof(collection));
-            Ensure.NotNull(filter, nameof(filter));
+            if (collection is null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new FilteredView<T>(collection, filter, bufferTime, leaveOpen, triggers);
         }
 
@@ -102,7 +125,11 @@ namespace Gu.Wpf.Reactive
             Func<T, bool> filter,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(collection, nameof(collection));
+            if (collection is null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, false, triggers);
         }
 
@@ -121,7 +148,11 @@ namespace Gu.Wpf.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(collection, nameof(collection));
+            if (collection is null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
             return new FilteredView<T>(collection, filter, TimeSpan.Zero, leaveOpen, triggers);
         }
 
@@ -140,8 +171,16 @@ namespace Gu.Wpf.Reactive
             TimeSpan bufferTime,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(collection, nameof(collection));
-            Ensure.NotNull(filter, nameof(filter));
+            if (collection is null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new FilteredView<T>(collection, filter, bufferTime, false, triggers);
         }
 
@@ -162,8 +201,16 @@ namespace Gu.Wpf.Reactive
             bool leaveOpen,
             params IObservable<object?>[] triggers)
         {
-            Ensure.NotNull(collection, nameof(collection));
-            Ensure.NotNull(filter, nameof(filter));
+            if (collection is null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
+            if (filter is null)
+            {
+                throw new ArgumentNullException(nameof(filter));
+            }
+
             return new FilteredView<T>(collection, filter, bufferTime, leaveOpen, triggers);
         }
     }

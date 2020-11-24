@@ -97,7 +97,8 @@
         /// <summary>
         /// Get the value if HasValue is true and default(T) if not.
         /// </summary>
-        public T GetValueOrDefault() => this.HasValue ? this.value : default!;
+        /// <returns><see cref="Value"/> or default.</returns>
+        public T? GetValueOrDefault() => this.HasValue ? this.value : default;
 
         /// <summary>
         /// Get the value if HasValue is true and <paramref name="defaultValue"/> if not.

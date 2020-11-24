@@ -30,6 +30,7 @@
         /// <summary>
         /// Returns nicely formatted type names for generic types.
         /// </summary>
+        /// <param name="type">The <see cref="Type"/>.</param>
         /// <returns>A string representation of the type.</returns>
         public static string PrettyName(this Type type)
         {
@@ -62,6 +63,8 @@
         /// <summary>
         /// Check if a type is Nullable`1.
         /// </summary>
+        /// <param name="type">The <see cref="Type"/>.</param>
+        /// <returns>True if <paramref name="type"/> is <see cref="Nullable{T}"/>.</returns>
         public static bool IsNullable(this Type type)
         {
             if (type is null)

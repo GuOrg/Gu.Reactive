@@ -151,6 +151,7 @@
         /// </summary>
         /// <param name="source">The <see cref="IEnumerable{T}"/>.</param>
         /// <param name="filter">The <see cref="Func{T,Boolean}"/>.</param>
+        /// <returns>The filtered <see cref="IEnumerable{T}"/>.</returns>
         protected static IEnumerable<T> Filtered(IEnumerable<T> source, Func<T, bool> filter)
         {
             if (source is null)
@@ -169,6 +170,7 @@
         /// <summary>
         /// Get the filtered items from Source.
         /// </summary>
+        /// <returns>The filtered <see cref="IEnumerable{T}"/>.</returns>
         protected IEnumerable<T> Filtered()
         {
             return Filtered(this.Source, this.filter);

@@ -66,9 +66,11 @@
             {
                 errorMessage = string.Format(
                     CultureInfo.InvariantCulture,
+#pragma warning disable SA1118 // Parameter should not span multiple lines
                     "Property path cannot have structs in it. Copy by value will make subscribing error prone. Also mutable struct much?" + Environment.NewLine +
                     "The type {0} is a value type not so {1}.{2} will not notify when it changes." + Environment.NewLine +
                     "The path is: {3}",
+#pragma warning restore SA1118 // Parameter should not span multiple lines
                     reflectedType.PrettyName(),
                     i == 0 ? "x" : path[i - 1].Name,
                     propertyInfo.Name,
@@ -81,9 +83,11 @@
             {
                 errorMessage = string.Format(
                     CultureInfo.InvariantCulture,
+#pragma warning disable SA1118 // Parameter should not span multiple lines
                     "All levels in the path must implement INotifyPropertyChanged." + Environment.NewLine +
                     "The type {0} does not so {1}.{2} will not notify when it changes." + Environment.NewLine +
                     "The path is: {3}",
+#pragma warning restore SA1118 // Parameter should not span multiple lines
                     reflectedType.PrettyName(),
                     i == 0 ? "x" : path[i - 1].Name,
                     propertyInfo.Name,

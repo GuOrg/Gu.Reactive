@@ -156,6 +156,7 @@ namespace Gu.Reactive
         /// <summary>
         /// The criteria for <see cref="IsSatisfied"/>.
         /// </summary>
+        /// <returns>If the condition is satisfied.</returns>
         protected abstract bool? Criteria();
 
         /// <summary>

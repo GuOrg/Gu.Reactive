@@ -18,12 +18,14 @@
         /// Get the value of the property for <paramref name="source"/>.
         /// </summary>
         /// <param name="source">The source value.</param>
+        /// <returns>The property value.</returns>
         object? GetValue(object source);
 
         /// <summary>
         /// Get the value of the property for <paramref name="source"/>.
         /// </summary>
         /// <param name="source">The source value.</param>
+        /// <returns>A <see cref="Maybe{Object}"/>.</returns>
         Maybe<object?> GetMaybe(object? source);
     }
 }

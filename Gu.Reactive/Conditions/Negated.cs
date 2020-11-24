@@ -4,6 +4,7 @@
     /// A negated condition wraps a <see cref="ICondition"/> and negates the IsSatisfied value.
     /// Calling Negate on it returns the original condition.
     /// </summary>
+    /// <typeparam name="TCondition">The condition type.</typeparam>
     public class Negated<TCondition> : NegatedCondition
         where TCondition : ICondition
     {

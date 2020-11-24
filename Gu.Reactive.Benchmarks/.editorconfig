@@ -10,3 +10,9 @@ dotnet_diagnostic.CA1822.severity = none
 
 # CA1716: Identifiers should not match keywords
 dotnet_diagnostic.CA1716.severity = none
+
+# CA1044: Properties should not be write only
+dotnet_diagnostic.CA1044.severity = none
+
+# CA1724: The type name Caching conflicts in whole or in part with the namespace name 'System.Web.Caching' defined in the .NET Framework. Rename the type to eliminate the conflict.
+dotnet_diagnostic.CA1724.severity = none

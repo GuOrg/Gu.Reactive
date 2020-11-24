@@ -22,6 +22,7 @@
         /// </summary>
         /// <param name="source">The source collection.</param>
         /// <param name="signalInitial">When true a reset is signaled on subscribe.</param>
+        /// <returns>An <see cref="IObservable{NotifyCollectionChangedEventArgs}"/>.</returns>
         public static IObservable<NotifyCollectionChangedEventArgs> ObserveCollectionChangedSlim(this INotifyCollectionChanged source, bool signalInitial)
         {
             if (source is null)
@@ -53,6 +54,7 @@
         /// <typeparam name="TCollection">The source collection type.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="signalInitial">When true a reset is signaled on subscribe.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<EventPattern<NotifyCollectionChangedEventArgs>> ObserveCollectionChanged<TCollection>(this TCollection source, bool signalInitial = true)
             where TCollection : IEnumerable, INotifyCollectionChanged
         {
@@ -84,6 +86,7 @@
         /// <param name="source">The source collection.</param>
         /// <param name="property">The expression specifying the property path.</param>
         /// <param name="signalInitial">When true a reset is signaled on subscribe.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ObserveItemPropertyChanged<TCollection, TItem, TProperty>(
                 TCollection source,
                 Expression<Func<TItem, TProperty>> property,
@@ -124,6 +127,7 @@
         /// <param name="source">The source collection.</param>
         /// <param name="property">The expression specifying the property path.</param>
         /// <param name="signalInitial">When true a reset is signaled on subscribe.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<PropertyChangedEventArgs> ObserveItemPropertyChangedSlim<TCollection, TItem, TProperty>(
                 TCollection source,
                 Expression<Func<TItem, TProperty>> property,
@@ -157,6 +161,7 @@
         /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="property">The expression specifying the property path.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
                 this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
                 Expression<Func<TItem, TProperty>> property)
@@ -194,6 +199,7 @@
         /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="property">The expression specifying the property path.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
                 this IObservable<TCollection> source,
                 Expression<Func<TItem, TProperty>> property)
@@ -231,6 +237,7 @@
         /// <typeparam name="TProperty">The property type.</typeparam>
         /// <param name="source">The source collection.</param>
         /// <param name="property">The expression specifying the property path.</param>
+        /// <returns>An <see cref="IObservable{PropertyChangedEventArgs}"/>.</returns>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TCollection, TItem, TProperty>(
                 this IObservable<TCollection> source,
                 Expression<Func<TItem, TProperty>> property)

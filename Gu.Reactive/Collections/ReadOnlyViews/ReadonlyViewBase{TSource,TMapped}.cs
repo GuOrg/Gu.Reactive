@@ -257,7 +257,9 @@
         /// Throws an <see cref="ObjectDisposedException"/> if the instance is disposed.
         /// Returns <paramref name="result"/> if not disposed.
         /// </summary>
+        /// <typeparam name="TResult">The type of the value.</typeparam>
         /// <param name="result">The action to invoke.</param>
+        /// <returns>The value produced by <paramref name="result"/>.</returns>
         protected TResult ThrowIfDisposed<TResult>(Func<TResult> result)
         {
             if (result is null)

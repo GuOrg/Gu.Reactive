@@ -14,6 +14,7 @@
         /// <summary>
         /// Get the value if source is not null.
         /// </summary>
+        /// <returns>A <see cref="Maybe{TValue}"/>.</returns>
         Maybe<TValue> GetMaybe();
     }
 }

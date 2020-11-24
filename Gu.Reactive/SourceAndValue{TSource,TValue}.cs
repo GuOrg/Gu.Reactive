@@ -13,6 +13,7 @@
         /// Initializes a new instance of the <see cref="SourceAndValue{TSource,TValue}"/> struct.
         /// </summary>
         /// <param name="source">The source value.</param>
+        /// <param name="value">The <see cref="Maybe{TValue}"/>.</param>
         public SourceAndValue(TSource source, Maybe<TValue> value)
         {
             this.Source = source;

@@ -21,6 +21,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Tracker{TValue}"/> class.
         /// </summary>
+        /// <param name="source">The <see cref="IChanges{TValue}"/>.</param>
         protected Tracker(IChanges<TValue> source)
         {
             this.source = source ?? throw new ArgumentNullException(nameof(source));
@@ -95,6 +96,7 @@
         /// <summary>
         /// Called when the source collection notifies about collection changes.
         /// </summary>
+        /// <param name="values">The <see cref="IEnumerable{TValue}"/>.</param>
         protected virtual void OnReset(IEnumerable<TValue> values)
         {
             var retry = 0;

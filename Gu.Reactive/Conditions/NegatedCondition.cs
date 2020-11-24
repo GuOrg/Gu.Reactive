@@ -86,6 +86,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Returns the negated (original) condition.
         /// </summary>
+        /// <returns>The negated condition.</returns>
         [Obsolete("This will be made explicit.")]
         public ICondition Negate()
         {

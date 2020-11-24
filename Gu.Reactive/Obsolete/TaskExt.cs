@@ -175,7 +175,7 @@ namespace Gu.Reactive
             // Set up a timer to complete after the specified timeout period
 #pragma warning disable IDISP001  // Dispose created.
             var timer = new Timer(
-                callback: state => ((TaskCompletionSource<T>)state).TrySetException(new TimeoutException()),
+                callback: state => ((TaskCompletionSource<T>)state!).TrySetException(new TimeoutException()),
                 state: tcs,
                 dueTime: millisecondsTimeout,
                 period: Timeout.Infinite);

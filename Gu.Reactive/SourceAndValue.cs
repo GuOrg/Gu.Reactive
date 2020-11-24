@@ -12,6 +12,7 @@
         /// <typeparam name="TValue">The value type.</typeparam>
         /// <param name="source">The source.</param>
         /// <param name="value">The <see cref="Maybe{TValue}"/>.</param>
+        /// <returns>A <see cref="SourceAndValue{TSource,TValue}"/>.</returns>
         public static SourceAndValue<TSource, TValue> Create<TSource, TValue>(TSource source, Maybe<TValue> value) => new SourceAndValue<TSource, TValue>(source, value);
     }
 }

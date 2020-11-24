@@ -31,7 +31,9 @@ namespace Gu.Reactive.Demo
                                   .Subscribe(
                                       x =>
                                       {
+#pragma warning disable VSTHRD001 // Avoid legacy thread switching APIs
                                           _ = Application.Current.Dispatcher.Invoke(() => this.ObservableDefaultView.Filter = o => this.Filter((int)o));
+#pragma warning restore VSTHRD001 // Avoid legacy thread switching APIs
                                           this.ObservableFilteredView.Filter = this.Filter;
                                           this.ThrottledFilteredView.Filter = this.Filter;
                                       });

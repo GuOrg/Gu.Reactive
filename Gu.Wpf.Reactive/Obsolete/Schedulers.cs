@@ -35,6 +35,8 @@
         /// Falls back to DispatcherScheduler.Current (for tests).
         /// </summary>
         /// <typeparam name="T">The type of the items in the observable.</typeparam>
+        /// <param name="observable">The <see cref="IObservable{T}"/>.</param>
+        /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<T> ObserveOnDispatcherOrCurrentThread<T>(this IObservable<T> observable)
         {
             return observable.ObserveOn(DispatcherOrCurrentThread);
