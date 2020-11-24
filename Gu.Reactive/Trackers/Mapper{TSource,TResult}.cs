@@ -8,6 +8,7 @@
     /// A reactive mapper from <typeparamref name="TSource"/> to <typeparamref name="TResult"/>.
     /// </summary>
     /// <typeparam name="TSource">The source type.</typeparam>
+    /// <typeparam name="TResult">The mapped type.</typeparam>
     public sealed class Mapper<TSource, TResult> : ITracker<TResult>
     {
         private readonly IDisposable subscription;
@@ -18,9 +19,11 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="Mapper{TSource, TResult}"/> class.
         /// </summary>
-#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+        /// <param name="source">The <see cref="ITracker{TSource}"/>.</param>
+        /// <param name="selector">The <see cref="Func{TSource, TResult}"/>.</param>
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Mapper(ITracker<TSource> source, Func<TSource, TResult> selector)
-#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             if (source is null)
             {

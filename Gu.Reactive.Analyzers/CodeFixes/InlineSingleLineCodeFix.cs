@@ -90,7 +90,7 @@
                     return node.WithIdentifier(SyntaxFactory.Identifier(this.to.Name));
                 }
 
-                return base.VisitIdentifierName(node);
+                return base.VisitIdentifierName(node)!;
             }
 
             internal static T Parameter<T>(
