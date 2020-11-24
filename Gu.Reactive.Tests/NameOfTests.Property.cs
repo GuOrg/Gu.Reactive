@@ -9,7 +9,7 @@ namespace Gu.Reactive.Tests
 
     using NUnit.Framework;
 
-    public partial class NameOfTests
+    public static partial class NameOfTests
     {
         public class Property
         {

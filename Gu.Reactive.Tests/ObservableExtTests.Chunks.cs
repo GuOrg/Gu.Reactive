@@ -9,13 +9,13 @@
 
     using NUnit.Framework;
 
-    public partial class ObservableExtTests
+    public static partial class ObservableExtTests
     {
-        public class Chunks
+        public static class Chunks
         {
             [TestCase(new[] { 1 })]
             [TestCase(new[] { 1, 2 })]
-            public void ChunksWithTimeAndScheduler(int[] values)
+            public static void ChunksWithTimeAndScheduler(int[] values)
             {
                 using var subject = new Subject<int>();
                 var scheduler = new TestScheduler();
@@ -39,7 +39,7 @@
 
             [TestCase(new[] { 1 })]
             [TestCase(new[] { 1, 2 })]
-            public void ChunksWithTimeZeroAndScheduler(int[] values)
+            public static void ChunksWithTimeZeroAndScheduler(int[] values)
             {
                 using var subject = new Subject<int>();
                 var scheduler = new TestScheduler();
@@ -63,7 +63,7 @@
 
             [TestCase(new[] { 1 })]
             [TestCase(new[] { 1, 2 })]
-            public void ChunksWithTimeAndMaxTimeScheduler(int[] values)
+            public static void ChunksWithTimeAndMaxTimeScheduler(int[] values)
             {
                 using var subject = new Subject<int>();
                 var scheduler = new TestScheduler();

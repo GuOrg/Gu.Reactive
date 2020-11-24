@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests
+﻿namespace Gu.Reactive.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -6,12 +6,12 @@ namespace Gu.Reactive.Tests
     using System.Reactive.Subjects;
     using NUnit.Framework;
 
-    public partial class ObservableExtTests
+    public static partial class ObservableExtTests
     {
-        public class WithPrevious
+        public static class WithPrevious
         {
             [Test]
-            public void WithPreviousSequence()
+            public static void WithPreviousSequence()
             {
                 using var subject = new Subject<int>();
                 var actuals = new List<WithPrevious<int>>();
@@ -31,7 +31,7 @@ namespace Gu.Reactive.Tests
             }
 
             [Test]
-            public void WithMaybePreviousSequence()
+            public static void WithMaybePreviousSequence()
             {
                 using var subject = new Subject<int>();
                 var actuals = new List<WithMaybePrevious<int>>();

@@ -5,7 +5,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
     using Microsoft.Reactive.Testing;
     using NUnit.Framework;
 
-    public class FilterTestsWithTestScheduler : FilterTests
+    public class FilterTestsWithTestScheduler : AbstractFilterTests
     {
         [SetUp]
         public override void SetUp()

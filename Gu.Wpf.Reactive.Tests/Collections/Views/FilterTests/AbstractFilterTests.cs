@@ -12,7 +12,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
     using Gu.Reactive.Tests.Helpers;
     using NUnit.Framework;
 
-    public abstract class FilterTests
+    public abstract class AbstractFilterTests
     {
         private static readonly PropertyChangedEventArgs FilterChangedEventArgs = new PropertyChangedEventArgs("Filter");
 

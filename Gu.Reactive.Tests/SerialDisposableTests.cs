@@ -5,10 +5,10 @@
 
     using NUnit.Framework;
 
-    public class SerialDisposableTests
+    public static class SerialDisposableTests
     {
         [Test]
-        public void Disposes()
+        public static void Disposes()
         {
             var mock = new Mock<IDisposable>(MockBehavior.Strict);
             using (var serialDisposable = new SerialDisposable<IDisposable>())
@@ -22,7 +22,7 @@
         }
 
         [Test]
-        public void DisposesOnAssignWhenDisposed()
+        public static void DisposesOnAssignWhenDisposed()
         {
             using var serialDisposable = new SerialDisposable<IDisposable>();
 #pragma warning disable IDISP016, IDISP017 // Don't use disposed instance.
@@ -35,7 +35,7 @@
         }
 
         [Test]
-        public void AssignSameTwiceDoesNotDispose()
+        public static void AssignSameTwiceDoesNotDispose()
         {
             using var serialDisposable = new SerialDisposable<IDisposable>();
             var mock = new Mock<IDisposable>(MockBehavior.Strict);

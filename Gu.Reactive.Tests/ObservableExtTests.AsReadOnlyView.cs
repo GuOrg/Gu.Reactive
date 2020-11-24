@@ -9,12 +9,12 @@
 
     using NUnit.Framework;
 
-    public partial class ObservableExtTests
+    public static partial class ObservableExtTests
     {
-        public class AsReadOnlyView
+        public static class AsReadOnlyView
         {
             [Test]
-            public void OnNextAddsOne()
+            public static void OnNextAddsOne()
             {
                 using var subject = new Subject<IEnumerable<int>>();
                 using var view = subject.AsReadOnlyView();
@@ -44,7 +44,7 @@
             }
 
             [Test]
-            public void ObserveValueAsReadOnlyViewWhenIEnumerableOfT()
+            public static void ObserveValueAsReadOnlyViewWhenIEnumerableOfT()
             {
                 var with = new With<IEnumerable<int>>();
                 using var view = with.ObserveValue(x => x.Value)
@@ -75,7 +75,7 @@
             }
 
             [Test]
-            public void ObserveValueAsReadOnlyViewWhenArrayOfTWhenCast()
+            public static void ObserveValueAsReadOnlyViewWhenArrayOfTWhenCast()
             {
                 var with = new With<int[]>();
                 using var view = with.ObserveValue(x => x.Value).Select(x => (IMaybe<int[]>)x).AsReadOnlyView();
@@ -105,7 +105,7 @@
             }
 
             [Test]
-            public void ObserveValueAsReadOnlyViewWhenArrayOfT()
+            public static void ObserveValueAsReadOnlyViewWhenArrayOfT()
             {
                 var with = new With<int[]>();
                 using var view = with.ObserveValue(x => x.Value)

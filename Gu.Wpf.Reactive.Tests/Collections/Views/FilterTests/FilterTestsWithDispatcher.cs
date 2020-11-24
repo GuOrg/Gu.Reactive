@@ -5,7 +5,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
 
-    public class FilterTestsWithDispatcher : FilterTests
+    public class FilterTestsWithDispatcher : AbstractFilterTests
     {
         [SetUp]
         public override void SetUp()

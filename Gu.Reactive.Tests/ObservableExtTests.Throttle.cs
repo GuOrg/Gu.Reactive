@@ -13,9 +13,9 @@ namespace Gu.Reactive.Tests
 
     using NUnit.Framework;
 
-    public partial class ObservableExtTests
+    public static  partial class ObservableExtTests
     {
-        public class Throttle
+        public static class Throttle
         {
             private const int DueTime = 50;
 
@@ -24,7 +24,7 @@ namespace Gu.Reactive.Tests
             private const int CompletedTime = 100000;
 
             [TestCaseSource(typeof(ThrottleSource))]
-            public void ThrottleWithMaxTime(ThrottleData data)
+            public static void ThrottleWithMaxTime(ThrottleData data)
             {
                 var pattern = data.Pattern;
                 var completeEvent = data.CompletedEvent;
