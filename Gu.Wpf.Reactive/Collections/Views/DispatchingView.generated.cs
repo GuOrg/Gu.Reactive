@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.Reactive
+﻿#nullable enable
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.ObjectModel;

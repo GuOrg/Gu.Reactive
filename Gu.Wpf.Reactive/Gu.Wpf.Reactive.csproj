@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>library</OutputType>
-    <TargetFramework>net472</TargetFramework>
-    <!--<TargetFrameworks>net46;netcoreapp3.1</TargetFrameworks>-->
+    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <UseWpf>true</UseWpf>
@@ -36,13 +35,6 @@ FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" />
