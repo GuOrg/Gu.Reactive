@@ -9,22 +9,6 @@
     public class EnsureTests
     {
         [TestCase(null, true)]
-        [TestCase("", false)]
-        [TestCase(1, false)]
-        public void NotNull(object value, bool expectException)
-        {
-            if (expectException)
-            {
-                var ex = Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(value, nameof(value)));
-                Assert.AreEqual("Value cannot be null.\r\nParameter name: value", ex.Message);
-            }
-            else
-            {
-                Ensure.NotNull(value, nameof(value));
-            }
-        }
-
-        [TestCase(null, true)]
         [TestCase("", true)]
         [TestCase("Yeah", false)]
         public void NotNullOrEmpty(string value, bool expectException)

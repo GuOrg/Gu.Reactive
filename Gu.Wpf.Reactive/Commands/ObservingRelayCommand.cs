@@ -4,8 +4,6 @@ namespace Gu.Wpf.Reactive
     using System;
     using System.Reactive.Linq;
 
-    using Gu.Reactive.Internals;
-
     /// <summary>
     /// A command that does not use the CommandParameter
     /// Signals CanExecuteChanged when observable signals.
@@ -27,7 +25,11 @@ namespace Gu.Wpf.Reactive
             params IObservable<object?>[] observable)
             : base(action, criteria)
         {
-            Ensure.NotNullOrEmpty(observable, nameof(observable));
+            if (observable.Length == 0)
+            {
+                throw new ArgumentException("Expected at least one observable.", nameof(observable));
+            }
+
             this.subscription = observable.Merge()
                                       .Subscribe(_ => this.RaiseCanExecuteChanged());
         }

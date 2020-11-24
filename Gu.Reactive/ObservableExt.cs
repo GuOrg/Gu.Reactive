@@ -8,8 +8,6 @@
     using System.Reactive.Linq;
     using System.Threading;
 
-    using Gu.Reactive.Internals;
-
     /// <summary>
     /// Extension methods for <see cref="IObservable{T}"/>.
     /// </summary>
@@ -79,7 +77,11 @@
         /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, IScheduler scheduler)
         {
-            Ensure.NotNull(source, nameof(source));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             if (dueTime == TimeSpan.Zero)
             {
                 return source.Select(x => new[] { x })
@@ -100,7 +102,11 @@
         /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime)
         {
-            Ensure.NotNull(source, nameof(source));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             if (dueTime == TimeSpan.Zero)
             {
                 return source.Select(x => new[] { x });
@@ -120,7 +126,11 @@
         /// <returns>An <see cref="IObservable{T}"/>.</returns>
         public static IObservable<IReadOnlyList<T>> Chunks<T>(this IObservable<T> source, TimeSpan dueTime, TimeSpan maxTime, IScheduler scheduler)
         {
-            Ensure.NotNull(source, nameof(source));
+            if (source is null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
             if (dueTime == TimeSpan.Zero)
             {
                 return source.Select(x => new[] { x })

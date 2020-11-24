@@ -3,8 +3,6 @@
     using System;
     using System.Windows.Markup;
 
-    using Gu.Reactive.Internals;
-
     /// <summary>
     /// Markup extension for getting Enum.GetValues(this.Type).
     /// </summary>
@@ -51,8 +49,12 @@
         /// <inheritdoc/>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            Ensure.NotNull(this.Type, nameof(this.Type));
-            return Enum.GetValues(this.Type);
+            if (this.type is null)
+            {
+                throw new InvalidOperationException("Type is null.");
+            }
+
+            return Enum.GetValues(this.type);
         }
     }
 }

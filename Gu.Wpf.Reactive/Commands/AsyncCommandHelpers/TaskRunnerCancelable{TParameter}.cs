@@ -7,7 +7,6 @@
     using System.Threading.Tasks;
 
     using Gu.Reactive;
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// A task runner for generic tasks.
@@ -26,8 +25,7 @@
         /// <param name="action">The source of tasks to execute.</param>
         public TaskRunnerCancelable(Func<TParameter, CancellationToken, Task> action)
         {
-            Ensure.NotNull(action, nameof(action));
-            this.action = action;
+            this.action = action ?? throw new ArgumentNullException(nameof(action));
 
             this.CanCancelCondition = new Condition(
                 Observable.Merge<object>(

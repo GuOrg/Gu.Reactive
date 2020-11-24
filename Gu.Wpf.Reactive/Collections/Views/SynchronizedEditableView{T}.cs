@@ -10,7 +10,6 @@
     using System.Runtime.CompilerServices;
 
     using Gu.Reactive;
-    using Gu.Reactive.Internals;
 
     /// <summary>
     /// A synchronized view of a collection that supports two way bindings.
@@ -50,9 +49,8 @@
         private SynchronizedEditableView(IList<T> source, CollectionSynchronizer<T> tracker, bool leaveOpen)
             : base(tracker)
         {
-            Ensure.NotNull(source, nameof(source));
             this.leaveOpen = leaveOpen;
-            this.Source = source;
+            this.Source = source ?? throw new ArgumentNullException(nameof(source));
             this.Tracker = tracker;
         }
 

@@ -6,16 +6,6 @@ namespace Gu.Reactive.Internals
 
     internal static partial class Ensure
     {
-        internal static void NotNull<T>(T value, string parameterName)
-            where T : class
-        {
-            Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");
-            if (value is null)
-            {
-                throw new ArgumentNullException(parameterName);
-            }
-        }
-
         internal static void IsTrue(bool condition, string parameterName, string message)
         {
             Debug.Assert(!string.IsNullOrEmpty(parameterName), $"{nameof(parameterName)} cannot be null");

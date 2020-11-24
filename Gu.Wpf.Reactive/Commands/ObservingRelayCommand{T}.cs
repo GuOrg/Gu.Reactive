@@ -4,8 +4,6 @@ namespace Gu.Wpf.Reactive
     using System;
     using System.Reactive.Linq;
 
-    using Gu.Reactive.Internals;
-
     /// <summary>
     /// A command with CommandParameter of type <typeparamref name="T"/>
     /// Signals CanExecuteChanged when observable signals.
@@ -29,7 +27,11 @@ namespace Gu.Wpf.Reactive
             params IObservable<object?>[] observable)
             : base(action, criteria)
         {
-            Ensure.NotNullOrEmpty(observable, nameof(observable));
+            if (observable.Length == 0)
+            {
+                throw new ArgumentException("Expected at least one observable.", nameof(observable));
+            }
+
             this.subscription = observable.Merge()
                                       .Subscribe(x => this.RaiseCanExecuteChanged());
         }
