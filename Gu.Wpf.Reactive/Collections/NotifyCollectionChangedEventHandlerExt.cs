@@ -45,7 +45,9 @@
             var dispatcherObject = invocation.Target as DispatcherObject;
             if (dispatcherObject?.CheckAccess() == false)
             {
+#pragma warning disable VSTHRD001 // Avoid legacy thread switching APIs
                 return dispatcherObject.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, invocation, sender, e)
+#pragma warning restore VSTHRD001 // Avoid legacy thread switching APIs
                                   .Task;
             }
 
