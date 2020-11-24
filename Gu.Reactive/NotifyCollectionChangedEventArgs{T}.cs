@@ -10,13 +10,14 @@
     /// A generic decorator for <see cref="NotifyCollectionChangedEventArgs"/>.
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
-    public struct NotifyCollectionChangedEventArgs<T> : IEquatable<NotifyCollectionChangedEventArgs<T>>
+    public readonly struct NotifyCollectionChangedEventArgs<T> : IEquatable<NotifyCollectionChangedEventArgs<T>>
     {
         private readonly NotifyCollectionChangedEventArgs args;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NotifyCollectionChangedEventArgs{T}"/> struct.
         /// </summary>
+        /// <param name="args">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         public NotifyCollectionChangedEventArgs(NotifyCollectionChangedEventArgs args)
         {
             this.args = args ?? throw new ArgumentNullException(nameof(args));

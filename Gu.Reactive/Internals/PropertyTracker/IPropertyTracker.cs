@@ -31,6 +31,8 @@
         /// <summary>
         /// Previous property in the path notifies via this method.
         /// </summary>
+        /// <param name="sender">The instance that notified.</param>
+        /// <param name="newSource">The new source instance.</param>
         /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
         void OnTrackedPropertyChanged(object sender, INotifyPropertyChanged? newSource, PropertyChangedEventArgs e);
     }

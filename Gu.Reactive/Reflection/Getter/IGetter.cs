@@ -17,11 +17,13 @@
         /// <summary>
         /// Get the value of the property for <paramref name="source"/>.
         /// </summary>
+        /// <param name="source">The source value.</param>
         object? GetValue(object source);
 
         /// <summary>
         /// Get the value of the property for <paramref name="source"/>.
         /// </summary>
+        /// <param name="source">The source value.</param>
         Maybe<object?> GetMaybe(object? source);
     }
 }

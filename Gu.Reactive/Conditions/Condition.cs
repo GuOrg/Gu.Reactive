@@ -67,6 +67,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="Condition"/> class.
         /// </summary>
+        /// <param name="observableAndCriteria">The <see cref="ObservableAndCriteria"/>.</param>
         protected Condition(ObservableAndCriteria observableAndCriteria)
             : this(observableAndCriteria.Observable, observableAndCriteria.Criteria)
         {

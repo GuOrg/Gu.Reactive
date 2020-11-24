@@ -13,6 +13,7 @@
     /// A base class for swapping out an <see cref="IEnumerable{T}"/> source and get notifications.
     /// </summary>
     /// <typeparam name="TSource">The source type.</typeparam>
+    /// <typeparam name="TMapped">The mapped type.</typeparam>
     [Serializable]
 #pragma warning disable CA1010 // Collections should implement generic interface
     public abstract class ReadonlyViewBase<TSource, TMapped> : IRefreshAble, IList, IReadOnlyView<TMapped>
@@ -186,6 +187,7 @@
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
+        /// <param name="newSource">The <see cref="IEnumerable{TSource}"/>.</param>
         protected virtual void SetSource(IEnumerable<TSource>? newSource)
         {
             this.SetSourceCore(newSource);
@@ -194,6 +196,7 @@
         /// <summary>
         /// Update the source collection and notify about changes.
         /// </summary>
+        /// <param name="newSource">The <see cref="IEnumerable{TSource}"/>.</param>
         protected void SetSourceCore(IEnumerable<TSource>? newSource)
         {
             this.ThrowIfDisposed();
@@ -347,6 +350,7 @@
         /// Notify about the changes [PropertyChanged("Count"), PropertyChanged("Item[]", CollectionChanged].
         /// Count is not signaled for move and replace.
         /// </summary>
+        /// <param name="change">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
         protected virtual void Notify(NotifyCollectionChangedEventArgs change)
         {
             if (change is null)

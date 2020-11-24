@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Internals
+﻿namespace Gu.Reactive.Internals
 {
     using System;
     using System.Threading;
@@ -23,6 +23,7 @@ namespace Gu.Reactive.Internals
         /// <summary>
         /// Initializes a new instance of the <see cref="RwLock"/> class.
         /// </summary>
+        /// <param name="recursionPolicy">The <see cref="LockRecursionPolicy"/>.</param>
         public RwLock(LockRecursionPolicy recursionPolicy)
         {
             this.innerLock = new ReaderWriterLockSlim(recursionPolicy);
@@ -31,6 +32,7 @@ namespace Gu.Reactive.Internals
         /// <summary>
         /// Acquire the read lock.
         /// </summary>
+        /// <returns>An <see cref="IDisposable"/> that locks until disposed.</returns>
         public IDisposable Read()
         {
             this.ThrowIfDisposed();
@@ -40,6 +42,7 @@ namespace Gu.Reactive.Internals
         /// <summary>
         /// Acquire the upgradable read lock.
         /// </summary>
+        /// <returns>An <see cref="IDisposable"/> that locks until disposed.</returns>
         public IDisposable UpgradeableRead()
         {
             this.ThrowIfDisposed();
@@ -49,6 +52,7 @@ namespace Gu.Reactive.Internals
         /// <summary>
         /// Acquire the write lock.
         /// </summary>
+        /// <returns>An <see cref="IDisposable"/> that locks until disposed.</returns>
         public IDisposable Write()
         {
             this.ThrowIfDisposed();

@@ -57,6 +57,8 @@
         /// Same as <see cref="PropertyInfo.GetValue(object)"/> but uses a cached delegate for performance.
         /// </summary>
         /// <param name="property">The <see cref="PropertyInfo"/>.</param>
+        /// <param name="source">The source value.</param>
+        /// <returns>The value.</returns>
         public static object? GetValueViaDelegate(this PropertyInfo property, object source)
         {
             return GetOrCreate(property).GetValue(source);

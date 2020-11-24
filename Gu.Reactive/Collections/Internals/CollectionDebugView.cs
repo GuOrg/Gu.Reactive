@@ -16,6 +16,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="CollectionDebugView{T}"/> class.
         /// </summary>
+        /// <param name="collection">The <see cref="IEnumerable{T}"/>.</param>
         public CollectionDebugView(IEnumerable<T> collection)
         {
             this.collection = collection;

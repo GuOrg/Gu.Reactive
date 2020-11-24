@@ -179,6 +179,9 @@
         /// <summary>
         /// Clear <paramref name="collection"/> on the dispatcher.
         /// </summary>
+        /// <typeparam name="T">The type of the items in the collection.</typeparam>
+        /// <param name="collection">The <see cref="ObservableCollection{T}"/>.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static Task ClearAsync<T>(this ObservableCollection<T> collection)
         {
             if (collection is null)
@@ -193,7 +196,9 @@
         {
             if (Application.Current is { Dispatcher: { } dispatcher })
             {
+#pragma warning disable VSTHRD001 // Avoid legacy thread switching APIs
                 dispatcher.Invoke(action);
+#pragma warning restore VSTHRD001 // Avoid legacy thread switching APIs
             }
             else
             {
@@ -205,7 +210,9 @@
         {
             if (Application.Current is { Dispatcher: { } dispatcher })
             {
+#pragma warning disable VSTHRD001 // Avoid legacy thread switching APIs
                 return dispatcher.InvokeAsync(action).Task;
+#pragma warning restore VSTHRD001 // Avoid legacy thread switching APIs
             }
 
             action();
@@ -216,7 +223,9 @@
         {
             if (Application.Current is { Dispatcher: { } dispatcher })
             {
+#pragma warning disable VSTHRD001 // Avoid legacy thread switching APIs
                 return dispatcher.InvokeAsync(action).Task;
+#pragma warning restore VSTHRD001 // Avoid legacy thread switching APIs
             }
 
             var result = action();

@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System.Reflection;
 
@@ -12,11 +12,13 @@ namespace Gu.Reactive
         /// <summary>
         /// Get the value of the property for <paramref name="source"/>.
         /// </summary>
+        /// <param name="source">The source value.</param>
         TValue GetValue(TSource source);
 
         /// <summary>
         /// Get the value of the property for <paramref name="source"/>.
         /// </summary>
+        /// <param name="source">The source value.</param>
         Maybe<TValue> GetMaybe(TSource source);
     }
 }

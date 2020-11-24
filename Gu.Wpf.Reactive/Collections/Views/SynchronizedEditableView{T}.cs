@@ -87,6 +87,8 @@
         /// <summary>
         /// Move item at oldIndex to newIndex.
         /// </summary>
+        /// <param name="oldIndex">The old index.</param>
+        /// <param name="newIndex">The new index.</param>
         public void Move(int oldIndex, int newIndex)
         {
             this.MoveItem(oldIndex, newIndex);

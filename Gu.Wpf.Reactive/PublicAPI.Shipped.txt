@@ -335,7 +335,7 @@ virtual Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.OnCompleted() -> void
 virtual Gu.Wpf.Reactive.NotifyTaskCompletionBase<T>.OnPropertyChanged(string? propertyName = null) -> void
 virtual Gu.Wpf.Reactive.ObservingRelayCommand.Dispose(bool disposing) -> void
 virtual Gu.Wpf.Reactive.ObservingRelayCommand<T>.Dispose(bool disposing) -> void
-virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler?
+Gu.Wpf.Reactive.SynchronizedEditableView<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler?
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.Dispose(bool disposing) -> void
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.IsSourceChange(System.Collections.Specialized.NotifyCollectionChangedEventArgs! e) -> bool
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.MoveItem(int oldIndex, int newIndex) -> void
@@ -343,7 +343,7 @@ virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.Notify(System.Collections.Sp
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs! e) -> void
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.OnPropertyChanged(string? propertyName = null) -> void
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs! e) -> void
-virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
+Gu.Wpf.Reactive.SynchronizedEditableView<T>.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.Refresh() -> void
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs!>! changes) -> void
 virtual Gu.Wpf.Reactive.SynchronizedEditableView<T>.SourceIndex(int index) -> int

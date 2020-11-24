@@ -23,6 +23,7 @@ namespace Gu.Reactive
         /// <summary>
         /// Initializes a new instance of the <see cref="AbstractCondition"/> class.
         /// </summary>
+        /// <param name="observable">The <see cref="IObservable{Object}"/>.</param>
         protected AbstractCondition(IObservable<object> observable)
         {
             this.condition = new Lazy<Condition>(
