@@ -28,7 +28,9 @@
             nameof(InferConditionFromCommand),
             typeof(bool),
             typeof(ConditionToolTip),
-            new PropertyMetadata(defaultValue: true, propertyChangedCallback: OnInferConditionFromCommandChanged));
+            new PropertyMetadata(
+                defaultValue: true,
+                propertyChangedCallback: (d, e) => ((ConditionToolTip)d).UpdateInferConditionFromCommand((bool)e.NewValue)));
 
         private static readonly DependencyPropertyKey CommandTypePropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(CommandType),
@@ -122,12 +124,6 @@
                 commandToolTip.SetCurrentValue(ConditionProperty, null);
                 commandToolTip.CommandType = null;
             }
-        }
-
-        private static void OnInferConditionFromCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var conditionToolTip = (ConditionToolTip)d;
-            conditionToolTip.UpdateInferConditionFromCommand((bool)e.NewValue);
         }
 
         private void UpdateInferConditionFromCommand(bool infer)

@@ -35,6 +35,6 @@
         /// This is not guaranteed to be the value when the event was raised in a multi threaded scenario.
         /// </summary>
         [Obsolete("Use SourceAndValue")]
-        public TValue Value => this.SourceAndValue.Value.GetValueOrDefault();
+        public TValue? Value => this.SourceAndValue.Value.GetValueOrDefault();
     }
 }

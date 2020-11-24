@@ -1,7 +1,6 @@
 ﻿namespace Gu.Wpf.Reactive
 {
     using System;
-    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A command with CommandParameter of type <typeparamref name="T"/>.
@@ -9,14 +8,14 @@
     /// <typeparam name="T">The type of the command parameter.</typeparam>
     public class ManualRelayCommand<T> : CommandBase<T>
     {
-        private static readonly Func<T, bool> AlwaysTrue = _ => true;
+        private static readonly Func<T?, bool> AlwaysTrue = _ => true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ManualRelayCommand{T}"/> class.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
         /// <param name="criteria">The criteria for <see cref="CanExecute"/>.</param>
-        public ManualRelayCommand(Action<T> action, Func<T, bool>? criteria)
+        public ManualRelayCommand(Action<T?> action, Func<T?, bool>? criteria)
         {
             this.Action = action ?? throw new ArgumentNullException(nameof(action));
             this.Criteria = criteria ?? AlwaysTrue;
@@ -26,7 +25,7 @@
         /// Initializes a new instance of the <see cref="ManualRelayCommand{T}"/> class.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
-        public ManualRelayCommand(Action<T> action)
+        public ManualRelayCommand(Action<T?> action)
             : this(action, null)
         {
         }
@@ -34,12 +33,12 @@
         /// <summary>
         /// Gets the action to invoke when the command is executed.
         /// </summary>
-        protected Action<T> Action { get; }
+        protected Action<T?> Action { get; }
 
         /// <summary>
         /// Gets the criteria for <see cref="CanExecute"/>.
         /// </summary>
-        protected Func<T, bool> Criteria { get; }
+        protected Func<T?, bool> Criteria { get; }
 
         /// <summary>
         /// Calls <see cref="InternalCanExecute"/> to see if the command can execute.
@@ -61,7 +60,7 @@
         }
 
         /// <inheritdoc/>
-        protected override bool InternalCanExecute([AllowNull]T parameter)
+        protected override bool InternalCanExecute(T? parameter)
         {
             return this.Criteria(parameter);
         }
@@ -72,7 +71,7 @@
         /// Sets IsExecuting to false.
         /// </summary>
         /// <param name="parameter">The command parameter is passed as argument to the Action invocation.</param>
-        protected override void InternalExecute([AllowNull]T parameter)
+        protected override void InternalExecute(T? parameter)
         {
             this.IsExecuting = true;
             try

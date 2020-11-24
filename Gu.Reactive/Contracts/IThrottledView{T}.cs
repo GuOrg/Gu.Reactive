@@ -8,6 +8,7 @@
     /// This is useful if the view has expensive Layout.
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
+    [Obsolete("This will be removed in future version. Not keeping anything mutable.")]
     public interface IThrottledView<T> : IObservableCollection<T>, IDisposable
     {
         /// <summary>

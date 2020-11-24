@@ -14,7 +14,7 @@
     /// <typeparam name="TParameter">The type of the command parameter.</typeparam>
     public class TaskRunnerCancelable<TParameter> : TaskRunnerBase, ITaskRunner<TParameter>
     {
-        private readonly Func<TParameter, CancellationToken, Task> action;
+        private readonly Func<TParameter?, CancellationToken, Task> action;
         private readonly SerialDisposable cancellationSubscription = new SerialDisposable();
 
         private CancellationTokenSource? cancellationTokenSource;
@@ -23,7 +23,7 @@
         /// Initializes a new instance of the <see cref="TaskRunnerCancelable{TParameter}"/> class.
         /// </summary>
         /// <param name="action">The source of tasks to execute.</param>
-        public TaskRunnerCancelable(Func<TParameter, CancellationToken, Task> action)
+        public TaskRunnerCancelable(Func<TParameter?, CancellationToken, Task> action)
         {
             this.action = action ?? throw new ArgumentNullException(nameof(action));
 
@@ -37,7 +37,9 @@
             };
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the condition for if the current run can be canceled.
+        /// </summary>
         public override ICondition CanCancelCondition { get; }
 
         /// <summary>
@@ -64,7 +66,7 @@
         }
 
         /// <inheritdoc/>
-        public void Run(TParameter parameter)
+        public void Run(TParameter? parameter)
         {
             this.ThrowIfDisposed();
             this.cancellationTokenSource?.Dispose();
@@ -74,7 +76,9 @@
             this.TaskCompletion = new NotifyTaskCompletion(this.action(parameter, this.cancellationTokenSource.Token));
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Cancel the execution.
+        /// </summary>
         public override void Cancel()
         {
             this.ThrowIfDisposed();

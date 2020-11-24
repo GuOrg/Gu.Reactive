@@ -20,7 +20,7 @@
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
         /// <param name="condition">The criteria by CanExecute.</param>
-        public ConditionRelayCommand(Action<T> action, ICondition condition)
+        public ConditionRelayCommand(Action<T?> action, ICondition condition)
             : base(action, _ => condition.IsSatisfied == true)
         {
             this.Condition = condition;
@@ -39,14 +39,14 @@
         }
 
         /// <inheritdoc/>
-        protected override bool InternalCanExecute(T parameter)
+        protected override bool InternalCanExecute(T? parameter)
         {
             this.ThrowIfDisposed();
             return base.InternalCanExecute(parameter);
         }
 
         /// <inheritdoc/>
-        protected override void InternalExecute(T parameter)
+        protected override void InternalExecute(T? parameter)
         {
             this.ThrowIfDisposed();
             base.InternalExecute(parameter);

@@ -391,6 +391,7 @@ namespace Gu.Reactive
         /// a property changed event through this virtual method.
         /// </summary>
         /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
+        [Obsolete("Use OnPropertyChanged([CallerMemberName] string? propertyName = null)")]
         protected void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);

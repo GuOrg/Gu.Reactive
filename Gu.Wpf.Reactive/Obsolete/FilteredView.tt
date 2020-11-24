@@ -11,6 +11,7 @@ namespace Gu.Wpf.Reactive
     /// <summary>
     /// Factory methods for creating <see cref="FilteredView{T}"/>
     /// </summary>
+    [Obsolete("This will be removed in future version. Not keeping anything mutable.")]
     public static partial class FilteredView
     {
 <#

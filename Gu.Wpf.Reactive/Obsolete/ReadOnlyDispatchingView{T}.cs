@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.Reactive
+﻿#pragma warning disable RS0026 // Do not add multiple public overloads with optional parameters
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.ObjectModel;
@@ -12,6 +13,7 @@
     /// <typeparam name="T">The type of the items in the source collection.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
+    [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
 #pragma warning disable CA1010 // Collections should implement generic interface
     public class ReadOnlyDispatchingView<T> : ReadOnlyThrottledView<T>
 #pragma warning restore CA1010 // Collections should implement generic interface

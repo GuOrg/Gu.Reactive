@@ -14,6 +14,6 @@
         /// </summary>
         /// <param name="parameter">The command parameter.</param>
         /// <returns>The task.</returns>
-        Task ExecuteAsync(T parameter);
+        Task ExecuteAsync(T? parameter);
     }
 }

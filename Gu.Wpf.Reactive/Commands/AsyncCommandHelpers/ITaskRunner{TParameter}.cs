@@ -30,7 +30,7 @@
         /// Execute the task.
         /// </summary>
         /// <param name="parameter">The command parameter.</param>
-        void Run(TParameter parameter);
+        void Run(TParameter? parameter);
 
         /// <summary>
         /// Cancel the execution.

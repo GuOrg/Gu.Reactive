@@ -25,7 +25,7 @@
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
         /// <param name="conditions">The conditions for when the command can execute. All must be satisfied.</param>
-        public AsyncCommand(Func<TParameter, Task> action, params ICondition[] conditions)
+        public AsyncCommand(Func<TParameter?, Task> action, params ICondition[] conditions)
             : this(new TaskRunner<TParameter>(action), conditions)
         {
         }
@@ -34,7 +34,7 @@
         /// Initializes a new instance of the <see cref="AsyncCommand{TParameter}"/> class.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
-        public AsyncCommand(Func<TParameter, Task> action)
+        public AsyncCommand(Func<TParameter?, Task> action)
             : this(new TaskRunner<TParameter>(action))
         {
         }
@@ -45,7 +45,7 @@
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
         /// <param name="conditions">The conditions for when the command can execute. All must be satisfied.</param>
-        public AsyncCommand(Func<TParameter, CancellationToken, Task> action, params ICondition[] conditions)
+        public AsyncCommand(Func<TParameter?, CancellationToken, Task> action, params ICondition[] conditions)
             : this(new TaskRunnerCancelable<TParameter>(action), conditions)
         {
         }
@@ -55,7 +55,7 @@
         /// The execution is cancellable.
         /// </summary>
         /// <param name="action">The action to invoke when the command is executed.</param>
-        public AsyncCommand(Func<TParameter, CancellationToken, Task> action)
+        public AsyncCommand(Func<TParameter?, CancellationToken, Task> action)
             : this(new TaskRunnerCancelable<TParameter>(action))
         {
         }
@@ -101,7 +101,7 @@
         /// </summary>
         /// <param name="parameter">The command parameter is passed as argument to the Action invocation.</param>
 #pragma warning disable VSTHRD100 // Avoid async void
-        protected override async void InternalExecute(TParameter parameter)
+        protected override async void InternalExecute(TParameter? parameter)
 #pragma warning restore VSTHRD100 // Avoid async void
         {
             this.IsExecuting = true;

@@ -15,6 +15,7 @@
     /// Typed filtered CollectionView for intellisense in xaml.
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
+    [Obsolete("This will be removed in future version. Not keeping anything mutable.")]
     public class FilteredView<T> : SynchronizedEditableView<T>, IFilteredView<T>, IReadOnlyFilteredView<T>
     {
         private readonly IDisposable refreshSubscription;
@@ -57,7 +58,7 @@
         /// <param name="scheduler">The scheduler used when throttling. The collection changed events are raised on this scheduler.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <param name="triggers">Triggers when to re evaluate the filter.</param>
-        internal FilteredView(IList<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler scheduler, bool leaveOpen, params IObservable<object?>[]? triggers)
+        internal FilteredView(IList<T> source, Func<T, bool> filter, TimeSpan bufferTime, IScheduler? scheduler, bool leaveOpen, params IObservable<object?>[]? triggers)
             : base(source, Filtered(source, filter), leaveOpen, startEmpty: true)
         {
             this.chunk = new Chunk<NotifyCollectionChangedEventArgs>(bufferTime, scheduler ?? DefaultScheduler.Instance);
@@ -70,7 +71,7 @@
                                                      triggers.MergeOrNever()
                                                              .Select(_ => CachedEventArgs.NotifyCollectionReset))
                                                  .Slide(this.chunk)
-                                                 .ObserveOn(scheduler)
+                                                 .ObserveOn(scheduler ?? DefaultScheduler.Instance)
                                                  .StartWith(this.chunk.Add(CachedEventArgs.NotifyCollectionReset))
                                                  .Subscribe(this.Update);
         }
@@ -123,7 +124,10 @@
             }
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Force a refresh.
+        /// May be deferred if there is a buffer time.
+        /// </summary>
         public override void Refresh()
         {
             this.ThrowIfDisposed();
@@ -152,7 +156,7 @@
         /// <param name="source">The <see cref="IEnumerable{T}"/>.</param>
         /// <param name="filter">The <see cref="Func{T,Boolean}"/>.</param>
         /// <returns>The filtered <see cref="IEnumerable{T}"/>.</returns>
-        protected static IEnumerable<T> Filtered(IEnumerable<T> source, Func<T, bool> filter)
+        protected static IEnumerable<T> Filtered(IEnumerable<T>? source, Func<T, bool>? filter)
         {
             if (source is null)
             {

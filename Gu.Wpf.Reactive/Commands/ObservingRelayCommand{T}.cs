@@ -22,8 +22,8 @@ namespace Gu.Wpf.Reactive
         /// <param name="criteria">The criteria for CanExecute.</param>
         /// <param name="observable">The observable notifying about update of CanExecute.</param>
         public ObservingRelayCommand(
-            Action<T> action,
-            Func<T, bool> criteria,
+            Action<T?> action,
+            Func<T?, bool> criteria,
             params IObservable<object?>[] observable)
             : base(action, criteria)
         {
@@ -44,14 +44,14 @@ namespace Gu.Wpf.Reactive
         }
 
         /// <inheritdoc/>
-        protected override bool InternalCanExecute(T parameter)
+        protected override bool InternalCanExecute(T? parameter)
         {
             this.ThrowIfDisposed();
             return base.InternalCanExecute(parameter);
         }
 
         /// <inheritdoc/>
-        protected override void InternalExecute(T parameter)
+        protected override void InternalExecute(T? parameter)
         {
             this.ThrowIfDisposed();
             base.InternalExecute(parameter);

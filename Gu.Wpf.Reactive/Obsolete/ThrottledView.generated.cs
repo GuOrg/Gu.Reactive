@@ -1,4 +1,5 @@
 ﻿#nullable enable
+#pragma warning disable RS0026 // Do not add multiple public overloads with optional parameters
 namespace Gu.Wpf.Reactive
 {
     using System;
@@ -9,6 +10,7 @@ namespace Gu.Wpf.Reactive
     /// <summary>
     /// Factory methods for creating <see cref="ThrottledView{T}"/>
     /// </summary>
+    [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
     public static partial class ThrottledView
     {
         /// <summary>

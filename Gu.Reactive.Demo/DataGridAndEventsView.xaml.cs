@@ -92,7 +92,7 @@
                 dataGridAndEventsView.disposable.Disposable = notifyCollectionChanged
                                                               .ObserveCollectionChangedSlim(signalInitial: false)
                                                               .ObserveOnDispatcher()
-                                                              .Subscribe(x => dataGridAndEventsView.Changes.Add(x));
+                                                              .Subscribe(x => dataGridAndEventsView.Changes!.Add(x));
             }
             else
             {

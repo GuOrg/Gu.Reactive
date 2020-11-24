@@ -13,7 +13,7 @@ namespace Gu.Reactive.Tests
 
     using NUnit.Framework;
 
-    public static  partial class ObservableExtTests
+    public static partial class ObservableExtTests
     {
         public static class Throttle
         {

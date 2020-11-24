@@ -80,6 +80,11 @@ namespace Gu.Reactive
         /// <returns>The number of elements removed from the <see cref="ObservableBatchCollection{T}" /> .</returns>
         public int RemoveAll(Func<T, bool> predicate)
         {
+            if (predicate is null)
+            {
+                throw new ArgumentNullException(nameof(predicate));
+            }
+
             this.CheckReentrancy();
             var removed = 0;
             for (var i = this.Items.Count - 1; i >= 0; i--)
