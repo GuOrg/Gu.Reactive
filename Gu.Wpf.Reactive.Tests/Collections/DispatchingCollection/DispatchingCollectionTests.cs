@@ -11,6 +11,7 @@
 
     using NUnit.Framework;
 
+    [Obsolete("Remove when removing DispatchingCollection")]
     public static class DispatchingCollectionTests
     {
         [Test]

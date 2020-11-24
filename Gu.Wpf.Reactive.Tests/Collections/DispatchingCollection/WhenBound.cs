@@ -1,5 +1,6 @@
-namespace Gu.Wpf.Reactive.Tests.Collections
+﻿namespace Gu.Wpf.Reactive.Tests.Collections
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
@@ -10,6 +11,7 @@ namespace Gu.Wpf.Reactive.Tests.Collections
     using NUnit.Framework;
 
     [Apartment(ApartmentState.STA)]
+    [Obsolete("Remove when removing DispatchingCollection")]
     public static class WhenBound
     {
         [OneTimeSetUp]

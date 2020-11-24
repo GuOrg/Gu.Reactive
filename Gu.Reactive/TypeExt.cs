@@ -30,7 +30,8 @@
         /// <summary>
         /// Returns nicely formatted type names for generic types.
         /// </summary>
-        internal static string PrettyName(this Type type)
+        /// <returns>A string representation of the type.</returns>
+        public static string PrettyName(this Type type)
         {
             if (Map.TryGetValue(type, out var mapped))
             {

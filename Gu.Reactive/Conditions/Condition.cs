@@ -210,6 +210,7 @@ namespace Gu.Reactive
         /// <param name="source">The source instance.</param>
         /// <param name="path">The property path to listen to changes for on source.</param>
         /// <param name="value">The value when satisfied.</param>
+        /// <returns>An <see cref="ObservableAndCriteria"/>.</returns>
         protected static ObservableAndCriteria For<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,
@@ -238,6 +239,7 @@ namespace Gu.Reactive
         /// <param name="path">The property path to listen to changes for on source.</param>
         /// <param name="value">The value when satisfied.</param>
         /// <param name="comparer">How to compare actual value and <paramref name="value"/>.</param>
+        /// <returns>An <see cref="ObservableAndCriteria"/>.</returns>
         protected static ObservableAndCriteria For<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,
@@ -267,6 +269,7 @@ namespace Gu.Reactive
         /// <param name="path">The property path to listen to changes for on source.</param>
         /// <param name="value">The value when satisfied.</param>
         /// <param name="equals">How to compare actual value and <paramref name="value"/>.</param>
+        /// <returns>An <see cref="ObservableAndCriteria"/>.</returns>
         protected static ObservableAndCriteria For<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,
@@ -296,6 +299,7 @@ namespace Gu.Reactive
         /// <param name="path">The property path to listen to changes for on source.</param>
         /// <param name="value">The value when satisfied.</param>
         /// <param name="compare">How to compare actual value and <paramref name="value"/>.</param>
+        /// <returns>An <see cref="ObservableAndCriteria"/>.</returns>
         protected static ObservableAndCriteria For<TSource, TValue>(
             TSource source,
             Expression<Func<TSource, TValue>> path,

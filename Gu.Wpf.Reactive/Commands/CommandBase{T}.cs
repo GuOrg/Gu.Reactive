@@ -73,7 +73,9 @@
                 var dispatcher = Application.Current?.Dispatcher;
                 if (dispatcher != null)
                 {
+#pragma warning disable VSTHRD001 // Avoid legacy thread switching APIs
                     _ = dispatcher.BeginInvoke(handler, this, EventArgs.Empty);
+#pragma warning restore VSTHRD001 // Avoid legacy thread switching APIs
                 }
                 else
                 {

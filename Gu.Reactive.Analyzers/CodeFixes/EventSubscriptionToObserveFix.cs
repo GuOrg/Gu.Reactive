@@ -106,9 +106,10 @@
                                     void Fix(DocumentEditor editor)
                                     {
                                         var usesArg = false;
-                                        if (methodDeclaration.ParameterList.Parameters.Any())
+                                        if (methodDeclaration.ParameterList.Parameters.Any() &&
+                                            Body() is { } body)
                                         {
-                                            using var pooled = IdentifierNameWalker.Borrow((SyntaxNode)methodDeclaration.Body ?? methodDeclaration.ExpressionBody);
+                                            using var pooled = IdentifierNameWalker.Borrow(body);
                                             foreach (var name in pooled.IdentifierNames)
                                             {
                                                 if (name.Identifier.ValueText == methodDeclaration.ParameterList.Parameters[0].Identifier.ValueText)
@@ -152,6 +153,13 @@
                                         {
                                             editor.RemoveNode(methodDeclaration.ParameterList.Parameters.Last());
                                         }
+
+                                        SyntaxNode? Body() => methodDeclaration switch
+                                        {
+                                            { ExpressionBody: { } eb } => eb,
+                                            { Body: { } b } => b,
+                                            _ => null,
+                                        };
                                     }
                                 }
 
