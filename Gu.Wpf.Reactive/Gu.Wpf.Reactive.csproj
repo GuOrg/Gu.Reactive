@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>library</OutputType>
-    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net46;netcoreapp3.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <UseWpf>true</UseWpf>
@@ -23,14 +23,21 @@
 
   <PropertyGroup>
     <Authors>Johan Larsson</Authors>
-    <Version>4.2.0</Version>
+    <Version>4.3.0</Version>
     <Description>Wpf controls for Gu.Reactive</Description>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Reactive</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GuOrg/Gu.Reactive</RepositoryUrl>
-    <PackageReleaseNotes>FEATURE: WithPrevious
-FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      4.3.0
+      FEATURE: net46;netcoreapp3.1
+      FEATURE: nullable enable
+      OBSOLETE: Made part of the public API [Obsolete], will be removed in 5.0.0
+      4.2.0
+      FEATURE: WithPrevious
+      FEATURE: AsFilteredView with observable factory.
+    </PackageReleaseNotes>
     <PackageTags>reactive rx INotifyPropertyChanged ICommand</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -56,7 +63,7 @@ FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
     <PackageReference Include="PropertyChangedAnalyzers" Version="3.2.1" PrivateAssets="all" />
     <PackageReference Include="ReflectionAnalyzers" Version="0.1.22-dev" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261" PrivateAssets="all" />
-    <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="System.Reactive" Version="4.0.0" />
     <PackageReference Include="WpfAnalyzers" Version="3.5.2" PrivateAssets="all" />
   </ItemGroup>
 
@@ -68,16 +75,16 @@ FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
 
-    <None Update="Collections/ReadOnlyDispatchingView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="ReadOnlyDispatchingView.generated.cs" />
-    <Compile Update="Collections\ReadOnlyDispatchingView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="ReadOnlyDispatchingView.tt" />
+    <None Update="Obsolete\FilteredView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="FilteredView.generated.cs" />
+    <Compile Update="Obsolete\FilteredView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="FilteredView.tt" />
 
-    <None Update="Collections/Views/DispatchingView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="DispatchingView.generated.cs" />
-    <Compile Update="Collections\Views\DispatchingView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="DispatchingView.tt" />
+    <None Update="Obsolete\ThrottledView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="ThrottledView.generated.cs" />
+    <Compile Update="Obsolete\ThrottledView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="ThrottledView.tt" />
 
-    <None Update="Collections/Views/FilteredView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="FilteredView.generated.cs" />
-    <Compile Update="Collections\Views\FilteredView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="FilteredView.tt" />
+    <None Update="Obsolete\ReadOnlyDispatchingView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="ReadOnlyDispatchingView.generated.cs" />
+    <Compile Update="Obsolete\ReadOnlyDispatchingView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="ReadOnlyDispatchingView.tt" />
 
-    <None Update="Collections/Views/ThrottledView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="ThrottledView.generated.cs" />
-    <Compile Update="Collections\Views\ThrottledView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="ThrottledView.tt" />
+    <None Update="Obsolete\DispatchingView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="DispatchingView.generated.cs" />
+    <Compile Update="Obsolete\DispatchingView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="DispatchingView.tt" />
   </ItemGroup>
 </Project>

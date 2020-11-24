@@ -1,3 +1,8 @@
+#### 4.3.0
+* FEATURE: net46;netcoreapp3.1
+* FEATURE: nullable enable
+* OBSOLETE: Made part of the public API [Obsolete], will be removed in 5.0.0
+
 #### 4.2.0
 * FEATURE: AsFilteredView with observable factory.
 
