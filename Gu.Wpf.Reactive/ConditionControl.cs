@@ -58,7 +58,7 @@
         /// </summary>
         public ConditionControl()
         {
-            this.IsVisibleChanged += (_, __) => this.OnIsVisibleChanged();
+            this.IsVisibleChanged += (_, _) => this.OnIsVisibleChanged();
         }
 
         /// <summary>

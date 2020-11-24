@@ -185,7 +185,7 @@
         /// Return true if the change came from the source, False if we updated the source to trigger the event.
         /// </summary>
         /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
-        /// <returns>True if the change came from the source, False if we updated the source to trigger the event</returns>
+        /// <returns>True if the change came from the source, False if we updated the source to trigger the event.</returns>
         protected virtual bool IsSourceChange(NotifyCollectionChangedEventArgs e)
         {
             if (e is null)

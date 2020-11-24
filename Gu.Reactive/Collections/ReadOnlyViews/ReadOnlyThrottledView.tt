@@ -1,6 +1,7 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ output extension=".generated.cs" #>
+#nullable enable
 namespace Gu.Reactive
 {
     using System;

@@ -1,1 +1,1 @@
-﻿static Gu.Reactive.TypeExt.PrettyName(this System.Type! type) -> string!
+﻿

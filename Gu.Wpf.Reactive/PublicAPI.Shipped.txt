@@ -279,10 +279,10 @@ static Gu.Wpf.Reactive.ConditionControl.SetAllExpanded.get -> System.Windows.Inp
 static Gu.Wpf.Reactive.ConditionControl.SetCollapseSatisfied.get -> System.Windows.Input.ICommand!
 static Gu.Wpf.Reactive.ConditionControl.SingleConditionControlStyleKey.get -> System.Windows.ResourceKey!
 static Gu.Wpf.Reactive.ConditionControl.TreeviewItemStyleKey.get -> System.Windows.ResourceKey!
-~static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this Gu.Reactive.IObservableCollection<TItem> collection, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
-~static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this Gu.Reactive.IObservableCollection<TItem> collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
-~static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> collection, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
-~static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>
+static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this Gu.Reactive.IObservableCollection<TItem>! collection, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>!
+static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this Gu.Reactive.IObservableCollection<TItem>! collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>!
+static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem>! collection, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>!
+static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem>! collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>!
 static Gu.Wpf.Reactive.EditableListView.AsEditableListView<T>(this Gu.Reactive.IObservableCollection<T>! source, bool leaveOpen) -> Gu.Wpf.Reactive.EditableListView<T>!
 static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this Gu.Reactive.IObservableCollection<T>! collection, System.Func<T, bool>! filter, bool leaveOpen, params System.IObservable<object?>![]! triggers) -> Gu.Wpf.Reactive.FilteredView<T>!
 static Gu.Wpf.Reactive.FilteredView.AsFilteredView<T>(this Gu.Reactive.IObservableCollection<T>! collection, System.Func<T, bool>! filter, params System.IObservable<object?>![]! triggers) -> Gu.Wpf.Reactive.FilteredView<T>!
@@ -304,12 +304,12 @@ static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeInsertSorted<T>(this
 static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeRemove<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, T item) -> void
 static Gu.Wpf.Reactive.ObservableCollectionExtensions.InvokeRemoveRange<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.Collections.Generic.IEnumerable<T>! items) -> void
 static Gu.Wpf.Reactive.ObservableCollectionExtensions.RemoveAsync<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, T item) -> System.Threading.Tasks.Task<bool>!
-~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this Gu.Reactive.IReadOnlyObservableCollection<TItem> source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
-~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this Gu.Reactive.IReadOnlyObservableCollection<TItem> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
-~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
-~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
-~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem> source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
-~static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem> source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>
+static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this Gu.Reactive.IReadOnlyObservableCollection<TItem>! source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>!
+static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this Gu.Reactive.IReadOnlyObservableCollection<TItem>! source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>!
+static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem>! source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>!
+static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem>! source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>!
+static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem>! source, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>!
+static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem>! source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>!
 static Gu.Wpf.Reactive.Schedulers.DispatcherOrCurrentThread.get -> System.Reactive.Concurrency.IScheduler!
 static Gu.Wpf.Reactive.Schedulers.ObserveOnDispatcherOrCurrentThread<T>(this System.IObservable<T>! observable) -> System.IObservable<T>!
 static Gu.Wpf.Reactive.ServiceProviderExt.IsInTemplate(this System.IServiceProvider! serviceProvider) -> bool
