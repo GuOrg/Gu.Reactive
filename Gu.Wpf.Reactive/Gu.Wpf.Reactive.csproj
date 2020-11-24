@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>library</OutputType>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFrameworks>net472;netcoreapp3.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <UseWpf>true</UseWpf>
@@ -30,6 +30,10 @@
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Reactive</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GuOrg/Gu.Reactive</RepositoryUrl>
     <PackageReleaseNotes>
+      5.0.0
+      BREAKING: Removed [Obsolete]
+      BREAKING: Use System.Reactive 5
+      BREAKING: net472
       4.3.0
       FEATURE: net46;netcoreapp3.1
       FEATURE: nullable enable
@@ -63,7 +67,7 @@
     <PackageReference Include="PropertyChangedAnalyzers" Version="3.2.1" PrivateAssets="all" />
     <PackageReference Include="ReflectionAnalyzers" Version="0.1.22-dev" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261" PrivateAssets="all" />
-    <PackageReference Include="System.Reactive" Version="4.0.0" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
     <PackageReference Include="WpfAnalyzers" Version="3.5.2" PrivateAssets="all" />
   </ItemGroup>
 

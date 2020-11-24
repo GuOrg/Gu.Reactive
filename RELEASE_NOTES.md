@@ -1,3 +1,8 @@
+#### 5.0.0
+* BREAKING: Removed [Obsolete]
+* BREAKING: Use System.Reactive 5
+* BREAKING: net472
+
 #### 4.3.0
 * FEATURE: net46;netcoreapp3.1
 * FEATURE: nullable enable
