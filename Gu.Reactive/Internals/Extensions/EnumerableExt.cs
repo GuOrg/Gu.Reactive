@@ -44,8 +44,15 @@
 
         internal static void CopyTo<T>(this IReadOnlyList<T> source, Array array, int index)
         {
-            Ensure.GreaterThanOrEqual(index, 0, nameof(index));
-            Ensure.LessThan(index, array.Length, nameof(index));
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), index, "Expected greater than zero.");
+            }
+
+            if (index >= array.Length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), index, "Expected less than array.Length.");
+            }
 
             for (var i = 0; i < source.Count; i++)
             {

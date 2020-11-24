@@ -85,4 +85,8 @@ FEATURE: AsFilteredView with observable factory.</PackageReleaseNotes>
     <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[3.1.0]" />
     <PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.160" PrivateAssets="all" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Internals\Ensure\" />
+  </ItemGroup>
 </Project>
