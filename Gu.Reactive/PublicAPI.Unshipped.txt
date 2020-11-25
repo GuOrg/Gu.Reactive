@@ -119,7 +119,7 @@ Gu.Reactive.IGetter<TValue>.GetMaybe(object? source) -> Gu.Reactive.Maybe<TValue
 Gu.Reactive.IGetter<TValue>.Property.get -> System.Reflection.PropertyInfo!
 Gu.Reactive.IMaybe<T>
 Gu.Reactive.IMaybe<T>.HasValue.get -> bool
-Gu.Reactive.IMaybe<T>.Value.get -> T
+Gu.Reactive.IMaybe<T>.Value.get -> T?
 Gu.Reactive.Internals.RwLock
 Gu.Reactive.Internals.RwLock.Dispose() -> void
 Gu.Reactive.Internals.RwLock.Read() -> System.IDisposable!
@@ -289,7 +289,7 @@ Gu.Reactive.OrCondition.OrCondition(System.Collections.Generic.IReadOnlyList<Gu.
 Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>
 Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.HasValue.get -> bool
 Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.PropertyChangedAndValueEventArgs(string! propertyName, TProperty? value, bool hasValue) -> void
-Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.Value.get -> TProperty
+Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.Value.get -> TProperty?
 Gu.Reactive.PropertyPathComparer
 Gu.Reactive.ReadOnlyFilteredView
 Gu.Reactive.ReadOnlyFilteredView<T>

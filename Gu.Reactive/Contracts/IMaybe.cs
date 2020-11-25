@@ -20,6 +20,6 @@
         /// <remarks>
         /// Check <see cref="HasValue"/> before getting the value.
         /// </remarks>
-        T Value { get; }
+        T? Value { get; }
     }
 }
