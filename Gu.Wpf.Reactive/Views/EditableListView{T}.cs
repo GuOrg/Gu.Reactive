@@ -14,7 +14,6 @@ namespace Gu.Wpf.Reactive
     /// Decorate an <see cref="IObservableCollection{T}"/> with <see cref="IList"/>.
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
-    [Obsolete("This will be removed in future version. Not keeping anything mutable.")]
     public class EditableListView<T> : Collection<T>, IObservableCollection<T>, IDisposable
     {
         private readonly bool leaveOpen;

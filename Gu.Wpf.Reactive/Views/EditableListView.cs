@@ -6,7 +6,6 @@
     /// <summary>
     /// Factory methods for creating <see cref="EditableListView{T}"/>.
     /// </summary>
-    [Obsolete("This will be removed in future version. Not keeping anything mutable.")]
     public static class EditableListView
     {
         /// <summary>
