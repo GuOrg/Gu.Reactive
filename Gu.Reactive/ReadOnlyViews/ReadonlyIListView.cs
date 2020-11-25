@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive
+﻿#pragma warning disable RS0026 // Do not add multiple public overloads with optional parameters
+namespace Gu.Reactive
 {
     /// <summary>
     /// Factory methods for creating <see cref="ReadOnlyIListView{T}"/>.

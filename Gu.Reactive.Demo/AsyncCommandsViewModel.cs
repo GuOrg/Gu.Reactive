@@ -118,12 +118,12 @@
             }
         }
 
-        private Task ParameterTaskAsync(string arg)
+        private Task ParameterTaskAsync(string? arg)
         {
             return this.SimpleTaskAsync();
         }
 
-        private Task CancelableParameterTaskAsync(string arg, CancellationToken token)
+        private Task CancelableParameterTaskAsync(string? arg, CancellationToken token)
         {
             return this.CancelableTaskAsync(token);
         }
