@@ -1,4 +1,5 @@
 ﻿#nullable enable
+#pragma warning disable RS0026 // Do not add multiple public overloads with optional parameters
 namespace Gu.Reactive
 {
     using System;

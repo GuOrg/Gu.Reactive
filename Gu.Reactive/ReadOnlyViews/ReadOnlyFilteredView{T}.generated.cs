@@ -1,5 +1,5 @@
-﻿#pragma warning disable SA1619 // Generic type parameters must be documented partial class
-#nullable enable
+﻿#nullable enable
+#pragma warning disable SA1619 // Generic type parameters must be documented partial class
 namespace Gu.Reactive
 {
     using System;
