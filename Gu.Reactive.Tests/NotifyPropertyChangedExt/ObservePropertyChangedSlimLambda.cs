@@ -1057,7 +1057,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var rootRef = new WeakReference(root);
             var levelRef = new WeakReference(root.Next);
             Assert.IsTrue(rootRef.IsAlive);
-            var observable = root.ObservePropertyChangedWithValue(x => x.Next.Name, signalInitial: false);
+            var observable = root.ObservePropertyChangedSlim(x => x.Next.Name, signalInitial: false);
             using (var subscription = observable.Subscribe())
             {
             }
@@ -1077,7 +1077,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var rootRef = new WeakReference(root);
             var levelRef = new WeakReference(root.Next);
             Assert.IsTrue(rootRef.IsAlive);
-            var observable = root.ObservePropertyChangedWithValue(x => x.Next.Name, signalInitial: false);
+            var observable = root.ObservePropertyChangedSlim(x => x.Next.Name, signalInitial: false);
 #pragma warning disable IDISP001  // Dispose created.
             var subscription = observable.Subscribe();
 #pragma warning restore IDISP001  // Dispose created.
@@ -1097,7 +1097,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var rootRef = new WeakReference(root);
             var levelRef = new WeakReference(root.Next);
             Assert.IsTrue(rootRef.IsAlive);
-            var observable = root.ObservePropertyChangedWithValue(x => x.Next.Name, signalInitial: false);
+            var observable = root.ObservePropertyChangedSlim(x => x.Next.Name, signalInitial: false);
 #pragma warning disable IDISP001  // Dispose created.
             var subscription = observable.Subscribe();
 #pragma warning restore IDISP001  // Dispose created.
@@ -1117,7 +1117,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
             var rootRef = new WeakReference(root);
             var levelRef = new WeakReference(root.Next);
             Assert.IsTrue(rootRef.IsAlive);
-            var observable = root.ObservePropertyChangedWithValue(x => x.Next.Name, signalInitial: false);
+            var observable = root.ObservePropertyChangedSlim(x => x.Next.Name, signalInitial: false);
             using (var subscription = observable.Subscribe())
             {
             }

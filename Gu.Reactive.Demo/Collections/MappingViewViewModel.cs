@@ -18,7 +18,7 @@
 
         public MappingViewViewModel()
         {
-            this.Ints = this.source.AsReadOnlyDispatchingView();
+            this.Ints = this.source.AsReadOnlyThrottledView(TimeSpan.FromMilliseconds(20), WpfSchedulers.Dispatcher);
 
             this.FilteredMappedInts = this.source.AsReadOnlyFilteredView(x => x % 2 == 0)
                                           .AsMappingView(

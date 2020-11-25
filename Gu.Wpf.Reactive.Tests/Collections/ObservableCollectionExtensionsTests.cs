@@ -1,11 +1,13 @@
-namespace Gu.Wpf.Reactive.Tests.Collections
+﻿namespace Gu.Wpf.Reactive.Tests.Collections
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
 
     using NUnit.Framework;
 
+    [Obsolete("Testing obsolete API.")]
     public static class ObservableCollectionExtensionsTests
     {
         [Test]
