@@ -12,6 +12,7 @@
     using System.Windows.Threading;
     using Gu.Wpf.Reactive;
 
+    [Obsolete("For testing obsolete API.")]
     public sealed class FilteredDispatchingViewModel : IDisposable, INotifyPropertyChanged
     {
         private readonly Subject<object?> trigger = new Subject<object?>();

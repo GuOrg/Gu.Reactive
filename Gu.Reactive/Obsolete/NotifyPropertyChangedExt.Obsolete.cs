@@ -41,6 +41,7 @@
             return source.ObservePropertyChangedWithValue(notifyingPath, signalInitial);
         }
 
+        [Obsolete("For testing obsolete API.")]
         internal static IObservable<EventPattern<PropertyChangedAndValueEventArgs<TProperty>>> ObservePropertyChangedWithValue<TNotifier, TProperty>(
             this TNotifier source,
             NotifyingPath<TNotifier, TProperty> propertyPath,

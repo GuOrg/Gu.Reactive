@@ -1,5 +1,6 @@
 ﻿namespace Gu.Reactive.Tests.Helpers
 {
+    using System;
     using System.ComponentModel;
     using System.Diagnostics.CodeAnalysis;
     using System.Reactive;
@@ -14,6 +15,7 @@
             Assert.AreEqual(propertyName, pattern.EventArgs.PropertyName);
         }
 
+        [Obsolete("For testing obsolete API.")]
         public static void AreEqual<T>(object sender, string propertyName, Maybe<T> value, EventPattern<PropertyChangedAndValueEventArgs<T>> pattern)
         {
             Assert.AreSame(sender, pattern.Sender);

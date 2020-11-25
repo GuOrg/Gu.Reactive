@@ -6,6 +6,7 @@
     using Microsoft.Reactive.Testing;
     using NUnit.Framework;
 
+    [Obsolete("For testing obsolete API.")]
     public class DispatchingView : CrudViewTests
     {
         [SetUp]
