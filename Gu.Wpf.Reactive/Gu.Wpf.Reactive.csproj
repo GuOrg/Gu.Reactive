@@ -87,5 +87,8 @@
 
     <None Update="Obsolete\ReadOnlyDispatchingView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="ReadOnlyDispatchingView.generated.cs" />
     <Compile Update="Obsolete\ReadOnlyDispatchingView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="ReadOnlyDispatchingView.tt" />
+
+    <None Update="Obsolete\DispatchingView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="DispatchingView.generated.cs" />
+    <Compile Update="Obsolete\DispatchingView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="DispatchingView.tt" />
   </ItemGroup>
 </Project>
