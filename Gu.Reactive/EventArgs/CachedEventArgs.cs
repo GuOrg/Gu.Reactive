@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System.Collections.Concurrent;
     using System.Collections.Generic;
@@ -14,8 +14,6 @@ namespace Gu.Reactive
         internal static readonly PropertyChangedEventArgs CountPropertyChanged = GetOrCreatePropertyChangedEventArgs("Count");
 
         internal static readonly PropertyChangedEventArgs IndexerPropertyChanged = GetOrCreatePropertyChangedEventArgs("Item[]");
-
-        internal static readonly PropertyChangedEventArgs IsSatisfiedPropertyChanged = new PropertyChangedEventArgs(nameof(ICondition.IsSatisfied));
 
         internal static readonly NotifyCollectionChangedEventArgs NotifyCollectionReset = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
 

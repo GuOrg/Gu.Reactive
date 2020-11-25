@@ -12,10 +12,6 @@
     /// <typeparam name="T">The type of the command parameter.</typeparam>
     public abstract class CommandBase<T> : ICommand, INotifyPropertyChanged
     {
-        /// <summary>Cached <see cref="PropertyChangedEventArgs"/> for the <see cref="IsExecuting"/> property.</summary>
-        // ReSharper disable once StaticMemberInGenericType
-        protected static readonly PropertyChangedEventArgs IsExecutingChangedEventArgs = new PropertyChangedEventArgs(nameof(IsExecuting));
-
         private bool isExecuting;
 
         /// <inheritdoc/>
@@ -46,7 +42,7 @@
                 }
 
                 this.isExecuting = value;
-                this.OnPropertyChanged(IsExecutingChangedEventArgs);
+                this.OnPropertyChanged();
             }
         }
 
@@ -112,17 +108,8 @@
         /// <param name="propertyName">The name of the property to notify.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        /// <summary>
-        /// Raise PropertyChanged event to any listeners.
-        /// Properties/methods modifying this <see cref="CommandBase{T}"/> will raise
-        /// a property changed event through this virtual method.
-        /// </summary>
-        /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
-        [Obsolete("Use OnPropertyChanged([CallerMemberName] string? propertyName = null)")]
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) => this.PropertyChanged?.Invoke(this, e);
 
         private class InternalCanExecuteChangedEventManager : WeakEventManager
         {

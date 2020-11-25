@@ -31,7 +31,7 @@ namespace Gu.Reactive
                     {
                         var created = new Condition(observable, this.Criteria);
                         this.subscription.Disposable = created.ObserveIsSatisfiedChanged()
-                                                              .Subscribe(_ => this.OnPropertyChanged(CachedEventArgs.IsSatisfiedPropertyChanged));
+                                                              .Subscribe(_ => this.OnPropertyChanged(nameof(this.IsSatisfied)));
                         return created;
                     });
 
@@ -165,19 +165,7 @@ namespace Gu.Reactive
         /// <param name="propertyName">The property name.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            this.OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Raise PropertyChanged event to any listeners.
-        /// Properties/methods modifying this <see cref="AbstractCondition"/> will raise
-        /// a property changed event through this virtual method.
-        /// </summary>
-        /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
-        [Obsolete("Use OnPropertyChanged([CallerMemberName] string? propertyName = null)")]
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            this.PropertyChangedCore?.Invoke(this, e);
+            this.PropertyChangedCore?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

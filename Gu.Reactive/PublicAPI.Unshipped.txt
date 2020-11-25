@@ -53,7 +53,6 @@ Gu.Reactive.Condition.IsSatisfied.get -> bool?
 Gu.Reactive.Condition.Name.get -> string!
 Gu.Reactive.Condition.Name.set -> void
 Gu.Reactive.Condition.OnPropertyChanged(string? propertyName = null) -> void
-Gu.Reactive.Condition.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs! e) -> void
 Gu.Reactive.Condition.PropertyChanged -> System.ComponentModel.PropertyChangedEventHandler?
 Gu.Reactive.Condition.ThrowIfDisposed() -> void
 Gu.Reactive.Condition.UpdateIsSatisfied() -> void
@@ -682,7 +681,6 @@ static readonly Gu.Reactive.ForegroundScheduler.Default -> Gu.Reactive.Foregroun
 static readonly Gu.Reactive.PropertyPathComparer.Default -> Gu.Reactive.PropertyPathComparer!
 virtual Gu.Reactive.AbstractCondition.Dispose(bool disposing) -> void
 virtual Gu.Reactive.AbstractCondition.OnPropertyChanged(string? propertyName = null) -> void
-virtual Gu.Reactive.AbstractCondition.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs! e) -> void
 virtual Gu.Reactive.Chunk<T>.OnPropertyChanged(string? propertyName = null) -> void
 virtual Gu.Reactive.CollectionCondition.OnPreRequisitesChanged(object! sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs! e) -> void
 virtual Gu.Reactive.Condition.Dispose(bool disposing) -> void
