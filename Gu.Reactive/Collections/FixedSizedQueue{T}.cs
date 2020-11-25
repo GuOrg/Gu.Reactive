@@ -5,6 +5,7 @@
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     /// A fixed size queue. Overflow is trimmed when adding more items than max.
@@ -78,7 +79,7 @@
         public bool TryAdd(T item) => ((IProducerConsumerCollection<T>)this.innerQueue).TryAdd(item);
 
         /// <inheritdoc/>
-        public bool TryTake(out T? item) => ((IProducerConsumerCollection<T>)this.innerQueue).TryTake(out item);
+        public bool TryTake([MaybeNullWhen(false)] out T item) => ((IProducerConsumerCollection<T>)this.innerQueue).TryTake(out item);
 
         /// <inheritdoc/>
         public T[] ToArray() => this.innerQueue.ToArray();

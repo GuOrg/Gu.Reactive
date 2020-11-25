@@ -170,7 +170,7 @@
         {
             internal static readonly RefComparer<T> Default = new RefComparer<T>();
 
-            public int Compare(T x, T y)
+            public int Compare(T? x, T? y)
             {
                 return ReferenceEquals(x, y)
                            ? 0
