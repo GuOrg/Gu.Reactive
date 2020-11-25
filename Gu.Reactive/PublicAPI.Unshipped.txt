@@ -288,7 +288,7 @@ Gu.Reactive.OrCondition.OrCondition(Gu.Reactive.ICondition! prerequisite1, Gu.Re
 Gu.Reactive.OrCondition.OrCondition(System.Collections.Generic.IReadOnlyList<Gu.Reactive.ICondition!>! prerequisites, bool leaveOpen) -> void
 Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>
 Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.HasValue.get -> bool
-Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.PropertyChangedAndValueEventArgs(string! propertyName, TProperty value, bool hasValue) -> void
+Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.PropertyChangedAndValueEventArgs(string! propertyName, TProperty? value, bool hasValue) -> void
 Gu.Reactive.PropertyChangedAndValueEventArgs<TProperty>.Value.get -> TProperty
 Gu.Reactive.PropertyPathComparer
 Gu.Reactive.ReadOnlyFilteredView

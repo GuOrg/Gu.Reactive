@@ -15,6 +15,7 @@
         internal static readonly DiagnosticDescriptor GUREA02ObservableAndCriteriaMustMatch = new DiagnosticDescriptor(
             id: "GUREA02",
             title: "Observable and criteria must match.",
+#pragma warning disable SA1118 // Parameter should not span multiple lines
             messageFormat: "Observable and criteria must match.\r\n" +
                            "Observed:\r\n" +
                            "{0}\r\n" +
@@ -22,6 +23,7 @@
                            "{1}\r\n" +
                            "Not observed:\r\n" +
                            "{2}",
+#pragma warning restore SA1118 // Parameter should not span multiple lines
             category: AnalyzerCategory.Correctness,
             defaultSeverity: DiagnosticSeverity.Warning,
             isEnabledByDefault: true);

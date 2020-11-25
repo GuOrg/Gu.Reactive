@@ -16,7 +16,7 @@
         /// <param name="propertyName">The property name.</param>
         /// <param name="value">The value or default.</param>
         /// <param name="hasValue">If there is a value.</param>
-        public PropertyChangedAndValueEventArgs(string propertyName, TProperty value, bool hasValue)
+        public PropertyChangedAndValueEventArgs(string propertyName, TProperty? value, bool hasValue)
             : base(propertyName)
         {
             this.Value = value;
@@ -40,6 +40,6 @@
         /// Gets the value of the property.
         /// This is not guaranteed to be the value when the event was raised in a multi threaded scenario.
         /// </summary>
-        public TProperty Value { get; }
+        public TProperty? Value { get; }
     }
 }
