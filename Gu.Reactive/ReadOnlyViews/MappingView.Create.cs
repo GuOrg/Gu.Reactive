@@ -1,4 +1,6 @@
 ﻿// ReSharper disable PossibleMultipleEnumeration
+#pragma warning disable RS0026 // Do not add multiple public overloads with optional parameters
+#pragma warning disable RS0027 // Public API with optional parameter(s) should have the most parameters amongst its public overloads
 namespace Gu.Reactive
 {
     using System;
