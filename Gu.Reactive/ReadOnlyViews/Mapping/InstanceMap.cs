@@ -22,11 +22,13 @@
             set => this.inner[Maybe<TKey>.Some(key)] = value;
         }
 
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => this.inner.Select(
-                                                                                  x => new KeyValuePair<TKey, TValue>(
-                                                                                      x.Key.GetValueOrDefault(),
-                                                                                      x.Value))
-                                                                              .GetEnumerator();
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            foreach (var kvp in this.inner)
+            {
+                yield return new KeyValuePair<TKey, TValue>(kvp.Key.Value, kvp.Value);
+            }
+        }
 
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 

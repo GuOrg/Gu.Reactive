@@ -76,7 +76,7 @@
             return this.args?.GetHashCode() ?? 0;
         }
 
-        private static IReadOnlyList<T> GetItems(IList items)
+        private static IReadOnlyList<T> GetItems(IList? items)
         {
             if (items is null || items.Count == 0)
             {
@@ -85,9 +85,7 @@
 
             if (items.Count == 1)
             {
-#pragma warning disable CS8601 // Possible null reference assignment.
-                return new[] { (T)items[0] };
-#pragma warning restore CS8601 // Possible null reference assignment.
+                return new[] { (T)items[0] }!;
             }
 
             return items.Cast<T>()
