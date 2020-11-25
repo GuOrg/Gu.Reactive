@@ -17,7 +17,6 @@
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
-    [Obsolete("This will be removed in future version. Not keeping anything mutable.")]
     public abstract class SynchronizedEditableView<T> : Collection<T>, IRefreshAble, IDisposable, INotifyPropertyChanged, INotifyCollectionChanged
     {
         private readonly bool leaveOpen;
