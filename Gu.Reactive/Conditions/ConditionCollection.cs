@@ -3,6 +3,7 @@ namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Reactive.Concurrency;
     using System.Text;
@@ -16,6 +17,7 @@ namespace Gu.Reactive
     public abstract class ConditionCollection : ReadOnlySerialViewBase<ICondition>, ISatisfied
 #pragma warning restore CA1010 // Collections should implement generic interface
     {
+        private static readonly PropertyChangedEventArgs IsSatisfiedEventArgs = new PropertyChangedEventArgs(nameof(IsSatisfied));
         private readonly Func<IReadOnlyList<ICondition>, bool?> isSatisfied;
         private readonly IDisposable subscription;
 
@@ -82,7 +84,7 @@ namespace Gu.Reactive
                 }
 
                 this.previousIsSatisfied = value;
-                this.OnPropertyChanged();
+                this.OnPropertyChanged(IsSatisfiedEventArgs);
             }
         }
 #pragma warning restore INPC010 // The property sets a different field than it returns.

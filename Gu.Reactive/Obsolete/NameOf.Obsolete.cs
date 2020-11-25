@@ -3,9 +3,11 @@
     using System;
     using System.Linq.Expressions;
 
+    /// <summary>
+    /// Obsolete overloads.
+    /// </summary>
     public static partial class NameOf
     {
-
         /// <summary>
         /// Get the name of a method.
         /// </summary>

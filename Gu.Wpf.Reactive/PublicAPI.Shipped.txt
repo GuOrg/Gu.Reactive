@@ -179,7 +179,6 @@ Gu.Wpf.Reactive.RelayCommand<T>.RelayCommand(System.Action<T?>! action, System.F
 Gu.Wpf.Reactive.RootObjectExtension
 Gu.Wpf.Reactive.RootObjectExtension.RootObjectExtension() -> void
 Gu.Wpf.Reactive.Schedulers
-Gu.Wpf.Reactive.ServiceProviderExt
 Gu.Wpf.Reactive.SynchronizedEditableView<T>
 Gu.Wpf.Reactive.SynchronizedEditableView<T>.CollectionChanged -> System.Collections.Specialized.NotifyCollectionChangedEventHandler?
 Gu.Wpf.Reactive.SynchronizedEditableView<T>.Dispose() -> void
@@ -312,17 +311,10 @@ static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(
 static Gu.Wpf.Reactive.ReadOnlyDispatchingView.AsReadOnlyDispatchingView<TItem>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem>! source, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ReadOnlyDispatchingView<TItem>!
 static Gu.Wpf.Reactive.Schedulers.DispatcherOrCurrentThread.get -> System.Reactive.Concurrency.IScheduler!
 static Gu.Wpf.Reactive.Schedulers.ObserveOnDispatcherOrCurrentThread<T>(this System.IObservable<T>! observable) -> System.IObservable<T>!
-static Gu.Wpf.Reactive.ServiceProviderExt.IsInTemplate(this System.IServiceProvider! serviceProvider) -> bool
-static Gu.Wpf.Reactive.ServiceProviderExt.ProvideValueTarget(this System.IServiceProvider! provider) -> System.Windows.Markup.IProvideValueTarget?
-static Gu.Wpf.Reactive.ServiceProviderExt.RootObjectProvider(this System.IServiceProvider! provider) -> System.Xaml.IRootObjectProvider?
-static Gu.Wpf.Reactive.ServiceProviderExt.TypeDescriptorContext(this System.IServiceProvider! provider) -> System.ComponentModel.ITypeDescriptorContext?
-static Gu.Wpf.Reactive.ServiceProviderExt.UriContext(this System.IServiceProvider! provider) -> System.Windows.Markup.IUriContext?
-static Gu.Wpf.Reactive.ServiceProviderExt.XamlNameResolver(this System.IServiceProvider! provider) -> System.Xaml.IXamlNameResolver?
-static Gu.Wpf.Reactive.ServiceProviderExt.XamlNamespaceResolver(this System.IServiceProvider! provider) -> System.Xaml.IXamlNamespaceResolver?
-static Gu.Wpf.Reactive.ServiceProviderExt.XamlSchemaContextProvider(this System.IServiceProvider! provider) -> System.Xaml.IXamlSchemaContextProvider?
-static Gu.Wpf.Reactive.ServiceProviderExt.XamlTypeResolver(this System.IServiceProvider! provider) -> System.Windows.Markup.IXamlTypeResolver?
 static Gu.Wpf.Reactive.ThrottledView.AsThrottledView<T>(this Gu.Reactive.IObservableCollection<T>! collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ThrottledView<T>!
+static Gu.Wpf.Reactive.ThrottledView.AsThrottledView<T>(this Gu.Reactive.IObservableCollection<T>! collection, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler! scheduler, bool leaveOpen = false) -> Gu.Wpf.Reactive.ThrottledView<T>!
 static Gu.Wpf.Reactive.ThrottledView.AsThrottledView<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ThrottledView<T>!
+static Gu.Wpf.Reactive.ThrottledView.AsThrottledView<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler! scheduler, bool leaveOpen = false) -> Gu.Wpf.Reactive.ThrottledView<T>!
 static Gu.Wpf.Reactive.WpfSchedulers.Dispatcher.get -> System.Reactive.Concurrency.DispatcherScheduler!
 static readonly Gu.Wpf.Reactive.CommandBase<T>.IsExecutingChangedEventArgs -> System.ComponentModel.PropertyChangedEventArgs!
 static readonly Gu.Wpf.Reactive.ConditionControl.ConditionProperty -> System.Windows.DependencyProperty!

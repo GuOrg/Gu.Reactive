@@ -12,6 +12,7 @@
 
     using NUnit.Framework;
 
+    [Obsolete("Testing obsolete API.")]
     [Apartment(ApartmentState.STA)]
     public static class ReadOnlyDispatchingViewTests
     {

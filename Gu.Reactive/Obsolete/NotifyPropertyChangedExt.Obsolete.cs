@@ -6,6 +6,9 @@
     using System.Reactive;
     using Gu.Reactive.Internals;
 
+    /// <summary>
+    /// Obsolete overloads.
+    /// </summary>
     public static partial class NotifyPropertyChangedExt
     {
         /// <summary>

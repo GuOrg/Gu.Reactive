@@ -20,6 +20,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="collection">The source collection.</param>
         /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="DispatchingView{T}"/></returns>
+        [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
         public static DispatchingView<TItem> AsDispatchingView<TItem>(this IObservableCollection<TItem> collection, bool leaveOpen = false)
         {
             return new DispatchingView<TItem>(collection, TimeSpan.Zero, leaveOpen);
@@ -33,6 +34,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
         /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="DispatchingView{T}"/></returns>
+        [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
         public static DispatchingView<TItem> AsDispatchingView<TItem>(this IObservableCollection<TItem> collection, TimeSpan bufferTime, bool leaveOpen = false)
         {
             return new DispatchingView<TItem>(collection, bufferTime, leaveOpen);
@@ -45,6 +47,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="collection">The source collection.</param>
         /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="DispatchingView{T}"/></returns>
+        [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
         public static DispatchingView<TItem> AsDispatchingView<TItem>(this ObservableCollection<TItem> collection, bool leaveOpen = false)
         {
             return new DispatchingView<TItem>(collection, TimeSpan.Zero, leaveOpen);
@@ -58,6 +61,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="bufferTime">The time to buffer changes in <paramref name="collection"/></param>
         /// <param name="leaveOpen">True means that the <paramref name="collection"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="DispatchingView{T}"/></returns>
+        [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
         public static DispatchingView<TItem> AsDispatchingView<TItem>(this ObservableCollection<TItem> collection, TimeSpan bufferTime, bool leaveOpen = false)
         {
             return new DispatchingView<TItem>(collection, bufferTime, leaveOpen);

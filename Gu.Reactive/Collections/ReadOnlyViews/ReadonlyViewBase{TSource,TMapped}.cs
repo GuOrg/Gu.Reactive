@@ -19,6 +19,8 @@
     public abstract class ReadonlyViewBase<TSource, TMapped> : IRefreshAble, IList, IReadOnlyView<TMapped>
 #pragma warning restore CA1010 // Collections should implement generic interface
     {
+        private static readonly PropertyChangedEventArgs SourceEventArgs = new PropertyChangedEventArgs(nameof(Source));
+
         private readonly Func<IEnumerable<TSource>, IEnumerable<TMapped>> mapper;
         private readonly bool leaveOpen;
         private IEnumerable<TSource> source;
@@ -99,7 +101,7 @@
                     }
 
                     this.source = value;
-                    this.OnPropertyChanged();
+                    this.OnPropertyChanged(SourceEventArgs);
                 }
             }
         }
@@ -307,6 +309,7 @@
         /// a property changed event through this virtual method.
         /// </summary>
         /// <param name="propertyName">The property name.</param>
+        [Obsolete("Use OnPropertyChanged([CallerMemberName] string? propertyName = null)")]
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -318,7 +321,6 @@
         /// a property changed event through this virtual method.
         /// </summary>
         /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
-        [Obsolete("Use OnPropertyChanged([CallerMemberName] string? propertyName = null)")]
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             this.PropertyChanged?.Invoke(this, e);
