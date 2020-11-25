@@ -23,6 +23,7 @@
         /// <param name="collection">The collection.</param>
         /// <param name="item">The item to add.</param>
         /// <param name="comparison">The comparison.</param>
+        [Obsolete("This will be removed in future version.")]
         public static void InvokeInsertSorted<T>(this ObservableCollection<T> collection, T item, Comparison<T>? comparison = null)
         {
             if (collection is null)
@@ -66,6 +67,7 @@
         /// <typeparam name="T">The type of elements in <paramref name="collection"/>.</typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="item">The item to add.</param>
+        [Obsolete("This will be removed in future version.")]
         public static void InvokeAdd<T>(this ObservableCollection<T> collection, T item)
         {
             Invoke(() => collection.Add(item));
@@ -95,6 +97,7 @@
         /// <typeparam name="T">The type of elements in <paramref name="collection"/>.</typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="item">The item to remove.</param>
+        [Obsolete("This will be removed in future version.")]
         public static void InvokeRemove<T>(this ObservableCollection<T> collection, T item)
         {
             Invoke(() => collection.Remove(item));
@@ -106,6 +109,7 @@
         /// <typeparam name="T">The type of elements in <paramref name="collection"/>.</typeparam>
         /// <param name="collection">The collection.</param>
         /// <param name="items">The items to remove.</param>
+        [Obsolete("This will be removed in future version.")]
         public static void InvokeRemoveRange<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
         {
             Invoke(
@@ -123,6 +127,7 @@
         /// </summary>
         /// <typeparam name="T">The type of elements in <paramref name="collection"/>.</typeparam>
         /// <param name="collection">The collection.</param>
+        [Obsolete("This will be removed in future version.")]
         public static void InvokeClear<T>(this ObservableCollection<T> collection)
         {
             if (collection is null)
@@ -140,6 +145,7 @@
         /// <param name="collection">The collection.</param>
         /// <param name="item">The item to add.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [Obsolete("This will be removed in future version.")]
         public static Task AddAsync<T>(this ObservableCollection<T> collection, T item)
         {
             return InvokeAsync(() => collection.Add(item));
@@ -152,6 +158,7 @@
         /// <param name="collection">The collection.</param>
         /// <param name="items">The items to add.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [Obsolete("This will be removed in future version.")]
         public static Task AddRangeAsync<T>(this ObservableCollection<T> collection, IEnumerable<T> items)
         {
             return InvokeAsync(
@@ -171,6 +178,7 @@
         /// <param name="collection">The collection.</param>
         /// <param name="item">The item to remove.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [Obsolete("This will be removed in future version.")]
         public static Task<bool> RemoveAsync<T>(this ObservableCollection<T> collection, T item)
         {
             return InvokeAsync(() => collection.Remove(item));
@@ -182,6 +190,7 @@
         /// <typeparam name="T">The type of the items in the collection.</typeparam>
         /// <param name="collection">The <see cref="ObservableCollection{T}"/>.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [Obsolete("This will be removed in future version.")]
         public static Task ClearAsync<T>(this ObservableCollection<T> collection)
         {
             if (collection is null)

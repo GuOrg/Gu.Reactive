@@ -20,6 +20,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="source">The source collection.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyDispatchingView{T}"/>.</returns>
+        [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
         public static ReadOnlyDispatchingView<TItem> AsReadOnlyDispatchingView<TItem>(this ObservableCollection<TItem> source, bool leaveOpen = false)
         {
             return new ReadOnlyDispatchingView<TItem>(source, TimeSpan.Zero, leaveOpen);
@@ -33,6 +34,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="bufferTime">The time to buffer changes before notifying.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyDispatchingView{T}"/>.</returns>
+        [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
         public static ReadOnlyDispatchingView<TItem> AsReadOnlyDispatchingView<TItem>(this ObservableCollection<TItem> source, TimeSpan bufferTime, bool leaveOpen = false)
         {
             return new ReadOnlyDispatchingView<TItem>(source, bufferTime, leaveOpen);
@@ -45,6 +47,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="source">The source collection.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyDispatchingView{T}"/>.</returns>
+        [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
         public static ReadOnlyDispatchingView<TItem> AsReadOnlyDispatchingView<TItem>(this ReadOnlyObservableCollection<TItem> source, bool leaveOpen = false)
         {
             return new ReadOnlyDispatchingView<TItem>(source, TimeSpan.Zero, leaveOpen);
@@ -58,6 +61,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="bufferTime">The time to buffer changes before notifying.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyDispatchingView{T}"/>.</returns>
+        [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
         public static ReadOnlyDispatchingView<TItem> AsReadOnlyDispatchingView<TItem>(this ReadOnlyObservableCollection<TItem> source, TimeSpan bufferTime, bool leaveOpen = false)
         {
             return new ReadOnlyDispatchingView<TItem>(source, bufferTime, leaveOpen);
@@ -70,6 +74,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="source">The source collection.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyDispatchingView{T}"/>.</returns>
+        [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
         public static ReadOnlyDispatchingView<TItem> AsReadOnlyDispatchingView<TItem>(this IReadOnlyObservableCollection<TItem> source, bool leaveOpen = false)
         {
             return new ReadOnlyDispatchingView<TItem>(source, TimeSpan.Zero, leaveOpen);
@@ -83,6 +88,7 @@ namespace Gu.Wpf.Reactive
         /// <param name="bufferTime">The time to buffer changes before notifying.</param>
         /// <param name="leaveOpen">True means that the <paramref name="source"/> is not disposed when this instance is disposed.</param>
         /// <returns>A <see cref="ReadOnlyDispatchingView{T}"/>.</returns>
+        [Obsolete("This will be removed in future version. Prefer alternatives taking a scheduler.")]
         public static ReadOnlyDispatchingView<TItem> AsReadOnlyDispatchingView<TItem>(this IReadOnlyObservableCollection<TItem> source, TimeSpan bufferTime, bool leaveOpen = false)
         {
             return new ReadOnlyDispatchingView<TItem>(source, bufferTime, leaveOpen);

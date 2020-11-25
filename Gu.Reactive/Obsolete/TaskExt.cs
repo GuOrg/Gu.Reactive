@@ -25,6 +25,7 @@ namespace Gu.Reactive
         /// <param name="task">The task.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [Obsolete("This will be removed in future version.")]
         public static async Task<T> WithCancellation<T>(this Task<T> task, CancellationToken cancellationToken)
         {
             if (task is null)
@@ -50,6 +51,7 @@ namespace Gu.Reactive
         /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [Obsolete("This will be removed in future version.")]
         public static Task TimeoutAfter(this Task task, TimeSpan timeout)
         {
             if (task is null)
@@ -66,6 +68,7 @@ namespace Gu.Reactive
         /// http://blogs.msdn.com/b/pfxteam/archive/2011/11/10/10235834.aspx.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [Obsolete("This will be removed in future version.")]
         public static Task TimeoutAfter(this Task task, int millisecondsTimeout)
         {
             if (task is null)
@@ -129,6 +132,7 @@ namespace Gu.Reactive
         /// </summary>
         /// <typeparam name="T">The type of the task.</typeparam>
         /// <returns>A <see cref="Task{T}"/> representing the asynchronous operation.</returns>
+        [Obsolete("This will be removed in future version.")]
         public static Task<T> TimeoutAfter<T>(this Task<T> task, TimeSpan timeout)
         {
             if (task is null)
@@ -146,6 +150,7 @@ namespace Gu.Reactive
         /// </summary>
         /// <typeparam name="T">The type of the task.</typeparam>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [Obsolete("This will be removed in future version.")]
         public static Task<T> TimeoutAfter<T>(this Task<T> task, int millisecondsTimeout)
         {
             if (task is null)
