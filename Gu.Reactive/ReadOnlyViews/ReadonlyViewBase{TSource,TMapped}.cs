@@ -308,18 +308,6 @@
         /// Properties/methods modifying this <see cref="ReadonlyViewBase{TSource,TMapped}"/> will raise
         /// a property changed event through this virtual method.
         /// </summary>
-        /// <param name="propertyName">The property name.</param>
-        [Obsolete("Use OnPropertyChanged([CallerMemberName] string? propertyName = null)")]
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Raise PropertyChanged event to any listeners.
-        /// Properties/methods modifying this <see cref="ReadonlyViewBase{TSource,TMapped}"/> will raise
-        /// a property changed event through this virtual method.
-        /// </summary>
         /// <param name="e">The <see cref="PropertyChangedEventArgs"/>.</param>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
