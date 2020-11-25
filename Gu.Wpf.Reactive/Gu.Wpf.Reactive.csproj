@@ -79,11 +79,11 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
 
-    <None Update="Obsolete\FilteredView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="FilteredView.generated.cs" />
-    <Compile Update="Obsolete\FilteredView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="FilteredView.tt" />
+    <None Update="Views\FilteredView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="FilteredView.generated.cs" />
+    <Compile Update="Views\FilteredView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="FilteredView.tt" />
 
-    <None Update="Obsolete\ThrottledView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="ThrottledView.generated.cs" />
-    <Compile Update="Obsolete\ThrottledView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="ThrottledView.tt" />
+    <None Update="Views\ThrottledView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="ThrottledView.generated.cs" />
+    <Compile Update="Views\ThrottledView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="ThrottledView.tt" />
 
     <None Update="Obsolete\ReadOnlyDispatchingView.tt" Generator="TextTemplatingFileGenerator" LastGenOutput="ReadOnlyDispatchingView.generated.cs" />
     <Compile Update="Obsolete\ReadOnlyDispatchingView.generated.cs" DesignTime="True" AutoGen="True" DependentUpon="ReadOnlyDispatchingView.tt" />

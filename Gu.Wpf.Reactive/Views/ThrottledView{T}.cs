@@ -13,7 +13,6 @@
     /// A view of a collection that buffers changes before notifying.
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
-    [Obsolete("This will be removed in future version. Not keeping anything mutable.")]
     public class ThrottledView<T> : SynchronizedEditableView<T>, IThrottledView<T>, IReadOnlyThrottledView<T>
     {
         private readonly IDisposable refreshSubscription;
