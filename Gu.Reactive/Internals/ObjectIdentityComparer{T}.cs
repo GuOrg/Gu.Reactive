@@ -12,7 +12,7 @@
         {
         }
 
-        bool IEqualityComparer<T>.Equals(T x, T y) => ReferenceEquals(x, y);
+        bool IEqualityComparer<T>.Equals(T? x, T? y) => ReferenceEquals(x, y);
 
         int IEqualityComparer<T>.GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
     }
