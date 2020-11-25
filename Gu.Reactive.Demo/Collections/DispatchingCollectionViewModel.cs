@@ -10,6 +10,7 @@
 
     using Gu.Wpf.Reactive;
 
+    [Obsolete("For testing obsolete API.")]
     public sealed class DispatchingCollectionViewModel : IDisposable
     {
         private readonly SerialDisposable disposable = new SerialDisposable();

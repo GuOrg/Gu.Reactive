@@ -13,7 +13,8 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
     using NUnit.Framework;
 
-    public static class ItemPropertyChanged
+    [Obsolete("For testing obsolete API.")]
+    public static class ObservePropertyChangedWithValueChainedItemPropertyChanged
     {
         [Test]
         public static void SignalsOnNewCollection()
