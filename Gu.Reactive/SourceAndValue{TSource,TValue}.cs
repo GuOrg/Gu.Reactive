@@ -7,7 +7,7 @@
     /// </summary>
     /// <typeparam name="TSource">The source type.</typeparam>
     /// <typeparam name="TValue">The value type.</typeparam>
-    public struct SourceAndValue<TSource, TValue> : IEquatable<SourceAndValue<TSource, TValue>>
+    public readonly struct SourceAndValue<TSource, TValue> : IEquatable<SourceAndValue<TSource, TValue>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SourceAndValue{TSource,TValue}"/> struct.
