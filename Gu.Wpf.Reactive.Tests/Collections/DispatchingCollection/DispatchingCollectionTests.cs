@@ -11,7 +11,7 @@
 
     using NUnit.Framework;
 
-    [Obsolete("Remove when removing DispatchingCollection")]
+    [Obsolete("Testing obsolete API.")]
     public static class DispatchingCollectionTests
     {
         [Test]

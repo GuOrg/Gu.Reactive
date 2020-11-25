@@ -10,6 +10,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 
     using NUnit.Framework;
 
+    [Obsolete("Testing obsolete API.")]
     public class ObservePropertyChangedWithValueNestedLambda
     {
         [TestCase(true)]
