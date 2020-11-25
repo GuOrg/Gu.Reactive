@@ -37,20 +37,12 @@
             <demo:EitherCommandsView />
         </TabItem>
 
-        <TabItem Header="FilteredView">
-            <demo:FilteredViewView />
-        </TabItem>
-
         <TabItem Header="ReadonlyFilteredDispatchingView">
             <demo:ReadonlyFilteredDispatchingView />
         </TabItem>
 
         <TabItem Header="ThrottledView">
             <demo:ThrottledViewView />
-        </TabItem>
-
-        <TabItem Header="DispatchingView">
-            <demo:DispatchingViewView />
         </TabItem>
 
         <TabItem Header="MappingView">
