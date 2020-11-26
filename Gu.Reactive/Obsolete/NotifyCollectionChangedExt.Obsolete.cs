@@ -145,7 +145,7 @@
             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
             IObserver<T> observer,
             Expression<Func<TItem, TProperty>> property,
-            Func<TItem, object?, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TProperty>, T> create)
+            Func<TItem?, object?, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TProperty>, T> create)
             where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
             where TItem : class?, INotifyPropertyChanged?
         {
