@@ -83,8 +83,8 @@ namespace Gu.Wpf.Reactive.Tests
             var tcs = new TaskCompletionSource<int>();
             using var command = new AsyncCommand<int>(x => tcs.Task);
             var taskStatuses = new List<TaskStatus>();
-            using (command.ObservePropertyChangedWithValue(x => x.Execution.Status)
-                          .Subscribe(x => taskStatuses.Add(x.EventArgs.Value)))
+            using (command.ObserveValue(x => x.Execution.Status)
+                          .Subscribe(x => taskStatuses.Add(x.Value)))
             {
                 Assert.IsFalse(command.IsExecuting);
                 Assert.IsFalse(command.CancelCommand.CanExecute());
