@@ -154,7 +154,7 @@ Gu.Reactive.ISchedulers.Immediate.get -> System.Reactive.Concurrency.IScheduler!
 Gu.Reactive.ISchedulers.NewThread.get -> System.Reactive.Concurrency.IScheduler!
 Gu.Reactive.ISchedulers.TaskPool.get -> System.Reactive.Concurrency.IScheduler!
 Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TValue>
-Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TValue>.Item.get -> TItem
+Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TValue>.Item.get -> TItem?
 Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TValue>.SourceAndValue.get -> Gu.Reactive.SourceAndValue<System.ComponentModel.INotifyPropertyChanged?, TValue>
 Gu.Reactive.ItemPropertyChangedEventArgs<TItem, TValue>.Value.get -> TValue?
 Gu.Reactive.IThrottledView<T>
