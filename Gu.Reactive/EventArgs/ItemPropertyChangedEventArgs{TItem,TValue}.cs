@@ -10,7 +10,7 @@
     /// <typeparam name="TValue">The value type.</typeparam>
     public class ItemPropertyChangedEventArgs<TItem, TValue> : PropertyChangedEventArgs
     {
-        internal ItemPropertyChangedEventArgs(TItem item, SourceAndValue<INotifyPropertyChanged?, TValue> sourceAndValue, string propertyName)
+        internal ItemPropertyChangedEventArgs(TItem? item, SourceAndValue<INotifyPropertyChanged?, TValue> sourceAndValue, string propertyName)
             : base(propertyName)
         {
             this.SourceAndValue = sourceAndValue;
@@ -21,7 +21,7 @@
         /// Gets the item in the collection.
         /// Note that the item can be in many places in the collection.
         /// </summary>
-        public TItem Item { get; }
+        public TItem? Item { get; }
 
         /// <summary>
         /// Gets the source is the last node in the property path that is not null.
