@@ -32,7 +32,7 @@
                     context.ReportSuppression(Suppression.Create(Descriptor, diagnostic));
                 }
 
-                bool IsGuReactive(string? name)
+                static bool IsGuReactive(string? name)
                 {
                     return name switch
                     {

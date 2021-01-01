@@ -19,7 +19,7 @@
                 _ => throw new ArgumentException($"Expected path to be properties only. Was {lambda}"),
             };
 
-            bool IsConversion(UnaryExpression unary)
+            static bool IsConversion(UnaryExpression unary)
             {
                 return unary switch
                 {
