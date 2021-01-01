@@ -185,7 +185,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
         [Test]
         public static void GenericHelperMethodConstrainedToClass2()
         {
-            IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source)
+            static IObservable<PropertyChangedEventArgs> CreateObservable<T>(T source)
                 where T : With<AbstractFake>
             {
                 return source.ObservePropertyChangedSlim(x => x.Value.BaseValue, signalInitial: false);

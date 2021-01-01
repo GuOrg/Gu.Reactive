@@ -19,3 +19,9 @@ dotnet_diagnostic.VSTHRD002.severity = none
 
 # VSTHRD103: Call async methods when in an async method
 dotnet_diagnostic.VSTHRD103.severity = none
+
+# CA2201: Do not raise reserved exception types
+dotnet_diagnostic.CA2201.severity = none
+
+# VSTHRD104: Offer async methods
+dotnet_diagnostic.VSTHRD104.severity = none
