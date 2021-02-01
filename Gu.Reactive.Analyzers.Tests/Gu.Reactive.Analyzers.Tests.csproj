@@ -31,7 +31,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="3.8.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.8.55" PrivateAssets="all" />
-    <PackageReference Include="NUnit" Version="3.13.0" PrivateAssets="all" />
+    <PackageReference Include="NUnit" Version="3.13.1" PrivateAssets="all" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.261" PrivateAssets="all" />
     <PackageReference Include="WpfAnalyzers" Version="3.5.4" PrivateAssets="all" />
