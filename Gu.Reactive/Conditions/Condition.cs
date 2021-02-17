@@ -160,21 +160,19 @@ namespace Gu.Reactive
             {
                 if (this.IsDisposed)
                 {
-                    return $"{this.Name} <disposed>";
+                    return $"{this.name} <disposed>";
                 }
 
                 return $"{this.Name} IsSatisfied: {IsSatisfiedString()}";
 
                 string IsSatisfiedString()
                 {
-                    if (this.IsSatisfied is { } b)
+                    return this.IsSatisfied switch
                     {
-                        return b
-                            ? "true"
-                            : "false";
-                    }
-
-                    return "null";
+                        true => "true",
+                        false => "false",
+                        null => "null",
+                    };
                 }
             }
         }
@@ -200,7 +198,15 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public override string ToString() => $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString(CultureInfo.InvariantCulture) ?? "null"}";
+        public override string ToString()
+        {
+            if (this.IsDisposed)
+            {
+                return $"Name: {this.name} <disposed>";
+            }
+
+            return $"Name: {(string.IsNullOrEmpty(this.Name) ? this.GetType().PrettyName() : this.Name)}, IsSatisfied: {this.IsSatisfied?.ToString(CultureInfo.InvariantCulture) ?? "null"}";
+        }
 
         /// <summary>
         /// Create an <see cref="ObservableAndCriteria"/> to be passed in as constructor argument.
