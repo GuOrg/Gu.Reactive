@@ -441,6 +441,28 @@
             }
 
             [Test]
+            public static void DisposeAfterNotifyRemove()
+            {
+                var source = new ObservableCollection<int> { 1 };
+                using var view = source.AsMappingView(CreateStrictMock, WithIndex, x => x.Object.Dispose());
+                using var actual = view.SubscribeAll();
+                var mock = view[0];
+                mock.Setup(x => x.Dispose()).Callback(() => actual.Add(EventArgs.Empty));
+                source.RemoveAt(0);
+                mock.Verify(x => x.Dispose(), Times.Once);
+                CollectionAssert.AreEqual(source, view.Select(x => x.Object.Value));
+                CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Object.Index));
+                var expected = new List<EventArgs>
+                {
+                    CachedEventArgs.CountPropertyChanged,
+                    CachedEventArgs.IndexerPropertyChanged,
+                    Diff.CreateRemoveEventArgs(mock, 0),
+                    EventArgs.Empty,
+                };
+                CollectionAssert.AreEqual(expected, actual, EventArgsComparer.Default);
+            }
+
+            [Test]
             public static void Dispose()
             {
                 var source = new ObservableCollection<int>

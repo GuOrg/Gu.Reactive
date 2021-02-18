@@ -67,6 +67,8 @@
                 return this.inner.GetEnumerator();
             }
 
+            public void Add(EventArgs e) => this.inner.Add(e);
+
             public void Dispose()
             {
                 if (this.disposed)
