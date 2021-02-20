@@ -13,7 +13,9 @@
         {
             if (property is { GetMethod: { } getMethod })
             {
-                this.getter = (Func<TSource, TValue>?)Delegate.CreateDelegate(typeof(Func<TSource, TValue>), getMethod, throwOnBindFailure: true) ?? throw new InvalidOperationException($"Could not create getter delegate for {property}.");
+#pragma warning disable CS8600, CA1508 // Avoid dead conditional code
+                this.getter = (Func<TSource, TValue>)Delegate.CreateDelegate(typeof(Func<TSource, TValue>), getMethod, throwOnBindFailure: true) ?? throw new InvalidOperationException($"Could not create getter delegate for {property}.");
+#pragma warning restore CS8600, CA1508 // Avoid dead conditional code
             }
             else
             {

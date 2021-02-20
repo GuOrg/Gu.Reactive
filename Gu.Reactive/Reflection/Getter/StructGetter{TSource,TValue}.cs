@@ -13,7 +13,9 @@
         {
             if (property is { GetMethod: { } getMethod })
             {
-                this.getter = (GetterDelegate?)Delegate.CreateDelegate(typeof(GetterDelegate), getMethod, throwOnBindFailure: true) ?? throw new InvalidOperationException("Failed creating delegate.");
+#pragma warning disable CS8600, CA1508 // Avoid dead conditional code
+                this.getter = (GetterDelegate)Delegate.CreateDelegate(typeof(GetterDelegate), getMethod, throwOnBindFailure: true) ?? throw new InvalidOperationException("Failed creating delegate.");
+#pragma warning restore CS8600, CA1508 // Avoid dead conditional code
             }
             else
             {
