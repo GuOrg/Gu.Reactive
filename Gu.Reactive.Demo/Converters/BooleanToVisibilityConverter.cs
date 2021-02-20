@@ -18,15 +18,13 @@
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var meh = value as bool?;
-            if (meh is null)
+            return value switch
             {
-                return this.WhenNull;
-            }
-
-            return meh == true
-                       ? this.WhenTrue
-                       : this.WhenFalse;
+                true => this.WhenTrue,
+                false => this.WhenTrue,
+                null => this.WhenNull,
+                _ => throw new ArgumentException("Expected bool?"),
+            };
         }
 
         object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
