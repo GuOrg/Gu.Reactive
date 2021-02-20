@@ -25,3 +25,6 @@ dotnet_diagnostic.CA2201.severity = none
 
 # VSTHRD104: Offer async methods
 dotnet_diagnostic.VSTHRD104.severity = none
+
+# CA2301: Do not call BinaryFormatter.Deserialize without first setting BinaryFormatter.Binder
+dotnet_diagnostic.CA2301.severity = none

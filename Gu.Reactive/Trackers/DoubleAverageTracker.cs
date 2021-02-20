@@ -1,4 +1,4 @@
-namespace Gu.Reactive
+﻿namespace Gu.Reactive
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -45,7 +45,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        protected override double? GetValueOrDefault(IEnumerable<double> _)
+        protected override double? GetValueOrDefault(IEnumerable<double> source)
         {
             if (this.source.Count == 0)
             {

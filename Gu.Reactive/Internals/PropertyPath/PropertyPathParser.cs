@@ -122,25 +122,7 @@
             public override object[] GetCustomAttributes(Type attributeType, bool inherit) => this.property.GetCustomAttributes(attributeType, inherit);
 
             /// <inheritdoc />
-            public override bool Equals(object? obj)
-            {
-                if (obj is null)
-                {
-                    return false;
-                }
-
-                if (ReferenceEquals(this, obj))
-                {
-                    return true;
-                }
-
-                if (obj.GetType() != this.GetType())
-                {
-                    return false;
-                }
-
-                return this.Equals((InterfaceProperty)obj);
-            }
+            public override bool Equals(object? obj) => obj is InterfaceProperty x && this.Equals(x);
 
             /// <inheritdoc />
             public override int GetHashCode()

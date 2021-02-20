@@ -34,3 +34,9 @@ dotnet_diagnostic.CA1044.severity = none
 
 # CA2227: Collection properties should be read only
 dotnet_diagnostic.CA2227.severity = none
+
+# CA1711: Identifiers should not have incorrect suffix
+dotnet_diagnostic.CA1711.severity = none
+
+# CA2301: Do not call BinaryFormatter.Deserialize without first setting BinaryFormatter.Binder
+dotnet_diagnostic.CA2301.severity = none
