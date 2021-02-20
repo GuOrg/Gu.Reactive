@@ -12,7 +12,9 @@
 
         public ConditionControlViewModel()
         {
-            this.Condition = new DynamicCondition(this.Values.AsReadOnlyFilteredView(x => true), x => new IsEvenGretarThanTwo(x));
+            this.Condition = new OrCondition(
+                new DynamicCondition(this.Values.AsReadOnlyFilteredView(x => true), x => new IsEvenGretarThanTwo(x)),
+                new DynamicCondition(this.Values.AsReadOnlyFilteredView(x => true), x => new IsLessThanFive(x)));
             this.ClearCommand = new RelayCommand(() => this.Values.Clear());
         }
 
@@ -111,6 +113,16 @@
                 : base(
                     withInt.ObservePropertyChangedSlim(x => x.Value),
                     () => withInt.Value > 2)
+            {
+            }
+        }
+
+        private sealed class IsLessThanFive : Condition
+        {
+            internal IsLessThanFive(WithInt withInt)
+                : base(
+                    withInt.ObservePropertyChangedSlim(x => x.Value),
+                    () => withInt.Value < 5)
             {
             }
         }
