@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive
+﻿#pragma warning disable CA1003 // Use generic event handler instances
+namespace Gu.Reactive
 {
     using System;
     using System.Collections.Generic;
