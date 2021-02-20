@@ -1,5 +1,4 @@
 ﻿#pragma warning disable CS0618 // Type or member is obsolete
-#pragma warning disable CS0619 // Type or member is obsolete
 //// ReSharper disable once InconsistentNaming
 namespace Gu.Reactive.Tests
 {

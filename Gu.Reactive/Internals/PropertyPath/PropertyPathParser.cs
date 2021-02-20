@@ -56,7 +56,7 @@
             return new InterfaceProperty((PropertyInfo)member.Member, type);
         }
 
-        private class InterfaceProperty : PropertyInfo
+        private sealed class InterfaceProperty : PropertyInfo
         {
             private readonly PropertyInfo property;
             private readonly Type reflectedType;

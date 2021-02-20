@@ -24,7 +24,6 @@
         public static void IsSatisfied(bool? first, bool? second, bool? third, bool? expected)
         {
             using var condition = new AndCondition(
-#pragma warning disable GU0033 // Don't ignore returnvalue of type IDisposable.
                 Mock.Of<ICondition>(x => x.IsSatisfied == first),
                 Mock.Of<ICondition>(x => x.IsSatisfied == second),
                 Mock.Of<ICondition>(x => x.IsSatisfied == third));

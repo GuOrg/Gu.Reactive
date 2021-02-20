@@ -1,7 +1,6 @@
 ﻿// ReSharper disable NotResolvedInText
 // ReSharper disable UnusedVariable
 // ReSharper disable HeuristicUnreachableCode
-#pragma warning disable WPF1014 // Don't raise PropertyChanged for missing property.
 namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 {
     using System;
