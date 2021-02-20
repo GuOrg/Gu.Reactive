@@ -12,7 +12,7 @@
 
         public ConditionControlViewModel()
         {
-            this.Condition = new DynamicCondition(this.Values, x => new IsEvenGretarThanTwo(x));
+            this.Condition = new DynamicCondition(this.Values.AsReadOnlyFilteredView(x => true), x => new IsEvenGretarThanTwo(x));
             this.ClearCommand = new RelayCommand(() => this.Values.Clear());
         }
 
@@ -117,7 +117,7 @@
 
         private class DynamicCondition : OrCondition
         {
-            internal DynamicCondition(ObservableCollection<WithInt> xs, Func<WithInt, ICondition> map)
+            internal DynamicCondition(IReadOnlyView<WithInt> xs, Func<WithInt, ICondition> map)
                   : base(
                       xs.AsMappingView(map, onRemove: x => x.Dispose()),
                       leaveOpen: false)
