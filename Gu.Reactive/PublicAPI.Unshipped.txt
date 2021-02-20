@@ -195,10 +195,10 @@ Gu.Reactive.Maybe
 Gu.Reactive.Maybe<T>
 Gu.Reactive.Maybe<T>.Equals(Gu.Reactive.Maybe<T> other) -> bool
 Gu.Reactive.Maybe<T>.GetValueOrDefault() -> T?
-Gu.Reactive.Maybe<T>.GetValueOrDefault(T defaultValue) -> T
+Gu.Reactive.Maybe<T>.GetValueOrDefault(T? defaultValue) -> T?
 Gu.Reactive.Maybe<T>.HasValue.get -> bool
 Gu.Reactive.Maybe<T>.Maybe() -> void
-Gu.Reactive.Maybe<T>.Value.get -> T
+Gu.Reactive.Maybe<T>.Value.get -> T?
 Gu.Reactive.MinMaxTracker
 Gu.Reactive.MinMaxTracker<TValue>
 Gu.Reactive.MinMaxTracker<TValue>.Dispose() -> void
@@ -529,7 +529,7 @@ static Gu.Reactive.Maybe.Some<T>(T value) -> Gu.Reactive.Maybe<T>
 static Gu.Reactive.Maybe<T>.None.get -> Gu.Reactive.Maybe<T>
 static Gu.Reactive.Maybe<T>.operator !=(Gu.Reactive.Maybe<T> left, Gu.Reactive.Maybe<T> right) -> bool
 static Gu.Reactive.Maybe<T>.operator ==(Gu.Reactive.Maybe<T> left, Gu.Reactive.Maybe<T> right) -> bool
-static Gu.Reactive.Maybe<T>.Some(T value) -> Gu.Reactive.Maybe<T>
+static Gu.Reactive.Maybe<T>.Some(T? value) -> Gu.Reactive.Maybe<T>
 static Gu.Reactive.MinMaxTracker.TrackMinMax<TItem, TValue>(this Gu.Reactive.IReadOnlyObservableCollection<TItem!>! source, System.Linq.Expressions.Expression<System.Func<TItem!, TValue>!>! selector) -> Gu.Reactive.MinMaxTracker<TValue>!
 static Gu.Reactive.MinMaxTracker.TrackMinMax<TItem, TValue>(this System.Collections.ObjectModel.ObservableCollection<TItem!>! source, System.Linq.Expressions.Expression<System.Func<TItem!, TValue>!>! selector) -> Gu.Reactive.MinMaxTracker<TValue>!
 static Gu.Reactive.MinMaxTracker.TrackMinMax<TItem, TValue>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem!>! source, System.Linq.Expressions.Expression<System.Func<TItem!, TValue>!>! selector) -> Gu.Reactive.MinMaxTracker<TValue>!

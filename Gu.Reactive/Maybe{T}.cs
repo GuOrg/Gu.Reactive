@@ -9,15 +9,15 @@
     /// <typeparam name="T">The type of the value.</typeparam>
     public readonly struct Maybe<T> : IMaybe<T>, IEquatable<Maybe<T>>
     {
-        private readonly T value;
+        private readonly T? value;
 
-        private Maybe(bool hasValue, T value)
+        private Maybe(bool hasValue, T? value)
         {
             this.HasValue = hasValue;
             this.value = value;
         }
 
-    #pragma warning disable CA1000 // Do not declare static members on generic types
+#pragma warning disable CA1000 // Do not declare static members on generic types
         /// <summary>
         /// Gets the default instance when value is missing.
         /// </summary>
@@ -28,7 +28,7 @@
         public bool HasValue { get; }
 
         /// <inheritdoc />
-        public T Value
+        public T? Value
         {
             get
             {
@@ -65,7 +65,7 @@
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>A <see cref="Maybe{T}"/>.</returns>
-        public static Maybe<T> Some(T value) => new Maybe<T>(hasValue: true, value: value);
+        public static Maybe<T> Some(T? value) => new Maybe<T>(hasValue: true, value: value);
 #pragma warning restore CA1000 // Do not declare static members on generic types
 
         /// <inheritdoc />
@@ -90,7 +90,7 @@
         public override int GetHashCode()
         {
             return this.HasValue
-                ? EqualityComparer<T>.Default.GetHashCode(this.value)
+                ? this.value is { } x ? EqualityComparer<T>.Default.GetHashCode(x) : -1
                 : 0;
         }
 
@@ -105,14 +105,17 @@
         /// </summary>
         /// <param name="defaultValue">The value if HasValue == false.</param>
         /// <returns><see cref="Value"/> or <paramref name="defaultValue"/>.</returns>
-        public T GetValueOrDefault(T defaultValue) => this.HasValue ? this.value : defaultValue;
+        public T? GetValueOrDefault(T? defaultValue) => this.HasValue ? this.value : defaultValue;
 
         /// <inheritdoc/>
         public override string ToString()
         {
-            return this.HasValue
-                       ? $"Some {this.Value?.ToString() ?? "null"}"
-                       : "None";
+            return this switch
+            {
+                { HasValue: false } => "None",
+                { value: null } => "Some null",
+                _ => $"Some {this.value}",
+            };
         }
     }
 }
