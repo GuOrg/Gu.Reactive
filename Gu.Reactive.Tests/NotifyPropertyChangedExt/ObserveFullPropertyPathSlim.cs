@@ -108,7 +108,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                            "The type StructLevel is a value type not so StructLevel.Name will not notify when it changes.\r\n" +
                            "The path is: x => x.StructLevel.Name\r\n\r\n" +
                            "Parameter name: property";
-            Assert.AreEqual(expected, exception.Message);
+            Assert.AreEqual(expected, exception!.Message);
         }
 
         [TestCase(true)]
@@ -125,7 +125,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                            "The type string does not so Name.Length will not notify when it changes.\r\n" +
                            "The path is: x => x.Name.Length\r\n\r\n" +
                            "Parameter name: property";
-            Assert.AreEqual(expected, exception.Message);
+            Assert.AreEqual(expected, exception!.Message);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
 #pragma warning disable GUREA05 // Full path must have more than one item.
             var exception = Assert.Throws<ArgumentException>(() => source.ObserveFullPropertyPathSlim(x => x.Method().Name));
 #pragma warning restore GUREA05 // Full path must have more than one item.
-            Assert.AreEqual("Expected path to be properties only. Was x.Method().Name", exception.Message);
+            Assert.AreEqual("Expected path to be properties only. Was x.Method().Name", exception!.Message);
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                            "The path was x => x.IsTrue\r\n" +
                            "Did you mean to call ObservePropertyChangedSlim?\r\n" +
                            "Parameter name: property";
-            Assert.AreEqual(expected, exception.Message);
+            Assert.AreEqual(expected, exception!.Message);
         }
 
         [Test]

@@ -331,7 +331,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                            "The type StructLevel is a value type not so StructLevel.Name will not notify when it changes.\r\n" +
                            "The path is: x => x.StructLevel.Name\r\n\r\n" +
                            "Parameter name: property";
-            Assert.AreEqual(expected, exception.Message);
+            Assert.AreEqual(expected, exception!.Message);
         }
 
         [TestCase(true)]
@@ -347,7 +347,7 @@ namespace Gu.Reactive.Tests.NotifyPropertyChangedExt
                            "The type string does not so Name.Length will not notify when it changes.\r\n" +
                            "The path is: x => x.Name.Length\r\n\r\n" +
                            "Parameter name: property";
-            Assert.AreEqual(expected, exception.Message);
+            Assert.AreEqual(expected, exception!.Message);
         }
     }
 }

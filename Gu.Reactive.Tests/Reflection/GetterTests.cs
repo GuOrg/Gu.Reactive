@@ -31,7 +31,7 @@
             var expected = "Property cannot be write only.\r\n" +
                                  "The property Gu.Reactive.Tests.Helpers.Fake.WriteOnly does not have a getter.\r\n" +
                                  "Parameter name: property";
-            Assert.AreEqual(expected, exception.Message);
+            Assert.AreEqual(expected, exception!.Message);
         }
 
         [Test]
