@@ -7,7 +7,6 @@ dotnet_diagnostic.SA0001.severity = none
 # SA1401: Fields should be private
 dotnet_diagnostic.SA1401.severity = none
 
-
 # CA1051: Do not declare visible instance fields
 dotnet_diagnostic.CA1051.severity = none
 # CA1710: Identifiers should have correct suffix
