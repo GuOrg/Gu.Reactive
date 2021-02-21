@@ -121,6 +121,7 @@
             var disposableMock = new Mock<IDisposable>(MockBehavior.Strict);
             observableMock.Setup(x => x.Subscribe(It.IsAny<IObserver<object>>()))
                           .Returns(disposableMock.Object);
+#pragma warning disable IDISP016 // Don't use disposed instance.
             using (var condition = new Condition(observableMock.Object, () => true))
             {
                 disposableMock.Setup(x => x.Dispose());
@@ -129,6 +130,7 @@
                 condition.Dispose();
                 disposableMock.Verify(x => x.Dispose(), Times.Once);
             }
+#pragma warning restore IDISP016 // Don't use disposed instance.
 
             disposableMock.Verify(x => x.Dispose(), Times.Once);
         }

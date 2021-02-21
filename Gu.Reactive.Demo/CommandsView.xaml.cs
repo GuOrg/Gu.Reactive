@@ -10,9 +10,7 @@
         public CommandsView()
         {
             this.InitializeComponent();
-#pragma warning disable GU0032 // Dispose before re-assigning.
             this.DataContext = new CommandsViewModel();
-#pragma warning restore GU0032 // Dispose before re-assigning.
         }
     }
 }

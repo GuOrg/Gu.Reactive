@@ -1,5 +1,4 @@
-﻿#pragma warning disable 618
-namespace Gu.Wpf.Reactive.Tests.Collections.Views
+﻿namespace Gu.Wpf.Reactive.Tests.Collections.Views
 {
     using System;
     using System.Collections.Generic;

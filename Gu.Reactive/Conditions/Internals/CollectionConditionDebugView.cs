@@ -24,7 +24,6 @@ namespace Gu.Reactive
         /// Gets the items in the collection.
         /// </summary>
         [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
-#pragma warning disable CA1819 // Properties should not return arrays
         public ICondition[] Items => this.condition?.Prerequisites?.ToArray() ?? Array.Empty<ICondition>();
     }
 }

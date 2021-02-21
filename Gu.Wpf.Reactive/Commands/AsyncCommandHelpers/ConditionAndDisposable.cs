@@ -9,12 +9,10 @@ namespace Gu.Wpf.Reactive
     using System.Reactive.Disposables;
     using Gu.Reactive;
 
-    internal struct ConditionAndDisposable
+    internal readonly struct ConditionAndDisposable
     {
-#pragma warning disable IDISP002 // Dispose member.
         internal readonly ICondition Condition;
         internal readonly IDisposable? Disposable;
-#pragma warning restore IDISP002 // Dispose member.
 
         private ConditionAndDisposable(ICondition condition, IDisposable? disposable)
         {
