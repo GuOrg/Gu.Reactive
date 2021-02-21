@@ -1,1 +1,1 @@
-﻿
+﻿abstract Gu.Wpf.Reactive.CommandBase<T>.InternalCanExecute(T? parameter) -> bool

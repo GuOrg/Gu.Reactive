@@ -175,11 +175,13 @@
             var mock2 = new Mock<ICondition>(MockBehavior.Strict);
             mock2.SetupGet(x => x.IsSatisfied)
                 .Returns(false);
+#pragma warning disable IDISP016 // Don't use disposed instance.
             using (var condition = new OrCondition(mock1.Object, mock2.Object))
             {
                 condition.Dispose();
                 condition.Dispose();
             }
+#pragma warning restore IDISP016 // Don't use disposed instance.
 
             mock1.Verify(x => x.Dispose(), Times.Never);
         }

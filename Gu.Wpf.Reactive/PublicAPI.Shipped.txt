@@ -1,5 +1,4 @@
 ﻿#nullable enable
-abstract Gu.Wpf.Reactive.CommandBase<T>.InternalCanExecute(T? parameter) -> bool
 abstract Gu.Wpf.Reactive.CommandBase<T>.InternalExecute(T? parameter) -> void
 abstract Gu.Wpf.Reactive.TaskRunnerBase.CanCancelCondition.get -> Gu.Reactive.ICondition!
 Gu.Wpf.Reactive.AsyncCommand
@@ -316,7 +315,6 @@ static Gu.Wpf.Reactive.ThrottledView.AsThrottledView<T>(this Gu.Reactive.IObserv
 static Gu.Wpf.Reactive.ThrottledView.AsThrottledView<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.ThrottledView<T>!
 static Gu.Wpf.Reactive.ThrottledView.AsThrottledView<T>(this System.Collections.ObjectModel.ObservableCollection<T>! collection, System.TimeSpan bufferTime, System.Reactive.Concurrency.IScheduler! scheduler, bool leaveOpen = false) -> Gu.Wpf.Reactive.ThrottledView<T>!
 static Gu.Wpf.Reactive.WpfSchedulers.Dispatcher.get -> System.Reactive.Concurrency.DispatcherScheduler!
-static readonly Gu.Wpf.Reactive.CommandBase<T>.IsExecutingChangedEventArgs -> System.ComponentModel.PropertyChangedEventArgs!
 static readonly Gu.Wpf.Reactive.ConditionControl.ConditionProperty -> System.Windows.DependencyProperty!
 static readonly Gu.Wpf.Reactive.ConditionControl.FlattenedPrerequisitesProperty -> System.Windows.DependencyProperty!
 static readonly Gu.Wpf.Reactive.ConditionControl.IsInSyncProperty -> System.Windows.DependencyProperty!
@@ -327,7 +325,6 @@ static readonly Gu.Wpf.Reactive.ConditionToolTip.InferConditionFromCommandProper
 static readonly Gu.Wpf.Reactive.TaskRunnerBase.NeverCancelCondition -> Gu.Reactive.Condition!
 virtual Gu.Wpf.Reactive.CommandBase<T>.CanExecuteChanged -> System.EventHandler!
 virtual Gu.Wpf.Reactive.CommandBase<T>.OnPropertyChanged(string? propertyName = null) -> void
-virtual Gu.Wpf.Reactive.CommandBase<T>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs! e) -> void
 virtual Gu.Wpf.Reactive.CommandBase<T>.RaiseCanExecuteChanged() -> void
 virtual Gu.Wpf.Reactive.ConditionControl.OnConditionChanged(Gu.Reactive.ICondition? oldCondition, Gu.Reactive.ICondition? newCondition) -> void
 virtual Gu.Wpf.Reactive.ConditionRelayCommand.Dispose(bool disposing) -> void
