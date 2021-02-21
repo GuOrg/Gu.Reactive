@@ -11,7 +11,9 @@
         private StructLevel structLevel;
         private int value;
         //// ReSharper disable once NotAccessedField.Local
+#pragma warning disable IDE0052 // Remove unread private members
         private int writeOnly;
+#pragma warning restore IDE0052 // Remove unread private members
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

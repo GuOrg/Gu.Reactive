@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Runtime.CompilerServices;
 
     using Gu.Wpf.Reactive;
 
@@ -76,12 +75,6 @@
             this.CanStopCondition.Dispose();
             this.StartCommand.Dispose();
             this.StopCommand.Dispose();
-        }
-
-        // ReSharper disable once UnusedMember.Local
-        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

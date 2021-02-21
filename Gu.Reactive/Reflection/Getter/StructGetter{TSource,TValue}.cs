@@ -8,7 +8,9 @@
     {
         private readonly GetterDelegate getter;
 
+#pragma warning disable IDE0051 // Remove unused private members
         private StructGetter(PropertyInfo property)
+#pragma warning restore IDE0051 // Remove unused private members
             : base(property)
         {
             if (property is { GetMethod: { } getMethod })
