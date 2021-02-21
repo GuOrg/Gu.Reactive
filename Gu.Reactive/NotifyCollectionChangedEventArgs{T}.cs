@@ -10,7 +10,9 @@
     /// A generic decorator for <see cref="NotifyCollectionChangedEventArgs"/>.
     /// </summary>
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
+#pragma warning disable CA1711 // Identifiers should not have incorrect suffix
     public readonly struct NotifyCollectionChangedEventArgs<T> : IEquatable<NotifyCollectionChangedEventArgs<T>>
+#pragma warning restore CA1711 // Identifiers should not have incorrect suffix
     {
         private readonly NotifyCollectionChangedEventArgs args;
 

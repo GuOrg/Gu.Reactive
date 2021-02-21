@@ -28,7 +28,7 @@
         public bool HasValue { get; }
 
         /// <inheritdoc />
-        public T? Value
+        public T Value
         {
             get
             {

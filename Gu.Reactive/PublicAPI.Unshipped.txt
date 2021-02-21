@@ -198,7 +198,7 @@ Gu.Reactive.Maybe<T>.GetValueOrDefault() -> T?
 Gu.Reactive.Maybe<T>.GetValueOrDefault(T? defaultValue) -> T?
 Gu.Reactive.Maybe<T>.HasValue.get -> bool
 Gu.Reactive.Maybe<T>.Maybe() -> void
-Gu.Reactive.Maybe<T>.Value.get -> T?
+Gu.Reactive.Maybe<T>.Value.get -> T
 Gu.Reactive.MinMaxTracker
 Gu.Reactive.MinMaxTracker<TValue>
 Gu.Reactive.MinMaxTracker<TValue>.Dispose() -> void
