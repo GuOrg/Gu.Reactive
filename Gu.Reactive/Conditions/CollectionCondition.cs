@@ -51,7 +51,9 @@
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs"/>.</param>
+#pragma warning disable CA2109 // Review visible event handlers
         protected virtual void OnPreRequisitesChanged(object sender, NotifyCollectionChangedEventArgs e)
+#pragma warning restore CA2109 // Review visible event handlers
         {
             this.snapshot = null;
             this.OnPropertyChanged(nameof(this.Prerequisites));

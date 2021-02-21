@@ -1,10 +1,12 @@
-namespace Gu.Reactive.Analyzers
+﻿namespace Gu.Reactive.Analyzers
 {
     using System;
     using System.Collections.Immutable;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+
     using Gu.Roslyn.AnalyzerExtensions;
+
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -72,7 +74,8 @@ namespace Gu.Reactive.Analyzers
             else if (context.Node is ObjectCreationExpressionSyntax objectCreation &&
                      context.SemanticModel.GetSymbolSafe(objectCreation, context.CancellationToken) is { } ctor)
             {
-                if (ctor.ContainingType == KnownSymbol.Condition)
+                if (ctor.ContainingType == KnownSymbol.Condition &&
+                    objectCreation.ArgumentList is { })
                 {
                     if (TryGetObservableAndCriteriaMismatch(objectCreation.ArgumentList, ctor, context, out var observedText, out var criteriaText, out var missingText))
                     {
@@ -215,6 +218,11 @@ namespace Gu.Reactive.Analyzers
         private static bool? HasMatchingArgumentAndParameterPositions(ConstructorInitializerSyntax initializer, SyntaxNodeAnalysisContext context)
         {
             if (initializer?.ArgumentList is null)
+            {
+                return null;
+            }
+
+            if (initializer?.Parent is null)
             {
                 return null;
             }
