@@ -1,4 +1,4 @@
-namespace Gu.Reactive.Tests.Conditions
+﻿namespace Gu.Reactive.Tests.Conditions
 {
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -115,8 +115,9 @@ namespace Gu.Reactive.Tests.Conditions
             var fake = new Fake { IsTrueOrNull = false };
             using var condition = new Condition(fake.ObservePropertyChanged(x => x.IsTrueOrNull), () => fake.IsTrueOrNull);
             using var negatedCondition = new Negated<Condition>(condition);
-#pragma warning disable 618
+#pragma warning disable CS0618 // Type or member is obsolete
             using var negatedTwice = negatedCondition.Negate();
+#pragma warning restore CS0618 // Type or member is obsolete
             Assert.AreSame(condition, negatedTwice);
         }
     }

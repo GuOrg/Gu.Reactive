@@ -102,9 +102,7 @@
             var handler = this.CollectionChanged;
             if (handler != null)
             {
-#pragma warning disable IDISP004, GU0011 // Don't ignore return value of type IDisposable.
                 this.scheduler.Schedule(() => handler.Invoke(this, e));
-#pragma warning restore IDISP004, GU0011 // Don't ignore return value of type IDisposable.
             }
         }
     }

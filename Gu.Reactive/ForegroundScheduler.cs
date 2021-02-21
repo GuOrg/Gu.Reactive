@@ -41,9 +41,7 @@
         public IDisposable Schedule<TState>(TState state, Func<IScheduler, TState, IDisposable> action)
         {
             this.ThrowIfDisposed();
-#pragma warning disable GU0011 // Don't ignore the return value.
             Interlocked.Increment(ref this.count);
-#pragma warning restore GU0011 // Don't ignore the return value.
             return this.inner.Schedule(state, (sc, st) => this.Invoke(sc, st, action));
         }
 
@@ -51,9 +49,7 @@
         public IDisposable Schedule<TState>(TState state, TimeSpan dueTime, Func<IScheduler, TState, IDisposable> action)
         {
             this.ThrowIfDisposed();
-#pragma warning disable GU0011 // Don't ignore the return value.
             Interlocked.Increment(ref this.count);
-#pragma warning restore GU0011 // Don't ignore the return value.
             return this.inner.Schedule(state, dueTime, (sc, st) => this.Invoke(sc, st, action));
         }
 
@@ -61,9 +57,7 @@
         public IDisposable Schedule<TState>(TState state, DateTimeOffset dueTime, Func<IScheduler, TState, IDisposable> action)
         {
             this.ThrowIfDisposed();
-#pragma warning disable GU0011 // Don't ignore the return value.
             Interlocked.Increment(ref this.count);
-#pragma warning restore GU0011 // Don't ignore the return value.
             return this.inner.Schedule(state, dueTime, (sc, st) => this.Invoke(sc, st, action));
         }
 

@@ -1,5 +1,4 @@
 ﻿// ReSharper disable HeuristicUnreachableCode
-#pragma warning disable CS0162 // Unreachable code detected
 #pragma warning disable IDE0051 // Remove unused private members
 namespace Gu.Reactive.Benchmarks
 {

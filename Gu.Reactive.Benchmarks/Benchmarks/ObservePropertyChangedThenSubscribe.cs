@@ -1,5 +1,4 @@
-﻿#pragma warning disable IDISP011 // Don't return disposed instance.
-#pragma warning disable CS8602, CS8603
+﻿#pragma warning disable CS8602, CS8603
 namespace Gu.Reactive.Benchmarks
 {
     using System;

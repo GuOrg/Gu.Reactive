@@ -7,24 +7,19 @@
     {
         internal static bool AffectsFilteredOnly<T>(NotifyCollectionChangedEventArgs e, Func<T, bool> filter)
         {
-            if (filter is null)
-            {
-                return false;
-            }
-
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                 case NotifyCollectionChangedAction.Move:
-                    return e.TryGetSingleNewItem(out T item) &&
+                    return e.TryGetSingleNewItem<T>(out var item) &&
                            !filter(item);
                 case NotifyCollectionChangedAction.Remove:
-                    return e.TryGetSingleOldItem(out T removed) &&
+                    return e.TryGetSingleOldItem<T>(out var removed) &&
                            !filter(removed);
                 case NotifyCollectionChangedAction.Replace:
-                    return e.TryGetSingleNewItem(out T newItem) &&
+                    return e.TryGetSingleNewItem<T>(out var newItem) &&
                            !filter(newItem) &&
-                           e.TryGetSingleOldItem(out T oldItem) &&
+                           e.TryGetSingleOldItem<T>(out var oldItem) &&
                            !filter(oldItem);
                 case NotifyCollectionChangedAction.Reset:
                     return false;
