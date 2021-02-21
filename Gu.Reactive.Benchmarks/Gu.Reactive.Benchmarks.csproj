@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <OutputType>Exe</OutputType>
     <StartupObject>Gu.Reactive.Benchmarks.Program</StartupObject>
+    <NoWarn>$(NoWarn);CS8032</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup>
