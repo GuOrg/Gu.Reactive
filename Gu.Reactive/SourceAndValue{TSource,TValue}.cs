@@ -66,7 +66,9 @@
         {
             unchecked
             {
+#pragma warning disable CA1508 // Avoid dead conditional code
                 return ((this.Source?.GetHashCode() ?? 0) * 397) ^ this.Value.GetHashCode();
+#pragma warning restore CA1508 // Avoid dead conditional code
             }
         }
     }

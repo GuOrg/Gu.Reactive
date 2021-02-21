@@ -1,9 +1,9 @@
-namespace Gu.Reactive.Demo
+﻿namespace Gu.Reactive.Demo
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public class ConditionState : INotifyPropertyChanged
+    public sealed class ConditionState : INotifyPropertyChanged
     {
         public static readonly ConditionState Instance = new ConditionState();
         private bool isLeftDoorOpen;
@@ -21,7 +21,6 @@ namespace Gu.Reactive.Demo
         public bool IsLeftDoorOpen
         {
             get => this.isLeftDoorOpen;
-
             set
             {
                 if (value.Equals(this.isLeftDoorOpen))
@@ -37,7 +36,6 @@ namespace Gu.Reactive.Demo
         public bool IsRightDoorOpen
         {
             get => this.isRightDoorOpen;
-
             set
             {
                 if (value == this.isRightDoorOpen)
@@ -53,7 +51,6 @@ namespace Gu.Reactive.Demo
         public bool IsBackDoorOpen
         {
             get => this.isBackDoorOpen;
-
             set
             {
                 if (value == this.isBackDoorOpen)
@@ -69,7 +66,6 @@ namespace Gu.Reactive.Demo
         public bool IsMotorRunning
         {
             get => this.isMotorRunning;
-
             set
             {
                 if (value.Equals(this.isMotorRunning))
@@ -85,7 +81,6 @@ namespace Gu.Reactive.Demo
         public double FuelLevel
         {
             get => this.fuelLevel;
-
             set
             {
                 if (value.Equals(this.fuelLevel))
@@ -98,7 +93,7 @@ namespace Gu.Reactive.Demo
             }
         }
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -39,8 +39,9 @@ namespace Gu.Reactive.Tests
 #pragma warning disable CA1822 // Mark members as static
             public int DummyMethod(int arg) => arg;
 
-#pragma warning disable CA1801
+#pragma warning disable CA1801 // Review unused parameters
             public void DummyMethodVoid(int arg)
+#pragma warning restore CA1801 // Review unused parameters
             {
             }
 #pragma warning restore CA1822 // Mark members as static

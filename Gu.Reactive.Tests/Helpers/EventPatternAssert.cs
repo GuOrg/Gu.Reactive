@@ -42,13 +42,17 @@
             if (value.HasValue)
             {
                 Assert.AreEqual(true, actual.EventArgs.SourceAndValue.Value.HasValue);
+#pragma warning disable CS0618 // Type or member is obsolete
                 Assert.AreEqual(value.Value, actual.EventArgs.Value);
+#pragma warning restore CS0618 // Type or member is obsolete
                 Assert.AreEqual(value, actual.EventArgs.SourceAndValue.Value);
             }
             else
             {
                 Assert.AreEqual(false, actual.EventArgs.SourceAndValue.Value.HasValue);
+#pragma warning disable CS0618 // Type or member is obsolete
                 Assert.AreEqual(default(TProperty)!, actual.EventArgs.Value);
+#pragma warning restore CS0618 // Type or member is obsolete
             }
         }
     }
