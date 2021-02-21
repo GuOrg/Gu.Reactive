@@ -8,7 +8,7 @@
     /// </summary>
     /// <typeparam name="T">The type of the item.</typeparam>
     [System.Diagnostics.DebuggerDisplay("{Current} ({Previous})")]
-    public struct WithMaybePrevious<T> : IEquatable<WithMaybePrevious<T>>
+    public readonly struct WithMaybePrevious<T> : IEquatable<WithMaybePrevious<T>>
     {
 #pragma warning disable CA1051 // Do not declare visible instance fields
         /// <summary>

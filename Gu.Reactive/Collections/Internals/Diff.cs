@@ -166,7 +166,7 @@
             return CachedEventArgs.NotifyCollectionReset; // Resetting here, throwing is an alternative.
         }
 
-        private class RefComparer<T> : IComparer<T>
+        private sealed class RefComparer<T> : IComparer<T>
         {
             internal static readonly RefComparer<T> Default = new RefComparer<T>();
 

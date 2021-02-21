@@ -57,9 +57,7 @@
             : Maybe<object?>.Some(this.GetValue((TSource)source));
 
         /// <inheritdoc/>
-#pragma warning disable CS8601 // Possible null reference assignment.
         Maybe<TValue> IGetter<TValue>.GetMaybe(object? source) => this.GetMaybe((TSource)source);
-#pragma warning restore CS8601 // Possible null reference assignment.
 
         /// <inheritdoc/>
         public override string ToString() => $"{this.Property.ReflectedType?.Name}.{this.Property.Name}";

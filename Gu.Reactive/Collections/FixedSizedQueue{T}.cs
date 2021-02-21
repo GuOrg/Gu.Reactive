@@ -16,7 +16,9 @@
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [DebuggerDisplay("Count = {this.Count}")]
 #pragma warning disable CA1711 // Identifiers should not have incorrect suffix
+#pragma warning disable CA1010 // Generic interface should also be implemented
     public class FixedSizedQueue<T> : IProducerConsumerCollection<T>
+#pragma warning restore CA1010 // Generic interface should also be implemented
 #pragma warning restore CA1711 // Identifiers should not have incorrect suffix
     {
         private readonly ConcurrentQueue<T> innerQueue = new ConcurrentQueue<T>();

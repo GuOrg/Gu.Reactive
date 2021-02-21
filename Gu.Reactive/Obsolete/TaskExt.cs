@@ -3,7 +3,6 @@
 #pragma warning disable SA1611 // Element parameters should be documented
 #pragma warning disable VSTHRD003 // Avoid awaiting foreign Tasks
 #pragma warning disable IDISP001  // Dispose created.
-#pragma warning disable CA2000 // Dispose objects before losing scope
 namespace Gu.Reactive
 {
     using System;
