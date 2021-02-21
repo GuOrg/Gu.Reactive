@@ -44,7 +44,7 @@ Gu.Reactive.CollectionSynchronizer<T>.Reset(System.Collections.Generic.IEnumerab
 Gu.Reactive.CollectionSynchronizer<T>.Snapshot() -> System.Collections.Generic.IReadOnlyList<T>!
 Gu.Reactive.Condition
 Gu.Reactive.Condition.Condition(Gu.Reactive.ObservableAndCriteria observableAndCriteria) -> void
-Gu.Reactive.Condition.Condition(System.Func<bool?>! criteria, System.IObservable<object?>! observable, params System.IObservable<object?>![]! observables) -> void
+Gu.Reactive.Condition.Condition(System.Func<bool?>! criteria, System.IObservable<object?>! observable, params System.IObservable<object?>![]? observables) -> void
 Gu.Reactive.Condition.Condition(System.IObservable<object?>! observable, System.Func<bool?>! criteria) -> void
 Gu.Reactive.Condition.Dispose() -> void
 Gu.Reactive.Condition.History.get -> System.Collections.Generic.IEnumerable<Gu.Reactive.ConditionHistoryPoint>!
@@ -529,7 +529,7 @@ static Gu.Reactive.Maybe.Some<T>(T value) -> Gu.Reactive.Maybe<T>
 static Gu.Reactive.Maybe<T>.None.get -> Gu.Reactive.Maybe<T>
 static Gu.Reactive.Maybe<T>.operator !=(Gu.Reactive.Maybe<T> left, Gu.Reactive.Maybe<T> right) -> bool
 static Gu.Reactive.Maybe<T>.operator ==(Gu.Reactive.Maybe<T> left, Gu.Reactive.Maybe<T> right) -> bool
-static Gu.Reactive.Maybe<T>.Some(T? value) -> Gu.Reactive.Maybe<T>
+static Gu.Reactive.Maybe<T>.Some(T value) -> Gu.Reactive.Maybe<T>
 static Gu.Reactive.MinMaxTracker.TrackMinMax<TItem, TValue>(this Gu.Reactive.IReadOnlyObservableCollection<TItem!>! source, System.Linq.Expressions.Expression<System.Func<TItem!, TValue>!>! selector) -> Gu.Reactive.MinMaxTracker<TValue>!
 static Gu.Reactive.MinMaxTracker.TrackMinMax<TItem, TValue>(this System.Collections.ObjectModel.ObservableCollection<TItem!>! source, System.Linq.Expressions.Expression<System.Func<TItem!, TValue>!>! selector) -> Gu.Reactive.MinMaxTracker<TValue>!
 static Gu.Reactive.MinMaxTracker.TrackMinMax<TItem, TValue>(this System.Collections.ObjectModel.ReadOnlyObservableCollection<TItem!>! source, System.Linq.Expressions.Expression<System.Func<TItem!, TValue>!>! selector) -> Gu.Reactive.MinMaxTracker<TValue>!

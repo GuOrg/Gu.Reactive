@@ -9,9 +9,9 @@
     /// <typeparam name="T">The type of the value.</typeparam>
     public readonly struct Maybe<T> : IMaybe<T>, IEquatable<Maybe<T>>
     {
-        private readonly T? value;
+        private readonly T value;
 
-        private Maybe(bool hasValue, T? value)
+        private Maybe(bool hasValue, T value)
         {
             this.HasValue = hasValue;
             this.value = value;
@@ -65,7 +65,7 @@
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>A <see cref="Maybe{T}"/>.</returns>
-        public static Maybe<T> Some(T? value) => new Maybe<T>(hasValue: true, value: value);
+        public static Maybe<T> Some(T value) => new Maybe<T>(hasValue: true, value: value);
 #pragma warning restore CA1000 // Do not declare static members on generic types
 
         /// <inheritdoc />

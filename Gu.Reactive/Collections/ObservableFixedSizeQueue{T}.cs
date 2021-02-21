@@ -12,9 +12,9 @@
     /// <typeparam name="T">The type of the items in the collection.</typeparam>
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [Serializable]
-#pragma warning disable CA1010 // Collections should implement generic interface
+#pragma warning disable CA1711 // Identifiers should not have incorrect suffix
     public class ObservableFixedSizeQueue<T> : FixedSizedQueue<T>, INotifyCollectionChanged, INotifyPropertyChanged
-#pragma warning restore CA1010 // Collections should implement generic interface
+#pragma warning restore CA1711 // Identifiers should not have incorrect suffix
     {
         private readonly IScheduler? scheduler;
 
