@@ -38,7 +38,9 @@ namespace Gu.Reactive
         /// More observables that triggers updates of <see cref="IsSatisfied"/>.
         /// </param>
         public Condition(Func<bool?> criteria, IObservable<object?> observable, params IObservable<object?>[]? observables)
+#pragma warning disable CA1508 // Avoid dead conditional code
             : this(observables is null ? observable : Observable.Merge(observables.Prepend(observable)), criteria)
+#pragma warning restore CA1508 // Avoid dead conditional code
         {
         }
 

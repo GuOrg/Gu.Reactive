@@ -13,7 +13,9 @@
     [DebuggerTypeProxy(typeof(CollectionDebugView<>))]
     [Serializable]
 #pragma warning disable CA1711 // Identifiers should not have incorrect suffix
+#pragma warning disable CA1010 // Generic interface should also be implemented
     public class ObservableFixedSizeQueue<T> : FixedSizedQueue<T>, INotifyCollectionChanged, INotifyPropertyChanged
+#pragma warning restore CA1010 // Generic interface should also be implemented
 #pragma warning restore CA1711 // Identifiers should not have incorrect suffix
     {
         private readonly IScheduler? scheduler;
