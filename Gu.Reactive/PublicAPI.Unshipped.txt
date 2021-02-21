@@ -715,7 +715,6 @@ virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Dispose(bool disposing) -
 virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Notify(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs!>! changes) -> void
 virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Notify(System.Collections.Specialized.NotifyCollectionChangedEventArgs! change) -> void
 virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.OnCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs! e) -> void
-virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.OnPropertyChanged(string? propertyName = null) -> void
 virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.OnPropertyChanged(System.ComponentModel.PropertyChangedEventArgs! e) -> void
 virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Refresh() -> void
 virtual Gu.Reactive.ReadonlyViewBase<TSource, TMapped>.Refresh(System.Collections.Generic.IReadOnlyList<System.Collections.Specialized.NotifyCollectionChangedEventArgs!>! changes) -> void
