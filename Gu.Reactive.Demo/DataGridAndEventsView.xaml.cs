@@ -9,9 +9,6 @@
     using System.Windows;
     using System.Windows.Controls;
 
-    /// <summary>
-    /// Interaction logic for DataGridAndEventsView.xaml.
-    /// </summary>
     public sealed partial class DataGridAndEventsView : UserControl, IDisposable
     {
         /// <summary>Identifies the <see cref="Source"/> dependency property.</summary>

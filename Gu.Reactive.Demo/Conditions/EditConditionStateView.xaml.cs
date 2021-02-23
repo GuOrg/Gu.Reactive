@@ -2,9 +2,6 @@
 {
     using System.Windows.Controls;
 
-    /// <summary>
-    /// Interaction logic for EditConditionStateView.xaml.
-    /// </summary>
     public partial class EditConditionStateView : UserControl
     {
         public EditConditionStateView()
