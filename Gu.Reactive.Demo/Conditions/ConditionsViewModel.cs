@@ -15,6 +15,7 @@
 
         private ConditionsViewModel()
         {
+            this.IsLeftDoorClosedCondition = new NegatedCondition(this.IsLeftDoorOpenCondition);
             this.conditions = new List<ICondition>
             {
                 this.IsLeftDoorOpenCondition,
@@ -42,9 +43,7 @@
 
         public ICondition IsBackDoorOpenCondition { get; } = new IsBackDoorOpen();
 
-#pragma warning disable IDISP004 // Don't ignore created IDisposable.
-        public ICondition IsLeftDoorClosedCondition { get; } = new IsLeftDoorOpen().Negate();
-#pragma warning restore IDISP004 // Don't ignore created IDisposable.
+        public ICondition IsLeftDoorClosedCondition { get; }
 
         public ICondition IsMotorRunningCondition { get; } = new IsMotorRunning();
 

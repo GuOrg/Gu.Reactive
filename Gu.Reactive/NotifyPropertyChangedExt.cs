@@ -340,13 +340,17 @@ namespace Gu.Reactive
                     o =>
                     {
                         var tracker = notifyingPath.CreateTracker(source);
-                        void Handler(IPropertyTracker _, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue) => o.OnNext(create(sender, args, sourceAndValue.Value));
                         tracker.TrackedPropertyChanged += Handler;
                         return new CompositeDisposable(2)
                         {
                             tracker,
                             Disposable.Create(() => tracker.TrackedPropertyChanged -= Handler),
                         };
+
+                        void Handler(IPropertyTracker _, object sender, PropertyChangedEventArgs args, SourceAndValue<INotifyPropertyChanged?, TProperty> sourceAndValue)
+                        {
+                            o.OnNext(create(sender, args, sourceAndValue.Value));
+                        }
                     });
             }
 
@@ -385,18 +389,17 @@ namespace Gu.Reactive
 
             if (notifyingPath.Count > 1)
             {
-                return Observable.Create<T>(
-                    o =>
-                        {
-                            var tracker = notifyingPath.CreateTracker(source);
-                            void Handler(IPropertyTracker _, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged?, TProperty> __) => o.OnNext(create(sender, e));
-                            tracker.TrackedPropertyChanged += Handler;
-                            return new CompositeDisposable(2)
-                                       {
-                                           tracker,
-                                           Disposable.Create(() => tracker.TrackedPropertyChanged -= Handler),
-                                       };
-                        });
+                return Observable.Create<T>(o =>
+                {
+                    var tracker = notifyingPath.CreateTracker(source);
+                    void Handler(IPropertyTracker _, object sender, PropertyChangedEventArgs e, SourceAndValue<INotifyPropertyChanged?, TProperty> __) => o.OnNext(create(sender, e));
+                    tracker.TrackedPropertyChanged += Handler;
+                    return new CompositeDisposable(2)
+                    {
+                        tracker,
+                        Disposable.Create(() => tracker.TrackedPropertyChanged -= Handler),
+                    };
+                });
             }
 
             return ObservePropertyChangedCore(source, notifyingPath.Last.Property.Name, create, signalInitial: false);
