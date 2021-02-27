@@ -91,14 +91,21 @@
             {
                 lock (this.Gate)
                 {
-                    if (!this.cache.TryGetValue(key, out var result))
-                    {
-                        result = this.selector(key);
-                        this.cache.Add(key, result);
-                    }
-
+                    var result = GetOrCreateCore();
                     this.sourceCounter.Increment(key);
                     this.resultCounter.Increment(result!);
+                    return result!;
+                }
+
+                TResult GetOrCreateCore()
+                {
+                    if (this.cache.TryGetValue(key, out var result))
+                    {
+                        return result!;
+                    }
+
+                    result = this.selector(key);
+                    this.cache.Add(key, result);
                     return result;
                 }
             }
