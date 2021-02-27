@@ -98,7 +98,7 @@
                     }
 
                     this.sourceCounter.Increment(key);
-                    this.resultCounter.Increment(result);
+                    this.resultCounter.Increment(result!);
                     return result;
                 }
             }
