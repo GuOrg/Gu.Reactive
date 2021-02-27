@@ -7,7 +7,7 @@
     using System.ComponentModel;
 
     internal sealed class SimpleItemsTracker<TCollection, TItem, TProperty> : ItemsTracker<TCollection, TItem, TProperty>
-        where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+        where TCollection : class?, IEnumerable<TItem>?, INotifyCollectionChanged?
         where TItem : class?, INotifyPropertyChanged?
     {
         private readonly Getter<TItem, TProperty> getter;

@@ -167,7 +167,7 @@ namespace Gu.Reactive
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
                 this IObservable<TCollection> source,
                 Expression<Func<TItem, TProperty>> property)
-            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TCollection : class?, IEnumerable<TItem>?, INotifyCollectionChanged?
             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
@@ -205,7 +205,7 @@ namespace Gu.Reactive
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TCollection, TItem, TProperty>(
                 this IObservable<TCollection> source,
                 Expression<Func<TItem, TProperty>> property)
-            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TCollection : class?, IEnumerable<TItem>?, INotifyCollectionChanged?
             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
@@ -237,7 +237,7 @@ namespace Gu.Reactive
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
                 this IObservable<Maybe<TCollection>> source,
                 Expression<Func<TItem, TProperty>> property)
-            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TCollection : class?, IEnumerable<TItem>?, INotifyCollectionChanged?
             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
@@ -275,7 +275,7 @@ namespace Gu.Reactive
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TCollection, TItem, TProperty>(
                 this IObservable<Maybe<TCollection>> source,
                 Expression<Func<TItem, TProperty>> property)
-            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TCollection : class?, IEnumerable<TItem>?, INotifyCollectionChanged?
             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
@@ -317,7 +317,7 @@ namespace Gu.Reactive
             IObserver<T> observer,
             Expression<Func<TItem, TProperty>> property,
             Func<TItem?, object?, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TProperty>, T> create)
-            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TCollection : class?, IEnumerable<TItem>?, INotifyCollectionChanged?
             where TItem : class?, INotifyPropertyChanged?
         {
             var tracker = ItemsTracker.Create((TCollection?)null, NotifyingPath.GetOrCreate(property));
@@ -341,7 +341,7 @@ namespace Gu.Reactive
             IObserver<T> observer,
             Expression<Func<TItem, TProperty>> property,
             Func<TItem?, object?, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TProperty>, T> create)
-            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TCollection : class?, IEnumerable<TItem>?, INotifyCollectionChanged?
             where TItem : class?, INotifyPropertyChanged?
         {
             var tracker = ItemsTracker.Create((TCollection?)null, NotifyingPath.GetOrCreate(property));
