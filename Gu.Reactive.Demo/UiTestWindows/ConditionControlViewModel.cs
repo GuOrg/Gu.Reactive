@@ -1,4 +1,5 @@
-﻿namespace Gu.Reactive.Demo.UiTestWindows
+﻿#pragma warning disable IDISP004 // analyzer is right but not important to fix
+namespace Gu.Reactive.Demo.UiTestWindows
 {
     using System;
     using System.Collections.ObjectModel;
