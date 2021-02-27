@@ -128,7 +128,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
-             this IObservable<ObservableCollection<TItem>> source,
+             this IObservable<ObservableCollection<TItem>?> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -142,7 +142,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChanged<ObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChanged<ObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
-             this IObservable<ObservableCollection<TItem>> source,
+             this IObservable<ObservableCollection<TItem>?> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -169,7 +169,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChangedSlim<ObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChangedSlim<ObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
 
@@ -184,7 +184,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
-             this IObservable<Maybe<ObservableCollection<TItem>>> source,
+             this IObservable<Maybe<ObservableCollection<TItem>?>> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -198,7 +198,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChanged<ObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChanged<ObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
-             this IObservable<Maybe<ObservableCollection<TItem>>> source,
+             this IObservable<Maybe<ObservableCollection<TItem>?>> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -226,7 +226,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChangedSlim<ObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChangedSlim<ObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
         /// <summary>
@@ -338,7 +338,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
-             this IObservable<ReadOnlyObservableCollection<TItem>> source,
+             this IObservable<ReadOnlyObservableCollection<TItem>?> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -352,7 +352,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChanged<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChanged<ReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
-             this IObservable<ReadOnlyObservableCollection<TItem>> source,
+             this IObservable<ReadOnlyObservableCollection<TItem>?> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -379,7 +379,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChangedSlim<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChangedSlim<ReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
 
@@ -394,7 +394,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
-             this IObservable<Maybe<ReadOnlyObservableCollection<TItem>>> source,
+             this IObservable<Maybe<ReadOnlyObservableCollection<TItem>?>> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -408,7 +408,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChanged<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChanged<ReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
         /// <summary>
@@ -422,7 +422,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
-             this IObservable<Maybe<ReadOnlyObservableCollection<TItem>>> source,
+             this IObservable<Maybe<ReadOnlyObservableCollection<TItem>?>> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -436,7 +436,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChangedSlim<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChangedSlim<ReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
         /// <summary>
@@ -548,7 +548,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
-             this IObservable<IReadOnlyObservableCollection<TItem>> source,
+             this IObservable<IReadOnlyObservableCollection<TItem>?> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -562,7 +562,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChanged<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChanged<IReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
         /// <summary>
@@ -575,7 +575,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
-             this IObservable<IReadOnlyObservableCollection<TItem>> source,
+             this IObservable<IReadOnlyObservableCollection<TItem>?> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -589,7 +589,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChangedSlim<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChangedSlim<IReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
 
@@ -604,7 +604,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
-             this IObservable<Maybe<IReadOnlyObservableCollection<TItem>>> source,
+             this IObservable<Maybe<IReadOnlyObservableCollection<TItem>?>> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -618,7 +618,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChanged<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChanged<IReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
         /// <summary>
@@ -632,7 +632,7 @@ namespace Gu.Reactive
         /// <param name="property">An expression with the property path.</param>
         /// <returns>An observable that notifies when the property changes.</returns>
         public static IObservable<PropertyChangedEventArgs> ItemPropertyChangedSlim<TItem, TProperty>(
-             this IObservable<Maybe<IReadOnlyObservableCollection<TItem>>> source,
+             this IObservable<Maybe<IReadOnlyObservableCollection<TItem>?>> source,
              Expression<Func<TItem, TProperty>> property)
              where TItem : class?, INotifyPropertyChanged?
         {
@@ -646,7 +646,7 @@ namespace Gu.Reactive
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChangedSlim<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChangedSlim<IReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
     }
 }
