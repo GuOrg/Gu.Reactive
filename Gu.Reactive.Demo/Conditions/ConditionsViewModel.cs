@@ -35,7 +35,9 @@
             this.StopCommand = new ConditionRelayCommand(() => ConditionState.Instance.IsMotorRunning = false, this.CanStopCondition);
         }
 
+#pragma warning disable CS0067
         public event PropertyChangedEventHandler? PropertyChanged;
+#pragma warning restore CS0067
 
         public ICondition IsLeftDoorOpenCondition { get; } = new IsLeftDoorOpen();
 
