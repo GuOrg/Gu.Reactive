@@ -1,4 +1,5 @@
-﻿namespace Gu.Wpf.Reactive
+﻿#pragma warning disable CA2000 // Dispose objects before losing scope, analyzer getting everything wrong in this class.
+namespace Gu.Wpf.Reactive
 {
     using System;
     using System.Collections.Generic;
