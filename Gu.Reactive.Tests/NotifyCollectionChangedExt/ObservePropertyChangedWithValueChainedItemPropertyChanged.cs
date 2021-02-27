@@ -130,7 +130,7 @@ namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 
                 fake.Collection.Add(new Fake { Next = new Level { Name = "3" } });
                 Assert.AreEqual(7, changes.Count);
-                EventPatternAssert.AreEqual(fake.Collection[2], fake.Collection, fake.Collection[2].Next, Maybe.Some("3"), string.Empty, changes.Last());
+                EventPatternAssert.AreEqual(fake.Collection[2], fake.Collection, fake.Collection[2].Next, Maybe.Some<string?>("3"), string.Empty, changes.Last());
             }
 
             Assert.AreEqual(7, changes.Count);
