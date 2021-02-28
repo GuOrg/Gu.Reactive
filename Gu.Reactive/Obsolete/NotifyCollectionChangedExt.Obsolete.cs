@@ -27,7 +27,7 @@
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TCollection, TItem, TProperty>(
             this IObservable<EventPattern<PropertyChangedAndValueEventArgs<TCollection>>> source,
             Expression<Func<TItem, TProperty>> property)
-            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TCollection : class?, IEnumerable<TItem>?, INotifyCollectionChanged?
             where TItem : class?, INotifyPropertyChanged?
         {
             if (source is null)
@@ -65,7 +65,7 @@
         /// <returns>An observable that notifies when the property changes.</returns>
         [Obsolete("Removing this as it is messy and hard to use. Use ObserveValue instead.")]
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
-            this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>>>> source,
+            this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<TItem>?>>> source,
             Expression<Func<TItem, TProperty>> property)
             where TItem : class?, INotifyPropertyChanged?
         {
@@ -79,7 +79,7 @@
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChanged<ObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChanged<ObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@
         /// <returns>An observable that notifies when the property changes.</returns>
         [Obsolete("Removing this as it is messy and hard to use. Use ObserveValue instead.")]
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
-            this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ReadOnlyObservableCollection<TItem>>>> source,
+            this IObservable<EventPattern<PropertyChangedAndValueEventArgs<ReadOnlyObservableCollection<TItem>?>>> source,
             Expression<Func<TItem, TProperty>> property)
             where TItem : class?, INotifyPropertyChanged?
         {
@@ -108,7 +108,7 @@
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChanged<ReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChanged<ReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
         /// <summary>
@@ -123,7 +123,7 @@
         /// <returns>An observable that notifies when the property changes.</returns>
         [Obsolete("Removing this as it is messy and hard to use. Use ObserveValue instead.")]
         public static IObservable<EventPattern<ItemPropertyChangedEventArgs<TItem, TProperty>>> ItemPropertyChanged<TItem, TProperty>(
-            this IObservable<EventPattern<PropertyChangedAndValueEventArgs<IReadOnlyObservableCollection<TItem>>>> source,
+            this IObservable<EventPattern<PropertyChangedAndValueEventArgs<IReadOnlyObservableCollection<TItem>?>>> source,
             Expression<Func<TItem, TProperty>> property)
             where TItem : class?, INotifyPropertyChanged?
         {
@@ -137,7 +137,7 @@
                 throw new ArgumentNullException(nameof(property));
             }
 
-            return ItemPropertyChanged<IReadOnlyObservableCollection<TItem>, TItem, TProperty>(source, property);
+            return ItemPropertyChanged<IReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
         [Obsolete("Removing this as it is messy and hard to use. Use ObserveValue instead.")]
@@ -146,7 +146,7 @@
             IObserver<T> observer,
             Expression<Func<TItem, TProperty>> property,
             Func<TItem?, object?, PropertyChangedEventArgs, SourceAndValue<INotifyPropertyChanged?, TProperty>, T> create)
-            where TCollection : class, IEnumerable<TItem>, INotifyCollectionChanged
+            where TCollection : class?, IEnumerable<TItem>?, INotifyCollectionChanged?
             where TItem : class?, INotifyPropertyChanged?
         {
             return source.Select(x => x.EventArgs.Value)
