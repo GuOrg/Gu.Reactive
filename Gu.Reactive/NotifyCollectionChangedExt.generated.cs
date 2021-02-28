@@ -172,7 +172,6 @@ namespace Gu.Reactive
             return ItemPropertyChangedSlim<ObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
-
         /// <summary>
         /// Used for chained subscriptions sample:
         /// source.ObserveValue(x => x.Collection, true)
@@ -382,7 +381,6 @@ namespace Gu.Reactive
             return ItemPropertyChangedSlim<ReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
 
-
         /// <summary>
         /// Used for chained subscriptions sample:
         /// source.ObserveValue(x => x.Collection, true)
@@ -591,7 +589,6 @@ namespace Gu.Reactive
 
             return ItemPropertyChangedSlim<IReadOnlyObservableCollection<TItem>?, TItem, TProperty>(source, property);
         }
-
 
         /// <summary>
         /// Used for chained subscriptions sample:

@@ -190,7 +190,6 @@ namespace Gu.Reactive
             return ItemPropertyChangedSlim<<#= typeName #><TItem>?, TItem, TProperty>(source, property);
         }
 
-
         /// <summary>
         /// Used for chained subscriptions sample:
         /// source.ObserveValue(x => x.Collection, true)
