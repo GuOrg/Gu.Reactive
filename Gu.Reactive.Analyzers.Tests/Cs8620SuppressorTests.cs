@@ -10,6 +10,7 @@
 
         [TestCase("M(IObservable<Maybe<ObservableCollection<C>>> observable) => observable.ItemPropertyChanged(x => x.P)")]
         [TestCase("M(IObservable<Maybe<ObservableCollection<C>>> observable) => NotifyCollectionChangedExt.ItemPropertyChanged(observable, x => x.P)")]
+        [TestCase("M(IObservable<EventPattern<PropertyChangedAndValueEventArgs<ObservableCollection<C>>>> observable) => observable.ItemPropertyChanged(x => x.P)")]
         public static void Suppresses(string text)
         {
             var code = @"
@@ -19,6 +20,7 @@ namespace N
     using System;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Reactive;
     using System.Runtime.CompilerServices;
     using Gu.Reactive;
 

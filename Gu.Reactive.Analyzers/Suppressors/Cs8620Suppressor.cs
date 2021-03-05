@@ -22,14 +22,15 @@
             foreach (var diagnostic in context.ReportedDiagnostics)
             {
                 if (diagnostic.GetMessage(CultureInfo.InvariantCulture) is { } message &&
-                    IsMaybe(message))
+                    IsOut(message))
                 {
                     context.ReportSuppression(Suppression.Create(Descriptor, diagnostic));
                 }
 
-                static bool IsMaybe(string message)
+                static bool IsOut(string message)
                 {
-                    return Regex.IsMatch(message, "Argument of type '.*Maybe<.+>>*' cannot be used for parameter '[^']+' of type '.*Maybe<.+\\?>>*'");
+                    return Regex.IsMatch(message, "Argument of type '.*Maybe<.+>>*' cannot be used for parameter '[^']+' of type '.*Maybe<.+\\?>>*'") ||
+                           Regex.IsMatch(message, "Argument of type '.*PropertyChangedAndValueEventArgs<.+>>*' cannot be used for parameter '[^']+' of type '.*PropertyChangedAndValueEventArgs<.+\\?>>*'");
                 }
             }
         }
