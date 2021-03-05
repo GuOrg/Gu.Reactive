@@ -1,5 +1,4 @@
 ﻿// ReSharper disable RedundantArgumentDefaultValue
-// ReSharper disable ClassNeverInstantiated.Global
 // ReSharper disable once InconsistentNaming
 namespace Gu.Reactive.Tests.NotifyCollectionChangedExt
 {
