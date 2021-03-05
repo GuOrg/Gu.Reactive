@@ -21,8 +21,8 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj" />
-    <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" PrivateAssets="all"/>
-    <ProjectReference Include="..\Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj" PrivateAssets="all"/>
+    <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" />
+    <ProjectReference Include="..\Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj" />
   </ItemGroup>
 
   <ItemGroup>
