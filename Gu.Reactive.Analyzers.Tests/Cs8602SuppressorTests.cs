@@ -101,5 +101,67 @@ namespace N
 }".AssertReplace("ObservePropertyChanged(x => x.P.P)", expression);
             RoslynAssert.Valid(Analyzer, c1, c2, code);
         }
+
+        [Test]
+        public static void ThisObservePropertyChangedSlimTaskCompletionStatus()
+        {
+            var code = @"
+#nullable enable
+namespace Gu.Wpf.Reactive
+{
+    using System.ComponentModel;
+    using System.Runtime.CompilerServices;
+
+    using Gu.Reactive;
+
+    /// <summary>
+    /// A base class for running tasks and notifying about the results.
+    /// </summary>
+    public abstract class C : INotifyPropertyChanged
+    {
+        private NotifyTaskCompletion? taskCompletion;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref=""TaskRunnerBase""/> class.
+        /// </summary>
+        protected C()
+        {
+            _ = this.ObservePropertyChangedSlim(x => x.TaskCompletion.Status);
+        }
+
+        /// <inheritdoc/>
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        /// Gets or sets the status of the current task.
+        /// </summary>
+        public NotifyTaskCompletion? TaskCompletion
+        {
+            get => this.taskCompletion;
+
+            protected set
+            {
+                if (ReferenceEquals(value, this.taskCompletion))
+                {
+                    return;
+                }
+
+                this.taskCompletion = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Notifies that <paramref name=""propertyName""/> changed.
+        /// </summary>
+        /// <param name=""propertyName"">The name of the property.</param>
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}";
+            RoslynAssert.Valid(Analyzer, code);
+        }
     }
 }

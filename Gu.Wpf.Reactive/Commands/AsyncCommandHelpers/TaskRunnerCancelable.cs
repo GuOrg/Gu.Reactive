@@ -29,6 +29,7 @@
             this.CanCancelCondition = new Condition(
                 Observable.Merge<object>(
                     this.ObservePropertyChangedSlim(nameof(this.CanCancel)),
+                    this.ObservePropertyChangedSlim(nameof(this.TaskCompletion)),
                     this.CanRunCondition.ObserveIsSatisfiedChanged()),
                 () => this.CanCancel)
             {
@@ -36,7 +37,10 @@
             };
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets if execution can be canceled.
+        /// True if a cancellation token was provided and a task is running.
+        /// </summary>
         public override ICondition CanCancelCondition { get; }
 
         /// <summary>
