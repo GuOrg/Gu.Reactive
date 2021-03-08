@@ -16,11 +16,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Gu.Reactive\Gu.Reactive.csproj" />
     <ProjectReference Include="..\Gu.Wpf.Reactive\Gu.Wpf.Reactive.csproj" />
+    <ProjectReference Include="..\Gu.Reactive.Analyzers\Gu.Reactive.Analyzers.csproj" OutputItemType="Analyzer" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Gu.Analyzers" Version="1.8.5" PrivateAssets="all" />
-    <PackageReference Include="Gu.Reactive.Analyzers" Version="5.0.0" PrivateAssets="all" />
     <PackageReference Include="Gu.Wpf.ToolTips" Version="0.4.0" />
     <PackageReference Include="IDisposableAnalyzers" Version="3.4.13" PrivateAssets="all" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.9.54" PrivateAssets="all" />
