@@ -8,9 +8,11 @@ namespace Gu.Reactive.Benchmarks
 
         private static readonly Gu.Roslyn.Asserts.Benchmark ConstructorAnalyzerBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.ConstructorAnalyzer());
 
+        private static readonly Gu.Roslyn.Asserts.Benchmark InvocationAnalyzerBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.InvocationAnalyzer());
+
         private static readonly Gu.Roslyn.Asserts.Benchmark Cs8602SuppressorBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.Cs8602Suppressor());
 
-        private static readonly Gu.Roslyn.Asserts.Benchmark InvocationAnalyzerBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.InvocationAnalyzer());
+        private static readonly Gu.Roslyn.Asserts.Benchmark Cs8620SuppressorBenchmark = Gu.Roslyn.Asserts.Benchmark.Create(Code.AnalyzersProject, new Gu.Reactive.Analyzers.Cs8620Suppressor());
 
         [BenchmarkDotNet.Attributes.Benchmark]
         public void AddAssignmentAnalyzer()
@@ -25,15 +27,21 @@ namespace Gu.Reactive.Benchmarks
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]
+        public void InvocationAnalyzer()
+        {
+            InvocationAnalyzerBenchmark.Run();
+        }
+
+        [BenchmarkDotNet.Attributes.Benchmark]
         public void Cs8602Suppressor()
         {
             Cs8602SuppressorBenchmark.Run();
         }
 
         [BenchmarkDotNet.Attributes.Benchmark]
-        public void InvocationAnalyzer()
+        public void Cs8620Suppressor()
         {
-            InvocationAnalyzerBenchmark.Run();
+            Cs8620SuppressorBenchmark.Run();
         }
     }
 }
