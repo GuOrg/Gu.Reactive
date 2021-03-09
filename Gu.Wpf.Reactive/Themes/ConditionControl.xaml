@@ -7,33 +7,6 @@
     </DataTemplate>
 
     <ControlTemplate x:Key="{x:Static local:ConditionControl.ConditionTemplateKey}" TargetType="{x:Type local:ConditionControl}">
-        <ControlTemplate.Resources>
-            <local:ConditionTypeTemplateSelector x:Key="IconTemplateSelector">
-                <local:ConditionTypeTemplateSelector.AndConditionTemplate>
-                    <DataTemplate DataType="{x:Type reactive:AndCondition}">
-                        <TextBlock Text="&amp;" />
-                    </DataTemplate>
-                </local:ConditionTypeTemplateSelector.AndConditionTemplate>
-
-                <local:ConditionTypeTemplateSelector.OrConditionTemplate>
-                    <DataTemplate DataType="{x:Type reactive:OrCondition}">
-                        <TextBlock Text="|" />
-                    </DataTemplate>
-                </local:ConditionTypeTemplateSelector.OrConditionTemplate>
-
-                <local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
-                    <DataTemplate DataType="{x:Type reactive:NegatedCondition}">
-                        <TextBlock Text="!" />
-                    </DataTemplate>
-                </local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
-
-                <local:ConditionTypeTemplateSelector.NodeConditionTemplate>
-                    <DataTemplate DataType="{x:Type reactive:Condition}">
-                        <TextBlock Text="" />
-                    </DataTemplate>
-                </local:ConditionTypeTemplateSelector.NodeConditionTemplate>
-            </local:ConditionTypeTemplateSelector>
-        </ControlTemplate.Resources>
         <Border x:Name="Border"
                 Background="Transparent"
                 BorderBrush="{x:Null}">
@@ -60,11 +33,39 @@
                             </Style>
                         </Ellipse.Style>
                     </Ellipse>
+
                     <ContentPresenter HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
                                       Content="{TemplateBinding Condition}"
-                                      ContentTemplateSelector="{StaticResource IconTemplateSelector}"
-                                      Focusable="False" />
+                                      Focusable="False">
+                        <ContentPresenter.ContentTemplateSelector>
+                            <local:ConditionTypeTemplateSelector>
+                                <local:ConditionTypeTemplateSelector.AndConditionTemplate>
+                                    <DataTemplate DataType="{x:Type reactive:AndCondition}">
+                                        <TextBlock Text="&amp;" />
+                                    </DataTemplate>
+                                </local:ConditionTypeTemplateSelector.AndConditionTemplate>
+
+                                <local:ConditionTypeTemplateSelector.OrConditionTemplate>
+                                    <DataTemplate DataType="{x:Type reactive:OrCondition}">
+                                        <TextBlock Text="|" />
+                                    </DataTemplate>
+                                </local:ConditionTypeTemplateSelector.OrConditionTemplate>
+
+                                <local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
+                                    <DataTemplate DataType="{x:Type reactive:NegatedCondition}">
+                                        <TextBlock Text="!" />
+                                    </DataTemplate>
+                                </local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
+
+                                <local:ConditionTypeTemplateSelector.NodeConditionTemplate>
+                                    <DataTemplate DataType="{x:Type reactive:Condition}">
+                                        <TextBlock Text="" />
+                                    </DataTemplate>
+                                </local:ConditionTypeTemplateSelector.NodeConditionTemplate>
+                            </local:ConditionTypeTemplateSelector>
+                        </ContentPresenter.ContentTemplateSelector>
+                    </ContentPresenter>
                 </Grid>
 
                 <TextBlock x:Name="TextBlock"
