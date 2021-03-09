@@ -88,7 +88,7 @@
             }
         }
 
-        private void UpdateSubscriptions(IEnumerable? oldItems, IEnumerable newItems)
+        private void UpdateSubscriptions(IEnumerable? oldItems, IEnumerable? newItems)
         {
             if (this.Disposed)
             {
@@ -104,11 +104,9 @@
 
                 if (newItems != null)
                 {
-#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
-                    foreach (TItem item in newItems)
-#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
+                    foreach (TItem? item in newItems)
                     {
-                        if (!(item is null) &&
+                        if (item is not null &&
                             this.set.Add(item))
                         {
                             item.PropertyChanged += this.OnItemPropertyChanged;
@@ -119,11 +117,9 @@
                 if (oldItems != null)
                 {
                     this.set.IntersectWith(this.source);
-#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
-                    foreach (TItem item in oldItems)
-#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
+                    foreach (TItem? item in oldItems)
                     {
-                        if (!(item is null) &&
+                        if (item is not null &&
                             !this.set.Contains(item))
                         {
                             item.PropertyChanged -= this.OnItemPropertyChanged;

@@ -88,7 +88,7 @@
             }
         }
 
-        private void UpdateSubscriptions(IEnumerable? oldItems, IEnumerable newItems)
+        private void UpdateSubscriptions(IEnumerable? oldItems, IEnumerable? newItems)
         {
             if (this.Disposed)
             {
@@ -108,11 +108,9 @@
                 set.UnionWith(this.map.Keys);
                 if (newItems != null)
                 {
-#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
-                    foreach (TItem item in newItems)
-#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
+                    foreach (TItem? item in newItems)
                     {
-                        if (!(item is null) &&
+                        if (item is not null &&
                             set.Add(item))
                         {
                             var tracker = this.path.CreateTracker(item);
@@ -125,11 +123,9 @@
                 if (oldItems != null)
                 {
                     set.IntersectWith(this.source.NotNull());
-#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
-                    foreach (TItem item in oldItems)
-#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
+                    foreach (TItem? item in oldItems)
                     {
-                        if (!(item is null) &&
+                        if (item is not null &&
                             !set.Contains(item))
                         {
                             var tracker = this.map[item];
