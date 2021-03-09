@@ -1,1 +1,5 @@
 ﻿abstract Gu.Wpf.Reactive.CommandBase<T>.InternalCanExecute(T? parameter) -> bool
+Gu.Wpf.Reactive.ConditionHistoryToStringConverter
+Gu.Wpf.Reactive.ConditionHistoryToStringConverter.ConditionHistoryToStringConverter() -> void
+Gu.Wpf.Reactive.ConditionHistoryToStringConverter.Convert(object! value, System.Type! targetType, object! parameter, System.Globalization.CultureInfo! culture) -> object!
+static readonly Gu.Wpf.Reactive.ConditionHistoryToStringConverter.Default -> Gu.Wpf.Reactive.ConditionHistoryToStringConverter!
