@@ -1,7 +1,8 @@
-﻿namespace Gu.Wpf.Reactive.Tests.Collections.Views.CrudSource
+﻿namespace Gu.Wpf.Reactive.Tests.Views.CrudSource
 {
     using System;
     using Gu.Reactive.Tests.Collections.ReadOnlyViews;
+    using Gu.Reactive.Tests.ReadOnlyViews;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
 

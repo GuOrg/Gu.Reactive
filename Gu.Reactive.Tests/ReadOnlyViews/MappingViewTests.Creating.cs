@@ -1,12 +1,10 @@
-﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.ReadOnlyViews
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-
     using Gu.Reactive.Tests.Helpers;
-
     using NUnit.Framework;
 
     public static partial class MappingViewTests
@@ -17,17 +15,17 @@
             public static void InitializesValueType()
             {
                 var source = new ObservableCollection<int> { 1, 1, 1, 2, 2, 2, 3, 3, 3 };
-                using var view = source.AsMappingView(Model.Create);
+                using var view = source.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Model.Create);
                 Assert.AreNotSame(view[0], view[1]);
                 CollectionAssert.AreEqual(source, view.Select(x => x.Value));
 
-                using (var vmView = view.AsMappingView(Vm.Create, leaveOpen: true))
+                using (var vmView = view.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Vm.Create, leaveOpen: true))
                 {
                     Assert.AreNotSame(view[0], view[1]);
                     CollectionAssert.AreEqual(view, vmView.Select(x => x.Model));
                 }
 
-                using var indexedView = view.AsMappingView(Vm.Create, (x, i) => x, leaveOpen: true);
+                using var indexedView = view.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Vm.Create, (x, i) => x, leaveOpen: true);
                 CollectionAssert.AreEqual(view, indexedView.Select(x => x.Model));
                 CollectionAssert.AreEqual(Enumerable.Range(0, 9), indexedView.Select(x => x.Index));
             }
@@ -35,8 +33,8 @@
             [Test]
             public static void InitializesReferenceTypeWithNulls()
             {
-                var source = new ObservableCollection<Model<int>?> { Model.Create(1), Model.Create(2), null, null, Model.Create(3) };
-                using var view = source.AsMappingView(Vm.Create);
+                var source = new ObservableCollection<Collections.ReadOnlyViews.MappingViewTests.Model<int>?> { Collections.ReadOnlyViews.MappingViewTests.Model.Create(1), Collections.ReadOnlyViews.MappingViewTests.Model.Create(2), null, null, Collections.ReadOnlyViews.MappingViewTests.Model.Create(3) };
+                using var view = source.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Vm.Create);
                 Assert.AreNotSame(view[0], view[1]);
                 Assert.AreSame(view[2], view[3]);
                 CollectionAssert.AreEqual(source, view.Select(x => x.Model));
@@ -67,7 +65,7 @@
             public static void DoesNotCacheValueTypes()
             {
                 var source = new ObservableCollection<int>();
-                using var view = source.AsMappingView(Model.Create);
+                using var view = source.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Model.Create);
                 source.Add(1);
                 Assert.AreEqual(1, view.Count);
 
@@ -89,7 +87,7 @@
             public static void Add()
             {
                 var source = new ObservableCollection<int> { 1, 2, 3 };
-                using var view = source.AsMappingView(Model.Create);
+                using var view = source.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Model.Create);
                 CollectionAssert.AreEqual(source, view.Select(x => x.Value));
 
                 using var actual = view.SubscribeAll();
@@ -121,9 +119,9 @@
             public static void Remove()
             {
                 var source = new ObservableCollection<int> { 1 };
-                using var modelView = source.AsMappingView(Model.Create);
+                using var modelView = source.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Model.Create);
                 using var modelViewChanges = modelView.SubscribeAll();
-                using var vmView = modelView.AsMappingView(Vm.Create);
+                using var vmView = modelView.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Vm.Create);
                 using var vmViewChanges = vmView.SubscribeAll();
                 var oldModel = modelView[0];
                 var oldView = vmView[0];

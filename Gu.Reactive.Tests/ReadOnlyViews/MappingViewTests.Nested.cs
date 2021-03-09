@@ -1,10 +1,8 @@
-﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.ReadOnlyViews
 {
     using System;
     using System.Collections.ObjectModel;
-
     using Gu.Reactive.Tests.Helpers;
-
     using NUnit.Framework;
 
     public static partial class MappingViewTests
@@ -15,13 +13,13 @@
             public static void Add()
             {
                 var source = new ObservableCollection<int>();
-                using var modelView = source.AsMappingView(Model.Create);
+                using var modelView = source.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Model.Create);
                 using var modelViewChanges = modelView.SubscribeAll();
                 using var indexedView = modelView.AsMappingView(
-                    Vm.Create,
+                    Collections.ReadOnlyViews.MappingViewTests.Vm.Create,
                     (x, i) => x);
                 using var indexedChanges = indexedView.SubscribeAll();
-                using var vmView = modelView.AsMappingView(Vm.Create);
+                using var vmView = modelView.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Vm.Create);
                 using var vmViewChanges = vmView.SubscribeAll();
                 source.Add(1);
                 var expected = new EventArgs?[]
@@ -45,9 +43,9 @@
             public static void Remove()
             {
                 var source = new ObservableCollection<int> { 1 };
-                using var modelView = source.AsMappingView(Model.Create);
+                using var modelView = source.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Model.Create);
                 using var modelViewChanges = modelView.SubscribeAll();
-                using var vmView = modelView.AsMappingView(Vm.Create);
+                using var vmView = modelView.AsMappingView(Collections.ReadOnlyViews.MappingViewTests.Vm.Create);
                 using var vmViewChanges = vmView.SubscribeAll();
                 var oldModel = modelView[0];
                 var oldView = vmView[0];

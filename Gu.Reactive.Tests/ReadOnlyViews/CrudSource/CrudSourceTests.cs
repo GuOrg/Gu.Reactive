@@ -1,14 +1,11 @@
-﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.ReadOnlyViews
 {
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reactive.Concurrency;
-
     using Gu.Reactive.Tests.Helpers;
-
     using Microsoft.Reactive.Testing;
-
     using NUnit.Framework;
 
     public abstract class CrudSourceTests

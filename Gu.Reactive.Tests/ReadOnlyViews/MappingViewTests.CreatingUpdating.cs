@@ -1,9 +1,8 @@
-﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.ReadOnlyViews
 {
     using System;
     using System.Collections.ObjectModel;
     using System.Linq;
-
     using NUnit.Framework;
 
     public static partial class MappingViewTests
@@ -13,16 +12,16 @@
             [Test]
             public static void Initializes()
             {
-                var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2), };
+                var source = new ObservableCollection<Collections.ReadOnlyViews.MappingViewTests.Model<int>> { Collections.ReadOnlyViews.MappingViewTests.Model.Create(1), Collections.ReadOnlyViews.MappingViewTests.Model.Create(2), };
                 using var indexed = source.AsMappingView(
-                    Vm.Create,
+                    Collections.ReadOnlyViews.MappingViewTests.Vm.Create,
                     (x, i) => x.WithIndex(i));
                 using var indexedUpdating = source.AsMappingView(
-                    Vm.Create,
+                    Collections.ReadOnlyViews.MappingViewTests.Vm.Create,
                     (x, i) => x.WithIndex(i));
                 using var indexedNewing = source.AsMappingView(
-                    Vm.Create,
-                    (x, i) => Vm.Create(x.Model, i));
+                    Collections.ReadOnlyViews.MappingViewTests.Vm.Create,
+                    (x, i) => Collections.ReadOnlyViews.MappingViewTests.Vm.Create(x.Model, i));
                 var views = new[]
                 {
                     indexed,
@@ -62,14 +61,14 @@
             [Test]
             public static void UpdatesReferenceType()
             {
-                var source = new ObservableCollection<Model<int>>();
+                var source = new ObservableCollection<Collections.ReadOnlyViews.MappingViewTests.Model<int>>();
                 using var view = source.AsMappingView(
-                    Vm.Create,
+                    Collections.ReadOnlyViews.MappingViewTests.Vm.Create,
                     (x, i) => x.WithIndex(i));
                 CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                 CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
 
-                var model = Model.Create(1);
+                var model = Collections.ReadOnlyViews.MappingViewTests.Model.Create(1);
                 source.Add(model);
                 CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                 CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
@@ -84,14 +83,14 @@
             [Test]
             public static void UpdatesReferenceTypeNulls()
             {
-                var source = new ObservableCollection<Model<int>?>();
+                var source = new ObservableCollection<Collections.ReadOnlyViews.MappingViewTests.Model<int>?>();
                 using var view = source.AsMappingView(
-                    Vm.Create,
+                    Collections.ReadOnlyViews.MappingViewTests.Vm.Create,
                     (x, i) => x.WithIndex(i));
                 CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                 CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
 
-                var model = Model.Create(1);
+                var model = Collections.ReadOnlyViews.MappingViewTests.Model.Create(1);
                 source.Add(model);
                 CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                 CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
@@ -115,15 +114,15 @@
             [Test]
             public static void UpdatesDifferentReferenceType()
             {
-                var source = new ObservableCollection<Model<int>>();
+                var source = new ObservableCollection<Collections.ReadOnlyViews.MappingViewTests.Model<int>>();
                 using var view = source.AsMappingView(
-                    Vm.Create,
+                    Collections.ReadOnlyViews.MappingViewTests.Vm.Create,
                     (x, i) => x.WithIndex(i));
-                source.Add(Model.Create(1));
+                source.Add(Collections.ReadOnlyViews.MappingViewTests.Model.Create(1));
                 CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                 CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
 
-                source.Add(Model.Create(1));
+                source.Add(Collections.ReadOnlyViews.MappingViewTests.Model.Create(1));
                 Assert.AreNotSame(view[0], view[1]);
                 CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                 CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
@@ -135,7 +134,7 @@
                 source.Clear();
                 CollectionAssert.IsEmpty(view);
 
-                source.Add(Model.Create(3));
+                source.Add(Collections.ReadOnlyViews.MappingViewTests.Model.Create(3));
                 CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                 CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
             }
@@ -143,11 +142,11 @@
             [Test]
             public static void UpdatesSameReferenceType()
             {
-                var source = new ObservableCollection<Model<int>>();
+                var source = new ObservableCollection<Collections.ReadOnlyViews.MappingViewTests.Model<int>>();
                 using var view = source.AsMappingView(
-                    Vm.Create,
+                    Collections.ReadOnlyViews.MappingViewTests.Vm.Create,
                     (x, i) => x.WithIndex(i));
-                var model = Model.Create(1);
+                var model = Collections.ReadOnlyViews.MappingViewTests.Model.Create(1);
                 source.Add(model);
                 CollectionAssert.AreEqual(source, view.Select(x => x.Model));
                 CollectionAssert.AreEqual(source.Select((_, i) => i), view.Select(x => x.Index));
@@ -174,9 +173,9 @@
             [TestCase(1)]
             public static void UpdatesOnRemoveTwoItems(int removeAt)
             {
-                var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2) };
+                var source = new ObservableCollection<Collections.ReadOnlyViews.MappingViewTests.Model<int>> { Collections.ReadOnlyViews.MappingViewTests.Model.Create(1), Collections.ReadOnlyViews.MappingViewTests.Model.Create(2) };
                 using var view = source.AsMappingView(
-                    Vm.Create,
+                    Collections.ReadOnlyViews.MappingViewTests.Vm.Create,
                     (x, i) => x.WithIndex(i));
                 var old = removeAt == 0
                     ? view[1]
@@ -194,9 +193,9 @@
             [TestCase(1)]
             public static void UpdatesOnRemoveThreeItems(int removeAt)
             {
-                var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2), Model.Create(3) };
+                var source = new ObservableCollection<Collections.ReadOnlyViews.MappingViewTests.Model<int>> { Collections.ReadOnlyViews.MappingViewTests.Model.Create(1), Collections.ReadOnlyViews.MappingViewTests.Model.Create(2), Collections.ReadOnlyViews.MappingViewTests.Model.Create(3) };
                 using var view = source.AsMappingView(
-                    Vm.Create,
+                    Collections.ReadOnlyViews.MappingViewTests.Vm.Create,
                     (x, i) => x.WithIndex(i));
                 var old = view[2];
 
@@ -213,10 +212,10 @@
             [TestCase(1)]
             public static void NewsOnRemoveTwoItems(int removeAt)
             {
-                var source = new ObservableCollection<Model<int>> { Model.Create(1), Model.Create(2) };
+                var source = new ObservableCollection<Collections.ReadOnlyViews.MappingViewTests.Model<int>> { Collections.ReadOnlyViews.MappingViewTests.Model.Create(1), Collections.ReadOnlyViews.MappingViewTests.Model.Create(2) };
                 using var view = source.AsMappingView(
-                    Vm.Create,
-                    (x, i) => Vm.Create(x.Model, i));
+                    Collections.ReadOnlyViews.MappingViewTests.Vm.Create,
+                    (x, i) => Collections.ReadOnlyViews.MappingViewTests.Vm.Create(x.Model, i));
                 source.RemoveAt(removeAt);
 
                 Assert.AreEqual(1, view.Count);

@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.Tests.Collections.Views.CrudView
+﻿namespace Gu.Wpf.Reactive.Tests.Views.CrudView
 {
     using System;
     using System.Collections.ObjectModel;

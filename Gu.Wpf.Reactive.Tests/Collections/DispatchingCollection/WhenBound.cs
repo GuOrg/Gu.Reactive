@@ -1,13 +1,11 @@
-﻿namespace Gu.Wpf.Reactive.Tests.Collections
+﻿namespace Gu.Wpf.Reactive.Tests.Collections.DispatchingCollection
 {
     using System;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
-
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
-
     using NUnit.Framework;
 
     [Apartment(ApartmentState.STA)]

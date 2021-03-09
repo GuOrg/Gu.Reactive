@@ -1,14 +1,11 @@
-﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.ReadOnlyViews
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-
     using Gu.Reactive.Tests.Helpers;
-
     using Moq;
-
     using NUnit.Framework;
 
     public static partial class MappingViewTests

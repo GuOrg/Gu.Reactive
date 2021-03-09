@@ -1,14 +1,12 @@
-﻿namespace Gu.Wpf.Reactive.Tests.Collections
+﻿namespace Gu.Wpf.Reactive.Tests.Collections.DispatchingCollection
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
-
     using Gu.Reactive;
     using Gu.Reactive.Tests.Helpers;
-
     using NUnit.Framework;
 
     [Obsolete("Testing obsolete API.")]

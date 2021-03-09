@@ -1,7 +1,8 @@
 #pragma warning disable CS0618 // Type or member is obsolete
-namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
+namespace Gu.Wpf.Reactive.Tests.Views.FilterTests
 {
     using System;
+    using Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests;
     using Gu.Wpf.Reactive.Tests.FakesAndHelpers;
     using NUnit.Framework;
 

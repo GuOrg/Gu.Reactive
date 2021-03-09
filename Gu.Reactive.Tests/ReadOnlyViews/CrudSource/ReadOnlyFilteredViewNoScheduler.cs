@@ -1,8 +1,7 @@
-namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+namespace Gu.Reactive.Tests.ReadOnlyViews
 {
     using System;
     using System.Collections.ObjectModel;
-
     using NUnit.Framework;
 
     public class ReadOnlyFilteredViewNoScheduler : CrudSourceTests

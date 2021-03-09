@@ -1,7 +1,6 @@
-namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+namespace Gu.Reactive.Tests.ReadOnlyViews
 {
     using System;
-
     using Microsoft.Reactive.Testing;
 
     public class ReadOnlyFilteredViewMappedView : CrudSourceTests

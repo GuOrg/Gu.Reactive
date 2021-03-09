@@ -1,4 +1,4 @@
-﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.ReadOnlyViews
 {
     using System;
     using System.Collections.Generic;
@@ -6,9 +6,7 @@
     using System.Reactive.Linq;
     using System.Reactive.Subjects;
     using Gu.Reactive.Tests.Helpers;
-
     using Microsoft.Reactive.Testing;
-
     using NUnit.Framework;
 
     public static class ReadOnlyFilteredViewTests

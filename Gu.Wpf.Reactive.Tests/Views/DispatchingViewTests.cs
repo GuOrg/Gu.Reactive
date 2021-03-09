@@ -1,5 +1,5 @@
 ﻿#pragma warning disable 618
-namespace Gu.Wpf.Reactive.Tests.Collections.Views
+namespace Gu.Wpf.Reactive.Tests.Views
 {
     using System.Collections.ObjectModel;
     using System.Threading;

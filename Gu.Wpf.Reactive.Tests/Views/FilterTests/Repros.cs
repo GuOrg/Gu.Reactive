@@ -1,4 +1,4 @@
-﻿namespace Gu.Wpf.Reactive.Tests.Collections.Views.FilterTests
+﻿namespace Gu.Wpf.Reactive.Tests.Views.FilterTests
 {
     using System;
     using System.Collections.Generic;

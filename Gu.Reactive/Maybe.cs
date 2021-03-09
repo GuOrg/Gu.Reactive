@@ -90,9 +90,9 @@
         public static Maybe<T> Cast<T>(this Maybe<object?> maybe)
         {
             return maybe.HasValue
-#pragma warning disable CS8605, CS8619 // Nullability of reference types in value doesn't match target type.
+#pragma warning disable CS8600, CS8605, CS8619 // Nullability of reference types in value doesn't match target type.
                        ? Some((T)maybe.Value)
-#pragma warning restore CS8605, CS8619 // Nullability of reference types in value doesn't match target type.
+#pragma warning restore CS8600, CS8605, CS8619 // Nullability of reference types in value doesn't match target type.
                        : Maybe<T>.None;
         }
 
@@ -110,9 +110,9 @@
             }
 
             return maybe.HasValue
-#pragma warning disable CS8605, CS8619 // Nullability of reference types in value doesn't match target type.
+#pragma warning disable CS8600, CS8605, CS8619 // Nullability of reference types in value doesn't match target type.
                        ? Some((T)maybe.Value)
-#pragma warning restore CS8605, CS8619 // Nullability of reference types in value doesn't match target type.
+#pragma warning restore CS8600, CS8605, CS8619 // Nullability of reference types in value doesn't match target type.
                        : Maybe<T>.None;
         }
     }

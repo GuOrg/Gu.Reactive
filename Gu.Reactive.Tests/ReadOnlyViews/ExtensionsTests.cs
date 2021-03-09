@@ -1,12 +1,10 @@
-﻿namespace Gu.Reactive.Tests.Collections.ReadOnlyViews
+﻿namespace Gu.Reactive.Tests.ReadOnlyViews
 {
     using System;
     using System.Collections.ObjectModel;
     using System.Globalization;
     using System.Linq;
-
     using Moq;
-
     using NUnit.Framework;
 
     /// <summary>
