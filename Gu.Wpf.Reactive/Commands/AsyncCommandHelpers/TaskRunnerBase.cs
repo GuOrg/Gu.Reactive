@@ -27,7 +27,9 @@
         protected TaskRunnerBase()
         {
             this.CanRunCondition = new Condition(
+#pragma warning disable CS8602
                 this.ObservePropertyChangedSlim(x => x.TaskCompletion.Status),
+#pragma warning restore CS8602
                 this.CanRun)
             {
                 Name = "CanRun",

@@ -28,10 +28,12 @@
             {
             }
 
+#pragma warning disable IDISP004
             using (source.AsThrottledView(TimeSpan.Zero)
                          .AsFilteredView(x => true))
             {
             }
+#pragma warning restore IDISP004
         }
 
         [Test]
