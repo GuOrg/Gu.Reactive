@@ -173,9 +173,7 @@
                 return;
             }
 
-#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
-            foreach (TItem item in items)
-#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
+            foreach (TItem? item in items)
             {
                 //// Signaling initial before subscribing here to get the events in correct order
                 //// This can't be made entirely thread safe as an event can be raised on source between signal initial & subscribe.
@@ -200,9 +198,7 @@
 #pragma warning disable CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
             var set = IdentitySet.Borrow<TItem>();
 #pragma warning restore CS8634 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match 'class' constraint.
-#pragma warning disable CS8606 // Possible null reference assignment to iteration variable
-            foreach (TItem item in items)
-#pragma warning restore CS8606 // Possible null reference assignment to iteration variable
+            foreach (TItem? item in items)
             {
                 this.OnTrackedItemChanged(
                     null,

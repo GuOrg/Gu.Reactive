@@ -54,7 +54,7 @@
         public override void Enqueue(T item)
         {
             var count = this.Count;
-            var overflow = default(T)!;
+            var overflow = default(T);
             if (this.Count >= this.Size)
             {
                 while (this.Count >= this.Size && this.TryDequeue(out overflow))
