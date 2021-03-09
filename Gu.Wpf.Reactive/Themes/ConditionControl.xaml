@@ -82,7 +82,7 @@
         </Border>
         <ControlTemplate.Triggers>
             <Trigger Property="IsInSync" Value="False">
-                <Setter TargetName="Border" Property="BorderThickness" Value="2" />
+                <Setter TargetName="Border" Property="BorderThickness" Value="0,0,0,1" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="Red" />
             </Trigger>
         </ControlTemplate.Triggers>
