@@ -57,7 +57,7 @@
             : Maybe<object?>.Some(this.GetValue((TSource)source));
 
         /// <inheritdoc/>
-        Maybe<TValue> IGetter<TValue>.GetMaybe(object? source) => this.GetMaybe((TSource)source);
+        Maybe<TValue> IGetter<TValue>.GetMaybe(object? source) => this.GetMaybe((TSource?)source);
 
         /// <inheritdoc/>
         public override string ToString() => $"{this.Property.ReflectedType?.Name}.{this.Property.Name}";

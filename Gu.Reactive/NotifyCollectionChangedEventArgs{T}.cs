@@ -87,7 +87,9 @@
 
             if (items.Count == 1)
             {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
                 return new[] { (T)items[0] }!;
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             }
 
             return items.Cast<T>()

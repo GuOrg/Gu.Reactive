@@ -173,7 +173,7 @@
                 {
                     case NotifyCollectionChangedAction.Add:
                         {
-                            if (!e.TryGetSingleNewItem(out TSource newSource))
+                            if (!e.TryGetSingleNewItem<TSource>(out var newSource))
                             {
                                 goto case NotifyCollectionChangedAction.Reset;
                             }
@@ -189,7 +189,7 @@
 
                     case NotifyCollectionChangedAction.Remove:
                         {
-                            if (!e.TryGetSingleOldItem(out TSource oldSource))
+                            if (!e.TryGetSingleOldItem<TSource>(out var oldSource))
                             {
                                 goto case NotifyCollectionChangedAction.Reset;
                             }
@@ -206,8 +206,8 @@
 
                     case NotifyCollectionChangedAction.Replace:
                         {
-                            if (!e.TryGetSingleNewItem(out TSource newSource) ||
-                                !e.TryGetSingleOldItem(out TSource oldSource))
+                            if (!e.TryGetSingleNewItem<TSource>(out var newSource) ||
+                                !e.TryGetSingleOldItem<TSource>(out var oldSource))
                             {
                                 goto case NotifyCollectionChangedAction.Reset;
                             }
