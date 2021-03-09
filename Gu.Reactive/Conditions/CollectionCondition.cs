@@ -17,9 +17,11 @@
         /// </summary>
         /// <param name="prerequisites">The children.</param>
         protected CollectionCondition(ConditionCollection prerequisites)
+#pragma warning disable GUREA02 // Observable and criteria must match.
             : base(
                 prerequisites.ObserveIsSatisfiedChanged(),
                 () => prerequisites.IsSatisfied)
+#pragma warning restore GUREA02 // Observable and criteria must match.
         {
             this.prerequisites = prerequisites ?? throw new System.ArgumentNullException(nameof(prerequisites));
             prerequisites.CollectionChanged += this.OnPreRequisitesChanged;
