@@ -7,10 +7,13 @@
     using System.Windows.Data;
     using Gu.Reactive;
 
+    /// <summary>
+    /// Formats condition history as a string for display in tooltip.
+    /// </summary>
     [ValueConversion(typeof(ConditionHistoryPoint), typeof(string))]
     public sealed class ConditionHistoryToStringConverter : IValueConverter
     {
-        /// <summary> Gets the default instance </summary>
+        /// <summary> Gets the default instance.</summary>
         public static readonly ConditionHistoryToStringConverter Default = new();
 
         /// <inheritdoc/>
