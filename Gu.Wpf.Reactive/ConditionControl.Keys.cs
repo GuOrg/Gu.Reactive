@@ -1,4 +1,4 @@
-#pragma warning disable SA1600 // Elements must be documented
+﻿#pragma warning disable SA1600 // Elements must be documented
 #pragma warning disable SA1601 // Elements must be documented
 #pragma warning disable 1591
 namespace Gu.Wpf.Reactive
@@ -14,7 +14,7 @@ namespace Gu.Wpf.Reactive
 
         public static ResourceKey SingleConditionControlStyleKey { get; } = CreateKey();
 
-        public static ResourceKey TreeviewItemStyleKey { get; } = CreateKey();
+        public static ResourceKey TreeViewItemStyleKey { get; } = CreateKey();
 
         public static ResourceKey AllExpandedTreeViewItemStyleKey { get; } = CreateKey();
 
@@ -35,7 +35,7 @@ namespace Gu.Wpf.Reactive
             if (Application.Current.TryFindResource(key) is Style style &&
                 style.TargetType == typeof(TreeViewItem))
             {
-                Application.Current.Resources[TreeviewItemStyleKey] = style;
+                Application.Current.Resources[TreeViewItemStyleKey] = style;
             }
         }
     }

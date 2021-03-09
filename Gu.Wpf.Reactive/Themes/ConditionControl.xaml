@@ -107,7 +107,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="{x:Static local:ConditionControl.TreeviewItemStyleKey}"
+    <Style x:Key="{x:Static local:ConditionControl.TreeViewItemStyleKey}"
            BasedOn="{StaticResource {x:Static local:ConditionControl.CollapseSatisfiedTreeViewItemStyleKey}}"
            TargetType="{x:Type TreeViewItem}" />
 
@@ -125,7 +125,7 @@
                     <TreeView Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}"
-                              ItemContainerStyle="{DynamicResource {x:Static local:ConditionControl.TreeviewItemStyleKey}}"
+                              ItemContainerStyle="{DynamicResource {x:Static local:ConditionControl.TreeViewItemStyleKey}}"
                               ItemsSource="{TemplateBinding Root}">
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate DataType="{x:Type reactive:ICondition}" ItemsSource="{Binding Prerequisites}">
