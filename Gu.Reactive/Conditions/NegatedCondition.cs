@@ -24,6 +24,7 @@ namespace Gu.Reactive
         public NegatedCondition(ICondition condition)
         {
             this.condition = condition ?? throw new ArgumentNullException(nameof(condition));
+            this.Prerequisites = new[] { condition };
             this.name = $"Not_{condition.Name}";
 
             this.subscription = condition.ObserveIsSatisfiedChanged()
@@ -56,7 +57,7 @@ namespace Gu.Reactive
         }
 
         /// <inheritdoc/>
-        public IReadOnlyList<ICondition> Prerequisites => this.condition.Prerequisites;
+        public IReadOnlyList<ICondition> Prerequisites { get; }
 
         /// <inheritdoc/>
         public IEnumerable<ConditionHistoryPoint> History => this.history;
