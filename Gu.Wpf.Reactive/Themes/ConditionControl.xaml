@@ -13,11 +13,18 @@
                 BorderThickness="{TemplateBinding BorderThickness}">
             <TreeView Background="Transparent"
                       BorderThickness="0"
+                      Focusable="False"
                       ItemContainerStyle="{DynamicResource {x:Static local:ConditionControl.TreeViewItemStyleKey}}"
                       ItemsSource="{TemplateBinding Root}">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type reactive:ICondition}" ItemsSource="{Binding Prerequisites}">
-                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Name="NameTextBlock" Text="{Binding Name}" />
+
+                        <HierarchicalDataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:ConditionControl}, Path=IsInSync}" Value="False">
+                                <Setter TargetName="NameTextBlock" Property="TextDecorations" Value="Underline" />
+                            </DataTrigger>
+                        </HierarchicalDataTemplate.Triggers>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
@@ -28,15 +35,93 @@
                 </GroupBox>
             </Border.ToolTip>
         </Border>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsInSync" Value="False">
-                <Setter TargetName="Border" Property="BorderThickness" Value="0,0,0,1" />
-                <Setter TargetName="Border" Property="BorderBrush" Value="Red" />
-            </Trigger>
-        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <Style x:Key="ConditionTreeViewItemBaseStyle" TargetType="{x:Type TreeViewItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="28" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <ToggleButton x:Name="Expander"
+                                      Grid.RowSpan="2"
+                                      VerticalAlignment="Stretch"
+                                      ClickMode="Press"
+                                      Content="{Binding}"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}">
+                            <ToggleButton.ContentTemplateSelector>
+                                <local:ConditionTypeTemplateSelector>
+                                    <local:ConditionTypeTemplateSelector.NodeConditionTemplate>
+                                        <DataTemplate>
+                                            <TextBlock />
+                                        </DataTemplate>
+                                    </local:ConditionTypeTemplateSelector.NodeConditionTemplate>
+
+                                    <local:ConditionTypeTemplateSelector.AndConditionTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="AND" />
+                                        </DataTemplate>
+                                    </local:ConditionTypeTemplateSelector.AndConditionTemplate>
+
+                                    <local:ConditionTypeTemplateSelector.OrConditionTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="OR" />
+                                        </DataTemplate>
+                                    </local:ConditionTypeTemplateSelector.OrConditionTemplate>
+
+                                    <local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="NOT" />
+                                        </DataTemplate>
+                                    </local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
+                                </local:ConditionTypeTemplateSelector>
+                            </ToggleButton.ContentTemplateSelector>
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                    <Border Padding="1,0"
+                                            Background="Transparent"
+                                            BorderBrush="{TemplateBinding Foreground}"
+                                            BorderThickness="0,1,1,1">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+
+                        <ContentPresenter x:Name="PART_Header"
+                                          Grid.Row="0"
+                                          Grid.Column="1"
+                                          Margin="1,0,0,0"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          ContentSource="Header"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <ItemsPresenter x:Name="ItemsHost"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Grid.ColumnSpan="2" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="false">
+                            <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsSatisfied}" Value="True">
                 <Setter Property="Foreground" Value="#FF2DE52D" />
