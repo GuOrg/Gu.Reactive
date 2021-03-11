@@ -276,7 +276,7 @@ static Gu.Wpf.Reactive.ConditionControl.ConditionTemplateKey.get -> System.Windo
 static Gu.Wpf.Reactive.ConditionControl.SetAllExpanded.get -> System.Windows.Input.ICommand!
 static Gu.Wpf.Reactive.ConditionControl.SetCollapseSatisfied.get -> System.Windows.Input.ICommand!
 static Gu.Wpf.Reactive.ConditionControl.SingleConditionControlStyleKey.get -> System.Windows.ResourceKey!
-static Gu.Wpf.Reactive.ConditionControl.TreeviewItemStyleKey.get -> System.Windows.ResourceKey!
+static Gu.Wpf.Reactive.ConditionControl.TreeViewItemStyleKey.get -> System.Windows.ResourceKey!
 static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this Gu.Reactive.IObservableCollection<TItem>! collection, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>!
 static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this Gu.Reactive.IObservableCollection<TItem>! collection, System.TimeSpan bufferTime, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>!
 static Gu.Wpf.Reactive.DispatchingView.AsDispatchingView<TItem>(this System.Collections.ObjectModel.ObservableCollection<TItem>! collection, bool leaveOpen = false) -> Gu.Wpf.Reactive.DispatchingView<TItem>!
