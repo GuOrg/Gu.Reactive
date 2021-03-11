@@ -11,53 +11,16 @@
                 Background="{TemplateBinding Background}"
                 BorderBrush="{TemplateBinding BorderBrush}"
                 BorderThickness="{TemplateBinding BorderThickness}">
-            <ContentPresenter HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              Content="{TemplateBinding Condition}"
-                              Focusable="False">
-                <ContentPresenter.ContentTemplateSelector>
-                    <local:ConditionTypeTemplateSelector>
-                        <local:ConditionTypeTemplateSelector.AndConditionTemplate>
-                            <DataTemplate DataType="{x:Type reactive:AndCondition}">
-                                <TextBlock>
-                                    <TextBlock.Inlines>
-                                        <Run Name="Icon" Text="&amp;" />
-                                        <Run Text="{Binding Name, Mode=OneWay}" />
-                                    </TextBlock.Inlines>
-                                </TextBlock>
-                            </DataTemplate>
-                        </local:ConditionTypeTemplateSelector.AndConditionTemplate>
-
-                        <local:ConditionTypeTemplateSelector.OrConditionTemplate>
-                            <DataTemplate DataType="{x:Type reactive:OrCondition}">
-                                <TextBlock>
-                                    <TextBlock.Inlines>
-                                        <Run Name="Icon" Text="|" />
-                                        <Run Text="{Binding Name, Mode=OneWay}" />
-                                    </TextBlock.Inlines>
-                                </TextBlock>
-                            </DataTemplate>
-                        </local:ConditionTypeTemplateSelector.OrConditionTemplate>
-
-                        <local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
-                            <DataTemplate DataType="{x:Type reactive:NegatedCondition}">
-                                <TextBlock>
-                                    <TextBlock.Inlines>
-                                        <Run Name="Icon" Text="!" />
-                                        <Run Text="{Binding Name, Mode=OneWay}" />
-                                    </TextBlock.Inlines>
-                                </TextBlock>
-                            </DataTemplate>
-                        </local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
-
-                        <local:ConditionTypeTemplateSelector.NodeConditionTemplate>
-                            <DataTemplate DataType="{x:Type reactive:Condition}">
-                                <TextBlock Text="{Binding Name, Mode=OneWay}" />
-                            </DataTemplate>
-                        </local:ConditionTypeTemplateSelector.NodeConditionTemplate>
-                    </local:ConditionTypeTemplateSelector>
-                </ContentPresenter.ContentTemplateSelector>
-            </ContentPresenter>
+            <TreeView Background="Transparent"
+                      BorderThickness="0"
+                      ItemContainerStyle="{DynamicResource {x:Static local:ConditionControl.TreeViewItemStyleKey}}"
+                      ItemsSource="{TemplateBinding Root}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type reactive:ICondition}" ItemsSource="{Binding Prerequisites}">
+                        <TextBlock Text="{Binding Name}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
 
             <Border.ToolTip>
                 <GroupBox Header="History">
@@ -70,34 +33,46 @@
                 <Setter TargetName="Border" Property="BorderThickness" Value="0,0,0,1" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="Red" />
             </Trigger>
-
-            <DataTrigger Binding="{Binding IsSatisfied}" Value="True">
-                <Setter Property="Foreground" Value="#FF2DE52D" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding IsSatisfied}" Value="False">
-                <Setter Property="Foreground" Value="#FFE52D2D" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding IsSatisfied}" Value="{x:Null}">
-                <Setter Property="Foreground" Value="#FF888888" />
-            </DataTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="{x:Static local:ConditionControl.AllExpandedTreeViewItemStyleKey}" TargetType="{x:Type TreeViewItem}">
+    <Style x:Key="ConditionTreeViewItemBaseStyle" TargetType="{x:Type TreeViewItem}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSatisfied}" Value="True">
+                <Setter Property="Foreground" Value="#FF2DE52D" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding IsSatisfied}" Value="False">
+                <Setter Property="Foreground" Value="#FFE52D2D" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding IsSatisfied}" Value="{x:Null}">
+                <Setter Property="Foreground" Value="#FF888888" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{x:Static local:ConditionControl.AllExpandedTreeViewItemStyleKey}"
+           BasedOn="{StaticResource ConditionTreeViewItemBaseStyle}"
+           TargetType="{x:Type TreeViewItem}">
         <Setter Property="IsExpanded" Value="True" />
     </Style>
 
-    <Style x:Key="{x:Static local:ConditionControl.CollapseSatisfiedTreeViewItemStyleKey}" TargetType="{x:Type TreeViewItem}">
+    <Style x:Key="{x:Static local:ConditionControl.CollapseSatisfiedTreeViewItemStyleKey}"
+           BasedOn="{StaticResource ConditionTreeViewItemBaseStyle}"
+           TargetType="{x:Type TreeViewItem}">
         <Setter Property="IsExpanded" Value="False" />
         <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSatisfied}" Value="True">
+                <Setter Property="IsExpanded" Value="False" />
+            </DataTrigger>
+
             <DataTrigger Binding="{Binding IsSatisfied}" Value="False">
                 <Setter Property="IsExpanded" Value="True" />
             </DataTrigger>
+
             <DataTrigger Binding="{Binding IsSatisfied}" Value="{x:Null}">
                 <Setter Property="IsExpanded" Value="True" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding IsSatisfied}" Value="True">
-                <Setter Property="IsExpanded" Value="False" />
             </DataTrigger>
         </Style.Triggers>
     </Style>
@@ -114,22 +89,6 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:ConditionControl}">
-                    <TreeView Background="{TemplateBinding Background}"
-                              BorderBrush="{TemplateBinding BorderBrush}"
-                              BorderThickness="{TemplateBinding BorderThickness}"
-                              ItemContainerStyle="{DynamicResource {x:Static local:ConditionControl.TreeViewItemStyleKey}}"
-                              ItemsSource="{TemplateBinding Root}">
-                        <TreeView.ItemTemplate>
-                            <HierarchicalDataTemplate DataType="{x:Type reactive:ICondition}" ItemsSource="{Binding Prerequisites}">
-                                <local:ConditionControl Condition="{Binding}" Template="{DynamicResource {x:Static local:ConditionControl.ConditionTemplateKey}}" />
-                            </HierarchicalDataTemplate>
-                        </TreeView.ItemTemplate>
-                    </TreeView>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Template" Value="{StaticResource {x:Static local:ConditionControl.ConditionTemplateKey}}" />
     </Style>
 </ResourceDictionary>
