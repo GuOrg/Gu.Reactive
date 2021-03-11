@@ -8,73 +8,57 @@
 
     <ControlTemplate x:Key="{x:Static local:ConditionControl.ConditionTemplateKey}" TargetType="{x:Type local:ConditionControl}">
         <Border x:Name="Border"
-                Background="Transparent"
-                BorderBrush="{x:Null}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
-                    <Ellipse Stretch="Fill" StrokeThickness="2">
-                        <Ellipse.Style>
-                            <Style TargetType="{x:Type Ellipse}">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="True">
-                                        <Setter Property="Stroke" Value="Green" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="False">
-                                        <Setter Property="Stroke" Value="Red" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Condition.IsSatisfied, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}}" Value="{x:Null}">
-                                        <Setter Property="Stroke" Value="Gray" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Ellipse.Style>
-                    </Ellipse>
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Content="{TemplateBinding Condition}"
+                              Focusable="False">
+                <ContentPresenter.ContentTemplateSelector>
+                    <local:ConditionTypeTemplateSelector>
+                        <local:ConditionTypeTemplateSelector.AndConditionTemplate>
+                            <DataTemplate DataType="{x:Type reactive:AndCondition}">
+                                <TextBlock>
+                                    <TextBlock.Inlines>
+                                        <Run Name="Icon" Text="&amp;" />
+                                        <Run Text="{Binding Name, Mode=OneWay}" />
+                                    </TextBlock.Inlines>
+                                </TextBlock>
+                            </DataTemplate>
+                        </local:ConditionTypeTemplateSelector.AndConditionTemplate>
 
-                    <ContentPresenter HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"
-                                      Content="{TemplateBinding Condition}"
-                                      Focusable="False">
-                        <ContentPresenter.ContentTemplateSelector>
-                            <local:ConditionTypeTemplateSelector>
-                                <local:ConditionTypeTemplateSelector.AndConditionTemplate>
-                                    <DataTemplate DataType="{x:Type reactive:AndCondition}">
-                                        <TextBlock Text="&amp;" />
-                                    </DataTemplate>
-                                </local:ConditionTypeTemplateSelector.AndConditionTemplate>
+                        <local:ConditionTypeTemplateSelector.OrConditionTemplate>
+                            <DataTemplate DataType="{x:Type reactive:OrCondition}">
+                                <TextBlock>
+                                    <TextBlock.Inlines>
+                                        <Run Name="Icon" Text="|" />
+                                        <Run Text="{Binding Name, Mode=OneWay}" />
+                                    </TextBlock.Inlines>
+                                </TextBlock>
+                            </DataTemplate>
+                        </local:ConditionTypeTemplateSelector.OrConditionTemplate>
 
-                                <local:ConditionTypeTemplateSelector.OrConditionTemplate>
-                                    <DataTemplate DataType="{x:Type reactive:OrCondition}">
-                                        <TextBlock Text="|" />
-                                    </DataTemplate>
-                                </local:ConditionTypeTemplateSelector.OrConditionTemplate>
+                        <local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
+                            <DataTemplate DataType="{x:Type reactive:NegatedCondition}">
+                                <TextBlock>
+                                    <TextBlock.Inlines>
+                                        <Run Name="Icon" Text="!" />
+                                        <Run Text="{Binding Name, Mode=OneWay}" />
+                                    </TextBlock.Inlines>
+                                </TextBlock>
+                            </DataTemplate>
+                        </local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
 
-                                <local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
-                                    <DataTemplate DataType="{x:Type reactive:NegatedCondition}">
-                                        <TextBlock Text="!" />
-                                    </DataTemplate>
-                                </local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
+                        <local:ConditionTypeTemplateSelector.NodeConditionTemplate>
+                            <DataTemplate DataType="{x:Type reactive:Condition}">
+                                <TextBlock Text="{Binding Name, Mode=OneWay}" />
+                            </DataTemplate>
+                        </local:ConditionTypeTemplateSelector.NodeConditionTemplate>
+                    </local:ConditionTypeTemplateSelector>
+                </ContentPresenter.ContentTemplateSelector>
+            </ContentPresenter>
 
-                                <local:ConditionTypeTemplateSelector.NodeConditionTemplate>
-                                    <DataTemplate DataType="{x:Type reactive:Condition}">
-                                        <TextBlock Text="" />
-                                    </DataTemplate>
-                                </local:ConditionTypeTemplateSelector.NodeConditionTemplate>
-                            </local:ConditionTypeTemplateSelector>
-                        </ContentPresenter.ContentTemplateSelector>
-                    </ContentPresenter>
-                </Grid>
-
-                <TextBlock x:Name="TextBlock"
-                           Grid.Column="1"
-                           Margin="5,0,0,0"
-                           VerticalAlignment="Center"
-                           Focusable="False"
-                           Text="{Binding Condition.Name, RelativeSource={RelativeSource AncestorType={x:Type local:ConditionControl}}, Mode=OneTime}" />
-            </Grid>
             <Border.ToolTip>
                 <GroupBox Header="History">
                     <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ConditionHistoryTemplate}" />
@@ -86,6 +70,16 @@
                 <Setter TargetName="Border" Property="BorderThickness" Value="0,0,0,1" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="Red" />
             </Trigger>
+
+            <DataTrigger Binding="{Binding IsSatisfied}" Value="True">
+                <Setter Property="Foreground" Value="#FF2DE52D" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsSatisfied}" Value="False">
+                <Setter Property="Foreground" Value="#FFE52D2D" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsSatisfied}" Value="{x:Null}">
+                <Setter Property="Foreground" Value="#FF888888" />
+            </DataTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
