@@ -195,7 +195,52 @@
            TargetType="{x:Type TreeViewItem}" />
 
     <Style x:Key="{x:Static local:ConditionControl.SingleConditionControlStyleKey}" TargetType="{x:Type local:ConditionControl}">
-        <Setter Property="Template" Value="{DynamicResource {x:Static local:ConditionControl.ConditionTemplateKey}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ConditionControl}">
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="28" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.ToolTip>
+                            <GroupBox Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Condition.History, Converter={x:Static local:ConditionHistoryToStringConverter.Default}}" Header="History" />
+                        </Grid.ToolTip>
+
+                        <TextBlock Name="SymbolTextBlock" />
+
+                        <TextBlock Grid.Column="1" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Condition.Name}" />
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Condition.IsSatisfied}" Value="True">
+                            <Setter TargetName="SymbolTextBlock" Property="Text" Value="✔️" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Condition.IsSatisfied}" Value="False">
+                            <Setter TargetName="SymbolTextBlock" Property="Text" Value="❌" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Condition.IsSatisfied}" Value="{x:Null}">
+                            <Setter TargetName="SymbolTextBlock" Property="Text" Value="⭕" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Condition.IsSatisfied}" Value="True">
+                <Setter Property="Foreground" Value="#FF2DE52D" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Condition.IsSatisfied}" Value="False">
+                <Setter Property="Foreground" Value="#FFE52D2D" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Condition.IsSatisfied}" Value="{x:Null}">
+                <Setter Property="Foreground" Value="#FF888888" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="{x:Type local:ConditionControl}">
