@@ -16,28 +16,43 @@
                       Focusable="False"
                       ItemContainerStyle="{DynamicResource {x:Static local:ConditionControl.TreeViewItemStyleKey}}"
                       ItemsSource="{TemplateBinding Root}">
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type reactive:ICondition}" ItemsSource="{Binding Prerequisites}">
-                        <TextBlock Name="NameTextBlock" Text="{Binding Name}">
-                            <TextBlock.Style>
-                                <Style TargetType="{x:Type TextBlock}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:ConditionControl}, Path=IsInSync}" Value="False">
-                                            <Setter Property="TextDecorations" Value="Underline" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
+                <TreeView.Resources>
+                    <Style x:Key="UnderlineWhenNotInSyncStyle" TargetType="{x:Type TextBlock}">
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="ToolTip">
+                            <Setter.Value>
+                                <GroupBox Header="History">
+                                    <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ConditionHistoryTemplate}" />
+                                </GroupBox>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:ConditionControl}, Path=IsInSync}" Value="False">
+                                <Setter Property="TextDecorations" Value="Underline" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TreeView.Resources>
+                <TreeView.ItemTemplateSelector>
+                    <local:ConditionTypeTemplateSelector>
+                        <local:ConditionTypeTemplateSelector.DefaultTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type reactive:ICondition}" ItemsSource="{Binding Prerequisites}">
+                                <TextBlock Name="NameTextBlock"
+                                           Style="{StaticResource UnderlineWhenNotInSyncStyle}"
+                                           Text="{Binding Name}" />
+                            </HierarchicalDataTemplate>
+                        </local:ConditionTypeTemplateSelector.DefaultTemplate>
 
-            <Border.ToolTip>
-                <GroupBox Header="History">
-                    <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ConditionHistoryTemplate}" />
-                </GroupBox>
-            </Border.ToolTip>
+                        <local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
+                            <HierarchicalDataTemplate DataType="{x:Type reactive:ICondition}" ItemsSource="{Binding Prerequisites}">
+                                <TextBlock Name="NameTextBlock"
+                                           Style="{StaticResource UnderlineWhenNotInSyncStyle}"
+                                           Text="{Binding Prerequisites[0].Name}" />
+                            </HierarchicalDataTemplate>
+                        </local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
+                    </local:ConditionTypeTemplateSelector>
+                </TreeView.ItemTemplateSelector>
+            </TreeView>
         </Border>
     </ControlTemplate>
 

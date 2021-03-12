@@ -30,15 +30,20 @@
         /// </summary>
         public DataTemplate? NodeConditionTemplate { get; set; }
 
+        /// <summary>
+        /// Gets or sets the template for <see cref="ICondition"/>.
+        /// </summary>
+        public DataTemplate? DefaultTemplate { get; set; }
+
         /// <inheritdoc/>
         public override DataTemplate? SelectTemplate(object item, DependencyObject container)
         {
             return item switch
             {
-                AndCondition _ => this.AndConditionTemplate,
-                OrCondition _ => this.OrConditionTemplate,
-                NegatedCondition _ => this.NegatedConditionTemplate,
-                ICondition _ => this.NodeConditionTemplate,
+                AndCondition _ => this.AndConditionTemplate ?? this.DefaultTemplate,
+                OrCondition _ => this.OrConditionTemplate ?? this.DefaultTemplate,
+                NegatedCondition _ => this.NegatedConditionTemplate ?? this.DefaultTemplate,
+                ICondition _ => this.NodeConditionTemplate ?? this.DefaultTemplate,
                 _ => base.SelectTemplate(null, container),
             };
         }
