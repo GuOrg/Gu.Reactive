@@ -2,9 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Gu.Wpf.Reactive"
                     xmlns:reactive="clr-namespace:Gu.Reactive;assembly=Gu.Reactive">
-    <DataTemplate x:Key="ConditionHistoryTemplate" DataType="{x:Type reactive:ICondition}">
-        <TextBlock Text="{Binding History, Converter={x:Static local:ConditionHistoryToStringConverter.Default}}" />
-    </DataTemplate>
 
     <ControlTemplate x:Key="{x:Static local:ConditionControl.ConditionTemplateKey}" TargetType="{x:Type local:ConditionControl}">
         <Border x:Name="Border"
@@ -64,9 +61,7 @@
                         </Grid.RowDefinitions>
 
                         <Grid.ToolTip>
-                            <GroupBox Header="History">
-                                <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ConditionHistoryTemplate}" />
-                            </GroupBox>
+                            <GroupBox Content="{Binding History, Converter={x:Static local:ConditionHistoryToStringConverter.Default}}" Header="History" />
                         </Grid.ToolTip>
                         <ToggleButton x:Name="Expander"
                                       Grid.RowSpan="2"
