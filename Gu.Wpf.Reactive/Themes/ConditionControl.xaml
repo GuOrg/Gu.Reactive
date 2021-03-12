@@ -62,6 +62,12 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
+
+                        <Grid.ToolTip>
+                            <GroupBox Header="History">
+                                <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ConditionHistoryTemplate}" />
+                            </GroupBox>
+                        </Grid.ToolTip>
                         <ToggleButton x:Name="Expander"
                                       Grid.RowSpan="2"
                                       VerticalAlignment="Stretch"
@@ -74,26 +80,39 @@
                             <ToggleButton.ContentTemplateSelector>
                                 <local:ConditionTypeTemplateSelector>
                                     <local:ConditionTypeTemplateSelector.NodeConditionTemplate>
-                                        <DataTemplate>
-                                            <TextBlock />
+                                        <DataTemplate DataType="{x:Type reactive:ICondition}">
+                                            <TextBlock Name="SymbolTextBlock" />
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding IsSatisfied}" Value="True">
+                                                    <Setter TargetName="SymbolTextBlock" Property="Text" Value="✔️" />
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding IsSatisfied}" Value="False">
+                                                    <Setter TargetName="SymbolTextBlock" Property="Text" Value="❌" />
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding IsSatisfied}" Value="{x:Null}">
+                                                    <Setter TargetName="SymbolTextBlock" Property="Text" Value="⭕" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
                                         </DataTemplate>
                                     </local:ConditionTypeTemplateSelector.NodeConditionTemplate>
 
                                     <local:ConditionTypeTemplateSelector.AndConditionTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="AND" />
+                                            <TextBlock Name="SymbolTextBlock" Text="AND" />
                                         </DataTemplate>
                                     </local:ConditionTypeTemplateSelector.AndConditionTemplate>
 
                                     <local:ConditionTypeTemplateSelector.OrConditionTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="OR" />
+                                            <TextBlock Name="SymbolTextBlock" Text="OR" />
                                         </DataTemplate>
                                     </local:ConditionTypeTemplateSelector.OrConditionTemplate>
 
                                     <local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="NOT" />
+                                            <TextBlock Name="SymbolTextBlock" Text="NOT" />
                                         </DataTemplate>
                                     </local:ConditionTypeTemplateSelector.NegatedConditionTemplate>
                                 </local:ConditionTypeTemplateSelector>
@@ -122,12 +141,6 @@
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         Grid.ColumnSpan="2" />
-
-                        <Grid.ToolTip>
-                            <GroupBox Header="History">
-                                <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ConditionHistoryTemplate}" />
-                            </GroupBox>
-                        </Grid.ToolTip>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="false">
