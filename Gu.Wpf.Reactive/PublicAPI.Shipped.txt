@@ -1,4 +1,5 @@
 ﻿#nullable enable
+abstract Gu.Wpf.Reactive.CommandBase<T>.InternalCanExecute(T? parameter) -> bool
 abstract Gu.Wpf.Reactive.CommandBase<T>.InternalExecute(T? parameter) -> void
 abstract Gu.Wpf.Reactive.TaskRunnerBase.CanCancelCondition.get -> Gu.Reactive.ICondition!
 Gu.Wpf.Reactive.AsyncCommand
@@ -31,6 +32,9 @@ Gu.Wpf.Reactive.ConditionControl.IsInSync.get -> bool
 Gu.Wpf.Reactive.ConditionControl.IsInSync.set -> void
 Gu.Wpf.Reactive.ConditionControl.Root.get -> System.Collections.Generic.IEnumerable<Gu.Reactive.ICondition!>!
 Gu.Wpf.Reactive.ConditionControl.Root.set -> void
+Gu.Wpf.Reactive.ConditionHistoryToStringConverter
+Gu.Wpf.Reactive.ConditionHistoryToStringConverter.ConditionHistoryToStringConverter() -> void
+Gu.Wpf.Reactive.ConditionHistoryToStringConverter.Convert(object! value, System.Type! targetType, object! parameter, System.Globalization.CultureInfo! culture) -> object!
 Gu.Wpf.Reactive.ConditionRelayCommand
 Gu.Wpf.Reactive.ConditionRelayCommand.Condition.get -> Gu.Reactive.ICondition!
 Gu.Wpf.Reactive.ConditionRelayCommand.ConditionRelayCommand(System.Action! action, Gu.Reactive.ICondition! condition) -> void
@@ -53,6 +57,8 @@ Gu.Wpf.Reactive.ConditionTypeTemplateSelector
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector.AndConditionTemplate.get -> System.Windows.DataTemplate?
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector.AndConditionTemplate.set -> void
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector.ConditionTypeTemplateSelector() -> void
+Gu.Wpf.Reactive.ConditionTypeTemplateSelector.DefaultTemplate.get -> System.Windows.DataTemplate?
+Gu.Wpf.Reactive.ConditionTypeTemplateSelector.DefaultTemplate.set -> void
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector.NegatedConditionTemplate.get -> System.Windows.DataTemplate?
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector.NegatedConditionTemplate.set -> void
 Gu.Wpf.Reactive.ConditionTypeTemplateSelector.NodeConditionTemplate.get -> System.Windows.DataTemplate?
@@ -319,6 +325,7 @@ static readonly Gu.Wpf.Reactive.ConditionControl.ConditionProperty -> System.Win
 static readonly Gu.Wpf.Reactive.ConditionControl.FlattenedPrerequisitesProperty -> System.Windows.DependencyProperty!
 static readonly Gu.Wpf.Reactive.ConditionControl.IsInSyncProperty -> System.Windows.DependencyProperty!
 static readonly Gu.Wpf.Reactive.ConditionControl.RootProperty -> System.Windows.DependencyProperty!
+static readonly Gu.Wpf.Reactive.ConditionHistoryToStringConverter.Default -> Gu.Wpf.Reactive.ConditionHistoryToStringConverter!
 static readonly Gu.Wpf.Reactive.ConditionToolTip.CommandTypeProperty -> System.Windows.DependencyProperty!
 static readonly Gu.Wpf.Reactive.ConditionToolTip.ConditionProperty -> System.Windows.DependencyProperty!
 static readonly Gu.Wpf.Reactive.ConditionToolTip.InferConditionFromCommandProperty -> System.Windows.DependencyProperty!
