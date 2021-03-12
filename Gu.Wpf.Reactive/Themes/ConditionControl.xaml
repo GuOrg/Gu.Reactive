@@ -77,6 +77,11 @@
                                       Content="{Binding}"
                                       Foreground="{TemplateBinding Foreground}"
                                       IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}">
+                            <ToggleButton.ToolTip>
+                                <GroupBox Header="History">
+                                    <ContentPresenter Content="{Binding}" ContentTemplate="{StaticResource ConditionHistoryTemplate}" />
+                                </GroupBox>
+                            </ToggleButton.ToolTip>
                             <ToggleButton.ContentTemplateSelector>
                                 <local:ConditionTypeTemplateSelector>
                                     <local:ConditionTypeTemplateSelector.NodeConditionTemplate>
