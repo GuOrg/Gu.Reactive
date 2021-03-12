@@ -18,13 +18,17 @@
                       ItemsSource="{TemplateBinding Root}">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type reactive:ICondition}" ItemsSource="{Binding Prerequisites}">
-                        <TextBlock Name="NameTextBlock" Text="{Binding Name}" />
-
-                        <HierarchicalDataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:ConditionControl}, Path=IsInSync}" Value="False">
-                                <Setter TargetName="NameTextBlock" Property="TextDecorations" Value="Underline" />
-                            </DataTrigger>
-                        </HierarchicalDataTemplate.Triggers>
+                        <TextBlock Name="NameTextBlock" Text="{Binding Name}">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:ConditionControl}, Path=IsInSync}" Value="False">
+                                            <Setter Property="TextDecorations" Value="Underline" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
             </TreeView>
