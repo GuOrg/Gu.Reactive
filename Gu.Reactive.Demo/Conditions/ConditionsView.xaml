@@ -24,7 +24,7 @@
         <TextBlock Text="Default style" />
         <wpf:ConditionControl Condition="{Binding StartCommand.Condition}" />
 
-        <TextBlock Text="Single Template" />
-        <wpf:ConditionControl Condition="{Binding StartCommand.Condition}" Template="{StaticResource {x:Static wpf:ConditionControl.ConditionTemplateKey}}" />
+        <TextBlock Text="Single style" />
+        <wpf:ConditionControl Condition="{Binding StartCommand.Condition}" Style="{StaticResource {x:Static wpf:ConditionControl.SingleConditionControlStyleKey}}" />
     </StackPanel>
 </UserControl>
