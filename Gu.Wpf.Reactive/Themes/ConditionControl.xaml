@@ -209,7 +209,17 @@
 
                         <TextBlock Name="SymbolTextBlock" />
 
-                        <TextBlock Grid.Column="1" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Condition.Name}" />
+                        <TextBlock Grid.Column="1" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Condition.Name}">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsInSync}" Value="False">
+                                            <Setter Property="TextDecorations" Value="Underline" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </Grid>
 
                     <ControlTemplate.Triggers>
