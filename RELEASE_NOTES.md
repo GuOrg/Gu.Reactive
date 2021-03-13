@@ -1,3 +1,6 @@
+#### 5.0.1
+* STYLE: Use shared size for aligning expanders.
+
 #### 5.0.0
 * BREAKING: Removed [Obsolete]
 * BREAKING: Use System.Reactive 5

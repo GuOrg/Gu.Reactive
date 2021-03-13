@@ -29,13 +29,15 @@
 
   <PropertyGroup>
     <Authors>Johan Larsson</Authors>
-    <Version>5.0.0</Version>
+    <Version>5.0.1</Version>
     <Description>Wpf controls for Gu.Reactive</Description>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/GuOrg/Gu.Reactive</PackageProjectUrl>
     <RepositoryUrl>https://github.com/GuOrg/Gu.Reactive</RepositoryUrl>
     <PackageReleaseNotes>
+      5.0.1
+      STYLE: Use shared size for aligning expanders.
       5.0.0
       BREAKING: Removed [Obsolete]
       BREAKING: Use System.Reactive 5
