@@ -12,7 +12,8 @@
                       BorderThickness="0"
                       Focusable="False"
                       ItemContainerStyle="{DynamicResource {x:Static local:ConditionControl.TreeViewItemStyleKey}}"
-                      ItemsSource="{TemplateBinding Root}">
+                      ItemsSource="{TemplateBinding Root}"
+                      Grid.IsSharedSizeScope="True">
                 <TreeView.Resources>
                     <Style x:Key="UnderlineWhenNotInSyncStyle" TargetType="{x:Type TextBlock}">
                         <Style.Triggers>
@@ -51,7 +52,7 @@
                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
                     <Grid Background="Transparent">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" MinWidth="28" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="Symbol"/>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
@@ -67,7 +68,8 @@
                                       Grid.RowSpan="2"
                                       VerticalAlignment="Stretch"
                                       BorderBrush="{TemplateBinding Foreground}"
-                                      BorderThickness="0,1,1,1"
+                                      MinHeight="{TemplateBinding FontSize}"
+                                      BorderThickness="0,0,1,1"
                                       ClickMode="Press"
                                       Content="{Binding}"
                                       Foreground="{TemplateBinding Foreground}"
