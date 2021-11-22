@@ -17,16 +17,18 @@
     <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
+  <!-- Specific to packing an analyzer -->
   <PropertyGroup>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
-    <IncludeBuildOutput>false</IncludeBuildOutput>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <AppendTargetFrameworkToOutputDirectory>false</AppendTargetFrameworkToOutputDirectory>
   </PropertyGroup>
-
+  
   <PropertyGroup>
     <PackageId>Gu.Reactive.Analyzers</PackageId>
-    <Version>5.0.0</Version>
+    <Version>5.0.1</Version>
     <Authors>Johan Larsson</Authors>
     <Description>Roslyn analyzers for Gu.Reactive.</Description>
     <PackageTags>Reactive Roslyn Diagnostic Analyzer DotnetAnalyzers</PackageTags>
@@ -38,7 +40,7 @@
 
   <ItemGroup>
     <PackageReference Include="Gu.Analyzers" Version="2.0.0" PrivateAssets="all" />
-    <PackageReference Include="Gu.Roslyn.Extensions" Version="0.16.0" />
+    <PackageReference Include="Gu.Roslyn.Extensions.Source" Version="0.16.0" />
     <PackageReference Include="IDisposableAnalyzers" Version="4.0.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.0.64" PrivateAssets="all" />
@@ -47,12 +49,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[3.1.0]" />
     <PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.160" PrivateAssets="all" />
+    <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[6.0.0]" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="tools\*" Pack="true" PackagePath="" />
-    <None Include="$(OutputPath)\$(AssemblyName).dll;$(OutputPath)\Gu.Roslyn.Extensions.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
 </Project>
