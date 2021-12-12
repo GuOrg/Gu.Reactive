@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -15,10 +15,6 @@
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\Gu.Reactive.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-
-  <PropertyGroup>
-     <GenerateNullableAttributes>false</GenerateNullableAttributes> 
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,10 +35,5 @@
     <PackageReference Include="ReflectionAnalyzers" Version="0.3.0" PrivateAssets="all" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354" PrivateAssets="all" />
     <PackageReference Include="WpfAnalyzers" Version="4.0.0" PrivateAssets="all" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageDownload Include="Microsoft.NETCore.App.Ref" Version="[3.1.0]" />
-    <PackageReference Include="TunnelVisionLabs.ReferenceAssemblyAnnotator" Version="1.0.0-alpha.160" PrivateAssets="all" />
   </ItemGroup>
 </Project>
