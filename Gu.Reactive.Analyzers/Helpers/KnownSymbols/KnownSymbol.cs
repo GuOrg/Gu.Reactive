@@ -1,4 +1,4 @@
-// ReSharper disable InconsistentNaming
+﻿// ReSharper disable InconsistentNaming
 namespace Gu.Reactive.Analyzers
 {
     using Gu.Roslyn.AnalyzerExtensions;
@@ -6,8 +6,8 @@ namespace Gu.Reactive.Analyzers
     internal static class KnownSymbol
     {
         internal static readonly QualifiedType Object = QualifiedType.System.Object;
-        internal static readonly NullableOfTType Nullable = new NullableOfTType();
-        internal static readonly StringType String = new StringType();
+        internal static readonly NullableOfTType Nullable = new();
+        internal static readonly StringType String = new();
         internal static readonly QualifiedType DateTimeOffset = Create("System.DateTimeOffset");
         internal static readonly QualifiedType DateTime = Create("System.DateTime");
         internal static readonly QualifiedType TimeSpan = Create("System.TimeSpan");
@@ -15,14 +15,14 @@ namespace Gu.Reactive.Analyzers
         internal static readonly QualifiedType Type = Create("System.Type");
         internal static readonly QualifiedType INotifyPropertyChanged = Create("System.ComponentModel.INotifyPropertyChanged");
 
-        internal static readonly QualifiedType Condition = new QualifiedType("Gu.Reactive.Condition");
-        internal static readonly QualifiedType OrCondition = new QualifiedType("Gu.Reactive.OrCondition");
-        internal static readonly QualifiedType AndCondition = new QualifiedType("Gu.Reactive.AndCondition");
-        internal static readonly IConditionType ICondition = new IConditionType();
-        internal static readonly QualifiedType IObservableOfT = new QualifiedType("System.IObservable`1");
-        internal static readonly ObservableType Observable = new ObservableType();
-        internal static readonly ObservableExtensionsType ObservableExtensions = new ObservableExtensionsType();
-        internal static readonly NotifyPropertyChangedExtType NotifyPropertyChangedExt = new NotifyPropertyChangedExtType();
+        internal static readonly QualifiedType Condition = new("Gu.Reactive.Condition");
+        internal static readonly QualifiedType OrCondition = new("Gu.Reactive.OrCondition");
+        internal static readonly QualifiedType AndCondition = new("Gu.Reactive.AndCondition");
+        internal static readonly IConditionType ICondition = new();
+        internal static readonly QualifiedType IObservableOfT = new("System.IObservable`1");
+        internal static readonly ObservableType Observable = new();
+        internal static readonly ObservableExtensionsType ObservableExtensions = new();
+        internal static readonly NotifyPropertyChangedExtType NotifyPropertyChangedExt = new();
 
         private static QualifiedType Create(string qualifiedName)
         {
