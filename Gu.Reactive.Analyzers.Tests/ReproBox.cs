@@ -20,9 +20,7 @@
                                .ToArray();
 
         private static readonly Solution Solution = CodeFactory.CreateSolution(
-            new FileInfo("C:\\Git\\Gu.State\\Gu.State.sln"),
-            AllAnalyzers,
-            MetadataReferences.FromAttributes());
+            new FileInfo("C:\\Git\\Gu.State\\Gu.State.sln"));
 
         [TestCaseSource(nameof(AllAnalyzers))]
         public void SolutionRepro(DiagnosticAnalyzer analyzer)
