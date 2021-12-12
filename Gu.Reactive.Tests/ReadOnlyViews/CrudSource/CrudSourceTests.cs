@@ -77,7 +77,7 @@
         [Test]
         public void ManyAddsOneReset()
         {
-            if (!(this.Scheduler is TestScheduler))
+            if (this.Scheduler is not TestScheduler)
             {
                 Assert.Inconclusive();
             }

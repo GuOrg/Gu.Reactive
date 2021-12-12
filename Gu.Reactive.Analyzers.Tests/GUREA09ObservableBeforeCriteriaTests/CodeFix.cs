@@ -1,14 +1,12 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
+﻿namespace Gu.Reactive.Analyzers.Tests.GUREA09ObservableBeforeCriteriaTests
 {
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.CodeFixes;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public static class CodeFix
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly CodeFixProvider Fix = new ObservableBeforeCriteriaCodeFix();
+        private static readonly ConstructorAnalyzer Analyzer = new();
+        private static readonly ObservableBeforeCriteriaCodeFix Fix = new();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA09ObservableBeforeCriteria);
 
         private const string C1 = @"

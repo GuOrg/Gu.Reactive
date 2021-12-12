@@ -1,14 +1,12 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
+﻿namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
 {
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.CodeFixes;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public static class CodeFix
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
-        private static readonly CodeFixProvider Fix = new UseSlimFix();
+        private static readonly InvocationAnalyzer Analyzer = new();
+        private static readonly UseSlimFix Fix = new();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA04PreferSlimOverload);
 
         private const string C1 = @"

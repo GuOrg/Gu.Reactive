@@ -1,12 +1,11 @@
 ﻿namespace Gu.Reactive.Analyzers.Tests.GUREA04PreferSlimTests
 {
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public static class Valid
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
+        private static readonly InvocationAnalyzer Analyzer = new();
 
         private const string C1 = @"
 namespace N

@@ -1,14 +1,12 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
+﻿namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
 {
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.CodeFixes;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public static class CodeFix
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
-        private static readonly CodeFixProvider Fix = new InlineSingleLineCodeFix();
+        private static readonly ConstructorAnalyzer Analyzer = new();
+        private static readonly InlineSingleLineCodeFix Fix = new();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA08InlineSingleLine);
 
         private const string C1 = @"

@@ -1,12 +1,11 @@
 ﻿namespace Gu.Reactive.Analyzers.Tests
 {
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public static class Cs8620SuppressorTests
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new Cs8620Suppressor();
+        private static readonly Cs8620Suppressor Analyzer = new();
 
         [TestCase("M(IObservable<Maybe<ObservableCollection<C>>> observable) => observable.ItemPropertyChanged(x => x.P)")]
         [TestCase("M(IObservable<Maybe<ObservableCollection<C>>> observable) => NotifyCollectionChangedExt.ItemPropertyChanged(observable, x => x.P)")]

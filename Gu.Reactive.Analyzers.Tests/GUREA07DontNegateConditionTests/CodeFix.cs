@@ -1,14 +1,12 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
+﻿namespace Gu.Reactive.Analyzers.Tests.GUREA07DontNegateConditionTests
 {
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.CodeFixes;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public static class CodeFix
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new InvocationAnalyzer();
-        private static readonly CodeFixProvider Fix = new InjectNegatedCodeFix();
+        private static readonly InvocationAnalyzer Analyzer = new();
+        private static readonly InjectNegatedCodeFix Fix = new();
         private static readonly ExpectedDiagnostic ExpectedDiagnostic = ExpectedDiagnostic.Create(Descriptors.GUREA07DoNotNegateCondition);
 
         private const string C1 = @"

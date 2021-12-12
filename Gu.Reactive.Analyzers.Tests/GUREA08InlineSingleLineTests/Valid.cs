@@ -1,12 +1,11 @@
-namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
+﻿namespace Gu.Reactive.Analyzers.Tests.GUREA08InlineSingleLineTests
 {
     using Gu.Roslyn.Asserts;
-    using Microsoft.CodeAnalysis.Diagnostics;
     using NUnit.Framework;
 
     public static class Valid
     {
-        private static readonly DiagnosticAnalyzer Analyzer = new ConstructorAnalyzer();
+        private static readonly ConstructorAnalyzer Analyzer = new();
 
         [Test]
         public static void WhenSingleLine()

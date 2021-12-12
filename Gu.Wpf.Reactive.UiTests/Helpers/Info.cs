@@ -1,4 +1,4 @@
-namespace Gu.Wpf.Reactive.UiTests
+﻿namespace Gu.Wpf.Reactive.UiTests
 {
     using Gu.Wpf.UiAutomation;
 

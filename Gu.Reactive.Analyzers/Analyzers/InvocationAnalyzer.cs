@@ -85,8 +85,7 @@
         {
             if (invocation is { ArgumentList: { Arguments: { } arguments } } &&
                 arguments.TryFirst(out var argument) &&
-                argument is { Expression: SimpleLambdaExpressionSyntax { Body: MemberAccessExpressionSyntax body } } &&
-                !(body.Expression is MemberAccessExpressionSyntax))
+                argument is { Expression: SimpleLambdaExpressionSyntax { Body: MemberAccessExpressionSyntax { Expression: not MemberAccessExpressionSyntax } body } })
             {
                 return body;
             }
